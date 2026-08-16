@@ -34,6 +34,20 @@ class WriteThrowingStorage extends MockStorage {
   }
 }
 
+// Throws only when setItem targets a specific key -- lets a test set up initial
+// state successfully, then simulate quota-exceeded on one particular write (e.g. the
+// backup write specifically) rather than every write.
+class ThrowsOnKeyStorage extends MockStorage {
+  constructor(throwingKey) {
+    super();
+    this._throwingKey = throwingKey;
+  }
+  setItem(key, value) {
+    if (key === this._throwingKey) throw new Error("QuotaExceededError");
+    super.setItem(key, value);
+  }
+}
+
 const tests = [];
 function test(name, fn) {
   tests.push({ name, fn });
@@ -124,6 +138,94 @@ test("pruneOldBackups keeps only the specified version's backup", () => {
   assert.equal(storage.getItem(`${STORAGE_KEY}.backup.v2`), null);
   assert.equal(storage.getItem(`${STORAGE_KEY}.backup.v3`), "keep-me");
   assert.equal(storage.getItem("unrelated-key"), "should survive");
+});
+
+// --- Regression tests for the code-review pass on PR #14 ---
+
+test("NaN storeVersion is rejected as unreadable, not silently accepted (regression)", () => {
+  // typeof NaN === "number", and NaN > / < CURRENT_VERSION are both false, so a naive
+  // `typeof x !== "number"` guard alone lets this fall through to ok:true.
+  const storage = new MockStorage();
+  storage.setItem(STORAGE_KEY, JSON.stringify({ storeVersion: NaN, attempts: [], questionHistory: {} }));
+  const result = loadStore(storage);
+  assert.equal(result.ok, false);
+  assert.equal(result.reason, "unreadable");
+});
+
+test("loadStore's migration path exercises backup + prune end-to-end via a real call (regression)", () => {
+  // migrations is empty, so a storeVersion below CURRENT_VERSION always hits
+  // "missing-migration" today -- this still exercises the orchestration (backup,
+  // then prune, then loop-entry) that no test previously drove through loadStore
+  // itself, only through _internal directly.
+  const storage = new MockStorage();
+  const old = { storeVersion: 0, attempts: ["old data"], questionHistory: {} };
+  const raw = JSON.stringify(old);
+  storage.setItem(STORAGE_KEY, raw);
+  const result = loadStore(storage);
+  assert.equal(result.ok, false);
+  assert.equal(result.reason, "missing-migration");
+  assert.equal(storage.getItem(`${STORAGE_KEY}.backup.v0`), raw);
+});
+
+test("prune still runs when a migration is missing partway through the chain (regression)", () => {
+  // Previously pruneOldBackups only ran after the full migration loop succeeded, so
+  // hitting a missing migration left old backup keys un-pruned indefinitely.
+  const storage = new MockStorage();
+  storage.setItem(`${STORAGE_KEY}.backup.v-2`, "should be pruned"); // a stray older backup
+  const raw = JSON.stringify({ storeVersion: 0, attempts: [], questionHistory: {} });
+  storage.setItem(STORAGE_KEY, raw);
+  loadStore(storage);
+  assert.equal(storage.getItem(`${STORAGE_KEY}.backup.v-2`), null);
+  assert.equal(storage.getItem(`${STORAGE_KEY}.backup.v0`), raw);
+});
+
+test("a storage failure during the migration path is reported, not thrown (regression)", () => {
+  // backupBeforeMigrate/pruneOldBackups call storage.setItem/removeItem, which can
+  // throw (quota exceeded) -- this path previously had no try/catch around it,
+  // breaking loadStore's own documented "never throws" contract.
+  const backupKey = `${STORAGE_KEY}.backup.v0`;
+  const storage = new ThrowsOnKeyStorage(backupKey);
+  storage.setItem(STORAGE_KEY, JSON.stringify({ storeVersion: 0, attempts: [], questionHistory: {} }));
+  assert.doesNotThrow(() => {
+    const result = loadStore(storage);
+    assert.equal(result.ok, false);
+    assert.equal(result.reason, "migration-failed");
+  });
+});
+
+test("rejected field carries the offending data for future-version (regression)", () => {
+  const storage = new MockStorage();
+  const future = { storeVersion: CURRENT_VERSION + 1, attempts: ["future"], questionHistory: {} };
+  storage.setItem(STORAGE_KEY, JSON.stringify(future));
+  const result = loadStore(storage);
+  assert.deepEqual(result.rejected, future);
+  assert.equal(result.store, undefined); // never the same key as the success shape
+});
+
+test("saveStore rejects a store with the wrong storeVersion instead of writing it (regression)", () => {
+  const storage = new MockStorage();
+  const result = saveStore({ storeVersion: 99, attempts: [], questionHistory: {} }, storage);
+  assert.equal(result.ok, false);
+  assert.equal(result.reason, "invalid-store-version");
+  assert.equal(storage.getItem(STORAGE_KEY), null); // nothing was written
+});
+
+test("saveStore rejects a store with a missing storeVersion instead of writing it (regression)", () => {
+  const storage = new MockStorage();
+  const result = saveStore({ attempts: [], questionHistory: {} }, storage);
+  assert.equal(result.ok, false);
+  assert.equal(result.reason, "invalid-store-version");
+});
+
+test("loading twice without saving in between is idempotent (documents the caller contract)", () => {
+  const storage = new MockStorage();
+  const raw = JSON.stringify({ storeVersion: 0, attempts: [], questionHistory: {} });
+  storage.setItem(STORAGE_KEY, raw);
+  const first = loadStore(storage);
+  const second = loadStore(storage);
+  assert.deepEqual(first, second);
+  // Still exactly one backup key -- re-running backup+prune twice didn't accumulate.
+  assert.equal(storage.getItem(`${STORAGE_KEY}.backup.v0`), raw);
 });
 
 let failed = 0;
