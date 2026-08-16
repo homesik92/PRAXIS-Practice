@@ -23,4 +23,7 @@ read the full log only when a topic isn't indexed yet.
 | Adversarial review & triage | **REVIEW.md**, D-13 |
 | Notation & code rendering | SCHEMA.md §2.6 — recommendation **unverified**, see B-4 |
 | Test blueprints (weightings, timings) | BLUEPRINT.md (not a decision — extracted fact) |
+| 5165 calculator scope (built, scientific, not graphing) | **D-14** |
+| Coding plan structure (file layout, phasing, parallel content track) | **D-15** → ROADMAP.md |
+| Local verification gate | ROADMAP.md Phase 0.1 → CLAUDE.md "Verification" |
 | Prior 185-question Mathematics set | N-2 |

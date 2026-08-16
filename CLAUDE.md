@@ -45,8 +45,16 @@ written and these substitutes retire.
 
 ## Verification
 
-Not yet defined — the design stage hasn't produced a coding plan. Phase 0 delivers the
-gate script, and this section then records the exact command.
+The coding plan (ROADMAP.md, Phase 0.1) specifies `tools/verify.mjs`, a dependency-free
+Node script that validates every question-bank file against SCHEMA.md's shape and
+invariants. It does not exist yet — Phase 0 has not started. Once it lands, run it as:
+
+```
+node tools/verify.mjs
+```
+
+This is the *only* gate (see "No CI, no PRs, no issue tracker" above) — never skip it
+before merging, and never add a step here that requires `npm install`.
 
 ## Answer keys are the real correctness surface
 
