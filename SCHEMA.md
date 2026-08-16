@@ -448,10 +448,15 @@ The launch methodology's expand/contract discipline applies here in full:
   each think they are complete.
 - **Reference panel content** (D-12) is authored content and needs its own schema pass
   before 5165/5485 authoring begins; `reference/*.json` is a placeholder shape here.
-- **5165's on-screen graphing calculator — a scope narrowing, not yet a decision.**
-  BLUEPRINT.md's F-3 describes the real exam as providing an interactive graphing
-  calculator; D-12 scoped only a static formula/notation reference for 5165, and that
-  narrowing went unflagged until session 3's review caught it (finding #14 — see
-  REVIEW.md's "Escalate" section for the three options and their tradeoffs). **Open,
-  pending the session owner's decision.** No question should be authored that assumes a
-  calculator exists on the site until this resolves.
+- **5165 gets a built scientific calculator, not a graphing one (D-14).** Resolves the
+  escalation in REVIEW.md finding #14. In scope: arithmetic, logarithms, trig functions
+  (sin/cos/tan and their inverses), and comparable scientific-calculator functionality,
+  as an on-screen tool alongside the static formula/notation reference from D-12. **Out
+  of scope for v1, explicitly:** graphing, and any other advanced/graphing-calculator
+  function. This is still a real, disclosed narrowing of BLUEPRINT.md's F-3 (ETS
+  provides a *graphing* calculator on the real exam) — Math questions authored for this
+  site should not assume graphing capability exists on the practice tool, even though the
+  real exam's does. The calculator is new UI surface with its own accessibility
+  requirements (§1.3's rules apply to it — keyboard-operable, not color-only,
+  screen-reader-usable output) and is sized as its own coding-plan task, not folded
+  silently into the reference-panel work.
