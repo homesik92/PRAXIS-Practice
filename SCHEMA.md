@@ -26,6 +26,15 @@ Shows this test's recent attempt history and, when any questions are due for rev
 test (§2.8), S2 leads with a "Resume attempt" entry** rather than only offering to start
 a fresh one — review finding #10/#1.
 
+**When this test has enough answered-question history, S2 also shows a weakest-category
+suggestion** (D-18): "You're weakest in `<category>` (`X`% correct) — practice it,"
+linking directly into S5 pre-filtered to that category. Ranked by accuracy (correct ÷
+answered) across all attempts and study sessions in that test, lowest first; a category
+needs at least 5 answered questions before it is eligible, so an early or lightly-touched
+category isn't singled out on a handful of unlucky guesses. Ties break toward the
+category least recently practiced. No suggestion is shown at all until some category
+in the test clears the threshold.
+
 **S3 · Test runner.** A Start button begins the timer and presents question 1.
 
 Each question presents its four answer options plus a **flag-for-review toggle**,
@@ -88,6 +97,11 @@ recorded against a test form; results feed question history only.
 - **Storage failures are visible, never silent.** A quota-exceeded write or a corrupted
   read must surface to the person, not discard their just-finished attempt or quietly
   reinitialize an empty store (finding #6; §2.8).
+- **The weakest-category suggestion (D-18) is computed from `questionHistory`, not
+  re-derived per screen.** Below the 5-answered-question threshold for every category, S2
+  shows no suggestion at all rather than one built on too little signal — the same
+  underfilled-and-disclosed instinct as the practice-form shortfall above, applied to a
+  recommendation instead of a form.
 
 ## 1.3 Accessibility
 
