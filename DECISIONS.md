@@ -289,3 +289,33 @@ scope a graphing implementation would invite. This is a genuine narrowing of BLU
 F-3 (ETS's stated feature is a *graphing* calculator) that the site now discloses rather
 than silently absorbs — see the schema note below.
 **Attribution:** Session owner's call, refining a recommendation.
+
+### D-15: Coding plan — multi-page static site, engine and content as parallel tracks
+
+**Date:** 2026-08-16
+**Decision:** Design session 4 produced the phase breakdown in `ROADMAP.md` ("Phases
+(post-design)"). Two structural calls worth recording on their own:
+
+1. **Multiple plain HTML pages (`index.html`, `test.html`, `run.html`, `results.html`),
+   not a client-side router.** Consistent with D-3's no-build-step rule and this
+   project's most literal requirement — it must work identically opened via `file://`
+   and served from the NAS — and keeps "what renders S3" traceable to one named file for
+   a non-professional-developer maintainer.
+2. **Content authoring (Phase 7, 411 questions) runs as a track parallel to engine
+   Phases 3–6, starting once Phase 2 stabilizes the schema**, rather than as a single
+   phase after the engine is finished. BLUEPRINT.md's F-1 already established the bank
+   is 3–4× the engine's size; sequencing it strictly after the engine would leave the
+   project's dominant cost unstarted until late, for no dependency reason that actually
+   requires it.
+
+**Why:** Both are judgement calls under the walking-skeleton methodology rather than
+forced conclusions, so recording the reasoning matters more than usual here — a later
+session revisiting phase order should see why these were chosen, not just that they
+were. Phase 1 deliberately narrows to a single test (5165) with a 5-question placeholder
+bank specifically so the walking-skeleton milestone (`design-methodology.md` step 7)
+proves the architecture before the other three tests or any hardening is built on it.
+**Attribution:** Session owner's call, from a recommendation — not put through an
+adversarial review pass the way session 2's schema was. A coding plan is lower-stakes to
+get wrong than the data schema: a bad phase order costs a re-sequencing, not a data
+migration against real study history, so D-7's original four-session scoping did not
+budget a review pass for this document.
