@@ -243,3 +243,30 @@ would also have silently constrained what the two banks could ask, which is a wo
 outcome than building a panel. Note this decision *enables* question authoring rather
 than merely adding a feature: without it, whole areas of both banks are unwritable.
 **Attribution:** Session owner's call.
+*Later updated by: session 3's adversarial review (REVIEW.md finding #14) found this
+decision quietly narrowed F-3's actual ask for 5165 — a static formula sheet, not the
+interactive graphing calculator the real exam provides. Escalated back to the session
+owner; not yet resolved.*
+
+### D-13: Session 3 remediation — nineteen review findings triaged and eighteen fixed in the schema
+
+**Date:** 2026-08-16
+**Decision:** Two fresh, context-free adversarial reviews ran against SCHEMA.md and
+BLUEPRINT.md per `design-methodology.md` step 5 — one on progress-store data integrity,
+one on UX/accessibility of the timed runner. Full consolidation and triage in
+[REVIEW.md](REVIEW.md). Of nineteen findings: eighteen accepted and remediated directly
+in `SCHEMA.md` in this session (per the "fix known tech debt now" rule — none deferred),
+zero rejected, one escalated to the session owner (the D-12 calculator narrowing, above).
+**Why:** Both reviews independently surfaced the same core gap — "an interrupted attempt
+is resumable" was asserted in §1.2 as a requirement with no data model in §2.8 to satisfy
+it — which is exactly the kind of defect two independent context-free reviewers finding
+the same thing is supposed to catch. The other major line of findings (unauditable
+shortfall disclosure, cross-tab write collisions, undefined spaced-repetition bootstrap
+values) all shared a pattern: each was a real gap in the one part of this project that
+holds actual user data with no backup, which is where an omission is most expensive.
+Fixing all eighteen now, while session 2's context is loaded and before any code exists
+against the old shape, is far cheaper than discovering them after banks and an
+implementation both depend on the schema.
+**Attribution:** Findings from independent review; the accept-not-defer disposition on
+all eighteen is the session owner's standing "fix known tech debt now" rule
+(SKILL.md), applied rather than re-litigated.
