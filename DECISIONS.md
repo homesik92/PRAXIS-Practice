@@ -270,3 +270,22 @@ implementation both depend on the schema.
 **Attribution:** Findings from independent review; the accept-not-defer disposition on
 all eighteen is the session owner's standing "fix known tech debt now" rule
 (SKILL.md), applied rather than re-litigated.
+
+### D-14: 5165 gets a built scientific calculator — not graphing, not the static sheet alone
+
+**Date:** 2026-08-16
+**Decision:** Resolves the escalation in D-12's later-update trailer and B-7. The site
+builds an **on-screen scientific calculator** for 5165 — basic arithmetic plus
+logarithms, trigonometric functions (sin/cos/tan and presumably their inverses), and
+similar scientific-calculator functionality. **Explicitly not in scope: graphing, or any
+other advanced/graphing-calculator function.** The static formula/notation reference
+from D-12 stays alongside it — the calculator replaces the *computation* gap, not the
+notation-lookup purpose the sheet already served.
+**Why:** Chosen over shipping without one (documenting the limitation) and over
+deferring the build to a post-v1 session. A scientific calculator is real but bounded
+engine work — the session owner explicitly capped it below the harder graphing-calculator
+problem, keeping it inside a single design-and-build session rather than the open-ended
+scope a graphing implementation would invite. This is a genuine narrowing of BLUEPRINT.md
+F-3 (ETS's stated feature is a *graphing* calculator) that the site now discloses rather
+than silently absorbs — see the schema note below.
+**Attribution:** Session owner's call, refining a recommendation.
