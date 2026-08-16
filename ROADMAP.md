@@ -98,11 +98,21 @@ tools/
   than error (D-10). Unit-tested in `tools/test-verify.mjs` against two fixtures
   (`tools/fixtures/`) — 14 tests, all passing. This is now the *only* gate — see
   CLAUDE.md's Verification section for the exact commands.
-- **0.2 Progress-store safety net.** The backup-before-migrate mechanism from SCHEMA.md
-  §2.8, built and unit-tested **before any other persistence code**, per
-  [issue #4](https://github.com/homesik92/PRAXIS-Practice/issues/4).
-  This is infrastructure, not a feature — nothing else in Phase 2 should write to the
-  store until this exists under it.
+- **0.2 Progress-store safety net. ☑ Complete.** `js/store.js`: `loadStore`/`saveStore`
+  plus the backup-before-migrate mechanism from SCHEMA.md §2.8 — never migrates a
+  newer-than-supported store downward, backs up before migrating an older one, prunes
+  to the immediately-prior backup only regardless of whether the migration chain
+  completes, and every failure mode (corrupted JSON, `NaN` version, a failed write, a
+  storage exception mid-migration) returns a tagged result instead of throwing or
+  silently reinitializing (finding #6). Success and failure never share the `store`
+  key, so a caller that skips the `ok` check gets `undefined` rather than a
+  plausible-looking rejected object. Run through a 5-angle `/code-review` before merge
+  (Gate 3 — this is the progress-persistence layer, a deep change) — 7 findings, all
+  fixed. Unit-tested against a mock Storage implementation in `tools/test-store.mjs` —
+  18 tests, all passing. Closes
+  [issue #4](https://github.com/homesik92/PRAXIS-Practice/issues/4). Attempt/answer
+  read-write helpers (write-per-answer cadence, résumé lookup, spaced repetition) are
+  Phase 2.2, not this — this is only the envelope and the safety net underneath it.
 - **0.3 Static skeleton.** The file layout above, `manifest.json` with zero tests
   registered, and `data/tests/` empty — proves the page shells load with nothing in them
   yet.
