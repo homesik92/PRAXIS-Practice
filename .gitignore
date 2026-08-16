@@ -1,0 +1,12 @@
+.DS_Store
+*.log
+.env
+.env.*
+
+# ETS study companions — third-party copyrighted PDFs, reference only.
+# See "The ETS copyright rule" in .claude/skills/dev-workflow/SKILL.md.
+Knowledge-Guides/
+
+# Build output (if the project ever gains a build step)
+dist/
+node_modules/
