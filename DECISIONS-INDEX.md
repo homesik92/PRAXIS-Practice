@@ -28,4 +28,5 @@ read the full log only when a topic isn't indexed yet.
 | Coding plan structure (file layout, phasing, parallel content track) | **D-15** → ROADMAP.md |
 | Local verification gate | ROADMAP.md Phase 0.1 → CLAUDE.md "Verification" |
 | `file://` support (data-loading format) | **D-17** — not required; `.json` + `fetch()` stands |
+| Weakest-category practice suggestion (S2) | **D-18** |
 | Prior 185-question Mathematics set | N-2 |

@@ -381,3 +381,24 @@ would have forced question banks into `.js`-module-export form to work around Ch
 `fetch()`-from-`file://` restriction. Confirming it wasn't needed avoids that
 restructuring entirely and unblocks Phase 0.3/1.1 on the simpler path.
 **Attribution:** Session owner's call.
+
+### D-18: Weakest-category practice suggestion on S2
+
+**Date:** 2026-08-16
+**Decision:** S2 gains a new entry point alongside the existing "N questions due"
+prompt (D-8): once any category in the test has at least 5 answered questions, S2
+surfaces the single lowest-accuracy category ("You're weakest in `<category>` — practice
+it") and links straight into S5 pre-filtered to that category. Ranking is accuracy
+(correct ÷ answered), computed across every attempt and study session in that test —
+not a separate spaced-repetition mechanism. Ties break toward the category least
+recently practiced. Below the 5-question threshold for every category, no suggestion is
+shown.
+**Why:** SCHEMA.md's S4 already reports per-category accuracy after a completed test,
+but nothing surfaced it proactively or turned it into a next action — a person finishing
+a test saw their weak spots once, on the results screen, with no standing prompt to go
+work on them. Accuracy was chosen over a recency-weighted score or reusing the SRS "due"
+count (the other two options considered) because it's the simplest rule that's still
+explainable from data S4 already computes, and reusing SRS "due" would have conflated
+"a category needs review because time has passed" with "a category needs review because
+performance is poor," which are different signals worth surfacing separately.
+**Attribution:** Session owner's call, from a recommendation.
