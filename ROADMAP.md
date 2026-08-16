@@ -101,10 +101,15 @@ tools/
 - **0.2 Progress-store safety net. ☑ Complete.** `js/store.js`: `loadStore`/`saveStore`
   plus the backup-before-migrate mechanism from SCHEMA.md §2.8 — never migrates a
   newer-than-supported store downward, backs up before migrating an older one, prunes
-  to the immediately-prior backup only, and every failure mode (corrupted JSON, a
-  failed write) returns a tagged result instead of throwing or silently
-  reinitializing (finding #6). Unit-tested against a mock Storage implementation in
-  `tools/test-store.mjs` — 10 tests, all passing. Closes
+  to the immediately-prior backup only regardless of whether the migration chain
+  completes, and every failure mode (corrupted JSON, `NaN` version, a failed write, a
+  storage exception mid-migration) returns a tagged result instead of throwing or
+  silently reinitializing (finding #6). Success and failure never share the `store`
+  key, so a caller that skips the `ok` check gets `undefined` rather than a
+  plausible-looking rejected object. Run through a 5-angle `/code-review` before merge
+  (Gate 3 — this is the progress-persistence layer, a deep change) — 7 findings, all
+  fixed. Unit-tested against a mock Storage implementation in `tools/test-store.mjs` —
+  18 tests, all passing. Closes
   [issue #4](https://github.com/homesik92/PRAXIS-Practice/issues/4). Attempt/answer
   read-write helpers (write-per-answer cadence, résumé lookup, spaced repetition) are
   Phase 2.2, not this — this is only the envelope and the safety net underneath it.
