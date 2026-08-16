@@ -131,11 +131,27 @@ Framework (2016), CSTA standards (2017), and ISTE Computational Thinking Compete
 ## Findings for the design sessions
 
 **F-1 — The v1 authoring load is 411 questions.** One full-length attempt per test is
-120 + 66 + 125 + 100. This is the dominant cost in the entire project and it is content
-work, not code work — the engine is a few days; the bank is the project. It is also the
-part that cannot be rushed, because a wrong answer key is worse than a missing question.
-Sequencing should assume banks land incrementally and the site must be useful when a
-bank is partially filled.
+120 + 66 + 125 + 100. This is the dominant cost in the entire project, and it is content
+work rather than code work.
+
+Sizing it in this project's own unit — a working session — rather than in calendar time,
+which depends entirely on how often sessions happen:
+
+| Work | Rough size | Basis |
+| --- | --- | --- |
+| The engine (Phases 0–3: manifest loading, runner, timer, scoring, dashboard, persistence) | ~4–6 sessions | Bounded, well-specified by this document and SCHEMA.md |
+| The 411-question bank | ~15–20 sessions | Assumes ~20–30 questions per session, authored *and* answer-key-verified |
+
+So the bank is roughly three to four times the engine. Both figures are estimates with
+real uncertainty — the bank figure especially, since per-session throughput has not been
+measured yet and Mathematics and Physical Science will be slower than Business per
+question. **The first authoring session should be treated as a measurement**, and this
+table revised from it.
+
+The bank is also the part that cannot be rushed, because a wrong answer key is worse
+than a missing question. Sequencing should therefore assume banks land incrementally and
+the site must be useful — and honest about its own coverage — while a bank is partly
+filled.
 
 **F-2 — Category weightings must drive question selection, not just documentation.** A
 full-length 5485 attempt is not 125 random questions; it is 18/25/41/41 drawn per

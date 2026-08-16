@@ -15,7 +15,11 @@ read the full log only when a topic isn't indexed yet.
 | v1 feature set | D-6, **D-8** (spaced repetition) |
 | Saved-progress store (schema-change hazard) | D-6, **D-8** |
 | Design-stage shape & scope | **D-7** |
-| Screen flow & answer format | **D-9** |
-| Question format fork (single- vs multi-select) | D-9 — **open**, see BLUEPRINT.md |
+| Screen flow | D-9 → **D-11** (review pass added) |
+| Question format (single- vs multi-select) | D-9 → **D-10** (settled: uniform now, extensible schema) |
+| Reference materials during a test | **D-12** |
+| Question-bank file format | SCHEMA.md §2.1–2.7 |
+| Progress store & spaced repetition | D-6, D-8 → SCHEMA.md §2.8 |
+| Notation & code rendering | SCHEMA.md §2.6 — recommendation **unverified**, see B-4 |
 | Test blueprints (weightings, timings) | BLUEPRINT.md (not a decision — extracted fact) |
 | Prior 185-question Mathematics set | N-2 |

@@ -191,3 +191,55 @@ that commitment, established in BLUEPRINT.md, is **411 original questions**
 **Why:** Recorded so a later session does not re-open a settled question, and so the
 411 figure is attached to the decision rather than buried in the blueprint.
 **Attribution:** Session owner's call (confirmation of D-4).
+
+### D-10: Uniform single-select in v1; the schema carries a type discriminator anyway
+
+**Date:** 2026-08-16
+**Decision:** Refines D-9. Every authored question in v1 is four options with exactly
+one correct answer, and the runner supports only that. But the question record carries a
+`type` field from the first version, and `correct` is stored as an **array** even when
+it holds one element — so multi-select and numeric entry can be added later without
+rewriting a single existing question or migrating the progress store.
+**Why:** ETS describes only 5485 as plain selected-response; 5165 and 5652 explicitly
+include select-one-or-more, and 5101 and 5165 include numeric entry (BLUEPRINT.md).
+Building all of those now would multiply both engine complexity and authoring cost
+against a 411-question backlog that is already the project's dominant expense. But
+*storing* a scalar where an array belongs is the classic cheap-now, expensive-later
+mistake: it forces a data migration precisely when the format is added. The two fields
+cost nothing today and remove the migration entirely.
+**Attribution:** Session owner's call, from a recommendation.
+
+### D-11: One-way run, with a single review pass before the timer stops
+
+**Date:** 2026-08-16
+**Decision:** Amends D-9's screen flow. Choosing an answer still advances immediately to
+the next question, as originally specified. On reaching the last question — and before
+the attempt is scored — the test-taker gets **one review pass** over the attempt, in
+which flagged or unanswered questions can be revisited and answers changed. The timer
+continues to run during the review pass; when it expires the attempt is scored as it
+stands.
+**Why:** The real computer-delivered exams allow free review and answer changes, so a
+strictly one-way run practices a constraint the actual test does not impose, and it
+removes a genuine exam skill — skipping a hard question, banking the time, and returning
+to it. Full free navigation would have meant a navigation bar and per-question state
+throughout the run. The single end-of-run pass recovers most of the pacing skill for a
+fraction of the interface. The timer must keep running during review or the practice
+stops being time-realistic, which is the whole point of the mode.
+**Attribution:** Session owner's call, from a recommendation.
+
+### D-12: Reference panels are in scope for 5165 and 5485
+
+**Date:** 2026-08-16
+**Decision:** The site provides an in-test reference panel for Mathematics (notation and
+formula sheet) and for Physical Science (periodic table and physical constants),
+mirroring what ETS makes available on those tests' Help screens. 5101 and 5652 get no
+panel. The panel content is **written for this project**, not reproduced from the study
+companions — a periodic table and the value of Planck's constant are facts, not
+expression.
+**Why:** Finding F-3. Both exams supply these materials, so practice without them
+measures memorization the real test does not ask for, and a practice score would
+understate readiness in a way that is invisible to the person studying. Excluding them
+would also have silently constrained what the two banks could ask, which is a worse
+outcome than building a panel. Note this decision *enables* question authoring rather
+than merely adding a feature: without it, whole areas of both banks are unwritable.
+**Attribution:** Session owner's call.
