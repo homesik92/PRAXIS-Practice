@@ -1,13 +1,13 @@
 # Roadmap
 
-## Current phase: design stage — design planning
+## Current phase: design stage — session 1 complete
 
-The repo scaffold is done. The design-planning session (step 3 of
-`.claude/skills/dev-workflow/design-methodology.md`) has produced the proposed design
-plan below.
+The repo scaffold is done, the compressed design plan is **approved** (D-7), and design
+session 1 (blueprint extraction) is complete — see [BLUEPRINT.md](BLUEPRINT.md).
 
-**⚠ The plan below is proposed, not approved.** Gate 1 has not been cleared — no design
-session starts until the session owner gives an explicit go.
+**Next: session 2 (requirements + data schema).** One fork is open and should be settled
+before it starts — the question-format question in BLUEPRINT.md, since it determines
+what an answer record looks like in the schema.
 
 ### Where the seed document stands
 
@@ -19,28 +19,26 @@ correction — treat it as a starting point to edit, not as the owner's own stat
 intent. The distinction matters because the seed is what every downstream document is
 checked against.
 
-## Proposed design plan
+## Approved design plan (D-7)
 
-| # | Session | Produces | Model / effort |
-| --- | --- | --- | --- |
-| 1 | Blueprint extraction | `BLUEPRINT.md` — per test: content categories, weightings, question count, time limit, item formats, drawn from the four study companions. Facts only, no ETS content. | Strongest / high |
-| 2 | Requirements | `REQUIREMENTS.md` — what a study session, a timed test, and the progress view each do; accessibility requirements; explicit non-goals. | Strongest / extra-high |
-| 3 | Data schema | `SCHEMA.md` — the question-bank file format, the saved-progress record, and the registration mechanism that makes D-4's "add a test without code changes" true. Settles B-1 and B-2. | Strongest / max |
-| 4 | Engineering design | `DESIGN.md` — file layout, module boundaries, scoring and timing logic, persistence and its versioning strategy, test approach. | Strongest / extra-high |
-| 5 | Adversarial review | Findings from fresh, context-free sessions: data integrity (the progress store), UX/accessibility, and a content-correctness pass on the answer-key process. | Fresh sessions / max |
-| 6 | Triage & remediation | Consolidated findings, dispositions, updated docs. | Strongest / high |
-| 7 | Visual design | Design brief, tokens, component specs. | Strongest / high |
-| 8 | Coding plan | `ROADMAP.md` phases 0–n, walking-skeleton shaped. | Strongest / extra-high |
+| # | Session | Produces | Model / effort | Status |
+| --- | --- | --- | --- | --- |
+| 1 | Blueprint extraction | [BLUEPRINT.md](BLUEPRINT.md) — per test: content categories, weightings, question count, time limit, stated item formats. Facts only, no ETS content. | Strongest / high | ☑ Complete |
+| 2 | Requirements + data schema | `SCHEMA.md` — what a study session, a timed test, and the dashboard each do; the question-bank file format; the saved-progress record including D-8's attempt history; the registration mechanism that makes D-4's "add a test without code changes" true; accessibility requirements; explicit non-goals. Settles B-1 and B-2. | Strongest / max | ☐ Next |
+| 3 | Adversarial review | Findings from fresh, context-free sessions on the two failure modes that matter here: progress-store data integrity, and UX/accessibility of a timed, keyboard-driven test runner. | Fresh sessions / max | ☐ |
+| 4 | Coding plan | Phases 0–n below, walking-skeleton shaped. | Strongest / extra-high | ☐ |
 
-**Sequencing note.** Session 3 is the load-bearing one and is scheduled at max effort
-for that reason: D-4 makes "a fifth test needs no code changes" a hard requirement, and
-D-6 puts a live, un-backed-up data store in the browser. Both constraints are cheap to
-satisfy in the schema and expensive to retrofit afterwards.
+**Session 2 is the load-bearing one** and is scheduled at max effort for that reason.
+Three separate constraints all land in it and are each expensive to retrofit: D-4 makes
+"a fifth test needs no code changes" a hard requirement; D-6 and D-8 put a live,
+un-backed-up store with per-question attempt history in the browser; and BLUEPRINT.md's
+F-4 and F-6 mean the category model must be a variable-depth tree with orthogonal
+overlay tags, not a flat two-level scheme.
 
-**Session 1 is scheduled first for a reason.** Requirements written before the blueprint
-exists would be guesses about test structure, and the whole project's shape — how many
-questions, how long, which categories — falls out of facts that are sitting unread in
-four PDFs.
+**Why the eight-session version was cut to four:** see D-7. In short, the deliverables
+that were dropped (API spec, operations/cost review, staged-exposure planning, a
+standalone visual-design pass) have no subject matter in a static single-user offline
+site with no server.
 
 ## Phases (post-design)
 
@@ -50,4 +48,5 @@ Not yet defined — session 8 produces them.
 
 | Date | Session | Outcome |
 | --- | --- | --- |
-| 2026-08-16 | Repo scaffold & design planning | Created repo (local only, no remote), vendored and adapted the dev-workflow skill, wrote the initial doc set, logged D-1–D-6 and N-1–N-2, filed B-1–B-3, drafted SEED.md. Proposed the 8-session design plan above. **No code written. Plan not yet approved.** |
+| 2026-08-16 | Repo scaffold & design planning | Created repo (local only, no remote), vendored and adapted the dev-workflow skill, wrote the initial doc set, logged D-1–D-6 and N-1–N-2, filed B-1–B-3, drafted SEED.md. Proposed an 8-session design plan; session owner approved a compressed 4-session version (D-7). **No code written.** |
+| 2026-08-16 | Design session 1 — blueprint extraction | Extracted all four test blueprints from the study companions; category counts verified to sum to each test's stated total. Produced BLUEPRINT.md with six findings (F-1–F-6). Logged D-7–D-9 and N-3 (411-question v1 authoring load; spaced repetition in scope; screen flow). **One fork left open: question format.** |

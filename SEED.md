@@ -59,21 +59,35 @@ full-length timed attempt, reviews every missed question with an explanation, se
 categories they are weak in, drills one of them, and finds all of that still there next
 week.
 
+## Stated interaction requirements
+
+Given directly by the project owner; logged as D-9.
+
+1. The **index page** offers a choice of the four tests.
+2. With a test chosen, the next page offers **take a sample test** or **study a
+   particular topic** within that test.
+3. Choosing *test* leads to a page with a **Start** button. Start begins the timer and
+   presents question 1 with multiple-choice answer buttons. Choosing an answer presents
+   the next question. **Remaining time is shown at the top.**
+4. On completion, a **dashboard by topic** shows the percentage of questions correct and
+   incorrect.
+
+Answer options are **four choices, exactly one correct**.
+
 ## Open questions the project owner should settle
 
-These are genuinely unanswered — this draft deliberately does not guess:
+Three of the original five are now answered (see D-7, D-8, N-3). Still open:
 
 1. **Who else uses it?** "Progress saved locally" is per-browser. If two people study on
    the same machine, or one person studies on both a laptop and a tablet, the design
-   changes materially. The current design assumes one person, one browser.
-2. **How many questions per test is enough for v1?** Enough to fill one full-length
-   attempt, or enough that a second attempt isn't the same test again? The second is
-   several times the authoring work and should be a deliberate choice.
-3. **Is a real deadline driving this?** An actual test date changes the ordering — one
-   test's bank finished deep beats four banks finished shallow.
-4. **Which of the four matters most?** D-4 sets breadth-first, but if one test is the
-   one actually being sat, its bank should be deeper than the rest.
-5. **Should wrong answers come back?** Spaced repetition — resurfacing missed questions
-   on a schedule — is the single highest-value study feature not currently in scope, and
-   it constrains the progress-store schema, so it is much cheaper to decide now than to
-   add later.
+   changes materially. The current design assumes one person, one browser — and D-8's
+   spaced repetition makes that assumption load-bearing, since a review schedule split
+   across two devices is two different schedules.
+2. **Is a real deadline driving this?** An actual test date changes the ordering of the
+   411-question authoring effort, and would also make spaced repetition's interval
+   scheduling need to compress toward the date rather than run open-endedly.
+3. **Does the question format follow ETS or stay uniform?** See BLUEPRINT.md, "Open
+   format question" — D-9 sets four-option single-select, which matches only 5485 of the
+   four tests.
+4. **Are the provided reference materials in scope?** 5165's graphing calculator and
+   formula sheet, 5485's periodic table and constants table (finding F-3).

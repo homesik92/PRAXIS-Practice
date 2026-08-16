@@ -124,3 +124,70 @@ being accepted.
 **Why:** Recording this prevents a later session from assuming the work exists somewhere
 and searching for it again, and prevents an unreviewed import if it does turn up.
 **Attribution:** Verified fact, not a decision.
+
+### D-7: Compressed 4-session design stage rather than the full 8
+
+**Date:** 2026-08-16
+**Decision:** The design stage runs four sessions — (1) blueprint extraction,
+(2) combined requirements + data schema, (3) one adversarial review pass focused on the
+progress store and accessibility, (4) coding plan — rather than the eight-session plan
+the inherited methodology implies. Dropped: separate requirements and engineering-design
+documents, two of the three review angles, and the standalone visual-design pass.
+**Why:** The inherited eight-session shape is calibrated for a real business with real
+users, payment flows, and a public deployment. This is a static, single-user, offline
+quiz site with no server and no network calls, so several deliverables (API spec,
+operations/cost review, staged-exposure planning) have no subject matter here. The
+methodology's own "prefer the simple path" rule requires surfacing that rather than
+performing the full ceremony. The two checks retained are the two that map to this
+project's actual failure modes: the browser progress store is un-backed-up live data,
+and a test-taking interface is keyboard- and screen-reader-critical by nature.
+**Attribution:** Session owner's call, from a recommendation.
+
+### D-8: Spaced repetition is designed for in v1
+
+**Date:** 2026-08-16
+**Decision:** Missed questions resurface on a schedule. The progress store records
+per-question attempt history with timestamps from the first version, and v1 ships the
+scheduling behavior rather than merely leaving room for it.
+**Why:** Chosen over omitting it and over the "leave room, don't build it" middle path.
+It is the highest-value study feature available here — reviewing a missed question once
+teaches less than meeting it again three days later — and it is the one feature whose
+retrofit would require migrating the only un-backed-up data this project has (D-6).
+Deciding it now costs a schema field; deciding it later costs a migration that can lose
+a real study history.
+**Attribution:** Session owner's call, from a recommendation.
+
+### D-9: Interaction flow for v1
+
+**Date:** 2026-08-16
+**Decision:** Four screens, in this order:
+
+1. **Index** — choose one of the four tests.
+2. **Test menu** — choose *take a sample test* or *study a particular topic* within that
+   test.
+3. **Test runner** — a **Start** button begins the timer and presents question 1.
+   Choosing an answer advances immediately to the next question. Remaining time is
+   displayed at the top throughout.
+4. **Results dashboard** — per-topic breakdown showing percentage correct and incorrect.
+
+Answer options are **four choices with exactly one correct** and three incorrect.
+**Why:** Session owner's stated requirements. Two consequences worth recording because
+they are not obvious from the description: (a) advancing immediately on selection means
+there is **no way back to a previous question**, which the real computer-delivered exams
+do permit, and no chance to change an answer — a deliberate simplification, revisit if
+practice attempts feel unrepresentative; (b) the four-option single-select format
+diverges from ETS's stated format for three of the four tests (see BLUEPRINT.md, "Open
+format question"), which is a fork still open at the time of this entry.
+**Attribution:** Session owner's call.
+
+### N-3: Breadth-first bank depth confirmed; D-4 unchanged
+
+**Date:** 2026-08-16
+**Note:** Offered the alternatives of going deep on a single test first or shipping thin
+placeholder banks; the session owner confirmed breadth — all four tests, enough
+questions for one full-length attempt each. D-4 stands unamended. The concrete size of
+that commitment, established in BLUEPRINT.md, is **411 original questions**
+(120 + 66 + 125 + 100), which is the project's dominant cost.
+**Why:** Recorded so a later session does not re-open a settled question, and so the
+411 figure is attached to the decision rather than buried in the blueprint.
+**Attribution:** Session owner's call (confirmation of D-4).
