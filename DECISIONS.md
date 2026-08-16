@@ -366,3 +366,18 @@ existed yet (ruling out a stale duplicate); `gh repo view homesik92/splankna-ios
 not assumed to be.
 **Attribution:** Session owner's call — direct correction of an assistant
 misunderstanding, not a preference change.
+
+### D-17: The site does not need to work opened via `file://`
+
+**Date:** 2026-08-16
+**Decision:** Resolves [issue #7](https://github.com/homesik92/PRAXIS-Practice/issues/7).
+NAS-served or local-dev-server access is sufficient; double-clicking `index.html` with
+no server running is not a requirement. Question banks stay as plain `.json` files
+loaded with `fetch()`, exactly as SCHEMA.md already specified — no schema or file-layout
+change needed.
+**Why:** The `file://` requirement was never actually requested — it was added
+unprompted in an earlier session (see the correction noted in issue #7's body) and
+would have forced question banks into `.js`-module-export form to work around Chrome's
+`fetch()`-from-`file://` restriction. Confirming it wasn't needed avoids that
+restructuring entirely and unblocks Phase 0.3/1.1 on the simpler path.
+**Attribution:** Session owner's call.

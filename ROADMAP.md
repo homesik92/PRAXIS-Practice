@@ -1,20 +1,15 @@
 # Roadmap
 
-## Current phase: design complete — Phase 0 approved, blocked on one open question
+## Current phase: design complete — Phase 0 in progress
 
 Design stage complete (all four sessions — [BLUEPRINT.md](BLUEPRINT.md),
 [SCHEMA.md](SCHEMA.md), [REVIEW.md](REVIEW.md), and the coding plan below). The session
-owner gave explicit go-ahead to start Phase 0.
+owner gave explicit go-ahead to start Phase 0, and its one blocker
+([issue #7](https://github.com/homesik92/PRAXIS-Practice/issues/7) — `file://` support)
+is resolved: not required (D-17). Question banks stay `.json` + `fetch()` as originally
+specified.
 
-**Blocking Phase 0's data-loading work:**
-[issue #7](https://github.com/homesik92/PRAXIS-Practice/issues/7) — whether the site
-must work opened directly via `file://` with no server running. This changes whether
-question banks are `.json` files loaded with `fetch()` (as SCHEMA.md currently
-specifies) or `.js` files exporting objects. Phase 0.1 (the verify script) and 0.2 (the
-progress-store safety net) don't depend on the answer and can proceed; 0.3 and all of
-Phase 1 do.
-
-Deferred work is now tracked as **GitHub issues**, not a backlog file — see D-16.
+Deferred work is tracked as **GitHub issues**, not a backlog file — see D-16.
 
 ### Where the seed document stands
 
