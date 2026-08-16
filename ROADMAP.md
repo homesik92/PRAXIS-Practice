@@ -1,13 +1,11 @@
 # Roadmap
 
-## Current phase: design complete — Phase 0 in progress
+## Current phase: Phase 0 complete — starting Phase 1 (walking skeleton)
 
-Design stage complete (all four sessions — [BLUEPRINT.md](BLUEPRINT.md),
-[SCHEMA.md](SCHEMA.md), [REVIEW.md](REVIEW.md), and the coding plan below). The session
-owner gave explicit go-ahead to start Phase 0, and its one blocker
-([issue #7](https://github.com/homesik92/PRAXIS-Practice/issues/7) — `file://` support)
-is resolved: not required (D-17). Question banks stay `.json` + `fetch()` as originally
-specified.
+Design stage complete ([BLUEPRINT.md](BLUEPRINT.md), [SCHEMA.md](SCHEMA.md),
+[REVIEW.md](REVIEW.md), the coding plan below). Phase 0 complete: the verification gate
+(0.1), the progress-store safety net (0.2, code-reviewed — 7 findings fixed), and the
+static page skeleton (0.3, live-tested) are all merged to `main`.
 
 Deferred work is tracked as **GitHub issues**, not a backlog file — see D-16.
 
@@ -113,9 +111,12 @@ tools/
   [issue #4](https://github.com/homesik92/PRAXIS-Practice/issues/4). Attempt/answer
   read-write helpers (write-per-answer cadence, résumé lookup, spaced repetition) are
   Phase 2.2, not this — this is only the envelope and the safety net underneath it.
-- **0.3 Static skeleton.** The file layout above, `manifest.json` with zero tests
-  registered, and `data/tests/` empty — proves the page shells load with nothing in them
-  yet.
+- **0.3 Static skeleton. ☑ Complete.** `index.html`, `test.html`, `run.html`,
+  `results.html`, `css/base.css` — the file layout from above, `manifest.json` with
+  zero tests registered (from 0.1), `data/tests/` still empty. `.claude/launch.json`
+  added (a plain `python3 -m http.server`) so the site can be locally served rather
+  than opened via `file://`, per D-17. Live-tested in the Browser pane: all four pages
+  load with no console errors, correct titles, CSS applies. **Phase 0 complete.**
 
 ### Phase 1 — Walking skeleton
 
