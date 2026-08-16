@@ -89,14 +89,15 @@ tools/
 
 ### Phase 0 — Tools & infrastructure
 
-- **0.1 Local verification gate.** `tools/verify.mjs`, plain Node (the machine has
-  Node 22; no `package.json`, no install step — the gate must not become the site's
-  first dependency). Validates every bank file against SCHEMA.md: `schemaVersion`
-  present, category weight counts sum to the test's total, every question `id` unique
-  and namespaced correctly, `correct` references real option ids, `format` values are
-  one of the known three, `retired` questions excluded from nothing but new draws. This
-  becomes the *only* gate (N-1) — CLAUDE.md's Verification section is filled in with the
-  exact command once this lands.
+- **0.1 Local verification gate. ☑ Complete.** `tools/verify.mjs`, plain Node (the
+  machine has Node 22; no `package.json`, no install step — the gate must not become
+  the site's first dependency). Validates every bank file against SCHEMA.md:
+  `schemaVersion` present, category weight counts sum to the test's total, every
+  question `id` unique and namespaced correctly, `correct` references real option ids,
+  `format` values are one of the known three, unimplemented `type` values warn rather
+  than error (D-10). Unit-tested in `tools/test-verify.mjs` against two fixtures
+  (`tools/fixtures/`) — 14 tests, all passing. This is now the *only* gate — see
+  CLAUDE.md's Verification section for the exact commands.
 - **0.2 Progress-store safety net.** The backup-before-migrate mechanism from SCHEMA.md
   §2.8, built and unit-tested **before any other persistence code**, per
   [issue #4](https://github.com/homesik92/PRAXIS-Practice/issues/4).

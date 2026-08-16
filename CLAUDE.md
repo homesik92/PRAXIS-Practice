@@ -37,17 +37,25 @@ repo. The full rule is in `.claude/skills/dev-workflow/SKILL.md`.
 
 ## Verification
 
-The coding plan (ROADMAP.md, Phase 0.1) specifies `tools/verify.mjs`, a dependency-free
-Node script that validates every question-bank file against SCHEMA.md's shape and
-invariants. It does not exist yet — Phase 0 has not started. Once it lands, run it as:
+`tools/verify.mjs` is a dependency-free Node script that validates the manifest and
+every question-bank file it registers against SCHEMA.md's shape and invariants (unique
+ids, option/correct consistency, weight-bearing category counts summing to
+`formLength`, known `format` values, and more). Run it as:
 
 ```
 node tools/verify.mjs
 ```
 
-Until CI is wired up (also Phase 0), this is the *only* gate, so run it before every
-push. Once CI exists it becomes the fast local check that precedes the authoritative PR
-run — never a step that requires `npm install`.
+Its own logic is unit-tested against fixture banks (one valid, one deliberately broken)
+in `tools/test-verify.mjs`:
+
+```
+node tools/test-verify.mjs
+```
+
+Until CI is wired up, this is the *only* gate, so run both before every push. Once CI
+exists it becomes the fast local check that precedes the authoritative PR run — never a
+step that requires `npm install`.
 
 ## Answer keys are the real correctness surface
 

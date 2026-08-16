@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "code": "TEST2",
+  "name": "Invalid Fixture Test",
+  "timeLimitMinutes": 30,
+  "formLength": 3,
+  "categories": [
+    {
+      "id": "I",
+      "label": "Fixture Category One",
+      "weight": { "count": 2, "percent": 67 }
+    },
+    {
+      "id": "I",
+      "label": "Duplicate id of Category One",
+      "weight": { "count": 5, "percent": 33 }
+    }
+  ],
+  "overlays": [{ "id": "ov1", "label": "Fixture Overlay" }],
+  "questions": [
+    {
+      "id": "TEST2-0001",
+      "type": "single",
+      "categoryId": "I",
+      "difficulty": 1,
+      "stem": { "format": "text", "value": "What is 2 + 2?" },
+      "options": [
+        { "id": "a", "content": { "format": "text", "value": "3" } },
+        { "id": "b", "content": { "format": "text", "value": "4" } }
+      ],
+      "correct": ["z"],
+      "explanation": { "format": "not-a-real-format", "value": "2 + 2 = 4." }
+    },
+    {
+      "id": "TEST2-0001",
+      "type": "single",
+      "categoryId": "does-not-exist",
+      "difficulty": 1,
+      "stem": { "format": "text", "value": "What is 3 + 3?" },
+      "options": [
+        { "id": "a", "content": { "format": "text", "value": "5" } },
+        { "id": "a", "content": { "format": "text", "value": "6" } }
+      ],
+      "correct": [],
+      "explanation": { "format": "text", "value": "3 + 3 = 6." }
+    },
+    {
+      "id": "wrong-prefix-0003",
+      "type": "multi",
+      "categoryId": "I",
+      "overlays": ["not-declared"],
+      "difficulty": 1,
+      "stem": { "format": "text", "value": "What is 5 + 5?" },
+      "options": [{ "id": "a", "content": { "format": "text", "value": "10" } }],
+      "correct": ["a"],
+      "explanation": { "format": "text", "value": "5 + 5 = 10." }
+    }
+  ]
+}

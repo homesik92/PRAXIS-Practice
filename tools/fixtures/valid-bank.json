@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 1,
+  "code": "TEST1",
+  "name": "Fixture Test",
+  "timeLimitMinutes": 30,
+  "formLength": 3,
+  "categories": [
+    {
+      "id": "I",
+      "label": "Fixture Category One",
+      "weight": { "count": 2, "percent": 67 },
+      "children": []
+    },
+    {
+      "id": "II",
+      "label": "Fixture Category Two",
+      "weight": { "count": 1, "percent": 33 }
+    }
+  ],
+  "overlays": [{ "id": "ov1", "label": "Fixture Overlay", "targetShare": 0.5 }],
+  "questions": [
+    {
+      "id": "TEST1-0001",
+      "type": "single",
+      "categoryId": "I",
+      "overlays": ["ov1"],
+      "difficulty": 1,
+      "retired": false,
+      "stem": { "format": "text", "value": "What is 2 + 2?" },
+      "options": [
+        { "id": "a", "content": { "format": "text", "value": "3" } },
+        { "id": "b", "content": { "format": "text", "value": "4" } },
+        { "id": "c", "content": { "format": "text", "value": "5" } },
+        { "id": "d", "content": { "format": "text", "value": "6" } }
+      ],
+      "correct": ["b"],
+      "explanation": { "format": "text", "value": "2 + 2 = 4." },
+      "authored": "2026-08-16"
+    },
+    {
+      "id": "TEST1-0002",
+      "type": "single",
+      "categoryId": "I",
+      "difficulty": 1,
+      "retired": false,
+      "stem": { "format": "text", "value": "What is 3 + 3?" },
+      "options": [
+        { "id": "a", "content": { "format": "text", "value": "5" } },
+        { "id": "b", "content": { "format": "text", "value": "6" } },
+        { "id": "c", "content": { "format": "text", "value": "7" } },
+        { "id": "d", "content": { "format": "text", "value": "8" } }
+      ],
+      "correct": ["b"],
+      "explanation": { "format": "text", "value": "3 + 3 = 6." },
+      "authored": "2026-08-16"
+    },
+    {
+      "id": "TEST1-0003",
+      "type": "single",
+      "categoryId": "II",
+      "difficulty": 1,
+      "retired": false,
+      "stem": { "format": "text", "value": "What is 5 + 5?" },
+      "options": [
+        { "id": "a", "content": { "format": "text", "value": "9" } },
+        { "id": "b", "content": { "format": "text", "value": "10" } },
+        { "id": "c", "content": { "format": "text", "value": "11" } },
+        { "id": "d", "content": { "format": "text", "value": "12" } }
+      ],
+      "correct": ["b"],
+      "explanation": { "format": "text", "value": "5 + 5 = 10." },
+      "authored": "2026-08-16"
+    }
+  ]
+}
