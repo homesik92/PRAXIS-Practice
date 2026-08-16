@@ -1,18 +1,21 @@
 # Contributing
 
-This is a solo project (session owner: Jon / `homesik92`), structured the same way as a
-multi-contributor one in case that changes.
+This is currently a solo project (session owner: Jon / `homesik92`), structured the
+same way as a multi-contributor one in case that changes.
 
 ## Before your first commit
 
-This repository has no remote today, but it was scaffolded alongside sibling projects
-that are public, and the identity is set the same way so that adding a remote later is
-never the moment a real email address enters the history:
+This repository is public. Set a GitHub `noreply` address so a real email address
+never lands in public history (force-push is not assumed to be available, so a
+committed real address stays committed):
 
 ```
 git config user.email "ID+USERNAME@users.noreply.github.com"
 git config user.name "USERNAME"
 ```
+
+Your numeric ID and username: `gh api user --jq '{id, login}'` (if `gh` is
+authenticated), or GitHub → Settings → Emails → "Keep my email addresses private".
 
 Set these **locally, per-repo** (drop `--global`) unless every repository you work in
 should use this identity. They are already configured in this checkout.
@@ -21,12 +24,8 @@ should use this identity. They are already configured in this checkout.
 
 See `.claude/skills/dev-workflow/SKILL.md` for the full loop (plan → build → review →
 remediate → merge → live-test → close) and its gates. In short: discuss and get an
-explicit go-ahead before writing code or docs, work on a branch, keep the decision log
-current.
-
-Note the local substitutes documented in `CLAUDE.md` — with no CI and no pull requests,
-the local gate is the only gate, and deferred work goes in `BACKLOG.md` rather than an
-issue tracker.
+explicit go-ahead before writing code or docs, work on a branch, land through a PR,
+keep the decision log current.
 
 ## Original questions only
 

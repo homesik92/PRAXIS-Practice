@@ -35,6 +35,9 @@ enters the history.
 **Attribution:** Session owner's call.
 *Consequence recorded separately as N-1 — this decision removes three gates that the
 inherited methodology depends on.*
+*Later updated by: D-16 — this was a misreading. "Same local git you used for other
+projects" meant the same **pattern** (local dir + GitHub remote), not local-only. D-2's
+actual decision (no GitHub remote) is superseded; NAS-as-production-only stands.*
 
 ### D-3: Plain HTML/CSS/JS, no build step, no runtime dependencies
 
@@ -109,6 +112,8 @@ is worse than one that admits the gap — it produces false confidence and invit
 selective compliance elsewhere. Recording *which* protections were traded away, and for
 what, is what makes the trade reversible.
 **Attribution:** Derived from D-2, not an independent decision.
+*Later updated by: D-16 — the premise (no remote) was wrong; the substitutes described
+here were removed and the sibling projects' full-strength text restored.*
 
 ### N-2: A prior set of ~185 Mathematics questions could not be located
 
@@ -319,3 +324,45 @@ adversarial review pass the way session 2's schema was. A coding plan is lower-s
 get wrong than the data schema: a bad phase order costs a re-sequencing, not a data
 migration against real study history, so D-7's original four-session scoping did not
 budget a review pass for this document.
+
+### D-16: Correction — this project has a public GitHub remote, same as its siblings
+
+**Date:** 2026-08-16
+**Decision:** Supersedes D-2's "no GitHub remote" reading. `homesik92/PRAXIS-Practice`
+is created and public, matching `splankna-ios` and `splankna-rebuild`'s precedent. The
+project's git identity, branch/PR/merge workflow, and issue tracking now match those
+siblings exactly — this repo is developed the ordinary way, with the local
+`Claude-Work` checkout and the GitHub remote as two views of the same history, not a
+local-only project with GitHub withheld. **What D-2 got right and what stands
+unchanged:** the session owner's NAS remains the production deployment target, and it
+is used **only for the final version** — not for day-to-day work, which happens through
+GitHub the same as the siblings.
+**Why:** D-2 was written from a misreading of "use the same local git you used for
+other projects, only the final production version should go to the NAS" — read as
+"stay local, add the NAS," when the actual instruction was "match the siblings' setup
+(local + GitHub), and additionally use the NAS, but only once there's a final version."
+The session owner corrected this directly: "I expect all of the files to be in the
+local directory at claude-work and committed also in the github directory for
+homesik92. Same as we did for splankna-ios and splankna-rebuild. When we have a final
+version running, we can use the local NAS for production, but only when it's final. In
+all other cases, we use the local repo and github repo."
+
+This correction reverses real work, not just a label: N-1's "local substitutes"
+(`--no-ff` merges standing in for PRs, the local gate promoted to authoritative in
+place of CI, `BACKLOG.md` in place of GitHub issues) were removed from `SKILL.md`,
+`CLAUDE.md`, `CONTRIBUTING.md`, and `README.md`, restoring the sibling projects'
+original PR/CI/issue-tracker language. `BACKLOG.md`'s nine entries were migrated to
+GitHub issues #1–#10 (three closed with evidence, matching the ones already resolved in
+design sessions 2–3); the file itself was deleted. The four merged design-session
+branches already in this repo's history (`design/1-blueprint` through
+`design/4-coding-plan`) were local-only `--no-ff` merges rather than PRs — left as
+history rather than reconstructed as PRs after the fact, since GitHub didn't exist yet
+when they landed; the PR discipline applies from this point forward.
+
+**Verified, not assumed, before acting:** `gh auth status` confirmed an authenticated
+`homesik92` session; `gh repo view homesik92/PRAXIS-Practice` confirmed no such repo
+existed yet (ruling out a stale duplicate); `gh repo view homesik92/splankna-ios
+--json visibility` confirmed the precedent this decision matches is actually public,
+not assumed to be.
+**Attribution:** Session owner's call — direct correction of an assistant
+misunderstanding, not a preference change.

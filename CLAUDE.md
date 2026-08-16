@@ -3,14 +3,21 @@
 Read [ROADMAP.md](ROADMAP.md) first to see what phase the project is in, then
 [DECISIONS-INDEX.md](DECISIONS-INDEX.md) to find the decisions that govern the surface
 you are about to touch — jump from it into those entries rather than reading
-[DECISIONS.md](DECISIONS.md) whole. `REQUIREMENTS.md` and `DESIGN.md` don't exist yet —
-they're produced during the design stage (see below).
+[DECISIONS.md](DECISIONS.md) whole.
 
 The development methodology is vendored at `.claude/skills/dev-workflow/` — invoke it
 before any session that changes code or docs. It started as a copy of `splankna-ios`'s
 own vendored methodology (itself from `homesik92/splankna-rebuild`, itself from
 `fthiess/checkers-demo`) and has been adapted for this project; it no longer tracks that
 or any other upstream.
+
+## This repository is public
+
+Same treatment as `splankna-ios` and `splankna-rebuild` (D-16): local development
+directory plus a public GitHub repo under `homesik92`, work landing through the normal
+branch → PR → merge loop. The session owner's NAS is the **production deployment
+target for the final version only** — it is not where day-to-day work happens, and it
+is not a substitute for the GitHub remote.
 
 ## The one rule that no tool can enforce: original questions only
 
@@ -25,23 +32,8 @@ original while being a derivative work. If a drafted question feels close to som
 in the PDFs, throw it out and write a new one from the skill rather than editing the
 surface of the old one.
 
-The PDFs are gitignored and stay that way. The full rule is in
-`.claude/skills/dev-workflow/SKILL.md`.
-
-## No CI, no PRs, no issue tracker
-
-This repository is **local git only** — no GitHub remote (see D-2). Three consequences,
-each with its substitute:
-
-- **No pull requests.** Work still happens on a feature branch and lands via
-  `git merge --no-ff`, so a session's work stays revertible as a unit.
-- **No CI.** The local verification command is therefore the *only* gate, not a preview
-  of a stronger one — which raises the bar on actually running it, not lowers it.
-- **No issue tracker.** Deferred work goes in [BACKLOG.md](BACKLOG.md) as a numbered
-  `B-n` entry, filed when discovered.
-
-If a remote is ever added, the full-strength clauses in the methodology activate as
-written and these substitutes retire.
+The PDFs are gitignored and stay that way — this matters more, not less, on a public
+repo. The full rule is in `.claude/skills/dev-workflow/SKILL.md`.
 
 ## Verification
 
@@ -53,8 +45,9 @@ invariants. It does not exist yet — Phase 0 has not started. Once it lands, ru
 node tools/verify.mjs
 ```
 
-This is the *only* gate (see "No CI, no PRs, no issue tracker" above) — never skip it
-before merging, and never add a step here that requires `npm install`.
+Until CI is wired up (also Phase 0), this is the *only* gate, so run it before every
+push. Once CI exists it becomes the fast local check that precedes the authoritative PR
+run — never a step that requires `npm install`.
 
 ## Answer keys are the real correctness surface
 
@@ -66,8 +59,8 @@ high effort, and the answer key gets verified independently of the drafting pass
 ## Conventions
 
 - Documentation is code. Decision-log entries, ROADMAP status, and doc updates land in
-  the same change as the code they describe.
-- Deferred work becomes a `BACKLOG.md` entry when discovered, never a TODO comment.
+  the same PR as the code they describe.
+- Deferred work becomes a GitHub issue when it is discovered, never a TODO comment.
 - Accessibility is built in as each surface is written, not retrofitted. A test-taking
   interface is keyboard-driven by nature — timers, radio groups, and progress
   announcements all need to work for screen readers and without a mouse.
@@ -76,11 +69,10 @@ high effort, and the answer key gets verified independently of the drafting pass
 
 Settled so far (see D-3): plain HTML, CSS, and JavaScript with no build step and no
 runtime dependencies; question banks as separate data files. Everything else — file
-layout, module pattern, test runner — is for the design stage to settle.
+layout, module pattern, test runner — is settled in `ROADMAP.md`'s coding plan.
 
 ## Environment notes
 
 Developed on macOS (Ventura 13.2.1), zsh, Apple Silicon. Node 22 and Python 3.14 are
-available on the machine for tooling, but the *site itself* has no runtime dependency on
-either — it must keep working when opened directly from the filesystem or served as
-static files from a NAS.
+available on the machine for tooling (the verification gate, PDF-extraction helper
+scripts), but the *site itself* has no runtime dependency on either.

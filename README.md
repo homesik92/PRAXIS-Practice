@@ -17,9 +17,10 @@ touching the site's code.
 
 ## Status
 
-**Design stage.** No application code yet. See [ROADMAP.md](ROADMAP.md) for the current
-phase, and `.claude/skills/dev-workflow/design-methodology.md` for the process this
-project follows to get from idea to a coding plan.
+**Design stage complete.** See [ROADMAP.md](ROADMAP.md) for the current phase and the
+coding plan, [BLUEPRINT.md](BLUEPRINT.md) for the extracted test facts,
+[SCHEMA.md](SCHEMA.md) for the data model, and [REVIEW.md](REVIEW.md) for the
+adversarial review that shaped it. No application code yet.
 
 ## Every question here is original
 
@@ -38,9 +39,9 @@ The full rule, including what "written from scratch" excludes, is in
 
 ## Where it runs
 
-Local git only — there is no GitHub remote, no CI, and no issue tracker (deferred work
-goes in [BACKLOG.md](BACKLOG.md)). The finished production build is served from a NAS on
-the home network; nothing is published to the public internet.
+Development happens the same way as the sibling projects — a public GitHub repo under
+`homesik92`, branch → PR → merge. The session owner's NAS is the **production
+deployment target for the final version only**.
 
 ## Development
 

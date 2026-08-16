@@ -1,11 +1,20 @@
 # Roadmap
 
-## Current phase: design stage complete — session 4 (coding plan) in progress
+## Current phase: design complete — Phase 0 approved, blocked on one open question
 
-Scaffold done, compressed design plan approved (D-7), and design sessions 1–3 complete —
-[BLUEPRINT.md](BLUEPRINT.md), [SCHEMA.md](SCHEMA.md), [REVIEW.md](REVIEW.md). The one
-open fork (5165 calculator) is resolved: D-14, a built scientific (non-graphing)
-calculator, filed as B-9 for the coding plan to size.
+Design stage complete (all four sessions — [BLUEPRINT.md](BLUEPRINT.md),
+[SCHEMA.md](SCHEMA.md), [REVIEW.md](REVIEW.md), and the coding plan below). The session
+owner gave explicit go-ahead to start Phase 0.
+
+**Blocking Phase 0's data-loading work:**
+[issue #7](https://github.com/homesik92/PRAXIS-Practice/issues/7) — whether the site
+must work opened directly via `file://` with no server running. This changes whether
+question banks are `.json` files loaded with `fetch()` (as SCHEMA.md currently
+specifies) or `.js` files exporting objects. Phase 0.1 (the verify script) and 0.2 (the
+progress-store safety net) don't depend on the answer and can proceed; 0.3 and all of
+Phase 1 do.
+
+Deferred work is now tracked as **GitHub issues**, not a backlog file — see D-16.
 
 ### Where the seed document stands
 
@@ -94,7 +103,8 @@ tools/
   becomes the *only* gate (N-1) — CLAUDE.md's Verification section is filled in with the
   exact command once this lands.
 - **0.2 Progress-store safety net.** The backup-before-migrate mechanism from SCHEMA.md
-  §2.8, built and unit-tested **before any other persistence code**, per BACKLOG.md B-6.
+  §2.8, built and unit-tested **before any other persistence code**, per
+  [issue #4](https://github.com/homesik92/PRAXIS-Practice/issues/4).
   This is infrastructure, not a feature — nothing else in Phase 2 should write to the
   store until this exists under it.
 - **0.3 Static skeleton.** The file layout above, `manifest.json` with zero tests
@@ -153,10 +163,13 @@ in parallel with Phases 3–6.**
 
 ### Phase 5 — Reference materials (5165, 5485)
 
-- **5.1** 5165 static formula/notation panel: authored content (B-5) in the shared
+- **5.1** 5165 static formula/notation panel: authored content
+  ([issue #3](https://github.com/homesik92/PRAXIS-Practice/issues/3)) in the shared
   non-modal `reference-panel.js` component (finding #17 — never obscures the stem,
   returns focus on dismiss).
-- **5.2** 5165 scientific calculator (D-14, B-9): arithmetic, log, trig and inverse trig.
+- **5.2** 5165 scientific calculator (D-14,
+  [issue #6](https://github.com/homesik92/PRAXIS-Practice/issues/6)): arithmetic, log,
+  trig and inverse trig.
   **No graphing.** Keyboard-operable, screen-reader-usable output, no color-only state.
 - **5.3** 5485 periodic table + physical-constants panel, same shared component.
 
@@ -170,7 +183,8 @@ in parallel with Phases 3–6.**
 
 ### Phase 7 — Content authoring (parallel track)
 
-Batch sessions per BACKLOG.md's triage conventions, breadth-first per D-4/N-3: 5101
+Batch sessions per SKILL.md's triage conventions (GitHub issues, labeled by session),
+breadth-first per D-4/N-3: 5101
 (120), 5165 (66), 5485 (125), 5652 (100) — **411 questions**, each authored *and*
 answer-key-verified at high effort (SKILL.md's model/effort guidance). The first session
 per test is a calibration session — BLUEPRINT.md's F-1 sizing (~20–30 questions/session)
@@ -200,5 +214,7 @@ Phase 0.2).
 | 2026-08-16 | Repo scaffold & design planning | Created repo (local only, no remote), vendored and adapted the dev-workflow skill, wrote the initial doc set, logged D-1–D-6 and N-1–N-2, filed B-1–B-3, drafted SEED.md. Proposed an 8-session design plan; session owner approved a compressed 4-session version (D-7). **No code written.** |
 | 2026-08-16 | Design session 1 — blueprint extraction | Extracted all four test blueprints from the study companions; category counts verified to sum to each test's stated total. Produced BLUEPRINT.md with six findings (F-1–F-6). Logged D-7–D-9 and N-3 (411-question v1 authoring load; spaced repetition in scope; screen flow). **One fork left open: question format.** |
 | 2026-08-16 | Design session 2 — requirements & schema | Settled the open format fork (D-10: uniform now, extensible schema), added a one-review-pass end-of-run step (D-11), scoped in the two reference panels (D-12). Produced SCHEMA.md: screens S1–S5, form-assembly rules (weight-correct, shortfalls disclosed not backfilled), the variable-depth category tree + overlay axis, the question record (`type`/`correct[]` for painless format extension, `format` discriminator for text/mathml/code), and the progress store with SM-2-style spaced repetition and a mandatory pre-migration backup. Closed B-1, B-2. Filed B-4 (MathML support unverified), B-5 (reference-panel schema), B-6 (backup must land in Phase 0). |
-| 2026-08-16 | Calculator fork resolved | Session owner chose D-14: build a scientific (arithmetic, log, trig) on-screen calculator for 5165, explicitly excluding graphing. Closed B-7, filed B-9 for the coding plan. Design stage now fully closed — proceeding to session 4. |
 | 2026-08-16 | Design session 3 — adversarial review | Two fresh, context-free reviewers (data integrity; UX/accessibility) found 19 issues against SCHEMA.md and BLUEPRINT.md — both independently flagged the same core gap: "resumable" was a stated requirement with no backing data model. Triaged and remediated 18 directly in SCHEMA.md (résumé/`status` field with per-answer write cadence, cross-tab `storage`-event reconciliation, auditable shortfall targets, SM-2 bootstrap values, visible storage-failure handling, `retired` flag instead of question deletion, progress export, backup retention policy, confirm-before-submit, screen-reader-queryable timer/position, a flag-toggle control, queued announcements, richer review-list rows, non-modal reference panels, first-run orientation copy). Zero rejected. **One escalated** (B-7): D-12's 5165 reference panel quietly narrowed BLUEPRINT.md's F-3 graphing-calculator requirement to a static formula sheet — three options recorded in REVIEW.md, awaiting the session owner. Logged D-13. |
+| 2026-08-16 | Calculator fork resolved | Session owner chose D-14: build a scientific (arithmetic, log, trig) on-screen calculator for 5165, explicitly excluding graphing. Closed B-7, filed B-9 for the coding plan. Design stage now fully closed — proceeding to session 4. |
+| 2026-08-16 | Design session 4 — coding plan | Nine phases, walking-skeleton shaped: tools/infra, a single-test walking skeleton (5165, 5-question placeholder bank), core data/persistence, runner completeness, study mode/dashboard depth, 5165/5485 reference materials, hardening, content authoring (parallel track), and NAS launch. Logged D-15 (multi-page static site; content authoring parallel to engine phases). Design stage complete. Session owner gave explicit go-ahead to start Phase 0. |
+| 2026-08-16 | Corrected repo setup to match siblings | Mid-Phase-0, session owner corrected a misreading of D-2: this project uses the same local+GitHub workflow as splankna-ios/splankna-rebuild, not local-git-only — the NAS is production-only, for the final version. Created `homesik92/PRAXIS-Practice` (public), pushed full history. Restored PR/CI/issue-tracker language in SKILL.md, CLAUDE.md, CONTRIBUTING.md, README.md. Migrated BACKLOG.md's nine entries to GitHub issues #1–#10 (three closed with evidence). Logged D-16. Also filed issue #7 for a design fork noticed while starting Phase 0 (file:// support), still open. |
