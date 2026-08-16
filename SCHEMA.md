@@ -430,7 +430,7 @@ The launch methodology's expand/contract discipline applies here in full:
 - **Before any migration runs, the pre-migration value is copied to
   `praxis-practice.backup.v{n}` and left there** (retention rule above). This is the
   core of the safety net; it must land in Phase 0, not when the first migration is
-  needed (BACKLOG.md B-6).
+  needed ([GitHub issue #4](https://github.com/homesik92/PRAXIS-Practice/issues/4)).
 - Migrations are additive first: add the new field, write both, backfill, switch reads,
   and only remove the old field in a later change.
 - A store from a *newer* version than the code understands is never migrated downward —

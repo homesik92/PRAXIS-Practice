@@ -7,8 +7,9 @@ read the full log only when a topic isn't indexed yet.
 | Topic | Governing decisions |
 | --- | --- |
 | Repo/process setup | D-1 |
-| Remote, hosting target, deployment | D-2 |
-| Methodology gaps caused by having no remote | D-2 → **N-1** |
+| Remote, hosting target, deployment | D-2 → **D-16** (public GitHub remote created; NAS is production-only) |
+| Methodology (PR/CI/issue-tracker language) | D-2, N-1 → **D-16** (restored to full strength) |
+| Deferred-work tracking | N-1 (BACKLOG.md) → **D-16** (GitHub issues #1–#10) |
 | Tech stack, build step, dependencies | D-3 |
 | Test coverage & bank extensibility | D-4 → **N-3** (confirmed, 411 questions) |
 | Question provenance & ETS copyright | D-5 |
