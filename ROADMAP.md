@@ -49,7 +49,7 @@ site with no server.
 | --- | --- | --- |
 | 0 | Tools & infrastructure | ☑ |
 | 1 | Walking skeleton | ☑ |
-| 2 | Core data & persistence | ☐ |
+| 2 | Core data & persistence | ☑ |
 | 3 | Runner completeness | ☐ |
 | 4 | Study mode & dashboard depth | ☐ |
 | 5 | Reference materials (5165, 5485) | ☐ |
