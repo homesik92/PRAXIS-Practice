@@ -19,7 +19,9 @@
   </main>
   <script type="module">
     import { loadBank } from "./js/schema.js";
+    import { scoreAttempt } from "./js/runner.js";
     import { summarizeAttempt } from "./js/results.js";
+    import { loadStore, findAttempt } from "./js/store.js";
 
     const params = new URLSearchParams(location.search);
     const attemptId = params.get("attempt");
@@ -38,33 +40,50 @@
     if (!attemptId) {
       showStatus("No attempt specified.");
     } else {
-      // Placeholder hand-off from run.html -- see js/runner.js's finish(). Phase
-      // 2.2's real attempt-record store (js/store.js) replaces this sessionStorage
-      // lookup; a reader who opens the results link in a new tab or after the tab
-      // closed will legitimately find nothing here until then.
-      const raw = sessionStorage.getItem(`praxis-practice.lastAttempt.${attemptId}`);
-      if (!raw) {
-        showStatus("No result found for this attempt. It may have expired, or this link was opened in a different tab.");
+      const loadResult = loadStore();
+      if (!loadResult.ok) {
+        showStatus("Your saved progress could not be loaded.");
       } else {
-        const attempt = JSON.parse(raw);
-        backLink.href = `test.html?code=${encodeURIComponent(attempt.code)}`;
-
-        const manifestResponse = await fetch("data/manifest.json");
-        const manifest = manifestResponse.ok ? await manifestResponse.json() : { tests: [] };
-        const entry = (manifest.tests ?? []).find((t) => t.code === attempt.code && t.enabled);
-        const bankResult = entry ? await loadBank(entry.file) : { ok: false };
-
-        if (!bankResult.ok) {
-          showStatus("This test's category information could not be loaded.");
+        // A reader who opens this link in a different browser profile, or whose
+        // localStorage was cleared, legitimately finds nothing here -- the store is
+        // this one browser's only copy (SCHEMA.md §2.8, no backup).
+        const attempt = findAttempt(loadResult.store, attemptId);
+        if (!attempt) {
+          showStatus("No result found for this attempt. It may have been cleared from this browser.");
+        } else if (attempt.status === "in-progress") {
+          // Reachable via a stale link/bookmark/history entry to an attempt that
+          // hasn't finished yet -- without this check, scoreAttempt would happily
+          // score whatever's been answered so far and present a partial result
+          // indistinguishably from a real final one (code review finding).
+          backLink.href = `test.html?code=${encodeURIComponent(attempt.testCode)}`;
+          showStatus("This attempt hasn't finished yet, so there's no result to show.");
+        } else if (attempt.status === "abandoned") {
+          backLink.href = `test.html?code=${encodeURIComponent(attempt.testCode)}`;
+          showStatus("This attempt was abandoned before it finished, so there's no result to show.");
         } else {
-          const summary = summarizeAttempt(attempt, bankResult.bank);
-          overallEl.textContent = `${summary.overall.correct} / ${summary.overall.total} correct (${summary.overall.percent}%)`;
-          for (const category of summary.categories) {
-            const li = document.createElement("li");
-            li.textContent = `${category.label}: ${category.correct}/${category.total} (${category.percent}%)`;
-            categoryListEl.appendChild(li);
+          backLink.href = `test.html?code=${encodeURIComponent(attempt.testCode)}`;
+
+          const manifestResponse = await fetch("data/manifest.json");
+          const manifest = manifestResponse.ok ? await manifestResponse.json() : { tests: [] };
+          const entry = (manifest.tests ?? []).find((t) => t.code === attempt.testCode && t.enabled);
+          const bankResult = entry ? await loadBank(entry.file) : { ok: false };
+
+          if (!bankResult.ok) {
+            showStatus("This test's category information could not be loaded.");
+          } else {
+            // Recomputed from the stored answers every time, not trusted from a
+            // cached value -- SCHEMA.md §2.7's "S4 self-verifies ... rather than
+            // trusting [a] recorded [value] blindly" principle.
+            const score = scoreAttempt(bankResult.bank, attempt.answers);
+            const summary = summarizeAttempt(score, bankResult.bank);
+            overallEl.textContent = `${summary.overall.correct} / ${summary.overall.total} correct (${summary.overall.percent}%)`;
+            for (const category of summary.categories) {
+              const li = document.createElement("li");
+              li.textContent = `${category.label}: ${category.correct}/${category.total} (${category.percent}%)`;
+              categoryListEl.appendChild(li);
+            }
+            resultEl.hidden = false;
           }
-          resultEl.hidden = false;
         }
       }
     }

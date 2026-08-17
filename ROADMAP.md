@@ -256,11 +256,70 @@ hardening gets built on top of it.
   five test files green, 65/65 (`test-schema.mjs` 20, `test-verify.mjs` 16 — both grew
   from the review's fixes — `test-results.mjs` 5, `test-runner.mjs` 6, `test-store.mjs`
   18).
-- ☐ **2.2 Full progress store.** `store.js`: attempt records with `status` and
+- ☑ **2.2 Full progress store.** `store.js`: attempt records with `status` and
   per-answer write cadence (real resumability, finding #1), cross-tab `storage`-event
   reconciliation (finding #2).
   *Accepts:* closing and reopening the tab mid-attempt resumes at the last-answered
   question; two tabs open at once don't silently discard each other's writes.
+  *Complete.* `js/store.js` — `startAttempt`/`recordAnswer`/`completeAttempt`
+  (attempt lifecycle, at-most-one-in-progress-per-testCode enforced), `findInProgressAttempt`/
+  `findAttempt` (résumé and results lookups), `handleStorageEvent` (cross-tab
+  reconciliation, reusing `loadStore` rather than parsing the event's raw value).
+  Résumé needed a real gap closed first: `assembleForm` draws and shuffles randomly,
+  so nothing let a reload reconstruct the *same* question/option order a person was
+  partway through. Added `questionOrder` to SCHEMA.md §2.8's attempt record (**D-19**)
+  — the exact drawn sequence, captured once at Start — and `js/schema.js`'s
+  `resumeForm(bank, questionOrder)` replays it instead of re-drawing. `run.html`
+  rewritten: checks for an in-progress attempt before ever showing Start, résumés
+  straight into the run screen at the next unanswered question with the timer
+  continuing from the attempt's real `startedAt` (not restarted), and every answer
+  now calls `recordAnswer` + `saveStore` immediately rather than accumulating only in
+  memory. `js/runner.js`'s `scoreAttempt` answer shape changed from
+  `{selectedOptionId}` to `{chosen: string[]}` to match the real stored record
+  exactly. `results.html` now reads the real store instead of Phase 1's
+  `sessionStorage` placeholder and recomputes the score itself from `attempt.answers`
+  every time (SCHEMA.md's self-verification principle), rather than trusting a cached
+  value — nothing is cached at all now.
+  **`/code-review` at high effort (8 angles) found 10 findings, 8 fixed, 2 deliberately
+  deferred.** Several were independently caught by 3–5 angles at once, a strong
+  real-defect signal: résumé crashed with an uncaught exception if a stored
+  `questionOrder` referenced a question or option no longer in the bank (contradicting
+  D-19's own stated rationale about bank drift) — `resumeForm` now returns `null`
+  instead, and `run.html` shows a plain message rather than a broken page. Two tabs
+  resuming the *same* attempt and answering within the same round trip, before either
+  processed the other's `storage` event, could each append a duplicate answer for one
+  question — `recordAnswer` is now idempotent per `questionId`. A tab sitting on the
+  Start screen while another tab already created an attempt for the same test would
+  have silently erased it outright via `saveStore`'s unconditional overwrite, no
+  `"abandoned"` marker at all — the Start-click handler now re-checks against a
+  freshly reloaded store, not the page-load snapshot. `results.html` never checked
+  `attempt.status`, so a stale link to an in-progress or abandoned attempt rendered a
+  partial score presented identically to a real final one — now gated on `status`. A
+  failed save on the last answer showed a warning and then navigated away in the same
+  tick, before it could be read — now halts instead, consistent with how an earlier
+  save failure already behaved. A fully-answered attempt stuck at `"in-progress"`
+  (that last finding's root cause, before the halt fix) would crash on every future
+  reopen via an out-of-bounds array read — `beginRun` now detects this and retries
+  `finish()` instead, which is self-healing: the same path that would have crashed
+  now quietly completes the attempt correctly. Two duplicated-logic findings also
+  fixed: a shared `findAttemptIndex` helper in `store.js`, and `résumé`'s
+  reconstruction logic (previously untested inline HTML script) extracted to
+  `js/schema.js`'s tested `resumeForm`. **Deliberately deferred, both filed as
+  accepted architectural debt rather than fixed here:** the cross-tab `storage`
+  listener has no explicit `removeEventListener` (safe today since every path reaches
+  `beginRun` at most once per page load); and `run.html`'s `beginRun` is accumulating
+  the state-machine logic (timer, cross-tab sync, render/answer loop) that
+  ROADMAP.md's own file-layout doc already earmarks for `runner.js` in Phase 3 — this
+  task made that extraction not easier, noted for whoever does it.
+  Live-verified in the browser, including the specific failure scenarios the review
+  found: a real two-tab session (one tab answers, the other resyncs via the `storage`
+  event with zero interaction, confirmed by screenshot); a corrupted `questionOrder`
+  injected directly into `localStorage` showing the plain message instead of
+  crashing; a fully-answered stuck `"in-progress"` attempt self-healing into a correct
+  completed result on reopen; and `results.html` correctly refusing to score an
+  in-progress attempt. `node tools/verify.mjs` clean; all five test files green,
+  86/86 (`test-schema.mjs` 24, `test-store.mjs` 33 — both grew from the review's
+  fixes — `test-results.mjs` 5, `test-runner.mjs` 8, `test-verify.mjs` 16).
 - ☐ **2.3 Spaced repetition scheduling.** `srs.js`: SM-2 bootstrap values and
   recurrence (finding #4), `questionHistory` wired to the runner's per-answer writes.
   *Accepts:* every answered question gets a `dueAt` computed from SM-2's bootstrap

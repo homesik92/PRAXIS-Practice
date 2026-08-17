@@ -402,3 +402,23 @@ explainable from data S4 already computes, and reusing SRS "due" would have conf
 "a category needs review because time has passed" with "a category needs review because
 performance is poor," which are different signals worth surfacing separately.
 **Attribution:** Session owner's call, from a recommendation.
+
+### D-19: Attempt records persist the exact drawn question/option order (`questionOrder`)
+
+**Date:** 2026-08-17
+**Decision:** SCHEMA.md §2.8's attempt record gains a `questionOrder` field: the
+sequence of question ids as presented, and each question's shuffled option order,
+captured once when the attempt starts. Résumé (Phase 2.2) replays this recorded order
+rather than re-invoking form assembly (§2.7).
+**Why:** Flagged by the Phase 2.1 code review and deliberately deferred to "when
+Phase 2.2 needs it" — that point arrived. Form assembly draws and shuffles randomly
+(§2.7 step 3 and step 6), so a fresh page load without this field would run a
+different random draw than the original attempt, making "resume at the next
+unanswered question" impossible to implement honestly: there would be no stable way
+to know which specific questions the person had already answered. Storing the actual
+drawn order, rather than a random seed to replay, also means résumé is unaffected by
+the bank changing between the original draw and the resume (e.g., a question retired
+in between) — the attempt record stays a stable historical fact, consistent with how
+`categoryTargets`/`shortfalls` already record what was "actually used for the draw
+that day" rather than a value recomputed after the fact.
+**Attribution:** Session owner's call, from a recommendation.

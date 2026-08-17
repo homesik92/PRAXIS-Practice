@@ -349,6 +349,9 @@ this section specifically and found real gaps, remediated below (review findings
       "formLength": 66,
       "categoryTargets": [{ "categoryId": "II-B", "target": 7 }],
       "shortfalls": [{ "categoryId": "II-B", "wanted": 7, "got": 3 }],
+      "questionOrder": [
+        { "questionId": "5165-0001", "optionOrder": ["c", "a", "d", "b"] }
+      ],
       "answers": [
         { "questionId": "5165-0001", "chosen": ["b"], "correct": true, "elapsedMs": 48200, "flagged": false }
       ]
@@ -377,6 +380,13 @@ nothing in the schema to satisfy it until this field existed.
   time.
 - S2's résumé lookup is: find the attempt for this test code with `status:
   "in-progress"`, if any, and offer to resume it at its next unanswered question.
+- **`questionOrder` (D-19) records the exact drawn question sequence and each
+  question's shuffled option order, captured once when the attempt starts.** Form
+  assembly (§2.7) draws and shuffles randomly; without this field, reopening the tab
+  would run a *new* random draw rather than reconstructing the one the person was
+  actually partway through, making the questions already answered unrecoverable and
+  "resume at the next unanswered question" meaningless. Résumé replays this recorded
+  order — it never re-calls form assembly.
 - If wall-clock time (`startedAt + timeLimitMinutes`) has already passed when the site
   loads that attempt, it is not silently scored — S3 shows the "time expired while you
   were away" screen first, then scores on acknowledgment.

@@ -254,3 +254,31 @@ export function assembleForm(bank, { formLength, history = {}, random = Math.ran
 
   return { questions, categoryTargets, shortfalls, overlayCoverage };
 }
+
+/**
+ * Reconstructs a form from a previously recorded questionOrder (SCHEMA.md §2.8's
+ * attempt.questionOrder, D-19), replaying the exact original draw rather than
+ * re-running assembleForm's random draw -- what résumé needs after a reload.
+ *
+ * Returns null, rather than throwing, if any referenced question or option can no
+ * longer be resolved against the given bank (code review finding: an earlier version
+ * of this logic threw instead) -- the realistic trigger is the bank being hand-edited
+ * (a question or option id physically removed, not just retired) while an attempt
+ * referencing it sits in progress. The caller decides how to handle an unresumable
+ * attempt.
+ *
+ * @param {object} bank
+ * @param {{questionId: string, optionOrder: string[]}[]} questionOrder
+ * @returns {{questions: object[]} | null}
+ */
+export function resumeForm(bank, questionOrder) {
+  const byId = new Map(bank.questions.map((q) => [q.id, q]));
+  const questions = questionOrder.map(({ questionId, optionOrder }) => {
+    const question = byId.get(questionId);
+    if (!question) return null;
+    const optionsById = new Map(question.options.map((o) => [o.id, o]));
+    const options = optionOrder.map((id) => optionsById.get(id));
+    return options.some((o) => !o) ? null : { ...question, options };
+  });
+  return questions.some((q) => !q) ? null : { questions };
+}
