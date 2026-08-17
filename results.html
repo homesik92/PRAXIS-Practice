@@ -8,9 +8,66 @@
 </head>
 <body>
   <main>
+    <p><a id="back-link" href="index.html">&larr; Back to tests</a></p>
     <h1>Results</h1>
-    <p class="status-note">Phase 0 skeleton -- S4's per-category dashboard,
-      shortfall disclosure, and full review list land in Phase 1 and Phase 4.</p>
+    <p id="status-note" class="status-note" hidden></p>
+    <div id="result" hidden>
+      <p id="overall-score"></p>
+      <h2>By category</h2>
+      <ul id="category-list"></ul>
+    </div>
   </main>
+  <script type="module">
+    import { loadBank } from "./js/schema.js";
+    import { summarizeAttempt } from "./js/results.js";
+
+    const params = new URLSearchParams(location.search);
+    const attemptId = params.get("attempt");
+
+    const statusNote = document.getElementById("status-note");
+    const resultEl = document.getElementById("result");
+    const overallEl = document.getElementById("overall-score");
+    const categoryListEl = document.getElementById("category-list");
+    const backLink = document.getElementById("back-link");
+
+    function showStatus(message) {
+      statusNote.textContent = message;
+      statusNote.hidden = false;
+    }
+
+    if (!attemptId) {
+      showStatus("No attempt specified.");
+    } else {
+      // Placeholder hand-off from run.html -- see js/runner.js's finish(). Phase
+      // 2.2's real attempt-record store (js/store.js) replaces this sessionStorage
+      // lookup; a reader who opens the results link in a new tab or after the tab
+      // closed will legitimately find nothing here until then.
+      const raw = sessionStorage.getItem(`praxis-practice.lastAttempt.${attemptId}`);
+      if (!raw) {
+        showStatus("No result found for this attempt. It may have expired, or this link was opened in a different tab.");
+      } else {
+        const attempt = JSON.parse(raw);
+        backLink.href = `test.html?code=${encodeURIComponent(attempt.code)}`;
+
+        const manifestResponse = await fetch("data/manifest.json");
+        const manifest = manifestResponse.ok ? await manifestResponse.json() : { tests: [] };
+        const entry = (manifest.tests ?? []).find((t) => t.code === attempt.code && t.enabled);
+        const bankResult = entry ? await loadBank(entry.file) : { ok: false };
+
+        if (!bankResult.ok) {
+          showStatus("This test's category information could not be loaded.");
+        } else {
+          const summary = summarizeAttempt(attempt, bankResult.bank);
+          overallEl.textContent = `${summary.overall.correct} / ${summary.overall.total} correct (${summary.overall.percent}%)`;
+          for (const category of summary.categories) {
+            const li = document.createElement("li");
+            li.textContent = `${category.label}: ${category.correct}/${category.total} (${category.percent}%)`;
+            categoryListEl.appendChild(li);
+          }
+          resultEl.hidden = false;
+        }
+      }
+    }
+  </script>
 </body>
 </html>

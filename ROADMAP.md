@@ -48,7 +48,7 @@ site with no server.
 | Phase | Theme | Status |
 | --- | --- | --- |
 | 0 | Tools & infrastructure | ☑ |
-| 1 | Walking skeleton | ☐ |
+| 1 | Walking skeleton | ☑ |
 | 2 | Core data & persistence | ☐ |
 | 3 | Runner completeness | ☐ |
 | 4 | Study mode & dashboard depth | ☐ |
@@ -182,14 +182,28 @@ end-to-end, deliberately minimal (no flagging, no review pass, no spaced repetit
   exactly `4/5` overall with `I: 1/2` (the wrong one), `II`/`III`/`IV` each `1/1`,
   matching hand-computed expectations. No console errors. All four test files green
   (49/49) plus `verify.mjs` clean.
-- ☐ **1.3 Minimal results dashboard.** S4: overall score and a bare per-category
+- ☑ **1.3 Minimal results dashboard.** S4: overall score and a bare per-category
   percentage.
   *Accepts:* S4 shows the correct overall score and at least one per-category
   percentage for the 5-question run.
+  *Complete.* `js/results.js` — pure `summarizeAttempt(attempt, bank)`, Node-tested
+  (`tools/test-results.mjs`, 5 tests), walking the category tree recursively so it
+  already handles Phase 2's variable-depth trees, not just today's flat placeholder
+  one. `results.html` reads `?attempt=` from the URL, looks up 1.2's `sessionStorage`
+  hand-off, re-fetches the bank for category labels, and renders the overall score plus
+  a per-category line. Handles a missing `?attempt=` and an attempt not found in
+  `sessionStorage` (e.g. the link opened in a new tab) with plain status text instead
+  of a blank or broken page. Verified live in the browser: a full run scored 4/5
+  overall with the exact right per-category breakdown, rendered under real category
+  labels ("Number & Quantity and Algebra", not "I"); both edge cases confirmed
+  separately. No console errors anywhere. All five test files green (54/54) plus
+  `verify.mjs` clean.
 
-**Live test at end of phase 1** — open `index.html` from the filesystem, pick 5165,
-take the 5-question form start to finish, see a score. This is the phase that proves
-the architecture before the other three tests or any hardening gets built on top of it.
+**Live test at end of phase 1 — passed.** Ran the complete path from `index.html`:
+picked 5165 on S1, "take a practice test" on S2, played all 5 questions on S3 with
+running countdown, landed on S4 with an accurate score and per-category breakdown. This
+is the phase that proves the architecture before the other three tests or any
+hardening gets built on top of it.
 
 ### Phase 2 — Core data & persistence
 
