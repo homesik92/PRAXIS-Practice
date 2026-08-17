@@ -16,12 +16,12 @@ read the full log only when a topic isn't indexed yet.
 | v1 feature set | D-6, **D-8** (spaced repetition) |
 | Saved-progress store (schema-change hazard) | D-6, **D-8** |
 | Design-stage shape & scope | **D-7** |
-| Screen flow | D-9 → **D-11** (review pass added) |
+| Screen flow | D-9 → D-11 (review pass added) → **D-20** (flag reveals a mid-run Skip) |
 | Question format (single- vs multi-select) | D-9 → **D-10** (settled: uniform now, extensible schema) |
 | Reference materials during a test | D-12 → **D-14** (built scientific calculator, not graphing) |
 | Question-bank file format | SCHEMA.md §2.1–2.7 → **D-13** (session 3 remediation) |
 | Progress store & spaced repetition | D-6, D-8 → SCHEMA.md §2.8 → **D-13** (resumability, cross-tab, audit trail, SR bootstrap, storage failures, export, retention) → **D-19** (`questionOrder`) → **N-4** (SM-2 ease deltas pinned) → **N-5** (shortfall audit recomputes fresh, no stored cross-check) → **N-6** (review-pass edits: SRS correction from a frozen baseline, immediate persist) |
-| Review pass (flag, reopen/change answer) | D-11 → SCHEMA.md §1.1 S3, §2.8 → **N-6** |
+| Review pass (flag, reopen/change answer) | D-11 → SCHEMA.md §1.1 S3, §2.8 → N-6 → **D-20** (flag-then-Skip, empty-`chosen` answer records) |
 | Adversarial review & triage | **REVIEW.md**, D-13 |
 | Notation & code rendering | SCHEMA.md §2.6 — recommendation **unverified**, see B-4 |
 | Test blueprints (weightings, timings) | BLUEPRINT.md (not a decision — extracted fact) |

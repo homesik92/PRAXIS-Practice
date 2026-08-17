@@ -45,10 +45,19 @@ throughout, in a **persistently focusable element** a screen-reader user can nav
 and query on demand — not only via the passive threshold announcements in §1.3 (finding
 #12).
 
+**Flagging a question reveals a Skip option** (D-20): flagging alone never advances —
+picking an answer after flagging still works exactly as before, for "I have a guess but
+want to double-check it later" — but once flagged, a Skip button lets the test-taker
+move on with nothing chosen at all, banking the time on a hard question the way a real
+exam allows. A skipped question is recorded (so it counts toward the form and shows up
+in the review pass) but reports as unanswered everywhere until it's actually given an
+answer, whether that happens by reopening it in review or never.
+
 Before the timer starts, the Start screen states plainly that answered questions cannot
-be revisited except through the end-of-run review pass (finding #18) — and that this
-forward-only model is a deliberate simplification of this project's own design, not a
-verified match to ETS's current on-screen navigation (finding #19; see D-11).
+be revisited except through the end-of-run review pass (finding #18), and that flagging
+a question is how to skip it instead — and that this forward-only-unless-flagged model
+is a deliberate simplification of this project's own design, not a verified match to
+ETS's current on-screen navigation (finding #19; see D-11, D-20).
 
 After the last question, the run enters the **review pass** (D-11): a list of every
 question, each row showing its flag/answered state alongside a short stem excerpt and
@@ -409,10 +418,14 @@ genuine edit needs its own operation (`updateAnswer`) that a duplicate-write gua
 would otherwise swallow. `updateAnswer` requires the attempt still be `in-progress` (the
 review pass happens before scoring, same precondition every other in-progress write
 enforces) and the question to already have a recorded answer — reopening a question
-with no answer isn't reachable in this project's current forward-only flow, where every
-question is answered before the run can reach its last one.
+with *no answer record at all* isn't reachable, since every question in the run gets one
+before the review pass can be reached (D-11). **A skipped question (D-20) is not the
+same as no record: `chosen: []` is a real, recorded answer** — empty, but present —
+which is exactly what makes it reopenable and editable through this same path, the same
+as any other flagged row.
 
-An edit can change `chosen`/`correct` (a different answer picked), `flagged` (the review
+An edit can change `chosen`/`correct` (a different answer picked — including turning a
+skip's empty `chosen` into a real one for the first time), `flagged` (the review
 list's flag toggle, editable independently of the answer), or both — `elapsedMs` is left
 untouched by an edit, since it recorded the time spent on the *original* answer, not the
 correction.

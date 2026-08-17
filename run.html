@@ -47,7 +47,12 @@
         </fieldset>
       </form>
       <p>
-        <label><input type="checkbox" id="flag-toggle" /> Flag this question for review</label>
+        <label>
+          <input type="checkbox" id="flag-toggle" aria-describedby="flag-toggle-hint" />
+          Flag this question for review
+        </label>
+        <span id="flag-toggle-hint" class="visually-hidden">Flagging also reveals an option to skip this question for now.</span>
+        <button id="skip-button" type="button" hidden>Skip this question</button>
       </p>
       <p id="editing-note" hidden>
         Reviewing this question -- changing the answer above updates it in your review list.
@@ -141,6 +146,7 @@
     const stemEl = document.getElementById("question-stem");
     const optionsEl = document.getElementById("options-list");
     const flagToggle = document.getElementById("flag-toggle");
+    const skipButton = document.getElementById("skip-button");
     const editingNote = document.getElementById("editing-note");
     const backToReviewButton = document.getElementById("back-to-review-button");
     const reviewScreen = document.getElementById("review-screen");
@@ -253,6 +259,15 @@
       }
     }
 
+    // Shared by S3's recordAndAdvance/commitEdit and S5's revealAnswer -- the same
+    // "compute the next SM-2 entry from a frozen baseline, then fold it into the
+    // store" two-step pairing, independently repeated at all three call sites before
+    // this extraction (code review finding, D-20).
+    function applySrsUpdate(currentStore, questionId, priorHistory, correct) {
+      const historyEntry = updateHistory(priorHistory, correct);
+      return recordQuestionHistory(currentStore, questionId, historyEntry);
+    }
+
     // Single source of truth for "which modes exist" (code review finding) --
     // the dispatch below still needs its own test/study branch to know which to
     // run, but every future mode only has to be added here to be recognized.
@@ -309,8 +324,14 @@
 
     function showExpiredScreen(store, attempt) {
       expiredScreen.hidden = false;
+      // Not `attempt.answers.length` (code review finding) -- a skipped question (D-20)
+      // has a recorded answer with an empty `chosen`, so it's present in `answers` but
+      // wasn't actually answered. Counting it here would overstate how much of the
+      // attempt the test-taker actually got through, the same distinction
+      // buildReviewRows/buildFullReview/countReviewStatus already draw elsewhere.
+      const answeredCount = attempt.answers.filter((a) => a.chosen.length > 0).length;
       expiredSummary.textContent =
-        `This attempt's time limit passed while you were away. ${attempt.answers.length} of ` +
+        `This attempt's time limit passed while you were away. ${answeredCount} of ` +
         `${attempt.formLength} questions were answered before time ran out.`;
       expiredAcknowledgeButton.addEventListener(
         "click",
@@ -382,7 +403,9 @@
         `${form.questions.length} questions, ${bank.timeLimitMinutes} minutes. ` +
         "Once you answer a question you move straight to the next one -- answered questions can't be " +
         "revisited except through the review pass after the last question, where you can reopen and " +
-        "change any answer before submitting.";
+        "change any answer before submitting. To skip a question instead of answering it, flag it first " +
+        "-- flagging reveals a Skip option, and skipped questions show up in the review pass so you " +
+        "can come back to them.";
       startScreen.hidden = false;
 
       startButton.addEventListener(
@@ -573,25 +596,37 @@
         }
       });
 
-      // Only the editing-mode path needs a handler here: while freshly answering,
-      // the checkbox's own `.checked` is read directly at select-time (below) --
-      // nothing needs to buffer it separately.
       flagToggle.addEventListener("change", () => {
-        if (!editingQuestionId) return;
-        const result = updateAnswer(store, attempt.id, editingQuestionId, { flagged: flagToggle.checked });
-        if (!result.ok) {
-          abortRun("Your flag change could not be saved, so this attempt can't continue here.");
+        if (editingQuestionId) {
+          const result = updateAnswer(store, attempt.id, editingQuestionId, { flagged: flagToggle.checked });
+          if (!result.ok) {
+            abortRun("Your flag change could not be saved, so this attempt can't continue here.");
+            return;
+          }
+          store = result.store;
+          const saveResult = saveStore(store);
+          if (!saveResult.ok) {
+            abortRun(
+              "Your flag change could not be saved, so this attempt can't continue here. " +
+                "Reloading this page should let you resume from your last saved answer.",
+            );
+          }
           return;
         }
-        store = result.store;
-        const saveResult = saveStore(store);
-        if (!saveResult.ok) {
-          abortRun(
-            "Your flag change could not be saved, so this attempt can't continue here. " +
-              "Reloading this page should let you resume from your last saved answer.",
-          );
-        }
+        // Fresh-answering mode: the checkbox's own `.checked` is read directly at
+        // select/skip-time, nothing needs to buffer it separately -- this just
+        // reveals the Skip option (D-20), so flagging and skipping stay two
+        // deliberate steps rather than one, and picking an answer after flagging
+        // (to double-check it later) keeps working exactly as before.
+        skipButton.hidden = !flagToggle.checked;
+        // Revealing a new interactive control is a silent DOM change otherwise --
+        // announced (only on reveal, not on hide) so a screen-reader user who just
+        // checked the box hears that Skip exists without having to tab forward
+        // speculatively to discover it (code review finding).
+        if (flagToggle.checked) announce("Skip this question button available.");
       });
+
+      skipButton.addEventListener("click", () => skipQuestion(form.questions[index]));
 
       backToReviewButton.addEventListener("click", () => showReviewScreen());
 
@@ -599,6 +634,7 @@
         editingQuestionId = null;
         editingNote.hidden = true;
         flagToggle.checked = false;
+        skipButton.hidden = true;
 
         const question = form.questions[index];
         positionEl.textContent = `Question ${index + 1} of ${form.questions.length}`;
@@ -611,15 +647,24 @@
         transitionFocus(questionFieldset, positionEl.textContent);
       }
 
-      function selectAnswer(question, option) {
-        const chosen = [option.id];
+      // Shared by selectAnswer (a real pick) and skipQuestion (D-20: flag it, then
+      // skip it) -- both record one answer for the current question and advance the
+      // same way; they only differ in `chosen`. Whether a spaced-repetition update is
+      // warranted follows directly from that (a skip's empty `chosen` means nothing
+      // was actually attempted) rather than being a separate parameter a caller could
+      // pass out of sync with `chosen` itself (code review finding).
+      function recordAndAdvance(question, chosen) {
         // Captured before this question's questionHistory entry is updated below, so
         // a later review-pass edit (commitEdit) can recompute the SM-2 update fresh
         // from the same baseline this one started from, instead of stacking a second
         // review event on top of the first (N-6). `?? null` rather than leaving it
         // `undefined`: an explicit `null` here means "recorded, no prior entry
         // existed"; `undefined` is reserved to mean "this answer predates Phase 3.1
-        // and was never given a baseline" (see commitEdit).
+        // and was never given a baseline" (see commitEdit). Captured -- and stored on
+        // the answer -- even for a skip that doesn't use it immediately: if this
+        // question is later reopened and actually answered in review, commitEdit
+        // applies the SM-2 update from this same original baseline (D-20), not one
+        // computed at reopen time.
         const priorHistory = (store.questionHistory ?? {})[question.id] ?? null;
         const answer = {
           questionId: question.id,
@@ -628,7 +673,9 @@
           // trusted back: scoreAttempt always recomputes correctness itself from
           // `chosen` against the bank (self-verification principle). Stored for
           // other consumers (the review-pass list, S4) that want it without
-          // re-deriving.
+          // re-deriving. `chosen` empty (a skip) is never correct -- isCorrect
+          // already returns false for that (no option id to match), so this doesn't
+          // need its own branch.
           correct: isCorrect(question, chosen),
           elapsedMs: Date.now() - questionShownAt,
           flagged: flagToggle.checked,
@@ -645,9 +692,8 @@
         // that case so a duplicate write doesn't reschedule this question twice
         // (recordAnswer's own doc comment flags this exact hazard).
         let nextStore = recordResult.store;
-        if (recordResult.recorded) {
-          const historyEntry = updateHistory(priorHistory, answer.correct);
-          nextStore = recordQuestionHistory(nextStore, question.id, historyEntry);
+        if (recordResult.recorded && chosen.length > 0) {
+          nextStore = applySrsUpdate(nextStore, question.id, priorHistory, answer.correct);
         }
         store = nextStore;
         const saveResult = saveStore(store);
@@ -665,6 +711,13 @@
           return;
         }
 
+        // Announced ahead of the transition's own "Question N of M" (queued, not
+        // overwritten -- announce() serializes) so a screen-reader user gets explicit
+        // confirmation the click registered as a skip specifically, not just an
+        // ordinary advance (code review finding, D-20) -- skip is a novel two-step
+        // gesture (flag, then a second button) worth confirming distinctly.
+        if (chosen.length === 0) announce("Question skipped.");
+
         index += 1;
         if (index < form.questions.length) {
           questionShownAt = Date.now();
@@ -674,10 +727,26 @@
         }
       }
 
+      function selectAnswer(question, option) {
+        recordAndAdvance(question, [option.id]);
+      }
+
+      // D-20: only reachable once the question is flagged (skipButton is hidden
+      // until then), so `flagToggle.checked` is always true here -- no need to
+      // override `answer.flagged` separately from the shared path.
+      function skipQuestion(question) {
+        recordAndAdvance(question, []);
+      }
+
       function renderQuestionForEdit(question, answer) {
         editingQuestionId = question.id;
         editingNote.hidden = false;
         flagToggle.checked = Boolean(answer.flagged);
+        // Skip is a fresh-answering-only affordance (D-20) -- reopening a question
+        // from the review pass always shows the ordinary edit UI instead, regardless
+        // of whether it arrived here already-skipped (an empty `chosen`) or with a
+        // real prior answer.
+        skipButton.hidden = true;
 
         const qIndex = form.questions.findIndex((q) => q.id === question.id);
         positionEl.textContent = `Reviewing question ${qIndex + 1} of ${form.questions.length}`;
@@ -711,8 +780,7 @@
         // predates that field -- skip the SRS correction rather than guess a wrong
         // baseline and silently misdate this question's schedule.
         if (existingAnswer.priorHistory !== undefined) {
-          const historyEntry = updateHistory(existingAnswer.priorHistory, correct);
-          nextStore = recordQuestionHistory(nextStore, question.id, historyEntry);
+          nextStore = applySrsUpdate(nextStore, question.id, existingAnswer.priorHistory, correct);
         }
 
         store = nextStore;
@@ -733,10 +801,13 @@
         const answer = findAttempt(store, attempt.id).answers.find((a) => a.questionId === questionId);
         // Every row's Reopen button is wired the same way regardless of buildReviewRows'
         // answered flag, but a row can only be genuinely reopened for editing if it
-        // has a recorded answer to prefill from. Not reachable via this project's
-        // current forward-only flow (every question is answered before review), but
-        // storage can be hand-edited -- degrade to a status message rather than
-        // crash on a corrupted attempt (code review finding).
+        // has a recorded answer to prefill from -- note that's "has a record," not
+        // "was genuinely answered": a skipped question (D-20) has one (empty
+        // `chosen`) and reopens fine. A record missing outright isn't reachable via
+        // this project's current flow (every question gets at least a skip-or-real
+        // record before review), but storage can be hand-edited -- degrade to a
+        // status message rather than crash on a corrupted attempt (code review
+        // finding).
         if (!answer) {
           showStatus("This question has no recorded answer to reopen, so it can't be edited here.");
           return;
@@ -957,8 +1028,7 @@
           // Feeds question history only (SM-2, same mechanism S3 uses) -- no
           // attempt record, matching "no score is recorded against a test form."
           const priorHistory = (store.questionHistory ?? {})[question.id] ?? null;
-          const historyEntry = updateHistory(priorHistory, correct);
-          const nextStore = recordQuestionHistory(store, question.id, historyEntry);
+          const nextStore = applySrsUpdate(store, question.id, priorHistory, correct);
           const saveResult = saveStore(nextStore);
           if (saveResult.ok) {
             store = nextStore;
