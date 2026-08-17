@@ -164,10 +164,24 @@ end-to-end, deliberately minimal (no flagging, no review pass, no spaced repetit
   the test name and a *Take a practice test* link (to `run.html`, which task 1.2
   builds); a missing or unregistered `?code=` each show a plain status message instead
   of a blank or broken page. `node tools/verify.mjs` and all three test files green.
-- ☐ **1.2 Minimal test runner.** S3: Start → timer → single-select question → advance
+- ☑ **1.2 Minimal test runner.** S3: Start → timer → single-select question → advance
   on answer → auto-score at the end. No flag control, no review pass yet (Phase 3).
   *Accepts:* all 5 placeholder questions can be answered in sequence and the run
   auto-scores at the end.
+  *Complete.* `js/runner.js` — pure `scoreAttempt(bank, answers)`, Node-tested
+  (`tools/test-runner.mjs`, 6 tests) the same way `schema.js`/`store.js` are; `run.html`
+  owns all DOM/timer wiring inline (Start click, wall-clock countdown display, radio
+  rendering, advance-on-select — the last of these is SCHEMA.md's actual final S3
+  behavior, not a simplification). Hands off to S4 via a `sessionStorage` placeholder
+  keyed by `results.html?attempt=att-...`, explicitly **not** `store.js`'s real
+  `STORAGE_KEY` — Phase 2.2's attempt-record store replaces this wholesale. **Left out
+  deliberately:** the countdown has no enforcement — it doesn't auto-submit at zero;
+  SCHEMA.md's time-expired-while-away handling is Phase 3.3's. Verified live in the
+  browser: played all 5 questions with a deliberate wrong answer on one, redirected to
+  `results.html?attempt=...`, and inspected `sessionStorage` directly — score was
+  exactly `4/5` overall with `I: 1/2` (the wrong one), `II`/`III`/`IV` each `1/1`,
+  matching hand-computed expectations. No console errors. All four test files green
+  (49/49) plus `verify.mjs` clean.
 - ☐ **1.3 Minimal results dashboard.** S4: overall score and a bare per-category
   percentage.
   *Accepts:* S4 shows the correct overall score and at least one per-category

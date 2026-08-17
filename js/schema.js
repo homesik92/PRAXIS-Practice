@@ -39,13 +39,14 @@ export async function loadManifest(fetchImpl = globalThis.fetch, manifestUrl = "
 }
 
 /**
- * Fetches and parses one bank file, returning only the fields S1/S2 need at this
- * phase (name, timing, question count). Same never-throws convention as loadManifest.
+ * Fetches and parses one bank file in full (categories, questions, everything in
+ * SCHEMA.md §2.3) -- what the runner (js/runner.js) needs to actually present and
+ * score questions, as opposed to loadBankSummary's index-listing subset. Same
+ * never-throws convention as loadManifest.
  *
- * @returns {Promise<{ok: true, bank: {code: string, name: string, timeLimitMinutes: number, formLength: number, questionCount: number}}
- *                  | {ok: false, reason: "fetch-failed" | "invalid-json", error?: Error}>}
+ * @returns {Promise<{ok: true, bank: object} | {ok: false, reason: "fetch-failed" | "invalid-json", error?: Error}>}
  */
-export async function loadBankSummary(file, fetchImpl = globalThis.fetch, dataDir = "data") {
+export async function loadBank(file, fetchImpl = globalThis.fetch, dataDir = "data") {
   let response;
   try {
     response = await fetchImpl(`${dataDir}/${file}`);
@@ -55,12 +56,24 @@ export async function loadBankSummary(file, fetchImpl = globalThis.fetch, dataDi
   if (!response.ok) {
     return { ok: false, reason: "fetch-failed", error: new Error(`HTTP ${response.status}`) };
   }
-  let bank;
   try {
-    bank = await response.json();
+    return { ok: true, bank: await response.json() };
   } catch (error) {
     return { ok: false, reason: "invalid-json", error };
   }
+}
+
+/**
+ * Fetches one bank file, returning only the fields S1/S2 need (name, timing, question
+ * count) rather than the full record loadBank returns.
+ *
+ * @returns {Promise<{ok: true, bank: {code: string, name: string, timeLimitMinutes: number, formLength: number, questionCount: number}}
+ *                  | {ok: false, reason: "fetch-failed" | "invalid-json", error?: Error}>}
+ */
+export async function loadBankSummary(file, fetchImpl = globalThis.fetch, dataDir = "data") {
+  const result = await loadBank(file, fetchImpl, dataDir);
+  if (!result.ok) return result;
+  const bank = result.bank;
   return {
     ok: true,
     bank: {
