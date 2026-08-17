@@ -461,11 +461,39 @@ in parallel with Phases 3–6.
   5 questions, confirming the dialog correctly read "1 question unanswered, 1 question
   flagged" and matched the review list exactly. 123/123 tests green, `verify.mjs`
   clean.
-- ☐ **3.3 Résumé flow.** S2's "Resume attempt" entry (finding #10), the
+- ☑ **3.3 Résumé flow.** S2's "Resume attempt" entry (finding #10), the
   time-expired-while-away screen.
   *Accepts:* an in-progress attempt resumes at its saved position; one whose deadline
   passed while the tab was closed shows the expired screen instead of silently scoring
   on load.
+  *Complete.* `test.html` now checks for an in-progress attempt on load and, when one
+  exists, leads with a "Resume attempt" entry (with an "X of Y answered" status line)
+  ahead of "Take a practice test" — a pure discoverability fix, since `run.html`'s own
+  résumé lookup already handled the underlying behavior identically either way. A
+  store-load failure here is skipped silently rather than surfaced, since this is only
+  an entry point and `run.html` already reports storage failures robustly for the
+  actual test-taking flow. `run.html` gained a wall-clock deadline check on résumé,
+  checked before `resumeForm` since the expired path never needs the reconstructed
+  form: if `startedAt + timeLimitMinutes` has already passed, a new expired-screen
+  states the answered/total count and requires an explicit "See your results"
+  acknowledgment before scoring — never silently scored on load. Separately, the
+  running timer now calls the (renamed-in-place) `finish()` the instant it hits zero
+  while the tab stays open, with no confirmation dialog, since a passed deadline is a
+  forced outcome rather than a discretionary submit. The score-and-navigate logic
+  (previously inline in `finish()`) was factored into a shared `completeAndGoToResults`
+  helper used by both the expired-screen's acknowledgment and `finish()` itself.
+  Shallow-to-moderate UI/logic change, self-reviewed (no schema or persisted-data
+  shape change, no new dependency). Live-verified in the browser via script-driven
+  clicks on a fresh tab with a click-event logger installed throughout (per this
+  project's documented stray-real-click landmine): a normal résumé correctly showed
+  "Resume attempt — 2 of 5 questions answered" and landed back at question 3; a
+  hand-edited already-past deadline correctly showed the expired screen (not a silent
+  score) and its acknowledgment correctly scored and navigated; and a live run caught
+  at "Time remaining: 0:15" with the logger installed and zero clicks recorded
+  navigated to results entirely on its own when the deadline hit — the verifying
+  script was even killed mid-wait by the navigation itself, ruling out any click.
+  123/123 tests green (no new pure logic to unit-test — this phase's additions are all
+  DOM-wiring/timing), `verify.mjs` clean.
 - ☐ **3.4 Runner accessibility pass.** Persistently-focusable timer/position element
   (finding #12), queued announcements (finding #15), a full keyboard-only run-through
   with no mouse.
@@ -578,4 +606,5 @@ Phase 0.2).
 | 2026-08-16 | Phase 2.4 — shortfall audit trail | Merged [PR #26](https://github.com/homesik92/PRAXIS-Practice/pull/26). `js/results.js`'s `summarizeAttempt` gained `recomputeShortfalls`, surfacing SCHEMA.md §1.2's "underfilled bank is disclosed, never silently padded" requirement on the results screen for the first time — `categoryTargets`/`shortfalls` had been persisted since Phase 2.1/2.2 but never read by `results.html`. `/code-review` at high effort found 4 findings, 1 fixed: logged N-5 for the deliberate choice not to cross-check against the stored `attempt.shortfalls` value (matches the score's own recompute-fresh pattern; picked at plan-approval, confirmed against the code review's literal-spec-wording objection). Filed [issue #25](https://github.com/homesik92/PRAXIS-Practice/issues/25) for a real, pre-existing gap this PR inherits rather than introduces (score/shortfall both depend on the bank being unchanged between draw and viewing — true since Phase 1.3). Live-verified both the no-shortfall and an injected-shortfall case in the browser. 105/105 tests green. |
 | 2026-08-17 | Phase 3.1 — flag and review pass | [PR #29](https://github.com/homesik92/PRAXIS-Practice/pull/29). `js/store.js` gained `updateAnswer` (replace-in-place) and a shared `requireInProgressAttempt` precondition helper; `js/runner.js` gained `excerptStem`/`buildReviewRows`; `run.html` gained a flag toggle and an end-of-run review screen (reopen/change any answer, Submit to score), plus a `priorHistory` field on each answer so a review-pass edit corrects spaced-repetition history from a frozen baseline instead of double-counting (N-6 — a genuine SRS-subsystem fork put to the session owner, decided against the offered recommendation). Résumé of a fully-answered attempt now lands in review rather than auto-scoring. `/code-review` at high effort (8 parallel angles) found 8 findings, 7 fixed directly (a real crash reopening a corrupted/answerless review row; stale Start-screen copy; a latent stale-reference bug; missing `priorHistory` test coverage; `findAttempt` reuse; the shared precondition helper; a redundant `currentFlagged` variable). One deferred to [issue #28](https://github.com/homesik92/PRAXIS-Practice/issues/28) (cross-tab review-edit race, same narrow shape as the already-accepted issue #22). Live-verified in the browser: flag → answer all 5 → review list → reopen/change an answer → SRS recomputes without double-counting → Submit scores correctly; also hand-verified the corrupted-row Reopen guard directly. 120/120 tests green. |
 | 2026-08-17 | Phase 3.2 — confirm-before-submit | [PR #30](https://github.com/homesik92/PRAXIS-Practice/pull/30). `js/runner.js` gained `countReviewStatus`, a pure helper over `buildReviewRows`' output. `run.html`'s Submit button now opens a native `<dialog>` stating the unanswered/flagged counts before scoring; Cancel/Esc leave the attempt untouched, the dialog's own Submit calls the existing `finish()`. Shallow UI change, self-reviewed. Live-verified via script-driven clicks on a fresh tab with a click-event logger (this project's known stray-real-click landmine) confirming every transition was explicit: a normal run showed correct 0-unanswered/1-flagged counts, Cancel preserved `in-progress` status and returned focus to Submit, and a hand-edited attempt (4 of 5 questions covered, matching 3.1's corrupted-row technique) correctly showed "1 question unanswered, 1 question flagged." 123/123 tests green. |
+| 2026-08-17 | Phase 3.3 — résumé flow polish | [PR #31](https://github.com/homesik92/PRAXIS-Practice/pull/31). `test.html` now leads with a "Resume attempt" entry (with an answered/total status line) ahead of "Take a practice test" when an in-progress attempt exists (finding #10). `run.html` gained a wall-clock deadline check on résumé: an already-expired attempt shows a new expired-screen (answered/total count, explicit "See your results" acknowledgment) instead of silently scoring on load; separately, the running timer now force-completes the instant it hits zero while the tab stays open, no confirmation dialog. Score-and-navigate logic factored into a shared `completeAndGoToResults` helper. Shallow-to-moderate change, self-reviewed. Live-verified all three paths in the browser with a click-event logger installed throughout: normal résumé landed back at the correct question; a hand-edited already-past deadline showed the expired screen rather than silently scoring; a live run caught at "0:15" remaining with zero clicks recorded navigated to results entirely on its own when time ran out (the verifying script was killed mid-wait by the navigation itself). 123/123 tests green. |
 

@@ -17,6 +17,12 @@
       <button id="start-button" type="button">Start</button>
     </div>
 
+    <div id="expired-screen" hidden>
+      <h2>Time expired while you were away</h2>
+      <p id="expired-summary"></p>
+      <button id="expired-acknowledge-button" type="button">See your results</button>
+    </div>
+
     <p id="timer" hidden></p>
     <p id="position" hidden></p>
 
@@ -78,6 +84,9 @@
     const startScreen = document.getElementById("start-screen");
     const startSummary = document.getElementById("start-summary");
     const startButton = document.getElementById("start-button");
+    const expiredScreen = document.getElementById("expired-screen");
+    const expiredSummary = document.getElementById("expired-summary");
+    const expiredAcknowledgeButton = document.getElementById("expired-acknowledge-button");
     const runScreen = document.getElementById("run-screen");
     const timerEl = document.getElementById("timer");
     const positionEl = document.getElementById("position");
@@ -130,6 +139,32 @@
       showStatus("This in-progress attempt could not be resumed, because the test's questions have changed since it started.");
     }
 
+    // Shared by both the normal in-run Submit path and the expired-screen's
+    // acknowledgment (SCHEMA.md S3, finding #10): scoring an attempt and handing off
+    // to S4 is the same operation regardless of which path reached it.
+    function completeAndGoToResults(store, attemptId) {
+      const completeResult = completeAttempt(store, attemptId);
+      if (completeResult.ok) {
+        // Best effort: every answer up to this point is already saved individually,
+        // so a failure here only leaves the "completed" status unwritten, not any
+        // data loss (see finish()'s original comment, now shared here).
+        saveStore(completeResult.store);
+      }
+      location.href = `results.html?attempt=${encodeURIComponent(attemptId)}`;
+    }
+
+    function showExpiredScreen(store, attempt) {
+      expiredScreen.hidden = false;
+      expiredSummary.textContent =
+        `This attempt's time limit passed while you were away. ${attempt.answers.length} of ` +
+        `${attempt.formLength} questions were answered before time ran out.`;
+      expiredAcknowledgeButton.addEventListener(
+        "click",
+        () => completeAndGoToResults(store, attempt.id),
+        { once: true },
+      );
+    }
+
     function runTest(bank) {
       heading.textContent = bank.name;
 
@@ -142,9 +177,19 @@
 
       const existingAttempt = findInProgressAttempt(store, bank.code);
       if (existingAttempt) {
+        // Wall-clock deadline check (SCHEMA.md §2.8, finding #10) -- checked before
+        // resumeForm, since the expired path never needs the reconstructed form at
+        // all. If the deadline already passed while this tab was closed, it must not
+        // be silently scored on load: show the expired screen first.
+        const deadline = Date.parse(existingAttempt.startedAt) + bank.timeLimitMinutes * 60_000;
+        if (Date.now() >= deadline) {
+          showExpiredScreen(store, existingAttempt);
+          return;
+        }
+
         // Résumé (SCHEMA.md §2.8, D-19). Goes straight into the run screen -- no
-        // Start confirmation step yet; that polish is Phase 3.3's "Resume attempt"
-        // entry.
+        // Start confirmation step; S2's own "Resume attempt" entry (Phase 3.3) is
+        // what surfaces this choice before landing here.
         const form = resumeForm(bank, existingAttempt.questionOrder);
         if (!form) {
           showUnresumableStatus();
@@ -260,6 +305,11 @@
         const minutes = Math.floor(totalSeconds / 60);
         const seconds = totalSeconds % 60;
         timerEl.textContent = `Time remaining: ${minutes}:${String(seconds).padStart(2, "0")}`;
+        // The timer expiring while the tab stays open scores the attempt immediately
+        // (SCHEMA.md S3, finding #10) -- no confirmation, unlike the Submit button's
+        // dialog, since this is a forced deadline rather than a discretionary
+        // choice. finish() clears this interval first, so this can't re-fire.
+        if (remainingMs <= 0) finish();
       }
 
       function abortRun(message) {
@@ -550,18 +600,11 @@
 
       function finish() {
         clearInterval(timerHandle);
-        const completeResult = completeAttempt(store, attempt.id);
-        if (completeResult.ok) {
-          store = completeResult.store;
-          // Best effort: every answer up to this point is already saved
-          // individually, so a failure here only leaves the "completed" status
-          // unwritten, not any data loss. Self-healing: reopening this test finds
-          // the attempt still "in-progress" with every question already answered,
-          // which the startIndex >= length check below routes straight into the
-          // review screen, whose Submit button retries this.
-          saveStore(store);
-        }
-        location.href = `results.html?attempt=${encodeURIComponent(attempt.id)}`;
+        // Self-healing on a failed save: reopening this test finds the attempt still
+        // "in-progress" with every question already answered, which the startIndex
+        // >= length check below routes straight into the review screen, whose Submit
+        // button retries this.
+        completeAndGoToResults(store, attempt.id);
       }
 
       // A résumed attempt that was fully answered but never successfully marked
