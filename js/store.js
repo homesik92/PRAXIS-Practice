@@ -211,10 +211,17 @@ export function startAttempt(
  * event (code review finding: `handleStorageEvent`'s reload-on-event narrows that
  * race but can't fully close it, since it's inherently asynchronous). Without this
  * guard, a duplicate entry would double-count that question in scoreAttempt's total
- * and, once Phase 2.3 exists, apply a spaced-repetition update to it twice.
+ * and apply a spaced-repetition update to it twice (Phase 2.3's `recordQuestionHistory`
+ * below).
+ *
+ * `recorded` tells the caller whether this call actually appended an answer (`true`)
+ * or hit the idempotent no-op path (`false`) -- an explicit signal, rather than
+ * leaving the caller to infer it from whether `result.store` is a new object
+ * reference (code review finding: relying on reference identity is an implicit
+ * contract this function doesn't otherwise promise to keep).
  *
  * @param {{questionId: string, chosen: string[], correct: boolean, elapsedMs: number, flagged: boolean}} answer
- * @returns {{ok: true, store: object} | {ok: false, reason: "not-found" | "not-in-progress"}}
+ * @returns {{ok: true, store: object, recorded: boolean} | {ok: false, reason: "not-found" | "not-in-progress"}}
  */
 export function recordAnswer(store, attemptId, answer) {
   const index = findAttemptIndex(store, attemptId);
@@ -223,12 +230,38 @@ export function recordAnswer(store, attemptId, answer) {
   if (attempt.status !== "in-progress") return { ok: false, reason: "not-in-progress" };
 
   if (attempt.answers.some((a) => a.questionId === answer.questionId)) {
-    return { ok: true, store }; // already recorded (e.g. a cross-tab race) -- not an error
+    return { ok: true, store, recorded: false }; // already recorded (e.g. a cross-tab race) -- not an error
   }
 
   const attempts = [...store.attempts];
   attempts[index] = { ...attempt, answers: [...attempt.answers, answer] };
-  return { ok: true, store: { ...store, attempts } };
+  return { ok: true, store: { ...store, attempts }, recorded: true };
+}
+
+/**
+ * Folds one question's updated spaced-repetition history (SCHEMA.md §2.8, Phase 2.3's
+ * `js/srs.js`'s `updateHistory`) into the store -- the `questionHistory` counterpart to
+ * `recordAnswer`'s attempt-record write, kept as its own store.js function rather than
+ * inlined at the call site so the store's shape (spread `store`, spread
+ * `questionHistory`, key by `questionId`) stays owned in one place alongside
+ * `startAttempt`/`recordAnswer`/`completeAttempt`, matching this file's own established
+ * pattern for store mutations (code review finding: the call site had reimplemented
+ * this ad hoc). Defaults a missing `questionHistory` to `{}` rather than throwing --
+ * defensive against a store manually edited in devtools, matching this file's existing
+ * tolerance for corrupted/partial stored data.
+ *
+ * Does not save -- same "load/mutate/save are separate steps" contract as every other
+ * function here.
+ *
+ * @param {string} questionId
+ * @param {{seen: number, correct: number, lastSeenAt: string, dueAt: string, intervalDays: number, ease: number}} entry
+ * @returns {object} the updated store
+ */
+export function recordQuestionHistory(store, questionId, entry) {
+  return {
+    ...store,
+    questionHistory: { ...(store.questionHistory ?? {}), [questionId]: entry },
+  };
 }
 
 /**

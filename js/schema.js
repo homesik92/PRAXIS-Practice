@@ -177,9 +177,9 @@ function scaleTargets(weightBearing, formLength) {
 // rather than "seen just now" or NaN -- Date.parse returns NaN for anything it can't
 // read, and NaN as a sort-comparator result is spec-coerced to 0 ("equal"), which
 // would let a corrupted history entry sort as tied with whatever it's compared
-// against instead of reliably ranking first. Not reachable via run.html yet (no
-// caller passes real history until Phase 2.3), but this is the function Phase 2.3's
-// localStorage-sourced history feeds directly, unvalidated.
+// against instead of reliably ranking first. As of Phase 2.3, run.html passes real,
+// unvalidated localStorage-sourced history straight into this function -- this guard
+// is what keeps a hand-corrupted lastSeenAt from breaking the draw.
 function lastSeenRank(question, history) {
   const lastSeenAt = history[question.id]?.lastSeenAt;
   if (lastSeenAt === undefined) return -Infinity;

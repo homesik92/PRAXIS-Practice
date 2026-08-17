@@ -422,3 +422,20 @@ in between) — the attempt record stays a stable historical fact, consistent wi
 `categoryTargets`/`shortfalls` already record what was "actually used for the draw
 that day" rather than a value recomputed after the fact.
 **Attribution:** Session owner's call, from a recommendation.
+
+### N-4: SM-2 ease deltas pinned to the standard constants
+
+**Date:** 2026-08-17
+**Decision:** SCHEMA.md §2.8's spaced-repetition recurrence (D-8) left its ease
+adjustment unquantified ("a small ease increase" / "an ease decrease, floored at
+1.3"). Phase 2.3's implementation (`js/srs.js`) pins this to the standard SM-2
+constants: `ease += 0.1` on a correct answer, `ease -= 0.2` on an incorrect one,
+floored at 1.3.
+**Why:** SCHEMA.md already specified the 1.3 floor, which is itself the standard SM-2
+floor value — strong evidence the original intent was the standard algorithm
+throughout, not a custom tuning. Logged as an implementation note rather than a design
+decision (`D-n`) because it fills in a value the design already committed to in
+substance, not a new fork; it's a tunable constant, not a schema shape, so it stays
+cheap to retune later without a migration.
+**Attribution:** Session owner's call, from a recommendation (code review flagged the
+gap).
