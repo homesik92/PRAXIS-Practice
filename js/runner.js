@@ -1,6 +1,7 @@
 // S3 test-runner logic -- Phase 1.2 added scoring; Phase 3.1 adds the review-pass list
-// (excerptStem/buildReviewRows). Timer enforcement and submit confirmation are still
-// Phase 3.2/3.3/3.4's, matching schema.js's placeholder-first pattern.
+// (excerptStem/buildReviewRows); Phase 3.2 adds the submit-confirmation counts
+// (countReviewStatus). Timer enforcement is still Phase 3.3/3.4's, matching
+// schema.js's placeholder-first pattern.
 //
 // Kept pure and DOM-free, like js/schema.js's shaping logic and checkers-demo's
 // board.ts/input.ts split -- so scoring can be unit-tested under Node with a plain
@@ -105,4 +106,23 @@ export function buildReviewRows(questions, answers, categoryLabels) {
       flagged: answer?.flagged ?? false,
     };
   });
+}
+
+/**
+ * Counts unanswered and flagged questions for the confirm-before-submit dialog
+ * (SCHEMA.md §1.1 S3, finding #11) -- takes {@link buildReviewRows}'s output directly
+ * rather than re-deriving from questions/answers, since run.html always has the rows
+ * on hand already (it just rendered the review list from them).
+ *
+ * @param {{answered: boolean, flagged: boolean}[]} rows
+ * @returns {{unanswered: number, flagged: number}}
+ */
+export function countReviewStatus(rows) {
+  let unanswered = 0;
+  let flagged = 0;
+  for (const row of rows) {
+    if (!row.answered) unanswered += 1;
+    if (row.flagged) flagged += 1;
+  }
+  return { unanswered, flagged };
 }
