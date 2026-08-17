@@ -31,11 +31,13 @@
   <script type="module">
     import { loadBank, assembleForm, resumeForm } from "./js/schema.js";
     import { isCorrect } from "./js/runner.js";
+    import { updateHistory } from "./js/srs.js";
     import {
       loadStore,
       saveStore,
       startAttempt,
       recordAnswer,
+      recordQuestionHistory,
       completeAttempt,
       findInProgressAttempt,
       handleStorageEvent,
@@ -123,7 +125,10 @@
       // way the advertised count is always the number actually delivered (not
       // bank.formLength, which can exceed it when a category is short), and a bank
       // with nothing to draw never shows a dead-end Start button in the first place.
-      const form = assembleForm(bank);
+      // Real questionHistory (Phase 2.3) now feeds the least-recently-seen draw
+      // preference (SCHEMA.md §2.7 step 3) -- always {} before this, since nothing
+      // populated store.questionHistory yet.
+      const form = assembleForm(bank, { history: store.questionHistory });
       if (form.questions.length === 0) {
         showStatus("This test has no questions yet.");
         return;
@@ -281,7 +286,16 @@
           showStatus("This attempt could no longer be saved to, so it can't continue here.");
           return;
         }
-        store = recordResult.store;
+        // recordAnswer's `recorded` flag is false on its idempotent no-op path (a
+        // duplicate cross-tab write for this questionId) -- skip the SRS update in
+        // that case so a duplicate write doesn't reschedule this question twice
+        // (recordAnswer's own doc comment flags this exact hazard).
+        let nextStore = recordResult.store;
+        if (recordResult.recorded) {
+          const historyEntry = updateHistory((store.questionHistory ?? {})[question.id], answer.correct);
+          nextStore = recordQuestionHistory(nextStore, question.id, historyEntry);
+        }
+        store = nextStore;
         const saveResult = saveStore(store);
         if (!saveResult.ok) {
           // Halt rather than continuing (code review finding: this used to fall

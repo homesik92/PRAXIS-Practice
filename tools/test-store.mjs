@@ -13,6 +13,7 @@ import {
   saveStore,
   startAttempt,
   recordAnswer,
+  recordQuestionHistory,
   completeAttempt,
   findInProgressAttempt,
   findAttempt,
@@ -294,6 +295,12 @@ test("recordAnswer appends to the matching attempt's answers array", () => {
   assert.deepEqual(result.store.attempts[0].answers, [answer]);
 });
 
+test("recordAnswer reports recorded: true when it actually appends an answer", () => {
+  const { store, attempt } = startAttempt(defaultStore(), startParams, fixedNow("2026-08-17T10:00:00.000Z"));
+  const result = recordAnswer(store, attempt.id, { questionId: "5165-0001", chosen: ["b"] });
+  assert.equal(result.recorded, true);
+});
+
 test("recordAnswer is idempotent for a duplicate answer to the same questionId (cross-tab race guard)", () => {
   const { store, attempt } = startAttempt(defaultStore(), startParams, fixedNow("2026-08-17T10:00:00.000Z"));
   const first = { questionId: "5165-0001", chosen: ["b"], correct: true, elapsedMs: 4200, flagged: false };
@@ -303,6 +310,14 @@ test("recordAnswer is idempotent for a duplicate answer to the same questionId (
   assert.equal(afterDuplicate.ok, true);
   // Exactly one answer for that question survives -- the first, not the duplicate.
   assert.deepEqual(afterDuplicate.store.attempts[0].answers, [first]);
+});
+
+test("recordAnswer reports recorded: false on the idempotent duplicate-write path", () => {
+  const { store, attempt } = startAttempt(defaultStore(), startParams, fixedNow("2026-08-17T10:00:00.000Z"));
+  const first = { questionId: "5165-0001", chosen: ["b"] };
+  const afterFirst = recordAnswer(store, attempt.id, first);
+  const afterDuplicate = recordAnswer(afterFirst.store, attempt.id, { questionId: "5165-0001", chosen: ["a"] });
+  assert.equal(afterDuplicate.recorded, false);
 });
 
 test("recordAnswer against an unknown attemptId reports not-found", () => {
@@ -317,6 +332,28 @@ test("recordAnswer against a completed attempt reports not-in-progress", () => {
   const result = recordAnswer(completedStore, attempt.id, { questionId: "x", chosen: ["a"] });
   assert.equal(result.ok, false);
   assert.equal(result.reason, "not-in-progress");
+});
+
+test("recordQuestionHistory adds a new entry keyed by questionId", () => {
+  const entry = { seen: 1, correct: 1, lastSeenAt: "x", dueAt: "y", intervalDays: 3, ease: 2.6 };
+  const result = recordQuestionHistory(defaultStore(), "5165-0001", entry);
+  assert.deepEqual(result.questionHistory, { "5165-0001": entry });
+});
+
+test("recordQuestionHistory replaces an existing entry for the same questionId without disturbing others", () => {
+  const older = { seen: 1, correct: 0, lastSeenAt: "x", dueAt: "y", intervalDays: 1, ease: 2.3 };
+  const other = { seen: 2, correct: 2, lastSeenAt: "a", dueAt: "b", intervalDays: 4, ease: 2.6 };
+  const store = { ...defaultStore(), questionHistory: { "5165-0001": older, "5165-0002": other } };
+  const newer = { seen: 2, correct: 1, lastSeenAt: "z", dueAt: "w", intervalDays: 2, ease: 2.4 };
+  const result = recordQuestionHistory(store, "5165-0001", newer);
+  assert.deepEqual(result.questionHistory, { "5165-0001": newer, "5165-0002": other });
+});
+
+test("recordQuestionHistory tolerates a missing questionHistory field rather than throwing", () => {
+  const entry = { seen: 1, correct: 1, lastSeenAt: "x", dueAt: "y", intervalDays: 3, ease: 2.6 };
+  const store = { storeVersion: CURRENT_VERSION, attempts: [] }; // no questionHistory key at all
+  const result = recordQuestionHistory(store, "5165-0001", entry);
+  assert.deepEqual(result.questionHistory, { "5165-0001": entry });
 });
 
 test("completeAttempt sets status completed and finishedAt, never touching answers already recorded", () => {

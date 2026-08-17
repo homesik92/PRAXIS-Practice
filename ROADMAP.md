@@ -320,10 +320,46 @@ hardening gets built on top of it.
   in-progress attempt. `node tools/verify.mjs` clean; all five test files green,
   86/86 (`test-schema.mjs` 24, `test-store.mjs` 33 — both grew from the review's
   fixes — `test-results.mjs` 5, `test-runner.mjs` 8, `test-verify.mjs` 16).
-- ☐ **2.3 Spaced repetition scheduling.** `srs.js`: SM-2 bootstrap values and
+- ☑ **2.3 Spaced repetition scheduling.** `srs.js`: SM-2 bootstrap values and
   recurrence (finding #4), `questionHistory` wired to the runner's per-answer writes.
   *Accepts:* every answered question gets a `dueAt` computed from SM-2's bootstrap
   values, and answering it again reschedules it.
+  *Complete.* New `js/srs.js` exports a single pure function, `updateHistory(entry,
+  correct, now)`: bootstraps `intervalDays: 1, ease: 2.5` on a question's first-ever
+  answer (SCHEMA.md §2.8), then applies the SM-2 recurrence — correct →
+  `intervalDays = max(1, round(intervalDays × ease))`, `ease += 0.1`; incorrect →
+  `intervalDays = 1`, `ease -= 0.2` floored at 1.3. The exact ease deltas were
+  previously unspecified in SCHEMA.md beyond "small"/"floored at 1.3"; pinned to the
+  standard SM-2 constants and logged as **N-4**, since the pre-existing 1.3 floor was
+  itself already the standard value. `run.html`'s `selectAnswer` now folds a
+  `questionHistory` update into the same `saveStore` call as each answer, and its
+  `assembleForm` call passes `store.questionHistory` as real `history` — activating
+  2.1's least-recently-seen draw preference, dead code until now (always `{}`).
+  **`/code-review` at high effort (8 angles) found 7 findings, 5 fixed in this PR.**
+  Three independent angles (altitude, reuse, and partially simplification) converged
+  on the same real issue: the `questionHistory` store-merge was inlined ad hoc in
+  `run.html` instead of going through `js/store.js` (the file that owns every other
+  store mutation, and whose own `recordAnswer` doc comment had explicitly anticipated
+  this write landing there) — fixed by adding `js/store.js`'s `recordQuestionHistory`
+  helper and an explicit `recorded: boolean` flag on `recordAnswer`'s return, replacing
+  a fragile reference-equality check (`nextStore !== store`) that silently depended on
+  an implementation detail. Also fixed: an unguarded `store.questionHistory[id]` read
+  with no fallback for a missing/corrupted `questionHistory` object (now defaults to
+  `{}`, matching this app's established tolerance for hand-edited localStorage); and a
+  stale comment in `js/schema.js`'s `lastSeenRank` claiming history wasn't reachable
+  from `run.html` yet. **One finding deliberately deferred**, filed as
+  [GitHub issue #22](https://github.com/homesik92/PRAXIS-Practice/issues/22): a
+  cross-tab race where two tabs answering the same question near-simultaneously can
+  double-apply or clobber an SM-2 update — the same already-accepted residual gap
+  Phase 2.2's `storage`-listener reload can't fully close, now touching one more
+  field. Live-verified in the browser end to end (a 5-question 5165 run, confirming
+  `questionHistory` populates correctly with the right `seen`/`correct`/`dueAt`/
+  `intervalDays`/`ease` values, and that answering a previously-seen question again
+  builds on its prior state rather than re-bootstrapping) both before and after the
+  code-review remediation. `node tools/verify.mjs` clean; all six test files green,
+  99/99 (`test-srs.mjs` new at 8, `test-store.mjs` grew to 38 from the review's fixes,
+  `test-schema.mjs` 24, `test-runner.mjs` 8, `test-results.mjs` 5, `test-verify.mjs`
+  16).
 - ☐ **2.4 Shortfall audit trail.** `categoryTargets` persisted alongside `shortfalls`;
   S4 self-verifies against them (finding #3).
   *Accepts:* S4's reported shortfall matches a value recomputed independently from

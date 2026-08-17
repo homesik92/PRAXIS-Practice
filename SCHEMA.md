@@ -434,9 +434,11 @@ An SM-2-style schedule, deliberately the simple version. **A question's first-ev
 answer initializes `intervalDays: 1, ease: 2.5`** (standard SM-2 defaults) before the
 recurrence below applies — the original schema specified the recurrence but never its
 starting point. Then: correct answer → `intervalDays = max(1, round(intervalDays ×
-ease))` and a small ease increase; incorrect → `intervalDays = 1` and an ease decrease,
-floored at 1.3. `dueAt = now + intervalDays`. Questions never seen have no history entry
-and are drawn as new.
+ease))` and `ease += 0.1`; incorrect → `intervalDays = 1` and `ease -= 0.2`, floored at
+1.3 (Phase 2.3: the standard SM-2 constants — chosen because the 1.3 floor was already
+specified here and is itself the standard SM-2 floor, implying the rest of the algorithm
+follows the same standard). `dueAt = now + intervalDays` days. Questions never seen have
+no history entry and are drawn as new.
 
 ### Retention (finding #8)
 
