@@ -20,7 +20,7 @@ read the full log only when a topic isn't indexed yet.
 | Question format (single- vs multi-select) | D-9 → **D-10** (settled: uniform now, extensible schema) |
 | Reference materials during a test | D-12 → **D-14** (built scientific calculator, not graphing) |
 | Question-bank file format | SCHEMA.md §2.1–2.7 → **D-13** (session 3 remediation) |
-| Progress store & spaced repetition | D-6, D-8 → SCHEMA.md §2.8 → **D-13** (resumability, cross-tab, audit trail, SR bootstrap, storage failures, export, retention) → **D-19** (`questionOrder`) → **N-4** (SM-2 ease deltas pinned) |
+| Progress store & spaced repetition | D-6, D-8 → SCHEMA.md §2.8 → **D-13** (resumability, cross-tab, audit trail, SR bootstrap, storage failures, export, retention) → **D-19** (`questionOrder`) → **N-4** (SM-2 ease deltas pinned) → **N-5** (shortfall audit recomputes fresh, no stored cross-check) |
 | Adversarial review & triage | **REVIEW.md**, D-13 |
 | Notation & code rendering | SCHEMA.md §2.6 — recommendation **unverified**, see B-4 |
 | Test blueprints (weightings, timings) | BLUEPRINT.md (not a decision — extracted fact) |

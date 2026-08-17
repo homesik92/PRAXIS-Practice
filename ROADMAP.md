@@ -360,10 +360,44 @@ hardening gets built on top of it.
   99/99 (`test-srs.mjs` new at 8, `test-store.mjs` grew to 38 from the review's fixes,
   `test-schema.mjs` 24, `test-runner.mjs` 8, `test-results.mjs` 5, `test-verify.mjs`
   16).
-- ☐ **2.4 Shortfall audit trail.** `categoryTargets` persisted alongside `shortfalls`;
+- ☑ **2.4 Shortfall audit trail.** `categoryTargets` persisted alongside `shortfalls`;
   S4 self-verifies against them (finding #3).
   *Accepts:* S4's reported shortfall matches a value recomputed independently from
   stored per-category counts.
+  *Complete.* `categoryTargets`/`shortfalls` were already persisted on the attempt as
+  of Phase 2.1/2.2 — the actual gap was that `results.html` never read or surfaced
+  either. `js/results.js`'s `summarizeAttempt(score, bank, categoryTargets)` gained a
+  new `recomputeShortfalls` step: for each recorded target, `got` is the actual
+  delivered/answered count from `scoreAttempt`'s `byCategory` (defaulting to 0 for a
+  category absent entirely — the 100%-shortfall case), compared fresh against
+  `categoryTargets`, matching this file's existing "never trust a cached value"
+  pattern for the score itself. The recomputed value is what's displayed;
+  `attempt.shortfalls` (the value recorded at draw time) is not read or cross-checked
+  live — logged as **N-5**, since this deviates from SCHEMA.md §2.8's literal
+  "self-verifies against the stored shortfalls" wording (chosen at the plan-approval
+  step, confirmed when code review raised it again). `results.html` now renders a
+  visible "This attempt isn't fully representative" section per SCHEMA.md §1.2's
+  requirement that an underfilled bank is disclosed, not silently padded.
+  **`/code-review` at high effort (8 angles) found 4 findings, 1 fixed.** The
+  conventions angle caught the N-5 gap above (fixed by logging the decision). Angle A
+  found a real, pre-existing characteristic this PR inherits rather than introduces:
+  the "got" side of the comparison is derived from `scoreAttempt`'s `byCategory`,
+  which re-looks-up each question's `categoryId` from whatever bank is live when
+  `results.html` loads — not the bank as it existed at draw time — a dependency the
+  per-category score breakdown has had since Phase 1.3. Filed as
+  [issue #25](https://github.com/homesik92/PRAXIS-Practice/issues/25) (fixing it
+  properly needs a `questionOrder`-style per-question category snapshot at draw time,
+  touching `assembleForm`/`startAttempt`, and affects score display too — out of scope
+  for a results-display PR); the overclaiming docstring language was tightened in the
+  same fix. Two low-severity duplication findings (the `got < wanted` predicate
+  echoed between `schema.js` and `results.js`; two structurally similar `<li>`-loops
+  in `results.html`) left as-is — different moments/inputs for the first, matches this
+  codebase's existing no-shared-DOM-helper convention for the second. Live-verified in
+  the browser: the no-shortfall case (5165's real content, targets match delivered
+  counts exactly) renders nothing extra; an injected shortfall (`categoryTargets`
+  edited directly in `localStorage` to exceed delivered counts) renders the correct
+  category label and counts with no console errors. `node tools/verify.mjs` clean;
+  all six test files green, 105/105 (`test-results.mjs` grew from 5 to 11).
 
 **Schema is stable after this phase** — Phase 7 (content authoring) can start here,
 in parallel with Phases 3–6.
@@ -493,4 +527,5 @@ Phase 0.2).
 | 2026-08-16 | Corrected repo setup to match siblings | Mid-Phase-0, session owner corrected a misreading of D-2: this project uses the same local+GitHub workflow as splankna-ios/splankna-rebuild, not local-git-only — the NAS is production-only, for the final version. Created `homesik92/PRAXIS-Practice` (public), pushed full history. Restored PR/CI/issue-tracker language in SKILL.md, CLAUDE.md, CONTRIBUTING.md, README.md. Migrated BACKLOG.md's nine entries to GitHub issues #1–#10 (three closed with evidence). Logged D-16. Also filed issue #7 for a design fork noticed while starting Phase 0 (file:// support), still open. |
 | 2026-08-16 | Docs — roadmap reformat & new requirement | Restructured ROADMAP.md to a phase-overview table plus per-task checklist format (matching checkers-demo's sibling project), converting every phase's tasks to leading-checkbox bullets with explicit `*Accepts:*` criteria. Added a new requirement — a weakest-category practice suggestion on S2 (accuracy-ranked, 5-question minimum sample, D-18) — to SCHEMA.md §1.1/§1.2, logged as D-18, indexed in DECISIONS-INDEX.md, and scheduled as task 4.4. Resolved D-17 in the design-plan table's status column (it read "In progress" past completion). **No code changed; Phase 1 still not started.** |
 | 2026-08-16 | Phase 2.3 — spaced repetition scheduling | Merged [PR #23](https://github.com/homesik92/PRAXIS-Practice/pull/23). New `js/srs.js` implements SCHEMA.md §2.8's SM-2 recurrence, wired into `run.html`'s answer path and `assembleForm`'s draw (activating the least-recently-seen preference dead since Phase 2.1). `/code-review` at high effort found 7 findings, 5 fixed — three angles independently flagged the `questionHistory` store-merge belonging in `js/store.js`, not `run.html`; fixed via a new `recordQuestionHistory` helper and an explicit `recorded` flag on `recordAnswer`, replacing a fragile reference-equality check. Pinned the previously-unspecified ease deltas to the standard SM-2 constants, logged as N-4. One finding deferred to [issue #22](https://github.com/homesik92/PRAXIS-Practice/issues/22) (a cross-tab race extending an already-accepted Phase 2.2 residual gap). Live-verified end to end in the browser before and after remediation. 99/99 tests green. |
+| 2026-08-16 | Phase 2.4 — shortfall audit trail | Merged [PR #26](https://github.com/homesik92/PRAXIS-Practice/pull/26). `js/results.js`'s `summarizeAttempt` gained `recomputeShortfalls`, surfacing SCHEMA.md §1.2's "underfilled bank is disclosed, never silently padded" requirement on the results screen for the first time — `categoryTargets`/`shortfalls` had been persisted since Phase 2.1/2.2 but never read by `results.html`. `/code-review` at high effort found 4 findings, 1 fixed: logged N-5 for the deliberate choice not to cross-check against the stored `attempt.shortfalls` value (matches the score's own recompute-fresh pattern; picked at plan-approval, confirmed against the code review's literal-spec-wording objection). Filed [issue #25](https://github.com/homesik92/PRAXIS-Practice/issues/25) for a real, pre-existing gap this PR inherits rather than introduces (score/shortfall both depend on the bank being unchanged between draw and viewing — true since Phase 1.3). Live-verified both the no-shortfall and an injected-shortfall case in the browser. 105/105 tests green. |
 
