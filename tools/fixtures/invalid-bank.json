@@ -14,6 +14,14 @@
       "id": "I",
       "label": "Duplicate id of Category One",
       "weight": { "count": 5, "percent": 33 }
+    },
+    {
+      "id": "III",
+      "label": "Fixture Category Three (has a weighted child, so III itself is not weight-bearing)",
+      "weight": { "count": 1, "percent": 0 },
+      "children": [
+        { "id": "III-A", "label": "Fixture Subcategory", "weight": { "count": 1, "percent": 0 } }
+      ]
     }
   ],
   "overlays": [{ "id": "ov1", "label": "Fixture Overlay" }],
@@ -54,6 +62,19 @@
       "options": [{ "id": "a", "content": { "format": "text", "value": "10" } }],
       "correct": ["a"],
       "explanation": { "format": "text", "value": "5 + 5 = 10." }
+    },
+    {
+      "id": "TEST2-0004",
+      "type": "single",
+      "categoryId": "III",
+      "difficulty": 1,
+      "stem": { "format": "text", "value": "What is 4 + 4?" },
+      "options": [
+        { "id": "a", "content": { "format": "text", "value": "7" } },
+        { "id": "b", "content": { "format": "text", "value": "8" } }
+      ],
+      "correct": ["b"],
+      "explanation": { "format": "text", "value": "4 + 4 = 8." }
     }
   ]
 }

@@ -4,7 +4,21 @@
 // URL -- schema.js is written against an injected `fetchImpl`, not the global directly,
 // for exactly this reason (mirrors js/store.js's `storage` injection).
 import assert from "node:assert/strict";
-import { loadManifest, loadBank, loadBankSummary, loadTestList } from "../js/schema.js";
+import { loadManifest, loadBank, loadBankSummary, loadTestList, assembleForm } from "../js/schema.js";
+
+// Tiny deterministic LCG -- not for security, only so assembleForm's shuffling is
+// reproducible across test runs without depending on the real Math.random.
+function seededRandom(seed) {
+  let state = seed;
+  return () => {
+    state = (state * 1103515245 + 12345) & 0x7fffffff;
+    return state / 0x7fffffff;
+  };
+}
+
+function isPermutationOf(actualIds, expectedIds) {
+  return actualIds.length === expectedIds.length && [...actualIds].sort().join() === [...expectedIds].sort().join();
+}
 
 function jsonResponse(body, { ok = true, status = 200 } = {}) {
   return { ok, status, json: async () => body };
@@ -144,6 +158,140 @@ test("loadTestList propagates a manifest-level failure without attempting any ba
   const result = await loadTestList(fetchImpl, "data");
   assert.equal(result.ok, false);
   assert.equal(result.reason, "fetch-failed");
+});
+
+function question(id, categoryId, overlays) {
+  return {
+    id,
+    type: "single",
+    categoryId,
+    ...(overlays ? { overlays } : {}),
+    stem: { format: "text", value: id },
+    options: [
+      { id: "a", content: { format: "text", value: "a" } },
+      { id: "b", content: { format: "text", value: "b" } },
+    ],
+    correct: ["a"],
+  };
+}
+
+function twoCategoryBank(questionsByCategory) {
+  return {
+    categories: [
+      { id: "I", label: "I", weight: { count: 2, percent: 50 } },
+      { id: "II", label: "II", weight: { count: 2, percent: 50 } },
+    ],
+    questions: [
+      ...(questionsByCategory.I ?? []).map((id) => question(id, "I")),
+      ...(questionsByCategory.II ?? []).map((id) => question(id, "II")),
+    ],
+  };
+}
+
+test("assembleForm draws exactly each category's target when the bank has enough questions", () => {
+  const bank = twoCategoryBank({ I: ["q1", "q2"], II: ["q3", "q4"] });
+  const form = assembleForm(bank, { random: seededRandom(1) });
+  assert.equal(form.questions.length, 4);
+  assert.ok(isPermutationOf(form.questions.map((q) => q.id), ["q1", "q2", "q3", "q4"]));
+  assert.deepEqual(form.shortfalls, []);
+  assert.deepEqual(
+    form.categoryTargets.sort((a, b) => a.categoryId.localeCompare(b.categoryId)),
+    [
+      { categoryId: "I", target: 2 },
+      { categoryId: "II", target: 2 },
+    ],
+  );
+});
+
+test("a thin category reports a shortfall and is never backfilled from another category", () => {
+  const bank = twoCategoryBank({ I: ["q1"], II: ["q3", "q4"] });
+  const form = assembleForm(bank, { random: seededRandom(1) });
+  assert.equal(form.questions.length, 3); // 1 from I (short) + 2 from II, never topped up to 4
+  assert.deepEqual(form.shortfalls, [{ categoryId: "I", wanted: 2, got: 1 }]);
+  assert.equal(form.questions.filter((q) => q.categoryId === "II").length, 2);
+});
+
+test("an empty bank reports a full shortfall for every category and draws nothing", () => {
+  const bank = twoCategoryBank({});
+  const form = assembleForm(bank, { random: seededRandom(1) });
+  assert.deepEqual(form.questions, []);
+  assert.deepEqual(
+    form.shortfalls.sort((a, b) => a.categoryId.localeCompare(b.categoryId)),
+    [
+      { categoryId: "I", wanted: 2, got: 0 },
+      { categoryId: "II", wanted: 2, got: 0 },
+    ],
+  );
+});
+
+test("an overridden formLength scales targets to sum exactly to the request, not drift from rounding", () => {
+  const bank = {
+    categories: [
+      { id: "I", label: "I", weight: { count: 7, percent: 70 } },
+      { id: "II", label: "II", weight: { count: 3, percent: 30 } },
+    ],
+    questions: [],
+  };
+  for (const requested of [1, 2, 3, 4, 5, 9, 10]) {
+    const form = assembleForm(bank, { formLength: requested, random: seededRandom(1) });
+    const total = form.categoryTargets.reduce((sum, c) => sum + c.target, 0);
+    assert.equal(total, requested, `targets should sum to ${requested}, got ${total}`);
+    assert.ok(form.categoryTargets.every((c) => Number.isInteger(c.target) && c.target >= 0));
+  }
+});
+
+test("draw prefers a never-seen question over one seen recently, and one seen recently over one seen long ago", () => {
+  const bank = {
+    categories: [{ id: "I", label: "I", weight: { count: 1, percent: 100 } }],
+    questions: [question("seen-recent", "I"), question("seen-long-ago", "I"), question("never-seen", "I")],
+  };
+  const history = {
+    "seen-recent": { lastSeenAt: "2026-08-16T00:00:00.000Z" },
+    "seen-long-ago": { lastSeenAt: "2020-01-01T00:00:00.000Z" },
+  };
+  const form = assembleForm(bank, { history, random: seededRandom(1) });
+  assert.equal(form.questions.length, 1);
+  assert.equal(form.questions[0].id, "never-seen");
+});
+
+test("a malformed lastSeenAt is treated as never-seen, not as NaN (which sort would coerce to a false tie)", () => {
+  const bank = {
+    categories: [{ id: "I", label: "I", weight: { count: 1, percent: 100 } }],
+    questions: [question("seen-recent", "I"), question("malformed-history", "I")],
+  };
+  const history = {
+    "seen-recent": { lastSeenAt: "2026-08-16T00:00:00.000Z" },
+    "malformed-history": { lastSeenAt: "not-a-real-date" },
+  };
+  const form = assembleForm(bank, { history, random: seededRandom(1) });
+  assert.equal(form.questions.length, 1);
+  assert.equal(form.questions[0].id, "malformed-history");
+});
+
+test("overlay targetShare is reported (not enforced) against the actually-selected set", () => {
+  const bank = {
+    categories: [
+      { id: "I", label: "I", weight: { count: 1, percent: 50 } },
+      { id: "II", label: "II", weight: { count: 1, percent: 50 } },
+    ],
+    overlays: [{ id: "tot", label: "Task of Teaching", targetShare: 0.5 }],
+    questions: [question("q1", "I", ["tot"]), question("q2", "II")],
+  };
+  const form = assembleForm(bank, { random: seededRandom(1) });
+  assert.deepEqual(form.overlayCoverage, [{ overlayId: "tot", target: 1, actual: 1 }]);
+});
+
+test("the same seeded random reproduces the exact same presentation order", () => {
+  const bank = twoCategoryBank({ I: ["q1", "q2"], II: ["q3", "q4"] });
+  const first = assembleForm(bank, { random: seededRandom(42) }).questions.map((q) => q.id);
+  const second = assembleForm(bank, { random: seededRandom(42) }).questions.map((q) => q.id);
+  assert.deepEqual(first, second);
+});
+
+test("each question's options are shuffled to a permutation of the originals", () => {
+  const bank = twoCategoryBank({ I: ["q1"], II: [] });
+  const form = assembleForm(bank, { formLength: 1, random: seededRandom(7) });
+  assert.ok(isPermutationOf(form.questions[0].options.map((o) => o.id), ["a", "b"]));
 });
 
 let failed = 0;

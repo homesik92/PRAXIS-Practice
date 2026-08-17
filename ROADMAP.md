@@ -207,12 +207,55 @@ hardening gets built on top of it.
 
 ### Phase 2 — Core data & persistence
 
-- ☐ **2.1 Full category and form-assembly engine.** `schema.js`: all four tests
+- ☑ **2.1 Full category and form-assembly engine.** `schema.js`: all four tests
   registered, variable-depth category tree (§2.4), overlay tags (§2.5), weight-correct
   form assembly with disclosed shortfalls (§2.7) — replaces Phase 1's placeholder draw
   logic.
   *Accepts:* each test's assembled form matches its blueprint weighting exactly, or
   reports an explicit shortfall when it can't.
+  *Complete.* `assembleForm(bank, {formLength, history, random})` in `js/schema.js` —
+  collects weight-bearing leaf categories, scales targets by the largest-remainder
+  method when `formLength` is overridden, draws preferring least-recently-seen (via an
+  injected `history`, always `{}` today since Phase 2.3 doesn't exist yet), never
+  backfills a thin category from another, reports (never enforces) overlay
+  `targetShare` coverage, and shuffles presentation/option order via an injected
+  `random` for deterministic tests. All four tests now registered in
+  `data/manifest.json`: `5101`/`5485`/`5652` are real stub banks — accurate top-level
+  category weights straight from BLUEPRINT.md, correct `formLength`, **zero
+  questions** (honest 100% shortfall, Phase 7's job to fill) — deliberately without
+  subcategories, left for each test's first authoring session to pin, informed by
+  real content. `5165`'s existing placeholder is untouched (still simplified
+  top-level categories, not the real weight-bearing subcategory split — reconciling
+  that now would mean either fabricating dozens more placeholder questions or
+  spreading 5 across 6 categories too thin to demonstrate anything).
+  `run.html` now calls `assembleForm` instead of using `bank.questions` as given, and
+  computes it once before the Start screen renders — not inside the Start click
+  handler — so the advertised count is always what's actually delivered and a
+  contentless test never shows a dead-end Start button.
+  **`/code-review` at high effort (8 angles) found 10 real findings, 9 fixed
+  in this PR**, several independently caught by more than one angle: a dead Start
+  button after the empty-form guard (the `once: true` listener was consumed before
+  the early return); the Start screen and the stored attempt record both trusted
+  `bank.formLength` instead of what was actually delivered; a question mistagged to a
+  non-leaf ancestor category was silently invisible to every draw with nothing in
+  `verify.mjs` to catch it; an overlay missing `targetShare` silently produced `NaN`;
+  a malformed `lastSeenAt` could defeat recency ordering via `NaN`'s sort-comparator
+  coercion to "equal"; a tie-break relied on an unstated `Array.sort` stability
+  guarantee; and a per-category draw re-filtered the full question list instead of
+  one grouping pass. `tools/verify.mjs` gained two new checks as a result (weight-bearing-leaf
+  `categoryId`, numeric `targetShare`), both regression-tested against the fixture
+  banks. **One finding left deliberately unfixed:** `assembleForm` returns a plain
+  object rather than the codebase's `{ok, reason}` tagged-result convention — real,
+  but reworking the return shape now would touch 20 tests for a caller that doesn't
+  exist yet; revisit when Phase 2.4 builds the disclosure screen that actually
+  consumes shortfalls.
+  Live-verified in the browser after every fix: the empty-bank guard now shows status
+  directly with no dead button; 5165 plays through correctly end to end (shuffled
+  presentation and option order, correct score, correct per-category breakdown) both
+  before and after the `drawForCategory` refactor. `node tools/verify.mjs` clean; all
+  five test files green, 65/65 (`test-schema.mjs` 20, `test-verify.mjs` 16 — both grew
+  from the review's fixes — `test-results.mjs` 5, `test-runner.mjs` 6, `test-store.mjs`
+  18).
 - ☐ **2.2 Full progress store.** `store.js`: attempt records with `status` and
   per-answer write cadence (real resumability, finding #1), cross-tab `storage`-event
   reconciliation (finding #2).

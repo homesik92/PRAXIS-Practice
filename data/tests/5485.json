@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "code": "5485",
+  "name": "Physical Science",
+  "timeLimitMinutes": 150,
+  "formLength": 125,
+  "categories": [
+    { "id": "I", "label": "Nature and Impact of Science and Engineering", "weight": { "count": 18, "percent": 14 } },
+    { "id": "II", "label": "Principles and Models of Matter and Energy", "weight": { "count": 25, "percent": 20 } },
+    { "id": "III", "label": "Chemistry", "weight": { "count": 41, "percent": 33 } },
+    { "id": "IV", "label": "Physics", "weight": { "count": 41, "percent": 33 } }
+  ],
+  "overlays": [
+    { "id": "sep", "label": "Science and Engineering Practice", "targetShare": 0.5 },
+    { "id": "tot", "label": "Task of Teaching Science", "targetShare": 0.3 }
+  ],
+  "questions": []
+}

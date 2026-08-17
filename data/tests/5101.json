@@ -1,0 +1,18 @@
+{
+  "schemaVersion": 1,
+  "code": "5101",
+  "name": "Business Education",
+  "timeLimitMinutes": 120,
+  "formLength": 120,
+  "categories": [
+    { "id": "I", "label": "Accounting and Finance", "weight": { "count": 18, "percent": 15 } },
+    { "id": "II", "label": "Communication and Career Development", "weight": { "count": 18, "percent": 15 } },
+    { "id": "III", "label": "Economics", "weight": { "count": 12, "percent": 10 } },
+    { "id": "IV", "label": "Entrepreneurship", "weight": { "count": 12, "percent": 10 } },
+    { "id": "V", "label": "Information Technology", "weight": { "count": 18, "percent": 15 } },
+    { "id": "VI", "label": "Law and International Business", "weight": { "count": 12, "percent": 10 } },
+    { "id": "VII", "label": "Marketing and Management", "weight": { "count": 18, "percent": 15 } },
+    { "id": "VIII", "label": "Professional Business Education", "weight": { "count": 12, "percent": 10 } }
+  ],
+  "questions": []
+}

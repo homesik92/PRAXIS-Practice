@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "code": "5652",
+  "name": "Computer Science",
+  "timeLimitMinutes": 180,
+  "formLength": 100,
+  "categories": [
+    { "id": "I", "label": "Impacts of Computing", "weight": { "count": 15, "percent": 15 } },
+    { "id": "II", "label": "Algorithms and Computational Thinking", "weight": { "count": 25, "percent": 25 } },
+    { "id": "III", "label": "Programming", "weight": { "count": 30, "percent": 30 } },
+    { "id": "IV", "label": "Data", "weight": { "count": 15, "percent": 15 } },
+    { "id": "V", "label": "Computing Systems and Networks", "weight": { "count": 15, "percent": 15 } }
+  ],
+  "questions": []
+}
