@@ -60,9 +60,9 @@ is a deliberate simplification of this project's own design, not a verified matc
 ETS's current on-screen navigation (finding #19; see D-11, D-20).
 
 After the last question, the run enters the **review pass** (D-11): a list of every
-question, each row showing its flag/answered state alongside a short stem excerpt and
-category label — not a bare number (finding #16) — any of which can be reopened and
-changed. The timer continues running during review.
+question, each row showing its flag/answered state, a short stem excerpt, category
+label, and the chosen answer itself — not a bare number (finding #16) — any of which
+can be reopened and changed. The timer continues running during review.
 
 **Submitting requires confirmation** stating the count of unanswered and flagged
 questions before scoring (finding #11). **If the wall-clock deadline passes while the
