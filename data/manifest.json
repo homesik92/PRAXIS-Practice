@@ -1,6 +1,9 @@
 {
   "schemaVersion": 1,
   "tests": [
-    { "code": "5165", "file": "tests/5165.json", "enabled": true }
+    { "code": "5101", "file": "tests/5101.json", "enabled": true },
+    { "code": "5165", "file": "tests/5165.json", "enabled": true },
+    { "code": "5485", "file": "tests/5485.json", "enabled": true },
+    { "code": "5652", "file": "tests/5652.json", "enabled": true }
   ]
 }

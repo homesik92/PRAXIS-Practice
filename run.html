@@ -29,7 +29,7 @@
     </div>
   </main>
   <script type="module">
-    import { loadBank } from "./js/schema.js";
+    import { loadBank, assembleForm } from "./js/schema.js";
     import { scoreAttempt } from "./js/runner.js";
 
     const params = new URLSearchParams(location.search);
@@ -82,15 +82,30 @@
 
     function runTest(bank) {
       heading.textContent = bank.name;
+
+      // The real weight-correct draw (SCHEMA.md §2.7) -- replaces Phase 1's
+      // placeholder of using bank.questions as given. Assembled once here, before the
+      // Start screen is even shown, rather than inside the Start click handler: that
+      // way the advertised count is always the number actually delivered (not
+      // bank.formLength, which can exceed it when a category is short), and a bank
+      // with nothing to draw never shows a dead-end Start button in the first place.
+      // categoryTargets/shortfalls are computed but not yet surfaced beyond the
+      // headline count; per-category shortfall disclosure is Phase 2.4's job.
+      const form = assembleForm(bank);
+      if (form.questions.length === 0) {
+        showStatus("This test has no questions yet.");
+        return;
+      }
+
       startSummary.textContent =
-        `${bank.questions.length} questions, ${bank.timeLimitMinutes} minutes. ` +
+        `${form.questions.length} questions, ${bank.timeLimitMinutes} minutes. ` +
         "Once you answer a question you move straight to the next one -- there is no going back yet.";
       startScreen.hidden = false;
 
-      startButton.addEventListener("click", () => start(bank), { once: true });
+      startButton.addEventListener("click", () => start(bank, form), { once: true });
     }
 
-    function start(bank) {
+    function start(bank, form) {
       startScreen.hidden = true;
       runScreen.hidden = false;
 
@@ -111,8 +126,8 @@
       let index = 0;
 
       function renderQuestion() {
-        const question = bank.questions[index];
-        positionEl.textContent = `Question ${index + 1} of ${bank.questions.length}`;
+        const question = form.questions[index];
+        positionEl.textContent = `Question ${index + 1} of ${form.questions.length}`;
         stemEl.textContent = question.stem.value;
         optionsEl.innerHTML = "";
         for (const option of question.options) {
@@ -132,7 +147,7 @@
       function selectAnswer(question, option) {
         answers.push({ questionId: question.id, selectedOptionId: option.id });
         index += 1;
-        if (index < bank.questions.length) {
+        if (index < form.questions.length) {
           renderQuestion();
         } else {
           finish();
@@ -149,7 +164,10 @@
         // be mistaken for real persisted history.
         sessionStorage.setItem(
           `praxis-practice.lastAttempt.${attemptId}`,
-          JSON.stringify({ attemptId, code: bank.code, formLength: bank.formLength, answers, score }),
+          // form.questions.length, not bank.formLength -- the two can now differ
+          // whenever assembleForm reports a shortfall, and this field should always
+          // reflect what was actually delivered, not what was targeted.
+          JSON.stringify({ attemptId, code: bank.code, formLength: form.questions.length, answers, score }),
         );
         location.href = `results.html?attempt=${encodeURIComponent(attemptId)}`;
       }

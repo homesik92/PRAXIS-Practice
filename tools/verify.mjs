@@ -68,8 +68,13 @@ function walkCategories(nodes, { seenIds, errors, pathLabel }) {
 
     // A node is weight-bearing only if it publishes a weight AND none of its
     // descendants do — weights are authoritative at the deepest published level.
+    // Carries its own id (not just count/percent) so callers can check a question's
+    // categoryId against the weight-bearing set specifically, not just "exists
+    // somewhere in the tree" — a question tagged to a non-leaf ancestor category
+    // passes the looser check but is invisible to every real draw (js/schema.js's
+    // assembleForm only ever pulls from weight-bearing leaves).
     if (hasWeight && childWeightBearing.length === 0 && isPlainObject(node.weight)) {
-      weightBearing.push(node.weight);
+      weightBearing.push({ ...node.weight, id: node.id });
     }
     weightBearing.push(...childWeightBearing);
   }
@@ -91,6 +96,9 @@ function validateOverlays(overlays, errors) {
     if (ids.has(o.id)) errors.push(`duplicate overlay id "${o.id}"`);
     ids.add(o.id);
     if (!isNonEmptyString(o.label)) errors.push(`overlay "${o.id}": missing label`);
+    if (typeof o.targetShare !== "number") {
+      errors.push(`overlay "${o.id}": targetShare must be a number`);
+    }
   }
   return ids;
 }
@@ -108,7 +116,7 @@ function validateContentField(field, fieldName, errors, context) {
   }
 }
 
-function validateQuestions(questions, { code, categoryIds, overlayIds, errors, warnings }) {
+function validateQuestions(questions, { code, weightBearingIds, overlayIds, errors, warnings }) {
   if (!Array.isArray(questions)) {
     errors.push("questions must be an array");
     return;
@@ -132,8 +140,12 @@ function validateQuestions(questions, { code, categoryIds, overlayIds, errors, w
 
     if (!isNonEmptyString(q.categoryId)) {
       errors.push(`${context}: categoryId missing`);
-    } else if (!categoryIds.has(q.categoryId)) {
-      errors.push(`${context}: categoryId "${q.categoryId}" does not exist in this bank's category tree`);
+    } else if (!weightBearingIds.has(q.categoryId)) {
+      errors.push(
+        `${context}: categoryId "${q.categoryId}" is not a weight-bearing leaf category — ` +
+          `form assembly (SCHEMA.md §2.7) only draws from weight-bearing leaves, so a question ` +
+          `tagged to a non-leaf ancestor category is never selected by any real draw`,
+      );
     }
 
     if (q.overlays !== undefined) {
@@ -223,10 +235,11 @@ export function validateBank(bank, { dataDir } = {}) {
   }
 
   const overlayIds = validateOverlays(bank.overlays, errors);
+  const weightBearingIds = new Set(weightBearing.map((w) => w.id));
 
   validateQuestions(bank.questions ?? [], {
     code: bank.code,
-    categoryIds,
+    weightBearingIds,
     overlayIds,
     errors,
     warnings,

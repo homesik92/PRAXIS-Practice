@@ -57,7 +57,19 @@ test("invalid fixture bank catches bad content format", async () => {
 test("invalid fixture bank catches unknown categoryId reference", async () => {
   const bank = JSON.parse(await readFile(path.join(__dirname, "fixtures/invalid-bank.json"), "utf-8"));
   const { errors } = validateBank(bank);
-  assert.ok(errors.some((e) => e.includes('categoryId "does-not-exist" does not exist')));
+  assert.ok(errors.some((e) => e.includes('categoryId "does-not-exist" is not a weight-bearing leaf category')));
+});
+
+test("invalid fixture bank catches a question tagged to a non-leaf (ancestor) category", async () => {
+  const bank = JSON.parse(await readFile(path.join(__dirname, "fixtures/invalid-bank.json"), "utf-8"));
+  const { errors } = validateBank(bank);
+  assert.ok(errors.some((e) => e.includes('categoryId "III" is not a weight-bearing leaf category')));
+});
+
+test("invalid fixture bank catches an overlay missing targetShare", async () => {
+  const bank = JSON.parse(await readFile(path.join(__dirname, "fixtures/invalid-bank.json"), "utf-8"));
+  const { errors } = validateBank(bank);
+  assert.ok(errors.some((e) => e.includes('overlay "ov1": targetShare must be a number')));
 });
 
 test("invalid fixture bank catches wrongly-prefixed question id", async () => {

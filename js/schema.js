@@ -1,13 +1,17 @@
-// Manifest and bank loading -- Phase 1.1's placeholder version. Only what S1 (list
-// enabled tests) and S2 (show one test's name and a "take a practice test" entry)
-// need. Category-tree traversal, overlays, and weight-correct form assembly (SCHEMA.md
-// §2.4-2.7) land in Phase 2.1, which replaces this file's draw logic wholesale -- see
-// ROADMAP.md Phase 2's note.
+// Manifest and bank loading, plus (as of Phase 2.1) the real SCHEMA.md §2.7 form
+// assembler that replaces Phase 1's placeholder draw logic ("use bank.questions as
+// given"). Category-tree traversal here deliberately duplicates tools/verify.mjs's
+// walkCategories rather than sharing it -- that module is Node-only dev tooling, this
+// one is browser-facing app code, and blurring that boundary costs more than a ~15-line
+// duplication does. (js/results.js's flattenCategoryLabels is a third, lighter-weight
+// tree walk for a different purpose -- id-to-label lookup, not weight-bearing-leaf
+// selection -- and was left alone rather than unified here.)
 //
 // Every function takes a `fetchImpl` parameter (defaulting to the global `fetch`)
 // rather than reaching for it directly, so the shaping logic here is unit-testable
 // under Node against a mock -- see tools/test-schema.mjs. Mirrors js/store.js's
-// `storage` injection for the same reason.
+// `storage` injection for the same reason. assembleForm follows the same pattern with
+// an injected `random` (default Math.random) so shuffling is deterministic under test.
 
 /**
  * Fetches and parses manifest.json, returning only its enabled entries.
@@ -110,4 +114,143 @@ export async function loadTestList(fetchImpl = globalThis.fetch, dataDir = "data
     }
   }
   return { ok: true, tests, failed };
+}
+
+// -- Form assembly (SCHEMA.md §2.7) -------------------------------------------------
+
+function shuffle(array, random) {
+  const result = [...array];
+  for (let i = result.length - 1; i > 0; i--) {
+    const j = Math.floor(random() * (i + 1));
+    [result[i], result[j]] = [result[j], result[i]];
+  }
+  return result;
+}
+
+// Mirrors tools/verify.mjs's walkCategories: a node is weight-bearing only if it
+// publishes a weight AND none of its descendants do (SCHEMA.md §2.4 -- "weights are
+// authoritative at the deepest level that publishes them").
+function collectWeightBearing(nodes) {
+  const out = [];
+  for (const node of nodes ?? []) {
+    const hasWeight = node.weight !== null && node.weight !== undefined;
+    const childResults = collectWeightBearing(node.children);
+    if (hasWeight && childResults.length === 0) {
+      out.push({ id: node.id, count: node.weight.count });
+    }
+    out.push(...childResults);
+  }
+  return out;
+}
+
+/**
+ * Target count per weight-bearing category. With no override, each category's own
+ * published `count` is the target. With an overridden (shorter) `formLength`, counts
+ * are scaled proportionally and rounded by the largest-remainder method, so the
+ * targets sum to exactly `formLength` rather than drifting from independent rounding.
+ */
+function scaleTargets(weightBearing, formLength) {
+  if (formLength === undefined) {
+    return weightBearing.map((c) => ({ categoryId: c.id, target: c.count }));
+  }
+  const totalCount = weightBearing.reduce((sum, c) => sum + c.count, 0);
+  const raw = weightBearing.map((c) => (c.count / totalCount) * formLength);
+  const floors = raw.map(Math.floor);
+  const allocated = floors.reduce((sum, n) => sum + n, 0);
+  const remainder = formLength - allocated;
+
+  const byFractionDesc = raw
+    .map((r, i) => ({ i, frac: r - floors[i] }))
+    .sort((a, b) => b.frac - a.frac);
+
+  // remainder is always < weightBearing.length (a property of the largest-remainder
+  // method: independent per-category rounding error can't accumulate to a full unit),
+  // so every k lands in range -- no wraparound to guard against.
+  const targets = [...floors];
+  for (let k = 0; k < remainder; k++) {
+    targets[byFractionDesc[k].i] += 1;
+  }
+  return weightBearing.map((c, i) => ({ categoryId: c.id, target: targets[i] }));
+}
+
+// A malformed/unparseable lastSeenAt is treated the same as "never seen" (-Infinity)
+// rather than "seen just now" or NaN -- Date.parse returns NaN for anything it can't
+// read, and NaN as a sort-comparator result is spec-coerced to 0 ("equal"), which
+// would let a corrupted history entry sort as tied with whatever it's compared
+// against instead of reliably ranking first. Not reachable via run.html yet (no
+// caller passes real history until Phase 2.3), but this is the function Phase 2.3's
+// localStorage-sourced history feeds directly, unvalidated.
+function lastSeenRank(question, history) {
+  const lastSeenAt = history[question.id]?.lastSeenAt;
+  if (lastSeenAt === undefined) return -Infinity;
+  const parsed = Date.parse(lastSeenAt);
+  return Number.isNaN(parsed) ? -Infinity : parsed;
+}
+
+// Draws up to `target` questions for one category, preferring least-recently-seen
+// (SCHEMA.md §2.7 step 3 -- "so a second attempt is not the first attempt again").
+// Ties (including "every candidate is unseen", the common case before Phase 2.3's
+// real history exists) are broken randomly: each candidate gets a random tiebreak
+// value up front, folded into the sort key alongside its rank, rather than shuffling
+// the whole pool and relying on Array.prototype.sort's stability to preserve that
+// order through the second sort -- a real but easy-to-miss guarantee to depend on
+// silently.
+function drawForCategory(pool, target, history, random) {
+  const ranked = pool.map((q) => ({ q, rank: lastSeenRank(q, history), tie: random() }));
+  ranked.sort((a, b) => a.rank - b.rank || a.tie - b.tie);
+  const drawn = ranked.slice(0, target).map((r) => r.q);
+  return { drawn, wanted: target, got: drawn.length };
+}
+
+/**
+ * Assembles a practice form from a bank: the real weight-correct draw with disclosed
+ * shortfalls that replaces Phase 1's placeholder (`bank.questions` used as-is).
+ *
+ * Never backfills a thin category from another one (SCHEMA.md §2.7 step 4) -- a
+ * shortfall is recorded and left as a shortfall, never silently masked by
+ * over-sampling elsewhere. Overlay `targetShare` coverage is reported, never enforced
+ * (step 5). Presentation order and each question's option order are shuffled (step 6).
+ *
+ * @param {object} bank
+ * @param {{formLength?: number, history?: Record<string, {lastSeenAt?: string}>, random?: () => number}} [options]
+ * @returns {{questions: object[],
+ *            categoryTargets: {categoryId: string, target: number}[],
+ *            shortfalls: {categoryId: string, wanted: number, got: number}[],
+ *            overlayCoverage: {overlayId: string, target: number, actual: number}[]}}
+ */
+export function assembleForm(bank, { formLength, history = {}, random = Math.random } = {}) {
+  const weightBearing = collectWeightBearing(bank.categories);
+  const categoryTargets = scaleTargets(weightBearing, formLength);
+
+  // One pass to group by category (excluding retired) rather than re-filtering the
+  // full question list once per category inside the loop below -- O(categories +
+  // questions) instead of O(categories × questions).
+  const poolByCategory = new Map();
+  for (const q of bank.questions ?? []) {
+    if (q.retired) continue;
+    if (!poolByCategory.has(q.categoryId)) poolByCategory.set(q.categoryId, []);
+    poolByCategory.get(q.categoryId).push(q);
+  }
+
+  const shortfalls = [];
+  const selected = [];
+
+  for (const { categoryId, target } of categoryTargets) {
+    const pool = poolByCategory.get(categoryId) ?? [];
+    const { drawn, wanted, got } = drawForCategory(pool, target, history, random);
+    selected.push(...drawn);
+    if (got < wanted) {
+      shortfalls.push({ categoryId, wanted, got });
+    }
+  }
+
+  const overlayCoverage = (bank.overlays ?? []).map((overlay) => ({
+    overlayId: overlay.id,
+    target: Math.round(overlay.targetShare * selected.length),
+    actual: selected.filter((q) => (q.overlays ?? []).includes(overlay.id)).length,
+  }));
+
+  const questions = shuffle(selected, random).map((q) => ({ ...q, options: shuffle(q.options, random) }));
+
+  return { questions, categoryTargets, shortfalls, overlayCoverage };
 }
