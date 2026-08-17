@@ -439,3 +439,25 @@ substance, not a new fork; it's a tunable constant, not a schema shape, so it st
 cheap to retune later without a migration.
 **Attribution:** Session owner's call, from a recommendation (code review flagged the
 gap).
+
+### N-5: Shortfall audit recomputes fresh; doesn't cross-check against the stored value
+
+**Date:** 2026-08-17
+**Decision:** Phase 2.4's `js/results.js` recomputes each category's shortfall fresh
+from `categoryTargets` and the actual delivered/answered counts, and displays that
+recomputed value directly. It does not read or compare against `attempt.shortfalls`
+-- the value recorded at draw time -- at all.
+**Why:** SCHEMA.md §2.8's literal wording ("self-verifies against the stored
+`shortfalls` rather than trusting it blindly") and ROADMAP.md's 2.4 acceptance
+criterion both describe a compute-and-compare check, which this implementation
+doesn't perform -- flagged by code review as a real gap against the written spec.
+Chosen anyway, over adding a live mismatch comparison, because it mirrors this file's
+own established pattern for the *score* (never stored, never cross-checked, always
+recomputed fresh from `answers`) -- and because the scenario where the two values
+would actually differ (the bank changing between draw and results) isn't reachable
+today and would be unverifiable/untestable UI built for a case that can't currently
+occur. `attempt.shortfalls` still serves its original purpose: a historical audit
+trail available via the export feature, just not something S4 reads live.
+**Attribution:** Session owner's call, decided at the Phase 2.4 plan-approval step
+(offered as an explicit alternative, not picked), confirmed as intentional when code
+review raised it again against the literal spec wording.

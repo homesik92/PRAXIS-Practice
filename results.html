@@ -15,6 +15,10 @@
       <p id="overall-score"></p>
       <h2>By category</h2>
       <ul id="category-list"></ul>
+      <div id="shortfall-note" hidden>
+        <h2>This attempt isn't fully representative</h2>
+        <ul id="shortfall-list"></ul>
+      </div>
     </div>
   </main>
   <script type="module">
@@ -30,6 +34,8 @@
     const resultEl = document.getElementById("result");
     const overallEl = document.getElementById("overall-score");
     const categoryListEl = document.getElementById("category-list");
+    const shortfallNoteEl = document.getElementById("shortfall-note");
+    const shortfallListEl = document.getElementById("shortfall-list");
     const backLink = document.getElementById("back-link");
 
     function showStatus(message) {
@@ -75,12 +81,25 @@
             // cached value -- SCHEMA.md §2.7's "S4 self-verifies ... rather than
             // trusting [a] recorded [value] blindly" principle.
             const score = scoreAttempt(bankResult.bank, attempt.answers);
-            const summary = summarizeAttempt(score, bankResult.bank);
+            const summary = summarizeAttempt(score, bankResult.bank, attempt.categoryTargets);
             overallEl.textContent = `${summary.overall.correct} / ${summary.overall.total} correct (${summary.overall.percent}%)`;
             for (const category of summary.categories) {
               const li = document.createElement("li");
               li.textContent = `${category.label}: ${category.correct}/${category.total} (${category.percent}%)`;
               categoryListEl.appendChild(li);
+            }
+            if (summary.shortfalls.length > 0) {
+              // SCHEMA.md §1.2: an underfilled bank is disclosed, never silently
+              // padded -- a score built from a non-representative draw and presented
+              // as if representative is actively misleading.
+              for (const shortfall of summary.shortfalls) {
+                const li = document.createElement("li");
+                li.textContent =
+                  `${shortfall.label}: only ${shortfall.got} of ${shortfall.wanted} target questions were ` +
+                  "available for this category, so this attempt underrepresents it.";
+                shortfallListEl.appendChild(li);
+              }
+              shortfallNoteEl.hidden = false;
             }
             resultEl.hidden = false;
           }

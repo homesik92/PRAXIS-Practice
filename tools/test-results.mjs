@@ -66,6 +66,58 @@ test("a zero-total category (defensive -- shouldn't occur in practice) reports 0
   assert.equal(result.categories[0].percent, 0);
 });
 
+test("no categoryTargets argument reports an empty shortfalls array", () => {
+  const score = { correct: 1, total: 1, byCategory: { I: { correct: 1, total: 1 } } };
+  const result = summarizeAttempt(score, flatBank);
+  assert.deepEqual(result.shortfalls, []);
+});
+
+test("a category delivered fewer questions than its target is reported as a shortfall", () => {
+  const score = { correct: 1, total: 1, byCategory: { I: { correct: 1, total: 1 } } };
+  const categoryTargets = [{ categoryId: "I", target: 2 }];
+  const result = summarizeAttempt(score, flatBank, categoryTargets);
+  assert.deepEqual(result.shortfalls, [
+    { categoryId: "I", label: "Number & Quantity and Algebra", wanted: 2, got: 1 },
+  ]);
+});
+
+test("a category that met its target is not reported as a shortfall", () => {
+  const score = { correct: 2, total: 2, byCategory: { I: { correct: 2, total: 2 } } };
+  const categoryTargets = [{ categoryId: "I", target: 2 }];
+  const result = summarizeAttempt(score, flatBank, categoryTargets);
+  assert.deepEqual(result.shortfalls, []);
+});
+
+test("a category entirely absent from byCategory (100% shortfall) reports got: 0, not a throw", () => {
+  const score = { correct: 0, total: 0, byCategory: {} };
+  const categoryTargets = [{ categoryId: "II", target: 3 }];
+  const result = summarizeAttempt(score, flatBank, categoryTargets);
+  assert.deepEqual(result.shortfalls, [
+    { categoryId: "II", label: "Functions and Calculus", wanted: 3, got: 0 },
+  ]);
+});
+
+test("a categoryTargets entry with target: 0 is never flagged as a shortfall", () => {
+  const score = { correct: 0, total: 0, byCategory: {} };
+  const categoryTargets = [{ categoryId: "I", target: 0 }];
+  const result = summarizeAttempt(score, flatBank, categoryTargets);
+  assert.deepEqual(result.shortfalls, []);
+});
+
+test("shortfalls recompute is fresh, not read from any cached/stored field on the score", () => {
+  // Same score, different categoryTargets -- proves the shortfall is derived from the
+  // argument passed in, not memoized against the first call (score objects carry no
+  // shortfall field of their own to begin with, but this guards against a future
+  // regression that tries to cache off of it).
+  const score = { correct: 1, total: 1, byCategory: { I: { correct: 1, total: 1 } } };
+  const first = summarizeAttempt(score, flatBank, [{ categoryId: "I", target: 1 }]);
+  const second = summarizeAttempt(score, flatBank, [{ categoryId: "I", target: 5 }]);
+  assert.deepEqual(first.shortfalls, []);
+  assert.deepEqual(second.shortfalls, [
+    { categoryId: "I", label: "Number & Quantity and Algebra", wanted: 5, got: 1 },
+  ]);
+});
+
 let failed = 0;
 for (const { name, fn } of tests) {
   try {
