@@ -17,29 +17,47 @@
       <button id="start-button" type="button">Start</button>
     </div>
 
+    <p id="timer" hidden></p>
+    <p id="position" hidden></p>
+
     <div id="run-screen" hidden>
-      <p id="timer"></p>
-      <p id="position"></p>
       <form id="question-form">
         <fieldset>
           <legend id="question-stem"></legend>
           <div id="options-list"></div>
         </fieldset>
       </form>
+      <p>
+        <label><input type="checkbox" id="flag-toggle" /> Flag this question for review</label>
+      </p>
+      <p id="editing-note" hidden>
+        Reviewing this question -- changing the answer above updates it in your review list.
+        <button id="back-to-review-button" type="button">Back to review</button>
+      </p>
+    </div>
+
+    <div id="review-screen" hidden>
+      <h2>Review your answers</h2>
+      <p>Reopen any question below to change its answer or flag before submitting.</p>
+      <ol id="review-list"></ol>
+      <button id="submit-button" type="button">Submit test</button>
     </div>
   </main>
   <script type="module">
     import { loadBank, assembleForm, resumeForm } from "./js/schema.js";
-    import { isCorrect } from "./js/runner.js";
+    import { isCorrect, buildReviewRows } from "./js/runner.js";
+    import { flattenCategoryLabels } from "./js/results.js";
     import { updateHistory } from "./js/srs.js";
     import {
       loadStore,
       saveStore,
       startAttempt,
       recordAnswer,
+      updateAnswer,
       recordQuestionHistory,
       completeAttempt,
       findInProgressAttempt,
+      findAttempt,
       handleStorageEvent,
     } from "./js/store.js";
 
@@ -58,6 +76,12 @@
     const positionEl = document.getElementById("position");
     const stemEl = document.getElementById("question-stem");
     const optionsEl = document.getElementById("options-list");
+    const flagToggle = document.getElementById("flag-toggle");
+    const editingNote = document.getElementById("editing-note");
+    const backToReviewButton = document.getElementById("back-to-review-button");
+    const reviewScreen = document.getElementById("review-screen");
+    const reviewList = document.getElementById("review-list");
+    const submitButton = document.getElementById("submit-button");
 
     if (code) backLink.href = `test.html?code=${encodeURIComponent(code)}`;
 
@@ -136,7 +160,9 @@
 
       startSummary.textContent =
         `${form.questions.length} questions, ${bank.timeLimitMinutes} minutes. ` +
-        "Once you answer a question you move straight to the next one -- there is no going back yet.";
+        "Once you answer a question you move straight to the next one -- answered questions can't be " +
+        "revisited except through the review pass after the last question, where you can reopen and " +
+        "change any answer before submitting.";
       startScreen.hidden = false;
 
       startButton.addEventListener(
@@ -193,10 +219,22 @@
     function beginRun(bank, form, initialStore, attempt, startIndex) {
       startScreen.hidden = true;
       runScreen.hidden = false;
+      timerEl.hidden = false;
+      positionEl.hidden = false;
 
       let store = initialStore;
       let index = startIndex;
       let questionShownAt = Date.now();
+      // Non-null while the run screen is showing a question reopened from the review
+      // pass (SCHEMA.md §1.1 S3, D-11, finding #16) rather than the forward-only
+      // answering flow -- switches the radio-group's change handler from
+      // selectAnswer (append + advance) to commitEdit (update in place + return to
+      // review), and the flag checkbox's change handler from doing nothing beyond its
+      // own DOM state (buffered into the next selectAnswer call, SCHEMA.md §1.1 S3
+      // finding #13) to persisting immediately via updateAnswer.
+      let editingQuestionId = null;
+
+      const categoryLabels = flattenCategoryLabels(bank.categories);
 
       // Wall-clock, derived from the attempt's own startedAt (SCHEMA.md's "timer is
       // wall-clock, not tick-counted") -- correct whether this is a fresh start or a
@@ -213,11 +251,26 @@
         timerEl.textContent = `Time remaining: ${minutes}:${String(seconds).padStart(2, "0")}`;
       }
 
+      function abortRun(message) {
+        clearInterval(timerHandle);
+        runScreen.hidden = true;
+        reviewScreen.hidden = true;
+        timerEl.hidden = true;
+        positionEl.hidden = true;
+        showStatus(message);
+      }
+
       // Cross-tab reconciliation (SCHEMA.md §2.8 finding #2): if another tab writes
       // to the store while this one is mid-run, resync rather than silently
       // overwriting on this tab's next save. If the other tab completed or abandoned
       // this same attempt (e.g. it was started fresh there too), stop here rather
       // than let this tab keep answering into a superseded attempt.
+      //
+      // Only detects growth in `answers.length` -- a review-pass edit made in another
+      // tab (which replaces an answer in place via updateAnswer, not appending) isn't
+      // picked up here, so a simultaneous edit in another tab can silently clobber
+      // this tab's edit. Narrow, same shape as issue #22's cross-tab SRS race; not
+      // fixed here -- deferred as issue #28.
       //
       // Registered once per beginRun call and never removed -- safe today because
       // every current path reaches beginRun at most once per page load (the Start
@@ -232,23 +285,40 @@
         store = result.store;
         const fresh = store.attempts.find((a) => a.id === attempt.id);
         if (!fresh || fresh.status !== "in-progress") {
-          clearInterval(timerHandle);
-          runScreen.hidden = true;
-          showStatus("This attempt was changed in another tab, so it can't continue here.");
+          abortRun("This attempt was changed in another tab, so it can't continue here.");
           return;
         }
         if (fresh.answers.length > index) {
           index = fresh.answers.length;
           questionShownAt = Date.now();
           if (index < form.questions.length) renderQuestion();
-          else finish();
+          else showReviewScreen();
         }
       });
 
-      function renderQuestion() {
-        const question = form.questions[index];
-        positionEl.textContent = `Question ${index + 1} of ${form.questions.length}`;
-        stemEl.textContent = question.stem.value;
+      // Only the editing-mode path needs a handler here: while freshly answering,
+      // the checkbox's own `.checked` is read directly at select-time (below) --
+      // nothing needs to buffer it separately.
+      flagToggle.addEventListener("change", () => {
+        if (!editingQuestionId) return;
+        const result = updateAnswer(store, attempt.id, editingQuestionId, { flagged: flagToggle.checked });
+        if (!result.ok) {
+          abortRun("Your flag change could not be saved, so this attempt can't continue here.");
+          return;
+        }
+        store = result.store;
+        const saveResult = saveStore(store);
+        if (!saveResult.ok) {
+          abortRun(
+            "Your flag change could not be saved, so this attempt can't continue here. " +
+              "Reloading this page should let you resume from your last saved answer.",
+          );
+        }
+      });
+
+      backToReviewButton.addEventListener("click", () => showReviewScreen());
+
+      function renderOptions(question, selectedOptionId, onChoose) {
         optionsEl.innerHTML = "";
         for (const option of question.options) {
           const label = document.createElement("label");
@@ -257,33 +327,52 @@
           input.type = "radio";
           input.name = "answer";
           input.value = option.id;
-          input.addEventListener("change", () => selectAnswer(question, option));
+          if (option.id === selectedOptionId) input.checked = true;
+          input.addEventListener("change", () => onChoose(option));
           label.appendChild(input);
           label.append(` ${option.content.value}`);
           optionsEl.appendChild(label);
         }
       }
 
+      function renderQuestion() {
+        editingQuestionId = null;
+        editingNote.hidden = true;
+        flagToggle.checked = false;
+
+        const question = form.questions[index];
+        positionEl.textContent = `Question ${index + 1} of ${form.questions.length}`;
+        stemEl.textContent = question.stem.value;
+        renderOptions(question, null, (option) => selectAnswer(question, option));
+      }
+
       function selectAnswer(question, option) {
         const chosen = [option.id];
+        // Captured before this question's questionHistory entry is updated below, so
+        // a later review-pass edit (commitEdit) can recompute the SM-2 update fresh
+        // from the same baseline this one started from, instead of stacking a second
+        // review event on top of the first (N-6). `?? null` rather than leaving it
+        // `undefined`: an explicit `null` here means "recorded, no prior entry
+        // existed"; `undefined` is reserved to mean "this answer predates Phase 3.1
+        // and was never given a baseline" (see commitEdit).
+        const priorHistory = (store.questionHistory ?? {})[question.id] ?? null;
         const answer = {
           questionId: question.id,
           chosen,
           // Computed and stored per SCHEMA.md §2.8's documented shape, but not
           // trusted back: scoreAttempt always recomputes correctness itself from
           // `chosen` against the bank (self-verification principle). Stored for
-          // other future consumers (e.g. a per-question review list) that want it
-          // without re-deriving.
+          // other consumers (the review-pass list, S4) that want it without
+          // re-deriving.
           correct: isCorrect(question, chosen),
           elapsedMs: Date.now() - questionShownAt,
-          flagged: false, // flag control is Phase 3.1's
+          flagged: flagToggle.checked,
+          priorHistory,
         };
 
         const recordResult = recordAnswer(store, attempt.id, answer);
         if (!recordResult.ok) {
-          clearInterval(timerHandle);
-          runScreen.hidden = true;
-          showStatus("This attempt could no longer be saved to, so it can't continue here.");
+          abortRun("This attempt could no longer be saved to, so it can't continue here.");
           return;
         }
         // recordAnswer's `recorded` flag is false on its idempotent no-op path (a
@@ -292,7 +381,7 @@
         // (recordAnswer's own doc comment flags this exact hazard).
         let nextStore = recordResult.store;
         if (recordResult.recorded) {
-          const historyEntry = updateHistory((store.questionHistory ?? {})[question.id], answer.correct);
+          const historyEntry = updateHistory(priorHistory, answer.correct);
           nextStore = recordQuestionHistory(nextStore, question.id, historyEntry);
         }
         store = nextStore;
@@ -304,9 +393,7 @@
           // memory but not on disk -- reloading resumes one question earlier, at
           // whatever was last actually persisted, rather than silently drifting
           // ahead of what's saved.
-          clearInterval(timerHandle);
-          runScreen.hidden = true;
-          showStatus(
+          abortRun(
             "Your last answer could not be saved, so this attempt can't continue here. " +
               "Reloading this page should let you resume from your last saved answer.",
           );
@@ -318,9 +405,108 @@
           questionShownAt = Date.now();
           renderQuestion();
         } else {
-          finish();
+          showReviewScreen();
         }
       }
+
+      function renderQuestionForEdit(question, answer) {
+        editingQuestionId = question.id;
+        editingNote.hidden = false;
+        flagToggle.checked = Boolean(answer.flagged);
+
+        const qIndex = form.questions.findIndex((q) => q.id === question.id);
+        positionEl.textContent = `Reviewing question ${qIndex + 1} of ${form.questions.length}`;
+        stemEl.textContent = question.stem.value;
+        renderOptions(question, answer.chosen[0], (option) => commitEdit(question, option));
+      }
+
+      function commitEdit(question, option) {
+        const chosen = [option.id];
+        const correct = isCorrect(question, chosen);
+
+        // Re-fetched from the current store rather than trusting a reference handed
+        // in when this question was reopened (code review finding): the flag toggle
+        // persists mid-edit via its own updateAnswer call below, so a reference
+        // captured at reopen time can be stale by the time an answer is picked.
+        const existingAnswer = findAttempt(store, attempt.id).answers.find((a) => a.questionId === question.id);
+
+        const result = updateAnswer(store, attempt.id, question.id, { chosen, correct });
+        if (!result.ok) {
+          abortRun("Your changed answer could not be saved, so this attempt can't continue here.");
+          return;
+        }
+        let nextStore = result.store;
+
+        // Recompute the SM-2 update from the same fixed baseline this question
+        // started this attempt from (N-6), so re-opening and changing an answer
+        // multiple times always lands on the schedule the *final* answer deserves,
+        // never stacking review events. `priorHistory === undefined` (as opposed to
+        // the explicit `null` a Phase 3.1+ answer always carries) means this answer
+        // predates that field -- skip the SRS correction rather than guess a wrong
+        // baseline and silently misdate this question's schedule.
+        if (existingAnswer.priorHistory !== undefined) {
+          const historyEntry = updateHistory(existingAnswer.priorHistory, correct);
+          nextStore = recordQuestionHistory(nextStore, question.id, historyEntry);
+        }
+
+        store = nextStore;
+        const saveResult = saveStore(store);
+        if (!saveResult.ok) {
+          abortRun(
+            "Your changed answer could not be saved, so this attempt can't continue here. " +
+              "Reloading this page should let you resume from your last saved answer.",
+          );
+          return;
+        }
+
+        showReviewScreen();
+      }
+
+      function reopenQuestion(questionId) {
+        const question = form.questions.find((q) => q.id === questionId);
+        const answer = findAttempt(store, attempt.id).answers.find((a) => a.questionId === questionId);
+        // Every row's Reopen button is wired the same way regardless of buildReviewRows'
+        // answered flag, but a row can only be genuinely reopened for editing if it
+        // has a recorded answer to prefill from. Not reachable via this project's
+        // current forward-only flow (every question is answered before review), but
+        // storage can be hand-edited -- degrade to a status message rather than
+        // crash on a corrupted attempt (code review finding).
+        if (!answer) {
+          showStatus("This question has no recorded answer to reopen, so it can't be edited here.");
+          return;
+        }
+        reviewScreen.hidden = true;
+        runScreen.hidden = false;
+        renderQuestionForEdit(question, answer);
+      }
+
+      function renderReviewList() {
+        const currentAttempt = findAttempt(store, attempt.id);
+        const rows = buildReviewRows(form.questions, currentAttempt.answers, categoryLabels);
+        reviewList.innerHTML = "";
+        for (const row of rows) {
+          const li = document.createElement("li");
+          const parts = [row.categoryLabel, "--", row.stemExcerpt];
+          if (row.flagged) parts.push("(flagged)");
+          if (!row.answered) parts.push("(not answered)");
+          li.append(`${parts.join(" ")} `);
+          const reopenButton = document.createElement("button");
+          reopenButton.type = "button";
+          reopenButton.textContent = "Reopen";
+          reopenButton.addEventListener("click", () => reopenQuestion(row.questionId));
+          li.appendChild(reopenButton);
+          reviewList.appendChild(li);
+        }
+      }
+
+      function showReviewScreen() {
+        runScreen.hidden = true;
+        reviewScreen.hidden = false;
+        positionEl.textContent = `Review pass -- ${form.questions.length} questions`;
+        renderReviewList();
+      }
+
+      submitButton.addEventListener("click", finish, { once: true });
 
       function finish() {
         clearInterval(timerHandle);
@@ -331,21 +517,22 @@
           // individually, so a failure here only leaves the "completed" status
           // unwritten, not any data loss. Self-healing: reopening this test finds
           // the attempt still "in-progress" with every question already answered,
-          // which the startIndex >= length check below routes straight back into
-          // finish() to retry -- no separate recovery path needed.
+          // which the startIndex >= length check below routes straight into the
+          // review screen, whose Submit button retries this.
           saveStore(store);
         }
         location.href = `results.html?attempt=${encodeURIComponent(attempt.id)}`;
       }
 
       // A résumed attempt that was fully answered but never successfully marked
-      // "completed" (finish()'s best-effort save above failing) would otherwise hit
-      // form.questions[index] out of bounds here (code review finding). Finish it
-      // instead of trying to render a question that doesn't exist.
+      // "completed" lands back in the review pass rather than out-of-bounds on
+      // form.questions[index] (code review finding, extended in Phase 3.1: the review
+      // pass is now the universal gate between "last question answered" and
+      // "scored," reached the same way whether that happened live or via résumé).
       if (index < form.questions.length) {
         renderQuestion();
       } else {
-        finish();
+        showReviewScreen();
       }
     }
   </script>

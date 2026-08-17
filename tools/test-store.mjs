@@ -13,6 +13,7 @@ import {
   saveStore,
   startAttempt,
   recordAnswer,
+  updateAnswer,
   recordQuestionHistory,
   completeAttempt,
   findInProgressAttempt,
@@ -332,6 +333,70 @@ test("recordAnswer against a completed attempt reports not-in-progress", () => {
   const result = recordAnswer(completedStore, attempt.id, { questionId: "x", chosen: ["a"] });
   assert.equal(result.ok, false);
   assert.equal(result.reason, "not-in-progress");
+});
+
+// --- updateAnswer (review-pass edits, Phase 3.1) ---
+
+test("updateAnswer shallow-merges the given fields onto the matching answer", () => {
+  const { store, attempt } = startAttempt(defaultStore(), startParams, fixedNow("2026-08-17T10:00:00.000Z"));
+  const original = { questionId: "5165-0001", chosen: ["b"], correct: true, elapsedMs: 4200, flagged: false };
+  const recorded = recordAnswer(store, attempt.id, original);
+  const result = updateAnswer(recorded.store, attempt.id, "5165-0001", { chosen: ["a"], correct: false });
+  assert.equal(result.ok, true);
+  assert.deepEqual(result.store.attempts[0].answers, [
+    { questionId: "5165-0001", chosen: ["a"], correct: false, elapsedMs: 4200, flagged: false },
+  ]);
+});
+
+test("updateAnswer can change just flagged, leaving chosen/correct/elapsedMs untouched", () => {
+  const { store, attempt } = startAttempt(defaultStore(), startParams, fixedNow("2026-08-17T10:00:00.000Z"));
+  const original = { questionId: "5165-0001", chosen: ["b"], correct: true, elapsedMs: 4200, flagged: false };
+  const recorded = recordAnswer(store, attempt.id, original);
+  const result = updateAnswer(recorded.store, attempt.id, "5165-0001", { flagged: true });
+  assert.deepEqual(result.store.attempts[0].answers, [{ ...original, flagged: true }]);
+});
+
+test("updateAnswer does not disturb other questions' answers", () => {
+  const { store, attempt } = startAttempt(defaultStore(), startParams, fixedNow("2026-08-17T10:00:00.000Z"));
+  const first = { questionId: "5165-0001", chosen: ["b"], correct: true, elapsedMs: 1000, flagged: false };
+  const second = { questionId: "5165-0002", chosen: ["c"], correct: false, elapsedMs: 2000, flagged: false };
+  const afterFirst = recordAnswer(store, attempt.id, first);
+  const afterSecond = recordAnswer(afterFirst.store, attempt.id, second);
+  const result = updateAnswer(afterSecond.store, attempt.id, "5165-0001", { flagged: true });
+  assert.deepEqual(result.store.attempts[0].answers, [{ ...first, flagged: true }, second]);
+});
+
+test("updateAnswer's shallow merge leaves a non-null priorHistory untouched when editing chosen/correct (N-6)", () => {
+  const { store, attempt } = startAttempt(defaultStore(), startParams, fixedNow("2026-08-17T10:00:00.000Z"));
+  const priorHistory = { seen: 2, correct: 1, lastSeenAt: "x", dueAt: "y", intervalDays: 3, ease: 2.4 };
+  const original = {
+    questionId: "5165-0001", chosen: ["b"], correct: true, elapsedMs: 4200, flagged: false, priorHistory,
+  };
+  const recorded = recordAnswer(store, attempt.id, original);
+  const result = updateAnswer(recorded.store, attempt.id, "5165-0001", { chosen: ["a"], correct: false });
+  assert.deepEqual(result.store.attempts[0].answers[0].priorHistory, priorHistory);
+});
+
+test("updateAnswer against an unknown attemptId reports not-found", () => {
+  const result = updateAnswer(defaultStore(), "att-does-not-exist", "5165-0001", { flagged: true });
+  assert.equal(result.ok, false);
+  assert.equal(result.reason, "not-found");
+});
+
+test("updateAnswer against a completed attempt reports not-in-progress", () => {
+  const { store, attempt } = startAttempt(defaultStore(), startParams, fixedNow("2026-08-17T10:00:00.000Z"));
+  const recorded = recordAnswer(store, attempt.id, { questionId: "5165-0001", chosen: ["b"] });
+  const { store: completedStore } = completeAttempt(recorded.store, attempt.id, fixedNow("2026-08-17T10:15:00.000Z"));
+  const result = updateAnswer(completedStore, attempt.id, "5165-0001", { flagged: true });
+  assert.equal(result.ok, false);
+  assert.equal(result.reason, "not-in-progress");
+});
+
+test("updateAnswer against a questionId with no recorded answer reports answer-not-found", () => {
+  const { store, attempt } = startAttempt(defaultStore(), startParams, fixedNow("2026-08-17T10:00:00.000Z"));
+  const result = updateAnswer(store, attempt.id, "5165-0001", { flagged: true });
+  assert.equal(result.ok, false);
+  assert.equal(result.reason, "answer-not-found");
 });
 
 test("recordQuestionHistory adds a new entry keyed by questionId", () => {

@@ -353,7 +353,10 @@ this section specifically and found real gaps, remediated below (review findings
         { "questionId": "5165-0001", "optionOrder": ["c", "a", "d", "b"] }
       ],
       "answers": [
-        { "questionId": "5165-0001", "chosen": ["b"], "correct": true, "elapsedMs": 48200, "flagged": false }
+        {
+          "questionId": "5165-0001", "chosen": ["b"], "correct": true, "elapsedMs": 48200,
+          "flagged": false, "priorHistory": null
+        }
       ]
     }
   ],
@@ -394,6 +397,37 @@ nothing in the schema to satisfy it until this field existed.
   tab closed mid-test still credits every question actually seen to the spaced-repetition
   schedule and the "least recently seen" draw preference in §2.7 — not only the questions
   that happened to fall before the tab closed and the attempt was later abandoned.
+
+### Review-pass edits (Phase 3.1, D-11, finding #16)
+
+**Reopening a question from the end-of-run review pass replaces its answer record in
+place rather than appending a new one.** This is a distinct write path from the
+per-answer cadence above: `recordAnswer` is idempotent on a duplicate `questionId`
+(the cross-tab race guard, findings #1/#2) precisely *because* a second write for the
+same question is assumed to be a stray duplicate, not an intentional change — so a
+genuine edit needs its own operation (`updateAnswer`) that a duplicate-write guard
+would otherwise swallow. `updateAnswer` requires the attempt still be `in-progress` (the
+review pass happens before scoring, same precondition every other in-progress write
+enforces) and the question to already have a recorded answer — reopening a question
+with no answer isn't reachable in this project's current forward-only flow, where every
+question is answered before the run can reach its last one.
+
+An edit can change `chosen`/`correct` (a different answer picked), `flagged` (the review
+list's flag toggle, editable independently of the answer), or both — `elapsedMs` is left
+untouched by an edit, since it recorded the time spent on the *original* answer, not the
+correction.
+
+**`priorHistory` (N-6) is the `questionHistory` entry that existed immediately before
+this answer's own spaced-repetition update — `null` if the question had never been
+answered before this attempt.** It exists so a review-pass edit that changes the chosen
+answer can correct `questionHistory` to the *edited* answer's correct/incorrect outcome
+without stacking a second SM-2 review event on top of the first: the edit recomputes
+`updateHistory(priorHistory, newCorrect)` fresh from the same baseline the original
+answer started from, and the result **replaces** (not adds to) the question's
+`questionHistory` entry, however many times the question is reopened and re-answered.
+An answer record written before this field existed carries no `priorHistory` at all
+(`undefined`, not `null`) — a review-pass edit on one of those skips the spaced-repetition
+correction rather than guess a wrong baseline, leaving the prior SM-2 update in place.
 
 ### Cross-tab writes (finding #2)
 
@@ -438,7 +472,9 @@ ease))` and `ease += 0.1`; incorrect → `intervalDays = 1` and `ease -= 0.2`, f
 1.3 (Phase 2.3: the standard SM-2 constants — chosen because the 1.3 floor was already
 specified here and is itself the standard SM-2 floor, implying the rest of the algorithm
 follows the same standard). `dueAt = now + intervalDays` days. Questions never seen have
-no history entry and are drawn as new.
+no history entry and are drawn as new. **A review-pass edit to an already-answered
+question corrects this history rather than adding a second review event to it** — see
+"Review-pass edits" above (N-6).
 
 ### Retention (finding #8)
 
