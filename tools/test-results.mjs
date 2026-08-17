@@ -1,6 +1,6 @@
 // Unit tests for js/results.js. Pure Node, no dependencies. Run: node tools/test-results.mjs
 import assert from "node:assert/strict";
-import { summarizeAttempt } from "../js/results.js";
+import { summarizeAttempt, formatElapsed, buildFullReview, flattenCategoryLabels } from "../js/results.js";
 
 const flatBank = {
   categories: [
@@ -116,6 +116,143 @@ test("shortfalls recompute is fresh, not read from any cached/stored field on th
   assert.deepEqual(second.shortfalls, [
     { categoryId: "I", label: "Number & Quantity and Algebra", wanted: 5, got: 1 },
   ]);
+});
+
+// --- formatElapsed (Phase 4.2) ---
+
+test("formatElapsed reports minutes under an hour", () => {
+  assert.equal(formatElapsed("2026-08-17T14:00:00.000Z", "2026-08-17T14:45:00.000Z"), "45 minutes");
+});
+
+test("formatElapsed uses singular 'minute' for exactly one", () => {
+  assert.equal(formatElapsed("2026-08-17T14:00:00.000Z", "2026-08-17T14:01:00.000Z"), "1 minute");
+});
+
+test("formatElapsed reports whole hours with no dangling '0m'", () => {
+  assert.equal(formatElapsed("2026-08-17T14:00:00.000Z", "2026-08-17T16:00:00.000Z"), "2h");
+});
+
+test("formatElapsed reports hours and minutes together", () => {
+  assert.equal(formatElapsed("2026-08-17T14:00:00.000Z", "2026-08-17T16:22:00.000Z"), "2h 22m");
+});
+
+test("formatElapsed rounds to the nearest minute", () => {
+  // 44.6 minutes rounds up to 45, not truncates to 44.
+  assert.equal(formatElapsed("2026-08-17T14:00:00.000Z", "2026-08-17T14:44:40.000Z"), "45 minutes");
+});
+
+test("formatElapsed reports a sub-minute span as 'less than a minute' rather than '0 minutes'", () => {
+  assert.equal(formatElapsed("2026-08-17T14:00:00.000Z", "2026-08-17T14:00:20.000Z"), "less than a minute");
+});
+
+test("formatElapsed reports 'time unavailable' rather than a negative span when finishedAt precedes startedAt", () => {
+  // Realistic trigger: a system clock adjusted backward mid-attempt (NTP correction,
+  // DST, sleep/wake drift) -- both timestamps are client-side with no server authority.
+  assert.equal(formatElapsed("2026-08-17T16:00:00.000Z", "2026-08-17T14:00:00.000Z"), "time unavailable");
+});
+
+test("formatElapsed reports 'time unavailable' rather than 'NaN minutes' for an unparseable timestamp", () => {
+  assert.equal(formatElapsed("not-a-date", "2026-08-17T14:00:00.000Z"), "time unavailable");
+});
+
+// --- buildFullReview (Phase 4.2) ---
+
+const categoryLabels = flattenCategoryLabels(flatBank.categories);
+
+function reviewQuestion(id, overrides = {}) {
+  return {
+    id,
+    type: "single",
+    categoryId: "I",
+    stem: { format: "text", value: `Stem for ${id}` },
+    options: [
+      { id: "a", content: { format: "text", value: "Option A" } },
+      { id: "b", content: { format: "text", value: "Option B" } },
+    ],
+    correct: ["a"],
+    explanation: { format: "text", value: `Why ${id} is a` },
+    ...overrides,
+  };
+}
+
+test("buildFullReview marks the chosen-and-correct option and reports correct: true", () => {
+  const form = { questions: [reviewQuestion("q1")] };
+  const answers = [{ questionId: "q1", chosen: ["a"] }];
+  const [row] = buildFullReview(form, answers, categoryLabels);
+  assert.equal(row.answered, true);
+  assert.equal(row.correct, true);
+  assert.equal(row.categoryLabel, "Number & Quantity and Algebra");
+  assert.equal(row.stem, "Stem for q1");
+  assert.equal(row.explanation, "Why q1 is a");
+  assert.deepEqual(
+    row.options.map((o) => [o.id, o.isChosen, o.isCorrectOption]),
+    [
+      ["a", true, true],
+      ["b", false, false],
+    ],
+  );
+});
+
+test("buildFullReview marks a chosen-but-wrong option and reports correct: false", () => {
+  const form = { questions: [reviewQuestion("q1")] };
+  const answers = [{ questionId: "q1", chosen: ["b"] }];
+  const [row] = buildFullReview(form, answers, categoryLabels);
+  assert.equal(row.correct, false);
+  assert.deepEqual(
+    row.options.map((o) => [o.id, o.isChosen, o.isCorrectOption]),
+    [
+      ["a", false, true],
+      ["b", true, false],
+    ],
+  );
+});
+
+test("buildFullReview recomputes correct from the stored chosen answer, not a trusted 'correct' field", () => {
+  // A deliberately wrong cached `correct: true` on the answer record -- the row must
+  // still report false, since scoring is recomputed via isCorrect, never trusted
+  // (SCHEMA.md §2.7's self-verifying principle, same as summarizeAttempt/scoreAttempt).
+  const form = { questions: [reviewQuestion("q1")] };
+  const answers = [{ questionId: "q1", chosen: ["b"], correct: true }];
+  const [row] = buildFullReview(form, answers, categoryLabels);
+  assert.equal(row.correct, false);
+});
+
+test("buildFullReview reports answered: false and correct: null for an unanswered question", () => {
+  const form = { questions: [reviewQuestion("q1")] };
+  const [row] = buildFullReview(form, [], categoryLabels);
+  assert.equal(row.answered, false);
+  assert.equal(row.correct, null);
+  assert.ok(row.options.every((o) => o.isChosen === false));
+  // The correct option is still marked, so an unanswered question's review still shows
+  // what the right answer was.
+  assert.equal(row.options.find((o) => o.id === "a").isCorrectOption, true);
+});
+
+test("buildFullReview falls back to the category id when the label map has no entry", () => {
+  const form = { questions: [reviewQuestion("q1", { categoryId: "does-not-exist" })] };
+  const [row] = buildFullReview(form, [], categoryLabels);
+  assert.equal(row.categoryLabel, "does-not-exist");
+});
+
+test("buildFullReview defaults explanation to an empty string when the question has none", () => {
+  const question = reviewQuestion("q1");
+  delete question.explanation;
+  const form = { questions: [question] };
+  const [row] = buildFullReview(form, [], categoryLabels);
+  assert.equal(row.explanation, "");
+});
+
+test("buildFullReview preserves the form's question order, not the answers' order", () => {
+  const form = { questions: [reviewQuestion("q1"), reviewQuestion("q2")] };
+  const answers = [
+    { questionId: "q2", chosen: ["a"] },
+    { questionId: "q1", chosen: ["a"] },
+  ];
+  const rows = buildFullReview(form, answers, categoryLabels);
+  assert.deepEqual(
+    rows.map((r) => r.questionId),
+    ["q1", "q2"],
+  );
 });
 
 let failed = 0;

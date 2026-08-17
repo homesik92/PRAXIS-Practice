@@ -13,18 +13,27 @@
     <p id="status-note" class="status-note" hidden></p>
     <div id="result" hidden>
       <p id="overall-score"></p>
+      <p id="time-used"></p>
       <h2>By category</h2>
       <ul id="category-list"></ul>
       <div id="shortfall-note" hidden>
         <h2>This attempt isn't fully representative</h2>
         <ul id="shortfall-list"></ul>
       </div>
+      <p id="full-review-unavailable-note" class="status-note" hidden>
+        The full review list below couldn't be rebuilt, because this test's questions
+        have changed since you took it. Your score above is still accurate.
+      </p>
+      <div id="full-review" hidden>
+        <h2>Full review</h2>
+        <ol id="full-review-list"></ol>
+      </div>
     </div>
   </main>
   <script type="module">
-    import { loadBank } from "./js/schema.js";
+    import { loadBank, resumeForm } from "./js/schema.js";
     import { scoreAttempt } from "./js/runner.js";
-    import { summarizeAttempt } from "./js/results.js";
+    import { summarizeAttempt, formatElapsed, buildFullReview, flattenCategoryLabels } from "./js/results.js";
     import { loadStore, findAttempt } from "./js/store.js";
 
     const params = new URLSearchParams(location.search);
@@ -33,10 +42,57 @@
     const statusNote = document.getElementById("status-note");
     const resultEl = document.getElementById("result");
     const overallEl = document.getElementById("overall-score");
+    const timeUsedEl = document.getElementById("time-used");
     const categoryListEl = document.getElementById("category-list");
     const shortfallNoteEl = document.getElementById("shortfall-note");
     const shortfallListEl = document.getElementById("shortfall-list");
+    const fullReviewUnavailableNoteEl = document.getElementById("full-review-unavailable-note");
+    const fullReviewEl = document.getElementById("full-review");
+    const fullReviewListEl = document.getElementById("full-review-list");
     const backLink = document.getElementById("back-link");
+
+    // Text-only markers, never color alone (SCHEMA.md S1.3) -- shared by every option
+    // row in the full review list below.
+    function optionSuffix(option) {
+      if (!option.isChosen) return option.isCorrectOption ? " (correct answer)" : "";
+      return option.isCorrectOption ? " (your answer — correct)" : " (your answer — incorrect)";
+    }
+
+    function renderReviewRow(row) {
+      const li = document.createElement("li");
+
+      const categoryEl = document.createElement("p");
+      const categoryStrong = document.createElement("strong");
+      categoryStrong.textContent = row.categoryLabel;
+      categoryEl.appendChild(categoryStrong);
+      li.appendChild(categoryEl);
+
+      const stemEl = document.createElement("p");
+      stemEl.textContent = row.stem;
+      li.appendChild(stemEl);
+
+      const optionsEl = document.createElement("ul");
+      for (const option of row.options) {
+        const optionLi = document.createElement("li");
+        optionLi.textContent = `${option.text}${optionSuffix(option)}`;
+        optionsEl.appendChild(optionLi);
+      }
+      li.appendChild(optionsEl);
+
+      if (!row.answered) {
+        const notAnsweredEl = document.createElement("p");
+        notAnsweredEl.textContent = "You did not answer this question.";
+        li.appendChild(notAnsweredEl);
+      }
+
+      if (row.explanation) {
+        const explanationEl = document.createElement("p");
+        explanationEl.textContent = `Explanation: ${row.explanation}`;
+        li.appendChild(explanationEl);
+      }
+
+      return li;
+    }
 
     function showStatus(message) {
       statusNote.textContent = message;
@@ -83,6 +139,7 @@
             const score = scoreAttempt(bankResult.bank, attempt.answers);
             const summary = summarizeAttempt(score, bankResult.bank, attempt.categoryTargets);
             overallEl.textContent = `${summary.overall.correct} / ${summary.overall.total} correct (${summary.overall.percent}%)`;
+            timeUsedEl.textContent = `Time used: ${formatElapsed(attempt.startedAt, attempt.finishedAt)}`;
             for (const category of summary.categories) {
               const li = document.createElement("li");
               li.textContent = `${category.label}: ${category.correct}/${category.total} (${category.percent}%)`;
@@ -101,6 +158,32 @@
               }
               shortfallNoteEl.hidden = false;
             }
+
+            // resumeForm replays the exact original question/option order and
+            // presentation this attempt drew (js/schema.js, D-19) -- the same
+            // reconstruction run.html's own review pass and résumé path already rely
+            // on, rather than re-deriving from the bank's current question order.
+            const form = resumeForm(bankResult.bank, attempt.questionOrder);
+            if (!form) {
+              // The realistic trigger is a question/option physically removed from the
+              // bank since this attempt was taken (retiring a question leaves it in
+              // place -- SCHEMA.md §1.2 -- so this shouldn't happen from retirement
+              // alone). Degrade gracefully: the score/category breakdown above is still
+              // accurate, only the full review list can't be rebuilt.
+              fullReviewUnavailableNoteEl.hidden = false;
+            } else {
+              const labels = flattenCategoryLabels(bankResult.bank.categories);
+              const rows = buildFullReview(form, attempt.answers, labels);
+              // One DOM mutation for the whole list, not one per row (code review
+              // finding) -- the largest form runs to 150+ questions.
+              const fragment = document.createDocumentFragment();
+              for (const row of rows) {
+                fragment.appendChild(renderReviewRow(row));
+              }
+              fullReviewListEl.appendChild(fragment);
+              fullReviewEl.hidden = false;
+            }
+
             resultEl.hidden = false;
           }
         }

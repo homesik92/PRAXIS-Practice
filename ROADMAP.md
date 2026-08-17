@@ -51,7 +51,7 @@ site with no server.
 | 1 | Walking skeleton | ☑ |
 | 2 | Core data & persistence | ☑ |
 | 3 | Runner completeness | ☑ |
-| 4 | Study mode & dashboard depth | ☐ |
+| 4 | Study mode & dashboard depth | ◐ |
 | 5 | Reference materials (5165, 5485) | ☐ |
 | 6 | Hardening | ☐ |
 | 7 | Content authoring (parallel track) | ☐ |
@@ -593,10 +593,64 @@ in parallel with Phases 3–6.
   regression pass confirmed the shared `renderOptions`/`transitionFocus`
   refactors didn't break the timed flow. 144/144 tests green (13 new for the
   schema.js functions), `verify.mjs` clean.
-- ☐ **4.2 Full results dashboard.** S4: per-category correct/incorrect, full review
+- ☑ **4.2 Full results dashboard.** S4: per-category correct/incorrect, full review
   list with explanations, shortfall disclosure surfaced legibly (not just logged).
   *Accepts:* every category shows a correct/incorrect count; a shortfall (from 2.4) is
   stated in the visible dashboard text, not just console/log output.
+  *Complete.* Per-category correct/incorrect and the shortfall disclosure already
+  existed (Phase 1.3/2.4); this task added the two pieces SCHEMA.md's S4 spec still
+  needed: "time used" and "a full review list of every question with the chosen
+  answer, the correct answer, and the explanation." `js/results.js` gained
+  `formatElapsed` (startedAt/finishedAt → a human span, e.g. "2h 22m") and
+  `buildFullReview`, which reconstructs the attempt's exact original question/option
+  order via `js/schema.js`'s `resumeForm` (the same reconstruction run.html's résumé
+  path already uses) and joins it against the stored answers, recomputing each row's
+  `correct` via `js/runner.js`'s `isCorrect` rather than trusting the stored
+  `answer.correct` field — SCHEMA.md §2.7's self-verifying principle, same as the
+  existing score/shortfall logic. `results.html` renders one bordered block per
+  question: full stem, all four options with chosen/correct marked in visible text
+  (never color alone, SCHEMA.md S1.3), the explanation, and an unanswered-question
+  case. If `resumeForm` can't rebuild the form (a bank question/option physically
+  removed since the attempt), the review list degrades to a status note while the
+  score/category breakdown above it stays intact.
+  `/code-review` at high effort (8 parallel angles) found 10 findings, 6 fixed
+  directly: a `#full-review-list li` CSS selector was a bare descendant selector, so
+  it also matched the per-option `<li>`s nested inside each question's own list, not
+  just the per-question rows — every option was rendering in its own bordered box;
+  fixed by scoping to `#full-review-list > li` and sharing the rule with
+  `#review-list li` rather than duplicating it. `formatElapsed` had no guard against a
+  negative or unparseable timestamp span (a system clock adjusted backward mid-attempt
+  — NTP correction, DST, sleep/wake — could otherwise silently show "less than a
+  minute" for a multi-hour attempt); now reports "time unavailable" instead.
+  `buildFullReview` had independently reimplemented the same "Map answers by id, then
+  join over questions" skeleton `js/runner.js`'s `buildReviewRows` (Phase 3.1) already
+  used — three review angles converged on this — so a new `joinAnswers` was extracted
+  into `js/runner.js` and both functions now share it. `optionSuffix`'s four-branch
+  if/else was simplified to three (the real decision tree only has three outcomes).
+  The review-row DOM insertion now batches into a `DocumentFragment` instead of one
+  `appendChild` per row (up to 150+ questions on the largest form). This PR's own
+  Phase 4.2 status update was itself flagged as missing by the review's conventions
+  angle before being added here — also caught, while updating this entry, that Phase
+  4.1's merge had left the phase-overview table's Phase 4 row at ☐ instead of ◐; fixed
+  both in this PR. Four findings deferred as pre-existing-class risks this diff makes
+  newly visible rather than introduces, filed as GitHub issues rather than fixed
+  inline: `resumeForm`'s all-or-nothing degradation (one unresolvable question hides
+  the *entire* full review list, unlike `scoreAttempt`'s per-answer degradation) and
+  the unenforced `attempt.answers ⊆ attempt.questionOrder` invariant the score and
+  review list both implicitly rely on (related to #25); and `buildReviewRows` (S3)
+  still trusting cached `answer.correct` where `buildFullReview` (S4) recomputes it,
+  plus `buildFullReview`'s `isCorrectOption` ignoring `question.type` unlike
+  `isCorrect` (both narrow, gated by `tools/verify.mjs`'s existing warn-only stance on
+  non-`"single"` types, D-10). Live-verified in the browser: a real completed 5165
+  attempt (4/5 correct, a genuine mix of right and wrong answers) rendered every
+  row correctly — stem, all four options, correct/chosen markers including the
+  contradictory-looking-but-correct "(correct answer)" + "(your answer — incorrect)"
+  pairing on the wrong answer, explanation text, and "Time used" — and the
+  `resumeForm`-returns-null fallback path was verified by deliberately corrupting a
+  `questionOrder` entry: the score/category breakdown stayed intact while the review
+  list correctly gave way to the status note. 34/34 relevant tests green (26 in
+  `tools/test-results.mjs`, +2 `joinAnswers` cases in `tools/test-runner.mjs`),
+  `verify.mjs` clean.
 - ☐ **4.3 Spaced-repetition entry point.** "N questions due" on S2, driven by
   `srs.js`'s `dueAt` values.
   *Accepts:* the displayed count matches the number of questions whose `dueAt` has
@@ -697,4 +751,5 @@ Phase 0.2).
 | 2026-08-17 | Phase 3.4 — runner accessibility pass | [PR #32](https://github.com/homesik92/PRAXIS-Practice/pull/32). `#timer`/`#position` gained `tabindex="0"` (finding #12); a serialized `announce()` queue over a static `aria-live="polite"` region plus a shared `transitionFocus` helper move focus and announce on every screen transition, never simultaneously (finding #15); `#status-note` gained `role="alert"`. `/code-review` at high effort (8 parallel angles) found 10 findings, 9 fixed: a real correctness bug in threshold pre-suppression (could suppress a fresh start's own threshold on an exactly-10/5/1-minute test — fixed via an explicit `resumingExistingTimer` flag and the threshold logic extracted to pure, unit-tested `js/runner.js` functions); a WCAG finding that résumé forced focus with no user gesture (fixed via `moveFocusOnFirstRender`); stale threshold announcements racing `finish()`'s navigation; `announce()`'s `requestAnimationFrame` stalling when backgrounded plus no error recovery (dropped rAF, added `.catch`, cut delay 700ms→~200ms); `<legend>`'s inconsistent cross-engine `.focus()` support (moved the focus target to the wrapping `<fieldset>`); `abortRun`/`showStatus` focus and re-announce gaps; the focus+announce duplication itself (extracted to `transitionFocus`). One finding deferred — the cross-tab `storage` handler's re-render now also steals focus mid-edit, a new manifestation of the already-accepted race in [issue #28](https://github.com/homesik92/PRAXIS-Practice/issues/28) (evidence comment added there). Live-verified in the browser with a click-event logger throughout: fresh start moves focus every time, résumé's first render doesn't, every later transition does; announcer queue fires in order with no clobbering (`MutationObserver`-verified); a live run at "1:00" remaining announced "1 minute remaining" exactly once at the crossing; `abortRun` correctly moves focus to the alert. 131/131 tests green. **Phase 3 (Runner completeness) is now fully done.** |
 | 2026-08-17 | Flagged-review visual marker | Small ad-hoc fix from the session owner's own live-testing of Phase 3 (not tied to a phase task): a flagged review row's existing "(flagged)" text didn't stand out visually. Added a decorative 🚩 `.flag-icon` span to the right of a flagged row's Reopen button in `run.html`'s `renderReviewList`, `aria-hidden` since the text label already carries the same information to a screen reader (SCHEMA.md S1.3's "never by color/icon alone" — this is a sighted-user enhancement on top of the existing signal, not a replacement). Trivial CSS/HTML-only change, self-reviewed, no logic touched. Live-verified: renders only on flagged rows, positioned correctly, all 131 tests still green (none affected). |
 | 2026-08-17 | Phase 4.1 — topic study screen | [PR #34](https://github.com/homesik92/PRAXIS-Practice/pull/34). New `js/schema.js` functions `flattenCategoryTree`/`categoryAndDescendantIds`/`assembleDrill` power a new S5 mode in `run.html` (category picker → untimed per-question drill with immediate reveal+explanation → completion screen), feeding `questionHistory` only, no attempt ever created. `test.html` gained a "Study a topic" link; `renderOptions` generalized for both S3/S5. Deep change — `/code-review` at high effort (8 parallel angles) found 10 findings, 9 fixed: an unguarded `correctOption` lookup that could crash the drill on a malformed bank; S5 had no cross-tab `storage` listener at all, so a stale snapshot could silently overwrite a concurrent tab's whole attempt (more severe than prior narrow cross-tab findings); a missing `&mode=` showed the literal string "null"; the `transitionFocus` helper Phase 3.4 explicitly extracted "so this pairing lives in one place" got reimplemented from scratch — hoisted into a shared `makeTransitionFocus` factory instead; `categoryAndDescendantIds`/`assembleDrill` each duplicated existing tree-walk/draw logic, now reuse `flattenCategoryTree`/`drawForCategory`; the mode list was enumerated twice; dead code removed. One architectural finding deferred (run.html accumulating multiple state machines with no module boundary; store.js has no first-class attempt-vs-history-write distinction) — bigger than this task's scope. Live-verified in the browser: full picker→drill→reveal→complete flow, focus/announce matching 3.4's precedent, `questionHistory` persisted with zero `attempts` created, both new error messages read correctly, full S3 regression pass clean. 144/144 tests green (13 new). |
+| 2026-08-17 | Phase 4.2 — full results dashboard | [PR #TBD](https://github.com/homesik92/PRAXIS-Practice/pulls). `js/results.js` gained `formatElapsed` and `buildFullReview`; `results.html` renders "time used" and a full post-submit review list (stem, all four options with chosen/correct marked in visible text, explanation) built by replaying the attempt's exact original form via `js/schema.js`'s `resumeForm` and recomputing correctness via `js/runner.js`'s `isCorrect` (self-verifying, matching the existing score/shortfall logic). `/code-review` at high effort (8 parallel angles) found 10 findings, 6 fixed: a `#full-review-list li` CSS selector matched the nested per-option `<li>`s too, wrapping every option in its own bordered box — scoped to `#full-review-list > li` and merged with `#review-list li`'s existing rule; `formatElapsed` had no guard against a negative/unparseable timestamp span (clock skew mid-attempt), now reports "time unavailable"; a `joinAnswers` helper was extracted into `js/runner.js` so `buildReviewRows` (S3) and the new `buildFullReview` (S4) share one join instead of each reimplementing it (three review angles converged on this); `optionSuffix` simplified from four branches to three; the review-row render loop now batches into a `DocumentFragment`. Also caught mid-review: this PR's own missing ROADMAP status update, and that Phase 4.1's merge had left the phase-overview table's Phase 4 row at ☐ instead of ◐ — both fixed here. Four findings deferred as pre-existing-class risks this diff makes newly visible, filed as GitHub issues: `resumeForm`'s all-or-nothing degradation vs. `scoreAttempt`'s per-answer degradation, the unenforced `attempt.answers ⊆ attempt.questionOrder` invariant (related to #25), `buildReviewRows` trusting cached `answer.correct` where `buildFullReview` recomputes it, and `isCorrectOption` ignoring `question.type` unlike `isCorrect` (both gated by `verify.mjs`'s existing warn-only stance on non-`"single"` types, D-10). Live-verified in the browser: a real completed 5165 attempt with a genuine mix of right/wrong answers rendered every row correctly including the wrong-answer case's "(correct answer)" + "(your answer — incorrect)" pairing; the `resumeForm`-null fallback was verified by deliberately corrupting a `questionOrder` entry, confirming the score/category breakdown stays intact while the review list degrades to a status note. 34/34 relevant tests green (26 in `tools/test-results.mjs`, +2 `joinAnswers` cases in `tools/test-runner.mjs`), `verify.mjs` clean. |
 
