@@ -14,6 +14,7 @@
   </main>
   <script type="module">
     import { loadTestList } from "./js/schema.js";
+    import { loadStore, findInProgressAttempt } from "./js/store.js";
 
     const params = new URLSearchParams(location.search);
     const code = params.get("code");
@@ -32,6 +33,27 @@
         heading.textContent = test.name;
         statusNote.remove();
         const nav = document.createElement("nav");
+
+        // S2 leads with a "Resume attempt" entry when one exists (finding #10) --
+        // run.html's own résumé lookup already handles the actual behavior identically
+        // whichever link is clicked, so this is purely a discoverability fix. A load
+        // failure here is skipped silently rather than surfaced: this is just an entry
+        // point, and run.html already reports storage failures robustly for the
+        // test-taking flow itself.
+        const loadResult = loadStore();
+        if (loadResult.ok) {
+          const inProgress = findInProgressAttempt(loadResult.store, code);
+          if (inProgress) {
+            const p = document.createElement("p");
+            p.textContent = `${inProgress.answers.length} of ${inProgress.formLength} questions answered.`;
+            const resumeLink = document.createElement("a");
+            resumeLink.href = `run.html?code=${encodeURIComponent(code)}&mode=test`;
+            resumeLink.textContent = "Resume attempt";
+            nav.appendChild(resumeLink);
+            nav.appendChild(p);
+          }
+        }
+
         const a = document.createElement("a");
         a.href = `run.html?code=${encodeURIComponent(code)}&mode=test`;
         a.textContent = "Take a practice test";
