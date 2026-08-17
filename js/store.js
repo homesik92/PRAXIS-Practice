@@ -157,6 +157,25 @@ function findAttemptIndex(store, attemptId) {
 }
 
 /**
+ * Shared precondition check for every write that mutates an existing attempt by id
+ * (`recordAnswer`, `updateAnswer`, `completeAttempt`) -- locates the attempt and
+ * confirms it's still `in-progress`, in the one place, so the three call sites can't
+ * drift out of sync on what "not found" or "not in-progress" means (code review
+ * finding: this exact four-line preamble had been copied into all three). Distinct
+ * from the exported `findInProgressAttempt` below, which looks up by `testCode` for
+ * S2's résumé entry point, not by `attemptId`.
+ *
+ * @returns {{ok: true, index: number, attempt: object} | {ok: false, reason: "not-found" | "not-in-progress"}}
+ */
+function requireInProgressAttempt(store, attemptId) {
+  const index = findAttemptIndex(store, attemptId);
+  if (index === -1) return { ok: false, reason: "not-found" };
+  const attempt = store.attempts[index];
+  if (attempt.status !== "in-progress") return { ok: false, reason: "not-in-progress" };
+  return { ok: true, index, attempt };
+}
+
+/**
  * Starts a new attempt: appends it to store.attempts with status "in-progress".
  * Marks any other in-progress attempt for the same testCode "abandoned" first --
  * "at most one in-progress attempt exists per test code at a time" (SCHEMA.md §2.8).
@@ -220,14 +239,21 @@ export function startAttempt(
  * reference (code review finding: relying on reference identity is an implicit
  * contract this function doesn't otherwise promise to keep).
  *
- * @param {{questionId: string, chosen: string[], correct: boolean, elapsedMs: number, flagged: boolean}} answer
+ * `priorHistory` (Phase 3.1, N-6) is the caller's snapshot of this question's
+ * `questionHistory` entry from *before* this answer's own spaced-repetition update --
+ * `null` if none existed yet. It exists purely so a later review-pass edit
+ * (`updateAnswer` + a fresh `updateHistory` call) can recompute the SM-2 update from
+ * the same baseline this answer started from, instead of stacking a second review
+ * event on top of the first. Not read by anything in this file; stored as-is and left
+ * untouched by `updateAnswer`'s shallow merge.
+ *
+ * @param {{questionId: string, chosen: string[], correct: boolean, elapsedMs: number, flagged: boolean, priorHistory: object | null}} answer
  * @returns {{ok: true, store: object, recorded: boolean} | {ok: false, reason: "not-found" | "not-in-progress"}}
  */
 export function recordAnswer(store, attemptId, answer) {
-  const index = findAttemptIndex(store, attemptId);
-  if (index === -1) return { ok: false, reason: "not-found" };
-  const attempt = store.attempts[index];
-  if (attempt.status !== "in-progress") return { ok: false, reason: "not-in-progress" };
+  const found = requireInProgressAttempt(store, attemptId);
+  if (!found.ok) return found;
+  const { index, attempt } = found;
 
   if (attempt.answers.some((a) => a.questionId === answer.questionId)) {
     return { ok: true, store, recorded: false }; // already recorded (e.g. a cross-tab race) -- not an error
@@ -236,6 +262,44 @@ export function recordAnswer(store, attemptId, answer) {
   const attempts = [...store.attempts];
   attempts[index] = { ...attempt, answers: [...attempt.answers, answer] };
   return { ok: true, store: { ...store, attempts }, recorded: true };
+}
+
+/**
+ * Replaces an already-recorded answer's editable fields during the end-of-run review
+ * pass (SCHEMA.md §2.8, Phase 3.1, D-11) -- distinct from `recordAnswer`'s append-only,
+ * idempotent-on-duplicate semantics above, which stays exactly as-is for the live
+ * per-question answering path (its cross-tab race guard would otherwise silently
+ * swallow every real review-pass edit as a "duplicate").
+ *
+ * Requires the attempt to still be `in-progress` (the review pass happens before
+ * scoring, same precondition `recordAnswer` enforces) and the questionId to already
+ * have a recorded answer -- reopening a question that was never answered isn't a
+ * review-pass case in this project's current forward-only flow (SCHEMA.md's S3: an
+ * answer is always recorded before the run can reach its last question).
+ *
+ * `updates` is shallow-merged onto the existing answer record, so a caller can change
+ * just `flagged`, just `chosen`/`correct` together, or both, without needing to resend
+ * fields it isn't touching (e.g. `elapsedMs`, which review edits leave untouched --
+ * it's the time spent on the original answer, not the edit).
+ *
+ * @param {string} questionId
+ * @param {{chosen?: string[], correct?: boolean, flagged?: boolean}} updates
+ * @returns {{ok: true, store: object} | {ok: false, reason: "not-found" | "not-in-progress" | "answer-not-found"}}
+ */
+export function updateAnswer(store, attemptId, questionId, updates) {
+  const found = requireInProgressAttempt(store, attemptId);
+  if (!found.ok) return found;
+  const { index, attempt } = found;
+
+  const answerIndex = attempt.answers.findIndex((a) => a.questionId === questionId);
+  if (answerIndex === -1) return { ok: false, reason: "answer-not-found" };
+
+  const answers = [...attempt.answers];
+  answers[answerIndex] = { ...answers[answerIndex], ...updates };
+
+  const attempts = [...store.attempts];
+  attempts[index] = { ...attempt, answers };
+  return { ok: true, store: { ...store, attempts } };
 }
 
 /**
@@ -273,12 +337,12 @@ export function recordQuestionHistory(store, questionId, entry) {
  * @returns {{ok: true, store: object} | {ok: false, reason: "not-found" | "not-in-progress"}}
  */
 export function completeAttempt(store, attemptId, { now = () => new Date() } = {}) {
-  const index = findAttemptIndex(store, attemptId);
-  if (index === -1) return { ok: false, reason: "not-found" };
-  if (store.attempts[index].status !== "in-progress") return { ok: false, reason: "not-in-progress" };
+  const found = requireInProgressAttempt(store, attemptId);
+  if (!found.ok) return found;
+  const { index, attempt } = found;
 
   const attempts = [...store.attempts];
-  attempts[index] = { ...attempts[index], status: "completed", finishedAt: now().toISOString() };
+  attempts[index] = { ...attempt, status: "completed", finishedAt: now().toISOString() };
   return { ok: true, store: { ...store, attempts } };
 }
 

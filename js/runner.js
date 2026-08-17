@@ -1,7 +1,6 @@
-// S3 test-runner logic -- Phase 1.2's minimal version: scoring only. The rest of
-// runner.js's eventual scope per the file layout (timer enforcement, flag, review
-// pass, submit confirmation) lands in Phase 3; this file is deliberately thin until
-// then, matching schema.js's placeholder-first pattern.
+// S3 test-runner logic -- Phase 1.2 added scoring; Phase 3.1 adds the review-pass list
+// (excerptStem/buildReviewRows). Timer enforcement and submit confirmation are still
+// Phase 3.2/3.3/3.4's, matching schema.js's placeholder-first pattern.
 //
 // Kept pure and DOM-free, like js/schema.js's shaping logic and checkers-demo's
 // board.ts/input.ts split -- so scoring can be unit-tested under Node with a plain
@@ -58,4 +57,52 @@ export function scoreAttempt(bank, answers) {
   }
 
   return { correct, total, byCategory };
+}
+
+/**
+ * Truncates a stem to a short excerpt for the review-pass list (SCHEMA.md §1.1 S3,
+ * finding #16 -- "a short stem excerpt ... not a bare number"). Trims trailing
+ * whitespace left by the cut before appending the ellipsis, so a break mid-word
+ * doesn't read as `foo …` with an orphan space.
+ *
+ * @param {string} text
+ * @param {number} [maxLength]
+ */
+export function excerptStem(text, maxLength = 80) {
+  if (text.length <= maxLength) return text;
+  return `${text.slice(0, maxLength).trimEnd()}…`;
+}
+
+/**
+ * Builds the end-of-run review-pass list (SCHEMA.md §1.1 S3, D-11, finding #16) by
+ * joining a form's questions -- in the order they were drawn, not the order they were
+ * answered in -- against the attempt's stored answers. Looked up by a Map rather than
+ * assuming `answers[i]` lines up with `questions[i]`: true in this project's current
+ * forward-only flow, but this stays correct even if a future skip/reorder feature
+ * breaks that assumption.
+ *
+ * A question with no matching answer reports `answered: false` and null
+ * chosen/correct/flagged rather than throwing -- this project's flow always answers
+ * every question before review is reached today, but the review list is written to
+ * reflect reality rather than assume it.
+ *
+ * @param {{id: string, stem: {value: string}, categoryId: string}[]} questions
+ * @param {{questionId: string, chosen: string[], correct: boolean, flagged: boolean}[]} answers
+ * @param {Map<string, string>} categoryLabels
+ * @returns {{questionId: string, stemExcerpt: string, categoryLabel: string, answered: boolean, chosen: string[]|null, correct: boolean|null, flagged: boolean}[]}
+ */
+export function buildReviewRows(questions, answers, categoryLabels) {
+  const byId = new Map(answers.map((a) => [a.questionId, a]));
+  return questions.map((question) => {
+    const answer = byId.get(question.id);
+    return {
+      questionId: question.id,
+      stemExcerpt: excerptStem(question.stem.value),
+      categoryLabel: categoryLabels.get(question.categoryId) ?? question.categoryId,
+      answered: Boolean(answer),
+      chosen: answer?.chosen ?? null,
+      correct: answer?.correct ?? null,
+      flagged: answer?.flagged ?? false,
+    };
+  });
 }

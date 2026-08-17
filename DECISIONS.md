@@ -461,3 +461,34 @@ trail available via the export feature, just not something S4 reads live.
 **Attribution:** Session owner's call, decided at the Phase 2.4 plan-approval step
 (offered as an explicit alternative, not picked), confirmed as intentional when code
 review raised it again against the literal spec wording.
+
+### N-6: Review-pass edits correct spaced-repetition history from a frozen baseline; flag/answer edits persist immediately
+
+**Date:** 2026-08-17
+**Decision:** Phase 3.1's review pass (D-11) makes two implementation calls not spelled
+out in SCHEMA.md's prose:
+1. **A changed answer corrects `questionHistory`, recomputed from a baseline frozen at
+   the moment the question was first answered** (the new `priorHistory` field on each
+   answer record — SCHEMA.md §2.8), not left as the original (possibly now-wrong)
+   answer's outcome, and not stacked as a second SM-2 review event on top of the
+   first. Reopening and changing the same question any number of times before
+   submitting always recomputes from that same fixed baseline, so the schedule always
+   reflects only the *final* answer, however many edits it took to get there.
+2. **Every review-pass edit — a changed answer, or a flag toggled — persists
+   immediately** (`updateAnswer` + `saveStore`, right where the interaction happens),
+   the same immediate-write cadence every other write in the store already uses. There
+   is no separate "save" step in the review pass distinct from picking a new answer or
+   toggling a checkbox.
+**Why:** (1) was an open question put to the session owner rather than decided solo,
+since it touches the spaced-repetition subsystem D-8/N-4 already governs: leaving
+history stale after a correction was the simpler option and was flagged as the
+recommended default, but the session owner chose the more consistent-with-final-score
+behavior, accepting the added bookkeeping (`priorHistory`) that makes it safe against
+double-counting. (2) follows directly from this project's established pattern — every
+other write path (`recordAnswer`, the flag-toggle-during-live-answering buffer once an
+answer exists) already saves on the interaction, not on a separate confirm step — and
+avoids inventing a new UI affordance (a "save edit" button) 3.2's actual
+confirm-before-submit dialog will already provide at the point that matters (submission
+itself).
+**Attribution:** (1) Session owner's call, against the offered recommendation. (2)
+Implementer's call, following established precedent — not escalated as a fork.

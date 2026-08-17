@@ -13,8 +13,11 @@
  * flat id -> label map. Works on today's flat placeholder tree and Phase 2's
  * variable-depth production trees alike, since a node's own {id, label} is collected
  * regardless of whether it has children.
+ *
+ * Exported (Phase 3.1) so run.html's review pass can label each row's category without
+ * re-implementing this walk.
  */
-function flattenCategoryLabels(nodes) {
+export function flattenCategoryLabels(nodes) {
   const labels = new Map();
   for (const node of nodes ?? []) {
     labels.set(node.id, node.label);

@@ -1,6 +1,6 @@
 // Unit tests for js/runner.js. Pure Node, no dependencies. Run: node tools/test-runner.mjs
 import assert from "node:assert/strict";
-import { scoreAttempt, isCorrect } from "../js/runner.js";
+import { scoreAttempt, isCorrect, excerptStem, buildReviewRows } from "../js/runner.js";
 
 const bank = {
   questions: [
@@ -69,6 +69,82 @@ test("a non-single question type is counted in total but never scored correct", 
 
 test("an empty answers array scores as zero/zero with no category buckets", () => {
   assert.deepEqual(scoreAttempt(bank, []), { correct: 0, total: 0, byCategory: {} });
+});
+
+// --- excerptStem (Phase 3.1, finding #16) ---
+
+test("excerptStem returns short text unchanged", () => {
+  assert.equal(excerptStem("Short stem.", 80), "Short stem.");
+});
+
+test("excerptStem truncates long text and appends an ellipsis", () => {
+  const text = "a".repeat(100);
+  const result = excerptStem(text, 80);
+  assert.equal(result, `${"a".repeat(80)}…`);
+});
+
+test("excerptStem trims a trailing space left by a cut landing right after a word, before the ellipsis", () => {
+  const text = "one two three four five six seven eight nine ten eleven twelve thirteen fourteen";
+  const result = excerptStem(text, 19); // slice(0, 19) lands exactly on the space after "four"
+  assert.equal(result.endsWith(" …"), false);
+  assert.equal(result, "one two three four…");
+});
+
+test("excerptStem defaults maxLength to 80", () => {
+  const text = "b".repeat(90);
+  assert.equal(excerptStem(text), `${"b".repeat(80)}…`);
+});
+
+// --- buildReviewRows (Phase 3.1, D-11, finding #16) ---
+
+const reviewBank = {
+  questions: [
+    { id: "q1", stem: { value: "First stem." }, categoryId: "I" },
+    { id: "q2", stem: { value: "Second stem." }, categoryId: "II" },
+    { id: "q3", stem: { value: "Third stem." }, categoryId: "I" },
+  ],
+};
+const reviewLabels = new Map([
+  ["I", "Category One"],
+  ["II", "Category Two"],
+]);
+
+test("buildReviewRows returns rows in question order, not answer-array order", () => {
+  const answers = [
+    { questionId: "q3", chosen: ["c"], correct: true, flagged: false },
+    { questionId: "q1", chosen: ["b"], correct: false, flagged: true },
+    { questionId: "q2", chosen: ["a"], correct: true, flagged: false },
+  ];
+  const rows = buildReviewRows(reviewBank.questions, answers, reviewLabels);
+  assert.deepEqual(rows.map((r) => r.questionId), ["q1", "q2", "q3"]);
+});
+
+test("buildReviewRows carries stem excerpt, category label, chosen/correct/flagged from the matching answer", () => {
+  const answers = [{ questionId: "q1", chosen: ["b"], correct: false, flagged: true }];
+  const [row] = buildReviewRows([reviewBank.questions[0]], answers, reviewLabels);
+  assert.deepEqual(row, {
+    questionId: "q1",
+    stemExcerpt: "First stem.",
+    categoryLabel: "Category One",
+    answered: true,
+    chosen: ["b"],
+    correct: false,
+    flagged: true,
+  });
+});
+
+test("buildReviewRows reports answered: false and null chosen/correct for a question with no stored answer", () => {
+  const [row] = buildReviewRows([reviewBank.questions[0]], [], reviewLabels);
+  assert.equal(row.answered, false);
+  assert.equal(row.chosen, null);
+  assert.equal(row.correct, null);
+  assert.equal(row.flagged, false);
+});
+
+test("buildReviewRows falls back to the raw categoryId when no label is found", () => {
+  const question = { id: "q9", stem: { value: "Stem." }, categoryId: "unknown-cat" };
+  const [row] = buildReviewRows([question], [], new Map());
+  assert.equal(row.categoryLabel, "unknown-cat");
 });
 
 let failed = 0;

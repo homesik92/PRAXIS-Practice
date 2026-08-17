@@ -404,11 +404,40 @@ in parallel with Phases 3–6.
 
 ### Phase 3 — Runner completeness
 
-- ☐ **3.1 Flag and review pass.** Flag-toggle control (finding #13) + end-of-run review
+- ☑ **3.1 Flag and review pass.** Flag-toggle control (finding #13) + end-of-run review
   pass: list with stem excerpt and category per row (finding #16), reopen and change
   any answer.
   *Accepts:* every flagged question appears in the review list; reopening and changing
   an answer there updates the stored attempt.
+  *Complete.* `js/store.js` gained `updateAnswer` (replace-in-place, distinct from
+  `recordAnswer`'s append-only idempotent semantics) plus a shared
+  `requireInProgressAttempt` precondition helper factored out of `recordAnswer`/
+  `updateAnswer`/`completeAttempt` on code review. `js/runner.js` gained
+  `excerptStem`/`buildReviewRows`; `js/results.js`'s `flattenCategoryLabels` is now
+  exported for reuse. `run.html` gained a keyboard-operable flag checkbox per
+  question, a review screen (reopen any row to change its answer or flag, Submit to
+  score), and a `priorHistory` field on each answer record (N-6) so a review-pass
+  answer change corrects spaced-repetition history from the same frozen baseline
+  instead of double-counting a corrected answer as two SM-2 events — a genuine design
+  fork put to the session owner rather than decided solo. Résumé of a fully-answered
+  attempt now lands in the review pass rather than auto-scoring, extending the review
+  pass to be the universal gate between last-answer and scoring. `/code-review` at
+  high effort (8 parallel angles) found 8 findings: a real crash reopening a
+  corrupted/answerless review row (fixed with a graceful status message, not a
+  crash), stale Start-screen copy contradicting the new review pass (fixed), a latent
+  stale-reference bug in the edit-commit path (fixed), missing test coverage for
+  `priorHistory` surviving an edit (fixed), plus three reuse/simplification findings
+  (fixed: `findAttempt` reuse, the shared precondition helper, dropping a redundant
+  `currentFlagged` variable that just mirrored the checkbox's own DOM state). One
+  finding — `updateAnswer` has no cross-tab conflict guard, so a simultaneous
+  review-pass edit in another tab can clobber this tab's — deferred as
+  [issue #28](https://github.com/homesik92/PRAXIS-Practice/issues/28), same narrow
+  shape as the already-accepted issue #22. Live-verified in the browser: flag → answer
+  all 5 → review list shows correct flag/category/excerpt per row → reopen and change
+  an answer → SRS history recomputes without double-counting (`seen` stays 1, not 2)
+  → Submit scores correctly; also verified the corrupted-row Reopen guard directly by
+  hand-editing a stored answer's `questionId`. 120/120 tests green, `verify.mjs`
+  clean.
 - ☐ **3.2 Confirm-before-submit.** Dialog showing unanswered/flagged counts before
   scoring (finding #11).
   *Accepts:* the dialog's counts match the actual number of unanswered and flagged
@@ -528,4 +557,5 @@ Phase 0.2).
 | 2026-08-16 | Docs — roadmap reformat & new requirement | Restructured ROADMAP.md to a phase-overview table plus per-task checklist format (matching checkers-demo's sibling project), converting every phase's tasks to leading-checkbox bullets with explicit `*Accepts:*` criteria. Added a new requirement — a weakest-category practice suggestion on S2 (accuracy-ranked, 5-question minimum sample, D-18) — to SCHEMA.md §1.1/§1.2, logged as D-18, indexed in DECISIONS-INDEX.md, and scheduled as task 4.4. Resolved D-17 in the design-plan table's status column (it read "In progress" past completion). **No code changed; Phase 1 still not started.** |
 | 2026-08-16 | Phase 2.3 — spaced repetition scheduling | Merged [PR #23](https://github.com/homesik92/PRAXIS-Practice/pull/23). New `js/srs.js` implements SCHEMA.md §2.8's SM-2 recurrence, wired into `run.html`'s answer path and `assembleForm`'s draw (activating the least-recently-seen preference dead since Phase 2.1). `/code-review` at high effort found 7 findings, 5 fixed — three angles independently flagged the `questionHistory` store-merge belonging in `js/store.js`, not `run.html`; fixed via a new `recordQuestionHistory` helper and an explicit `recorded` flag on `recordAnswer`, replacing a fragile reference-equality check. Pinned the previously-unspecified ease deltas to the standard SM-2 constants, logged as N-4. One finding deferred to [issue #22](https://github.com/homesik92/PRAXIS-Practice/issues/22) (a cross-tab race extending an already-accepted Phase 2.2 residual gap). Live-verified end to end in the browser before and after remediation. 99/99 tests green. |
 | 2026-08-16 | Phase 2.4 — shortfall audit trail | Merged [PR #26](https://github.com/homesik92/PRAXIS-Practice/pull/26). `js/results.js`'s `summarizeAttempt` gained `recomputeShortfalls`, surfacing SCHEMA.md §1.2's "underfilled bank is disclosed, never silently padded" requirement on the results screen for the first time — `categoryTargets`/`shortfalls` had been persisted since Phase 2.1/2.2 but never read by `results.html`. `/code-review` at high effort found 4 findings, 1 fixed: logged N-5 for the deliberate choice not to cross-check against the stored `attempt.shortfalls` value (matches the score's own recompute-fresh pattern; picked at plan-approval, confirmed against the code review's literal-spec-wording objection). Filed [issue #25](https://github.com/homesik92/PRAXIS-Practice/issues/25) for a real, pre-existing gap this PR inherits rather than introduces (score/shortfall both depend on the bank being unchanged between draw and viewing — true since Phase 1.3). Live-verified both the no-shortfall and an injected-shortfall case in the browser. 105/105 tests green. |
+| 2026-08-17 | Phase 3.1 — flag and review pass | [PR #29](https://github.com/homesik92/PRAXIS-Practice/pull/29). `js/store.js` gained `updateAnswer` (replace-in-place) and a shared `requireInProgressAttempt` precondition helper; `js/runner.js` gained `excerptStem`/`buildReviewRows`; `run.html` gained a flag toggle and an end-of-run review screen (reopen/change any answer, Submit to score), plus a `priorHistory` field on each answer so a review-pass edit corrects spaced-repetition history from a frozen baseline instead of double-counting (N-6 — a genuine SRS-subsystem fork put to the session owner, decided against the offered recommendation). Résumé of a fully-answered attempt now lands in review rather than auto-scoring. `/code-review` at high effort (8 parallel angles) found 8 findings, 7 fixed directly (a real crash reopening a corrupted/answerless review row; stale Start-screen copy; a latent stale-reference bug; missing `priorHistory` test coverage; `findAttempt` reuse; the shared precondition helper; a redundant `currentFlagged` variable). One deferred to [issue #28](https://github.com/homesik92/PRAXIS-Practice/issues/28) (cross-tab review-edit race, same narrow shape as the already-accepted issue #22). Live-verified in the browser: flag → answer all 5 → review list → reopen/change an answer → SRS recomputes without double-counting → Submit scores correctly; also hand-verified the corrupted-row Reopen guard directly. 120/120 tests green. |
 
