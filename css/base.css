@@ -74,6 +74,13 @@ a {
   margin-bottom: 0.5rem;
 }
 
+/* Sighted-user visual enhancement for a flagged row's Reopen button -- the
+   "(flagged)" text already carries this to a screen reader (SCHEMA.md S1.3's
+   "never by color/icon alone"), so this is decorative, not the only signal. */
+.flag-icon {
+  margin-left: 0.5rem;
+}
+
 /* Confirm-before-submit dialog (Phase 3.2, SCHEMA.md S3, finding #11) -- native
    <dialog> for its built-in focus trap and Esc-to-close, styled just enough that it
    doesn't sit edge-to-edge on a wide viewport. */
