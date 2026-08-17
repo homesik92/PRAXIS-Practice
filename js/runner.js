@@ -128,20 +128,29 @@ export function isAnswered(answer) {
  * flagged, and reopenable) but an empty `chosen`, and should show as unanswered, not
  * as an answered-and-wrong row.
  *
- * @param {{id: string, stem: {value: string}, categoryId: string}[]} questions
+ * `chosenOptionText` resolves `chosen[0]` against the question's own `options` (D-10:
+ * v1 is single-select, so there's always at most one) so the review list can show what
+ * was actually picked, not just that something was -- `null` both when unanswered and,
+ * defensively, if `chosen[0]` doesn't match any of this question's option ids (a
+ * corrupted/hand-edited record or a bank edited since the attempt), rather than
+ * throwing on a missing option.
+ *
+ * @param {{id: string, stem: {value: string}, categoryId: string, options: {id: string, content: {value: string}}[]}[]} questions
  * @param {{questionId: string, chosen: string[], correct: boolean, flagged: boolean}[]} answers
  * @param {Map<string, string>} categoryLabels
- * @returns {{questionId: string, stemExcerpt: string, categoryLabel: string, answered: boolean, chosen: string[]|null, correct: boolean|null, flagged: boolean}[]}
+ * @returns {{questionId: string, stemExcerpt: string, categoryLabel: string, answered: boolean, chosen: string[]|null, chosenOptionText: string|null, correct: boolean|null, flagged: boolean}[]}
  */
 export function buildReviewRows(questions, answers, categoryLabels) {
   return joinAnswers(questions, answers).map(({ question, answer }) => {
     const answered = isAnswered(answer);
+    const chosenOption = answered ? question.options.find((o) => o.id === answer.chosen[0]) : undefined;
     return {
       questionId: question.id,
       stemExcerpt: excerptStem(question.stem.value),
       categoryLabel: categoryLabels.get(question.categoryId) ?? question.categoryId,
       answered,
       chosen: answered ? answer.chosen : null,
+      chosenOptionText: chosenOption?.content.value ?? null,
       correct: answered ? answer.correct : null,
       flagged: answer?.flagged ?? false,
     };

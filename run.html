@@ -824,6 +824,13 @@
         for (const row of rows) {
           const li = document.createElement("li");
           const parts = [row.categoryLabel, "--", row.stemExcerpt];
+          if (row.answered) {
+            // Degrades to a generic note rather than omitting the answer silently
+            // (code review consideration, matching S5's correctOption fallback
+            // elsewhere in this file) if chosen[0] no longer resolves to a real
+            // option -- a hand-edited record or a bank edited since the attempt.
+            parts.push(row.chosenOptionText ? `(${row.chosen[0]}) ${row.chosenOptionText}` : "(answer no longer available)");
+          }
           if (row.flagged) parts.push("(flagged)");
           if (!row.answered) parts.push("(not answered)");
           li.append(`${parts.join(" ")} `);

@@ -118,11 +118,16 @@ test("excerptStem defaults maxLength to 80", () => {
 
 // --- buildReviewRows (Phase 3.1, D-11, finding #16) ---
 
+const reviewOptions = [
+  { id: "a", content: { value: "Option A" } },
+  { id: "b", content: { value: "Option B" } },
+  { id: "c", content: { value: "Option C" } },
+];
 const reviewBank = {
   questions: [
-    { id: "q1", stem: { value: "First stem." }, categoryId: "I" },
-    { id: "q2", stem: { value: "Second stem." }, categoryId: "II" },
-    { id: "q3", stem: { value: "Third stem." }, categoryId: "I" },
+    { id: "q1", stem: { value: "First stem." }, categoryId: "I", options: reviewOptions },
+    { id: "q2", stem: { value: "Second stem." }, categoryId: "II", options: reviewOptions },
+    { id: "q3", stem: { value: "Third stem." }, categoryId: "I", options: reviewOptions },
   ],
 };
 const reviewLabels = new Map([
@@ -189,9 +194,24 @@ test("buildReviewRows carries stem excerpt, category label, chosen/correct/flagg
     categoryLabel: "Category One",
     answered: true,
     chosen: ["b"],
+    chosenOptionText: "Option B",
     correct: false,
     flagged: true,
   });
+});
+
+test("buildReviewRows resolves chosenOptionText to null, not a throw, when chosen[0] doesn't match any real option", () => {
+  // Realistic trigger: a hand-edited record, or a bank edited (option removed) since
+  // the attempt was taken -- run.html falls back to a generic status text for this.
+  const answers = [{ questionId: "q1", chosen: ["does-not-exist"], correct: false, flagged: false }];
+  const [row] = buildReviewRows([reviewBank.questions[0]], answers, reviewLabels);
+  assert.equal(row.answered, true);
+  assert.equal(row.chosenOptionText, null);
+});
+
+test("buildReviewRows reports chosenOptionText: null for an unanswered question", () => {
+  const [row] = buildReviewRows([reviewBank.questions[0]], [], reviewLabels);
+  assert.equal(row.chosenOptionText, null);
 });
 
 test("buildReviewRows reports answered: false and null chosen/correct for a question with no stored answer", () => {
