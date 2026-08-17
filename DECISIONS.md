@@ -492,3 +492,43 @@ confirm-before-submit dialog will already provide at the point that matters (sub
 itself).
 **Attribution:** (1) Session owner's call, against the offered recommendation. (2)
 Implementer's call, following established precedent — not escalated as a fork.
+
+### D-20: Flagging a question reveals a Skip option, amending D-11's forward-only run
+
+**Date:** 2026-08-17
+**Decision:** Amends D-11. D-11 kept the run strictly one-way — answering advances
+immediately, with no way to leave a question and come back to it mid-run — and
+explicitly accepted that this "removes a genuine exam skill: skipping a hard question,
+banking the time, and returning to it," compensating with only the single end-of-run
+review pass. This decision partially restores that skill: **checking the flag toggle
+reveals a "Skip this question" button.** Flagging alone still never advances (picking an
+answer after flagging, to double-check it later, keeps working exactly as before) — Skip
+is a separate, deliberate second action, only reachable once a question is flagged. A
+skipped question is recorded with an empty `chosen` (SCHEMA.md §2.8) — not left as a
+gap — so it's counted toward the form and the confirm-before-submit dialog's unanswered
+count (SCHEMA.md S3, finding #11), and shows up in the review pass exactly like any
+other flagged row, reopenable there to give it a real answer. It contributes no
+spaced-repetition update at skip time — nothing was actually attempted — but if it's
+later answered in review, that answer's SM-2 update is computed from the same
+`priorHistory` baseline captured at skip time, not one computed fresh at reopen time
+(matching N-6's existing "recompute from a frozen baseline" pattern for review-pass
+edits generally).
+**Why:** Session-owner-driven, found by hand while live-testing Phase 3.2's
+confirm-before-submit dialog on `main` — reaching "cannot advance without an answer,
+even a flagged one" and asking for it directly, rather than a code-review finding.
+Distinct from D-11's original tradeoff in one respect: D-11 judged the lost skill
+acceptable "for a fraction of the interface" of full free navigation; hands-on use
+surfaced that flag-then-skip recovers most of that skill (skip a hard question, come
+back to it in the one review pass that already exists) for barely any added interface —
+one button, gated on a control that already exists — making it worth doing rather than
+leaving the D-11 tradeoff as originally scoped.
+**Attribution:** Session owner's call, from their own live-testing.
+**Note (code review, same session):** a skip that's never resolved by submit time scores
+as a miss (`scoreAttempt` counts it toward `total`, never toward `correct`) — the same
+treatment a real wrong answer gets, and standard exam-scoring convention (a blank counts
+against you). This is a real asymmetry with a question the run's clock simply never
+reached at all, which contributes nothing to `total` — but it's the intended behavior,
+not a gap: Skip is a deliberate "leave this blank for now" action, not a promise the
+question will be revisited, and the whole point of D-20 is that the person chose to
+defer it. Documented here because the review surfaced it as worth being explicit about,
+not because it needed fixing.

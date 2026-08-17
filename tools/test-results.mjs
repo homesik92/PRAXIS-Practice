@@ -228,6 +228,16 @@ test("buildFullReview reports answered: false and correct: null for an unanswere
   assert.equal(row.options.find((o) => o.id === "a").isCorrectOption, true);
 });
 
+test("buildFullReview reports answered: false for a skipped question (D-20) -- a real answer record with empty chosen, not a missing one", () => {
+  const form = { questions: [reviewQuestion("q1")] };
+  const answers = [{ questionId: "q1", chosen: [], correct: false, flagged: true }];
+  const [row] = buildFullReview(form, answers, categoryLabels);
+  assert.equal(row.answered, false);
+  assert.equal(row.correct, null);
+  assert.ok(row.options.every((o) => o.isChosen === false));
+  assert.equal(row.options.find((o) => o.id === "a").isCorrectOption, true);
+});
+
 test("buildFullReview falls back to the category id when the label map has no entry", () => {
   const form = { questions: [reviewQuestion("q1", { categoryId: "does-not-exist" })] };
   const [row] = buildFullReview(form, [], categoryLabels);

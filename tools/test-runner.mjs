@@ -5,6 +5,7 @@ import {
   isCorrect,
   excerptStem,
   joinAnswers,
+  isAnswered,
   buildReviewRows,
   countReviewStatus,
   initialAnnouncedThresholds,
@@ -60,6 +61,17 @@ test("a partial attempt (fewer answers than questions) scores only what was answ
   const result = scoreAttempt(bank, [{ questionId: "q3", chosen: ["c"] }]);
   assert.equal(result.total, 1);
   assert.deepEqual(result.byCategory, { II: { correct: 1, total: 1 } });
+});
+
+test("a skipped question (D-20, chosen: []) counts toward total but never scores correct", () => {
+  // isCorrect(question, []) is false for every question -- includes(undefined) never
+  // matches -- so this needs no special case in scoreAttempt itself; this test just
+  // pins that a skip is scored the same as any other wrong answer, not silently
+  // dropped from total the way a genuinely-missing answer record would be.
+  const result = scoreAttempt(bank, [{ questionId: "q1", chosen: [] }]);
+  assert.equal(result.total, 1);
+  assert.equal(result.correct, 0);
+  assert.deepEqual(result.byCategory.I, { correct: 0, total: 1 });
 });
 
 test("an answer for a question id not in the bank is ignored rather than throwing", () => {
@@ -140,6 +152,24 @@ test("joinAnswers reports undefined, not a throw, for a question with no matchin
   assert.equal(pairs[0].answer, undefined);
 });
 
+// --- isAnswered (D-20) ---
+
+test("isAnswered is false for an undefined answer (no record at all)", () => {
+  assert.equal(isAnswered(undefined), false);
+});
+
+test("isAnswered is false for a recorded-but-empty chosen (a skip, D-20)", () => {
+  assert.equal(isAnswered({ chosen: [] }), false);
+});
+
+test("isAnswered is true for a real chosen answer", () => {
+  assert.equal(isAnswered({ chosen: ["a"] }), true);
+});
+
+test("isAnswered degrades to false rather than throwing when chosen itself is missing (corrupted/hand-edited storage)", () => {
+  assert.equal(isAnswered({}), false);
+});
+
 test("buildReviewRows returns rows in question order, not answer-array order", () => {
   const answers = [
     { questionId: "q3", chosen: ["c"], correct: true, flagged: false },
@@ -170,6 +200,18 @@ test("buildReviewRows reports answered: false and null chosen/correct for a ques
   assert.equal(row.chosen, null);
   assert.equal(row.correct, null);
   assert.equal(row.flagged, false);
+});
+
+test("buildReviewRows reports answered: false for a skipped question (D-20) -- a real answer record with empty chosen, not a missing one", () => {
+  const answers = [{ questionId: "q1", chosen: [], correct: false, flagged: true }];
+  const [row] = buildReviewRows([reviewBank.questions[0]], answers, reviewLabels);
+  assert.equal(row.answered, false);
+  assert.equal(row.chosen, null);
+  assert.equal(row.correct, null);
+  // Flagged is read independently of answered -- a skip is always flagged (only
+  // reachable via the flag-then-skip UI path), and that state should still show even
+  // though the question wasn't actually answered.
+  assert.equal(row.flagged, true);
 });
 
 test("buildReviewRows falls back to the raw categoryId when no label is found", () => {

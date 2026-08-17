@@ -81,8 +81,10 @@ export function excerptStem(text, maxLength = 80) {
  * `questions[i]`: true in this project's current forward-only flow, but this stays
  * correct even if a future skip/reorder feature breaks that assumption. `answer` is
  * `undefined` for a question with no matching stored answer, rather than throwing --
- * this project's flow always answers every question before review is reached today,
- * but a review builder is written to reflect reality rather than assume it.
+ * every question gets *some* answer record before review is reached (D-11's
+ * forward-only flow), but D-20's skip records one with an empty `chosen`, so
+ * "has a record" and "was actually answered" are different questions a review
+ * builder must ask separately (see {@link buildReviewRows}'s `answered`).
  *
  * Shared by S3's {@link buildReviewRows} (excerpt-based, mid-run) and S4's
  * `buildFullReview` in js/results.js (full-detail, post-submit, Phase 4.2) -- both are
@@ -100,7 +102,31 @@ export function joinAnswers(questions, answers) {
 }
 
 /**
+ * Whether an answer record represents a real, given answer -- `false` both for no
+ * record at all and for a skipped question's (D-20) recorded-but-empty `chosen`.
+ * Optional-chained all the way through, not just on `answer` itself, so a
+ * corrupted/hand-edited record missing `chosen` entirely degrades to "not answered"
+ * rather than throwing (matches this codebase's general stance on untrusted storage,
+ * e.g. reopenQuestion's tolerance for hand-edited data).
+ *
+ * Shared by {@link buildReviewRows} (S3) and js/results.js's `buildFullReview` (S4) --
+ * both independently computed this same condition before this extraction (code review
+ * finding).
+ *
+ * @param {{chosen: string[]}|undefined} answer
+ * @returns {boolean}
+ */
+export function isAnswered(answer) {
+  return Boolean(answer?.chosen?.length);
+}
+
+/**
  * Builds the end-of-run review-pass list (SCHEMA.md §1.1 S3, D-11, finding #16).
+ *
+ * `chosen`/`correct` follow {@link isAnswered} rather than reading the stored fields
+ * directly -- a skipped question (D-20) has an answer record (so it's counted,
+ * flagged, and reopenable) but an empty `chosen`, and should show as unanswered, not
+ * as an answered-and-wrong row.
  *
  * @param {{id: string, stem: {value: string}, categoryId: string}[]} questions
  * @param {{questionId: string, chosen: string[], correct: boolean, flagged: boolean}[]} answers
@@ -108,15 +134,18 @@ export function joinAnswers(questions, answers) {
  * @returns {{questionId: string, stemExcerpt: string, categoryLabel: string, answered: boolean, chosen: string[]|null, correct: boolean|null, flagged: boolean}[]}
  */
 export function buildReviewRows(questions, answers, categoryLabels) {
-  return joinAnswers(questions, answers).map(({ question, answer }) => ({
-    questionId: question.id,
-    stemExcerpt: excerptStem(question.stem.value),
-    categoryLabel: categoryLabels.get(question.categoryId) ?? question.categoryId,
-    answered: Boolean(answer),
-    chosen: answer?.chosen ?? null,
-    correct: answer?.correct ?? null,
-    flagged: answer?.flagged ?? false,
-  }));
+  return joinAnswers(questions, answers).map(({ question, answer }) => {
+    const answered = isAnswered(answer);
+    return {
+      questionId: question.id,
+      stemExcerpt: excerptStem(question.stem.value),
+      categoryLabel: categoryLabels.get(question.categoryId) ?? question.categoryId,
+      answered,
+      chosen: answered ? answer.chosen : null,
+      correct: answered ? answer.correct : null,
+      flagged: answer?.flagged ?? false,
+    };
+  });
 }
 
 /**

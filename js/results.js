@@ -7,7 +7,7 @@
 // store (js/store.js, as of Phase 2.2) and the bank out of the network, computing the
 // score itself via js/runner.js's scoreAttempt, reconstructing the original form via
 // js/schema.js's resumeForm, and rendering the result.
-import { isCorrect, joinAnswers } from "./runner.js";
+import { isCorrect, joinAnswers, isAnswered } from "./runner.js";
 
 /**
  * Walks a category tree (SCHEMA.md §2.4 -- any node may have children) and returns a
@@ -149,10 +149,12 @@ export function formatElapsed(startedAt, finishedAt) {
  * trusting a recorded value blindly" principle {@link summarizeAttempt} already applies
  * to the overall score (SCHEMA.md §2.7).
  *
- * A question with no matching answer reports `answered: false`, `correct: null`, and
- * every option's `isChosen: false` -- reachable if the attempt was submitted with
- * unanswered questions still outstanding (SCHEMA.md S3, finding #11 only warns before
- * submit, it doesn't block it).
+ * A question reports `answered: false`, `correct: null`, and every option's
+ * `isChosen: false` both when there's no matching answer record at all, and when
+ * there is one but `chosen` is empty ({@link isAnswered}, D-20's skip records the
+ * latter -- an answer that exists, so it's counted and reopenable, but wasn't
+ * actually given) -- the two need to look identical here even though only one of
+ * them has a stored record.
  *
  * @param {{questions: {id: string, categoryId: string, stem: {value: string}, options: {id: string, content: {value: string}}[], correct: string[], explanation?: {value: string}}[]}} form
  * @param {{questionId: string, chosen: string[]}[]} answers
@@ -161,7 +163,8 @@ export function formatElapsed(startedAt, finishedAt) {
  */
 export function buildFullReview(form, answers, categoryLabels) {
   return joinAnswers(form.questions, answers).map(({ question, answer }) => {
-    const chosenId = answer?.chosen?.[0] ?? null;
+    const answered = isAnswered(answer);
+    const chosenId = answered ? answer.chosen[0] : null;
     return {
       questionId: question.id,
       categoryLabel: categoryLabels.get(question.categoryId) ?? question.categoryId,
@@ -173,8 +176,8 @@ export function buildFullReview(form, answers, categoryLabels) {
         isCorrectOption: question.correct.includes(option.id),
       })),
       explanation: question.explanation?.value ?? "",
-      answered: Boolean(answer),
-      correct: answer ? isCorrect(question, answer.chosen) : null,
+      answered,
+      correct: answered ? isCorrect(question, answer.chosen) : null,
     };
   });
 }
