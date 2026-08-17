@@ -147,11 +147,23 @@ Establishes the ground everything else stands on.
 One test (5165, arbitrarily — the smallest bank at 66 questions), one thin path,
 end-to-end, deliberately minimal (no flagging, no review pass, no spaced repetition yet):
 
-- ☐ **1.1 Placeholder bank and registration.** `manifest.json` registers 5165 with a
+- ☑ **1.1 Placeholder bank and registration.** `manifest.json` registers 5165 with a
   **5-question placeholder bank** (real content, not lorem ipsum — but not the
   66-question production bank). S1 lists it; S2 offers *take a test*.
   *Accepts:* S1 shows 5165 with a question count of 5; choosing it reaches S2's *take a
   test* entry.
+  *Complete.* `data/tests/5165.json` — 5 original questions (never adapted from the
+  gitignored ETS PDFs), one or two per top-level category (I Number & Quantity/Algebra
+  ×2, II Functions/Calculus, III Geometry, IV Statistics & Probability), weight-bearing
+  counts summing to `formLength: 5` and percents to the real blueprint's 30/30/20/20.
+  `js/schema.js` — `loadManifest`/`loadBankSummary`/`loadTestList`, injected-`fetch`
+  and Node-testable like `store.js` is injected-`storage`-testable; `tools/test-schema.mjs`,
+  9 tests, all passing. `index.html`/`test.html` gained inline module scripts calling it;
+  no dedicated page-wiring files, matching the no-build-step, plain-HTML approach.
+  Verified live in the browser: S1 lists "Mathematics — 15 min, 5 questions"; S2 shows
+  the test name and a *Take a practice test* link (to `run.html`, which task 1.2
+  builds); a missing or unregistered `?code=` each show a plain status message instead
+  of a blank or broken page. `node tools/verify.mjs` and all three test files green.
 - ☐ **1.2 Minimal test runner.** S3: Start → timer → single-select question → advance
   on answer → auto-score at the end. No flag control, no review pass yet (Phase 3).
   *Accepts:* all 5 placeholder questions can be answered in sequence and the run

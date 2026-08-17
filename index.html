@@ -13,9 +13,33 @@
       endorsed by ETS.</p>
     <h2>Choose a test</h2>
     <ul id="test-list" aria-live="polite">
-      <li class="status-note">No tests are registered yet (Phase 0 skeleton --
-        content lands in Phase 1 and the authoring track, Phase 7).</li>
+      <li class="status-note">Loading tests&hellip;</li>
     </ul>
   </main>
+  <script type="module">
+    import { loadTestList } from "./js/schema.js";
+
+    const list = document.getElementById("test-list");
+    const result = await loadTestList();
+    const tests = result.ok ? result.tests : [];
+
+    list.innerHTML = "";
+    if (tests.length === 0) {
+      const li = document.createElement("li");
+      li.className = "status-note";
+      li.textContent = "No tests are registered yet.";
+      list.appendChild(li);
+    } else {
+      for (const test of tests) {
+        const li = document.createElement("li");
+        const a = document.createElement("a");
+        a.href = `test.html?code=${encodeURIComponent(test.code)}`;
+        const plural = test.questionCount === 1 ? "question" : "questions";
+        a.textContent = `${test.name} — ${test.timeLimitMinutes} min, ${test.questionCount} ${plural}`;
+        li.appendChild(a);
+        list.appendChild(li);
+      }
+    }
+  </script>
 </body>
 </html>

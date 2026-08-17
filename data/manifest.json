@@ -1,4 +1,6 @@
 {
   "schemaVersion": 1,
-  "tests": []
+  "tests": [
+    { "code": "5165", "file": "tests/5165.json", "enabled": true }
+  ]
 }
