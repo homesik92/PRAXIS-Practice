@@ -29,8 +29,17 @@
     </div>
   </main>
   <script type="module">
-    import { loadBank, assembleForm } from "./js/schema.js";
-    import { scoreAttempt } from "./js/runner.js";
+    import { loadBank, assembleForm, resumeForm } from "./js/schema.js";
+    import { isCorrect } from "./js/runner.js";
+    import {
+      loadStore,
+      saveStore,
+      startAttempt,
+      recordAnswer,
+      completeAttempt,
+      findInProgressAttempt,
+      handleStorageEvent,
+    } from "./js/store.js";
 
     const params = new URLSearchParams(location.search);
     const code = params.get("code");
@@ -80,8 +89,33 @@
       }
     }
 
+    function showUnresumableStatus() {
+      showStatus("This in-progress attempt could not be resumed, because the test's questions have changed since it started.");
+    }
+
     function runTest(bank) {
       heading.textContent = bank.name;
+
+      const loadResult = loadStore();
+      if (!loadResult.ok) {
+        showStatus("Your saved progress could not be loaded, so this test can't be started right now.");
+        return;
+      }
+      const store = loadResult.store;
+
+      const existingAttempt = findInProgressAttempt(store, bank.code);
+      if (existingAttempt) {
+        // Résumé (SCHEMA.md §2.8, D-19). Goes straight into the run screen -- no
+        // Start confirmation step yet; that polish is Phase 3.3's "Resume attempt"
+        // entry.
+        const form = resumeForm(bank, existingAttempt.questionOrder);
+        if (!form) {
+          showUnresumableStatus();
+          return;
+        }
+        beginRun(bank, form, store, existingAttempt, existingAttempt.answers.length);
+        return;
+      }
 
       // The real weight-correct draw (SCHEMA.md §2.7) -- replaces Phase 1's
       // placeholder of using bank.questions as given. Assembled once here, before the
@@ -89,8 +123,6 @@
       // way the advertised count is always the number actually delivered (not
       // bank.formLength, which can exceed it when a category is short), and a bank
       // with nothing to draw never shows a dead-end Start button in the first place.
-      // categoryTargets/shortfalls are computed but not yet surfaced beyond the
-      // headline count; per-category shortfall disclosure is Phase 2.4's job.
       const form = assembleForm(bank);
       if (form.questions.length === 0) {
         showStatus("This test has no questions yet.");
@@ -102,15 +134,69 @@
         "Once you answer a question you move straight to the next one -- there is no going back yet.";
       startScreen.hidden = false;
 
-      startButton.addEventListener("click", () => start(bank, form), { once: true });
+      startButton.addEventListener(
+        "click",
+        () => {
+          // Re-checks against a FRESH store load rather than reusing the
+          // page-load-time `store` snapshot above (code review finding): the
+          // `storage`-event listener that keeps things in sync isn't registered
+          // until beginRun runs, so a tab that sat on this Start screen while
+          // another tab (or another Start click) already created an attempt for
+          // this test would otherwise overwrite it outright via saveStore's
+          // unconditional whole-object write, with no "abandoned" marker -- silent
+          // data loss, not just a missed abandon.
+          const freshLoadResult = loadStore();
+          if (!freshLoadResult.ok) {
+            showStatus("Your progress could not be saved, so this test can't be started right now.");
+            return;
+          }
+          const raceExisting = findInProgressAttempt(freshLoadResult.store, bank.code);
+          if (raceExisting) {
+            const resumedForm = resumeForm(bank, raceExisting.questionOrder);
+            if (!resumedForm) {
+              showUnresumableStatus();
+              return;
+            }
+            beginRun(bank, resumedForm, freshLoadResult.store, raceExisting, raceExisting.answers.length);
+            return;
+          }
+
+          const questionOrder = form.questions.map((q) => ({
+            questionId: q.id,
+            optionOrder: q.options.map((o) => o.id),
+          }));
+          const { store: startedStore, attempt } = startAttempt(freshLoadResult.store, {
+            testCode: bank.code,
+            mode: "test",
+            timeLimitMinutes: bank.timeLimitMinutes,
+            formLength: form.questions.length,
+            categoryTargets: form.categoryTargets,
+            shortfalls: form.shortfalls,
+            questionOrder,
+          });
+          const saveResult = saveStore(startedStore);
+          if (!saveResult.ok) {
+            showStatus("Your progress could not be saved, so this test can't be started right now.");
+            return;
+          }
+          beginRun(bank, form, startedStore, attempt, 0);
+        },
+        { once: true },
+      );
     }
 
-    function start(bank, form) {
+    function beginRun(bank, form, initialStore, attempt, startIndex) {
       startScreen.hidden = true;
       runScreen.hidden = false;
 
-      const startedAt = Date.now();
-      const deadline = startedAt + bank.timeLimitMinutes * 60_000;
+      let store = initialStore;
+      let index = startIndex;
+      let questionShownAt = Date.now();
+
+      // Wall-clock, derived from the attempt's own startedAt (SCHEMA.md's "timer is
+      // wall-clock, not tick-counted") -- correct whether this is a fresh start or a
+      // résumé, since startedAt is always the moment the attempt actually began.
+      const deadline = Date.parse(attempt.startedAt) + bank.timeLimitMinutes * 60_000;
       const timerHandle = setInterval(updateTimer, 1000);
       updateTimer();
 
@@ -122,8 +208,37 @@
         timerEl.textContent = `Time remaining: ${minutes}:${String(seconds).padStart(2, "0")}`;
       }
 
-      const answers = [];
-      let index = 0;
+      // Cross-tab reconciliation (SCHEMA.md §2.8 finding #2): if another tab writes
+      // to the store while this one is mid-run, resync rather than silently
+      // overwriting on this tab's next save. If the other tab completed or abandoned
+      // this same attempt (e.g. it was started fresh there too), stop here rather
+      // than let this tab keep answering into a superseded attempt.
+      //
+      // Registered once per beginRun call and never removed -- safe today because
+      // every current path reaches beginRun at most once per page load (the Start
+      // button's `{ once: true }` handler, or résumé's direct call), and finish()
+      // always navigates away via location.href, which discards every listener with
+      // it. If a future change ever calls beginRun more than once without a full
+      // navigation (e.g. a "switch test" affordance), this would need an explicit
+      // removeEventListener paired with it to avoid stacking duplicate handlers.
+      window.addEventListener("storage", (event) => {
+        const result = handleStorageEvent(event);
+        if (!result || !result.ok) return;
+        store = result.store;
+        const fresh = store.attempts.find((a) => a.id === attempt.id);
+        if (!fresh || fresh.status !== "in-progress") {
+          clearInterval(timerHandle);
+          runScreen.hidden = true;
+          showStatus("This attempt was changed in another tab, so it can't continue here.");
+          return;
+        }
+        if (fresh.answers.length > index) {
+          index = fresh.answers.length;
+          questionShownAt = Date.now();
+          if (index < form.questions.length) renderQuestion();
+          else finish();
+        }
+      });
 
       function renderQuestion() {
         const question = form.questions[index];
@@ -145,9 +260,48 @@
       }
 
       function selectAnswer(question, option) {
-        answers.push({ questionId: question.id, selectedOptionId: option.id });
+        const chosen = [option.id];
+        const answer = {
+          questionId: question.id,
+          chosen,
+          // Computed and stored per SCHEMA.md §2.8's documented shape, but not
+          // trusted back: scoreAttempt always recomputes correctness itself from
+          // `chosen` against the bank (self-verification principle). Stored for
+          // other future consumers (e.g. a per-question review list) that want it
+          // without re-deriving.
+          correct: isCorrect(question, chosen),
+          elapsedMs: Date.now() - questionShownAt,
+          flagged: false, // flag control is Phase 3.1's
+        };
+
+        const recordResult = recordAnswer(store, attempt.id, answer);
+        if (!recordResult.ok) {
+          clearInterval(timerHandle);
+          runScreen.hidden = true;
+          showStatus("This attempt could no longer be saved to, so it can't continue here.");
+          return;
+        }
+        store = recordResult.store;
+        const saveResult = saveStore(store);
+        if (!saveResult.ok) {
+          // Halt rather than continuing (code review finding: this used to fall
+          // through to finish() on the last question, whose immediate navigation
+          // meant the warning was never actually readable). The answer is safe in
+          // memory but not on disk -- reloading resumes one question earlier, at
+          // whatever was last actually persisted, rather than silently drifting
+          // ahead of what's saved.
+          clearInterval(timerHandle);
+          runScreen.hidden = true;
+          showStatus(
+            "Your last answer could not be saved, so this attempt can't continue here. " +
+              "Reloading this page should let you resume from your last saved answer.",
+          );
+          return;
+        }
+
         index += 1;
         if (index < form.questions.length) {
+          questionShownAt = Date.now();
           renderQuestion();
         } else {
           finish();
@@ -156,23 +310,29 @@
 
       function finish() {
         clearInterval(timerHandle);
-        const score = scoreAttempt(bank, answers);
-        const attemptId = `att-${Date.now()}`;
-        // Placeholder hand-off to S4 -- Phase 2.2's real attempt-record store in
-        // js/store.js replaces this sessionStorage stopgap. Deliberately not the
-        // "praxis-practice" STORAGE_KEY store.js owns, so this can't collide with or
-        // be mistaken for real persisted history.
-        sessionStorage.setItem(
-          `praxis-practice.lastAttempt.${attemptId}`,
-          // form.questions.length, not bank.formLength -- the two can now differ
-          // whenever assembleForm reports a shortfall, and this field should always
-          // reflect what was actually delivered, not what was targeted.
-          JSON.stringify({ attemptId, code: bank.code, formLength: form.questions.length, answers, score }),
-        );
-        location.href = `results.html?attempt=${encodeURIComponent(attemptId)}`;
+        const completeResult = completeAttempt(store, attempt.id);
+        if (completeResult.ok) {
+          store = completeResult.store;
+          // Best effort: every answer up to this point is already saved
+          // individually, so a failure here only leaves the "completed" status
+          // unwritten, not any data loss. Self-healing: reopening this test finds
+          // the attempt still "in-progress" with every question already answered,
+          // which the startIndex >= length check below routes straight back into
+          // finish() to retry -- no separate recovery path needed.
+          saveStore(store);
+        }
+        location.href = `results.html?attempt=${encodeURIComponent(attempt.id)}`;
       }
 
-      renderQuestion();
+      // A résumed attempt that was fully answered but never successfully marked
+      // "completed" (finish()'s best-effort save above failing) would otherwise hit
+      // form.questions[index] out of bounds here (code review finding). Finish it
+      // instead of trying to render a question that doesn't exist.
+      if (index < form.questions.length) {
+        renderQuestion();
+      } else {
+        finish();
+      }
     }
   </script>
 </body>

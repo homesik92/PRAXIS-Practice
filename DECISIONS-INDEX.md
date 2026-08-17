@@ -29,4 +29,5 @@ read the full log only when a topic isn't indexed yet.
 | Local verification gate | ROADMAP.md Phase 0.1 → CLAUDE.md "Verification" |
 | `file://` support (data-loading format) | **D-17** — not required; `.json` + `fetch()` stands |
 | Weakest-category practice suggestion (S2) | **D-18** |
+| Attempt record shape — résumé (`questionOrder`) | **D-19** |
 | Prior 185-question Mathematics set | N-2 |

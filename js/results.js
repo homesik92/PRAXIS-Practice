@@ -3,8 +3,9 @@
 // disclosure (SCHEMA.md §1.1 S4) land in Phase 4.2, which expands this file rather
 // than replacing it, matching schema.js's and runner.js's placeholder-first pattern.
 //
-// Kept pure and DOM-free -- results.html owns fetching the attempt out of
-// sessionStorage and the bank out of the network, and rendering the result.
+// Kept pure and DOM-free -- results.html owns loading the attempt out of the real
+// store (js/store.js, as of Phase 2.2) and the bank out of the network, computing the
+// score itself via js/runner.js's scoreAttempt, and rendering the result.
 
 /**
  * Walks a category tree (SCHEMA.md §2.4 -- any node may have children) and returns a
@@ -28,16 +29,17 @@ function percentOf(correct, total) {
 }
 
 /**
- * Summarizes a finished attempt (as produced by js/runner.js's scoreAttempt and
- * stashed by run.html) against its bank, for S4 to render.
+ * Turns a score (js/runner.js's scoreAttempt output -- results.html calls that itself
+ * against the attempt's stored answers, not a cached value) into percentages with
+ * real category labels, for S4 to render.
  *
- * @param {{score: {correct: number, total: number, byCategory: Record<string, {correct: number, total: number}>}}} attempt
+ * @param {{correct: number, total: number, byCategory: Record<string, {correct: number, total: number}>}} score
  * @param {{categories: object[]}} bank
  * @returns {{overall: {correct: number, total: number, percent: number},
  *            categories: {id: string, label: string, correct: number, total: number, percent: number}[]}}
  */
-export function summarizeAttempt(attempt, bank) {
-  const { correct, total, byCategory } = attempt.score;
+export function summarizeAttempt(score, bank) {
+  const { correct, total, byCategory } = score;
   const labels = flattenCategoryLabels(bank.categories);
 
   const categories = Object.entries(byCategory).map(([id, stats]) => ({

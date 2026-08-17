@@ -9,15 +9,32 @@
 // timer-bound (rendering questions, the Start click, the countdown display).
 
 /**
- * Scores a finished attempt against a bank. `answers` is the sequence recorded by the
- * runner: one entry per answered question, in the order answered.
+ * Whether a chosen set of option ids is correct for a question. `chosen` matches the
+ * shape SCHEMA.md §2.8's stored answer record uses (`chosen: string[]`), not a single
+ * option id -- deliberately, so this needs no reshaping once multi-select questions
+ * exist (D-10: v1 authors only `type: "single"`, always a one-element `chosen`).
  *
- * Only `type: "single"` is scored (D-10 -- v1 authors only single-select); any other
- * `type` is skipped from scoring but still counted in `total`, since a bank could in
- * principle carry an unimplemented type per verify.mjs's warn-not-error stance.
+ * Only `type: "single"` is ever correct -- any other `type` returns false rather than
+ * throwing, since a bank could in principle carry an unimplemented type per
+ * verify.mjs's warn-not-error stance (D-10).
+ *
+ * @param {{type: string, correct: string[]}} question
+ * @param {string[]} chosen
+ */
+export function isCorrect(question, chosen) {
+  return question.type === "single" && question.correct.includes(chosen[0]);
+}
+
+/**
+ * Scores a finished attempt against a bank, from its stored `answers` -- SCHEMA.md
+ * §2.7's "S4 self-verifies ... rather than trusting [a] recorded [value] blindly"
+ * principle: nothing about score is cached on the attempt record (js/store.js's
+ * completeAttempt stores none), so results.html calls this directly against
+ * `attempt.answers` every time S4 renders, recomputing rather than trusting a
+ * snapshot that could drift from what's actually stored.
  *
  * @param {{questions: {id: string, type: string, categoryId: string, correct: string[]}[]}} bank
- * @param {{questionId: string, selectedOptionId: string}[]} answers
+ * @param {{questionId: string, chosen: string[]}[]} answers
  * @returns {{correct: number, total: number, byCategory: Record<string, {correct: number, total: number}>}}
  */
 export function scoreAttempt(bank, answers) {
@@ -34,8 +51,7 @@ export function scoreAttempt(bank, answers) {
     const bucket = (byCategory[question.categoryId] ??= { correct: 0, total: 0 });
     bucket.total += 1;
 
-    const isCorrect = question.type === "single" && question.correct.includes(answer.selectedOptionId);
-    if (isCorrect) {
+    if (isCorrect(question, answer.chosen)) {
       correct += 1;
       bucket.correct += 1;
     }

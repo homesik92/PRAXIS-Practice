@@ -1,11 +1,14 @@
 // Progress-store persistence: load, save, and the backup-before-migrate safety net
-// from SCHEMA.md §2.8. This is Phase 0.2 -- only the safety net and the top-level
-// load/save envelope. Attempt/answer read-write helpers (SCHEMA.md's write-per-answer
-// cadence, résumé lookup, spaced repetition) land in Phase 2.2.
+// from SCHEMA.md §2.8 (Phase 0.2), plus (as of Phase 2.2) the real attempt lifecycle:
+// starting, per-answer writes, completion, résumé lookup, and cross-tab
+// reconciliation. Spaced-repetition scheduling (questionHistory's dueAt/interval/ease
+// fields) is Phase 2.3's, not this file's.
 //
 // Every function here takes a `storage` parameter (defaulting to the browser's
 // localStorage) rather than reaching for the global directly, so this module can be
-// unit-tested under Node with a mock -- see tools/test-store.mjs.
+// unit-tested under Node with a mock -- see tools/test-store.mjs. The attempt-lifecycle
+// functions additionally take an injectable `now` (default `() => new Date()`) for the
+// same reason, so ids and timestamps are deterministic under test.
 
 export const STORAGE_KEY = "praxis-practice";
 export const CURRENT_VERSION = 1;
@@ -123,11 +126,12 @@ export function loadStore(storage = globalThis.localStorage) {
  * returns a tagged failure instead of discarding the caller's data silently
  * (SCHEMA.md finding #6).
  *
- * This performs an unconditional whole-object overwrite. That is exactly the shape
- * SCHEMA.md's finding #2 warns against for cross-tab safety, and it is deliberately
- * out of scope here -- the per-answer write cadence (Phase 2.2) and the cross-tab
- * `storage`-event reconciliation (Phase 2.2/2.3) both have to be built on top of this
- * function, not assumed to fall out of it for free.
+ * This performs an unconditional whole-object overwrite -- still exactly the shape
+ * SCHEMA.md's finding #2 warns against in isolation. What makes it safe in practice is
+ * how it's called: the attempt-lifecycle functions below take the freshest in-memory
+ * store, mutate one attempt, and the caller saves immediately after -- there's no
+ * separate cross-tab reconciliation step folded into saveStore itself. See
+ * `handleStorageEvent` for the read side of that safety.
  *
  * Rejects a store whose storeVersion isn't the current version rather than writing
  * it silently: saving a mismatched storeVersion would make the very next loadStore
@@ -144,6 +148,145 @@ export function saveStore(store, storage = globalThis.localStorage) {
   } catch (error) {
     return { ok: false, reason: "write-failed", error };
   }
+}
+
+// -- Attempt lifecycle (SCHEMA.md §2.8) ---------------------------------------------
+
+function findAttemptIndex(store, attemptId) {
+  return store.attempts.findIndex((a) => a.id === attemptId);
+}
+
+/**
+ * Starts a new attempt: appends it to store.attempts with status "in-progress".
+ * Marks any other in-progress attempt for the same testCode "abandoned" first --
+ * "at most one in-progress attempt exists per test code at a time" (SCHEMA.md §2.8).
+ *
+ * `questionOrder` (D-19) is the caller's responsibility to supply -- it's the exact
+ * drawn question/option order from assembleForm, captured once here so résumé can
+ * replay it rather than re-running form assembly's random draw.
+ *
+ * Does not save -- the caller calls saveStore(result.store), matching loadStore's own
+ * "load/mutate/save are separate steps" contract.
+ *
+ * @returns {{store: object, attempt: object}}
+ */
+export function startAttempt(
+  store,
+  { testCode, mode, timeLimitMinutes, formLength, categoryTargets, shortfalls, questionOrder },
+  { now = () => new Date() } = {},
+) {
+  const attempts = store.attempts.map((a) =>
+    a.testCode === testCode && a.status === "in-progress" ? { ...a, status: "abandoned" } : a,
+  );
+  const attempt = {
+    id: `att-${now().getTime()}`,
+    testCode,
+    mode,
+    status: "in-progress",
+    startedAt: now().toISOString(),
+    finishedAt: null,
+    timeLimitMinutes,
+    formLength,
+    categoryTargets,
+    shortfalls,
+    questionOrder,
+    answers: [],
+  };
+  return { store: { ...store, attempts: [...attempts, attempt] }, attempt };
+}
+
+/**
+ * Appends one answer to an in-progress attempt -- the real per-answer write cadence
+ * (SCHEMA.md §2.8 findings #1/#10): the caller saves after every call, not just at the
+ * end, so a tab closed mid-test doesn't lose anything already answered.
+ *
+ * Tagged failure rather than a throw for "attemptId not found" and "attempt not
+ * in-progress" -- both are real, expected-in-practice cases (a stale reference after
+ * cross-tab reconciliation, or something still trying to answer a completed/abandoned
+ * attempt), not programmer errors.
+ *
+ * Idempotent against a duplicate write for the same `questionId` -- the realistic
+ * trigger is two tabs both resuming the *same* in-progress attempt and answering
+ * within the same round trip, before either has processed the other's `storage`
+ * event (code review finding: `handleStorageEvent`'s reload-on-event narrows that
+ * race but can't fully close it, since it's inherently asynchronous). Without this
+ * guard, a duplicate entry would double-count that question in scoreAttempt's total
+ * and, once Phase 2.3 exists, apply a spaced-repetition update to it twice.
+ *
+ * @param {{questionId: string, chosen: string[], correct: boolean, elapsedMs: number, flagged: boolean}} answer
+ * @returns {{ok: true, store: object} | {ok: false, reason: "not-found" | "not-in-progress"}}
+ */
+export function recordAnswer(store, attemptId, answer) {
+  const index = findAttemptIndex(store, attemptId);
+  if (index === -1) return { ok: false, reason: "not-found" };
+  const attempt = store.attempts[index];
+  if (attempt.status !== "in-progress") return { ok: false, reason: "not-in-progress" };
+
+  if (attempt.answers.some((a) => a.questionId === answer.questionId)) {
+    return { ok: true, store }; // already recorded (e.g. a cross-tab race) -- not an error
+  }
+
+  const attempts = [...store.attempts];
+  attempts[index] = { ...attempt, answers: [...attempt.answers, answer] };
+  return { ok: true, store: { ...store, attempts } };
+}
+
+/**
+ * Marks an attempt "completed" with a finishedAt timestamp. No score is stored on the
+ * attempt itself -- S4 recomputes it from `answers` (SCHEMA.md §2.7's "self-verifies
+ * ... rather than trusting [a] recorded [value] blindly" principle, applied to the
+ * score the same way it already applies to shortfalls).
+ *
+ * @returns {{ok: true, store: object} | {ok: false, reason: "not-found" | "not-in-progress"}}
+ */
+export function completeAttempt(store, attemptId, { now = () => new Date() } = {}) {
+  const index = findAttemptIndex(store, attemptId);
+  if (index === -1) return { ok: false, reason: "not-found" };
+  if (store.attempts[index].status !== "in-progress") return { ok: false, reason: "not-in-progress" };
+
+  const attempts = [...store.attempts];
+  attempts[index] = { ...attempts[index], status: "completed", finishedAt: now().toISOString() };
+  return { ok: true, store: { ...store, attempts } };
+}
+
+/** S2's résumé lookup (SCHEMA.md §2.8): the in-progress attempt for a test code, if any. */
+export function findInProgressAttempt(store, testCode) {
+  return store.attempts.find((a) => a.testCode === testCode && a.status === "in-progress");
+}
+
+/** S4's lookup by attempt id. */
+export function findAttempt(store, attemptId) {
+  return store.attempts.find((a) => a.id === attemptId);
+}
+
+// -- Cross-tab reconciliation (SCHEMA.md §2.8 finding #2) ---------------------------
+
+/**
+ * Reacts to the browser's `storage` event: re-loads the store fresh from `storage`
+ * rather than trusting this tab's in-memory copy, since another tab may have written
+ * since this tab last read. Ignores events for unrelated keys (this app's key
+ * namespace also uses `.backup.v*` suffixes for migration backups, which shouldn't
+ * trigger a reload) by returning `null`.
+ *
+ * Reuses loadStore rather than parsing `event.newValue` itself, so this goes through
+ * exactly the same validation/migration path a normal load does -- and because by the
+ * time the event fires, `storage.getItem` already reflects the committed value, so
+ * there's nothing `event.newValue` would tell us that a fresh load doesn't.
+ *
+ * Deliberately simpler than SCHEMA.md §2.8's literal "or, if the current tab has
+ * unsaved in-progress work, warns before overwriting": with every answer now written
+ * immediately (recordAnswer's per-answer cadence), there generally is no unsaved
+ * in-memory-only work left to protect by the time another tab's write could arrive.
+ * The caller's job is to resync its in-memory store reference to the reconciled
+ * result and, if the attempt it's currently running is no longer that attempt's
+ * `status: "in-progress"` in the fresh copy, stop and say why -- not to merge
+ * conflicting writes.
+ *
+ * @returns {ReturnType<typeof loadStore> | null}
+ */
+export function handleStorageEvent(event, storage = globalThis.localStorage) {
+  if (event.key !== STORAGE_KEY) return null;
+  return loadStore(storage);
 }
 
 // Exposed for tools/test-store.mjs to exercise the backup/retention mechanism

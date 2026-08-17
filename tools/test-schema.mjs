@@ -4,7 +4,7 @@
 // URL -- schema.js is written against an injected `fetchImpl`, not the global directly,
 // for exactly this reason (mirrors js/store.js's `storage` injection).
 import assert from "node:assert/strict";
-import { loadManifest, loadBank, loadBankSummary, loadTestList, assembleForm } from "../js/schema.js";
+import { loadManifest, loadBank, loadBankSummary, loadTestList, assembleForm, resumeForm } from "../js/schema.js";
 
 // Tiny deterministic LCG -- not for security, only so assembleForm's shuffling is
 // reproducible across test runs without depending on the real Math.random.
@@ -292,6 +292,44 @@ test("each question's options are shuffled to a permutation of the originals", (
   const bank = twoCategoryBank({ I: ["q1"], II: [] });
   const form = assembleForm(bank, { formLength: 1, random: seededRandom(7) });
   assert.ok(isPermutationOf(form.questions[0].options.map((o) => o.id), ["a", "b"]));
+});
+
+// --- resumeForm (Phase 2.2, D-19) ---
+
+const resumeBank = twoCategoryBank({ I: ["q1", "q2"], II: ["q3"] });
+
+test("resumeForm replays the exact recorded question and option order", () => {
+  const questionOrder = [
+    { questionId: "q3", optionOrder: ["b", "a"] },
+    { questionId: "q1", optionOrder: ["a", "b"] },
+  ];
+  const form = resumeForm(resumeBank, questionOrder);
+  assert.deepEqual(
+    form.questions.map((q) => q.id),
+    ["q3", "q1"],
+  );
+  assert.deepEqual(
+    form.questions[0].options.map((o) => o.id),
+    ["b", "a"],
+  );
+});
+
+test("resumeForm returns null if a recorded question no longer exists in the bank", () => {
+  const questionOrder = [{ questionId: "does-not-exist", optionOrder: ["a", "b"] }];
+  assert.equal(resumeForm(resumeBank, questionOrder), null);
+});
+
+test("resumeForm returns null if a recorded option no longer exists on its question", () => {
+  const questionOrder = [{ questionId: "q1", optionOrder: ["a", "does-not-exist"] }];
+  assert.equal(resumeForm(resumeBank, questionOrder), null);
+});
+
+test("resumeForm returns null (not a partial result) if any question in the sequence fails to resolve", () => {
+  const questionOrder = [
+    { questionId: "q1", optionOrder: ["a", "b"] },
+    { questionId: "does-not-exist", optionOrder: ["a", "b"] },
+  ];
+  assert.equal(resumeForm(resumeBank, questionOrder), null);
 });
 
 let failed = 0;
