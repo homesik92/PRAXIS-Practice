@@ -126,3 +126,40 @@ export function countReviewStatus(rows) {
   }
   return { unanswered, flagged };
 }
+
+/**
+ * The set of thresholds to pre-mark "already announced" when a run screen mounts
+ * (SCHEMA.md §1.3, finding #12) -- so a résumé landing partway through the run never
+ * retroactively announces a threshold that passed while the tab was closed.
+ *
+ * **Only meaningful for a genuine résumé.** A fresh start always returns an empty
+ * set, regardless of how close `remainingMs` is to a threshold at that instant --
+ * without this, a test whose `timeLimitMinutes` exactly equals a threshold (a
+ * 10-minute drill, say) would have that threshold pre-marked at mount by the
+ * handful of milliseconds of processing delay between computing the deadline and
+ * evaluating this function, silently suppressing the single most useful
+ * announcement a short timed test has (code review finding, Phase 3.4).
+ *
+ * @param {number} remainingMs
+ * @param {number[]} thresholds
+ * @param {boolean} isResume
+ * @returns {Set<number>}
+ */
+export function initialAnnouncedThresholds(remainingMs, thresholds, isResume) {
+  if (!isResume) return new Set();
+  return new Set(thresholds.filter((t) => remainingMs <= t));
+}
+
+/**
+ * Thresholds newly crossed at the current `remainingMs`, given which have already
+ * fired this run (SCHEMA.md §1.3, finding #12). Doesn't mutate `alreadyAnnounced` --
+ * the caller commits each returned threshold once it has actually announced it.
+ *
+ * @param {number} remainingMs
+ * @param {number[]} thresholds
+ * @param {Set<number>} alreadyAnnounced
+ * @returns {number[]}
+ */
+export function crossedThresholds(remainingMs, thresholds, alreadyAnnounced) {
+  return thresholds.filter((t) => !alreadyAnnounced.has(t) && remainingMs <= t);
+}

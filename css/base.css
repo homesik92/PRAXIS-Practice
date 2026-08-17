@@ -43,6 +43,21 @@ a {
   outline-offset: 2px;
 }
 
+/* Present to screen readers, invisible on screen (Phase 3.4, SCHEMA.md S1.3, finding
+   #15) -- for the runner's aria-live announcer region. `display:none`/`hidden` would
+   remove it from the accessibility tree entirely, defeating the point. */
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 .status-note {
   color: var(--color-muted);
   border: 1px dashed var(--color-border);

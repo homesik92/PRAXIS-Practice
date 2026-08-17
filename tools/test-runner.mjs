@@ -1,6 +1,14 @@
 // Unit tests for js/runner.js. Pure Node, no dependencies. Run: node tools/test-runner.mjs
 import assert from "node:assert/strict";
-import { scoreAttempt, isCorrect, excerptStem, buildReviewRows, countReviewStatus } from "../js/runner.js";
+import {
+  scoreAttempt,
+  isCorrect,
+  excerptStem,
+  buildReviewRows,
+  countReviewStatus,
+  initialAnnouncedThresholds,
+  crossedThresholds,
+} from "../js/runner.js";
 
 const bank = {
   questions: [
@@ -168,6 +176,51 @@ test("countReviewStatus counts unanswered and flagged independently -- a row can
 
 test("countReviewStatus returns zero/zero for an empty row list", () => {
   assert.deepEqual(countReviewStatus([]), { unanswered: 0, flagged: 0 });
+});
+
+// --- initialAnnouncedThresholds / crossedThresholds (Phase 3.4, finding #12) ---
+
+const THRESHOLDS = [10 * 60_000, 5 * 60_000, 1 * 60_000];
+
+test("initialAnnouncedThresholds is always empty for a fresh start, regardless of remainingMs", () => {
+  assert.deepEqual(initialAnnouncedThresholds(10 * 60_000, THRESHOLDS, false), new Set());
+});
+
+test("initialAnnouncedThresholds pre-marks a threshold already behind us on résumé", () => {
+  // 8 minutes left -- the 10-minute threshold has passed, 5 and 1 haven't.
+  const result = initialAnnouncedThresholds(8 * 60_000, THRESHOLDS, true);
+  assert.deepEqual(result, new Set([10 * 60_000]));
+});
+
+test("initialAnnouncedThresholds on résumé landing exactly at a threshold pre-marks it (not retroactively announced)", () => {
+  const result = initialAnnouncedThresholds(5 * 60_000, THRESHOLDS, true);
+  assert.deepEqual(result, new Set([10 * 60_000, 5 * 60_000]));
+});
+
+test("initialAnnouncedThresholds does not pre-mark anything on résumé with the full duration still remaining", () => {
+  assert.deepEqual(initialAnnouncedThresholds(15 * 60_000, THRESHOLDS, true), new Set());
+});
+
+test("crossedThresholds returns nothing already in alreadyAnnounced", () => {
+  const result = crossedThresholds(5 * 60_000, THRESHOLDS, new Set([10 * 60_000, 5 * 60_000]));
+  assert.deepEqual(result, []);
+});
+
+test("crossedThresholds returns every newly-crossed threshold when remainingMs jumps past more than one at once", () => {
+  // A large time jump (tab backgrounded/slept) can cross 5-min and 1-min in one tick.
+  const result = crossedThresholds(30_000, THRESHOLDS, new Set([10 * 60_000]));
+  assert.deepEqual(result, [5 * 60_000, 1 * 60_000]);
+});
+
+test("crossedThresholds returns nothing once every threshold has already fired", () => {
+  const result = crossedThresholds(0, THRESHOLDS, new Set(THRESHOLDS));
+  assert.deepEqual(result, []);
+});
+
+test("crossedThresholds does not mutate the alreadyAnnounced set it's given", () => {
+  const alreadyAnnounced = new Set();
+  crossedThresholds(5 * 60_000, THRESHOLDS, alreadyAnnounced);
+  assert.deepEqual(alreadyAnnounced, new Set());
 });
 
 let failed = 0;

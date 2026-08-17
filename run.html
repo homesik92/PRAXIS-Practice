@@ -10,7 +10,12 @@
   <main>
     <p><a id="back-link" href="index.html">&larr; Back</a></p>
     <h1 id="test-heading">Test runner</h1>
-    <p id="status-note" class="status-note" hidden></p>
+    <p id="status-note" class="status-note" role="alert" tabindex="-1" hidden></p>
+
+    <!-- Static and never rebuilt (like index.html's #test-list), so it stays the same
+         live region across every render instead of being torn down mid-announcement
+         (Phase 3.4, SCHEMA.md S1.3, finding #15). -->
+    <p id="announcer" class="visually-hidden" aria-live="polite" aria-atomic="true"></p>
 
     <div id="start-screen" hidden>
       <p id="start-summary"></p>
@@ -23,12 +28,20 @@
       <button id="expired-acknowledge-button" type="button">See your results</button>
     </div>
 
-    <p id="timer" hidden></p>
-    <p id="position" hidden></p>
+    <!-- tabindex="0" so a screen-reader/keyboard user can reach the current time and
+         position on demand at any point during the run, independent of the passive
+         threshold/position announcements below (finding #12). -->
+    <p id="timer" tabindex="0" hidden></p>
+    <p id="position" tabindex="0" hidden></p>
 
     <div id="run-screen" hidden>
       <form id="question-form">
-        <fieldset>
+        <!-- Focus target is the fieldset, not the legend directly: `<legend>` has a
+             history of inconsistent programmatic-focus support across engines
+             (code review, Phase 3.4). The legend still supplies the fieldset's
+             accessible name, so focusing the fieldset reads the question stem either
+             way. -->
+        <fieldset id="question-fieldset" tabindex="-1">
           <legend id="question-stem"></legend>
           <div id="options-list"></div>
         </fieldset>
@@ -43,7 +56,7 @@
     </div>
 
     <div id="review-screen" hidden>
-      <h2>Review your answers</h2>
+      <h2 id="review-heading" tabindex="-1">Review your answers</h2>
       <p>Reopen any question below to change its answer or flag before submitting.</p>
       <ol id="review-list"></ol>
       <button id="submit-button" type="button">Submit test</button>
@@ -58,7 +71,13 @@
   </main>
   <script type="module">
     import { loadBank, assembleForm, resumeForm } from "./js/schema.js";
-    import { isCorrect, buildReviewRows, countReviewStatus } from "./js/runner.js";
+    import {
+      isCorrect,
+      buildReviewRows,
+      countReviewStatus,
+      initialAnnouncedThresholds,
+      crossedThresholds,
+    } from "./js/runner.js";
     import { flattenCategoryLabels } from "./js/results.js";
     import { updateHistory } from "./js/srs.js";
     import {
@@ -90,14 +109,17 @@
     const runScreen = document.getElementById("run-screen");
     const timerEl = document.getElementById("timer");
     const positionEl = document.getElementById("position");
+    const questionFieldset = document.getElementById("question-fieldset");
     const stemEl = document.getElementById("question-stem");
     const optionsEl = document.getElementById("options-list");
     const flagToggle = document.getElementById("flag-toggle");
     const editingNote = document.getElementById("editing-note");
     const backToReviewButton = document.getElementById("back-to-review-button");
     const reviewScreen = document.getElementById("review-screen");
+    const reviewHeading = document.getElementById("review-heading");
     const reviewList = document.getElementById("review-list");
     const submitButton = document.getElementById("submit-button");
+    const announcer = document.getElementById("announcer");
     const confirmSubmitDialog = document.getElementById("confirm-submit-dialog");
     const confirmSubmitMessage = document.getElementById("confirm-submit-message");
     const confirmCancelButton = document.getElementById("confirm-cancel-button");
@@ -106,8 +128,46 @@
     if (code) backLink.href = `test.html?code=${encodeURIComponent(code)}`;
 
     function showStatus(message) {
-      statusNote.textContent = message;
+      // Clear-then-set (same reasoning as announce() below, code review finding)
+      // so a second, later abortRun() with the identical message -- e.g. two
+      // cross-tab "changed in another tab" events -- still re-announces via the
+      // role="alert" region rather than being silently skipped as an unchanged
+      // textContent value.
+      statusNote.textContent = "";
       statusNote.hidden = false;
+      setTimeout(() => {
+        statusNote.textContent = message;
+      }, 50);
+    }
+
+    // Serializes announcer writes so a position announcement and a threshold
+    // announcement can never fire simultaneously and garble each other (SCHEMA.md
+    // S1.3, finding #15). Clearing the region before each write (rather than just
+    // overwriting) is the standard technique for a live region that might need to
+    // announce the same text twice in a row -- an unchanged textContent value is not
+    // guaranteed to re-trigger an announcement otherwise. Uses setTimeout rather
+    // than requestAnimationFrame (code review finding): rAF callbacks are paused
+    // while the tab is backgrounded, which would stall this whole queue -- and
+    // every future call along with it -- until the tab regains focus; setTimeout
+    // still fires (just throttled) in the background. The trailing .catch resets
+    // the chain on any failure so one bad call can't permanently silence every
+    // announcement for the rest of the run.
+    let announceQueue = Promise.resolve();
+    function announce(message) {
+      announceQueue = announceQueue
+        .then(
+          () =>
+            new Promise((resolve) => {
+              announcer.textContent = "";
+              setTimeout(() => {
+                announcer.textContent = message;
+                setTimeout(resolve, 150);
+              }, 50);
+            }),
+        )
+        .catch(() => {
+          announceQueue = Promise.resolve();
+        });
     }
 
     if (!code) {
@@ -195,7 +255,17 @@
           showUnresumableStatus();
           return;
         }
-        beginRun(bank, form, store, existingAttempt, existingAttempt.answers.length);
+        // Page-load résumé, no click preceded it: don't force focus onto the first
+        // question/review heading (code review finding, Phase 3.4) -- an
+        // unrequested focus jump before a screen-reader user has even heard the
+        // page's own heading is an unexpected-context-change-on-load, not the
+        // "advancing" case findings #12/#15 are about. Threshold pre-suppression
+        // still applies (`resumingExistingTimer`), since real time may genuinely
+        // have passed while this tab was closed.
+        beginRun(bank, form, store, existingAttempt, existingAttempt.answers.length, {
+          resumingExistingTimer: true,
+          moveFocusOnFirstRender: false,
+        });
         return;
       }
 
@@ -244,7 +314,14 @@
               showUnresumableStatus();
               return;
             }
-            beginRun(bank, resumedForm, freshLoadResult.store, raceExisting, raceExisting.answers.length);
+            // Reached from inside the Start click, so a first-render focus move is
+            // still a direct consequence of that gesture -- but raceExisting is an
+            // attempt this tab didn't itself just start, so its timer may genuinely
+            // be partway through already.
+            beginRun(bank, resumedForm, freshLoadResult.store, raceExisting, raceExisting.answers.length, {
+              resumingExistingTimer: true,
+              moveFocusOnFirstRender: true,
+            });
             return;
           }
 
@@ -266,13 +343,20 @@
             showStatus("Your progress could not be saved, so this test can't be started right now.");
             return;
           }
-          beginRun(bank, form, startedStore, attempt, 0);
+          // A brand-new attempt this call itself just started -- never pre-suppress
+          // a threshold (the clock has not ticked at all yet from this session's
+          // perspective), and the click that led here is exactly the gesture that
+          // should move focus to question 1.
+          beginRun(bank, form, startedStore, attempt, 0, {
+            resumingExistingTimer: false,
+            moveFocusOnFirstRender: true,
+          });
         },
         { once: true },
       );
     }
 
-    function beginRun(bank, form, initialStore, attempt, startIndex) {
+    function beginRun(bank, form, initialStore, attempt, startIndex, { resumingExistingTimer, moveFocusOnFirstRender }) {
       startScreen.hidden = true;
       runScreen.hidden = false;
       timerEl.hidden = false;
@@ -289,6 +373,12 @@
       // own DOM state (buffered into the next selectAnswer call, SCHEMA.md §1.1 S3
       // finding #13) to persisting immediately via updateAnswer.
       let editingQuestionId = null;
+      // True until the first screen transition within this page load has happened
+      // (code review finding, Phase 3.4). Suppresses only a résumé's very first
+      // render moving focus -- every render after that is a genuine same-page
+      // transition (advancing, editing, entering review) and moves focus normally,
+      // same as a fresh start's first render always does.
+      let hasRenderedOnce = moveFocusOnFirstRender;
 
       const categoryLabels = flattenCategoryLabels(bank.categories);
 
@@ -296,8 +386,34 @@
       // wall-clock, not tick-counted") -- correct whether this is a fresh start or a
       // résumé, since startedAt is always the moment the attempt actually began.
       const deadline = Date.parse(attempt.startedAt) + bank.timeLimitMinutes * 60_000;
+
+      // Threshold announcements (SCHEMA.md S1.3, finding #12) -- meaningful moments
+      // only, never every tick, which would make a screen reader unusable over a
+      // multi-hour test. initialAnnouncedThresholds pre-marks anything already
+      // behind us at mount time on a genuine résumé, so it's never announced
+      // retroactively; a fresh start never pre-suppresses anything, regardless of
+      // how close remainingMs happens to be to a threshold at this exact instant.
+      const ANNOUNCE_THRESHOLDS_MS = [10 * 60_000, 5 * 60_000, 1 * 60_000];
+      const announcedThresholds = initialAnnouncedThresholds(
+        deadline - Date.now(),
+        ANNOUNCE_THRESHOLDS_MS,
+        resumingExistingTimer,
+      );
+
       const timerHandle = setInterval(updateTimer, 1000);
       updateTimer();
+
+      // Shared by every screen transition (renderQuestion, renderQuestionForEdit,
+      // showReviewScreen) so the focus-move-and-announce pairing lives in one place
+      // (code review finding) and the first-render suppression above only has to be
+      // implemented once.
+      function transitionFocus(el, message) {
+        if (hasRenderedOnce) {
+          el.focus();
+          announce(message);
+        }
+        hasRenderedOnce = true;
+      }
 
       function updateTimer() {
         const remainingMs = Math.max(0, deadline - Date.now());
@@ -305,6 +421,17 @@
         const minutes = Math.floor(totalSeconds / 60);
         const seconds = totalSeconds % 60;
         timerEl.textContent = `Time remaining: ${minutes}:${String(seconds).padStart(2, "0")}`;
+        // Skipped once expired (code review finding): a large time jump (the tab was
+        // asleep/backgrounded) can cross several thresholds in the same tick as
+        // expiry, and announcing them a moment before finish() navigates away is
+        // stale and misleading rather than useful.
+        if (remainingMs > 0) {
+          for (const threshold of crossedThresholds(remainingMs, ANNOUNCE_THRESHOLDS_MS, announcedThresholds)) {
+            announcedThresholds.add(threshold);
+            const label = threshold === 60_000 ? "1 minute" : `${threshold / 60_000} minutes`;
+            announce(`${label} remaining`);
+          }
+        }
         // The timer expiring while the tab stays open scores the attempt immediately
         // (SCHEMA.md S3, finding #10) -- no confirmation, unlike the Submit button's
         // dialog, since this is a forced deadline rather than a discretionary
@@ -319,6 +446,14 @@
         timerEl.hidden = true;
         positionEl.hidden = true;
         showStatus(message);
+        // #timer/#position may be hiding out from under a keyboard/screen-reader
+        // user who was focused on either right now (code review finding, Phase
+        // 3.4) -- give focus somewhere real rather than letting it silently drop to
+        // <body>. Always reached from a mid-session call (a click, a save, a
+        // storage event after a run has already started), never on initial page
+        // load, so this doesn't carry the same auto-focus-on-load concern
+        // moveFocusOnFirstRender guards against.
+        statusNote.focus();
       }
 
       // Cross-tab reconciliation (SCHEMA.md §2.8 finding #2): if another tab writes
@@ -405,6 +540,11 @@
         positionEl.textContent = `Question ${index + 1} of ${form.questions.length}`;
         stemEl.textContent = question.stem.value;
         renderOptions(question, null, (option) => selectAnswer(question, option));
+        // Advancing moves focus to the new question and announces position
+        // (SCHEMA.md S1.3, finding #15) -- without this, a screen-reader/keyboard
+        // user's focus is stranded wherever it was on the previous (now-replaced)
+        // question.
+        transitionFocus(questionFieldset, positionEl.textContent);
       }
 
       function selectAnswer(question, option) {
@@ -479,6 +619,7 @@
         positionEl.textContent = `Reviewing question ${qIndex + 1} of ${form.questions.length}`;
         stemEl.textContent = question.stem.value;
         renderOptions(question, answer.chosen[0], (option) => commitEdit(question, option));
+        transitionFocus(questionFieldset, positionEl.textContent);
       }
 
       function commitEdit(question, option) {
@@ -565,6 +706,10 @@
         reviewScreen.hidden = false;
         positionEl.textContent = `Review pass -- ${form.questions.length} questions`;
         renderReviewList();
+        // Same treatment as renderQuestion/renderQuestionForEdit: the run-screen this
+        // came from (the last question, or a reopened edit) is now hidden, so focus
+        // would otherwise be stranded on a removed element.
+        transitionFocus(reviewHeading, positionEl.textContent);
       }
 
       submitButton.addEventListener("click", openConfirmSubmitDialog);
