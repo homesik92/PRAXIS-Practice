@@ -4,6 +4,7 @@ import {
   scoreAttempt,
   isCorrect,
   excerptStem,
+  joinAnswers,
   buildReviewRows,
   countReviewStatus,
   initialAnnouncedThresholds,
@@ -116,6 +117,28 @@ const reviewLabels = new Map([
   ["I", "Category One"],
   ["II", "Category Two"],
 ]);
+
+// --- joinAnswers (Phase 4.2 -- extracted so buildReviewRows and results.js's
+// buildFullReview share one join instead of each reimplementing it) ---
+
+test("joinAnswers pairs each question with its matching answer, in question order", () => {
+  const questions = [{ id: "q1" }, { id: "q2" }];
+  const answers = [
+    { questionId: "q2", chosen: ["a"] },
+    { questionId: "q1", chosen: ["b"] },
+  ];
+  const pairs = joinAnswers(questions, answers);
+  assert.deepEqual(
+    pairs.map((p) => p.question.id),
+    ["q1", "q2"],
+  );
+  assert.deepEqual(pairs[0].answer, { questionId: "q1", chosen: ["b"] });
+});
+
+test("joinAnswers reports undefined, not a throw, for a question with no matching answer", () => {
+  const pairs = joinAnswers([{ id: "q1" }], []);
+  assert.equal(pairs[0].answer, undefined);
+});
 
 test("buildReviewRows returns rows in question order, not answer-array order", () => {
   const answers = [

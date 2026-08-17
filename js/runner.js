@@ -75,17 +75,32 @@ export function excerptStem(text, maxLength = 80) {
 }
 
 /**
- * Builds the end-of-run review-pass list (SCHEMA.md §1.1 S3, D-11, finding #16) by
- * joining a form's questions -- in the order they were drawn, not the order they were
- * answered in -- against the attempt's stored answers. Looked up by a Map rather than
- * assuming `answers[i]` lines up with `questions[i]`: true in this project's current
- * forward-only flow, but this stays correct even if a future skip/reorder feature
- * breaks that assumption.
+ * Joins a form's questions -- in the order they were drawn, not the order they were
+ * answered in -- against an attempt's stored answers, one `{question, answer}` pair per
+ * question. Looked up by a Map rather than assuming `answers[i]` lines up with
+ * `questions[i]`: true in this project's current forward-only flow, but this stays
+ * correct even if a future skip/reorder feature breaks that assumption. `answer` is
+ * `undefined` for a question with no matching stored answer, rather than throwing --
+ * this project's flow always answers every question before review is reached today,
+ * but a review builder is written to reflect reality rather than assume it.
  *
- * A question with no matching answer reports `answered: false` and null
- * chosen/correct/flagged rather than throwing -- this project's flow always answers
- * every question before review is reached today, but the review list is written to
- * reflect reality rather than assume it.
+ * Shared by S3's {@link buildReviewRows} (excerpt-based, mid-run) and S4's
+ * `buildFullReview` in js/results.js (full-detail, post-submit, Phase 4.2) -- both are
+ * "turn questions+answers into review rows" over the same join, just with different
+ * output shapes (code review finding: they'd independently reimplemented this same
+ * `Map`-then-`map()` join before this was extracted).
+ *
+ * @param {{id: string}[]} questions
+ * @param {{questionId: string}[]} answers
+ * @returns {{question: object, answer: object|undefined}[]}
+ */
+export function joinAnswers(questions, answers) {
+  const byId = new Map(answers.map((a) => [a.questionId, a]));
+  return questions.map((question) => ({ question, answer: byId.get(question.id) }));
+}
+
+/**
+ * Builds the end-of-run review-pass list (SCHEMA.md §1.1 S3, D-11, finding #16).
  *
  * @param {{id: string, stem: {value: string}, categoryId: string}[]} questions
  * @param {{questionId: string, chosen: string[], correct: boolean, flagged: boolean}[]} answers
@@ -93,19 +108,15 @@ export function excerptStem(text, maxLength = 80) {
  * @returns {{questionId: string, stemExcerpt: string, categoryLabel: string, answered: boolean, chosen: string[]|null, correct: boolean|null, flagged: boolean}[]}
  */
 export function buildReviewRows(questions, answers, categoryLabels) {
-  const byId = new Map(answers.map((a) => [a.questionId, a]));
-  return questions.map((question) => {
-    const answer = byId.get(question.id);
-    return {
-      questionId: question.id,
-      stemExcerpt: excerptStem(question.stem.value),
-      categoryLabel: categoryLabels.get(question.categoryId) ?? question.categoryId,
-      answered: Boolean(answer),
-      chosen: answer?.chosen ?? null,
-      correct: answer?.correct ?? null,
-      flagged: answer?.flagged ?? false,
-    };
-  });
+  return joinAnswers(questions, answers).map(({ question, answer }) => ({
+    questionId: question.id,
+    stemExcerpt: excerptStem(question.stem.value),
+    categoryLabel: categoryLabels.get(question.categoryId) ?? question.categoryId,
+    answered: Boolean(answer),
+    chosen: answer?.chosen ?? null,
+    correct: answer?.correct ?? null,
+    flagged: answer?.flagged ?? false,
+  }));
 }
 
 /**

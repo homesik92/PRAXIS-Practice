@@ -1,12 +1,13 @@
 // S4 results-dashboard logic -- Phase 1.3's minimal version: overall score and a bare
 // per-category percentage, plus (as of Phase 2.4) recomputed shortfall disclosure
-// (SCHEMA.md §1.2, §2.8 finding #3). The full review list and explanations (SCHEMA.md
-// §1.1 S4) land in Phase 4.2, which expands this file rather than replacing it,
-// matching schema.js's and runner.js's placeholder-first pattern.
+// (SCHEMA.md §1.2, §2.8 finding #3). Phase 4.2 adds time used and the full
+// review-list-with-explanations (SCHEMA.md §1.1 S4).
 //
 // Kept pure and DOM-free -- results.html owns loading the attempt out of the real
 // store (js/store.js, as of Phase 2.2) and the bank out of the network, computing the
-// score itself via js/runner.js's scoreAttempt, and rendering the result.
+// score itself via js/runner.js's scoreAttempt, reconstructing the original form via
+// js/schema.js's resumeForm, and rendering the result.
+import { isCorrect, joinAnswers } from "./runner.js";
 
 /**
  * Walks a category tree (SCHEMA.md §2.4 -- any node may have children) and returns a
@@ -101,4 +102,79 @@ export function summarizeAttempt(score, bank, categoryTargets = []) {
     categories,
     shortfalls: recomputeShortfalls(categoryTargets, byCategory, labels),
   };
+}
+
+/**
+ * Formats the wall-clock span between two ISO timestamps (an attempt's `startedAt`/
+ * `finishedAt`, SCHEMA.md §2.8) as a short human string for S4's "time used" line.
+ *
+ * Rounds to the nearest minute -- per-second precision isn't meaningful for a span that
+ * can run up to a test's full `timeLimitMinutes` (as much as 3 hours), and would just
+ * read as noise.
+ *
+ * Reports "time unavailable" rather than a nonsensical string (code review finding) if
+ * the two timestamps don't parse or come out in the wrong order -- both timestamps are
+ * written client-side off the system clock with no server authority (js/store.js's
+ * `startAttempt`/`completeAttempt`), so a clock adjusted backward mid-attempt (NTP
+ * correction, DST, sleep/wake drift) can otherwise produce a negative span; without
+ * this guard a multi-hour attempt could silently display "less than a minute".
+ *
+ * @param {string} startedAt
+ * @param {string} finishedAt
+ * @returns {string}
+ */
+export function formatElapsed(startedAt, finishedAt) {
+  const ms = new Date(finishedAt).getTime() - new Date(startedAt).getTime();
+  if (!Number.isFinite(ms) || ms < 0) return "time unavailable";
+  const totalMinutes = Math.round(ms / 60000);
+  if (totalMinutes === 0) return "less than a minute";
+
+  const hours = Math.floor(totalMinutes / 60);
+  const minutes = totalMinutes % 60;
+  if (hours === 0) return `${minutes} minute${minutes === 1 ? "" : "s"}`;
+  return minutes === 0 ? `${hours}h` : `${hours}h ${minutes}m`;
+}
+
+/**
+ * Builds S4's full review list (SCHEMA.md §1.1 S4: "a full review list of every
+ * question with the chosen answer, the correct answer, and the explanation") from an
+ * already-reconstructed form (js/schema.js's `resumeForm`, replaying the attempt's
+ * exact original question/option order and presentation -- results.html calls that
+ * itself, the same layering S3's review pass already uses) and the attempt's stored
+ * answers, joined via {@link joinAnswers} (js/runner.js) -- the same join S3's
+ * `buildReviewRows` uses, shared rather than reimplemented (code review finding).
+ *
+ * Each row's `correct` is recomputed via {@link isCorrect} against the question and the
+ * stored `chosen`, not read from `answer.correct` -- the same "self-verifies rather than
+ * trusting a recorded value blindly" principle {@link summarizeAttempt} already applies
+ * to the overall score (SCHEMA.md §2.7).
+ *
+ * A question with no matching answer reports `answered: false`, `correct: null`, and
+ * every option's `isChosen: false` -- reachable if the attempt was submitted with
+ * unanswered questions still outstanding (SCHEMA.md S3, finding #11 only warns before
+ * submit, it doesn't block it).
+ *
+ * @param {{questions: {id: string, categoryId: string, stem: {value: string}, options: {id: string, content: {value: string}}[], correct: string[], explanation?: {value: string}}[]}} form
+ * @param {{questionId: string, chosen: string[]}[]} answers
+ * @param {Map<string, string>} categoryLabels
+ * @returns {{questionId: string, categoryLabel: string, stem: string, options: {id: string, text: string, isChosen: boolean, isCorrectOption: boolean}[], explanation: string, answered: boolean, correct: boolean|null}[]}
+ */
+export function buildFullReview(form, answers, categoryLabels) {
+  return joinAnswers(form.questions, answers).map(({ question, answer }) => {
+    const chosenId = answer?.chosen?.[0] ?? null;
+    return {
+      questionId: question.id,
+      categoryLabel: categoryLabels.get(question.categoryId) ?? question.categoryId,
+      stem: question.stem.value,
+      options: question.options.map((option) => ({
+        id: option.id,
+        text: option.content.value,
+        isChosen: option.id === chosenId,
+        isCorrectOption: question.correct.includes(option.id),
+      })),
+      explanation: question.explanation?.value ?? "",
+      answered: Boolean(answer),
+      correct: answer ? isCorrect(question, answer.chosen) : null,
+    };
+  });
 }
