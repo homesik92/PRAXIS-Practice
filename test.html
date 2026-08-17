@@ -58,6 +58,15 @@
         a.href = `run.html?code=${encodeURIComponent(code)}&mode=test`;
         a.textContent = "Take a practice test";
         nav.appendChild(a);
+
+        // No ?category= (Phase 4.1, SCHEMA.md S1.1 S2/S5) -- run.html's own picker
+        // is where a category gets chosen; a direct pre-filtered link is Phase 4.4's
+        // weakest-category suggestion, not this one.
+        const studyLink = document.createElement("a");
+        studyLink.href = `run.html?code=${encodeURIComponent(code)}&mode=study`;
+        studyLink.textContent = "Study a topic";
+        nav.appendChild(studyLink);
+
         main.appendChild(nav);
       }
     }
