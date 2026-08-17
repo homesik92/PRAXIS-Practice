@@ -14,6 +14,7 @@ import {
   flattenCategoryTree,
   categoryAndDescendantIds,
   assembleDrill,
+  assembleDueDrill,
 } from "../js/schema.js";
 
 // Tiny deterministic LCG -- not for security, only so assembleForm's shuffling is
@@ -459,6 +460,89 @@ test("assembleDrill's same seeded random reproduces the exact same order", () =>
   const first = assembleDrill(bank, "I-A", { random: seededRandom(42) }).questions.map((q) => q.id);
   const second = assembleDrill(bank, "I-A", { random: seededRandom(42) }).questions.map((q) => q.id);
   assert.deepEqual(first, second);
+});
+
+test("assembleDrill treats a null history (not just a missing key) as no question ever seen, not a throw", () => {
+  // A hand-corrupted store can have valid-JSON, current-version `questionHistory:
+  // null` -- distinct from history simply being omitted, which the {history = {}}
+  // default already covered before this guard existed.
+  const bank = studyBank({ "I-A": ["q1"] });
+  const drill = assembleDrill(bank, "I-A", { history: null, random: seededRandom(1) });
+  assert.deepEqual(
+    drill.questions.map((q) => q.id),
+    ["q1"],
+  );
+});
+
+// --- assembleDueDrill (Phase 4.3, S2's "N questions due" entry point) ---
+
+const fixedNow = () => new Date("2026-08-17T00:00:00.000Z");
+
+test("assembleDueDrill returns nothing when no question has any history yet", () => {
+  const bank = studyBank({ "I-A": ["q1"], "I-B": ["q2"] });
+  const drill = assembleDueDrill(bank, { random: seededRandom(1), now: fixedNow });
+  assert.deepEqual(drill.questions, []);
+});
+
+test("assembleDueDrill treats a null history (not just a missing key) as nothing due, not a throw", () => {
+  const bank = studyBank({ "I-A": ["q1"] });
+  const drill = assembleDueDrill(bank, { history: null, random: seededRandom(1), now: fixedNow });
+  assert.deepEqual(drill.questions, []);
+});
+
+test("assembleDueDrill includes only questions whose dueAt has passed, across every category", () => {
+  const bank = studyBank({ "I-A": ["overdue"], "I-B": ["not-yet-due"], II: ["due-this-instant"] });
+  const history = {
+    overdue: { dueAt: "2026-08-10T00:00:00.000Z" },
+    "not-yet-due": { dueAt: "2026-08-20T00:00:00.000Z" },
+    "due-this-instant": { dueAt: "2026-08-17T00:00:00.000Z" },
+  };
+  const drill = assembleDueDrill(bank, { history, random: seededRandom(1), now: fixedNow });
+  assert.deepEqual(
+    drill.questions.map((q) => q.id).sort(),
+    ["due-this-instant", "overdue"],
+  );
+});
+
+test("assembleDueDrill excludes retired questions even when they are due", () => {
+  const bank = studyBank({ "I-A": ["q1", "q2"] }, { retired: ["q2"] });
+  const history = {
+    q1: { dueAt: "2026-08-10T00:00:00.000Z" },
+    q2: { dueAt: "2026-08-10T00:00:00.000Z" },
+  };
+  const drill = assembleDueDrill(bank, { history, random: seededRandom(1), now: fixedNow });
+  assert.deepEqual(
+    drill.questions.map((q) => q.id),
+    ["q1"],
+  );
+});
+
+test("assembleDueDrill treats a malformed dueAt as not due, not a throw or a false positive", () => {
+  const bank = studyBank({ "I-A": ["q1"] });
+  const history = { q1: { dueAt: "not-a-real-date" } };
+  const drill = assembleDueDrill(bank, { history, random: seededRandom(1), now: fixedNow });
+  assert.deepEqual(drill.questions, []);
+});
+
+test("assembleDueDrill orders most-overdue first", () => {
+  const bank = studyBank({ "I-A": ["barely-due", "very-overdue", "moderately-overdue"] });
+  const history = {
+    "barely-due": { dueAt: "2026-08-16T23:00:00.000Z" },
+    "very-overdue": { dueAt: "2026-08-01T00:00:00.000Z" },
+    "moderately-overdue": { dueAt: "2026-08-10T00:00:00.000Z" },
+  };
+  const drill = assembleDueDrill(bank, { history, random: seededRandom(1), now: fixedNow });
+  assert.deepEqual(
+    drill.questions.map((q) => q.id),
+    ["very-overdue", "moderately-overdue", "barely-due"],
+  );
+});
+
+test("assembleDueDrill shuffles each question's options to a permutation of the originals", () => {
+  const bank = studyBank({ "I-A": ["q1"] });
+  const history = { q1: { dueAt: "2026-08-10T00:00:00.000Z" } };
+  const drill = assembleDueDrill(bank, { history, random: seededRandom(7), now: fixedNow });
+  assert.ok(isPermutationOf(drill.questions[0].options.map((o) => o.id), ["a", "b"]));
 });
 
 let failed = 0;

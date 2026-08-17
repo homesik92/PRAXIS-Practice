@@ -173,6 +173,20 @@ function scaleTargets(weightBearing, formLength) {
   return weightBearing.map((c, i) => ({ categoryId: c.id, target: targets[i] }));
 }
 
+// Shared by lastSeenRank and (Phase 4.3) dueAtRank below: reads a question's
+// history[field], parses it as a date, and returns its epoch ms -- or
+// `undefined` if the field is missing, unparseable, or `history` itself is
+// null/undefined (a hand-corrupted store can have valid-JSON, current-version
+// `questionHistory: null`; both callers get this guard for free rather than
+// each needing their own). Each caller picks its own sentinel for the
+// "undefined" case, since they need different ones (see below).
+function parsedHistoryDate(question, history, field) {
+  const raw = history?.[question.id]?.[field];
+  if (raw === undefined) return undefined;
+  const parsed = Date.parse(raw);
+  return Number.isNaN(parsed) ? undefined : parsed;
+}
+
 // A malformed/unparseable lastSeenAt is treated the same as "never seen" (-Infinity)
 // rather than "seen just now" or NaN -- Date.parse returns NaN for anything it can't
 // read, and NaN as a sort-comparator result is spec-coerced to 0 ("equal"), which
@@ -181,10 +195,8 @@ function scaleTargets(weightBearing, formLength) {
 // unvalidated localStorage-sourced history straight into this function -- this guard
 // is what keeps a hand-corrupted lastSeenAt from breaking the draw.
 function lastSeenRank(question, history) {
-  const lastSeenAt = history[question.id]?.lastSeenAt;
-  if (lastSeenAt === undefined) return -Infinity;
-  const parsed = Date.parse(lastSeenAt);
-  return Number.isNaN(parsed) ? -Infinity : parsed;
+  const ms = parsedHistoryDate(question, history, "lastSeenAt");
+  return ms === undefined ? -Infinity : ms;
 }
 
 // Draws up to `target` questions for one category, preferring least-recently-seen
@@ -365,4 +377,41 @@ export function assembleDrill(bank, categoryId, { history = {}, random = Math.ra
   const pool = (bank.questions ?? []).filter((q) => !q.retired && categoryIds.has(q.categoryId));
   const { drawn } = drawForCategory(pool, pool.length, history, random);
   return { questions: shuffleQuestionOptions(drawn, random) };
+}
+
+// Mirrors lastSeenRank's stance above via the same parsedHistoryDate helper,
+// with a different sentinel: a malformed/unparseable/missing dueAt is "not
+// due" (null) here rather than -Infinity, since this value feeds a filter, not
+// a raw sort -- null keeps a hand-corrupted entry from inflating S2's due
+// count or pulling a bogus question into the drill (code review finding:
+// parsedHistoryDate's `history?.` guard also covers `questionHistory: null`,
+// which this diff put on S2's every-page-load path, not just a drill actually
+// being started).
+function dueAtRank(question, history) {
+  return parsedHistoryDate(question, history, "dueAt") ?? null;
+}
+
+/**
+ * Assembles an untimed review drill (SCHEMA.md S2's "N questions due" entry point,
+ * D-8): every non-retired question across the *whole* bank whose questionHistory
+ * entry's `dueAt` (js/srs.js) has passed, ordered most-overdue-first, each
+ * question's option order shuffled. Unlike {@link assembleDrill}, this ignores
+ * category entirely -- it is driven purely by the SRS schedule, not by topic
+ * (D-18 deliberately keeps "time has passed" and "performance is poor" as separate
+ * signals, so this stays flat-across-categories rather than grouping by weakest
+ * category). `.questions.length` doubles as S2's displayed "N due" count, so both
+ * screens read the same computation instead of re-deriving it.
+ *
+ * @param {object} bank
+ * @param {{history?: Record<string, {dueAt?: string}>, random?: () => number, now?: () => Date}} [options]
+ * @returns {{questions: object[]}}
+ */
+export function assembleDueDrill(bank, { history = {}, random = Math.random, now = () => new Date() } = {}) {
+  const nowMs = now().getTime();
+  const due = (bank.questions ?? [])
+    .filter((q) => !q.retired)
+    .map((q) => ({ q, dueAtMs: dueAtRank(q, history) }))
+    .filter((r) => r.dueAtMs !== null && r.dueAtMs <= nowMs)
+    .sort((a, b) => a.dueAtMs - b.dueAtMs);
+  return { questions: shuffleQuestionOptions(due.map((r) => r.q), random) };
 }

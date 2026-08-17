@@ -13,7 +13,7 @@
     <p id="status-note" class="status-note">Loading&hellip;</p>
   </main>
   <script type="module">
-    import { loadTestList } from "./js/schema.js";
+    import { loadManifest, loadBank, assembleDueDrill } from "./js/schema.js";
     import { loadStore, findInProgressAttempt } from "./js/store.js";
 
     const params = new URLSearchParams(location.search);
@@ -25,12 +25,20 @@
     if (!code) {
       statusNote.textContent = "No test selected. Go back and choose one.";
     } else {
-      const result = await loadTestList();
-      const test = result.ok ? result.tests.find((t) => t.code === code) : undefined;
-      if (!test) {
+      // Loads the manifest entry and the full bank directly, rather than via
+      // loadTestList (Phase 1) -- S2 needs the bank's question ids for the due
+      // count below (Phase 4.3), and loadTestList's per-test summary shape doesn't
+      // carry them or the manifest's `file` path needed to fetch them separately.
+      // This also means S2 now fetches exactly one bank instead of every enabled
+      // test's summary just to find this one.
+      const manifestResult = await loadManifest();
+      const manifestEntry = manifestResult.ok ? manifestResult.tests.find((t) => t.code === code) : undefined;
+      const bankResult = manifestEntry ? await loadBank(manifestEntry.file) : undefined;
+      if (!bankResult || !bankResult.ok) {
         statusNote.textContent = `Test "${code}" is not registered.`;
       } else {
-        heading.textContent = test.name;
+        const bank = bankResult.bank;
+        heading.textContent = bank.name;
         statusNote.remove();
         const nav = document.createElement("nav");
 
@@ -51,6 +59,15 @@
             resumeLink.textContent = "Resume attempt";
             nav.appendChild(resumeLink);
             nav.appendChild(p);
+          }
+
+          // "N questions due" (Phase 4.3, SCHEMA.md S2, D-8).
+          const dueCount = assembleDueDrill(bank, { history: loadResult.store.questionHistory }).questions.length;
+          if (dueCount > 0) {
+            const dueLink = document.createElement("a");
+            dueLink.href = `run.html?code=${encodeURIComponent(code)}&mode=study&due=1`;
+            dueLink.textContent = `${dueCount} question${dueCount === 1 ? "" : "s"} due for review`;
+            nav.appendChild(dueLink);
           }
         }
 
