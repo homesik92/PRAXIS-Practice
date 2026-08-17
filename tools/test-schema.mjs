@@ -4,7 +4,7 @@
 // URL -- schema.js is written against an injected `fetchImpl`, not the global directly,
 // for exactly this reason (mirrors js/store.js's `storage` injection).
 import assert from "node:assert/strict";
-import { loadManifest, loadBankSummary, loadTestList } from "../js/schema.js";
+import { loadManifest, loadBank, loadBankSummary, loadTestList } from "../js/schema.js";
 
 function jsonResponse(body, { ok = true, status = 200 } = {}) {
   return { ok, status, json: async () => body };
@@ -77,6 +77,20 @@ test("loadManifest treats a missing tests array as empty rather than throwing", 
   const result = await loadManifest(fetchImpl, "data/manifest.json");
   assert.equal(result.ok, true);
   assert.deepEqual(result.tests, []);
+});
+
+test("loadBank returns the full parsed bank, questions included", async () => {
+  const fetchImpl = mockFetch({ "data/tests/5165.json": jsonResponse(validBank) });
+  const result = await loadBank("tests/5165.json", fetchImpl, "data");
+  assert.equal(result.ok, true);
+  assert.deepEqual(result.bank, validBank);
+});
+
+test("loadBank reports fetch-failed on a non-ok response", async () => {
+  const fetchImpl = mockFetch({ "data/tests/5165.json": jsonResponse({}, { ok: false, status: 404 }) });
+  const result = await loadBank("tests/5165.json", fetchImpl, "data");
+  assert.equal(result.ok, false);
+  assert.equal(result.reason, "fetch-failed");
 });
 
 test("loadBankSummary extracts only the summary fields, from the question array's length", async () => {

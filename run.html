@@ -8,11 +8,154 @@
 </head>
 <body>
   <main>
-    <h1>Test runner</h1>
-    <p class="status-note">Phase 0 skeleton -- serves both S3 (timed test,
-      <code>?mode=test</code>) and S5 (untimed topic study,
-      <code>?mode=study&amp;category=</code>). Start button, timer, questions,
-      flag-and-review pass all land in Phase 1 and Phase 3.</p>
+    <p><a id="back-link" href="index.html">&larr; Back</a></p>
+    <h1 id="test-heading">Test runner</h1>
+    <p id="status-note" class="status-note" hidden></p>
+
+    <div id="start-screen" hidden>
+      <p id="start-summary"></p>
+      <button id="start-button" type="button">Start</button>
+    </div>
+
+    <div id="run-screen" hidden>
+      <p id="timer"></p>
+      <p id="position"></p>
+      <form id="question-form">
+        <fieldset>
+          <legend id="question-stem"></legend>
+          <div id="options-list"></div>
+        </fieldset>
+      </form>
+    </div>
   </main>
+  <script type="module">
+    import { loadBank } from "./js/schema.js";
+    import { scoreAttempt } from "./js/runner.js";
+
+    const params = new URLSearchParams(location.search);
+    const code = params.get("code");
+    const mode = params.get("mode");
+
+    const backLink = document.getElementById("back-link");
+    const heading = document.getElementById("test-heading");
+    const statusNote = document.getElementById("status-note");
+    const startScreen = document.getElementById("start-screen");
+    const startSummary = document.getElementById("start-summary");
+    const startButton = document.getElementById("start-button");
+    const runScreen = document.getElementById("run-screen");
+    const timerEl = document.getElementById("timer");
+    const positionEl = document.getElementById("position");
+    const stemEl = document.getElementById("question-stem");
+    const optionsEl = document.getElementById("options-list");
+
+    if (code) backLink.href = `test.html?code=${encodeURIComponent(code)}`;
+
+    function showStatus(message) {
+      statusNote.textContent = message;
+      statusNote.hidden = false;
+    }
+
+    if (!code) {
+      showStatus("No test selected. Go back and choose one.");
+    } else if (mode !== "test") {
+      // S5 (untimed topic study) is Phase 4.1 -- this runner only serves S3 for now.
+      showStatus("Topic study isn't available yet.");
+    } else {
+      // Manifest lookup happens via a full bank fetch rather than loadTestList here,
+      // since the runner needs the whole bank (questions included), not the summary
+      // S1/S2 use -- see js/schema.js's loadBank vs loadBankSummary split.
+      const manifestResponse = await fetch("data/manifest.json");
+      const manifest = manifestResponse.ok ? await manifestResponse.json() : { tests: [] };
+      const entry = (manifest.tests ?? []).find((t) => t.code === code && t.enabled);
+
+      if (!entry) {
+        showStatus(`Test "${code}" is not registered.`);
+      } else {
+        const result = await loadBank(entry.file);
+        if (!result.ok) {
+          showStatus("This test's questions could not be loaded. Try again later.");
+        } else {
+          runTest(result.bank);
+        }
+      }
+    }
+
+    function runTest(bank) {
+      heading.textContent = bank.name;
+      startSummary.textContent =
+        `${bank.questions.length} questions, ${bank.timeLimitMinutes} minutes. ` +
+        "Once you answer a question you move straight to the next one -- there is no going back yet.";
+      startScreen.hidden = false;
+
+      startButton.addEventListener("click", () => start(bank), { once: true });
+    }
+
+    function start(bank) {
+      startScreen.hidden = true;
+      runScreen.hidden = false;
+
+      const startedAt = Date.now();
+      const deadline = startedAt + bank.timeLimitMinutes * 60_000;
+      const timerHandle = setInterval(updateTimer, 1000);
+      updateTimer();
+
+      function updateTimer() {
+        const remainingMs = Math.max(0, deadline - Date.now());
+        const totalSeconds = Math.floor(remainingMs / 1000);
+        const minutes = Math.floor(totalSeconds / 60);
+        const seconds = totalSeconds % 60;
+        timerEl.textContent = `Time remaining: ${minutes}:${String(seconds).padStart(2, "0")}`;
+      }
+
+      const answers = [];
+      let index = 0;
+
+      function renderQuestion() {
+        const question = bank.questions[index];
+        positionEl.textContent = `Question ${index + 1} of ${bank.questions.length}`;
+        stemEl.textContent = question.stem.value;
+        optionsEl.innerHTML = "";
+        for (const option of question.options) {
+          const label = document.createElement("label");
+          label.style.display = "block";
+          const input = document.createElement("input");
+          input.type = "radio";
+          input.name = "answer";
+          input.value = option.id;
+          input.addEventListener("change", () => selectAnswer(question, option));
+          label.appendChild(input);
+          label.append(` ${option.content.value}`);
+          optionsEl.appendChild(label);
+        }
+      }
+
+      function selectAnswer(question, option) {
+        answers.push({ questionId: question.id, selectedOptionId: option.id });
+        index += 1;
+        if (index < bank.questions.length) {
+          renderQuestion();
+        } else {
+          finish();
+        }
+      }
+
+      function finish() {
+        clearInterval(timerHandle);
+        const score = scoreAttempt(bank, answers);
+        const attemptId = `att-${Date.now()}`;
+        // Placeholder hand-off to S4 -- Phase 2.2's real attempt-record store in
+        // js/store.js replaces this sessionStorage stopgap. Deliberately not the
+        // "praxis-practice" STORAGE_KEY store.js owns, so this can't collide with or
+        // be mistaken for real persisted history.
+        sessionStorage.setItem(
+          `praxis-practice.lastAttempt.${attemptId}`,
+          JSON.stringify({ attemptId, code: bank.code, formLength: bank.formLength, answers, score }),
+        );
+        location.href = `results.html?attempt=${encodeURIComponent(attemptId)}`;
+      }
+
+      renderQuestion();
+    }
+  </script>
 </body>
 </html>
