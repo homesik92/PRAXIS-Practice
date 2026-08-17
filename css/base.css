@@ -58,3 +58,17 @@ a {
   padding: 0.5rem 0.75rem;
   margin-bottom: 0.5rem;
 }
+
+/* Confirm-before-submit dialog (Phase 3.2, SCHEMA.md S3, finding #11) -- native
+   <dialog> for its built-in focus trap and Esc-to-close, styled just enough that it
+   doesn't sit edge-to-edge on a wide viewport. */
+#confirm-submit-dialog {
+  max-width: 28rem;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  padding: 1.25rem;
+}
+
+#confirm-submit-dialog::backdrop {
+  background: rgb(0 0 0 / 0.4);
+}

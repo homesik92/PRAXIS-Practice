@@ -42,10 +42,17 @@
       <ol id="review-list"></ol>
       <button id="submit-button" type="button">Submit test</button>
     </div>
+
+    <dialog id="confirm-submit-dialog" aria-labelledby="confirm-submit-heading">
+      <h2 id="confirm-submit-heading">Submit test?</h2>
+      <p id="confirm-submit-message"></p>
+      <button id="confirm-cancel-button" type="button">Cancel</button>
+      <button id="confirm-submit-button" type="button">Submit test</button>
+    </dialog>
   </main>
   <script type="module">
     import { loadBank, assembleForm, resumeForm } from "./js/schema.js";
-    import { isCorrect, buildReviewRows } from "./js/runner.js";
+    import { isCorrect, buildReviewRows, countReviewStatus } from "./js/runner.js";
     import { flattenCategoryLabels } from "./js/results.js";
     import { updateHistory } from "./js/srs.js";
     import {
@@ -82,6 +89,10 @@
     const reviewScreen = document.getElementById("review-screen");
     const reviewList = document.getElementById("review-list");
     const submitButton = document.getElementById("submit-button");
+    const confirmSubmitDialog = document.getElementById("confirm-submit-dialog");
+    const confirmSubmitMessage = document.getElementById("confirm-submit-message");
+    const confirmCancelButton = document.getElementById("confirm-cancel-button");
+    const confirmSubmitButton = document.getElementById("confirm-submit-button");
 
     if (code) backLink.href = `test.html?code=${encodeURIComponent(code)}`;
 
@@ -506,7 +517,36 @@
         renderReviewList();
       }
 
-      submitButton.addEventListener("click", finish, { once: true });
+      submitButton.addEventListener("click", openConfirmSubmitDialog);
+
+      function openConfirmSubmitDialog() {
+        // Re-fetched fresh rather than reusing renderReviewList's, matching
+        // reopenQuestion's pattern -- the confirm dialog's counts must reflect
+        // whatever was last recorded, not a stale render (finding #11).
+        const currentAttempt = findAttempt(store, attempt.id);
+        const rows = buildReviewRows(form.questions, currentAttempt.answers, categoryLabels);
+        const { unanswered, flagged } = countReviewStatus(rows);
+        const unansweredText = unanswered === 1 ? "1 question unanswered" : `${unanswered} questions unanswered`;
+        const flaggedText = flagged === 1 ? "1 question flagged for review" : `${flagged} questions flagged for review`;
+        confirmSubmitMessage.textContent =
+          `${unansweredText}, ${flaggedText}. Submitting will score your answers now.`;
+        confirmSubmitDialog.showModal();
+      }
+
+      confirmCancelButton.addEventListener("click", () => confirmSubmitDialog.close());
+      // Fires on every close path (Cancel click, Esc) so focus reliably returns to
+      // the button that opened the dialog rather than relying on browser-specific
+      // focus-restoration behavior.
+      confirmSubmitDialog.addEventListener("close", () => submitButton.focus());
+
+      confirmSubmitButton.addEventListener(
+        "click",
+        () => {
+          confirmSubmitDialog.close();
+          finish();
+        },
+        { once: true },
+      );
 
       function finish() {
         clearInterval(timerHandle);

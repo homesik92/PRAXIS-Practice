@@ -438,10 +438,29 @@ in parallel with Phases 3–6.
   → Submit scores correctly; also verified the corrupted-row Reopen guard directly by
   hand-editing a stored answer's `questionId`. 120/120 tests green, `verify.mjs`
   clean.
-- ☐ **3.2 Confirm-before-submit.** Dialog showing unanswered/flagged counts before
+- ☑ **3.2 Confirm-before-submit.** Dialog showing unanswered/flagged counts before
   scoring (finding #11).
   *Accepts:* the dialog's counts match the actual number of unanswered and flagged
   questions at submit time.
+  *Complete.* `js/runner.js` gained a pure `countReviewStatus(rows)` taking
+  `buildReviewRows`' output and returning `{unanswered, flagged}`, unit-tested
+  alongside 3.1's helpers. `run.html`'s Submit button now opens a native `<dialog>`
+  (zero-dependency, built-in focus trap and Esc-to-close, consistent with D-3) stating
+  both counts before scoring; the dialog's own Submit button calls the existing
+  `finish()`, Cancel or Esc leaves the attempt untouched and in-progress. Focus
+  explicitly returns to the Submit button on every close path via the dialog's `close`
+  event, rather than relying on browser-specific restoration. Minimal CSS added to
+  `css/base.css` matching the project's existing plain style. Shallow UI change per
+  Gate 3 (self-reviewed, no code-review round). Live-verified in the browser via
+  script-driven clicks on a genuinely fresh tab with a click-event logger installed
+  (per this project's known stray-real-click landmine) to confirm every state
+  transition was explicitly triggered: a normal complete run showed "0 questions
+  unanswered, 1 question flagged"; Cancel left the attempt `in-progress` with correct
+  focus restoration; Submit scored and navigated to results. Also hand-edited a stored
+  attempt's `answers` (same technique as 3.1's corrupted-row test) to cover only 4 of
+  5 questions, confirming the dialog correctly read "1 question unanswered, 1 question
+  flagged" and matched the review list exactly. 123/123 tests green, `verify.mjs`
+  clean.
 - ☐ **3.3 Résumé flow.** S2's "Resume attempt" entry (finding #10), the
   time-expired-while-away screen.
   *Accepts:* an in-progress attempt resumes at its saved position; one whose deadline
@@ -558,4 +577,5 @@ Phase 0.2).
 | 2026-08-16 | Phase 2.3 — spaced repetition scheduling | Merged [PR #23](https://github.com/homesik92/PRAXIS-Practice/pull/23). New `js/srs.js` implements SCHEMA.md §2.8's SM-2 recurrence, wired into `run.html`'s answer path and `assembleForm`'s draw (activating the least-recently-seen preference dead since Phase 2.1). `/code-review` at high effort found 7 findings, 5 fixed — three angles independently flagged the `questionHistory` store-merge belonging in `js/store.js`, not `run.html`; fixed via a new `recordQuestionHistory` helper and an explicit `recorded` flag on `recordAnswer`, replacing a fragile reference-equality check. Pinned the previously-unspecified ease deltas to the standard SM-2 constants, logged as N-4. One finding deferred to [issue #22](https://github.com/homesik92/PRAXIS-Practice/issues/22) (a cross-tab race extending an already-accepted Phase 2.2 residual gap). Live-verified end to end in the browser before and after remediation. 99/99 tests green. |
 | 2026-08-16 | Phase 2.4 — shortfall audit trail | Merged [PR #26](https://github.com/homesik92/PRAXIS-Practice/pull/26). `js/results.js`'s `summarizeAttempt` gained `recomputeShortfalls`, surfacing SCHEMA.md §1.2's "underfilled bank is disclosed, never silently padded" requirement on the results screen for the first time — `categoryTargets`/`shortfalls` had been persisted since Phase 2.1/2.2 but never read by `results.html`. `/code-review` at high effort found 4 findings, 1 fixed: logged N-5 for the deliberate choice not to cross-check against the stored `attempt.shortfalls` value (matches the score's own recompute-fresh pattern; picked at plan-approval, confirmed against the code review's literal-spec-wording objection). Filed [issue #25](https://github.com/homesik92/PRAXIS-Practice/issues/25) for a real, pre-existing gap this PR inherits rather than introduces (score/shortfall both depend on the bank being unchanged between draw and viewing — true since Phase 1.3). Live-verified both the no-shortfall and an injected-shortfall case in the browser. 105/105 tests green. |
 | 2026-08-17 | Phase 3.1 — flag and review pass | [PR #29](https://github.com/homesik92/PRAXIS-Practice/pull/29). `js/store.js` gained `updateAnswer` (replace-in-place) and a shared `requireInProgressAttempt` precondition helper; `js/runner.js` gained `excerptStem`/`buildReviewRows`; `run.html` gained a flag toggle and an end-of-run review screen (reopen/change any answer, Submit to score), plus a `priorHistory` field on each answer so a review-pass edit corrects spaced-repetition history from a frozen baseline instead of double-counting (N-6 — a genuine SRS-subsystem fork put to the session owner, decided against the offered recommendation). Résumé of a fully-answered attempt now lands in review rather than auto-scoring. `/code-review` at high effort (8 parallel angles) found 8 findings, 7 fixed directly (a real crash reopening a corrupted/answerless review row; stale Start-screen copy; a latent stale-reference bug; missing `priorHistory` test coverage; `findAttempt` reuse; the shared precondition helper; a redundant `currentFlagged` variable). One deferred to [issue #28](https://github.com/homesik92/PRAXIS-Practice/issues/28) (cross-tab review-edit race, same narrow shape as the already-accepted issue #22). Live-verified in the browser: flag → answer all 5 → review list → reopen/change an answer → SRS recomputes without double-counting → Submit scores correctly; also hand-verified the corrupted-row Reopen guard directly. 120/120 tests green. |
+| 2026-08-17 | Phase 3.2 — confirm-before-submit | [PR #TBD]. `js/runner.js` gained `countReviewStatus`, a pure helper over `buildReviewRows`' output. `run.html`'s Submit button now opens a native `<dialog>` stating the unanswered/flagged counts before scoring; Cancel/Esc leave the attempt untouched, the dialog's own Submit calls the existing `finish()`. Shallow UI change, self-reviewed. Live-verified via script-driven clicks on a fresh tab with a click-event logger (this project's known stray-real-click landmine) confirming every transition was explicit: a normal run showed correct 0-unanswered/1-flagged counts, Cancel preserved `in-progress` status and returned focus to Submit, and a hand-edited attempt (4 of 5 questions covered, matching 3.1's corrupted-row technique) correctly showed "1 question unanswered, 1 question flagged." 123/123 tests green. |
 

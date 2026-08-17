@@ -1,6 +1,6 @@
 // Unit tests for js/runner.js. Pure Node, no dependencies. Run: node tools/test-runner.mjs
 import assert from "node:assert/strict";
-import { scoreAttempt, isCorrect, excerptStem, buildReviewRows } from "../js/runner.js";
+import { scoreAttempt, isCorrect, excerptStem, buildReviewRows, countReviewStatus } from "../js/runner.js";
 
 const bank = {
   questions: [
@@ -145,6 +145,29 @@ test("buildReviewRows falls back to the raw categoryId when no label is found", 
   const question = { id: "q9", stem: { value: "Stem." }, categoryId: "unknown-cat" };
   const [row] = buildReviewRows([question], [], new Map());
   assert.equal(row.categoryLabel, "unknown-cat");
+});
+
+// --- countReviewStatus (Phase 3.2, finding #11) ---
+
+test("countReviewStatus is zero/zero for rows that are all answered and unflagged", () => {
+  const rows = [
+    { answered: true, flagged: false },
+    { answered: true, flagged: false },
+  ];
+  assert.deepEqual(countReviewStatus(rows), { unanswered: 0, flagged: 0 });
+});
+
+test("countReviewStatus counts unanswered and flagged independently -- a row can be both", () => {
+  const rows = [
+    { answered: false, flagged: true },
+    { answered: true, flagged: true },
+    { answered: false, flagged: false },
+  ];
+  assert.deepEqual(countReviewStatus(rows), { unanswered: 2, flagged: 2 });
+});
+
+test("countReviewStatus returns zero/zero for an empty row list", () => {
+  assert.deepEqual(countReviewStatus([]), { unanswered: 0, flagged: 0 });
 });
 
 let failed = 0;
