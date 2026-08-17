@@ -10,9 +10,35 @@
   <main>
     <p><a href="index.html">&larr; Choose a different test</a></p>
     <h1 id="test-name">Test menu</h1>
-    <p class="status-note">Phase 0 skeleton -- takes a test's <code>?code=</code>
-      query parameter and offers "take a practice test" (S3) or "study a topic" (S5).
-      Wired up in Phase 1.</p>
+    <p id="status-note" class="status-note">Loading&hellip;</p>
   </main>
+  <script type="module">
+    import { loadTestList } from "./js/schema.js";
+
+    const params = new URLSearchParams(location.search);
+    const code = params.get("code");
+    const heading = document.getElementById("test-name");
+    const statusNote = document.getElementById("status-note");
+    const main = document.querySelector("main");
+
+    if (!code) {
+      statusNote.textContent = "No test selected. Go back and choose one.";
+    } else {
+      const result = await loadTestList();
+      const test = result.ok ? result.tests.find((t) => t.code === code) : undefined;
+      if (!test) {
+        statusNote.textContent = `Test "${code}" is not registered.`;
+      } else {
+        heading.textContent = test.name;
+        statusNote.remove();
+        const nav = document.createElement("nav");
+        const a = document.createElement("a");
+        a.href = `run.html?code=${encodeURIComponent(code)}&mode=test`;
+        a.textContent = "Take a practice test";
+        nav.appendChild(a);
+        main.appendChild(nav);
+      }
+    }
+  </script>
 </body>
 </html>
