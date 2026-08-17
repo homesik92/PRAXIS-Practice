@@ -50,7 +50,7 @@ site with no server.
 | 0 | Tools & infrastructure | ☑ |
 | 1 | Walking skeleton | ☑ |
 | 2 | Core data & persistence | ☑ |
-| 3 | Runner completeness | ☐ |
+| 3 | Runner completeness | ☑ |
 | 4 | Study mode & dashboard depth | ☐ |
 | 5 | Reference materials (5165, 5485) | ☐ |
 | 6 | Hardening | ☐ |
@@ -494,11 +494,53 @@ in parallel with Phases 3–6.
   script was even killed mid-wait by the navigation itself, ruling out any click.
   123/123 tests green (no new pure logic to unit-test — this phase's additions are all
   DOM-wiring/timing), `verify.mjs` clean.
-- ☐ **3.4 Runner accessibility pass.** Persistently-focusable timer/position element
+- ☑ **3.4 Runner accessibility pass.** Persistently-focusable timer/position element
   (finding #12), queued announcements (finding #15), a full keyboard-only run-through
   with no mouse.
   *Accepts:* a complete run — start to score — is achievable with the keyboard alone
   and a screen reader.
+  *Complete.* `#timer`/`#position` gained `tabindex="0"` so they're reachable on
+  demand independent of any announcement (finding #12). A static, never-rebuilt
+  `aria-live="polite"` announcer region plus a serialized `announce()` queue was
+  added so a position announcement and a threshold announcement can never fire
+  simultaneously (finding #15): `renderQuestion`/`renderQuestionForEdit`/
+  `showReviewScreen` all move focus and announce on every screen transition via a
+  shared `transitionFocus` helper, and `updateTimer` announces 10/5/1-minutes-
+  remaining exactly once each. `#status-note` gained `role="alert"` so a run-halting
+  error is heard, not just shown. `/code-review` at high effort (8 parallel angles)
+  found 10 findings, 9 fixed directly: a real correctness bug where threshold
+  pre-suppression could suppress a fresh start's own threshold on a test sized to
+  exactly 10/5/1 minutes (fixed by making pre-suppression apply only on a genuine
+  résumé, threaded through as an explicit `resumingExistingTimer` flag — the
+  threshold logic was also extracted to pure, unit-tested functions in
+  `js/runner.js`, `initialAnnouncedThresholds`/`crossedThresholds`, closing the gap
+  that let the bug hide); a WCAG-relevant finding that résumé forced focus onto the
+  first question with no preceding user gesture (fixed via a `moveFocusOnFirstRender`
+  flag distinguishing a genuine page-load résumé from every click-driven path,
+  including the Start button's own cross-tab race-recovery branch); stale threshold
+  announcements racing `finish()`'s navigation on a large time-jump (fixed by
+  skipping the threshold loop once expired); `announce()`'s `requestAnimationFrame`
+  stalling the whole queue while the tab is backgrounded plus no error recovery
+  (fixed: dropped rAF for `setTimeout`, added a `.catch` guard, cut the per-message
+  delay from 700ms to ~200ms); `<legend>`'s inconsistent cross-engine `.focus()`
+  support (fixed by moving the focus target to the wrapping `<fieldset>`, which
+  still gets its accessible name from the legend); `abortRun` not moving focus off
+  the newly-focusable timer/position elements before hiding them, and `showStatus`
+  lacking the same clear-then-set re-announce guard `announce()` uses (both fixed);
+  plus a reuse/simplification finding (the focus+announce pairing duplicated across
+  three call sites, extracted into the shared `transitionFocus` helper). One finding
+  deferred: the cross-tab `storage` handler's re-render now also steals focus during
+  a concurrent edit in another tab, a new manifestation of the already-accepted race
+  documented in [issue #28](https://github.com/homesik92/PRAXIS-Practice/issues/28)
+  (evidence comment added there rather than a duplicate issue). Live-verified in the
+  browser via script-driven clicks with a click-event logger throughout: a fresh
+  start correctly moves focus to the question fieldset every time; a résumé's first
+  render leaves focus untouched while every subsequent transition moves it normally;
+  the announcer queue fires each announcement in order with no clobbering (verified
+  via a `MutationObserver` log); a live run caught at "1:00" remaining correctly
+  announced "1 minute remaining" exactly once at the crossing, never retroactively
+  when already below a threshold at résumé; `abortRun` correctly moves focus to the
+  now-visible alert message. 131/131 tests green, `verify.mjs` clean.
 
 ### Phase 4 — Study mode & dashboard depth
 
@@ -607,4 +649,5 @@ Phase 0.2).
 | 2026-08-17 | Phase 3.1 — flag and review pass | [PR #29](https://github.com/homesik92/PRAXIS-Practice/pull/29). `js/store.js` gained `updateAnswer` (replace-in-place) and a shared `requireInProgressAttempt` precondition helper; `js/runner.js` gained `excerptStem`/`buildReviewRows`; `run.html` gained a flag toggle and an end-of-run review screen (reopen/change any answer, Submit to score), plus a `priorHistory` field on each answer so a review-pass edit corrects spaced-repetition history from a frozen baseline instead of double-counting (N-6 — a genuine SRS-subsystem fork put to the session owner, decided against the offered recommendation). Résumé of a fully-answered attempt now lands in review rather than auto-scoring. `/code-review` at high effort (8 parallel angles) found 8 findings, 7 fixed directly (a real crash reopening a corrupted/answerless review row; stale Start-screen copy; a latent stale-reference bug; missing `priorHistory` test coverage; `findAttempt` reuse; the shared precondition helper; a redundant `currentFlagged` variable). One deferred to [issue #28](https://github.com/homesik92/PRAXIS-Practice/issues/28) (cross-tab review-edit race, same narrow shape as the already-accepted issue #22). Live-verified in the browser: flag → answer all 5 → review list → reopen/change an answer → SRS recomputes without double-counting → Submit scores correctly; also hand-verified the corrupted-row Reopen guard directly. 120/120 tests green. |
 | 2026-08-17 | Phase 3.2 — confirm-before-submit | [PR #30](https://github.com/homesik92/PRAXIS-Practice/pull/30). `js/runner.js` gained `countReviewStatus`, a pure helper over `buildReviewRows`' output. `run.html`'s Submit button now opens a native `<dialog>` stating the unanswered/flagged counts before scoring; Cancel/Esc leave the attempt untouched, the dialog's own Submit calls the existing `finish()`. Shallow UI change, self-reviewed. Live-verified via script-driven clicks on a fresh tab with a click-event logger (this project's known stray-real-click landmine) confirming every transition was explicit: a normal run showed correct 0-unanswered/1-flagged counts, Cancel preserved `in-progress` status and returned focus to Submit, and a hand-edited attempt (4 of 5 questions covered, matching 3.1's corrupted-row technique) correctly showed "1 question unanswered, 1 question flagged." 123/123 tests green. |
 | 2026-08-17 | Phase 3.3 — résumé flow polish | [PR #31](https://github.com/homesik92/PRAXIS-Practice/pull/31). `test.html` now leads with a "Resume attempt" entry (with an answered/total status line) ahead of "Take a practice test" when an in-progress attempt exists (finding #10). `run.html` gained a wall-clock deadline check on résumé: an already-expired attempt shows a new expired-screen (answered/total count, explicit "See your results" acknowledgment) instead of silently scoring on load; separately, the running timer now force-completes the instant it hits zero while the tab stays open, no confirmation dialog. Score-and-navigate logic factored into a shared `completeAndGoToResults` helper. Shallow-to-moderate change, self-reviewed. Live-verified all three paths in the browser with a click-event logger installed throughout: normal résumé landed back at the correct question; a hand-edited already-past deadline showed the expired screen rather than silently scoring; a live run caught at "0:15" remaining with zero clicks recorded navigated to results entirely on its own when time ran out (the verifying script was killed mid-wait by the navigation itself). 123/123 tests green. |
+| 2026-08-17 | Phase 3.4 — runner accessibility pass | [PR #TBD]. `#timer`/`#position` gained `tabindex="0"` (finding #12); a serialized `announce()` queue over a static `aria-live="polite"` region plus a shared `transitionFocus` helper move focus and announce on every screen transition, never simultaneously (finding #15); `#status-note` gained `role="alert"`. `/code-review` at high effort (8 parallel angles) found 10 findings, 9 fixed: a real correctness bug in threshold pre-suppression (could suppress a fresh start's own threshold on an exactly-10/5/1-minute test — fixed via an explicit `resumingExistingTimer` flag and the threshold logic extracted to pure, unit-tested `js/runner.js` functions); a WCAG finding that résumé forced focus with no user gesture (fixed via `moveFocusOnFirstRender`); stale threshold announcements racing `finish()`'s navigation; `announce()`'s `requestAnimationFrame` stalling when backgrounded plus no error recovery (dropped rAF, added `.catch`, cut delay 700ms→~200ms); `<legend>`'s inconsistent cross-engine `.focus()` support (moved the focus target to the wrapping `<fieldset>`); `abortRun`/`showStatus` focus and re-announce gaps; the focus+announce duplication itself (extracted to `transitionFocus`). One finding deferred — the cross-tab `storage` handler's re-render now also steals focus mid-edit, a new manifestation of the already-accepted race in [issue #28](https://github.com/homesik92/PRAXIS-Practice/issues/28) (evidence comment added there). Live-verified in the browser with a click-event logger throughout: fresh start moves focus every time, résumé's first render doesn't, every later transition does; announcer queue fires in order with no clobbering (`MutationObserver`-verified); a live run at "1:00" remaining announced "1 minute remaining" exactly once at the crossing; `abortRun` correctly moves focus to the alert. 131/131 tests green. **Phase 3 (Runner completeness) is now fully done.** |
 
