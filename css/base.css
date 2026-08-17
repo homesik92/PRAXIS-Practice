@@ -81,6 +81,29 @@ a {
   margin-left: 0.5rem;
 }
 
+/* S5 topic-study category picker (Phase 4.1, SCHEMA.md §2.4) -- depth-based
+   indentation is set inline per row (arbitrary tree depth), this just removes the
+   default list markers/margin so the indentation reads cleanly. */
+#category-list {
+  list-style: none;
+  padding-left: 0;
+}
+
+#category-list li {
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
+
+/* S5 per-question feedback (Phase 4.1, SCHEMA.md §1.1 S5) -- same bordered-box
+   treatment as .status-note, so a revealed answer reads as a distinct block from
+   the question above it. */
+#study-feedback {
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  padding: 0.75rem 1rem;
+  margin-top: 0.75rem;
+}
+
 /* Confirm-before-submit dialog (Phase 3.2, SCHEMA.md S3, finding #11) -- native
    <dialog> for its built-in focus trap and Esc-to-close, styled just enough that it
    doesn't sit edge-to-edge on a wide viewport. */

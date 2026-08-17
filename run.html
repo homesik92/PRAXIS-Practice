@@ -62,6 +62,34 @@
       <button id="submit-button" type="button">Submit test</button>
     </div>
 
+    <!-- S5 -- topic study (Phase 4.1). Untimed and separate from S3's state machine
+         above: no timer, no résumé, no scoring against a form (SCHEMA.md S1.1). -->
+    <div id="study-picker-screen" hidden>
+      <h2>Choose a topic</h2>
+      <ul id="category-list"></ul>
+    </div>
+
+    <div id="study-screen" hidden>
+      <p id="study-position"></p>
+      <form id="study-form">
+        <fieldset id="study-fieldset" tabindex="-1">
+          <legend id="study-stem"></legend>
+          <div id="study-options-list"></div>
+        </fieldset>
+      </form>
+      <div id="study-feedback" tabindex="-1" hidden>
+        <p id="study-correctness"></p>
+        <p id="study-explanation"></p>
+        <button id="study-next-button" type="button">Next question</button>
+      </div>
+    </div>
+
+    <div id="study-complete-screen" hidden>
+      <h2 id="study-complete-heading" tabindex="-1">Drill complete</h2>
+      <p id="study-complete-summary"></p>
+      <p><a id="study-again-link" href="#">Study this topic again</a></p>
+    </div>
+
     <dialog id="confirm-submit-dialog" aria-labelledby="confirm-submit-heading">
       <h2 id="confirm-submit-heading">Submit test?</h2>
       <p id="confirm-submit-message"></p>
@@ -70,7 +98,7 @@
     </dialog>
   </main>
   <script type="module">
-    import { loadBank, assembleForm, resumeForm } from "./js/schema.js";
+    import { loadBank, assembleForm, resumeForm, flattenCategoryTree, assembleDrill } from "./js/schema.js";
     import {
       isCorrect,
       buildReviewRows,
@@ -124,6 +152,21 @@
     const confirmSubmitMessage = document.getElementById("confirm-submit-message");
     const confirmCancelButton = document.getElementById("confirm-cancel-button");
     const confirmSubmitButton = document.getElementById("confirm-submit-button");
+    const studyPickerScreen = document.getElementById("study-picker-screen");
+    const categoryList = document.getElementById("category-list");
+    const studyScreen = document.getElementById("study-screen");
+    const studyPosition = document.getElementById("study-position");
+    const studyFieldset = document.getElementById("study-fieldset");
+    const studyStemEl = document.getElementById("study-stem");
+    const studyOptionsEl = document.getElementById("study-options-list");
+    const studyFeedback = document.getElementById("study-feedback");
+    const studyCorrectness = document.getElementById("study-correctness");
+    const studyExplanation = document.getElementById("study-explanation");
+    const studyNextButton = document.getElementById("study-next-button");
+    const studyCompleteScreen = document.getElementById("study-complete-screen");
+    const studyCompleteHeading = document.getElementById("study-complete-heading");
+    const studyCompleteSummary = document.getElementById("study-complete-summary");
+    const studyAgainLink = document.getElementById("study-again-link");
 
     if (code) backLink.href = `test.html?code=${encodeURIComponent(code)}`;
 
@@ -170,11 +213,60 @@
         });
     }
 
+    // Shared by S3 (beginRun) and S5 (runStudy's startDrill, Phase 4.1) -- each
+    // calls this once to get its own independent transitionFocus(el, message),
+    // seeded with whether ITS very first screen transition should move focus
+    // (S3's fresh-start/race-recovery clicks: yes: S3's page-load résumé and
+    // every S5 entry, which is always a fresh navigation, never a same-page
+    // click: no). Every transition after the first always moves focus -- a real
+    // same-page transition, not a page load. Hoisted here (code review finding)
+    // so this pairing lives in exactly one place regardless of how many modes
+    // eventually need it, instead of being reimplemented per mode.
+    function makeTransitionFocus(startsRenderedOnce) {
+      let hasRenderedOnce = startsRenderedOnce;
+      return function transitionFocus(el, message) {
+        if (hasRenderedOnce) {
+          el.focus();
+          announce(message);
+        }
+        hasRenderedOnce = true;
+      };
+    }
+
+    // Shared by S3 (runTest's renderQuestion/renderQuestionForEdit) and S5
+    // (runStudy's renderStudyQuestion) -- a real radio group either way, just a
+    // different container and a different change handler (Phase 4.1).
+    function renderOptions(container, question, selectedOptionId, onChoose) {
+      container.innerHTML = "";
+      for (const option of question.options) {
+        const label = document.createElement("label");
+        label.style.display = "block";
+        const input = document.createElement("input");
+        input.type = "radio";
+        input.name = "answer";
+        input.value = option.id;
+        if (option.id === selectedOptionId) input.checked = true;
+        input.addEventListener("change", () => onChoose(option));
+        label.appendChild(input);
+        label.append(` ${option.content.value}`);
+        container.appendChild(label);
+      }
+    }
+
+    // Single source of truth for "which modes exist" (code review finding) --
+    // the dispatch below still needs its own test/study branch to know which to
+    // run, but every future mode only has to be added here to be recognized.
+    const VALID_MODES = ["test", "study"];
+
     if (!code) {
       showStatus("No test selected. Go back and choose one.");
-    } else if (mode !== "test") {
-      // S5 (untimed topic study) is Phase 4.1 -- this runner only serves S3 for now.
-      showStatus("Topic study isn't available yet.");
+    } else if (!mode) {
+      // Distinct from "unknown mode" below (code review finding): a bookmarked or
+      // hand-typed URL missing &mode= entirely shouldn't show the user a status
+      // message with the literal word "null" in it.
+      showStatus("No mode selected. Go back and choose a test.");
+    } else if (!VALID_MODES.includes(mode)) {
+      showStatus(`Unknown mode "${mode}". Go back and choose a test.`);
     } else {
       // Manifest lookup happens via a full bank fetch rather than loadTestList here,
       // since the runner needs the whole bank (questions included), not the summary
@@ -189,8 +281,10 @@
         const result = await loadBank(entry.file);
         if (!result.ok) {
           showStatus("This test's questions could not be loaded. Try again later.");
-        } else {
+        } else if (mode === "test") {
           runTest(result.bank);
+        } else {
+          runStudy(result.bank);
         }
       }
     }
@@ -373,12 +467,11 @@
       // own DOM state (buffered into the next selectAnswer call, SCHEMA.md §1.1 S3
       // finding #13) to persisting immediately via updateAnswer.
       let editingQuestionId = null;
-      // True until the first screen transition within this page load has happened
-      // (code review finding, Phase 3.4). Suppresses only a résumé's very first
-      // render moving focus -- every render after that is a genuine same-page
+      // Suppresses only a résumé's very first render moving focus (code review
+      // finding, Phase 3.4) -- every render after that is a genuine same-page
       // transition (advancing, editing, entering review) and moves focus normally,
       // same as a fresh start's first render always does.
-      let hasRenderedOnce = moveFocusOnFirstRender;
+      const transitionFocus = makeTransitionFocus(moveFocusOnFirstRender);
 
       const categoryLabels = flattenCategoryLabels(bank.categories);
 
@@ -402,18 +495,6 @@
 
       const timerHandle = setInterval(updateTimer, 1000);
       updateTimer();
-
-      // Shared by every screen transition (renderQuestion, renderQuestionForEdit,
-      // showReviewScreen) so the focus-move-and-announce pairing lives in one place
-      // (code review finding) and the first-render suppression above only has to be
-      // implemented once.
-      function transitionFocus(el, message) {
-        if (hasRenderedOnce) {
-          el.focus();
-          announce(message);
-        }
-        hasRenderedOnce = true;
-      }
 
       function updateTimer() {
         const remainingMs = Math.max(0, deadline - Date.now());
@@ -514,23 +595,6 @@
 
       backToReviewButton.addEventListener("click", () => showReviewScreen());
 
-      function renderOptions(question, selectedOptionId, onChoose) {
-        optionsEl.innerHTML = "";
-        for (const option of question.options) {
-          const label = document.createElement("label");
-          label.style.display = "block";
-          const input = document.createElement("input");
-          input.type = "radio";
-          input.name = "answer";
-          input.value = option.id;
-          if (option.id === selectedOptionId) input.checked = true;
-          input.addEventListener("change", () => onChoose(option));
-          label.appendChild(input);
-          label.append(` ${option.content.value}`);
-          optionsEl.appendChild(label);
-        }
-      }
-
       function renderQuestion() {
         editingQuestionId = null;
         editingNote.hidden = true;
@@ -539,7 +603,7 @@
         const question = form.questions[index];
         positionEl.textContent = `Question ${index + 1} of ${form.questions.length}`;
         stemEl.textContent = question.stem.value;
-        renderOptions(question, null, (option) => selectAnswer(question, option));
+        renderOptions(optionsEl, question, null, (option) => selectAnswer(question, option));
         // Advancing moves focus to the new question and announces position
         // (SCHEMA.md S1.3, finding #15) -- without this, a screen-reader/keyboard
         // user's focus is stranded wherever it was on the previous (now-replaced)
@@ -618,7 +682,7 @@
         const qIndex = form.questions.findIndex((q) => q.id === question.id);
         positionEl.textContent = `Reviewing question ${qIndex + 1} of ${form.questions.length}`;
         stemEl.textContent = question.stem.value;
-        renderOptions(question, answer.chosen[0], (option) => commitEdit(question, option));
+        renderOptions(optionsEl, question, answer.chosen[0], (option) => commitEdit(question, option));
         transitionFocus(questionFieldset, positionEl.textContent);
       }
 
@@ -772,6 +836,161 @@
         renderQuestion();
       } else {
         showReviewScreen();
+      }
+    }
+
+    // -- S5: topic study (Phase 4.1) ---------------------------------------------
+
+    function runStudy(bank) {
+      heading.textContent = bank.name;
+      const categoryId = params.get("category");
+
+      const loadResult = loadStore();
+      if (!loadResult.ok) {
+        showStatus("Your saved progress could not be loaded, so this topic can't be studied right now.");
+        return;
+      }
+      let store = loadResult.store;
+
+      if (!categoryId) {
+        showCategoryPicker();
+        return;
+      }
+      startDrill(categoryId);
+
+      function showCategoryPicker() {
+        studyPickerScreen.hidden = false;
+        categoryList.innerHTML = "";
+        for (const { id, label, depth } of flattenCategoryTree(bank.categories)) {
+          const li = document.createElement("li");
+          li.style.paddingLeft = `${depth * 1.25}rem`;
+          const a = document.createElement("a");
+          a.href = `run.html?code=${encodeURIComponent(bank.code)}&mode=study&category=${encodeURIComponent(id)}`;
+          a.textContent = label;
+          li.appendChild(a);
+          categoryList.appendChild(li);
+        }
+        // Reached only from a real navigation (S2's "Study a topic" link, or a
+        // bookmarked/typed URL) -- never force focus onto a fresh page load
+        // (SCHEMA.md S1.3, code review precedent from Phase 3.4's résumé finding).
+        // A screen reader is free to read from the top of the page as normal.
+      }
+
+      function startDrill(categoryId) {
+        // A single .find() rather than flattenCategoryLabels' full id->label Map
+        // (code review finding): only one label is ever needed here, and
+        // assembleDrill below is about to walk this same tree again anyway via
+        // categoryAndDescendantIds -- flattenCategoryLabels earns its keep in
+        // beginRun's review pass, which looks up many rows' labels, not here.
+        const categoryNode = flattenCategoryTree(bank.categories).find((n) => n.id === categoryId);
+        if (!categoryNode) {
+          showStatus(`This topic ("${categoryId}") isn't part of this test.`);
+          return;
+        }
+        const categoryLabel = categoryNode.label;
+
+        const drill = assembleDrill(bank, categoryId, { history: store.questionHistory });
+        if (drill.questions.length === 0) {
+          showStatus(`"${categoryLabel}" has no questions to study yet.`);
+          return;
+        }
+
+        // Keeps `store` from going stale for the drill's whole (untimed, possibly
+        // long) duration (code review finding): without this, every revealAnswer
+        // save below would build on a page-load-time snapshot and silently
+        // overwrite whatever a concurrent tab -- a timed test or another study
+        // drill on this same bank -- had written since, via saveStore's
+        // unconditional whole-object write (js/store.js). No attempt exists here
+        // to abort/protect the way beginRun's equivalent listener does; this only
+        // needs to keep `store` current, not detect a conflict.
+        window.addEventListener("storage", (event) => {
+          const result = handleStorageEvent(event);
+          if (result && result.ok) store = result.store;
+        });
+
+        studyScreen.hidden = false;
+        let index = 0;
+        let correctCount = 0;
+        // Always starts false: reaching a drill's first question is always a fresh
+        // page load (a real navigation, whether from the picker or a
+        // direct/bookmarked URL), never a same-page click -- unlike beginRun, S5
+        // has no click-driven entry path that needs `true` here.
+        const transitionFocus = makeTransitionFocus(false);
+
+        renderStudyQuestion();
+
+        function renderStudyQuestion() {
+          studyFeedback.hidden = true;
+          const question = drill.questions[index];
+          studyPosition.textContent = `Question ${index + 1} of ${drill.questions.length}`;
+          studyStemEl.textContent = question.stem.value;
+          renderOptions(studyOptionsEl, question, null, (option) => revealAnswer(question, option));
+          transitionFocus(studyFieldset, studyPosition.textContent);
+        }
+
+        function revealAnswer(question, option) {
+          // Locks every option once one is chosen -- a study question is answered
+          // once, then explained (SCHEMA.md S1.1 S5); unlike S3 there's no review
+          // pass to reopen into, since no score is ever recorded against a form.
+          for (const input of studyOptionsEl.querySelectorAll("input")) {
+            input.disabled = true;
+          }
+
+          const correct = isCorrect(question, [option.id]);
+          if (correct) correctCount += 1;
+          // Degrades to a generic message rather than crashing (code review
+          // finding, matching resumeForm/categoryAndDescendantIds's stance
+          // elsewhere in this codebase) if a malformed bank's `correct` doesn't
+          // reference any real option id -- `tools/verify.mjs` catches this before
+          // a bank ships, but this runs against whatever's actually being served.
+          const correctOption = question.options.find((o) => question.correct.includes(o.id));
+          const correctText = correctOption ? `Correct answer: ${correctOption.content.value}` : "See the explanation below.";
+          studyCorrectness.textContent = correct ? "Correct." : `Incorrect. ${correctText}`;
+          studyExplanation.textContent = question.explanation?.value ?? "";
+          studyFeedback.hidden = false;
+          // Focus alone, no separate announce(): the feedback region's own text
+          // (correctness + explanation) is what a screen reader needs to hear here,
+          // and it's read directly from the focus move -- announcing a summary of
+          // the same text on top would just repeat it.
+          studyFeedback.focus();
+
+          // Feeds question history only (SM-2, same mechanism S3 uses) -- no
+          // attempt record, matching "no score is recorded against a test form."
+          const priorHistory = (store.questionHistory ?? {})[question.id] ?? null;
+          const historyEntry = updateHistory(priorHistory, correct);
+          const nextStore = recordQuestionHistory(store, question.id, historyEntry);
+          const saveResult = saveStore(nextStore);
+          if (saveResult.ok) {
+            store = nextStore;
+          } else {
+            // Soft warning, not an abort (code review consideration): nothing else
+            // in this drill depends on this write succeeding -- only this one
+            // question's spaced-repetition schedule stays stale, unlike a lost S3
+            // answer, which would break résumé.
+            showStatus("Your progress on this question couldn't be saved, but you can keep studying.");
+          }
+        }
+
+        studyNextButton.addEventListener("click", () => {
+          index += 1;
+          if (index < drill.questions.length) {
+            renderStudyQuestion();
+          } else {
+            showDrillComplete();
+          }
+        });
+
+        function showDrillComplete() {
+          studyScreen.hidden = true;
+          studyCompleteScreen.hidden = false;
+          studyCompleteSummary.textContent =
+            `You got ${correctCount} of ${drill.questions.length} correct in this drill. ` +
+            "This isn't a scored test attempt -- it only updates your study history.";
+          studyAgainLink.href = `run.html?code=${encodeURIComponent(bank.code)}&mode=study&category=${encodeURIComponent(categoryId)}`;
+          // Always reached via the "Next question" click on the last question -- a
+          // genuine same-page transition, unlike the drill's first render.
+          studyCompleteHeading.focus();
+        }
       }
     }
   </script>

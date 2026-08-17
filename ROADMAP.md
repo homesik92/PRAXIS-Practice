@@ -544,10 +544,55 @@ in parallel with Phases 3–6.
 
 ### Phase 4 — Study mode & dashboard depth
 
-- ☐ **4.1 Topic study screen.** S5: category picker (any depth of the tree), untimed,
+- ☑ **4.1 Topic study screen.** S5: category picker (any depth of the tree), untimed,
   explanation shown immediately after each answer.
   *Accepts:* picking any category at any depth starts an untimed drill limited to that
   category, with the explanation visible right after each answer.
+  *Complete.* Three new pure functions in `js/schema.js`: `flattenCategoryTree`
+  (depth-annotated, so a `weight: null` study-filter subcategory is pickable too),
+  `categoryAndDescendantIds` (a picked branch node studies everything under it, since
+  questions attach only to leaf categories), and `assembleDrill` (every non-retired
+  matching question, least-recently-seen first like the timed draw, no
+  quota/shortfall). `run.html`'s `mode !== "test"` placeholder became a real third
+  mode: no `&category=` shows a picker (flat indented list, real links so
+  Back/reload work for free); picking one starts the drill. Per question: select an
+  answer locks the radios, reveals correct/incorrect text plus the explanation, a
+  "Next question" button advances. Each answer feeds `questionHistory` via the same
+  SM-2 path S3 uses (`recordQuestionHistory`/`updateHistory`) — no attempt record is
+  ever created, matching "no score is recorded against a test form" (confirmed live:
+  `store.attempts` stayed `[]` throughout a full drill). A locally-tallied (not
+  persisted) "X of Y correct" on a simple completion screen, with a "study again"
+  link. `test.html` gained a "Study a topic" link. The existing `renderOptions` was
+  generalized to take a `container` parameter so both S3 and S5 share it.
+  `/code-review` at high effort (8 parallel angles) found 10 findings, 9 fixed
+  directly: an unguarded `correctOption` lookup that could throw mid-reveal on a
+  malformed bank; S5 had no cross-tab `storage` listener at all (unlike S3's
+  `beginRun`), so a stale snapshot could silently overwrite a concurrent tab's
+  whole attempt, not just an SRS edit — fixed by adding the same kind of listener
+  S3 already has; a URL missing `&mode=` entirely showed the literal string "null"
+  to the user after the dispatch was generalized; **the focus+announce pairing
+  Phase 3.4 had already extracted into a shared `transitionFocus` helper for
+  exactly this reason got reimplemented from scratch in `runStudy`** — hoisted into
+  a `makeTransitionFocus` factory so both `beginRun` and `runStudy` get their own
+  independent instance from one shared implementation; `categoryAndDescendantIds`
+  rebuilt on top of `flattenCategoryTree`'s flat list instead of its own two-pass
+  walk; `assembleDrill` reuses `drawForCategory` (called with an unlimited target)
+  and a new shared `shuffleQuestionOptions` instead of re-deriving both; a
+  redundant full-tree walk in `startDrill` just to fetch one label; the mode list
+  enumerated in two places, now a single `VALID_MODES` source of truth; dead code
+  (an unused `studyPickerHeading` const and its vestigial `tabindex`). One finding
+  deferred as an architectural observation, not fixed now: `run.html` is
+  accumulating multiple independent state machines in one module scope with no
+  boundary between them, and `store.js` has no first-class distinction between an
+  "attempt write" and a "history-only write" — both real, both bigger than this
+  task's scope. Live-verified in the browser: picker → drill → reveal (both
+  correct and incorrect paths) → complete screen, focus/announce behavior matching
+  3.4's precedent (fresh entry never steals focus, every later transition does),
+  `questionHistory` persisted correctly with zero `attempts` created, both new
+  error messages (missing vs. unknown mode) read correctly, and a full S3
+  regression pass confirmed the shared `renderOptions`/`transitionFocus`
+  refactors didn't break the timed flow. 144/144 tests green (13 new for the
+  schema.js functions), `verify.mjs` clean.
 - ☐ **4.2 Full results dashboard.** S4: per-category correct/incorrect, full review
   list with explanations, shortfall disclosure surfaced legibly (not just logged).
   *Accepts:* every category shows a correct/incorrect count; a shortfall (from 2.4) is
@@ -651,4 +696,5 @@ Phase 0.2).
 | 2026-08-17 | Phase 3.3 — résumé flow polish | [PR #31](https://github.com/homesik92/PRAXIS-Practice/pull/31). `test.html` now leads with a "Resume attempt" entry (with an answered/total status line) ahead of "Take a practice test" when an in-progress attempt exists (finding #10). `run.html` gained a wall-clock deadline check on résumé: an already-expired attempt shows a new expired-screen (answered/total count, explicit "See your results" acknowledgment) instead of silently scoring on load; separately, the running timer now force-completes the instant it hits zero while the tab stays open, no confirmation dialog. Score-and-navigate logic factored into a shared `completeAndGoToResults` helper. Shallow-to-moderate change, self-reviewed. Live-verified all three paths in the browser with a click-event logger installed throughout: normal résumé landed back at the correct question; a hand-edited already-past deadline showed the expired screen rather than silently scoring; a live run caught at "0:15" remaining with zero clicks recorded navigated to results entirely on its own when time ran out (the verifying script was killed mid-wait by the navigation itself). 123/123 tests green. |
 | 2026-08-17 | Phase 3.4 — runner accessibility pass | [PR #32](https://github.com/homesik92/PRAXIS-Practice/pull/32). `#timer`/`#position` gained `tabindex="0"` (finding #12); a serialized `announce()` queue over a static `aria-live="polite"` region plus a shared `transitionFocus` helper move focus and announce on every screen transition, never simultaneously (finding #15); `#status-note` gained `role="alert"`. `/code-review` at high effort (8 parallel angles) found 10 findings, 9 fixed: a real correctness bug in threshold pre-suppression (could suppress a fresh start's own threshold on an exactly-10/5/1-minute test — fixed via an explicit `resumingExistingTimer` flag and the threshold logic extracted to pure, unit-tested `js/runner.js` functions); a WCAG finding that résumé forced focus with no user gesture (fixed via `moveFocusOnFirstRender`); stale threshold announcements racing `finish()`'s navigation; `announce()`'s `requestAnimationFrame` stalling when backgrounded plus no error recovery (dropped rAF, added `.catch`, cut delay 700ms→~200ms); `<legend>`'s inconsistent cross-engine `.focus()` support (moved the focus target to the wrapping `<fieldset>`); `abortRun`/`showStatus` focus and re-announce gaps; the focus+announce duplication itself (extracted to `transitionFocus`). One finding deferred — the cross-tab `storage` handler's re-render now also steals focus mid-edit, a new manifestation of the already-accepted race in [issue #28](https://github.com/homesik92/PRAXIS-Practice/issues/28) (evidence comment added there). Live-verified in the browser with a click-event logger throughout: fresh start moves focus every time, résumé's first render doesn't, every later transition does; announcer queue fires in order with no clobbering (`MutationObserver`-verified); a live run at "1:00" remaining announced "1 minute remaining" exactly once at the crossing; `abortRun` correctly moves focus to the alert. 131/131 tests green. **Phase 3 (Runner completeness) is now fully done.** |
 | 2026-08-17 | Flagged-review visual marker | Small ad-hoc fix from the session owner's own live-testing of Phase 3 (not tied to a phase task): a flagged review row's existing "(flagged)" text didn't stand out visually. Added a decorative 🚩 `.flag-icon` span to the right of a flagged row's Reopen button in `run.html`'s `renderReviewList`, `aria-hidden` since the text label already carries the same information to a screen reader (SCHEMA.md S1.3's "never by color/icon alone" — this is a sighted-user enhancement on top of the existing signal, not a replacement). Trivial CSS/HTML-only change, self-reviewed, no logic touched. Live-verified: renders only on flagged rows, positioned correctly, all 131 tests still green (none affected). |
+| 2026-08-17 | Phase 4.1 — topic study screen | [PR #34](https://github.com/homesik92/PRAXIS-Practice/pull/34). New `js/schema.js` functions `flattenCategoryTree`/`categoryAndDescendantIds`/`assembleDrill` power a new S5 mode in `run.html` (category picker → untimed per-question drill with immediate reveal+explanation → completion screen), feeding `questionHistory` only, no attempt ever created. `test.html` gained a "Study a topic" link; `renderOptions` generalized for both S3/S5. Deep change — `/code-review` at high effort (8 parallel angles) found 10 findings, 9 fixed: an unguarded `correctOption` lookup that could crash the drill on a malformed bank; S5 had no cross-tab `storage` listener at all, so a stale snapshot could silently overwrite a concurrent tab's whole attempt (more severe than prior narrow cross-tab findings); a missing `&mode=` showed the literal string "null"; the `transitionFocus` helper Phase 3.4 explicitly extracted "so this pairing lives in one place" got reimplemented from scratch — hoisted into a shared `makeTransitionFocus` factory instead; `categoryAndDescendantIds`/`assembleDrill` each duplicated existing tree-walk/draw logic, now reuse `flattenCategoryTree`/`drawForCategory`; the mode list was enumerated twice; dead code removed. One architectural finding deferred (run.html accumulating multiple state machines with no module boundary; store.js has no first-class attempt-vs-history-write distinction) — bigger than this task's scope. Live-verified in the browser: full picker→drill→reveal→complete flow, focus/announce matching 3.4's precedent, `questionHistory` persisted with zero `attempts` created, both new error messages read correctly, full S3 regression pass clean. 144/144 tests green (13 new). |
 

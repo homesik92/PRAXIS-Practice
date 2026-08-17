@@ -202,6 +202,13 @@ function drawForCategory(pool, target, history, random) {
   return { drawn, wanted: target, got: drawn.length };
 }
 
+// Shared by assembleForm and assembleDrill (code review finding) -- shuffling
+// each selected question's own option order is identical either way, only which
+// questions get selected differs.
+function shuffleQuestionOptions(questions, random) {
+  return questions.map((q) => ({ ...q, options: shuffle(q.options, random) }));
+}
+
 /**
  * Assembles a practice form from a bank: the real weight-correct draw with disclosed
  * shortfalls that replaces Phase 1's placeholder (`bank.questions` used as-is).
@@ -250,7 +257,7 @@ export function assembleForm(bank, { formLength, history = {}, random = Math.ran
     actual: selected.filter((q) => (q.overlays ?? []).includes(overlay.id)).length,
   }));
 
-  const questions = shuffle(selected, random).map((q) => ({ ...q, options: shuffle(q.options, random) }));
+  const questions = shuffleQuestionOptions(shuffle(selected, random), random);
 
   return { questions, categoryTargets, shortfalls, overlayCoverage };
 }
@@ -281,4 +288,81 @@ export function resumeForm(bank, questionOrder) {
     return options.some((o) => !o) ? null : { ...question, options };
   });
   return questions.some((q) => !q) ? null : { questions };
+}
+
+// -- Topic study (SCHEMA.md §1.1 S5, Phase 4.1) -------------------------------------
+
+/**
+ * Flattens a category tree into a depth-annotated list, in document order
+ * (SCHEMA.md §2.4). Unlike {@link collectWeightBearing}, includes every node
+ * regardless of whether it publishes a weight -- a `weight: null` subcategory
+ * "exists purely as a study filter" per §2.4, and S5's category picker is exactly
+ * that filter's reason to exist, so it must be pickable even though it's never
+ * drawn from for a timed form.
+ *
+ * @param {object[]} nodes
+ * @param {number} [depth]
+ * @returns {{id: string, label: string, depth: number}[]}
+ */
+export function flattenCategoryTree(nodes, depth = 0) {
+  const out = [];
+  for (const node of nodes ?? []) {
+    out.push({ id: node.id, label: node.label, depth });
+    out.push(...flattenCategoryTree(node.children, depth + 1));
+  }
+  return out;
+}
+
+/**
+ * The picked category's id plus every descendant's id. A question attaches only
+ * to the deepest category it belongs to (§2.4), so a branch node normally has no
+ * questions attached directly to it at all -- picking one for study means
+ * everything under it, not nothing. Returns an empty set for an id not present in
+ * the tree, rather than throwing, so a stale or hand-typed `?category=` in the URL
+ * degrades to "no matching questions" instead of a crash.
+ *
+ * Built on {@link flattenCategoryTree}'s document-order, depth-annotated list
+ * (code review finding) rather than its own recursive find-then-collect walk: a
+ * node's descendants are exactly the contiguous run right after it whose depth is
+ * greater than its own, so one flatten plus a linear scan replaces two separate
+ * tree walks.
+ *
+ * @param {object[]} nodes
+ * @param {string} categoryId
+ * @returns {Set<string>}
+ */
+export function categoryAndDescendantIds(nodes, categoryId) {
+  const flat = flattenCategoryTree(nodes);
+  const targetIndex = flat.findIndex((n) => n.id === categoryId);
+  if (targetIndex === -1) return new Set();
+
+  const ids = [flat[targetIndex].id];
+  const targetDepth = flat[targetIndex].depth;
+  for (let i = targetIndex + 1; i < flat.length && flat[i].depth > targetDepth; i++) {
+    ids.push(flat[i].id);
+  }
+  return new Set(ids);
+}
+
+/**
+ * Assembles an untimed topic-study drill (SCHEMA.md §1.1 S5): every non-retired
+ * question under the picked category (itself plus every descendant), ordered
+ * least-recently-seen first like the timed draw's preference (§2.7 step 3), each
+ * question's option order shuffled. Unlike {@link assembleForm}, there is no
+ * quota and no shortfall -- a study drill works through everything available for
+ * that category rather than a weight-correct sample of the whole bank. Reuses
+ * {@link drawForCategory} with the pool's own size as the target (code review
+ * finding) rather than re-deriving the same rank/tiebreak/sort -- "draw
+ * everything" is just an unlimited draw, not a different kind of ranking.
+ *
+ * @param {object} bank
+ * @param {string} categoryId
+ * @param {{history?: Record<string, {lastSeenAt?: string}>, random?: () => number}} [options]
+ * @returns {{questions: object[]}}
+ */
+export function assembleDrill(bank, categoryId, { history = {}, random = Math.random } = {}) {
+  const categoryIds = categoryAndDescendantIds(bank.categories, categoryId);
+  const pool = (bank.questions ?? []).filter((q) => !q.retired && categoryIds.has(q.categoryId));
+  const { drawn } = drawForCategory(pool, pool.length, history, random);
+  return { questions: shuffleQuestionOptions(drawn, random) };
 }
