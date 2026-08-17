@@ -697,6 +697,17 @@
           reopenButton.textContent = "Reopen";
           reopenButton.addEventListener("click", () => reopenQuestion(row.questionId));
           li.appendChild(reopenButton);
+          if (row.flagged) {
+            // Decorative only -- the "(flagged)" text above already carries this to
+            // a screen reader, so this doesn't repeat it (SCHEMA.md S1.3's "never by
+            // color/icon alone" principle: the icon is a sighted-user enhancement on
+            // top of the existing text marker, not a replacement for it).
+            const flagIcon = document.createElement("span");
+            flagIcon.className = "flag-icon";
+            flagIcon.textContent = "\u{1F6A9}";
+            flagIcon.setAttribute("aria-hidden", "true");
+            li.appendChild(flagIcon);
+          }
           reviewList.appendChild(li);
         }
       }
