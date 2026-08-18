@@ -14,7 +14,7 @@
   </main>
   <script type="module">
     import { loadManifest, loadBank, assembleDueDrill, weakestCategory, flattenCategoryTree } from "./js/schema.js";
-    import { loadStore, findInProgressAttempt, exportStoreAsJson } from "./js/store.js";
+    import { loadStore, findInProgressAttempt, findFirstAndLatestAttempts, exportStoreAsJson } from "./js/store.js";
 
     const params = new URLSearchParams(location.search);
     const code = params.get("code");
@@ -31,7 +31,10 @@
       // carry them or the manifest's `file` path needed to fetch them separately.
       // This also means S2 now fetches exactly one bank instead of every enabled
       // test's summary just to find this one.
-      const manifestResult = await loadManifest();
+      // includeDisabled: S2 is also the hub for resuming/reviewing/tracking progress
+      // on a test, not just starting a new one -- that must keep working even if this
+      // test has since been disabled for new attempts (Phase 6.5 finding).
+      const manifestResult = await loadManifest(globalThis.fetch, "data/manifest.json", { includeDisabled: true });
       const manifestEntry = manifestResult.ok ? manifestResult.tests.find((t) => t.code === code) : undefined;
       const bankResult = manifestEntry ? await loadBank(manifestEntry.file) : undefined;
       if (!bankResult || !bankResult.ok) {
@@ -50,6 +53,17 @@
         // test-taking flow itself.
         const loadResult = loadStore();
         if (loadResult.ok) {
+          // "View progress dashboard" (Phase 6.5) -- only once at least one
+          // completed attempt exists, since the dashboard's comparison and
+          // per-category sections have nothing to show before then.
+          const { first } = findFirstAndLatestAttempts(loadResult.store, code);
+          if (first) {
+            const dashboardLink = document.createElement("a");
+            dashboardLink.href = `dashboard.html?code=${encodeURIComponent(code)}`;
+            dashboardLink.textContent = "View progress dashboard";
+            nav.appendChild(dashboardLink);
+          }
+
           const inProgress = findInProgressAttempt(loadResult.store, code);
           if (inProgress) {
             const p = document.createElement("p");

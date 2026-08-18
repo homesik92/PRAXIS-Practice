@@ -1,6 +1,12 @@
 // Unit tests for js/results.js. Pure Node, no dependencies. Run: node tools/test-results.mjs
 import assert from "node:assert/strict";
-import { summarizeAttempt, formatElapsed, buildFullReview, flattenCategoryLabels } from "../js/results.js";
+import {
+  summarizeAttempt,
+  formatElapsed,
+  buildFullReview,
+  flattenCategoryLabels,
+  categoriesNeedingPractice,
+} from "../js/results.js";
 
 const flatBank = {
   categories: [
@@ -116,6 +122,41 @@ test("shortfalls recompute is fresh, not read from any cached/stored field on th
   assert.deepEqual(second.shortfalls, [
     { categoryId: "I", label: "Number & Quantity and Algebra", wanted: 5, got: 1 },
   ]);
+});
+
+// --- categoriesNeedingPractice (Phase 6.5) ---
+
+test("categoriesNeedingPractice excludes a category with 0 or 1 missed questions by default", () => {
+  const summary = {
+    categories: [
+      { id: "I", label: "Algebra", correct: 5, total: 5 }, // 0 missed
+      { id: "II", label: "Geometry", correct: 4, total: 5 }, // 1 missed
+    ],
+  };
+  assert.deepEqual(categoriesNeedingPractice(summary), []);
+});
+
+test("categoriesNeedingPractice includes a category with more than 1 missed question by default", () => {
+  const summary = {
+    categories: [
+      { id: "I", label: "Algebra", correct: 3, total: 5 }, // 2 missed
+      { id: "II", label: "Geometry", correct: 5, total: 5 }, // 0 missed
+    ],
+  };
+  assert.deepEqual(categoriesNeedingPractice(summary), [{ id: "I", label: "Algebra", missed: 2 }]);
+});
+
+test("categoriesNeedingPractice honors a custom threshold", () => {
+  const summary = {
+    categories: [{ id: "I", label: "Algebra", correct: 4, total: 5 }], // 1 missed
+  };
+  assert.deepEqual(categoriesNeedingPractice(summary, 0), [{ id: "I", label: "Algebra", missed: 1 }]);
+  assert.deepEqual(categoriesNeedingPractice(summary, 1), []);
+});
+
+test("categoriesNeedingPractice returns an empty array for a perfect score", () => {
+  const summary = { categories: [{ id: "I", label: "Algebra", correct: 5, total: 5 }] };
+  assert.deepEqual(categoriesNeedingPractice(summary), []);
 });
 
 // --- formatElapsed (Phase 4.2) ---

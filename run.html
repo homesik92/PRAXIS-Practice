@@ -141,7 +141,7 @@
     </dialog>
   </main>
   <script type="module">
-    import { loadBank, loadReferencePanel, assembleForm, resumeForm, flattenCategoryTree, assembleDrill, assembleDueDrill } from "./js/schema.js";
+    import { loadBank, loadManifest, loadReferencePanel, assembleForm, resumeForm, flattenCategoryTree, assembleDrill, assembleDueDrill } from "./js/schema.js";
     import {
       isCorrect,
       buildReviewRows,
@@ -797,9 +797,11 @@
       // Manifest lookup happens via a full bank fetch rather than loadTestList here,
       // since the runner needs the whole bank (questions included), not the summary
       // S1/S2 use -- see js/schema.js's loadBank vs loadBankSummary split.
-      const manifestResponse = await fetch("data/manifest.json");
-      const manifest = manifestResponse.ok ? await manifestResponse.json() : { tests: [] };
-      const entry = (manifest.tests ?? []).find((t) => t.code === code && t.enabled);
+      // includeDisabled: resuming an in-progress attempt, or drilling into study mode
+      // from a "practice your weak spots" link, must keep working even if this test
+      // has since been disabled for new attempts (Phase 6.5 finding).
+      const manifestResult = await loadManifest(fetch, "data/manifest.json", { includeDisabled: true });
+      const entry = manifestResult.ok ? manifestResult.tests.find((t) => t.code === code) : undefined;
 
       if (!entry) {
         showStatus(`Test "${code}" is not registered.`);

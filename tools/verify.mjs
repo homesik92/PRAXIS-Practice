@@ -556,7 +556,10 @@ async function main() {
 
   if (Array.isArray(manifest.tests)) {
     for (const entry of manifest.tests) {
-      if (!entry.enabled || !entry.file) continue;
+      // Disabled tests are still validated -- a paused-but-reachable bank (Phase 6.5's
+      // review/resume paths ignore `enabled`) shouldn't quietly lose answer-key
+      // verification coverage while it's disabled (Phase 6.5 code-review finding).
+      if (!entry.file) continue;
       const bankPath = path.join(dataDir, entry.file);
       if (!existsSync(bankPath)) continue; // already reported above
       let bank;

@@ -657,3 +657,27 @@ questions is the project's dominant cost, per N-3) into content for tests that
 don't yet have a finished product to sit inside. One fully-content-complete test
 (5165) is enough to build, test, and launch the whole application against.
 **Attribution:** Session owner's call.
+
+### D-25: Disabling a test (`enabled: false`) only affects starting a *new* attempt, never review/resume access to an already-completed or in-progress one
+
+**Date:** 2026-08-18
+**Decision:** `js/schema.js`'s `loadManifest` gained an `includeDisabled` option.
+Only S1's start-a-new-test list (`loadTestList`, `index.html`) calls it with the
+default (enabled-only). Every other by-code bank lookup — `results.html` (review a
+completed attempt), `run.html` (resume an in-progress attempt or continue a study
+drill), `test.html` (S2, the hub page), and `dashboard.html` (S6) — now passes
+`includeDisabled: true`, so a test flipped to `enabled: false` (per D-24/6.5.4's
+manifest simplification) stays fully reachable for anything the user already did
+on it. `tools/verify.mjs` was changed the same way: it now validates every
+registered bank's schema regardless of `enabled`, not just enabled ones.
+**Why:** Found as a Phase 6.5 code-review finding, confirmed independently by
+three separate review angles: disabling 5101/5485/5652 (D-24) had silently
+orphaned any real history from earlier live-testing sessions on those tests —
+`results.html` showed "could not be loaded" for a genuinely completed attempt,
+and `run.html` refused to resume a genuinely in-progress one, purely because the
+manifest lookup filtered to `enabled` tests everywhere, not just on the "start a
+new test" list where that filter actually belongs. `enabled` was designed to mean
+"offered for a new attempt," but the code had it meaning "exists at all."
+**Attribution:** Session owner's call — presented as a design fork ("unfiltered
+lookup for review/resume" vs. "leave it, accept the data becomes unreachable while
+paused") via AskUserQuestion; the unfiltered-lookup option was chosen.

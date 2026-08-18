@@ -138,6 +138,18 @@ a {
   padding-bottom: 0.25rem;
 }
 
+/* S6 progress dashboard (Phase 6.5) -- same bare-list treatment as #category-list,
+   one row per category rather than a bulleted list. */
+#category-stats-list {
+  list-style: none;
+  padding-left: 0;
+}
+
+#category-stats-list li {
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+}
+
 /* S5 per-question feedback (Phase 4.1, SCHEMA.md §1.1 S5) -- same bordered-box
    treatment as .status-note, so a revealed answer reads as a distinct block from
    the question above it. */

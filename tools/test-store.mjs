@@ -19,6 +19,7 @@ import {
   completeAttempt,
   findInProgressAttempt,
   findAttempt,
+  findFirstAndLatestAttempts,
   handleStorageEvent,
   _internal,
 } from "../js/store.js";
@@ -471,6 +472,61 @@ test("findAttempt looks up by id regardless of status", () => {
   const { store, attempt } = startAttempt(defaultStore(), startParams, fixedNow("2026-08-17T10:00:00.000Z"));
   assert.equal(findAttempt(store, attempt.id).id, attempt.id);
   assert.equal(findAttempt(store, "att-does-not-exist"), undefined);
+});
+
+test("findFirstAndLatestAttempts returns nulls when no completed attempt exists for the test code", () => {
+  const { store } = startAttempt(defaultStore(), startParams, fixedNow("2026-08-17T10:00:00.000Z"));
+  const result = findFirstAndLatestAttempts(store, "5165");
+  assert.deepEqual(result, { first: null, latest: null });
+});
+
+test("findFirstAndLatestAttempts returns the same attempt for both when exactly one is completed", () => {
+  const started = startAttempt(defaultStore(), startParams, fixedNow("2026-08-17T10:00:00.000Z"));
+  const { store } = completeAttempt(started.store, started.attempt.id, fixedNow("2026-08-17T10:15:00.000Z"));
+  const result = findFirstAndLatestAttempts(store, "5165");
+  assert.equal(result.first.id, started.attempt.id);
+  assert.equal(result.latest.id, started.attempt.id);
+});
+
+test("findFirstAndLatestAttempts returns the earliest and most recent completed attempts across several", () => {
+  let s = defaultStore();
+  const first = startAttempt(s, startParams, fixedNow("2026-08-17T10:00:00.000Z"));
+  s = completeAttempt(first.store, first.attempt.id, fixedNow("2026-08-17T10:15:00.000Z")).store;
+  const second = startAttempt(s, startParams, fixedNow("2026-08-17T11:00:00.000Z"));
+  s = completeAttempt(second.store, second.attempt.id, fixedNow("2026-08-17T11:15:00.000Z")).store;
+  const third = startAttempt(s, startParams, fixedNow("2026-08-17T12:00:00.000Z"));
+  s = completeAttempt(third.store, third.attempt.id, fixedNow("2026-08-17T12:15:00.000Z")).store;
+
+  const result = findFirstAndLatestAttempts(s, "5165");
+  assert.equal(result.first.id, first.attempt.id);
+  assert.equal(result.latest.id, third.attempt.id);
+});
+
+test("findFirstAndLatestAttempts excludes in-progress and abandoned attempts", () => {
+  let s = defaultStore();
+  const first = startAttempt(s, startParams, fixedNow("2026-08-17T10:00:00.000Z"));
+  s = completeAttempt(first.store, first.attempt.id, fixedNow("2026-08-17T10:15:00.000Z")).store;
+  // Starting a second attempt on the same test code abandons any prior in-progress
+  // one (store.js's own startAttempt behavior) -- this one is left in-progress,
+  // never completed.
+  const second = startAttempt(s, startParams, fixedNow("2026-08-17T11:00:00.000Z"));
+  s = second.store;
+
+  const result = findFirstAndLatestAttempts(s, "5165");
+  assert.equal(result.first.id, first.attempt.id);
+  assert.equal(result.latest.id, first.attempt.id);
+});
+
+test("findFirstAndLatestAttempts scopes to the given test code only", () => {
+  let s = defaultStore();
+  const mathAttempt = startAttempt(s, startParams, fixedNow("2026-08-17T10:00:00.000Z"));
+  s = completeAttempt(mathAttempt.store, mathAttempt.attempt.id, fixedNow("2026-08-17T10:15:00.000Z")).store;
+  const otherAttempt = startAttempt(s, { ...startParams, testCode: "5101" }, fixedNow("2026-08-17T11:00:00.000Z"));
+  s = completeAttempt(otherAttempt.store, otherAttempt.attempt.id, fixedNow("2026-08-17T11:15:00.000Z")).store;
+
+  const result = findFirstAndLatestAttempts(s, "5165");
+  assert.equal(result.first.id, mathAttempt.attempt.id);
+  assert.equal(result.latest.id, mathAttempt.attempt.id);
 });
 
 // --- Cross-tab reconciliation (finding #2) ---
