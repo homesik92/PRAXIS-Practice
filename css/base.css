@@ -218,3 +218,48 @@ a {
 #calculator-close-button {
   margin-top: 0.6rem;
 }
+
+/* Reference panel (Phase 5.1, D-21) -- same in-document-flow, bordered-panel shape
+   as #calculator-panel above (finding #17), but a plain reading surface rather than
+   a screen-plus-keypad tool, so it reuses --color-bg/--color-border directly instead
+   of the calculator's own dedicated palette. */
+#reference-panel {
+  max-width: 28rem;
+  margin: 0.75rem 0;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  background: var(--color-bg);
+}
+
+#reference-list section + section {
+  margin-top: 1rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--color-border);
+}
+
+#reference-list h3 {
+  margin: 0 0 0.5rem;
+  font-size: 1rem;
+}
+
+#reference-list dl {
+  margin: 0;
+}
+
+#reference-list dt {
+  font-weight: 600;
+}
+
+#reference-list dd {
+  margin: 0.15rem 0 0.6rem;
+  color: var(--color-text);
+}
+
+#reference-list math {
+  font-size: 1.05rem;
+}
+
+#reference-close-button {
+  margin-top: 0.6rem;
+}

@@ -159,8 +159,8 @@ data/
     5485.json
     5652.json
   reference/
-    5165-formulas.json   reference panel content (D-12)
-    5485-periodic.json
+    5165-formulas.json   reference panel content — schema settled, §2.9 (D-21)
+    5485-periodic.json   reference panel content — schema not yet designed (Phase 5.3)
 ```
 
 **Adding a fifth test is: drop in `tests/5299.json`, add one line to `manifest.json`.**
@@ -512,17 +512,65 @@ The launch methodology's expand/contract discipline applies here in full:
   the site reports it and reads nothing, rather than destroying a history written by a
   later version.
 
+## 2.9 Reference panel content — 5165 (D-21)
+
+```json
+{
+  "schemaVersion": 1,
+  "testCode": "5165",
+  "sections": [
+    {
+      "id": "algebra",
+      "heading": "Number & Quantity and Algebra",
+      "entries": [
+        { "id": "quadratic-formula", "label": "Quadratic formula",
+          "content": { "format": "mathml", "value": "<math>...</math>" } }
+      ]
+    }
+  ]
+}
+```
+
+Reuses §2.6's `{format, value}` content shape rather than a new one — the same
+text/mathml/code discriminator that already governs question stems, options, and
+explanations. `sections` group entries by topic for browsability (matching the four
+top-level content categories in BLUEPRINT.md's 5165 table), **not** by `categoryId` —
+unlike question assembly, the reference panel has no per-question filtering: like the
+real exam's Help screen, it is one continuous document available throughout the test,
+independent of which question is on screen. `id` values are permanent within a section
+the same way question `id`s are (§2.6) in case a future feature ever links to a specific
+entry, though nothing does yet.
+
+Scoped to 5165 only. 5485's periodic table and physical-constants panel (Phase 5.3) is
+tabular data, not a list of labeled formulas, and needs its own schema pass — this
+section does not attempt to generalize to it.
+
+**Rendering is new, narrowly scoped code** (Phase 5.1): nothing in this codebase has
+ever actually dispatched on `format` before now — every existing stem/option/explanation
+render call does a plain `el.textContent = content.value`, which only works because
+every question authored so far uses `format: "text"`. Phase 5.1 adds a `renderContent`
+dispatcher (text → `textContent`, mathml → parsed and inserted as markup) for the
+reference panel only; question rendering is deliberately left untouched, since no
+authored question yet needs anything but `text`. Retrofitting stem/option/explanation
+rendering through the same dispatcher is real future work, filed as its own issue rather
+than folded silently into this phase.
+
 ---
 
 ## Open items carried forward
 
-- **MathML support** — verify against current browser docs before authoring Math
-  questions (§2.6).
+- **MathML support (closed 2026-08-17, issue #2).** Verified against current
+  caniuse.com data: Chrome 109+, Firefox (full support since v2), Safari (full support
+  since v10), 94.31% global usage. Safe to use — confirms §2.6's original recommendation
+  rather than requiring a fallback.
 - **Multi-device use** remains an open question in [SEED.md](SEED.md). D-8 makes it
   sharper: a review schedule split across a laptop and a tablet is two schedules that
   each think they are complete.
-- **Reference panel content** (D-12) is authored content and needs its own schema pass
-  before 5165/5485 authoring begins; `reference/*.json` is a placeholder shape here.
+- **Reference panel content** (D-12) is authored content. **5165's schema is now
+  settled** (§2.9, D-21). **5485's is still open** — the periodic table and
+  physical-constants panel needs its own schema pass (tabular data, not a formula list)
+  before 5485 authoring can use it; `reference/5485-periodic.json` remains a placeholder
+  shape here.
 - **5165 gets a built scientific calculator, not a graphing one (D-14).** Resolves the
   escalation in REVIEW.md finding #14. In scope: arithmetic, logarithms, trig functions
   (sin/cos/tan and their inverses), and comparable scientific-calculator functionality,

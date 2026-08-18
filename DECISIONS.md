@@ -532,3 +532,48 @@ not a gap: Skip is a deliberate "leave this blank for now" action, not a promise
 question will be revisited, and the whole point of D-20 is that the person chose to
 defer it. Documented here because the review surfaced it as worth being explicit about,
 not because it needed fixing.
+
+### D-21: 5165 reference-panel content schema settled; MathML support verified
+
+**Date:** 2026-08-17
+**Decision:** Settles [issue #3](https://github.com/homesik92/PRAXIS-Practice/issues/3)
+for 5165 only. `data/reference/5165-formulas.json` is `{schemaVersion, testCode,
+sections: [{id, heading, entries: [{id, label, content: {format, value}}]}]}` —
+SCHEMA.md §2.9. Reuses §2.6's existing `{format, value}` content shape rather than
+inventing a new one; `sections` are topic-organized (matching BLUEPRINT.md's four
+top-level 5165 categories) rather than tied to the bank's `categoryId`, since the panel
+is one continuous reference document available throughout the test, not filtered by the
+current question — the same relationship the real exam's Help screen has to the test.
+5485's periodic table/physical-constants panel (Phase 5.3) is out of scope here; it's
+tabular data, not a formula list, and needs its own schema pass.
+
+Also closes [issue #2](https://github.com/homesik92/PRAXIS-Practice/issues/2) (MathML
+support, flagged in SCHEMA.md §2.6 as "unverified, from training data" since Phase 2):
+checked current caniuse.com data directly rather than relying on training-data
+knowledge — Chrome has shipped MathML Core since v109 (2023), Firefox since v2, Safari
+since v10, 94.31% global usage today. Safe to use as originally recommended; no fallback
+(LaTeX-subset renderer, pre-rendered SVG) needed.
+
+**Scope decision, not just a schema decision:** nothing in this codebase has ever
+actually implemented the `format` dispatch SCHEMA.md §2.6 documents — every existing
+stem/option/explanation render call in `run.html` is a plain `el.textContent =
+content.value`, which has only ever worked because every question authored so far uses
+`format: "text"`. Phase 5.1 is therefore the first real implementation of MathML
+rendering in this project. Deliberately scoped narrow: a `renderContent` dispatcher is
+built for the new reference panel only. Existing question rendering is left untouched —
+no authored question needs anything but `text` yet, and retrofitting three working,
+tested render paths (S3/S4/S5) with no real content driving the change would be
+speculative. Filed as its own follow-up issue rather than folded silently into this
+phase or left as an undocumented gap.
+**Why:** The reference panel is authored content that legitimately needs real math
+notation (radicals, fractions, exponents, integral/summation signs) in a way the
+existing questions' keyboard-notation workarounds (`^`, `×`, `−`) don't scale to for a
+formula sheet. Deferring issue #2 further would have meant either authoring the panel
+in the same degraded plain-text notation the questions currently use — undermining the
+whole point of D-12's "a practice score would understate readiness" rationale for
+building the panel at all — or blocking Phase 5.1 indefinitely on a check that only
+takes a few minutes to actually perform.
+**Attribution:** Session owner asked to resume Phase 5.1; the MathML verification and
+the narrow-vs-broad rendering-scope fork were both surfaced during the design pass —
+session owner chose the narrow scope after the tradeoff was presented via
+AskUserQuestion.

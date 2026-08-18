@@ -56,6 +56,20 @@
       <button id="calculator-close-button" type="button">Close calculator</button>
     </div>
 
+    <!-- 5165's notation/formula reference (Phase 5.1, D-21) -- shares the same
+         finding-#17 in-document-flow pattern as the calculator above, but content
+         and open/close mechanics come from js/reference-panel.js (SCHEMA.md §2.9),
+         since 5485's periodic-table panel (Phase 5.3) will reuse the same shell with
+         entirely different content rendering. Gated to bank.referencePanel being
+         present, not a hardcoded test code -- unlike the calculator, this feature is
+         meant to extend to more than one test. -->
+    <button id="reference-toggle" type="button" hidden>Formulas &amp; notation</button>
+    <div id="reference-panel" tabindex="-1" hidden aria-labelledby="reference-heading">
+      <h2 id="reference-heading" class="visually-hidden">Formula and notation reference</h2>
+      <div id="reference-list"></div>
+      <button id="reference-close-button" type="button">Close reference</button>
+    </div>
+
     <div id="run-screen" hidden>
       <form id="question-form">
         <!-- Focus target is the fieldset, not the legend directly: `<legend>` has a
@@ -125,7 +139,7 @@
     </dialog>
   </main>
   <script type="module">
-    import { loadBank, assembleForm, resumeForm, flattenCategoryTree, assembleDrill, assembleDueDrill } from "./js/schema.js";
+    import { loadBank, loadReferencePanel, assembleForm, resumeForm, flattenCategoryTree, assembleDrill, assembleDueDrill } from "./js/schema.js";
     import {
       isCorrect,
       buildReviewRows,
@@ -136,6 +150,7 @@
     import { flattenCategoryLabels } from "./js/results.js";
     import { updateHistory } from "./js/srs.js";
     import { evaluateExpression } from "./js/calculator.js";
+    import { renderReferencePanel, createPanelShell } from "./js/reference-panel.js";
     import {
       loadStore,
       saveStore,
@@ -259,6 +274,11 @@
     const calculatorResultEl = document.getElementById("calculator-result");
     const calculatorKeypadEl = document.getElementById("calculator-keypad");
     const calculatorCloseButton = document.getElementById("calculator-close-button");
+
+    const referenceToggle = document.getElementById("reference-toggle");
+    const referencePanel = document.getElementById("reference-panel");
+    const referenceListEl = document.getElementById("reference-list");
+    const referenceCloseButton = document.getElementById("reference-close-button");
 
     // `role` drives css/base.css's per-key coloring. `shiftLabel`/`shiftAriaLabel`/
     // `shiftInsert` exist only on sin/cos/tan (D-14: "trig functions ... and
@@ -524,6 +544,55 @@
       calculatorPanel.hidden = true;
     }
 
+    // -- Reference panel (Phase 5.1, D-21) -----------------------------------------
+    // js/reference-panel.js owns the shell mechanics (open/close/Escape/focus) and
+    // 5165's own section/entry rendering; this just fetches once per attempt-start
+    // and wires the shell to this page's specific elements. Gated to
+    // `bank.referencePanel` being present (SCHEMA.md §2.3), not a hardcoded test
+    // code -- unlike the calculator, more than one test can have one (5485, Phase
+    // 5.3). Deliberately does NOT reset/close on every new question the way the
+    // calculator does (resetCalculatorForNewQuestion): a formula sheet is a
+    // reference you consult across several questions, not per-question scratch
+    // work, so leaving it open across an advance is the more useful behavior, not a
+    // bug to fix.
+    // `referencePanelLoaded` (never reset -- one fetch attempt per page load, no
+    // retry, matching this feature's own progressive-enhancement stance) and
+    // `referencePanelActive` (reset by hideReferenceToggle) answer two different
+    // questions and are deliberately kept as two flags, not one: "has loading
+    // already started" vs. "is it still valid to show the toggle right now."
+    // Collapsing them would let a fire-and-forget fetch that's still in flight
+    // when abortRun/showDrillComplete calls hideReferenceToggle() (a real race,
+    // caught in code review -- e.g. a cross-tab storage event aborts the run while
+    // a slow reference-panel fetch is still pending) resolve afterward and flip
+    // `referenceToggle.hidden = false` back on, re-showing a non-functional
+    // toggle on a screen that's supposed to be showing only the abort/complete
+    // state.
+    let referencePanelLoaded = false;
+    let referencePanelActive = false;
+    async function ensureReferencePanelLoaded(bank) {
+      if (referencePanelLoaded || !bank.referencePanel) return;
+      referencePanelLoaded = true;
+      referencePanelActive = true;
+      const result = await loadReferencePanel(bank.referencePanel);
+      if (!referencePanelActive) return; // superseded by hideReferenceToggle() while this was in flight
+      if (!result.ok) {
+        // Progressive enhancement, not a scored/persisted surface (unlike a
+        // storage or scoring failure elsewhere in this app) -- the test itself is
+        // still fully usable without it, so this fails quiet rather than
+        // interrupting the run with a status message.
+        console.error("Reference panel failed to load", result);
+        return;
+      }
+      renderReferencePanel(referenceListEl, result.panel);
+      createPanelShell({ panelEl: referencePanel, toggleEl: referenceToggle, closeButtonEl: referenceCloseButton });
+      referenceToggle.hidden = false;
+    }
+    function hideReferenceToggle() {
+      referencePanelActive = false;
+      referenceToggle.hidden = true;
+      referencePanel.hidden = true;
+    }
+
     // Shared by S3 (beginRun) and S5 (runStudy's runDrill, Phase 4.1/4.3) -- each
     // calls this once to get its own independent transitionFocus(el, message),
     // seeded with whether ITS very first screen transition should move focus
@@ -784,6 +853,7 @@
       timerEl.hidden = false;
       positionEl.hidden = false;
       if (bank.code === CALCULATOR_TEST_CODE) showCalculatorToggle();
+      ensureReferencePanelLoaded(bank);
 
       let store = initialStore;
       let index = startIndex;
@@ -856,6 +926,7 @@
         timerEl.hidden = true;
         positionEl.hidden = true;
         hideCalculatorToggle();
+        hideReferenceToggle();
         showStatus(message);
         // #timer/#position may be hiding out from under a keyboard/screen-reader
         // user who was focused on either right now (code review finding, Phase
@@ -1319,6 +1390,7 @@
 
         studyScreen.hidden = false;
         if (bank.code === CALCULATOR_TEST_CODE) showCalculatorToggle();
+        ensureReferencePanelLoaded(bank);
         let index = 0;
         let correctCount = 0;
         // Always starts false: reaching a drill's first question is always a fresh
@@ -1394,6 +1466,7 @@
           studyScreen.hidden = true;
           studyCompleteScreen.hidden = false;
           hideCalculatorToggle();
+          hideReferenceToggle();
           studyCompleteSummary.textContent =
             `You got ${correctCount} of ${drill.questions.length} correct in this drill. ` +
             "This isn't a scored test attempt -- it only updates your study history.";

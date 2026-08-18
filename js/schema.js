@@ -68,6 +68,22 @@ export async function loadBank(file, fetchImpl = globalThis.fetch, dataDir = "da
 }
 
 /**
+ * Fetches and parses a reference-panel content file (SCHEMA.md §2.9) -- the
+ * `bank.referencePanel` path, same relative-to-dataDir convention as loadBank. Just
+ * loadBank's own fetch/parse plumbing under a name that fits this call site (a
+ * "bank" and a "reference panel" happen to have an identical loading shape, but
+ * calling one a `bank` at this call site would be confusing) -- delegating rather
+ * than re-typing the same fetch/HTTP-check/JSON-parse logic a second time keeps the
+ * two from silently drifting if that shared logic ever changes.
+ *
+ * @returns {Promise<{ok: true, panel: object} | {ok: false, reason: "fetch-failed" | "invalid-json", error?: Error}>}
+ */
+export async function loadReferencePanel(path, fetchImpl = globalThis.fetch, dataDir = "data") {
+  const result = await loadBank(path, fetchImpl, dataDir);
+  return result.ok ? { ok: true, panel: result.bank } : result;
+}
+
+/**
  * Fetches one bank file, returning only the fields S1/S2 need (name, timing, question
  * count) rather than the full record loadBank returns.
  *

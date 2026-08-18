@@ -1,0 +1,159 @@
+{
+  "schemaVersion": 1,
+  "testCode": "5165",
+  "sections": [
+    {
+      "id": "algebra",
+      "heading": "Number & Quantity and Algebra",
+      "entries": [
+        {
+          "id": "quadratic-formula",
+          "label": "Quadratic formula",
+          "content": {
+            "format": "mathml",
+            "value": "<math><mi>x</mi><mo>=</mo><mfrac><mrow><mo>-</mo><mi>b</mi><mo>±</mo><msqrt><mrow><msup><mi>b</mi><mn>2</mn></msup><mo>-</mo><mn>4</mn><mi>a</mi><mi>c</mi></mrow></msqrt></mrow><mrow><mn>2</mn><mi>a</mi></mrow></mfrac></math>"
+          }
+        },
+        {
+          "id": "exponent-rules",
+          "label": "Exponent rules",
+          "content": { "format": "text", "value": "aᵐ · aⁿ = aᵐ⁺ⁿ    (aᵐ)ⁿ = aᵐⁿ    a⁰ = 1 (a ≠ 0)    a⁻ⁿ = 1/aⁿ" }
+        },
+        {
+          "id": "difference-of-squares",
+          "label": "Difference of squares",
+          "content": { "format": "text", "value": "a² − b² = (a − b)(a + b)" }
+        },
+        {
+          "id": "absolute-value",
+          "label": "Absolute value",
+          "content": { "format": "text", "value": "|a| = a when a ≥ 0    |a| = −a when a < 0" }
+        }
+      ]
+    },
+    {
+      "id": "functions-calculus",
+      "heading": "Functions and Calculus",
+      "entries": [
+        {
+          "id": "slope-formula",
+          "label": "Slope of a line through two points",
+          "content": { "format": "text", "value": "m = (y₂ − y₁) / (x₂ − x₁)" }
+        },
+        {
+          "id": "slope-intercept-form",
+          "label": "Slope-intercept form of a line",
+          "content": { "format": "text", "value": "y = mx + b" }
+        },
+        {
+          "id": "power-rule-derivative",
+          "label": "Power rule (derivatives)",
+          "content": {
+            "format": "mathml",
+            "value": "<math><mfrac><mi>d</mi><mrow><mi>d</mi><mi>x</mi></mrow></mfrac><mo>[</mo><msup><mi>x</mi><mi>n</mi></msup><mo>]</mo><mo>=</mo><mi>n</mi><msup><mi>x</mi><mrow><mi>n</mi><mo>-</mo><mn>1</mn></mrow></msup></math>"
+          }
+        },
+        {
+          "id": "power-rule-integral",
+          "label": "Power rule (indefinite integrals), n ≠ −1",
+          "content": {
+            "format": "mathml",
+            "value": "<math><mo>∫</mo><msup><mi>x</mi><mi>n</mi></msup><mspace width=\"0.2em\"></mspace><mi>d</mi><mi>x</mi><mo>=</mo><mfrac><msup><mi>x</mi><mrow><mi>n</mi><mo>+</mo><mn>1</mn></mrow></msup><mrow><mi>n</mi><mo>+</mo><mn>1</mn></mrow></mfrac><mo>+</mo><mi>C</mi></math>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "geometry",
+      "heading": "Geometry",
+      "entries": [
+        {
+          "id": "pythagorean-theorem",
+          "label": "Pythagorean theorem",
+          "content": { "format": "text", "value": "a² + b² = c²  (c is the hypotenuse)" }
+        },
+        {
+          "id": "distance-formula",
+          "label": "Distance between two points",
+          "content": {
+            "format": "mathml",
+            "value": "<math><mi>d</mi><mo>=</mo><msqrt><mrow><msup><mrow><mo>(</mo><msub><mi>x</mi><mn>2</mn></msub><mo>-</mo><msub><mi>x</mi><mn>1</mn></msub><mo>)</mo></mrow><mn>2</mn></msup><mo>+</mo><msup><mrow><mo>(</mo><msub><mi>y</mi><mn>2</mn></msub><mo>-</mo><msub><mi>y</mi><mn>1</mn></msub><mo>)</mo></mrow><mn>2</mn></msup></mrow></msqrt></math>"
+          }
+        },
+        {
+          "id": "circle-area-circumference",
+          "label": "Circle: area and circumference",
+          "content": { "format": "text", "value": "A = πr²    C = 2πr" }
+        },
+        {
+          "id": "triangle-area",
+          "label": "Area of a triangle",
+          "content": { "format": "text", "value": "A = ½bh" }
+        },
+        {
+          "id": "trapezoid-area",
+          "label": "Area of a trapezoid",
+          "content": {
+            "format": "mathml",
+            "value": "<math><mi>A</mi><mo>=</mo><mfrac><mn>1</mn><mn>2</mn></mfrac><mo>(</mo><msub><mi>b</mi><mn>1</mn></msub><mo>+</mo><msub><mi>b</mi><mn>2</mn></msub><mo>)</mo><mi>h</mi></math>"
+          }
+        },
+        {
+          "id": "rectangular-prism-volume",
+          "label": "Volume of a rectangular prism",
+          "content": { "format": "text", "value": "V = lwh" }
+        },
+        {
+          "id": "cylinder-volume",
+          "label": "Volume of a cylinder",
+          "content": { "format": "text", "value": "V = πr²h" }
+        },
+        {
+          "id": "sphere-volume",
+          "label": "Volume of a sphere",
+          "content": {
+            "format": "mathml",
+            "value": "<math><mi>V</mi><mo>=</mo><mfrac><mn>4</mn><mn>3</mn></mfrac><mi>π</mi><msup><mi>r</mi><mn>3</mn></msup></math>"
+          }
+        },
+        {
+          "id": "cone-volume",
+          "label": "Volume of a cone",
+          "content": {
+            "format": "mathml",
+            "value": "<math><mi>V</mi><mo>=</mo><mfrac><mn>1</mn><mn>3</mn></mfrac><mi>π</mi><msup><mi>r</mi><mn>2</mn></msup><mi>h</mi></math>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "statistics",
+      "heading": "Statistics & Probability",
+      "entries": [
+        {
+          "id": "mean",
+          "label": "Mean (average)",
+          "content": { "format": "text", "value": "mean = (sum of the values) / (number of values)" }
+        },
+        {
+          "id": "standard-deviation",
+          "label": "Standard deviation (population)",
+          "content": {
+            "format": "mathml",
+            "value": "<math><mi>σ</mi><mo>=</mo><msqrt><mfrac><mrow><msubsup><mo>∑</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></msubsup><msup><mrow><mo>(</mo><msub><mi>x</mi><mi>i</mi></msub><mo>-</mo><mover><mi>x</mi><mo>¯</mo></mover><mo>)</mo></mrow><mn>2</mn></msup></mrow><mi>n</mi></mfrac></msqrt></math>"
+          }
+        },
+        {
+          "id": "probability-of-an-event",
+          "label": "Probability of an event",
+          "content": { "format": "text", "value": "P(event) = (number of favorable outcomes) / (number of possible outcomes)" }
+        },
+        {
+          "id": "independent-events",
+          "label": "Probability of independent events A and B",
+          "content": { "format": "text", "value": "P(A and B) = P(A) × P(B)" }
+        }
+      ]
+    }
+  ]
+}
