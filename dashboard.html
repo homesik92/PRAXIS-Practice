@@ -14,7 +14,8 @@
     <div id="dashboard" hidden>
       <section id="comparison-section">
         <h2>Test attempts</h2>
-        <p id="comparison-summary"></p>
+        <p id="comparison-note"></p>
+        <div id="comparison-meters"></div>
       </section>
       <section id="category-section">
         <h2>By category (all-time)</h2>
@@ -23,29 +24,163 @@
           tracking strengths and weaknesses here.
         </p>
         <ul id="category-stats-list"></ul>
+        <p id="category-legend" hidden>
+          Strong &ge; 75% (marked by the tick) &middot; Building 50&ndash;74% &middot;
+          Needs practice &lt; 50% &middot; a category needs 5 answered questions before
+          it's scored
+        </p>
       </section>
-      <p><a id="take-test-link" href="#">Take another practice test</a></p>
+      <section id="start-test-section">
+        <h2>Start another test</h2>
+        <p>A full test builds your record; a category test is just extra reps.</p>
+        <div id="start-test-options">
+          <div class="start-test-option">
+            <div class="start-test-text">
+              <span class="start-test-title">Full practice test</span>
+              <span class="start-test-desc">
+                Every category, the full form length and time limit. Recorded as your
+                latest attempt above.
+              </span>
+            </div>
+            <a id="take-test-link" class="btn btn-primary" href="#">Start full test &rarr;</a>
+          </div>
+          <div class="start-test-option">
+            <div class="start-test-text">
+              <span class="start-test-title">
+                Category test <span class="coming-soon-badge">Coming soon</span>
+              </span>
+              <span class="start-test-desc">
+                10 questions from one category, same test-taking experience. Won't be
+                recorded or change your stats above.
+              </span>
+            </div>
+            <div class="category-test-controls">
+              <select id="category-test-select" aria-label="Choose a category" disabled></select>
+              <a class="btn btn-secondary" href="#" aria-disabled="true" tabindex="-1">Start &rarr;</a>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   </main>
   <script type="module">
     import { loadManifest, loadBank, aggregateCategoryStats, flattenCategoryTree } from "./js/schema.js";
     import { loadStore, findFirstAndLatestAttempts } from "./js/store.js";
     import { scoreAttempt } from "./js/runner.js";
-    import { summarizeAttempt } from "./js/results.js";
+    import { summarizeAttempt, percentOf, flattenCategoryLabels } from "./js/results.js";
 
     const params = new URLSearchParams(location.search);
     const code = params.get("code");
     const heading = document.getElementById("test-name");
     const statusNote = document.getElementById("status-note");
     const dashboard = document.getElementById("dashboard");
-    const comparisonSummary = document.getElementById("comparison-summary");
+    const comparisonNote = document.getElementById("comparison-note");
+    const comparisonMeters = document.getElementById("comparison-meters");
     const categoryStatsList = document.getElementById("category-stats-list");
     const noCategoryDataNote = document.getElementById("no-category-data-note");
+    const categoryLegend = document.getElementById("category-legend");
     const takeTestLink = document.getElementById("take-test-link");
+    const categoryTestSelect = document.getElementById("category-test-select");
 
     function showStatus(message) {
       statusNote.textContent = message;
       statusNote.hidden = false;
+    }
+
+    // Trusted, hand-authored markup only (never user/attempt data) -- same
+    // <template> parse js/reference-panel.js already uses for MathML, reused
+    // here so these small status icons stay as plain, readable SVG literals
+    // instead of a wall of createElementNS calls.
+    function parseSvg(markup) {
+      const template = document.createElement("template");
+      template.innerHTML = markup.trim();
+      return template.content.firstElementChild;
+    }
+
+    const STATUS_LABEL = { good: "Strong", warn: "Building", crit: "Needs practice" };
+    const STATUS_ICON = {
+      good: '<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8.5l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+      warn: '<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="6.2" stroke="currentColor" stroke-width="1.8"/><path d="M8 5v3.4M8 11h.01" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>',
+      crit: '<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 1.5l7 12.6H1L8 1.5z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M8 6.4v3M8 11.2h.01" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>',
+      pending: '<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="6.2" stroke="currentColor" stroke-width="1.8" stroke-dasharray="2.4 2.4"/></svg>',
+    };
+
+    // -- Circular meters (attempt comparison) ----------------------------------
+    const METER_R = 52;
+    const METER_C = 2 * Math.PI * METER_R;
+    const SVG_NS = "http://www.w3.org/2000/svg";
+
+    function buildMeter(pct, fillClass, ariaLabel) {
+      const svg = document.createElementNS(SVG_NS, "svg");
+      svg.setAttribute("width", "120");
+      svg.setAttribute("height", "120");
+      svg.setAttribute("viewBox", "0 0 120 120");
+      svg.setAttribute("role", "img");
+      svg.setAttribute("aria-label", ariaLabel);
+
+      const track = document.createElementNS(SVG_NS, "circle");
+      track.setAttribute("cx", "60");
+      track.setAttribute("cy", "60");
+      track.setAttribute("r", String(METER_R));
+      track.setAttribute("fill", "none");
+      track.setAttribute("stroke-width", "12");
+      track.setAttribute("class", "dashboard-meter-track");
+      svg.appendChild(track);
+
+      // Clamped defensively -- a corrupted/rounding-edge score should draw a
+      // full or empty ring, never an invalid negative dash offset.
+      const clamped = Math.max(0, Math.min(100, pct));
+      const fill = document.createElementNS(SVG_NS, "circle");
+      fill.setAttribute("cx", "60");
+      fill.setAttribute("cy", "60");
+      fill.setAttribute("r", String(METER_R));
+      fill.setAttribute("fill", "none");
+      fill.setAttribute("stroke-width", "12");
+      fill.setAttribute("stroke-linecap", "round");
+      fill.setAttribute("transform", "rotate(-90 60 60)");
+      fill.setAttribute("stroke-dasharray", String(METER_C));
+      fill.setAttribute("stroke-dashoffset", String(METER_C * (1 - clamped / 100)));
+      fill.setAttribute("class", fillClass);
+      svg.appendChild(fill);
+
+      const text = document.createElementNS(SVG_NS, "text");
+      text.setAttribute("x", "60");
+      text.setAttribute("y", "67");
+      text.setAttribute("text-anchor", "middle");
+      text.setAttribute("class", "dashboard-meter-value");
+      text.setAttribute("font-size", "28");
+      text.textContent = `${pct}%`;
+      svg.appendChild(text);
+
+      return svg;
+    }
+
+    function buildMeterFigure(pct, fillClass, label, dateStr) {
+      const wrap = document.createElement("div");
+      wrap.className = "dashboard-meter";
+      wrap.appendChild(buildMeter(pct, fillClass, `${label}: ${pct} percent`));
+
+      const caption = document.createElement("div");
+      caption.className = "dashboard-meter-caption";
+      const labelEl = document.createElement("span");
+      labelEl.className = "label";
+      labelEl.textContent = label;
+      caption.appendChild(labelEl);
+      if (dateStr) {
+        const subEl = document.createElement("span");
+        subEl.className = "sub";
+        subEl.textContent = dateStr;
+        caption.appendChild(subEl);
+      }
+      wrap.appendChild(caption);
+      return wrap;
+    }
+
+    function formatDate(iso) {
+      const d = new Date(iso);
+      return Number.isNaN(d.getTime())
+        ? ""
+        : d.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
     }
 
     function scorePercent(bank, attempt) {
@@ -53,11 +188,110 @@
       return summarizeAttempt(score, bank).overall.percent;
     }
 
+    function buildDelta(firstPct, latestPct) {
+      const diff = latestPct - firstPct;
+      const direction = diff > 0 ? "up" : diff < 0 ? "down" : "flat";
+
+      const delta = document.createElement("div");
+      delta.className = "dashboard-delta";
+
+      if (direction !== "flat") {
+        const arrow = document.createElementNS(SVG_NS, "svg");
+        arrow.setAttribute("viewBox", "0 0 24 24");
+        arrow.setAttribute("fill", "none");
+        arrow.setAttribute("aria-hidden", "true");
+        arrow.setAttribute("class", `dashboard-delta-value ${direction}`);
+        arrow.style.width = "1.75rem";
+        arrow.style.height = "1.75rem";
+        const path = document.createElementNS(SVG_NS, "path");
+        path.setAttribute(
+          "d",
+          direction === "up" ? "M12 19V5M12 5L6 11M12 5l6 6" : "M12 5v14M12 19l-6-6M12 19l6-6"
+        );
+        path.setAttribute("stroke", "currentColor");
+        path.setAttribute("stroke-width", "2.4");
+        path.setAttribute("stroke-linecap", "round");
+        path.setAttribute("stroke-linejoin", "round");
+        arrow.appendChild(path);
+        delta.appendChild(arrow);
+      }
+
+      const deltaValue = document.createElement("span");
+      deltaValue.className = `dashboard-delta-value ${direction}`;
+      deltaValue.textContent = direction === "flat" ? "No change" : `${diff > 0 ? "+" : ""}${diff} pts`;
+      delta.appendChild(deltaValue);
+
+      const deltaNote = document.createElement("span");
+      deltaNote.className = "dashboard-delta-note";
+      deltaNote.textContent = "since first attempt";
+      delta.appendChild(deltaNote);
+
+      return delta;
+    }
+
+    // -- Category bullet-graph rows --------------------------------------------
+    function statusFor(stat, pct) {
+      if (!stat.eligible) return "pending";
+      if (pct >= 75) return "good";
+      if (pct >= 50) return "warn";
+      return "crit";
+    }
+
+    function buildCategoryRow(stat, labelById) {
+      const pct = percentOf(stat.correct, stat.seen);
+      const status = statusFor(stat, pct);
+
+      const li = document.createElement("li");
+      li.className = "category-stat-row";
+
+      const nameEl = document.createElement("span");
+      nameEl.className = "category-stat-name";
+      nameEl.textContent = labelById.get(stat.categoryId) ?? stat.categoryId;
+      li.appendChild(nameEl);
+
+      const track = document.createElement("div");
+      track.className = status === "pending" ? "category-stat-track is-pending" : "category-stat-track";
+      if (status !== "pending") {
+        const fill = document.createElement("div");
+        fill.className = `category-stat-fill ${status}`;
+        fill.style.setProperty("--pct", `${pct}%`);
+        track.appendChild(fill);
+        const target = document.createElement("div");
+        target.className = "category-stat-target";
+        track.appendChild(target);
+      }
+      li.appendChild(track);
+
+      const meta = document.createElement("div");
+      meta.className = "category-stat-meta";
+
+      const pctEl = document.createElement("span");
+      pctEl.className = "category-stat-pct";
+      if (status === "pending") {
+        pctEl.textContent = "—";
+        pctEl.style.color = "var(--color-muted)";
+      } else {
+        pctEl.textContent = `${pct}%`;
+      }
+      meta.appendChild(pctEl);
+
+      const chip = document.createElement("span");
+      chip.className = `status-chip ${status}`;
+      chip.appendChild(parseSvg(STATUS_ICON[status]));
+      chip.appendChild(
+        document.createTextNode(status === "pending" ? `${stat.distinctSeen} of 5 answered` : STATUS_LABEL[status])
+      );
+      meta.appendChild(chip);
+
+      li.appendChild(meta);
+      return li;
+    }
+
     if (!code) {
       showStatus("No test specified.");
     } else {
       // includeDisabled: progress tracking must keep working even if this test has
-      // since been disabled for new attempts (Phase 6.5 finding).
+      // since been disabled for new attempts (Phase 6.5 finding, D-25).
       const manifestResult = await loadManifest(globalThis.fetch, "data/manifest.json", { includeDisabled: true });
       const manifestEntry = manifestResult.ok ? manifestResult.tests.find((t) => t.code === code) : undefined;
       const bankResult = manifestEntry ? await loadBank(manifestEntry.file) : undefined;
@@ -68,6 +302,18 @@
         heading.textContent = `${bank.name} — Progress dashboard`;
         takeTestLink.href = `run.html?code=${encodeURIComponent(code)}&mode=test`;
 
+        // Category test picker (Phase 6.6) -- populated with real categories now,
+        // at every depth (matching S5's own picker, run.html), so it reads
+        // correctly once the ephemeral category-test mode ships. The control
+        // stays disabled until that mode actually exists (session owner's call,
+        // 2026-08-18) -- this is a preview of the control, not a working one yet.
+        for (const { id, label, depth } of flattenCategoryTree(bank.categories)) {
+          const option = document.createElement("option");
+          option.value = id;
+          option.textContent = `${"— ".repeat(depth)}${label}`;
+          categoryTestSelect.appendChild(option);
+        }
+
         const loadResult = loadStore();
         if (!loadResult.ok) {
           showStatus("Your saved progress could not be loaded, so the dashboard can't be shown right now.");
@@ -77,17 +323,25 @@
           // -- Attempt comparison -------------------------------------------------
           const { first, latest } = findFirstAndLatestAttempts(store, code);
           if (!first) {
-            comparisonSummary.textContent = "You haven't completed a practice test yet.";
+            comparisonNote.textContent = "You haven't completed a practice test yet.";
           } else if (latest.id === first.id) {
-            // Exactly one completed attempt so far -- "first vs. latest" would just
-            // be comparing a score to itself, so this shows a single result instead
-            // of a degenerate comparison (Phase 6.5 scope call).
-            comparisonSummary.textContent =
-              `Your only completed attempt so far: ${scorePercent(bank, first)}%. ` +
-              "Take another when you're ready to compare progress.";
+            // Exactly one completed attempt so far -- a single meter, no delta
+            // (comparing a score to itself would be a degenerate reading).
+            const pct = scorePercent(bank, first);
+            comparisonMeters.appendChild(
+              buildMeterFigure(pct, "dashboard-meter-fill-single", "Only attempt", formatDate(first.finishedAt))
+            );
+            comparisonNote.textContent = "Take another full test when you're ready to compare progress.";
           } else {
-            comparisonSummary.textContent =
-              `First attempt: ${scorePercent(bank, first)}% — Latest attempt: ${scorePercent(bank, latest)}%.`;
+            const firstPct = scorePercent(bank, first);
+            const latestPct = scorePercent(bank, latest);
+            comparisonMeters.appendChild(
+              buildMeterFigure(firstPct, "dashboard-meter-fill-first", "First attempt", formatDate(first.finishedAt))
+            );
+            comparisonMeters.appendChild(buildDelta(firstPct, latestPct));
+            comparisonMeters.appendChild(
+              buildMeterFigure(latestPct, "dashboard-meter-fill-latest", "Latest attempt", formatDate(latest.finishedAt))
+            );
           }
 
           // -- Per-category strengths/weaknesses, all-time -------------------------
@@ -97,23 +351,15 @@
           // questionHistory actually covers, not every leaf category in the tree
           // whether touched or not (Phase 6.5 scope call: showing a full zero-data
           // enumeration of every leaf isn't part of this pass).
-          const labels = flattenCategoryTree(bank.categories);
-          const labelById = new Map(labels.map((n) => [n.id, n.label]));
+          const labelById = flattenCategoryLabels(bank.categories);
           const stats = aggregateCategoryStats(bank, store.questionHistory);
           if (stats.length === 0) {
             noCategoryDataNote.hidden = false;
           } else {
             for (const stat of stats) {
-              const li = document.createElement("li");
-              const label = labelById.get(stat.categoryId) ?? stat.categoryId;
-              if (stat.eligible) {
-                const percent = Math.round(stat.accuracy * 100);
-                li.textContent = `${label}: ${stat.correct}/${stat.seen} correct (${percent}%)`;
-              } else {
-                li.textContent = `${label}: not enough data yet (${stat.distinctSeen} of 5 questions answered)`;
-              }
-              categoryStatsList.appendChild(li);
+              categoryStatsList.appendChild(buildCategoryRow(stat, labelById));
             }
+            categoryLegend.hidden = false;
           }
 
           dashboard.hidden = false;

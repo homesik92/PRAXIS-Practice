@@ -55,6 +55,7 @@ site with no server.
 | 5 | Reference materials (5165, 5485) | ☑ |
 | 6 | Hardening | ☑ |
 | 6.5 | Workflow & progress dashboard | ☑ |
+| 6.6 | Progress dashboard visual redesign | ◐ |
 | 7 | Content authoring (parallel track) | ◐ |
 | 8 | Launch (NAS) | ☐ |
 
@@ -787,6 +788,56 @@ remaining authoring happens, not whether it happens.
   GitHub issues since each is a one-line-scope, easily-rediscoverable
   nice-to-have, not a real risk.
 
+### Phase 6.6 — Progress dashboard visual redesign
+
+Session owner asked for the dashboard specifically to move from plain
+lists/text to "something professional and colorful" — reviewed as an
+Artifact mockup first (multiple bar-style options compared), approved, then
+built into the real `dashboard.html`.
+
+- ☑ **6.6.1 Visual redesign, wired to real data.** The attempt comparison is
+  now two circular meters (one hue, two shades — light for "first," full
+  accent for "latest") with a delta indicator between them, replacing the
+  plain "First attempt: X% — Latest attempt: Y%." sentence; a single meter
+  for the one-attempt case. The category breakdown is now a bullet graph per
+  category (qualitative Strong/Building/Needs-practice bands, a tick at the
+  75% "Strong" threshold, a status chip with icon + text — never color
+  alone, matching this site's existing convention) rather than a bare list.
+  Deliberately light-only, no dark-mode variant — matches every other screen
+  in this app (`html { color-scheme: light; }`, no media query anywhere in
+  the codebase); reuses the site's existing `--color-accent`/
+  `--color-correct`/`--color-incorrect` tokens rather than a parallel
+  palette, only adding a "building" amber and the neutral bar-track grays.
+  Two small pre-existing findings closed as part of the same touch:
+  `percentOf` (js/results.js) is now exported and reused by `dashboard.html`
+  and `test.html` instead of three independent inline copies of the same
+  rounding formula; `dashboard.html`'s category-label lookup now uses
+  `flattenCategoryLabels` (already used by `results.html`) instead of its
+  own hand-rolled `flattenCategoryTree` + `Map` construction.
+- ☐ **6.6.2 Category test (deferred, its own plan).** The redesign's "Start
+  another test" section previews a second path next to the existing full
+  practice test: a category test, 10 questions from one category, same
+  test-taking experience, but explicitly **not recorded** — no attempt
+  created, no effect on the stats above. Session owner's call
+  (2026-08-18): ship the visual redesign now, build the actual ephemeral
+  test mode as separate, later work rather than in the same pass — it's a
+  new `run.html` mode, not a display change, and needs its own design pass
+  (in particular: it must write nothing to `questionHistory` either, not
+  just skip creating an `attempt`, or "not recorded" would be only half
+  true — spaced-repetition scheduling would still shift). The control ships
+  today as a real, populated (all real categories, S5's own tree-flattening
+  convention) but `disabled`/`aria-disabled` dropdown and button with a
+  "Coming soon" badge, so the preview is honest about what's live.
+  Self-reviewed (CSS/UI + a benign pure-function export/reuse, no new
+  persistence-layer logic — doesn't meet this project's own deep-change bar
+  for a full 8-angle review). 273/273 tests green throughout, `verify.mjs`
+  clean. Live-verified in the browser: all three attempt-comparison states
+  (zero/one/many), all four category-status tiers (Strong/Building/Needs
+  practice/not-enough-data-yet) with real seeded history, the disabled
+  category-test control's actual `disabled`/`aria-disabled`/`opacity`/
+  `cursor` state, and the mobile layout (375px) — zero console errors
+  throughout.
+
 ### Phase 8 — Launch (NAS)
 
 Per SKILL.md's trimmed launch-and-cutover guidance (staged exposure and canary
@@ -840,5 +891,6 @@ Phase 0.2).
 | 2026-08-18 | Phase 6.4 — full accessibility audit (no code changes) | Doc-only PR closing out Phase 6. Audited all five screens (S1 index, S2 test menu, S3 test runner, S4 results, S5 study) rather than assuming the runner's existing Phase 3.4/5 investment covered everything: (1) computed WCAG contrast ratios for every color pair in `css/base.css` (links, status colors, the 10 element-category swatches, calculator keys) — all ≥5:1, comfortably clear AA; (2) grepped every HTML file for custom-role widgets (`role="button"`, non-native `tabindex`) — found none, meaning every interactive control site-wide is a native `<button>`, `<a href>`, `<input type="radio">`, or `<input type="checkbox">`, so keyboard activation is guaranteed by the browser spec rather than something the app implements itself; (3) walked the accessibility tree (`read_page`) on all five screens with real seeded data, confirming correct heading hierarchy, landmarks, list structure, and that radio-button labels compute to the real answer text, not the option id. Found zero real defects — three apparent anomalies during testing (a `resumeForm` null and an empty shortfall section on S4, a button that appeared keyboard-unreachable on S2) all traced to testing-method artifacts (a wrong synthetic-data shape, a stale accessibility-tree read, and a browser-automation limitation with synthetic key events, respectively), each ruled out by cross-checking against direct DOM state rather than trusted at face value. Flipped 6.4 and Phase 6's overview row to ☑ — **Phase 6 (Hardening) is now fully done.** Verification method note, matching this project's own established caveat: this was a keyboard-focus-order + accessibility-tree audit, not a real assistive-technology (VoiceOver) pass — that remains the session owner's to do, same as it's been for 3.4's focus/announcement behavior. |
 | 2026-08-18 | Phase 7 — 5165 full question bank (198 questions) | Content-authoring session, not code. Session owner scoped this ahead of Phase 7's original breadth-first plan (D-23): build 5165 (Mathematics) to full completion before starting any other test, and make each bank 3× the real exam's length rather than 1×, so a first practice test, topic study, and a second ("final") practice test each surface materially different questions. Restructured `data/tests/5165.json`'s shell from Phase 1's 5-question placeholder to the real BLUEPRINT.md parameters: `timeLimitMinutes` 15 → 180, `formLength` 5 → 66, and the full category tree with I/II split into their real subcategories (I-A Number & Quantity 7, I-B Algebra 13, II-A Functions 13, II-B Calculus 7, III Geometry 13, IV Statistics & Probability 13 — summing to 66), plus the `overlays` declaration for the Task of Teaching Mathematics cross-cutting overlay (SCHEMA.md §2.5, `targetShare: 0.25`). No schema or engine code changed to support the 3× depth — `js/schema.js`'s existing least-recently-seen draw logic (`drawForCategory`, built for spaced repetition in Phase 2.3) already rotates a deep category pool toward unseen questions automatically. Authored 193 new original questions (5 placeholders re-tagged onto real leaf categories) across 10 batches, each verified structurally against `tools/verify.mjs` before moving to the next: I-A 21, I-B 39, II-A 39, II-B 21, III 39, IV 39 — exactly matching BLUEPRINT.md's real weights ×3. 48 of 198 (24.2%, close to the 25% target) carry the Task of Teaching overlay, mostly framed as diagnosing a specific, plausible student misconception (e.g. inverting a similar-triangle ratio, the gambler's fallacy, confusing variance with standard deviation) rather than generic "a teacher wants to..." framing, so the overlay content pulls double duty as genuine pedagogical-reasoning practice, not just a content-category label. Every question written from scratch against the underlying math skill, never adapted from the ETS study companion (the project's standing copyright rule). **Answer-key verification**, per SKILL.md's "question authoring: high effort, verify independently" standard: 5 fresh subagents, one per leaf-category group, each given only `{id, stem, options, claimedCorrect}` — no explanations, no authoring reasoning — independently re-derived every answer from scratch and checked for exactly-one-defensible-correct-option. **0 discrepancies found across all 198 questions.** 256/256 tests green throughout (no test files changed — this is data-only), `verify.mjs` clean. Live-verified in the browser: a real `assembleForm` draw against the finished bank produces exactly 66 questions matching BLUEPRINT's category targets with zero shortfalls; the real runner UI starts a full 66-question/180-minute attempt with no console errors (previously only ever exercised at 5-question scale); a full attempt completed via the established module-import technique renders correctly on the results page with the real 6-category breakdown (Algebra/Functions/Statistics & Probability/Number and Quantity/Calculus/Geometry) summing to 66, correct/incorrect coloring and explanations all intact. Logged D-23. |
 | 2026-08-18 | Pause other tests until production | Doc-only PR. Logged D-24: content authoring on 5101/5485/5652 stays paused until the app is complete and in production, then resumed (and possibly extended). |
+| 2026-08-18 | Phase 6.6 — progress dashboard visual redesign | Session owner asked for the dashboard to look "professional and colorful" instead of plain lists. Iterated as a published Artifact mockup first — including a side-by-side comparison of four bar styles (rounded pill, segmented gauge, bullet graph, hairline+marker) — before touching real code; session owner picked the bullet graph. Built into `dashboard.html`: circular meters (one hue, two shades) for the attempt comparison with a delta indicator, bullet-graph bars with a 75% threshold tick for the category breakdown, status chips (icon + text, never color alone). Deliberately light-only, matching every other screen in the app; reuses `--color-accent`/`--color-correct`/`--color-incorrect` rather than a new palette. Also closed two small pre-existing findings while in the file: `percentOf` (js/results.js) exported and reused by `dashboard.html`/`test.html` instead of three duplicate inline copies; `dashboard.html`'s category-label lookup switched to the existing `flattenCategoryLabels` instead of a hand-rolled duplicate. Mid-mockup-review, session owner also asked for a "category test" option (10 questions, one category, explicitly not recorded/no stats effect) — recognized as new architecture (a new ephemeral `run.html` mode, not a display change) rather than part of the visual redesign; session owner's call to ship the redesign now and defer the real feature to its own plan (6.6.2, still open). The "Start another test" section previews the control today as a real but `disabled` dropdown + button with a "Coming soon" badge. Self-reviewed (CSS/UI + a benign function export, not a deep change). 273/273 tests green, `verify.mjs` clean. Live-verified in the browser: zero/one/many-attempt comparison states, all four category-status tiers with real seeded history (including the pending "N of 5 answered" state), the disabled category-test control's real `disabled`/`aria-disabled`/opacity/cursor state, and the 375px mobile layout — zero console errors throughout. |
 | 2026-08-18 | Phase 6.5 — workflow & progress dashboard | New `dashboard.html` (S6) plus supporting aggregation helpers: `js/store.js`'s `findFirstAndLatestAttempts` (earliest/latest completed attempt for a test code), `js/schema.js`'s `aggregateCategoryStats` (every leaf category's all-time accuracy, sharing a newly-extracted `aggregateHistoryByCategory` helper with the pre-existing `weakestCategory` rather than duplicating its aggregation loop), and `js/results.js`'s `categoriesNeedingPractice` (this attempt's own under-practiced categories, deliberately attempt-scoped rather than cross-attempt). `test.html` gained a "View progress dashboard" link (once a completed attempt exists); `results.html` gained a "Practice your weak spots" section linking each flagged category into S5's existing drill. Separately, per the session owner's own design simplification, `data/manifest.json` now runs one subject at a time (5165 `enabled: true`, 5101/5485/5652 `enabled: false`, config-only) and `index.html`'s copy no longer hardcodes "four." 273/273 tests green, `verify.mjs` clean throughout. Deep change (progress-persistence-adjacent) — 8-angle `/code-review` at high effort found 9 findings; the most severe, confirmed independently by 3 angles, was that gating a bank lookup on `enabled` (as `results.html`/`run.html`/`test.html`/`dashboard.html` all did) silently orphaned review/resume access to any *already-completed* attempt on a test disabled by the 6.5.4 manifest change — fixed by giving `loadManifest` an `includeDisabled` option and switching all four pages' by-code bank lookups to pass it, so only S1's start-a-new-test list (`loadTestList`) still filters to enabled tests; this also happened to unify results.html/run.html's hand-rolled raw-fetch lookup with test.html/dashboard.html's `loadManifest`-based one (an altitude-angle finding, fixed as a side effect). Second confirmed finding: `tools/verify.mjs` was skipping schema validation for any disabled bank, silently losing answer-key-verification coverage for a test that's still reachable by direct URL — fixed by dropping the `!entry.enabled` short-circuit, validating every registered bank regardless of enabled state. Remaining findings (CSS rule duplication, two duplicated magic-number thresholds, a duplicated percent-rounding formula, a wasted per-question computation, one redundant early-return branch) left as-is — each low-severity, easily rediscoverable, not worth a GitHub issue on its own. Live-verified in the browser: seeded a completed attempt for a disabled test (5101) and confirmed `results.html`, `test.html`, and `dashboard.html` all correctly resolve and render it (previously would have shown "could not be loaded"/"not registered"), zero console errors; separately confirmed the dashboard/practice-links flow end-to-end on the still-enabled 5165 test (first-vs-latest comparison, per-category breakdown, "Practice your weak spots" linking to the exact two deliberately-failed categories with correct "missed N" counts). **Phase 6.5 is now fully done.** |
 

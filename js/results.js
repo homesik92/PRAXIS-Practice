@@ -29,7 +29,13 @@ export function flattenCategoryLabels(nodes) {
   return labels;
 }
 
-function percentOf(correct, total) {
+/**
+ * Rounds correct/total to a whole-number percent, 0 for a zero-total category
+ * rather than NaN. Exported so callers outside this module (S6's dashboard)
+ * share one rounding rule instead of re-deriving it (Phase 6.5 code-review
+ * finding: this formula had drifted into three separate inline copies).
+ */
+export function percentOf(correct, total) {
   return total === 0 ? 0 : Math.round((correct / total) * 100);
 }
 
