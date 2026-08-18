@@ -51,8 +51,10 @@
     const fullReviewListEl = document.getElementById("full-review-list");
     const backLink = document.getElementById("back-link");
 
-    // Text-only markers, never color alone (SCHEMA.md S1.3) -- shared by every option
-    // row in the full review list below.
+    // Text markers, not color alone (SCHEMA.md S1.3) -- the label text itself is
+    // still what carries the meaning to a screen reader; the color applied to it in
+    // renderReviewRow below is a sighted-user addition on top of that, not a
+    // replacement (same pattern as the review pass's flag icon).
     function optionSuffix(option) {
       if (!option.isChosen) return option.isCorrectOption ? " (correct answer)" : "";
       return option.isCorrectOption ? " (your answer — correct)" : " (your answer — incorrect)";
@@ -74,7 +76,17 @@
       const optionsEl = document.createElement("ul");
       for (const option of row.options) {
         const optionLi = document.createElement("li");
-        optionLi.textContent = `${option.text}${optionSuffix(option)}`;
+        optionLi.appendChild(document.createTextNode(option.text));
+        const suffix = optionSuffix(option);
+        if (suffix) {
+          const suffixEl = document.createElement("span");
+          // isCorrectOption alone decides the color (not the suffix string) --
+          // both "(correct answer)" (unchosen) and "(your answer — correct)"
+          // (chosen) are the same green; only a chosen-and-wrong option is red.
+          suffixEl.className = option.isCorrectOption ? "option-suffix-correct" : "option-suffix-incorrect";
+          suffixEl.textContent = suffix;
+          optionLi.appendChild(suffixEl);
+        }
         optionsEl.appendChild(optionLi);
       }
       li.appendChild(optionsEl);

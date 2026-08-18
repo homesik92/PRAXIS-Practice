@@ -11,6 +11,8 @@
   --color-muted: #595959; /* ~7:1 contrast on white, meets WCAG AA for body text */
   --color-accent: #0b5fff;
   --color-border: #d0d0d0;
+  --color-correct: #15803d; /* ~5:1 contrast on white, meets WCAG AA for normal text */
+  --color-incorrect: #b91c1c; /* ~6.5:1 contrast on white, meets WCAG AA for normal text */
   --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
 
   /* 5165 scientific calculator (Phase 5.2) -- kept as its own small palette rather
@@ -94,6 +96,17 @@ a {
    "never by color/icon alone"), so this is decorative, not the only signal. */
 .flag-icon {
   margin-left: 0.5rem;
+}
+
+/* S4 full review list (Phase 4.2) -- colors just the "(correct answer)"/"(your
+   answer -- correct/incorrect)" suffix results.html's optionSuffix() adds, not the
+   whole option line. Same "never by color alone" pattern as .flag-icon above: the
+   suffix text itself is the real signal to a screen reader, this is additive. */
+.option-suffix-correct {
+  color: var(--color-correct);
+}
+.option-suffix-incorrect {
+  color: var(--color-incorrect);
 }
 
 /* S5 topic-study category picker (Phase 4.1, SCHEMA.md §2.4) -- depth-based
