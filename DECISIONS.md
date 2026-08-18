@@ -607,3 +607,32 @@ open-ended prose content.
 **Attribution:** Session owner asked to move to Phase 5.3; the schema shape and the
 full-table-vs-subset scope question were both proposed during the design pass and
 confirmed via AskUserQuestion before implementation began.
+
+### D-23: 5165 authored first and to full depth; each bank is 3× the real exam length
+
+**Date:** 2026-08-18
+**Decision:** Amends N-3's breadth-first default for Phase 7's authoring order —
+5165 (Mathematics) is built to completion before any other test's content authoring
+starts, rather than interleaved across all four. All four tests remain in v1 scope
+(D-4 unchanged); this changes only the order of work. Separately, and more durably:
+each test's authored bank is **3× its real exam length**, not 1×. For 5165 that's
+**198 questions** (66 × 3), split by leaf category to match BLUEPRINT.md's real
+weights scaled ×3 (I-A 21, I-B 39, II-A 39, II-B 21, III 39, IV 39). No schema or
+code change was needed for the 3× depth — `js/schema.js`'s existing
+`drawForCategory` (built for spaced repetition, Phase 2.3) already ranks a
+category's whole pool by least-recently-seen before drawing, so a deeper pool
+automatically rotates toward unseen questions across a first practice test, a
+study session, and a second practice test, with no new "pool"/"set" concept
+needed on the question record.
+**Why:** Session owner wants a first practice test, topic study in between, and a
+second ("final") practice test to each surface materially different questions, not
+the same fixed set every time. An explicit tagged-pool design (e.g. `pool:
+"initial"` / `"study"` / `"final"`) was considered and rejected: it would need its
+own schema field, form-assembly changes, and review, and would actually behave
+*worse* than the existing mechanism — a hard partition can't borrow from a
+still-fresh pool when another pool runs dry, while the least-recently-seen draw
+already treats the whole bank as one adaptive resource.
+**Attribution:** Session owner's call — both the 5165-first ordering and the 3×
+depth requirement were stated directly; the "reuse the existing draw logic instead
+of building explicit pools" implementation approach was proposed by Claude and
+confirmed via AskUserQuestion before authoring began.

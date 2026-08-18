@@ -11,7 +11,8 @@ read the full log only when a topic isn't indexed yet.
 | Methodology (PR/CI/issue-tracker language) | D-2, N-1 → **D-16** (restored to full strength) |
 | Deferred-work tracking | N-1 (BACKLOG.md) → **D-16** (GitHub issues #1–#10) |
 | Tech stack, build step, dependencies | D-3 |
-| Test coverage & bank extensibility | D-4 → **N-3** (confirmed, 411 questions) |
+| Test coverage & bank extensibility | D-4 → **N-3** (confirmed, 411 questions) → **D-23** (5165 authored first, to full depth; each bank is 3× the real exam length, not 1×) |
+| Content-authoring order & per-test bank depth | N-3 → **D-23** |
 | Question provenance & ETS copyright | D-5 |
 | v1 feature set | D-6, **D-8** (spaced repetition) |
 | Saved-progress store (schema-change hazard) | D-6, **D-8** |
