@@ -34,6 +34,28 @@
     <p id="timer" tabindex="0" hidden></p>
     <p id="position" tabindex="0" hidden></p>
 
+    <!-- 5165's on-screen scientific calculator (Phase 5.2, D-14) -- shared between
+         S3 and S5 rather than duplicated per screen, gated to bank.code === "5165".
+         In document flow, not an overlay: SCHEMA.md finding #17 requires a reference
+         surface to never obscure the question stem, and the simplest way to
+         guarantee that on this single-column layout is to let it push the page down
+         like #study-feedback already does, not float on top of anything. -->
+    <button id="calculator-toggle" type="button" hidden>Calculator</button>
+    <div id="calculator-panel" hidden aria-labelledby="calculator-heading">
+      <h2 id="calculator-heading" class="visually-hidden">Scientific calculator</h2>
+      <p id="calculator-mode-indicator"></p>
+      <input
+        id="calculator-expression"
+        type="text"
+        autocomplete="off"
+        spellcheck="false"
+        aria-label="Calculator expression"
+      />
+      <p id="calculator-result" tabindex="0"></p>
+      <div id="calculator-keypad"></div>
+      <button id="calculator-close-button" type="button">Close calculator</button>
+    </div>
+
     <div id="run-screen" hidden>
       <form id="question-form">
         <!-- Focus target is the fieldset, not the legend directly: `<legend>` has a
@@ -113,6 +135,7 @@
     } from "./js/runner.js";
     import { flattenCategoryLabels } from "./js/results.js";
     import { updateHistory } from "./js/srs.js";
+    import { evaluateExpression } from "./js/calculator.js";
     import {
       loadStore,
       saveStore,
@@ -217,6 +240,288 @@
         .catch(() => {
           announceQueue = Promise.resolve();
         });
+    }
+
+    // -- 5165 scientific calculator (Phase 5.2, D-14) -----------------------------
+    // Shared between S3 and S5 rather than duplicated per screen: js/calculator.js
+    // owns the pure expression engine, this owns the keypad, the 2nd-shift/angle-
+    // mode UI state, and wiring. showCalculatorToggle/hideCalculatorToggle are
+    // called from beginRun/abortRun (S3) and runDrill/showDrillComplete (S5) --
+    // never built into the page's default screen state, only from bank.code ===
+    // "5165" at the dispatch below, the same way timerEl/positionEl (S3) and
+    // studyScreen (S5) already gate their own visibility to the active screen.
+
+    const CALCULATOR_TEST_CODE = "5165";
+    const calculatorToggle = document.getElementById("calculator-toggle");
+    const calculatorPanel = document.getElementById("calculator-panel");
+    const calculatorModeIndicator = document.getElementById("calculator-mode-indicator");
+    const calculatorExpressionEl = document.getElementById("calculator-expression");
+    const calculatorResultEl = document.getElementById("calculator-result");
+    const calculatorKeypadEl = document.getElementById("calculator-keypad");
+    const calculatorCloseButton = document.getElementById("calculator-close-button");
+
+    // `role` drives css/base.css's per-key coloring. `shiftLabel`/`shiftAriaLabel`/
+    // `shiftInsert` exist only on sin/cos/tan (D-14: "trig functions ... and
+    // presumably their inverses") -- every other key ignores the 2nd-shift state.
+    const CALCULATOR_KEYS = [
+      { label: "2nd", ariaLabel: "second function", role: "function", action: "shift" },
+      { label: "DEG", role: "function", action: "mode" },
+      { label: "(", role: "function", insert: "(" },
+      { label: ")", role: "function", insert: ")" },
+      {
+        label: "sin",
+        shiftLabel: "sin⁻¹",
+        ariaLabel: "sine",
+        shiftAriaLabel: "inverse sine",
+        role: "function",
+        insert: "sin(",
+        shiftInsert: "asin(",
+      },
+      {
+        label: "cos",
+        shiftLabel: "cos⁻¹",
+        ariaLabel: "cosine",
+        shiftAriaLabel: "inverse cosine",
+        role: "function",
+        insert: "cos(",
+        shiftInsert: "acos(",
+      },
+      {
+        label: "tan",
+        shiftLabel: "tan⁻¹",
+        ariaLabel: "tangent",
+        shiftAriaLabel: "inverse tangent",
+        role: "function",
+        insert: "tan(",
+        shiftInsert: "atan(",
+      },
+      { label: "C", ariaLabel: "clear", role: "function", action: "clear" },
+      { label: "log", ariaLabel: "log base 10", role: "function", insert: "log(" },
+      { label: "ln", ariaLabel: "natural log", role: "function", insert: "ln(" },
+      { label: "√", ariaLabel: "square root", role: "function", insert: "sqrt(" },
+      { label: "x²", ariaLabel: "x squared", role: "function", insert: "^2" },
+      { label: "7", insert: "7" },
+      { label: "8", insert: "8" },
+      { label: "9", insert: "9" },
+      { label: "÷", ariaLabel: "divide", role: "operator", insert: "/" },
+      { label: "4", insert: "4" },
+      { label: "5", insert: "5" },
+      { label: "6", insert: "6" },
+      { label: "×", ariaLabel: "multiply", role: "operator", insert: "*" },
+      { label: "1", insert: "1" },
+      { label: "2", insert: "2" },
+      { label: "3", insert: "3" },
+      { label: "−", ariaLabel: "subtract", role: "operator", insert: "-" },
+      { label: "0", insert: "0" },
+      { label: ".", ariaLabel: "decimal point", insert: "." },
+      { label: "^", ariaLabel: "power", role: "operator", insert: "^" },
+      { label: "+", ariaLabel: "add", role: "operator", insert: "+" },
+      { label: "π", ariaLabel: "pi", insert: "pi" },
+      { label: "e", ariaLabel: "e", insert: "e" },
+      { label: "⌫", ariaLabel: "backspace", role: "function", action: "backspace" },
+      { label: "=", ariaLabel: "equals", role: "evaluate", action: "evaluate" },
+    ];
+
+    let calculatorBuilt = false;
+    let calculatorShiftActive = false;
+    let calculatorAngleMode = "deg";
+    const calculatorKeyButtons = [];
+
+    // Built lazily on first open, not at page load -- most page loads never open
+    // the calculator at all, and the keypad's own structure never changes after
+    // this (only labels/aria-pressed do, via renderCalculatorKeys), so there's
+    // nothing to gain from building it earlier.
+    function buildCalculatorKeypad() {
+      if (calculatorBuilt) return;
+      calculatorBuilt = true;
+      for (const def of CALCULATOR_KEYS) {
+        const button = document.createElement("button");
+        button.type = "button";
+        if (def.role) button.dataset.keyRole = def.role;
+        if (def.action === "shift") button.setAttribute("aria-pressed", "false");
+        button.addEventListener("click", () => handleCalculatorKey(def));
+        calculatorKeypadEl.appendChild(button);
+        calculatorKeyButtons.push({ def, button });
+      }
+      renderCalculatorKeys();
+    }
+
+    function renderCalculatorKeys() {
+      for (const { def, button } of calculatorKeyButtons) {
+        if (def.action === "mode") {
+          button.textContent = calculatorAngleMode === "deg" ? "DEG" : "RAD";
+          button.setAttribute(
+            "aria-label",
+            calculatorAngleMode === "deg"
+              ? "angle mode: degrees, activate to switch to radians"
+              : "angle mode: radians, activate to switch to degrees",
+          );
+          continue;
+        }
+        const shifted = calculatorShiftActive && def.shiftLabel;
+        button.textContent = shifted ? def.shiftLabel : def.label;
+        button.setAttribute("aria-label", shifted ? def.shiftAriaLabel : (def.ariaLabel ?? def.label));
+        if (def.action === "shift") button.setAttribute("aria-pressed", String(calculatorShiftActive));
+      }
+      // Not color-only (SCHEMA.md S1.3): this text, not just the 2nd button's own
+      // border/aria-pressed change (css/base.css), is what actually says the
+      // calculator is in shifted mode.
+      calculatorModeIndicator.textContent =
+        (calculatorAngleMode === "deg" ? "Degree" : "Radian") + " mode" + (calculatorShiftActive ? " · 2nd is on" : "");
+    }
+
+    function getSelectionRange(el) {
+      const start = el.selectionStart ?? el.value.length;
+      const end = el.selectionEnd ?? el.value.length;
+      return { start, end };
+    }
+
+    function insertAtCursor(text) {
+      const el = calculatorExpressionEl;
+      const { start, end } = getSelectionRange(el);
+      el.value = el.value.slice(0, start) + text + el.value.slice(end);
+      const cursor = start + text.length;
+      el.setSelectionRange(cursor, cursor);
+      el.focus();
+    }
+
+    function calculatorBackspace() {
+      const el = calculatorExpressionEl;
+      const { start, end } = getSelectionRange(el);
+      if (start === end && start > 0) {
+        el.value = el.value.slice(0, start - 1) + el.value.slice(end);
+        el.setSelectionRange(start - 1, start - 1);
+      } else {
+        el.value = el.value.slice(0, start) + el.value.slice(end);
+        el.setSelectionRange(start, start);
+      }
+      el.focus();
+    }
+
+    function calculatorClear() {
+      calculatorExpressionEl.value = "";
+      calculatorResultEl.textContent = "";
+      calculatorExpressionEl.focus();
+    }
+
+    // Trims float noise (0.1+0.2's 0.30000000000000004) to a readable precision
+    // without inventing false precision -- 10 significant digits comfortably covers
+    // this calculator's scope (arithmetic/log/trig on exam-scale numbers, never the
+    // huge/tiny magnitudes a general-purpose scientific tool might see).
+    function formatCalculatorResult(value) {
+      return Number(value.toPrecision(10)).toString();
+    }
+
+    function calculatorEvaluate() {
+      const result = evaluateExpression(calculatorExpressionEl.value, { angleMode: calculatorAngleMode });
+      if (result.ok) {
+        const formatted = formatCalculatorResult(result.value);
+        calculatorResultEl.textContent = `= ${formatted}`;
+        announce(`Result: ${formatted}`);
+      } else {
+        calculatorResultEl.textContent = `Error: ${result.reason}`;
+        announce(`Calculator error: ${result.reason}`);
+      }
+      // Focus deliberately stays in the expression input (unlike S5's
+      // revealAnswer, a one-shot-per-question reveal that moves focus to its
+      // feedback block) -- the calculator is used repeatedly, back to back, and
+      // announce() above is what a screen reader needs to hear the result without
+      // losing the typing position.
+    }
+
+    function handleCalculatorKey(def) {
+      if (def.action === "shift") {
+        calculatorShiftActive = !calculatorShiftActive;
+        renderCalculatorKeys();
+        return;
+      }
+      if (def.action === "mode") {
+        calculatorAngleMode = calculatorAngleMode === "deg" ? "rad" : "deg";
+        renderCalculatorKeys();
+        return;
+      }
+      if (def.action === "clear") {
+        calculatorClear();
+        return;
+      }
+      if (def.action === "backspace") {
+        calculatorBackspace();
+        return;
+      }
+      if (def.action === "evaluate") {
+        calculatorEvaluate();
+        return;
+      }
+      const insertText = calculatorShiftActive && def.shiftInsert ? def.shiftInsert : def.insert;
+      insertAtCursor(insertText);
+      // 2nd is a one-shot modifier for exactly the next key press (matches the
+      // real TI-84's own behavior), so it resets here regardless of whether this
+      // particular key had a shifted variant to apply -- otherwise pressing 2nd
+      // then a plain digit would leave it stuck "on" with no way to tell why.
+      if (calculatorShiftActive) {
+        calculatorShiftActive = false;
+        renderCalculatorKeys();
+      }
+    }
+
+    function openCalculator() {
+      buildCalculatorKeypad();
+      calculatorPanel.hidden = false;
+      calculatorExpressionEl.focus();
+    }
+
+    // Returns focus to calculator-toggle on dismiss (SCHEMA.md finding #17) --
+    // always correct here since, unlike a per-screen reference panel, this one
+    // toggle button is the only control that ever opens this panel.
+    function closeCalculator() {
+      calculatorPanel.hidden = true;
+      calculatorToggle.focus();
+    }
+
+    calculatorToggle.addEventListener("click", () => {
+      if (calculatorPanel.hidden) openCalculator();
+      else closeCalculator();
+    });
+    calculatorCloseButton.addEventListener("click", closeCalculator);
+    calculatorExpressionEl.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        event.preventDefault();
+        calculatorEvaluate();
+      }
+    });
+    // On the panel itself, not just the expression input, so Escape closes the
+    // calculator no matter which control inside it (a keypad button, the close
+    // button) currently has focus.
+    calculatorPanel.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") {
+        closeCalculator();
+      }
+    });
+
+    // Called from every per-question render function (S3's renderQuestion and
+    // renderQuestionForEdit, S5's renderStudyQuestion) so the calculator is
+    // scoped to "the problem you're currently on," not a single instance whose
+    // expression silently carries over as you advance -- closes the panel and
+    // clears the expression/result, but deliberately leaves calculatorAngleMode
+    // alone: DEG/RAD is a standing preference the person set on purpose, not
+    // part of any one problem's scratch work, and re-forcing it back to degrees
+    // every question would undo a real choice on every single advance. Safe to
+    // call unconditionally even when the calculator was never built (a non-5165
+    // test, or 5165 but never opened yet) -- there's nothing to reset either way.
+    function resetCalculatorForNewQuestion() {
+      calculatorPanel.hidden = true;
+      calculatorExpressionEl.value = "";
+      calculatorResultEl.textContent = "";
+      calculatorShiftActive = false;
+      if (calculatorBuilt) renderCalculatorKeys();
+    }
+
+    function showCalculatorToggle() {
+      calculatorToggle.hidden = false;
+    }
+    function hideCalculatorToggle() {
+      calculatorToggle.hidden = true;
+      calculatorPanel.hidden = true;
     }
 
     // Shared by S3 (beginRun) and S5 (runStudy's runDrill, Phase 4.1/4.3) -- each
@@ -478,6 +783,7 @@
       runScreen.hidden = false;
       timerEl.hidden = false;
       positionEl.hidden = false;
+      if (bank.code === CALCULATOR_TEST_CODE) showCalculatorToggle();
 
       let store = initialStore;
       let index = startIndex;
@@ -549,6 +855,7 @@
         reviewScreen.hidden = true;
         timerEl.hidden = true;
         positionEl.hidden = true;
+        hideCalculatorToggle();
         showStatus(message);
         // #timer/#position may be hiding out from under a keyboard/screen-reader
         // user who was focused on either right now (code review finding, Phase
@@ -635,6 +942,7 @@
         editingNote.hidden = true;
         flagToggle.checked = false;
         skipButton.hidden = true;
+        resetCalculatorForNewQuestion();
 
         const question = form.questions[index];
         positionEl.textContent = `Question ${index + 1} of ${form.questions.length}`;
@@ -742,6 +1050,7 @@
         editingQuestionId = question.id;
         editingNote.hidden = false;
         flagToggle.checked = Boolean(answer.flagged);
+        resetCalculatorForNewQuestion();
         // Skip is a fresh-answering-only affordance (D-20) -- reopening a question
         // from the review pass always shows the ordinary edit UI instead, regardless
         // of whether it arrived here already-skipped (an empty `chosen`) or with a
@@ -857,6 +1166,12 @@
       function showReviewScreen() {
         runScreen.hidden = true;
         reviewScreen.hidden = false;
+        // Code review finding: the review screen has no question stem for a
+        // left-open calculator to relate to, and shares the same top-level panel
+        // renderQuestion/renderQuestionForEdit already reset on every other
+        // question-to-question transition -- this is that same kind of
+        // transition, just missed initially.
+        resetCalculatorForNewQuestion();
         positionEl.textContent = `Review pass -- ${form.questions.length} questions`;
         renderReviewList();
         // Same treatment as renderQuestion/renderQuestionForEdit: the run-screen this
@@ -1003,6 +1318,7 @@
         });
 
         studyScreen.hidden = false;
+        if (bank.code === CALCULATOR_TEST_CODE) showCalculatorToggle();
         let index = 0;
         let correctCount = 0;
         // Always starts false: reaching a drill's first question is always a fresh
@@ -1015,6 +1331,7 @@
 
         function renderStudyQuestion() {
           studyFeedback.hidden = true;
+          resetCalculatorForNewQuestion();
           const question = drill.questions[index];
           studyPosition.textContent = `Question ${index + 1} of ${drill.questions.length}`;
           studyStemEl.textContent = question.stem.value;
@@ -1076,6 +1393,7 @@
         function showDrillComplete() {
           studyScreen.hidden = true;
           studyCompleteScreen.hidden = false;
+          hideCalculatorToggle();
           studyCompleteSummary.textContent =
             `You got ${correctCount} of ${drill.questions.length} correct in this drill. ` +
             "This isn't a scored test attempt -- it only updates your study history.";
