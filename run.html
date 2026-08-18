@@ -103,7 +103,7 @@
     </dialog>
   </main>
   <script type="module">
-    import { loadBank, assembleForm, resumeForm, flattenCategoryTree, assembleDrill } from "./js/schema.js";
+    import { loadBank, assembleForm, resumeForm, flattenCategoryTree, assembleDrill, assembleDueDrill } from "./js/schema.js";
     import {
       isCorrect,
       buildReviewRows,
@@ -219,7 +219,7 @@
         });
     }
 
-    // Shared by S3 (beginRun) and S5 (runStudy's startDrill, Phase 4.1) -- each
+    // Shared by S3 (beginRun) and S5 (runStudy's runDrill, Phase 4.1/4.3) -- each
     // calls this once to get its own independent transitionFocus(el, message),
     // seeded with whether ITS very first screen transition should move focus
     // (S3's fresh-start/race-recovery clicks: yes: S3's page-load résumé and
@@ -921,6 +921,11 @@
 
     function runStudy(bank) {
       heading.textContent = bank.name;
+      // due=1 (Phase 4.3, S2's "N questions due" entry point, D-8) short-circuits
+      // the category picker entirely -- it's driven by the SRS schedule across the
+      // whole bank, not by topic, so any stray &category= on a hand-typed URL is
+      // ignored rather than combined with it.
+      const dueMode = params.get("due") === "1";
       const categoryId = params.get("category");
 
       const loadResult = loadStore();
@@ -930,11 +935,36 @@
       }
       let store = loadResult.store;
 
+      if (dueMode) {
+        const drill = assembleDueDrill(bank, { history: store.questionHistory });
+        if (drill.questions.length === 0) {
+          showStatus("No questions are due for review right now.");
+          return;
+        }
+        runDrill(drill, {
+          againHref: `run.html?code=${encodeURIComponent(bank.code)}&mode=study&due=1`,
+        });
+        return;
+      }
+
       if (!categoryId) {
         showCategoryPicker();
         return;
       }
-      startDrill(categoryId);
+
+      const categoryNode = flattenCategoryTree(bank.categories).find((n) => n.id === categoryId);
+      if (!categoryNode) {
+        showStatus(`This topic ("${categoryId}") isn't part of this test.`);
+        return;
+      }
+      const drill = assembleDrill(bank, categoryId, { history: store.questionHistory });
+      if (drill.questions.length === 0) {
+        showStatus(`"${categoryNode.label}" has no questions to study yet.`);
+        return;
+      }
+      runDrill(drill, {
+        againHref: `run.html?code=${encodeURIComponent(bank.code)}&mode=study&category=${encodeURIComponent(categoryId)}`,
+      });
 
       function showCategoryPicker() {
         studyPickerScreen.hidden = false;
@@ -954,25 +984,11 @@
         // A screen reader is free to read from the top of the page as normal.
       }
 
-      function startDrill(categoryId) {
-        // A single .find() rather than flattenCategoryLabels' full id->label Map
-        // (code review finding): only one label is ever needed here, and
-        // assembleDrill below is about to walk this same tree again anyway via
-        // categoryAndDescendantIds -- flattenCategoryLabels earns its keep in
-        // beginRun's review pass, which looks up many rows' labels, not here.
-        const categoryNode = flattenCategoryTree(bank.categories).find((n) => n.id === categoryId);
-        if (!categoryNode) {
-          showStatus(`This topic ("${categoryId}") isn't part of this test.`);
-          return;
-        }
-        const categoryLabel = categoryNode.label;
-
-        const drill = assembleDrill(bank, categoryId, { history: store.questionHistory });
-        if (drill.questions.length === 0) {
-          showStatus(`"${categoryLabel}" has no questions to study yet.`);
-          return;
-        }
-
+      // Shared by both the category drill (S5 proper) and the due-review drill
+      // (Phase 4.3) -- once a drill is assembled, presenting it, recording
+      // answers, and updating SRS history is identical regardless of how its
+      // question set was picked.
+      function runDrill(drill, { againHref }) {
         // Keeps `store` from going stale for the drill's whole (untimed, possibly
         // long) duration (code review finding): without this, every revealAnswer
         // save below would build on a page-load-time snapshot and silently
@@ -1063,7 +1079,7 @@
           studyCompleteSummary.textContent =
             `You got ${correctCount} of ${drill.questions.length} correct in this drill. ` +
             "This isn't a scored test attempt -- it only updates your study history.";
-          studyAgainLink.href = `run.html?code=${encodeURIComponent(bank.code)}&mode=study&category=${encodeURIComponent(categoryId)}`;
+          studyAgainLink.href = againHref;
           // Always reached via the "Next question" click on the last question -- a
           // genuine same-page transition, unlike the drill's first render.
           studyCompleteHeading.focus();
