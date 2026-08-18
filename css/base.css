@@ -40,6 +40,16 @@
   --color-cat-noble-gas: #e8d6ff;
   --color-cat-lanthanide: #ffd6ea;
   --color-cat-actinide: #f0d6c0;
+
+  /* S6 progress dashboard redesign (Phase 6.6) -- meters + bullet-graph bars.
+     Reuses --color-accent/--color-correct/--color-incorrect directly rather
+     than a parallel palette; only a middle "building" amber and the neutral
+     bar-track grays are new. */
+  --color-accent-light: #b8d1ff; /* pale --color-accent, the "first attempt" meter */
+  --color-warning: #b45309; /* ~4.6:1 contrast on white, meets WCAG AA for normal text */
+  --color-bar-track: #edeff2;
+  --color-bar-band-2: #e0e4ea;
+  --color-bar-band-3: #ccd3dd;
 }
 
 html {
@@ -138,16 +148,334 @@ a {
   padding-bottom: 0.25rem;
 }
 
-/* S6 progress dashboard (Phase 6.5) -- same bare-list treatment as #category-list,
-   one row per category rather than a bulleted list. */
+/* S6 progress dashboard (Phase 6.6) -- two circular meters (first vs. latest
+   completed attempt) plus a delta indicator between them. One hue
+   (--color-accent), two shades: --color-accent-light recedes for "first",
+   the full accent is reserved for "latest" so the pair reads as a
+   before/after progression rather than two unrelated series. */
+#comparison-meters {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+  margin: 1rem 0;
+}
+
+.dashboard-meter {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.dashboard-meter svg {
+  display: block;
+}
+
+.dashboard-meter-track {
+  stroke: var(--color-bar-track);
+}
+
+.dashboard-meter-fill-first {
+  stroke: var(--color-accent-light);
+}
+
+.dashboard-meter-fill-latest,
+.dashboard-meter-fill-single {
+  stroke: var(--color-accent);
+}
+
+.dashboard-meter-value {
+  font-size: 1.7rem;
+  font-weight: 700;
+  fill: var(--color-text);
+}
+
+.dashboard-meter-caption {
+  text-align: center;
+  font-size: 0.85rem;
+}
+
+.dashboard-meter-caption .label {
+  display: block;
+  font-weight: 600;
+}
+
+.dashboard-meter-caption .sub {
+  display: block;
+  color: var(--color-muted);
+  font-size: 0.78rem;
+}
+
+.dashboard-delta {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+}
+
+.dashboard-delta svg {
+  width: 1.75rem;
+  height: 1.75rem;
+}
+
+.dashboard-delta-value {
+  font-weight: 700;
+  font-size: 0.95rem;
+  white-space: nowrap;
+}
+
+/* Not color-only (SCHEMA.md S1.3): the up/down arrow glyph and the sign on the
+   number itself both carry direction, this color is additive. */
+.dashboard-delta-value.up {
+  color: var(--color-correct);
+}
+
+.dashboard-delta-value.down {
+  color: var(--color-incorrect);
+}
+
+.dashboard-delta-value.flat {
+  color: var(--color-muted);
+}
+
+.dashboard-delta-note {
+  font-size: 0.72rem;
+  color: var(--color-muted);
+  text-align: center;
+  max-width: 6.5rem;
+}
+
+/* S6 category breakdown (Phase 6.6) -- a bullet graph per category: the
+   background bands mark the needs-practice/building/strong ranges, the
+   status-colored inner bar is the actual all-time accuracy, and the tick at
+   75% marks the "Strong" threshold the legend below states in real text. */
 #category-stats-list {
   list-style: none;
   padding-left: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
 }
 
-#category-stats-list li {
-  padding-top: 0.25rem;
-  padding-bottom: 0.25rem;
+.category-stat-row {
+  display: grid;
+  grid-template-columns: 9.5rem 1fr auto;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.category-stat-name {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.category-stat-track {
+  position: relative;
+  height: 1.1rem;
+  border-radius: 4px;
+  overflow: hidden;
+  background: linear-gradient(
+    to right,
+    var(--color-bar-track) 0%, var(--color-bar-track) 50%,
+    var(--color-bar-band-2) 50%, var(--color-bar-band-2) 75%,
+    var(--color-bar-band-3) 75%, var(--color-bar-band-3) 100%
+  );
+}
+
+.category-stat-track.is-pending {
+  background: var(--color-bar-track);
+}
+
+.category-stat-fill {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 0.45rem;
+  width: var(--pct, 0%);
+  border-radius: 2px;
+}
+
+.category-stat-fill.good { background: var(--color-correct); }
+.category-stat-fill.warn { background: var(--color-warning); }
+.category-stat-fill.crit { background: var(--color-incorrect); }
+
+.category-stat-target {
+  position: absolute;
+  top: 1px;
+  bottom: 1px;
+  left: 75%;
+  width: 2px;
+  background: var(--color-text);
+  opacity: 0.5;
+}
+
+.category-stat-meta {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  justify-self: end;
+}
+
+.category-stat-pct {
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  font-size: 0.9rem;
+  min-width: 2.6em;
+  text-align: right;
+}
+
+/* Not color-only (SCHEMA.md S1.3): every chip pairs its color with both an
+   icon and a text label ("Strong"/"Building"/"Needs practice"/"N of 5
+   answered"), matching .flag-icon/.option-suffix-* elsewhere on the site. */
+.status-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 0.15rem 0.55rem 0.15rem 0.4rem;
+  border-radius: 999px;
+  white-space: nowrap;
+}
+
+.status-chip svg {
+  width: 0.75rem;
+  height: 0.75rem;
+  flex: none;
+}
+
+.status-chip.good { background: rgba(21, 128, 61, 0.12); color: var(--color-correct); }
+.status-chip.warn { background: rgba(180, 83, 9, 0.14); color: var(--color-warning); }
+.status-chip.crit { background: rgba(185, 28, 28, 0.12); color: var(--color-incorrect); }
+.status-chip.pending { background: rgba(89, 89, 89, 0.12); color: var(--color-muted); }
+
+#category-legend {
+  margin: 1rem 0 0;
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--color-border);
+  font-size: 0.8rem;
+  color: var(--color-muted);
+}
+
+@media (max-width: 30rem) {
+  .category-stat-row {
+    grid-template-columns: 1fr;
+    row-gap: 0.35rem;
+  }
+  .category-stat-meta {
+    justify-self: start;
+  }
+}
+
+/* S6 "Start another test" (Phase 6.6) -- two visually distinct paths, so the
+   full-test-vs-category-test "does this count?" distinction is legible in
+   the UI itself, not just something the user has to remember. */
+#start-test-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.start-test-option {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  flex-wrap: wrap;
+}
+
+.start-test-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  min-width: 12rem;
+  flex: 1 1 14rem;
+}
+
+.start-test-title {
+  font-weight: 700;
+  font-size: 0.92rem;
+}
+
+.start-test-desc {
+  font-size: 0.8rem;
+  color: var(--color-muted);
+  line-height: 1.4;
+}
+
+.category-test-controls {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex: 0 0 auto;
+}
+
+.category-test-controls select {
+  font: inherit;
+  font-size: 0.85rem;
+  color: var(--color-text);
+  padding: 0.45rem 0.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  max-width: 12rem;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  font-weight: 700;
+  font-size: 0.85rem;
+  text-decoration: none;
+  border-radius: 4px;
+  padding: 0.55rem 0.9rem;
+  white-space: nowrap;
+  border: 1px solid transparent;
+  cursor: pointer;
+}
+
+.btn-primary {
+  background: var(--color-accent);
+  color: #ffffff;
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+.btn[disabled],
+.btn[aria-disabled="true"] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.coming-soon-badge {
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-muted);
+  background: var(--color-bar-track);
+  border-radius: 999px;
+  padding: 0.15rem 0.5rem;
+}
+
+@media (max-width: 26rem) {
+  .start-test-option {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .category-test-controls select {
+    max-width: none;
+    flex: 1;
+  }
 }
 
 /* S5 per-question feedback (Phase 4.1, SCHEMA.md §1.1 S5) -- same bordered-box

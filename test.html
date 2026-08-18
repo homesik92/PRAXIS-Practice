@@ -15,6 +15,7 @@
   <script type="module">
     import { loadManifest, loadBank, assembleDueDrill, weakestCategory, flattenCategoryTree } from "./js/schema.js";
     import { loadStore, findInProgressAttempt, findFirstAndLatestAttempts, exportStoreAsJson } from "./js/store.js";
+    import { percentOf } from "./js/results.js";
 
     const params = new URLSearchParams(location.search);
     const code = params.get("code");
@@ -92,7 +93,7 @@
           if (weakest) {
             const categoryLabel =
               flattenCategoryTree(bank.categories).find((n) => n.id === weakest.categoryId)?.label ?? weakest.categoryId;
-            const percent = Math.round((weakest.correct / weakest.seen) * 100);
+            const percent = percentOf(weakest.correct, weakest.seen);
             const weakestLink = document.createElement("a");
             weakestLink.href = `run.html?code=${encodeURIComponent(code)}&mode=study&category=${encodeURIComponent(weakest.categoryId)}`;
             weakestLink.textContent = `You're weakest in ${categoryLabel} (${percent}% correct) — practice it`;
