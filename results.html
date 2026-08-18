@@ -20,6 +20,10 @@
         <h2>This attempt isn't fully representative</h2>
         <ul id="shortfall-list"></ul>
       </div>
+      <div id="practice-note" hidden>
+        <h2>Practice your weak spots</h2>
+        <ul id="practice-list"></ul>
+      </div>
       <p id="full-review-unavailable-note" class="status-note" hidden>
         The full review list below couldn't be rebuilt, because this test's questions
         have changed since you took it. Your score above is still accurate.
@@ -31,9 +35,15 @@
     </div>
   </main>
   <script type="module">
-    import { loadBank, resumeForm } from "./js/schema.js";
+    import { loadBank, loadManifest, resumeForm } from "./js/schema.js";
     import { scoreAttempt } from "./js/runner.js";
-    import { summarizeAttempt, formatElapsed, buildFullReview, flattenCategoryLabels } from "./js/results.js";
+    import {
+      summarizeAttempt,
+      formatElapsed,
+      buildFullReview,
+      flattenCategoryLabels,
+      categoriesNeedingPractice,
+    } from "./js/results.js";
     import { loadStore, findAttempt } from "./js/store.js";
 
     const params = new URLSearchParams(location.search);
@@ -46,6 +56,8 @@
     const categoryListEl = document.getElementById("category-list");
     const shortfallNoteEl = document.getElementById("shortfall-note");
     const shortfallListEl = document.getElementById("shortfall-list");
+    const practiceNoteEl = document.getElementById("practice-note");
+    const practiceListEl = document.getElementById("practice-list");
     const fullReviewUnavailableNoteEl = document.getElementById("full-review-unavailable-note");
     const fullReviewEl = document.getElementById("full-review");
     const fullReviewListEl = document.getElementById("full-review-list");
@@ -137,9 +149,10 @@
         } else {
           backLink.href = `test.html?code=${encodeURIComponent(attempt.testCode)}`;
 
-          const manifestResponse = await fetch("data/manifest.json");
-          const manifest = manifestResponse.ok ? await manifestResponse.json() : { tests: [] };
-          const entry = (manifest.tests ?? []).find((t) => t.code === attempt.testCode && t.enabled);
+          // includeDisabled: reviewing a completed attempt must keep working even if
+          // this test has since been disabled for new attempts (Phase 6.5 finding).
+          const manifestResult = await loadManifest(fetch, "data/manifest.json", { includeDisabled: true });
+          const entry = manifestResult.ok ? manifestResult.tests.find((t) => t.code === attempt.testCode) : undefined;
           const bankResult = entry ? await loadBank(entry.file) : { ok: false };
 
           if (!bankResult.ok) {
@@ -169,6 +182,28 @@
                 shortfallListEl.appendChild(li);
               }
               shortfallNoteEl.hidden = false;
+            }
+
+            // "Practice your weak spots" (Phase 6.5) -- this attempt's own categories
+            // with more than one missed question, each linking straight into S5's
+            // existing single-category drill (run.html, Phase 4.1, unchanged by this
+            // diff). Attempt-scoped by design -- a different question from the
+            // all-time weakest-category suggestion on S2 (D-18) and the dashboard's
+            // cross-attempt breakdown (Phase 6.5), which both read questionHistory
+            // across every attempt/study session rather than just this one.
+            const practiceCategories = categoriesNeedingPractice(summary);
+            if (practiceCategories.length > 0) {
+              for (const category of practiceCategories) {
+                const li = document.createElement("li");
+                const a = document.createElement("a");
+                a.href =
+                  `run.html?code=${encodeURIComponent(attempt.testCode)}` +
+                  `&mode=study&category=${encodeURIComponent(category.id)}`;
+                a.textContent = `${category.label} (missed ${category.missed})`;
+                li.appendChild(a);
+                practiceListEl.appendChild(li);
+              }
+              practiceNoteEl.hidden = false;
             }
 
             // resumeForm replays the exact original question/option order and

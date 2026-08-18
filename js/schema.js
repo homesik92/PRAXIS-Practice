@@ -14,15 +14,22 @@
 // an injected `random` (default Math.random) so shuffling is deterministic under test.
 
 /**
- * Fetches and parses manifest.json, returning only its enabled entries.
+ * Fetches and parses manifest.json. By default returns only its enabled entries
+ * (S1's "which tests can I start" list, index.html). Pass `includeDisabled: true`
+ * for a by-code lookup that must keep working for a test that's been disabled --
+ * reviewing/resuming/tracking progress on an attempt already taken doesn't stop
+ * being valid just because the test isn't offered for a *new* attempt anymore
+ * (Phase 6.5 code-review finding: results.html/run.html/test.html/dashboard.html
+ * all used to hard-filter to enabled, silently orphaning any history on a test
+ * disabled after the fact).
  * Never throws -- a fetch failure or invalid JSON returns a tagged failure, matching
  * store.js's "storage failures are visible, never silent" convention (SCHEMA.md
  * finding #6) extended to network/data-loading failures.
  *
- * @returns {Promise<{ok: true, tests: {code: string, file: string}[]}
+ * @returns {Promise<{ok: true, tests: {code: string, file: string, enabled: boolean}[]}
  *                  | {ok: false, reason: "fetch-failed" | "invalid-json", error?: Error}>}
  */
-export async function loadManifest(fetchImpl = globalThis.fetch, manifestUrl = "data/manifest.json") {
+export async function loadManifest(fetchImpl = globalThis.fetch, manifestUrl = "data/manifest.json", { includeDisabled = false } = {}) {
   let response;
   try {
     response = await fetchImpl(manifestUrl);
@@ -38,8 +45,8 @@ export async function loadManifest(fetchImpl = globalThis.fetch, manifestUrl = "
   } catch (error) {
     return { ok: false, reason: "invalid-json", error };
   }
-  const tests = Array.isArray(manifest.tests) ? manifest.tests.filter((t) => t && t.enabled) : [];
-  return { ok: true, tests: tests.map((t) => ({ code: t.code, file: t.file })) };
+  const tests = Array.isArray(manifest.tests) ? manifest.tests.filter((t) => t && (includeDisabled || t.enabled)) : [];
+  return { ok: true, tests: tests.map((t) => ({ code: t.code, file: t.file, enabled: !!t.enabled })) };
 }
 
 /**
@@ -432,6 +439,60 @@ export function assembleDueDrill(bank, { history = {}, random = Math.random, now
   return { questions: shuffleQuestionOptions(due.map((r) => r.q), random) };
 }
 
+// Shared by weakestCategory and aggregateCategoryStats -- both need the same
+// per-leaf-category {correct, seen, distinctSeen, lastSeenAtMs} tally across the
+// whole store's history for this bank, differing only in what they do with it
+// (pick the single worst vs. return every category). Extracted rather than
+// duplicated (Phase 6.5 code review finding).
+function aggregateHistoryByCategory(bank, history) {
+  const byCategory = new Map();
+  for (const q of bank.questions ?? []) {
+    if (q.retired) continue;
+    const entry = history?.[q.id];
+    if (!entry || !Number.isInteger(entry.seen) || entry.seen <= 0) continue;
+
+    const bucket = byCategory.get(q.categoryId) ?? { correct: 0, seen: 0, distinctSeen: 0, lastSeenAtMs: -Infinity };
+    // Clamped to [0, entry.seen] (code review finding): a hand-corrupted
+    // entry.correct outside that range would otherwise push accuracy outside
+    // [0, 1] -- e.g. {seen: 1, correct: 999} -- and S2 would render a nonsense
+    // percentage straight from it.
+    const correctCount = Number.isInteger(entry.correct) ? Math.min(Math.max(entry.correct, 0), entry.seen) : 0;
+    bucket.correct += correctCount;
+    bucket.seen += entry.seen;
+    bucket.distinctSeen += 1;
+    // Reuses lastSeenRank rather than re-deriving its same undefined-vs-parsed
+    // sentinel handling by hand (code review finding).
+    bucket.lastSeenAtMs = Math.max(bucket.lastSeenAtMs, lastSeenRank(q, history));
+    byCategory.set(q.categoryId, bucket);
+  }
+  return byCategory;
+}
+
+/**
+ * Every leaf category's accuracy across the whole store's history for this bank
+ * (every attempt and study session that ever touched it, same scope as
+ * {@link weakestCategory}) -- unlike weakestCategory, which returns only the
+ * single worst category past a 5-question eligibility threshold, this returns
+ * every category that has *any* history, each tagged with whether it clears
+ * that same threshold, so a dashboard can show "not enough data yet" for a
+ * thin category rather than omitting it silently or mislabeling it as strong.
+ *
+ * @param {object} bank
+ * @param {Record<string, {seen?: number, correct?: number, lastSeenAt?: string}>} [history]
+ * @returns {{categoryId: string, correct: number, seen: number, distinctSeen: number, accuracy: number, eligible: boolean}[]}
+ */
+export function aggregateCategoryStats(bank, history = {}) {
+  const byCategory = aggregateHistoryByCategory(bank, history);
+  return [...byCategory.entries()].map(([categoryId, b]) => ({
+    categoryId,
+    correct: b.correct,
+    seen: b.seen,
+    distinctSeen: b.distinctSeen,
+    accuracy: b.correct / b.seen,
+    eligible: b.distinctSeen >= 5,
+  }));
+}
+
 /**
  * Finds S2's weakest-category suggestion (SCHEMA.md S2, D-18): the single
  * lowest-accuracy category in this bank, once any category clears a
@@ -465,26 +526,7 @@ export function assembleDueDrill(bank, { history = {}, random = Math.random, now
  * @returns {{categoryId: string, correct: number, seen: number} | null}
  */
 export function weakestCategory(bank, history = {}) {
-  const byCategory = new Map();
-  for (const q of bank.questions ?? []) {
-    if (q.retired) continue;
-    const entry = history?.[q.id];
-    if (!entry || !Number.isInteger(entry.seen) || entry.seen <= 0) continue;
-
-    const bucket = byCategory.get(q.categoryId) ?? { correct: 0, seen: 0, distinctSeen: 0, lastSeenAtMs: -Infinity };
-    // Clamped to [0, entry.seen] (code review finding): a hand-corrupted
-    // entry.correct outside that range would otherwise push accuracy outside
-    // [0, 1] -- e.g. {seen: 1, correct: 999} -- and S2 would render a nonsense
-    // percentage straight from it.
-    const correctCount = Number.isInteger(entry.correct) ? Math.min(Math.max(entry.correct, 0), entry.seen) : 0;
-    bucket.correct += correctCount;
-    bucket.seen += entry.seen;
-    bucket.distinctSeen += 1;
-    // Reuses lastSeenRank rather than re-deriving its same undefined-vs-parsed
-    // sentinel handling by hand (code review finding).
-    bucket.lastSeenAtMs = Math.max(bucket.lastSeenAtMs, lastSeenRank(q, history));
-    byCategory.set(q.categoryId, bucket);
-  }
+  const byCategory = aggregateHistoryByCategory(bank, history);
 
   const eligible = [...byCategory.entries()]
     .filter(([, b]) => b.distinctSeen >= 5)

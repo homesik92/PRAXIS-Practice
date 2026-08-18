@@ -374,6 +374,37 @@ export function findAttempt(store, attemptId) {
   return store.attempts.find((a) => a.id === attemptId);
 }
 
+/**
+ * S6 dashboard's first-vs-latest comparison: the earliest and most recent
+ * *completed* attempts for a test code. In-progress and abandoned attempts are
+ * excluded -- a comparison against an attempt that never finished, or was
+ * abandoned mid-run, isn't meaningful.
+ *
+ * Relies on `store.attempts` always being append-order (`startAttempt` only
+ * ever does `[...attempts, attempt]`, never inserts or reorders), so the first
+ * and last matches after filtering are already the earliest and most recent --
+ * no date parsing needed, and so no risk of an unparseable `startedAt`
+ * silently misordering the result the way a numeric sort comparator could.
+ *
+ * Deliberately dynamic rather than a stored "this is my final attempt" flag: a
+ * later real-world attempt always becomes the new "latest" automatically,
+ * rather than needing its own schema field and an explicit user action to set
+ * (Phase 6.5 scope call).
+ *
+ * Returns the same attempt object for both `first` and `latest` when exactly
+ * one completed attempt exists, and `{first: null, latest: null}` when none do
+ * -- callers decide how to render either case, not this function.
+ *
+ * @param {object} store
+ * @param {string} testCode
+ * @returns {{first: object|null, latest: object|null}}
+ */
+export function findFirstAndLatestAttempts(store, testCode) {
+  const completed = store.attempts.filter((a) => a.testCode === testCode && a.status === "completed");
+  if (completed.length === 0) return { first: null, latest: null };
+  return { first: completed[0], latest: completed[completed.length - 1] };
+}
+
 // -- Cross-tab reconciliation (SCHEMA.md §2.8 finding #2) ---------------------------
 
 /**

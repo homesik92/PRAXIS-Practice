@@ -105,6 +105,27 @@ export function summarizeAttempt(score, bank, categoryTargets = []) {
 }
 
 /**
+ * Which of this attempt's categories missed more than `threshold` questions
+ * (Phase 6.5's S4 "practice your weak spots" section) -- reuses
+ * {@link summarizeAttempt}'s existing per-category breakdown rather than
+ * re-deriving correct/total from the score a second time. Attempt-scoped, by
+ * design: this is "what should I practice after THIS test," a different
+ * question from `weakestCategory`'s cross-attempt, all-time accuracy ranking
+ * (SCHEMA.md S2, D-18) -- the two deliberately don't share an implementation,
+ * since one reads a single already-computed summary and the other aggregates
+ * `questionHistory` across the whole store.
+ *
+ * @param {{categories: {id: string, label: string, correct: number, total: number}[]}} summary
+ * @param {number} [threshold]
+ * @returns {{id: string, label: string, missed: number}[]}
+ */
+export function categoriesNeedingPractice(summary, threshold = 1) {
+  return summary.categories
+    .map((c) => ({ id: c.id, label: c.label, missed: c.total - c.correct }))
+    .filter((c) => c.missed > threshold);
+}
+
+/**
  * Formats the wall-clock span between two ISO timestamps (an attempt's `startedAt`/
  * `finishedAt`, SCHEMA.md §2.8) as a short human string for S4's "time used" line.
  *

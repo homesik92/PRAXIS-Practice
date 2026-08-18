@@ -17,6 +17,7 @@ import {
   assembleDrill,
   assembleDueDrill,
   weakestCategory,
+  aggregateCategoryStats,
 } from "../js/schema.js";
 
 // Tiny deterministic LCG -- not for security, only so assembleForm's shuffling is
@@ -71,7 +72,25 @@ test("loadManifest returns only enabled entries", async () => {
   });
   const result = await loadManifest(fetchImpl, "data/manifest.json");
   assert.equal(result.ok, true);
-  assert.deepEqual(result.tests, [{ code: "5165", file: "tests/5165.json" }]);
+  assert.deepEqual(result.tests, [{ code: "5165", file: "tests/5165.json", enabled: true }]);
+});
+
+test("loadManifest with includeDisabled returns every entry, disabled ones included", async () => {
+  const fetchImpl = mockFetch({
+    "data/manifest.json": jsonResponse({
+      schemaVersion: 1,
+      tests: [
+        { code: "5165", file: "tests/5165.json", enabled: true },
+        { code: "5485", file: "tests/5485.json", enabled: false },
+      ],
+    }),
+  });
+  const result = await loadManifest(fetchImpl, "data/manifest.json", { includeDisabled: true });
+  assert.equal(result.ok, true);
+  assert.deepEqual(result.tests, [
+    { code: "5165", file: "tests/5165.json", enabled: true },
+    { code: "5485", file: "tests/5485.json", enabled: false },
+  ]);
 });
 
 test("loadManifest reports fetch-failed on a non-ok response", async () => {
@@ -734,6 +753,74 @@ test("weakestCategory doesn't throw when tied categories both have only unparsea
   assert.ok(result.categoryId === "I-A" || result.categoryId === "I-B");
   assert.equal(result.correct, 5);
   assert.equal(result.seen, 5);
+});
+
+test("aggregateCategoryStats returns an empty array when no question has any history yet", () => {
+  const bank = studyBank({ "I-A": ["q1", "q2", "q3", "q4", "q5"] });
+  assert.deepEqual(aggregateCategoryStats(bank), []);
+});
+
+test("aggregateCategoryStats returns every category with history, not just the weakest one", () => {
+  const bank = studyBank({
+    "I-A": ["a1", "a2", "a3", "a4", "a5"],
+    "I-B": ["b1", "b2", "b3", "b4", "b5"],
+  });
+  const history = {
+    ...Object.fromEntries(["a1", "a2", "a3", "a4", "a5"].map((id) => [id, seen(1, 1)])),
+    ...Object.fromEntries(["b1", "b2", "b3", "b4", "b5"].map((id) => [id, seen(1, 0)])),
+  };
+  const result = aggregateCategoryStats(bank, history);
+  const byId = Object.fromEntries(result.map((r) => [r.categoryId, r]));
+  assert.equal(result.length, 2);
+  assert.equal(byId["I-A"].accuracy, 1);
+  assert.equal(byId["I-B"].accuracy, 0);
+});
+
+test("aggregateCategoryStats marks a category ineligible below the 5-distinct-question threshold, but still includes it", () => {
+  const bank = studyBank({ "I-A": ["q1", "q2", "q3", "q4"] });
+  const history = Object.fromEntries(["q1", "q2", "q3", "q4"].map((id) => [id, seen(1, 1)]));
+  const result = aggregateCategoryStats(bank, history);
+  assert.equal(result.length, 1);
+  assert.equal(result[0].eligible, false);
+  assert.equal(result[0].distinctSeen, 4);
+});
+
+test("aggregateCategoryStats marks a category eligible once it reaches the 5-distinct-question threshold", () => {
+  const bank = studyBank({ "I-A": ["q1", "q2", "q3", "q4", "q5"] });
+  const history = Object.fromEntries(["q1", "q2", "q3", "q4", "q5"].map((id) => [id, seen(1, 1)]));
+  const result = aggregateCategoryStats(bank, history);
+  assert.equal(result[0].eligible, true);
+});
+
+test("aggregateCategoryStats sums correct/seen across a category's questions rather than averaging per-question", () => {
+  const bank = studyBank({ "I-A": ["q1", "q2", "q3", "q4", "q5"] });
+  const history = {
+    q1: seen(4, 4),
+    q2: seen(1, 0),
+    q3: seen(1, 0),
+    q4: seen(1, 0),
+    q5: seen(1, 0),
+  };
+  const result = aggregateCategoryStats(bank, history);
+  assert.equal(result[0].correct, 4);
+  assert.equal(result[0].seen, 8);
+  assert.equal(result[0].accuracy, 0.5);
+});
+
+test("aggregateCategoryStats clamps a corrupted correct that exceeds seen, matching weakestCategory's own guard", () => {
+  const bank = studyBank({ "I-A": ["q1"] });
+  const history = { q1: { seen: 1, correct: 999 } };
+  const result = aggregateCategoryStats(bank, history);
+  assert.equal(result[0].correct, 1);
+  assert.equal(result[0].accuracy, 1);
+});
+
+test("aggregateCategoryStats excludes retired questions", () => {
+  const bank = studyBank({ "I-A": ["q1", "q2"] }, { retired: ["q1"] });
+  const history = { q1: seen(1, 1), q2: seen(1, 0) };
+  const result = aggregateCategoryStats(bank, history);
+  assert.equal(result[0].seen, 1);
+  assert.equal(result[0].correct, 0);
 });
 
 let failed = 0;

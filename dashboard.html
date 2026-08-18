@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Progress dashboard — PRAXIS-Practice</title>
+  <link rel="stylesheet" href="css/base.css" />
+</head>
+<body>
+  <main>
+    <p><a id="back-link" href="index.html">&larr; Back to test menu</a></p>
+    <h1 id="test-name">Progress dashboard</h1>
+    <p id="status-note" class="status-note" hidden></p>
+    <div id="dashboard" hidden>
+      <section id="comparison-section">
+        <h2>Test attempts</h2>
+        <p id="comparison-summary"></p>
+      </section>
+      <section id="category-section">
+        <h2>By category (all-time)</h2>
+        <p id="no-category-data-note" class="status-note" hidden>
+          No practice data yet for this test. Take a test or study a topic to start
+          tracking strengths and weaknesses here.
+        </p>
+        <ul id="category-stats-list"></ul>
+      </section>
+      <p><a id="take-test-link" href="#">Take another practice test</a></p>
+    </div>
+  </main>
+  <script type="module">
+    import { loadManifest, loadBank, aggregateCategoryStats, flattenCategoryTree } from "./js/schema.js";
+    import { loadStore, findFirstAndLatestAttempts } from "./js/store.js";
+    import { scoreAttempt } from "./js/runner.js";
+    import { summarizeAttempt } from "./js/results.js";
+
+    const params = new URLSearchParams(location.search);
+    const code = params.get("code");
+    const heading = document.getElementById("test-name");
+    const statusNote = document.getElementById("status-note");
+    const dashboard = document.getElementById("dashboard");
+    const comparisonSummary = document.getElementById("comparison-summary");
+    const categoryStatsList = document.getElementById("category-stats-list");
+    const noCategoryDataNote = document.getElementById("no-category-data-note");
+    const takeTestLink = document.getElementById("take-test-link");
+
+    function showStatus(message) {
+      statusNote.textContent = message;
+      statusNote.hidden = false;
+    }
+
+    function scorePercent(bank, attempt) {
+      const score = scoreAttempt(bank, attempt.answers);
+      return summarizeAttempt(score, bank).overall.percent;
+    }
+
+    if (!code) {
+      showStatus("No test specified.");
+    } else {
+      // includeDisabled: progress tracking must keep working even if this test has
+      // since been disabled for new attempts (Phase 6.5 finding).
+      const manifestResult = await loadManifest(globalThis.fetch, "data/manifest.json", { includeDisabled: true });
+      const manifestEntry = manifestResult.ok ? manifestResult.tests.find((t) => t.code === code) : undefined;
+      const bankResult = manifestEntry ? await loadBank(manifestEntry.file) : undefined;
+      if (!bankResult || !bankResult.ok) {
+        showStatus(`Test "${code}" is not registered.`);
+      } else {
+        const bank = bankResult.bank;
+        heading.textContent = `${bank.name} — Progress dashboard`;
+        takeTestLink.href = `run.html?code=${encodeURIComponent(code)}&mode=test`;
+
+        const loadResult = loadStore();
+        if (!loadResult.ok) {
+          showStatus("Your saved progress could not be loaded, so the dashboard can't be shown right now.");
+        } else {
+          const store = loadResult.store;
+
+          // -- Attempt comparison -------------------------------------------------
+          const { first, latest } = findFirstAndLatestAttempts(store, code);
+          if (!first) {
+            comparisonSummary.textContent = "You haven't completed a practice test yet.";
+          } else if (latest.id === first.id) {
+            // Exactly one completed attempt so far -- "first vs. latest" would just
+            // be comparing a score to itself, so this shows a single result instead
+            // of a degenerate comparison (Phase 6.5 scope call).
+            comparisonSummary.textContent =
+              `Your only completed attempt so far: ${scorePercent(bank, first)}%. ` +
+              "Take another when you're ready to compare progress.";
+          } else {
+            comparisonSummary.textContent =
+              `First attempt: ${scorePercent(bank, first)}% — Latest attempt: ${scorePercent(bank, latest)}%.`;
+          }
+
+          // -- Per-category strengths/weaknesses, all-time -------------------------
+          // Only categories with at least one history entry appear here --
+          // aggregateCategoryStats (like weakestCategory, which this mirrors)
+          // aggregates from bank.questions grouped by whichever ones the store's
+          // questionHistory actually covers, not every leaf category in the tree
+          // whether touched or not (Phase 6.5 scope call: showing a full zero-data
+          // enumeration of every leaf isn't part of this pass).
+          const labels = flattenCategoryTree(bank.categories);
+          const labelById = new Map(labels.map((n) => [n.id, n.label]));
+          const stats = aggregateCategoryStats(bank, store.questionHistory);
+          if (stats.length === 0) {
+            noCategoryDataNote.hidden = false;
+          } else {
+            for (const stat of stats) {
+              const li = document.createElement("li");
+              const label = labelById.get(stat.categoryId) ?? stat.categoryId;
+              if (stat.eligible) {
+                const percent = Math.round(stat.accuracy * 100);
+                li.textContent = `${label}: ${stat.correct}/${stat.seen} correct (${percent}%)`;
+              } else {
+                li.textContent = `${label}: not enough data yet (${stat.distinctSeen} of 5 questions answered)`;
+              }
+              categoryStatsList.appendChild(li);
+            }
+          }
+
+          dashboard.hidden = false;
+        }
+      }
+    }
+  </script>
+</body>
+</html>
