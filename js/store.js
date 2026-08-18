@@ -150,6 +150,24 @@ export function saveStore(store, storage = globalThis.localStorage) {
   }
 }
 
+/**
+ * Serializes the whole store to a downloadable JSON file (SCHEMA.md finding #9) --
+ * the cheapest available mitigation against cross-tab loss, storage failures, and a
+ * person clearing site data by hand, since none of those leave any other recovery
+ * path. Pure and DOM-free (no Blob/anchor here) so it's testable under Node; the
+ * caller turns {filename, content} into an actual download.
+ *
+ * Colons in an ISO timestamp aren't safe in filenames on every OS, so they're
+ * replaced with "-" before use.
+ */
+export function exportStoreAsJson(store, { now = () => new Date() } = {}) {
+  const timestamp = now().toISOString().replace(/:/g, "-");
+  return {
+    filename: `praxis-practice-progress-${timestamp}.json`,
+    content: JSON.stringify(store, null, 2),
+  };
+}
+
 // -- Attempt lifecycle (SCHEMA.md §2.8) ---------------------------------------------
 
 function findAttemptIndex(store, attemptId) {

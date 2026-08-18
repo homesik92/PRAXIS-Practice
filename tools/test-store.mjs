@@ -11,6 +11,7 @@ import {
   defaultStore,
   loadStore,
   saveStore,
+  exportStoreAsJson,
   startAttempt,
   recordAnswer,
   updateAnswer,
@@ -230,6 +231,22 @@ test("saveStore rejects a store with a missing storeVersion instead of writing i
   const result = saveStore({ attempts: [], questionHistory: {} }, storage);
   assert.equal(result.ok, false);
   assert.equal(result.reason, "invalid-store-version");
+});
+
+test("exportStoreAsJson produces valid JSON that round-trips to an equal store", () => {
+  const store = {
+    storeVersion: CURRENT_VERSION,
+    attempts: [{ id: "a1", testCode: "5165", status: "completed" }],
+    questionHistory: { q1: { intervalDays: 1, ease: 2.5 } },
+  };
+  const { content } = exportStoreAsJson(store);
+  assert.deepEqual(JSON.parse(content), store);
+});
+
+test("exportStoreAsJson's filename is a stable, filesystem-safe timestamp", () => {
+  const now = () => new Date("2026-08-18T14:30:05.123Z");
+  const { filename } = exportStoreAsJson(defaultStore(), { now });
+  assert.equal(filename, "praxis-practice-progress-2026-08-18T14-30-05.123Z.json");
 });
 
 test("loading twice without saving in between is idempotent (documents the caller contract)", () => {
