@@ -4,6 +4,7 @@
   "name": "Mathematics",
   "timeLimitMinutes": 15,
   "formLength": 5,
+  "referencePanel": "reference/5165-formulas.json",
   "categories": [
     { "id": "I", "label": "Number & Quantity and Algebra", "weight": { "count": 2, "percent": 30 } },
     { "id": "II", "label": "Functions and Calculus", "weight": { "count": 1, "percent": 30 } },

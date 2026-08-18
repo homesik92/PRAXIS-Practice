@@ -103,13 +103,28 @@ function validateOverlays(overlays, errors) {
   return ids;
 }
 
-function validateContentField(field, fieldName, errors, context) {
+/**
+ * `warnings`, when passed, flags a non-"text" format as a warning even though it's a
+ * schema-valid `KNOWN_FORMATS` value -- question stem/option/explanation rendering
+ * (run.html) only actually implements plain-text rendering today (D-21, issue #45);
+ * reference-panel content (§2.9) genuinely supports mathml, so its own call site
+ * below doesn't pass this. Without it, authoring a question with `format: "mathml"`
+ * (copy-pasted from data/reference/5165-formulas.json, the one place in this repo
+ * that pattern actually works) would pass this gate cleanly and then render as
+ * literal `<math>...</math>` text on a real practice test.
+ */
+function validateContentField(field, fieldName, errors, context, warnings) {
   if (!isPlainObject(field)) {
     errors.push(`${context}: ${fieldName} must be an object with format/value`);
     return;
   }
   if (!KNOWN_FORMATS.includes(field.format)) {
     errors.push(`${context}: ${fieldName}.format must be one of ${KNOWN_FORMATS.join(", ")}`);
+  } else if (warnings && field.format !== "text") {
+    warnings.push(
+      `${context}: ${fieldName}.format is "${field.format}", but question rendering only implements "text" ` +
+        `today (issue #45) -- this will render as literal markup, not ${field.format}`,
+    );
   }
   if (!isNonEmptyString(field.value)) {
     errors.push(`${context}: ${fieldName}.value must be a non-empty string`);
@@ -162,8 +177,8 @@ function validateQuestions(questions, { code, weightBearingIds, overlayIds, erro
       errors.push(`${context}: retired must be a boolean if present`);
     }
 
-    validateContentField(q.stem, "stem", errors, context);
-    validateContentField(q.explanation, "explanation", errors, context);
+    validateContentField(q.stem, "stem", errors, context, warnings);
+    validateContentField(q.explanation, "explanation", errors, context, warnings);
 
     const optionIds = new Set();
     if (!Array.isArray(q.options) || q.options.length < 2) {
@@ -176,7 +191,7 @@ function validateQuestions(questions, { code, weightBearingIds, overlayIds, erro
         }
         if (optionIds.has(opt.id)) errors.push(`${context}: duplicate option id "${opt.id}"`);
         optionIds.add(opt.id);
-        validateContentField(opt.content, "option.content", errors, `${context} option ${opt.id}`);
+        validateContentField(opt.content, "option.content", errors, `${context} option ${opt.id}`, warnings);
       }
     }
 
@@ -244,6 +259,70 @@ export function validateBank(bank, { dataDir } = {}) {
     errors,
     warnings,
   });
+
+  return { errors, warnings };
+}
+
+/**
+ * Validates a reference-panel content file against SCHEMA.md §2.9. `code`, when
+ * given, is the owning bank's own `code` -- cross-checked against the panel's own
+ * `testCode` so a copy-pasted or mismatched reference file is caught here rather than
+ * silently loaded against the wrong test.
+ */
+export function validateReferencePanel(panel, { code } = {}) {
+  const errors = [];
+  const warnings = [];
+
+  if (panel.schemaVersion !== 1) errors.push("schemaVersion must be 1");
+  if (!isNonEmptyString(panel.testCode)) {
+    errors.push("testCode missing");
+  } else if (code && panel.testCode !== code) {
+    errors.push(`testCode "${panel.testCode}" does not match owning bank's code "${code}"`);
+  }
+
+  if (!Array.isArray(panel.sections) || panel.sections.length === 0) {
+    errors.push("sections must be a non-empty array");
+    return { errors, warnings };
+  }
+
+  const sectionIds = new Set();
+  for (const section of panel.sections) {
+    const sLabel = `section ${section?.id ?? "(no id)"}`;
+    if (!isPlainObject(section)) {
+      errors.push(`${sLabel}: must be an object`);
+      continue;
+    }
+    if (!isNonEmptyString(section.id)) {
+      errors.push(`${sLabel}: missing or invalid id`);
+    } else if (sectionIds.has(section.id)) {
+      errors.push(`${sLabel}: duplicate section id`);
+    } else {
+      sectionIds.add(section.id);
+    }
+    if (!isNonEmptyString(section.heading)) errors.push(`${sLabel}: missing or invalid heading`);
+
+    if (!Array.isArray(section.entries) || section.entries.length === 0) {
+      errors.push(`${sLabel}: entries must be a non-empty array`);
+      continue;
+    }
+    const entryIds = new Set();
+    for (const entry of section.entries) {
+      const eLabel = `${sLabel} entry ${entry?.id ?? "(no id)"}`;
+      if (!isPlainObject(entry)) {
+        errors.push(`${eLabel}: must be an object`);
+        continue;
+      }
+      if (!isNonEmptyString(entry.id)) {
+        errors.push(`${eLabel}: missing or invalid id`);
+      } else if (entryIds.has(entry.id)) {
+        errors.push(`${eLabel}: duplicate entry id within section`);
+      } else {
+        entryIds.add(entry.id);
+      }
+      if (!isNonEmptyString(entry.label)) errors.push(`${eLabel}: missing or invalid label`);
+      validateContentField(entry.content, "content", errors, eLabel);
+    }
+  }
 
   return { errors, warnings };
 }
@@ -322,6 +401,24 @@ async function main() {
       report(entry.file, errors, warnings);
       allErrors += errors.length;
       allWarnings += warnings.length;
+
+      if (isNonEmptyString(bank.referencePanel)) {
+        const panelPath = path.join(dataDir, bank.referencePanel);
+        if (existsSync(panelPath)) {
+          let panel;
+          try {
+            panel = await loadJson(panelPath);
+          } catch (e) {
+            report(bank.referencePanel, [`invalid JSON: ${e.message}`], []);
+            allErrors += 1;
+            continue;
+          }
+          const { errors: pErrors, warnings: pWarnings } = validateReferencePanel(panel, { code: bank.code });
+          report(bank.referencePanel, pErrors, pWarnings);
+          allErrors += pErrors.length;
+          allWarnings += pWarnings.length;
+        } // else already reported by validateBank's own referencePanel existence check
+      }
     }
   }
 

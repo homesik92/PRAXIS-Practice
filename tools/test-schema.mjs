@@ -7,6 +7,7 @@ import assert from "node:assert/strict";
 import {
   loadManifest,
   loadBank,
+  loadReferencePanel,
   loadBankSummary,
   loadTestList,
   assembleForm,
@@ -117,6 +118,41 @@ test("loadBank reports fetch-failed on a non-ok response", async () => {
   const result = await loadBank("tests/5165.json", fetchImpl, "data");
   assert.equal(result.ok, false);
   assert.equal(result.reason, "fetch-failed");
+});
+
+const validReferencePanel = {
+  schemaVersion: 1,
+  testCode: "5165",
+  sections: [
+    {
+      id: "algebra",
+      heading: "Number & Quantity and Algebra",
+      entries: [{ id: "quadratic-formula", label: "Quadratic formula", content: { format: "text", value: "x = ..." } }],
+    },
+  ],
+};
+
+test("loadReferencePanel returns the full parsed panel", async () => {
+  const fetchImpl = mockFetch({ "data/reference/5165-formulas.json": jsonResponse(validReferencePanel) });
+  const result = await loadReferencePanel("reference/5165-formulas.json", fetchImpl, "data");
+  assert.equal(result.ok, true);
+  assert.deepEqual(result.panel, validReferencePanel);
+});
+
+test("loadReferencePanel reports fetch-failed on a non-ok response", async () => {
+  const fetchImpl = mockFetch({ "data/reference/5165-formulas.json": jsonResponse({}, { ok: false, status: 404 }) });
+  const result = await loadReferencePanel("reference/5165-formulas.json", fetchImpl, "data");
+  assert.equal(result.ok, false);
+  assert.equal(result.reason, "fetch-failed");
+});
+
+test("loadReferencePanel reports invalid-json when the body can't be parsed", async () => {
+  const fetchImpl = mockFetch({
+    "data/reference/5165-formulas.json": { ok: true, status: 200, json: async () => { throw new SyntaxError("bad json"); } },
+  });
+  const result = await loadReferencePanel("reference/5165-formulas.json", fetchImpl, "data");
+  assert.equal(result.ok, false);
+  assert.equal(result.reason, "invalid-json");
 });
 
 test("loadBankSummary extracts only the summary fields, from the question array's length", async () => {
