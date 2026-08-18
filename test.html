@@ -14,7 +14,7 @@
   </main>
   <script type="module">
     import { loadManifest, loadBank, assembleDueDrill, weakestCategory, flattenCategoryTree } from "./js/schema.js";
-    import { loadStore, findInProgressAttempt } from "./js/store.js";
+    import { loadStore, findInProgressAttempt, exportStoreAsJson } from "./js/store.js";
 
     const params = new URLSearchParams(location.search);
     const code = params.get("code");
@@ -101,6 +101,39 @@
         nav.appendChild(studyLink);
 
         main.appendChild(nav);
+
+        // "Download my progress" (Phase 6.2, SCHEMA.md finding #9) -- exports the
+        // WHOLE store (every test's attempts + history), not just this one, even
+        // though the button lives on this per-test page; there's no other screen
+        // that's a more natural home for a single global export action.
+        const exportStatus = document.createElement("p");
+        exportStatus.className = "status-note";
+        exportStatus.hidden = true;
+        const exportButton = document.createElement("button");
+        exportButton.type = "button";
+        exportButton.textContent = "Download my progress";
+        exportButton.addEventListener("click", () => {
+          // Re-loads fresh rather than reusing the page-load `loadResult` closure --
+          // another tab may have written since this page loaded, and an export that's
+          // silently stale defeats the point of a backup/recovery mechanism.
+          const freshLoadResult = loadStore();
+          if (!freshLoadResult.ok) {
+            exportStatus.textContent = "Your progress could not be loaded, so it can't be exported right now.";
+            exportStatus.hidden = false;
+            return;
+          }
+          exportStatus.hidden = true;
+          const { filename, content } = exportStoreAsJson(freshLoadResult.store);
+          const blob = new Blob([content], { type: "application/json" });
+          const url = URL.createObjectURL(blob);
+          const link = document.createElement("a");
+          link.href = url;
+          link.download = filename;
+          link.click();
+          URL.revokeObjectURL(url);
+        });
+        main.appendChild(exportButton);
+        main.appendChild(exportStatus);
       }
     }
   </script>
