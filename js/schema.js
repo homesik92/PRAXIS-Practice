@@ -415,3 +415,81 @@ export function assembleDueDrill(bank, { history = {}, random = Math.random, now
     .sort((a, b) => a.dueAtMs - b.dueAtMs);
   return { questions: shuffleQuestionOptions(due.map((r) => r.q), random) };
 }
+
+/**
+ * Finds S2's weakest-category suggestion (SCHEMA.md S2, D-18): the single
+ * lowest-accuracy category in this bank, once any category clears a
+ * 5-distinct-question threshold. "Category" here is the leaf a question
+ * actually attaches to (SCHEMA.md 2.4: "a question attaches to the deepest
+ * category it belongs to") -- the same granularity js/runner.js's
+ * scoreAttempt/js/results.js's summarizeAttempt already use for S4's
+ * per-category breakdown, just aggregated across every history entry the
+ * *whole store* has for this bank (every attempt and study session that ever
+ * touched it, per D-18 -- not one attempt) rather than a single attempt's
+ * answers.
+ *
+ * Accuracy is `correct ÷ seen` summed across a category's distinct questions.
+ * Eligibility is a count of *distinct questions with any history* reaching 5,
+ * not total `seen` -- re-answering the same one or two questions five times
+ * over shouldn't unlock a suggestion built on that narrow a sample, which is
+ * exactly what D-18's threshold exists to guard against. Ties break toward
+ * the category least recently practiced: the one whose most recent
+ * `lastSeenAt` across its questions is furthest in the past.
+ *
+ * Excludes retired questions from both eligibility and accuracy, matching
+ * assembleDrill/assembleDueDrill's existing convention: a retired question
+ * isn't part of what S5 will actually let you practice, so it shouldn't drive
+ * a suggestion to practice it. A history entry with a non-positive-integer
+ * `seen` (hand-corrupted data) is treated as if the question were never
+ * answered, the same "malformed -> treat as absent" stance dueAtRank/
+ * lastSeenRank already take.
+ *
+ * @param {object} bank
+ * @param {Record<string, {seen?: number, correct?: number, lastSeenAt?: string}>} [history]
+ * @returns {{categoryId: string, correct: number, seen: number} | null}
+ */
+export function weakestCategory(bank, history = {}) {
+  const byCategory = new Map();
+  for (const q of bank.questions ?? []) {
+    if (q.retired) continue;
+    const entry = history?.[q.id];
+    if (!entry || !Number.isInteger(entry.seen) || entry.seen <= 0) continue;
+
+    const bucket = byCategory.get(q.categoryId) ?? { correct: 0, seen: 0, distinctSeen: 0, lastSeenAtMs: -Infinity };
+    // Clamped to [0, entry.seen] (code review finding): a hand-corrupted
+    // entry.correct outside that range would otherwise push accuracy outside
+    // [0, 1] -- e.g. {seen: 1, correct: 999} -- and S2 would render a nonsense
+    // percentage straight from it.
+    const correctCount = Number.isInteger(entry.correct) ? Math.min(Math.max(entry.correct, 0), entry.seen) : 0;
+    bucket.correct += correctCount;
+    bucket.seen += entry.seen;
+    bucket.distinctSeen += 1;
+    // Reuses lastSeenRank rather than re-deriving its same undefined-vs-parsed
+    // sentinel handling by hand (code review finding).
+    bucket.lastSeenAtMs = Math.max(bucket.lastSeenAtMs, lastSeenRank(q, history));
+    byCategory.set(q.categoryId, bucket);
+  }
+
+  const eligible = [...byCategory.entries()]
+    .filter(([, b]) => b.distinctSeen >= 5)
+    .map(([categoryId, b]) => ({
+      categoryId,
+      correct: b.correct,
+      seen: b.seen,
+      accuracy: b.correct / b.seen,
+      lastSeenAtMs: b.lastSeenAtMs,
+    }));
+  if (eligible.length === 0) return null;
+
+  // Explicit comparisons rather than subtraction for the tie-break (code
+  // review finding): lastSeenAtMs can be -Infinity for a category with no
+  // parseable lastSeenAt anywhere in it, and -Infinity - -Infinity is NaN,
+  // which Array.prototype.sort silently treats as "equal" -- quietly
+  // replacing the documented "least recently practiced wins" rule with
+  // whatever order the categories happened to appear in.
+  eligible.sort(
+    (a, b) => a.accuracy - b.accuracy || (a.lastSeenAtMs > b.lastSeenAtMs ? 1 : a.lastSeenAtMs < b.lastSeenAtMs ? -1 : 0),
+  );
+  const { categoryId, correct, seen } = eligible[0];
+  return { categoryId, correct, seen };
+}

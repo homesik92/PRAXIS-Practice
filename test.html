@@ -13,7 +13,7 @@
     <p id="status-note" class="status-note">Loading&hellip;</p>
   </main>
   <script type="module">
-    import { loadManifest, loadBank, assembleDueDrill } from "./js/schema.js";
+    import { loadManifest, loadBank, assembleDueDrill, weakestCategory, flattenCategoryTree } from "./js/schema.js";
     import { loadStore, findInProgressAttempt } from "./js/store.js";
 
     const params = new URLSearchParams(location.search);
@@ -69,6 +69,21 @@
             dueLink.textContent = `${dueCount} question${dueCount === 1 ? "" : "s"} due for review`;
             nav.appendChild(dueLink);
           }
+
+          // Weakest-category suggestion (Phase 4.4, SCHEMA.md S2, D-18) -- links
+          // straight into S5's existing category-mode path (Phase 4.1), which
+          // already accepts any valid category id and doesn't need to know this
+          // one was picked by accuracy rather than by hand from the picker.
+          const weakest = weakestCategory(bank, loadResult.store.questionHistory);
+          if (weakest) {
+            const categoryLabel =
+              flattenCategoryTree(bank.categories).find((n) => n.id === weakest.categoryId)?.label ?? weakest.categoryId;
+            const percent = Math.round((weakest.correct / weakest.seen) * 100);
+            const weakestLink = document.createElement("a");
+            weakestLink.href = `run.html?code=${encodeURIComponent(code)}&mode=study&category=${encodeURIComponent(weakest.categoryId)}`;
+            weakestLink.textContent = `You're weakest in ${categoryLabel} (${percent}% correct) — practice it`;
+            nav.appendChild(weakestLink);
+          }
         }
 
         const a = document.createElement("a");
@@ -77,8 +92,9 @@
         nav.appendChild(a);
 
         // No ?category= (Phase 4.1, SCHEMA.md S1.1 S2/S5) -- run.html's own picker
-        // is where a category gets chosen; a direct pre-filtered link is Phase 4.4's
-        // weakest-category suggestion, not this one.
+        // is where a category gets chosen; the weakest-category link above (Phase
+        // 4.4) is the only *category*-pre-filtered entry point into S5 (the due
+        // link above it, Phase 4.3, pre-filters by due=1 instead).
         const studyLink = document.createElement("a");
         studyLink.href = `run.html?code=${encodeURIComponent(code)}&mode=study`;
         studyLink.textContent = "Study a topic";
