@@ -670,7 +670,8 @@ in parallel with Phases 3–6.
   returns focus on dismiss).
   *Accepts:* the panel opens without covering the question stem and returns keyboard
   focus to its opening control on dismiss.
-- ☐ **5.2 5165 scientific calculator (D-14).** Arithmetic, log, trig, and inverse trig
+- ☑ **5.2 5165 scientific calculator (D-14).** Arithmetic (with parentheses), x^y/x²/√,
+  log, ln, trig and inverse trig (degree/radian toggle), π/e constants
   ([issue #6](https://github.com/homesik92/PRAXIS-Practice/issues/6)). **No graphing.**
   Keyboard-operable, screen-reader-usable output, no color-only state.
   *Accepts:* every listed operation is reachable and operable by keyboard, and its

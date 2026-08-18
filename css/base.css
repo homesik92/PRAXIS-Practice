@@ -12,6 +12,16 @@
   --color-accent: #0b5fff;
   --color-border: #d0d0d0;
   --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+  /* 5165 scientific calculator (Phase 5.2) -- kept as its own small palette rather
+     than reusing --color-bg/--color-border everywhere, so the calculator reads as a
+     distinct tool (screen + keypad) against the page's own plainer surfaces. */
+  --color-calc-body: #eef0f3;
+  --color-calc-screen: #1a1a1a;
+  --color-calc-screen-text: #f5f5f5;
+  --color-calc-key: #ffffff;
+  --color-calc-fn-key: #e2e8f0;
+  --color-calc-op-key: #dbe9ff;
 }
 
 html {
@@ -121,4 +131,90 @@ a {
 
 #confirm-submit-dialog::backdrop {
   background: rgb(0 0 0 / 0.4);
+}
+
+/* 5165 scientific calculator (Phase 5.2, D-14) -- a TI-84 Plus CE-styled keypad
+   interaction (dark screen, grid of keys, a "2nd" shift key), not a reproduction of
+   TI's actual branding/model name/trade dress -- the screen-plus-keypad-plus-shift-
+   key shape is a generic scientific-calculator paradigm shared across many devices.
+   In document flow, not an overlay (see run.html's comment at the panel's markup):
+   this is a bordered panel like #study-feedback below, not a floating card, which is
+   the simplest way to guarantee it never obscures the question stem (finding #17). */
+#calculator-panel {
+  max-width: 20rem;
+  margin: 0.75rem 0;
+  padding: 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  background: var(--color-calc-body);
+}
+
+#calculator-mode-indicator {
+  margin: 0 0 0.35rem;
+  font-size: 0.85rem;
+  color: var(--color-muted);
+}
+
+#calculator-expression {
+  width: 100%;
+  box-sizing: border-box;
+  font: 1.1rem/1.4 ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  padding: 0.5rem;
+  background: var(--color-calc-screen);
+  color: var(--color-calc-screen-text);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+}
+
+#calculator-result {
+  min-height: 1.5rem;
+  margin: 0.35rem 0 0.6rem;
+  padding: 0.35rem 0.5rem;
+  font: 1.1rem/1.4 ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  background: var(--color-calc-screen);
+  color: var(--color-calc-screen-text);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+}
+
+#calculator-keypad {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.35rem;
+}
+
+#calculator-keypad button {
+  padding: 0.6rem 0;
+  font-size: 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  background: var(--color-calc-key);
+  color: var(--color-text);
+  cursor: pointer;
+}
+
+#calculator-keypad button[data-key-role="function"] {
+  background: var(--color-calc-fn-key);
+}
+
+#calculator-keypad button[data-key-role="operator"] {
+  background: var(--color-calc-op-key);
+}
+
+#calculator-keypad button[data-key-role="evaluate"] {
+  background: var(--color-accent);
+  color: #ffffff;
+}
+
+/* Not color-only (SCHEMA.md S1.3): aria-pressed carries the 2nd-shift state to a
+   screen reader, and the visible border change here is layered on top of the
+   button's own text swapping (e.g. "sin" -> "sin⁻¹") and #calculator-mode-indicator's
+   text, not a replacement for either. */
+#calculator-keypad button[aria-pressed="true"] {
+  border-color: var(--color-accent);
+  border-width: 2px;
+}
+
+#calculator-close-button {
+  margin-top: 0.6rem;
 }
