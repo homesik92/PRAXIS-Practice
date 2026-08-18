@@ -577,3 +577,33 @@ takes a few minutes to actually perform.
 the narrow-vs-broad rendering-scope fork were both surfaced during the design pass —
 session owner chose the narrow scope after the tradeoff was presented via
 AskUserQuestion.
+
+### D-22: 5485 reference-panel content schema settled — full periodic table, not a subset
+
+**Date:** 2026-08-17
+**Decision:** Settles [issue #3](https://github.com/homesik92/PRAXIS-Practice/issues/3)
+for 5485, closing it. `data/reference/5485-periodic.json` is `{schemaVersion,
+testCode, elements: [{atomicNumber, symbol, name, atomicMass, category, group,
+period}], constants: [{id, name, symbol, value, unit}]}` — SCHEMA.md §2.10.
+Deliberately does **not** reuse §2.6/§2.9's `{format, value}` content shape: a
+periodic table and a constants table are structured tabular data with fixed fields
+per row, not prose needing a text/mathml/code discriminator. `elements` covers all
+118 known elements, not a curated subset, treating the data as bounded, verifiable
+scientific fact (identical in any chemistry reference) rather than authored
+content — narrowing it would be a real, disclosed scope cut in the D-14 sense, not
+a simplification. `constants` is ~12 entries spanning BLUEPRINT.md's Chemistry/
+Physics categories, written in plain-text scientific notation (matching 5165's
+existing Unicode-superscript convention) rather than MathML, since a bare `n × 10ᵏ`
+has no typesetting need MathML would actually improve on.
+**Why:** BLUEPRINT.md's F-3 already warns that shortchanging 5485's reference
+materials turns chemistry questions into memorization tests the real exam doesn't
+ask for — the same reasoning D-12 used to justify building this panel at all. A
+curated element subset would reintroduce exactly that risk for any element outside
+the curated list, and unlike 5165's formula sheet (real authoring judgment about
+what belongs on a scoped scientific-calculator-era math reference), element data
+has no such judgment call to make — every chemistry reference agrees on the same
+118 rows, so there's no real cost to completeness here the way there might be for
+open-ended prose content.
+**Attribution:** Session owner asked to move to Phase 5.3; the schema shape and the
+full-table-vs-subset scope question were both proposed during the design pass and
+confirmed via AskUserQuestion before implementation began.

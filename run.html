@@ -56,16 +56,18 @@
       <button id="calculator-close-button" type="button">Close calculator</button>
     </div>
 
-    <!-- 5165's notation/formula reference (Phase 5.1, D-21) -- shares the same
-         finding-#17 in-document-flow pattern as the calculator above, but content
-         and open/close mechanics come from js/reference-panel.js (SCHEMA.md §2.9),
-         since 5485's periodic-table panel (Phase 5.3) will reuse the same shell with
-         entirely different content rendering. Gated to bank.referencePanel being
-         present, not a hardcoded test code -- unlike the calculator, this feature is
-         meant to extend to more than one test. -->
-    <button id="reference-toggle" type="button" hidden>Formulas &amp; notation</button>
+    <!-- Shared non-modal reference panel (5165's formula/notation sheet, Phase 5.1,
+         D-21, SCHEMA.md §2.9; 5485's periodic table + physical constants, Phase 5.3,
+         D-22, SCHEMA.md §2.10) -- same finding-#17 in-document-flow pattern as the
+         calculator above. js/reference-panel.js's createPanelShell owns the shared
+         open/close/Escape/focus mechanics; content rendering is test-specific and
+         lives below in ensureReferencePanelLoaded, since 5165's formula list and
+         5485's element grid share nothing renderable. Toggle/heading text is set in
+         JS per bank.code -- gated to bank.referencePanel being present, not a
+         hardcoded test code, since this feature spans more than one test. -->
+    <button id="reference-toggle" type="button" hidden></button>
     <div id="reference-panel" tabindex="-1" hidden aria-labelledby="reference-heading">
-      <h2 id="reference-heading" class="visually-hidden">Formula and notation reference</h2>
+      <h2 id="reference-heading" class="visually-hidden"></h2>
       <div id="reference-list"></div>
       <button id="reference-close-button" type="button">Close reference</button>
     </div>
@@ -151,6 +153,7 @@
     import { updateHistory } from "./js/srs.js";
     import { evaluateExpression } from "./js/calculator.js";
     import { renderReferencePanel, createPanelShell } from "./js/reference-panel.js";
+    import { ELEMENT_CATEGORIES } from "./js/element-categories.js";
     import {
       loadStore,
       saveStore,
@@ -277,6 +280,7 @@
 
     const referenceToggle = document.getElementById("reference-toggle");
     const referencePanel = document.getElementById("reference-panel");
+    const referenceHeadingEl = document.getElementById("reference-heading");
     const referenceListEl = document.getElementById("reference-list");
     const referenceCloseButton = document.getElementById("reference-close-button");
 
@@ -567,10 +571,36 @@
     // `referenceToggle.hidden = false` back on, re-showing a non-functional
     // toggle on a screen that's supposed to be showing only the abort/complete
     // state.
+    // Toggle/heading text and which renderer runs are both keyed off bank.code
+    // here (not the panel data's own shape) so an unrecognized test code fails
+    // loudly during content authoring rather than silently showing no toggle --
+    // the same reasoning tools/verify.mjs's validateReferencePanelContent uses
+    // shape-detection for (SCHEMA.md §2.9 vs §2.10), just applied at the one
+    // other place a new test's reference panel would need wiring.
+    const REFERENCE_PANEL_KINDS = {
+      "5165": { toggleLabel: "Formulas & notation", heading: "Formula and notation reference", render: renderReferencePanel },
+      "5485": {
+        toggleLabel: "Periodic table & constants",
+        heading: "Periodic table and physical constants reference",
+        render: renderElementsAndConstants,
+      },
+    };
+
     let referencePanelLoaded = false;
     let referencePanelActive = false;
     async function ensureReferencePanelLoaded(bank) {
       if (referencePanelLoaded || !bank.referencePanel) return;
+      const kind = REFERENCE_PANEL_KINDS[bank.code];
+      if (!kind) {
+        // Deliberately does NOT set referencePanelLoaded here (code review
+        // finding, Phase 5.3): nothing was actually loaded, so a future call for
+        // the same bank should log this again rather than silently no-op forever
+        // -- not reachable today (every bank with a referencePanel field has a
+        // matching REFERENCE_PANEL_KINDS entry), but the cheap, correct behavior
+        // if a future bank's code is ever added to one without the other.
+        console.error(`No reference panel renderer registered for bank.code "${bank.code}"`);
+        return;
+      }
       referencePanelLoaded = true;
       referencePanelActive = true;
       const result = await loadReferencePanel(bank.referencePanel);
@@ -583,7 +613,20 @@
         console.error("Reference panel failed to load", result);
         return;
       }
-      renderReferencePanel(referenceListEl, result.panel);
+      try {
+        // tools/verify.mjs's validateReferencePanelContent should always catch a
+        // wrong-shape file before it ships (code review finding, Phase 5.3), but
+        // this stays defensive rather than trusting that gate unconditionally --
+        // matching the fetch-failure branch just above, a rendering exception
+        // here degrades to "no toggle, logged error" rather than an uncaught
+        // throw with the toggle already partially wired.
+        referenceToggle.textContent = kind.toggleLabel;
+        referenceHeadingEl.textContent = kind.heading;
+        kind.render(referenceListEl, result.panel);
+      } catch (error) {
+        console.error("Reference panel content did not match the expected shape", error);
+        return;
+      }
       createPanelShell({ panelEl: referencePanel, toggleEl: referenceToggle, closeButtonEl: referenceCloseButton });
       referenceToggle.hidden = false;
     }
@@ -591,6 +634,100 @@
       referencePanelActive = false;
       referenceToggle.hidden = true;
       referencePanel.hidden = true;
+    }
+
+    // -- 5485 periodic table + physical constants (Phase 5.3, D-22) ---------------
+    // Lives here, not js/reference-panel.js: that module's own doc comment already
+    // scopes it to the generic panel shell (createPanelShell) plus 5165's own
+    // content renderer, and this content shares nothing renderable with 5165's
+    // formula list -- a grid of 118 fixed-field cells vs. a list of labeled
+    // formulas. Mirrors renderReferencePanel's shape (a render function taking a
+    // container element and the loaded panel data) without sharing its body.
+    // Labels built from the shared js/element-categories.js module rather than a
+    // second hand-typed copy of the same 10 ids (code review finding, Phase 5.3) --
+    // tools/verify.mjs's validation allow-list imports the same module.
+    const ELEMENT_CATEGORY_LABELS = Object.fromEntries(ELEMENT_CATEGORIES.map((c) => [c.id, c.label]));
+
+    // Printed periodic tables offset the lanthanide/actinide display rows a couple
+    // of columns right of the main table's group 1, so the footnote block doesn't
+    // visually read as continuing directly under the alkali metals -- applied only
+    // at render time so the authored data (SCHEMA.md §2.10) keeps its simpler
+    // "group 1-15 spans the f-block columns" meaning (code review finding, Phase
+    // 5.3: the un-offset version was functionally fine but visually surprising to
+    // anyone comparing against a printed reference).
+    const F_BLOCK_COLUMN_OFFSET = 2;
+
+    function renderElementsAndConstants(containerEl, panel) {
+      containerEl.replaceChildren();
+
+      // Visible text carries the real information (SCHEMA.md S1.3 "never by color
+      // alone") -- each cell's own number/symbol/name/mass is plain text, not
+      // color- or aria-label-only; category is additionally stated per cell via
+      // aria-label AND in the legend below the grid, so a screen reader gets it
+      // two ways and a sighted user gets a real text key for what each color means,
+      // not just an unexplained color.
+      const gridIntro = document.createElement("p");
+      gridIntro.className = "visually-hidden";
+      gridIntro.textContent =
+        "Periodic table, standard layout: 18 groups left to right, periods 1 through 7 top to bottom, " +
+        "with the lanthanide and actinide series shown as two additional rows below the main table. " +
+        "Each cell lists atomic number, symbol, name, and atomic mass.";
+      containerEl.appendChild(gridIntro);
+
+      const gridEl = document.createElement("div");
+      gridEl.className = "periodic-table-grid";
+      for (const el of panel.elements) {
+        const cell = document.createElement("div");
+        cell.className = `element-cell element-category-${el.category}`;
+        cell.dataset.period = String(el.period);
+        const isFBlock = el.period === 8 || el.period === 9;
+        cell.style.gridColumn = String(isFBlock ? el.group + F_BLOCK_COLUMN_OFFSET : el.group);
+        cell.style.gridRow = String(el.period);
+        cell.setAttribute(
+          "aria-label",
+          `${el.name}, symbol ${el.symbol}, atomic number ${el.atomicNumber}, atomic mass ${el.atomicMass}, ` +
+            `category ${ELEMENT_CATEGORY_LABELS[el.category] ?? el.category}`,
+        );
+
+        const numberEl = document.createElement("span");
+        numberEl.className = "element-number";
+        numberEl.textContent = el.atomicNumber;
+        const symbolEl = document.createElement("span");
+        symbolEl.className = "element-symbol";
+        symbolEl.textContent = el.symbol;
+        const massEl = document.createElement("span");
+        massEl.className = "element-mass";
+        massEl.textContent = el.atomicMass;
+        cell.append(numberEl, symbolEl, massEl);
+        gridEl.appendChild(cell);
+      }
+      containerEl.appendChild(gridEl);
+
+      const legendEl = document.createElement("ul");
+      legendEl.className = "element-category-legend";
+      for (const [category, label] of Object.entries(ELEMENT_CATEGORY_LABELS)) {
+        const item = document.createElement("li");
+        const swatch = document.createElement("span");
+        swatch.className = `element-category-swatch element-category-${category}`;
+        swatch.setAttribute("aria-hidden", "true");
+        item.append(swatch, ` ${label}`);
+        legendEl.appendChild(item);
+      }
+      containerEl.appendChild(legendEl);
+
+      const constantsHeading = document.createElement("h3");
+      constantsHeading.textContent = "Physical constants";
+      containerEl.appendChild(constantsHeading);
+
+      const constantsList = document.createElement("dl");
+      for (const c of panel.constants) {
+        const dt = document.createElement("dt");
+        dt.textContent = `${c.name} (${c.symbol})`;
+        const dd = document.createElement("dd");
+        dd.textContent = `${c.value} ${c.unit}`;
+        constantsList.append(dt, dd);
+      }
+      containerEl.appendChild(constantsList);
     }
 
     // Shared by S3 (beginRun) and S5 (runStudy's runDrill, Phase 4.1/4.3) -- each

@@ -10,8 +10,20 @@ import { readFile } from "node:fs/promises";
 import { existsSync } from "node:fs";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
+import { ELEMENT_CATEGORIES } from "../js/element-categories.js";
 
 const KNOWN_FORMATS = ["text", "mathml", "code"];
+const KNOWN_ELEMENT_CATEGORIES = ELEMENT_CATEGORIES.map((c) => c.id);
+
+// Which reference-panel shape (SCHEMA.md §2.9 vs §2.10) each test code's bank is
+// expected to carry -- mirrors run.html's REFERENCE_PANEL_KINDS. Without this,
+// validateReferencePanelContent's shape-detection alone can't catch a wrong-shape
+// file wired into the wrong bank's `referencePanel` slot (e.g. a 5165 §2.9 file
+// copy-pasted into 5485's slot with only `testCode` fixed to match) -- it would
+// self-validate cleanly as a well-formed §2.9 panel and only fail at runtime, when
+// run.html looks up the renderer for "5485" and hands it §2.9-shaped data (code
+// review finding, Phase 5.3).
+const REFERENCE_PANEL_SHAPES = { "5165": "sections", "5485": "elements" };
 
 function isPlainObject(v) {
   return typeof v === "object" && v !== null && !Array.isArray(v);
@@ -264,6 +276,43 @@ export function validateBank(bank, { dataDir } = {}) {
 }
 
 /**
+ * `schemaVersion`/`testCode` header check shared by both reference-panel content
+ * shapes (§2.9 and §2.10) -- was two verbatim-identical copies before this
+ * extraction (code review finding, Phase 5.3). `code`, when given, is the owning
+ * bank's own `code` -- cross-checked against the panel's own `testCode` so a
+ * copy-pasted or mismatched reference file is caught here rather than silently
+ * loaded against the wrong test.
+ */
+function checkPanelHeader(panel, code, errors) {
+  if (panel.schemaVersion !== 1) errors.push("schemaVersion must be 1");
+  if (!isNonEmptyString(panel.testCode)) {
+    errors.push("testCode missing");
+  } else if (code && panel.testCode !== code) {
+    errors.push(`testCode "${panel.testCode}" does not match owning bank's code "${code}"`);
+  }
+}
+
+/**
+ * `Set`-backed duplicate check: pushes `message` to `errors` and returns `false`
+ * if `value` was already seen, otherwise records it and returns `true`. Used
+ * below for §2.10's new duplicate checks (atomicNumber, symbol, constant id) --
+ * this file already had this exact pattern hand-rolled 6 times before this
+ * extraction (category/question/option ids, §2.9's section/entry ids); adding a
+ * 7th-9th copy for §2.10 rather than finally extracting it was flagged in code
+ * review (Phase 5.3) as compounding debt a prior review had already noted and
+ * left. Pre-existing call sites are left as-is -- out of this diff's scope to
+ * retrofit -- but new ones use this instead of growing the count further.
+ */
+function checkUnique(value, seen, message, errors) {
+  if (seen.has(value)) {
+    errors.push(message);
+    return false;
+  }
+  seen.add(value);
+  return true;
+}
+
+/**
  * Validates a reference-panel content file against SCHEMA.md §2.9. `code`, when
  * given, is the owning bank's own `code` -- cross-checked against the panel's own
  * `testCode` so a copy-pasted or mismatched reference file is caught here rather than
@@ -273,12 +322,7 @@ export function validateReferencePanel(panel, { code } = {}) {
   const errors = [];
   const warnings = [];
 
-  if (panel.schemaVersion !== 1) errors.push("schemaVersion must be 1");
-  if (!isNonEmptyString(panel.testCode)) {
-    errors.push("testCode missing");
-  } else if (code && panel.testCode !== code) {
-    errors.push(`testCode "${panel.testCode}" does not match owning bank's code "${code}"`);
-  }
+  checkPanelHeader(panel, code, errors);
 
   if (!Array.isArray(panel.sections) || panel.sections.length === 0) {
     errors.push("sections must be a non-empty array");
@@ -325,6 +369,132 @@ export function validateReferencePanel(panel, { code } = {}) {
   }
 
   return { errors, warnings };
+}
+
+/**
+ * Validates a 5485-shaped reference panel (SCHEMA.md §2.10: a periodic table plus a
+ * physical-constants table) -- a genuinely different shape from validateReferencePanel
+ * above, not a variant of it, since this content is fixed-field tabular data rather
+ * than prose needing a text/mathml/code discriminator. `code`, when given, is
+ * cross-checked the same way validateReferencePanel does.
+ */
+export function validateElementsAndConstants(panel, { code } = {}) {
+  const errors = [];
+  const warnings = [];
+
+  checkPanelHeader(panel, code, errors);
+
+  if (!Array.isArray(panel.elements) || panel.elements.length === 0) {
+    errors.push("elements must be a non-empty array");
+  } else {
+    const seenNumbers = new Set();
+    const seenSymbols = new Set();
+    // Catches two elements silently authored onto the same grid cell (same
+    // group+period) -- each field passes its own in-range check individually, so
+    // nothing else here would catch a collision, and run.html's renderer has no
+    // way to detect or report an overlap at render time either (code review
+    // finding, Phase 5.3).
+    const seenPositions = new Set();
+    for (const el of panel.elements) {
+      const label = `element ${el?.symbol ?? el?.atomicNumber ?? "(unknown)"}`;
+      if (!isPlainObject(el)) {
+        errors.push(`${label}: must be an object`);
+        continue;
+      }
+      if (!Number.isInteger(el.atomicNumber) || el.atomicNumber < 1) {
+        errors.push(`${label}: atomicNumber must be a positive integer`);
+      } else {
+        checkUnique(el.atomicNumber, seenNumbers, `${label}: duplicate atomicNumber ${el.atomicNumber}`, errors);
+      }
+      if (!isNonEmptyString(el.symbol)) {
+        errors.push(`${label}: missing or invalid symbol`);
+      } else {
+        checkUnique(el.symbol, seenSymbols, `${label}: duplicate symbol "${el.symbol}"`, errors);
+      }
+      if (!isNonEmptyString(el.name)) errors.push(`${label}: missing or invalid name`);
+      if (typeof el.atomicMass !== "number" || el.atomicMass <= 0) {
+        errors.push(`${label}: atomicMass must be a positive number`);
+      }
+      if (!KNOWN_ELEMENT_CATEGORIES.includes(el.category)) {
+        errors.push(`${label}: category must be one of ${KNOWN_ELEMENT_CATEGORIES.join(", ")}`);
+      }
+      const validGroup = Number.isInteger(el.group) && el.group >= 1 && el.group <= 18;
+      if (!validGroup) errors.push(`${label}: group must be an integer 1-18`);
+      const validPeriod = Number.isInteger(el.period) && el.period >= 1 && el.period <= 9;
+      if (!validPeriod) {
+        errors.push(`${label}: period must be an integer 1-9 (8/9 are the lanthanide/actinide display rows)`);
+      }
+      if (validGroup && validPeriod) {
+        checkUnique(
+          `${el.group},${el.period}`,
+          seenPositions,
+          `${label}: grid position (group ${el.group}, period ${el.period}) is already used by another element`,
+          errors,
+        );
+      }
+    }
+  }
+
+  if (!Array.isArray(panel.constants) || panel.constants.length === 0) {
+    errors.push("constants must be a non-empty array");
+  } else {
+    const seenIds = new Set();
+    for (const c of panel.constants) {
+      const label = `constant ${c?.id ?? "(no id)"}`;
+      if (!isPlainObject(c)) {
+        errors.push(`${label}: must be an object`);
+        continue;
+      }
+      if (!isNonEmptyString(c.id)) {
+        errors.push(`${label}: missing or invalid id`);
+      } else {
+        checkUnique(c.id, seenIds, `${label}: duplicate constant id`, errors);
+      }
+      if (!isNonEmptyString(c.name)) errors.push(`${label}: missing or invalid name`);
+      if (!isNonEmptyString(c.symbol)) errors.push(`${label}: missing or invalid symbol`);
+      if (!isNonEmptyString(c.value)) errors.push(`${label}: missing or invalid value`);
+      if (!isNonEmptyString(c.unit)) errors.push(`${label}: missing or invalid unit`);
+    }
+  }
+
+  return { errors, warnings };
+}
+
+/**
+ * Dispatches a loaded reference-panel file to the validator matching its actual
+ * shape (SCHEMA.md §2.9 `sections` vs §2.10 `elements`/`constants`), rather than
+ * hardcoding which test code implies which shape -- keeps this dispatch in the one
+ * place it needs to change if a future test's reference panel introduces a third
+ * shape. Also cross-checks the detected shape against `REFERENCE_PANEL_SHAPES[code]`
+ * when `code` is known: shape-detection alone would let a wrong-shape file wired
+ * into the wrong bank's `referencePanel` slot self-validate cleanly (its `testCode`
+ * can be edited to match without touching its actual shape) and only fail later, at
+ * runtime, when run.html hands that data to the renderer its own `bank.code` picks
+ * (code review finding, Phase 5.3).
+ */
+export function validateReferencePanelContent(panel, { code } = {}) {
+  const actualShape = Array.isArray(panel?.sections)
+    ? "sections"
+    : Array.isArray(panel?.elements) || Array.isArray(panel?.constants)
+      ? "elements"
+      : null;
+  if (!actualShape) {
+    return {
+      errors: [`unrecognized reference panel shape -- expected "sections" (§2.9) or "elements"/"constants" (§2.10)`],
+      warnings: [],
+    };
+  }
+  const expectedShape = code ? REFERENCE_PANEL_SHAPES[code] : undefined;
+  if (expectedShape && expectedShape !== actualShape) {
+    return {
+      errors: [
+        `bank code "${code}" expects a "${expectedShape}"-shaped reference panel (per REFERENCE_PANEL_SHAPES), ` +
+          `but this file is "${actualShape}"-shaped`,
+      ],
+      warnings: [],
+    };
+  }
+  return actualShape === "sections" ? validateReferencePanel(panel, { code }) : validateElementsAndConstants(panel, { code });
 }
 
 export function validateManifest(manifest, dataDir) {
@@ -413,7 +583,7 @@ async function main() {
             allErrors += 1;
             continue;
           }
-          const { errors: pErrors, warnings: pWarnings } = validateReferencePanel(panel, { code: bank.code });
+          const { errors: pErrors, warnings: pWarnings } = validateReferencePanelContent(panel, { code: bank.code });
           report(bank.referencePanel, pErrors, pWarnings);
           allErrors += pErrors.length;
           allWarnings += pWarnings.length;

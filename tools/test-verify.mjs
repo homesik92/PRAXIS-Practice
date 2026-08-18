@@ -3,7 +3,13 @@ import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
-import { validateBank, validateManifest, validateReferencePanel } from "./verify.mjs";
+import {
+  validateBank,
+  validateManifest,
+  validateReferencePanel,
+  validateElementsAndConstants,
+  validateReferencePanelContent,
+} from "./verify.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -209,6 +215,150 @@ test("reference panel entries using mathml do not warn -- unlike questions, the 
   const { errors, warnings } = validateReferencePanel(panel, { code: "5165" });
   assert.deepEqual(errors, []);
   assert.deepEqual(warnings, []);
+});
+
+function validElementsAndConstants() {
+  return {
+    schemaVersion: 1,
+    testCode: "5485",
+    elements: [
+      { atomicNumber: 1, symbol: "H", name: "Hydrogen", atomicMass: 1.008, category: "nonmetal", group: 1, period: 1 },
+      { atomicNumber: 2, symbol: "He", name: "Helium", atomicMass: 4.003, category: "noble-gas", group: 18, period: 1 },
+    ],
+    constants: [{ id: "speed-of-light", name: "Speed of light", symbol: "c", value: "2.998 × 10⁸", unit: "m/s" }],
+  };
+}
+
+test("valid elements-and-constants panel has zero errors", () => {
+  const { errors } = validateElementsAndConstants(validElementsAndConstants(), { code: "5485" });
+  assert.deepEqual(errors, []);
+});
+
+test("elements-and-constants testCode mismatched against the owning bank's code is rejected", () => {
+  const { errors } = validateElementsAndConstants(validElementsAndConstants(), { code: "5165" });
+  assert.ok(errors.some((e) => e.includes('testCode "5485" does not match')));
+});
+
+test("elements-and-constants catches a duplicate atomicNumber", () => {
+  const panel = validElementsAndConstants();
+  panel.elements.push({ ...panel.elements[0], symbol: "Xx" });
+  const { errors } = validateElementsAndConstants(panel, { code: "5485" });
+  assert.ok(errors.some((e) => e.includes("duplicate atomicNumber 1")));
+});
+
+test("elements-and-constants catches a duplicate symbol", () => {
+  const panel = validElementsAndConstants();
+  panel.elements.push({ ...panel.elements[0], atomicNumber: 99 });
+  const { errors } = validateElementsAndConstants(panel, { code: "5485" });
+  assert.ok(errors.some((e) => e.includes('duplicate symbol "H"')));
+});
+
+test("elements-and-constants catches an unknown category", () => {
+  const panel = validElementsAndConstants();
+  panel.elements[0].category = "made-up";
+  const { errors } = validateElementsAndConstants(panel, { code: "5485" });
+  assert.ok(errors.some((e) => e.includes("category must be one of")));
+});
+
+test("elements-and-constants catches a group outside 1-18", () => {
+  const panel = validElementsAndConstants();
+  panel.elements[0].group = 19;
+  const { errors } = validateElementsAndConstants(panel, { code: "5485" });
+  assert.ok(errors.some((e) => e.includes("group must be an integer 1-18")));
+});
+
+test("elements-and-constants accepts period 8/9 for the lanthanide/actinide display rows", () => {
+  const panel = validElementsAndConstants();
+  panel.elements[0].period = 8;
+  const { errors } = validateElementsAndConstants(panel, { code: "5485" });
+  assert.deepEqual(errors, []);
+});
+
+test("elements-and-constants catches a period outside 1-9", () => {
+  const panel = validElementsAndConstants();
+  panel.elements[0].period = 10;
+  const { errors } = validateElementsAndConstants(panel, { code: "5485" });
+  assert.ok(errors.some((e) => e.includes("period must be an integer 1-9")));
+});
+
+test("elements-and-constants catches a non-positive atomicMass", () => {
+  const panel = validElementsAndConstants();
+  panel.elements[0].atomicMass = 0;
+  const { errors } = validateElementsAndConstants(panel, { code: "5485" });
+  assert.ok(errors.some((e) => e.includes("atomicMass must be a positive number")));
+});
+
+test("elements-and-constants catches a duplicate constant id", () => {
+  const panel = validElementsAndConstants();
+  panel.constants.push({ ...panel.constants[0] });
+  const { errors } = validateElementsAndConstants(panel, { code: "5485" });
+  assert.ok(errors.some((e) => e.includes("duplicate constant id")));
+});
+
+test("elements-and-constants catches a constant missing its unit", () => {
+  const panel = validElementsAndConstants();
+  delete panel.constants[0].unit;
+  const { errors } = validateElementsAndConstants(panel, { code: "5485" });
+  assert.ok(errors.some((e) => e.includes("missing or invalid unit")));
+});
+
+test("elements-and-constants rejects an empty elements array", () => {
+  const panel = { ...validElementsAndConstants(), elements: [] };
+  const { errors } = validateElementsAndConstants(panel, { code: "5485" });
+  assert.ok(errors.some((e) => e.includes("elements must be a non-empty array")));
+});
+
+test("elements-and-constants rejects an empty constants array", () => {
+  const panel = { ...validElementsAndConstants(), constants: [] };
+  const { errors } = validateElementsAndConstants(panel, { code: "5485" });
+  assert.ok(errors.some((e) => e.includes("constants must be a non-empty array")));
+});
+
+test("validateReferencePanelContent dispatches a sections-shaped panel to validateReferencePanel", () => {
+  const { errors } = validateReferencePanelContent(validReferencePanel(), { code: "5165" });
+  assert.deepEqual(errors, []);
+});
+
+test("validateReferencePanelContent dispatches an elements-shaped panel to validateElementsAndConstants", () => {
+  const { errors } = validateReferencePanelContent(validElementsAndConstants(), { code: "5485" });
+  assert.deepEqual(errors, []);
+});
+
+test("validateReferencePanelContent rejects a panel matching neither known shape", () => {
+  const { errors } = validateReferencePanelContent({ schemaVersion: 1, testCode: "9999" }, { code: "9999" });
+  assert.ok(errors.some((e) => e.includes("unrecognized reference panel shape")));
+});
+
+test("validateReferencePanelContent rejects a sections-shaped panel wired into a bank whose code expects elements", () => {
+  const panel = { ...validReferencePanel(), testCode: "5485" };
+  const { errors } = validateReferencePanelContent(panel, { code: "5485" });
+  assert.ok(errors.some((e) => e.includes('bank code "5485" expects a "elements"-shaped reference panel')));
+});
+
+test("validateReferencePanelContent rejects an elements-shaped panel wired into a bank whose code expects sections", () => {
+  const panel = { ...validElementsAndConstants(), testCode: "5165" };
+  const { errors } = validateReferencePanelContent(panel, { code: "5165" });
+  assert.ok(errors.some((e) => e.includes('bank code "5165" expects a "sections"-shaped reference panel')));
+});
+
+test("validateReferencePanelContent has no shape opinion for an unknown bank code -- still validates the shape it finds", () => {
+  const panel = { ...validElementsAndConstants(), testCode: "9999" };
+  const { errors } = validateReferencePanelContent(panel, { code: "9999" });
+  assert.deepEqual(errors, []);
+});
+
+test("elements-and-constants catches two elements assigned the same grid position", () => {
+  const panel = validElementsAndConstants();
+  panel.elements.push({ ...panel.elements[0], atomicNumber: 99, symbol: "Xx" });
+  const { errors } = validateElementsAndConstants(panel, { code: "5485" });
+  assert.ok(errors.some((e) => e.includes("grid position (group 1, period 1) is already used")));
+});
+
+test("elements-and-constants does not flag a grid-position collision when group/period themselves are already invalid", () => {
+  const panel = validElementsAndConstants();
+  panel.elements[0].group = 19;
+  const { errors } = validateElementsAndConstants(panel, { code: "5485" });
+  assert.ok(!errors.some((e) => e.includes("grid position")));
 });
 
 let failed = 0;
