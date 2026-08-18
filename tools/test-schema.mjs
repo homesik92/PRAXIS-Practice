@@ -15,6 +15,7 @@ import {
   categoryAndDescendantIds,
   assembleDrill,
   assembleDueDrill,
+  weakestCategory,
 } from "../js/schema.js";
 
 // Tiny deterministic LCG -- not for security, only so assembleForm's shuffling is
@@ -543,6 +544,160 @@ test("assembleDueDrill shuffles each question's options to a permutation of the 
   const history = { q1: { dueAt: "2026-08-10T00:00:00.000Z" } };
   const drill = assembleDueDrill(bank, { history, random: seededRandom(7), now: fixedNow });
   assert.ok(isPermutationOf(drill.questions[0].options.map((o) => o.id), ["a", "b"]));
+});
+
+// --- weakestCategory (Phase 4.4, S2's weakest-category suggestion, D-18) ---
+
+function seen(count, correct, lastSeenAt = "2026-08-01T00:00:00.000Z") {
+  return { seen: count, correct, lastSeenAt };
+}
+
+test("weakestCategory returns null when no question has any history yet", () => {
+  const bank = studyBank({ "I-A": ["q1", "q2", "q3", "q4", "q5"] });
+  assert.equal(weakestCategory(bank), null);
+});
+
+test("weakestCategory returns null when every category is below the 5-distinct-question threshold, even at 0% accuracy", () => {
+  const bank = studyBank({ "I-A": ["q1", "q2", "q3", "q4"] });
+  const history = Object.fromEntries(["q1", "q2", "q3", "q4"].map((id) => [id, seen(1, 0)]));
+  assert.equal(weakestCategory(bank, history), null);
+});
+
+test("weakestCategory picks the lower-accuracy category among two that both clear the threshold", () => {
+  const bank = studyBank({
+    "I-A": ["a1", "a2", "a3", "a4", "a5"],
+    "I-B": ["b1", "b2", "b3", "b4", "b5"],
+  });
+  const history = {
+    ...Object.fromEntries(["a1", "a2", "a3", "a4", "a5"].map((id) => [id, seen(1, 1)])), // I-A: 100%
+    ...Object.fromEntries(["b1", "b2", "b3", "b4", "b5"].map((id) => [id, seen(1, 0)])), // I-B: 0%
+  };
+  const result = weakestCategory(bank, history);
+  assert.equal(result.categoryId, "I-B");
+  assert.equal(result.correct, 0);
+  assert.equal(result.seen, 5);
+});
+
+test("weakestCategory sums correct/seen across a category's questions rather than averaging per-question", () => {
+  const bank = studyBank({ "I-A": ["q1", "q2", "q3", "q4", "q5"] });
+  const history = {
+    q1: seen(4, 4),
+    q2: seen(1, 0),
+    q3: seen(1, 0),
+    q4: seen(1, 0),
+    q5: seen(1, 0),
+  };
+  // 4 correct out of 8 total seen -- 50%, not a 20%-weighted-per-question average.
+  const result = weakestCategory(bank, history);
+  assert.equal(result.correct, 4);
+  assert.equal(result.seen, 8);
+});
+
+test("weakestCategory breaks a tied accuracy toward the category least recently practiced", () => {
+  const bank = studyBank({
+    "I-A": ["a1", "a2", "a3", "a4", "a5"],
+    "I-B": ["b1", "b2", "b3", "b4", "b5"],
+  });
+  const history = {
+    ...Object.fromEntries(["a1", "a2", "a3", "a4", "a5"].map((id) => [id, seen(1, 1, "2026-08-16T00:00:00.000Z")])),
+    ...Object.fromEntries(["b1", "b2", "b3", "b4"].map((id) => [id, seen(1, 1, "2026-08-01T00:00:00.000Z")])),
+    b5: seen(1, 0, "2026-08-01T00:00:00.000Z"),
+  };
+  // Both categories: 4/5 = 80% correct. I-B was last touched 2026-08-01, I-A on
+  // 2026-08-16 -- I-B is the one least recently practiced, so it wins the tie.
+  const result = weakestCategory(bank, history);
+  assert.equal(result.categoryId, "I-B");
+});
+
+test("weakestCategory excludes retired questions from both eligibility and accuracy", () => {
+  const bank = studyBank(
+    { "I-A": ["q1", "q2", "q3", "q4", "q5", "retired-q"] },
+    { retired: ["retired-q"] },
+  );
+  const history = {
+    q1: seen(1, 1),
+    q2: seen(1, 1),
+    q3: seen(1, 1),
+    q4: seen(1, 1),
+    q5: seen(1, 1),
+    "retired-q": seen(10, 0), // would drag accuracy down hard if counted
+  };
+  const result = weakestCategory(bank, history);
+  assert.equal(result.correct, 5);
+  assert.equal(result.seen, 5);
+});
+
+test("weakestCategory doesn't let repeated answers on a couple of questions fake the distinct-question threshold", () => {
+  const bank = studyBank({ "I-A": ["q1", "q2"] });
+  const history = { q1: seen(10, 2), q2: seen(5, 1) };
+  assert.equal(weakestCategory(bank, history), null);
+});
+
+test("weakestCategory treats a non-positive or non-integer seen as never answered, not a throw or a false eligibility", () => {
+  const bank = studyBank({ "I-A": ["q1", "q2", "q3", "q4", "q5"] });
+  const history = {
+    q1: seen(1, 1),
+    q2: seen(1, 1),
+    q3: seen(1, 1),
+    q4: { seen: 0, correct: 0, lastSeenAt: "2026-08-01T00:00:00.000Z" },
+    q5: { seen: "1", correct: 1, lastSeenAt: "2026-08-01T00:00:00.000Z" },
+  };
+  // Only q1-q3 count as ever-answered -- 3 distinct questions, below the threshold.
+  assert.equal(weakestCategory(bank, history), null);
+});
+
+test("weakestCategory clamps a corrupted correct that exceeds seen, rather than letting accuracy go outside [0, 1]", () => {
+  const bank = studyBank({ "I-A": ["q1", "q2", "q3", "q4", "q5"] });
+  const history = {
+    q1: { seen: 1, correct: 999, lastSeenAt: "2026-08-01T00:00:00.000Z" }, // corrupted
+    q2: seen(1, 1),
+    q3: seen(1, 1),
+    q4: seen(1, 1),
+    q5: seen(1, 1),
+  };
+  const result = weakestCategory(bank, history);
+  assert.equal(result.seen, 5);
+  assert.equal(result.correct, 5); // q1's 999 clamps to its own seen (1), not left at 999
+});
+
+test("weakestCategory clamps a corrupted negative correct up to 0, rather than a negative accuracy always winning", () => {
+  const bank = studyBank({
+    "I-A": ["a1", "a2", "a3", "a4", "a5"],
+    "I-B": ["b1", "b2", "b3", "b4", "b5"],
+  });
+  const history = {
+    ...Object.fromEntries(["a1", "a2", "a3", "a4", "a5"].map((id) => [id, seen(1, 1)])), // I-A: genuinely 100%
+    b1: { seen: 1, correct: -50, lastSeenAt: "2026-08-01T00:00:00.000Z" }, // corrupted
+    b2: seen(1, 1),
+    b3: seen(1, 1),
+    b4: seen(1, 1),
+    b5: seen(1, 1),
+  };
+  // Without clamping, I-B's corrupted entry would drag its accuracy deeply
+  // negative and it would always "win" regardless of its real performance.
+  const result = weakestCategory(bank, history);
+  assert.equal(result.categoryId, "I-B");
+  assert.equal(result.correct, 4); // b1's -50 clamps to 0, not left at -50
+  assert.equal(result.seen, 5);
+});
+
+test("weakestCategory doesn't throw when tied categories both have only unparseable lastSeenAt values", () => {
+  const bank = studyBank({
+    "I-A": ["a1", "a2", "a3", "a4", "a5"],
+    "I-B": ["b1", "b2", "b3", "b4", "b5"],
+  });
+  const noDate = (count, correct) => ({ seen: count, correct, lastSeenAt: "not-a-real-date" });
+  const history = {
+    ...Object.fromEntries(["a1", "a2", "a3", "a4", "a5"].map((id) => [id, noDate(1, 1)])),
+    ...Object.fromEntries(["b1", "b2", "b3", "b4", "b5"].map((id) => [id, noDate(1, 1)])),
+  };
+  // Both categories tie at 100% with no usable tie-break signal (both
+  // lastSeenAtMs are -Infinity) -- must return a real result, not throw or
+  // silently return something with a NaN-derived field.
+  const result = weakestCategory(bank, history);
+  assert.ok(result.categoryId === "I-A" || result.categoryId === "I-B");
+  assert.equal(result.correct, 5);
+  assert.equal(result.seen, 5);
 });
 
 let failed = 0;
