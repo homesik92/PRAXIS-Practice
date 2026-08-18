@@ -24,6 +24,22 @@
   --color-calc-key: #ffffff;
   --color-calc-fn-key: #e2e8f0;
   --color-calc-op-key: #dbe9ff;
+
+  /* 5485 periodic table (Phase 5.3, D-22) -- ten pastel category colors, light
+     enough that the page's own dark --color-text stays comfortably legible on any
+     of them without a per-category text-color override. Decorative only: the
+     legend in run.html states each mapping in real text (SCHEMA.md S1.3), so this
+     palette isn't the only signal for category. */
+  --color-cat-alkali-metal: #ffd6d6;
+  --color-cat-alkaline-earth-metal: #ffe4c4;
+  --color-cat-transition-metal: #fff3b0;
+  --color-cat-post-transition-metal: #d9f2d9;
+  --color-cat-metalloid: #c9f2e0;
+  --color-cat-nonmetal: #cdeaff;
+  --color-cat-halogen: #d6d6ff;
+  --color-cat-noble-gas: #e8d6ff;
+  --color-cat-lanthanide: #ffd6ea;
+  --color-cat-actinide: #f0d6c0;
 }
 
 html {
@@ -275,4 +291,85 @@ a {
 
 #reference-close-button {
   margin-top: 0.6rem;
+}
+
+/* 5485 periodic table + physical constants (Phase 5.3, D-22). `overflow-x: auto`
+   on the grid itself, not the panel, so a narrow viewport scrolls just the table
+   horizontally rather than the whole panel/page (finding #17: the panel must stay
+   readable, not force horizontal scroll on unrelated content). */
+.periodic-table-grid {
+  display: grid;
+  grid-template-columns: repeat(18, minmax(2.4rem, 1fr));
+  gap: 2px;
+  margin: 0.75rem 0;
+  overflow-x: auto;
+}
+
+.element-cell {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 2.6rem;
+  padding: 0.15rem;
+  border: 1px solid var(--color-border);
+  border-radius: 3px;
+  font-size: 0.7rem;
+  line-height: 1.1;
+}
+
+/* Standard printed-periodic-table convention: the lanthanide/actinide display rows
+   (SCHEMA.md §2.10's period 8/9) get a visual gap above them so they read as a
+   footnote block, not a literal continuation of period 7. */
+.element-cell[data-period="8"] {
+  margin-top: 0.6rem;
+}
+
+.element-number {
+  font-size: 0.55rem;
+  align-self: flex-start;
+}
+
+.element-symbol {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.element-mass {
+  font-size: 0.55rem;
+}
+
+.element-category-alkali-metal { background: var(--color-cat-alkali-metal); }
+.element-category-alkaline-earth-metal { background: var(--color-cat-alkaline-earth-metal); }
+.element-category-transition-metal { background: var(--color-cat-transition-metal); }
+.element-category-post-transition-metal { background: var(--color-cat-post-transition-metal); }
+.element-category-metalloid { background: var(--color-cat-metalloid); }
+.element-category-nonmetal { background: var(--color-cat-nonmetal); }
+.element-category-halogen { background: var(--color-cat-halogen); }
+.element-category-noble-gas { background: var(--color-cat-noble-gas); }
+.element-category-lanthanide { background: var(--color-cat-lanthanide); }
+.element-category-actinide { background: var(--color-cat-actinide); }
+
+.element-category-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem 1rem;
+  list-style: none;
+  padding: 0;
+  margin: 0.75rem 0;
+  font-size: 0.85rem;
+}
+
+.element-category-legend li {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.element-category-swatch {
+  display: inline-block;
+  width: 0.9rem;
+  height: 0.9rem;
+  border: 1px solid var(--color-border);
+  border-radius: 2px;
 }

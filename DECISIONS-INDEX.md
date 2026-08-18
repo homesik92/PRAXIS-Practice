@@ -18,7 +18,7 @@ read the full log only when a topic isn't indexed yet.
 | Design-stage shape & scope | **D-7** |
 | Screen flow | D-9 → D-11 (review pass added) → **D-20** (flag reveals a mid-run Skip) |
 | Question format (single- vs multi-select) | D-9 → **D-10** (settled: uniform now, extensible schema) |
-| Reference materials during a test | D-12 → D-14 (built scientific calculator, not graphing) → **D-21** (5165 reference-panel content schema settled, §2.9; 5485 still open) |
+| Reference materials during a test | D-12 → D-14 (built scientific calculator, not graphing) → D-21 (5165 reference-panel content schema settled, §2.9) → **D-22** (5485 reference-panel content schema settled, §2.10 — full periodic table, not a subset) |
 | Question-bank file format | SCHEMA.md §2.1–2.7 → **D-13** (session 3 remediation) |
 | Progress store & spaced repetition | D-6, D-8 → SCHEMA.md §2.8 → **D-13** (resumability, cross-tab, audit trail, SR bootstrap, storage failures, export, retention) → **D-19** (`questionOrder`) → **N-4** (SM-2 ease deltas pinned) → **N-5** (shortfall audit recomputes fresh, no stored cross-check) → **N-6** (review-pass edits: SRS correction from a frozen baseline, immediate persist) |
 | Review pass (flag, reopen/change answer) | D-11 → SCHEMA.md §1.1 S3, §2.8 → N-6 → **D-20** (flag-then-Skip, empty-`chosen` answer records) |

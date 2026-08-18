@@ -160,7 +160,7 @@ data/
     5652.json
   reference/
     5165-formulas.json   reference panel content — schema settled, §2.9 (D-21)
-    5485-periodic.json   reference panel content — schema not yet designed (Phase 5.3)
+    5485-periodic.json   reference panel content — schema settled, §2.10 (D-22)
 ```
 
 **Adding a fifth test is: drop in `tests/5299.json`, add one line to `manifest.json`.**
@@ -555,6 +555,59 @@ authored question yet needs anything but `text`. Retrofitting stem/option/explan
 rendering through the same dispatcher is real future work, filed as its own issue rather
 than folded silently into this phase.
 
+## 2.10 Reference panel content — 5485 (D-22)
+
+```json
+{
+  "schemaVersion": 1,
+  "testCode": "5485",
+  "elements": [
+    { "atomicNumber": 1, "symbol": "H", "name": "Hydrogen", "atomicMass": 1.008,
+      "category": "nonmetal", "group": 1, "period": 1 }
+  ],
+  "constants": [
+    { "id": "speed-of-light", "name": "Speed of light in vacuum", "symbol": "c",
+      "value": "2.998 × 10⁸", "unit": "m/s" }
+  ]
+}
+```
+
+A genuinely different shape from §2.9's, not a forced reuse of it — a periodic table
+and a constants table are structured tabular data (fixed fields per row), not prose
+content needing a `format` discriminator. Deliberately does **not** reuse §2.6/§2.9's
+`{format, value}` content shape: an element's atomic mass or a constant's value/unit
+has no meaningful "mathml vs. text" rendering choice, so forcing that shape on here
+would just be an unused discriminator on every row.
+
+- **`elements`**: all 118 known elements, not a curated subset — bounded, verifiable
+  factual data (every element's basic properties are identical in any chemistry
+  reference), not creative authoring, so narrowing it would be a real, disclosed
+  scope cut in the D-14 sense rather than a simplification. `category` is one of the
+  ten standard periodic-table categories (alkali metal, alkaline earth metal,
+  transition metal, post-transition metal, metalloid, nonmetal, halogen, noble gas,
+  lanthanide, actinide) and drives the panel's color-coding (SCHEMA.md S1.3: this is
+  a sighted-user addition on top of the `symbol`/`name`/`atomicMass` text already
+  shown, per the same "never color alone" pattern as the flag icon and Phase 5.1's
+  full-review-list follow-up — a screen reader gets the same information either way).
+  `group`/`period` are grid coordinates for layout, not always an element's literal
+  chemical period: lanthanides (57–71) and actinides (89–103) use the standard
+  printed-periodic-table convention of a two-row block below the main table
+  (`period: 8` and `period: 9` respectively, `group` 1–15 spanning the f-block
+  columns) rather than their true period-6/7 position, which every printed periodic
+  table uses for the same reason — plotting them in their literal group-3 position
+  would make the main table absurdly wide.
+- **`constants`**: physical constants relevant to BLUEPRINT.md's Chemistry/Physics
+  categories (III/IV) — mechanics, electricity/magnetism, and the constants
+  chemistry calculations need (Avogadro's number, gas constant). `value` is a plain
+  string using the same Unicode-superscript scientific-notation convention already
+  used elsewhere in this codebase (5165's formula sheet, the calculator's own
+  keyboard-notation questions) rather than MathML — a bare `number × 10ⁿ` has no real
+  typesetting need MathML would improve on, unlike 5165's fractions/radicals.
+
+Like §2.9, this is one continuous reference available throughout the test (real exam
+parity — BLUEPRINT.md's 5485 notes: "a periodic table plus a physical-constants table
+are provided on a Help screen"), not filtered by category or the current question.
+
 ---
 
 ## Open items carried forward
@@ -566,11 +619,8 @@ than folded silently into this phase.
 - **Multi-device use** remains an open question in [SEED.md](SEED.md). D-8 makes it
   sharper: a review schedule split across a laptop and a tablet is two schedules that
   each think they are complete.
-- **Reference panel content** (D-12) is authored content. **5165's schema is now
-  settled** (§2.9, D-21). **5485's is still open** — the periodic table and
-  physical-constants panel needs its own schema pass (tabular data, not a formula list)
-  before 5485 authoring can use it; `reference/5485-periodic.json` remains a placeholder
-  shape here.
+- **Reference panel content** (D-12) is authored content. **Both schemas are now
+  settled** — 5165 (§2.9, D-21) and 5485 (§2.10, D-22).
 - **5165 gets a built scientific calculator, not a graphing one (D-14).** Resolves the
   escalation in REVIEW.md finding #14. In scope: arithmetic, logarithms, trig functions
   (sin/cos/tan and their inverses), and comparable scientific-calculator functionality,
