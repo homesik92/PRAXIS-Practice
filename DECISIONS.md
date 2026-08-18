@@ -636,3 +636,24 @@ already treats the whole bank as one adaptive resource.
 depth requirement were stated directly; the "reuse the existing draw logic instead
 of building explicit pools" implementation approach was proposed by Claude and
 confirmed via AskUserQuestion before authoring began.
+
+### D-24: Content authoring on 5101/5485/5652 paused until after launch
+
+**Date:** 2026-08-18
+**Decision:** Extends D-23's "5165 first" ordering into a harder stop. No content
+authoring work happens on the other three tests — 5101 (Business), 5485 (Physical
+Science), 5652 (Computer Science) — until the app is complete and in production
+(Phase 8, NAS launch). They stay at their current placeholder question counts
+(5101: 0, 5485: 0, 5652: 0) through the upcoming workflow/dashboard phase (a new
+phase between 7 and 8, scoping starts this session) and Phase 8 launch. After
+launch, the session owner intends to return and build out those
+three banks to the same standard as 5165 (D-23's 3×-depth approach), and possibly
+add tests beyond the original four. D-4's "all four tests in v1 scope" is not
+reversed by this — v1 still targets all four; this decision is about **sequencing
+build effort**, not cutting scope.
+**Why:** Session owner wants the application itself — engine, workflow, dashboard,
+launch — proven out and shipped before sinking further authoring effort (411+
+questions is the project's dominant cost, per N-3) into content for tests that
+don't yet have a finished product to sit inside. One fully-content-complete test
+(5165) is enough to build, test, and launch the whole application against.
+**Attribution:** Session owner's call.

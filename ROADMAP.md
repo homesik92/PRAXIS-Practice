@@ -54,7 +54,8 @@ site with no server.
 | 4 | Study mode & dashboard depth | ☑ |
 | 5 | Reference materials (5165, 5485) | ☑ |
 | 6 | Hardening | ☑ |
-| 7 | Content authoring (parallel track) | ☐ |
+| 6.5 | Workflow & progress dashboard | ☐ |
+| 7 | Content authoring (parallel track) | ◐ |
 | 8 | Launch (NAS) | ☐ |
 
 ## Phases (post-design)
@@ -723,7 +724,16 @@ second practice test — the app's existing least-recently-seen draw logic
 (`drawForCategory` in `js/schema.js`, already built for spaced repetition) handles the
 rotation automatically once the bank has the depth, with no code changes. For 5165 that
 means **198 questions** (66 × 3), split by leaf category to match BLUEPRINT.md's real
-weights ×3. Decision to be logged formally in `DECISIONS.md`.
+weights ×3. Logged as D-23.
+
+**Session-owner scope call (2026-08-18): 5101/5485/5652 authoring paused until after
+launch (D-24).** Not merely "5165 first" — no content-authoring work happens on the
+other three tests until the app is complete and in production (Phase 8). They stay
+at 0 authored questions through the workflow/dashboard phase (new, between 7 and 8 —
+see below) and launch. After launch, the session owner will return to build those
+three out to the same 3×-depth standard as 5165, and possibly add tests beyond the
+original four. v1 scope itself is unchanged (D-4) — this is about *when* the
+remaining authoring happens, not whether it happens.
 
 **5165 — Mathematics bank progress** (target 198, 3× BLUEPRINT.md's 66-question exam;
 ✓ = category complete, count is questions-with-verified-answer-key / target):
@@ -739,8 +749,21 @@ weights ×3. Decision to be logged formally in `DECISIONS.md`.
   explanations or reasoning): 0 discrepancies found across all 198 questions.**
 
 5165's bank is now fully authored. Other three tests (5101, 5485, 5652) remain at
-their original N-3 figures — 120/125/100 — until a similar 3×-depth call is made for
-each; not started.
+0 authored questions — **not scheduled until after Phase 8 launch, per D-24.**
+
+### Phase 6.5 — Workflow & progress dashboard (new, scoping in progress)
+
+Not yet planned in detail — scoping conversation started 2026-08-18, after 5165's
+content-authoring session. Session owner wants: (1) a guided workflow — pick a test,
+take an initial full-length test, evaluate results to find categories with more than
+one missed question, generate focused practice sessions by category, then take a
+final test when ready to re-evaluate, spanning multiple browser sessions over time;
+(2) a GUI dashboard tracking strengths/weaknesses by category and comparing the
+initial attempt's score to the final attempt's score for a test. Much of the
+underlying data already exists (S2's weakest-category suggestion, per-category
+scoring on S4, SM-2 question history) — what's new is the aggregate cross-attempt
+dashboard view and an explicit initial-vs-final attempt comparison, neither of which
+the app tracks today. Full plan to follow before any code is written.
 
 ### Phase 8 — Launch (NAS)
 
