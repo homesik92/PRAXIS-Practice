@@ -108,7 +108,13 @@ export async function loadBankSummary(file, fetchImpl = globalThis.fetch, dataDi
       name: bank.name,
       timeLimitMinutes: bank.timeLimitMinutes,
       formLength: bank.formLength,
-      questionCount: Array.isArray(bank.questions) ? bank.questions.length : 0,
+      // The number a real attempt actually draws (SCHEMA.md's weight-correct form
+      // assembly), not the size of the underlying bank -- Phase 7 built each bank at
+      // 3x a real attempt's length on purpose, so a wide dataset backs several
+      // materially-different attempts (bug found live-testing the NAS deploy: this
+      // used to read bank.questions.length, showing "198 questions" for a 66-question
+      // test).
+      questionCount: bank.formLength,
     },
   };
 }
