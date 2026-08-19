@@ -468,12 +468,24 @@ inspectable and manually recoverable via devtools — rather than catching the e
 quietly reinitializing an empty store, which would be silent total data loss for a
 project with no backup.
 
-### Export (finding #9)
+### Export and restore (finding #9)
 
 S2 offers a **"download my progress"** action that serializes the whole store to a JSON
 file. This is the cheapest available mitigation against cross-tab loss, storage
 failures, and a person clearing site data by hand — all three leave this file as a
 manual, out-of-band recovery path the schema otherwise provides nothing for.
+
+The restore half (Phase 6.7) is **"upload progress"**, next to the download action:
+picking a previously-exported file **replaces** whatever's currently saved on this
+device, after an explicit confirmation naming both what's about to be lost and what
+the incoming file contains. Deliberately not a merge — reconciling two devices'
+progress is a separate, harder problem, not part of this schema. `js/store.js`'s
+`importStoreFromJson(jsonText)` validates and (if needed) migrates the uploaded file
+through the exact same shape/version checks `loadStore` applies to `localStorage`
+itself, but never touches storage or runs the pre-migration backup step — the
+uploaded file has no live value to protect, and is already the out-of-band backup
+this whole finding exists for. The caller decides when to actually call `saveStore`,
+which is only after the person confirms.
 
 ### Spaced repetition (D-8; finding #4)
 

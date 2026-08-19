@@ -12,6 +12,8 @@ import {
   loadStore,
   saveStore,
   exportStoreAsJson,
+  importStoreFromJson,
+  summarizeStore,
   startAttempt,
   recordAnswer,
   updateAnswer,
@@ -527,6 +529,103 @@ test("findFirstAndLatestAttempts scopes to the given test code only", () => {
   const result = findFirstAndLatestAttempts(s, "5165");
   assert.equal(result.first.id, mathAttempt.attempt.id);
   assert.equal(result.latest.id, mathAttempt.attempt.id);
+});
+
+// --- importStoreFromJson (Phase 6.7, the restore half of finding #9) ---
+
+test("importStoreFromJson accepts a valid current-version file", () => {
+  const store = { storeVersion: CURRENT_VERSION, attempts: [{ id: "att-1" }], questionHistory: {} };
+  const result = importStoreFromJson(JSON.stringify(store));
+  assert.equal(result.ok, true);
+  assert.deepEqual(result.store, store);
+});
+
+test("importStoreFromJson reports corrupted JSON the same way loadStore does", () => {
+  const result = importStoreFromJson("{not valid json");
+  assert.equal(result.ok, false);
+  assert.equal(result.reason, "unreadable");
+});
+
+test("importStoreFromJson reports a wrong-shape object (no storeVersion) as unreadable", () => {
+  const result = importStoreFromJson(JSON.stringify({ attempts: [] }));
+  assert.equal(result.ok, false);
+  assert.equal(result.reason, "unreadable");
+});
+
+test("importStoreFromJson rejects a null storeVersion as unreadable (what JSON.stringify(NaN) actually produces)", () => {
+  // Real JSON has no NaN token at all -- JSON.stringify serializes a NaN property
+  // value to the literal `null`, and JSON.parse can never itself produce NaN (a bare
+  // `NaN` token in the source text is a syntax error, caught earlier by this same
+  // function as "unreadable" for a different reason). So a JSON-text-based API like
+  // this one can never receive a literal NaN storeVersion -- this test exercises the
+  // closest reachable equivalent (null, via JSON.stringify's own NaN-to-null
+  // coercion) rather than claiming to cover NaN itself, unlike an earlier version of
+  // this test (code review finding: the previous name/assertion implied NaN handling
+  // was under test when it silently wasn't).
+  const result = importStoreFromJson(JSON.stringify({ storeVersion: NaN, attempts: [], questionHistory: {} }));
+  assert.equal(result.ok, false);
+  assert.equal(result.reason, "unreadable");
+});
+
+test("importStoreFromJson rejects a file whose attempts field isn't an array (code review finding)", () => {
+  const result = importStoreFromJson(
+    JSON.stringify({ storeVersion: CURRENT_VERSION, attempts: "not-an-array", questionHistory: {} }),
+  );
+  assert.equal(result.ok, false);
+  assert.equal(result.reason, "unreadable");
+});
+
+test("importStoreFromJson rejects a file whose questionHistory field isn't an object (code review finding)", () => {
+  const result = importStoreFromJson(
+    JSON.stringify({ storeVersion: CURRENT_VERSION, attempts: [], questionHistory: "not-an-object" }),
+  );
+  assert.equal(result.ok, false);
+  assert.equal(result.reason, "unreadable");
+});
+
+test("importStoreFromJson never migrates a future-version file downward", () => {
+  const future = { storeVersion: CURRENT_VERSION + 1, attempts: ["from the future"], questionHistory: {} };
+  const result = importStoreFromJson(JSON.stringify(future));
+  assert.equal(result.ok, false);
+  assert.equal(result.reason, "future-version");
+  assert.deepEqual(result.rejected, future);
+});
+
+test("importStoreFromJson reports a version with no migration path as missing-migration", () => {
+  // migrations is empty today, so any storeVersion below CURRENT_VERSION hits this --
+  // same as loadStore's equivalent regression test.
+  const old = { storeVersion: 0, attempts: ["old data"], questionHistory: {} };
+  const result = importStoreFromJson(JSON.stringify(old));
+  assert.equal(result.ok, false);
+  assert.equal(result.reason, "missing-migration");
+});
+
+test("importStoreFromJson's signature takes only the JSON text, no storage argument", () => {
+  // Deliberately different from loadStore: an uploaded file has no live localStorage
+  // value to back up (the file itself already IS the out-of-band backup), so this
+  // must never call backupBeforeMigrate/pruneOldBackups or write anything -- the
+  // caller alone decides whether/when to call saveStore. There's no way to wire a
+  // mock storage into a real regression test here since the function has nothing to
+  // accept one through; this arity check is what actually catches a future accidental
+  // storage parameter (which would silently invalidate this whole doc-comment
+  // guarantee) rather than a runtime read/write assertion that couldn't detect it.
+  assert.equal(importStoreFromJson.length, 1);
+});
+
+// --- summarizeStore (Phase 6.7, code review finding: shared by the restore
+// confirmation's "current" and "incoming file" descriptions) ---
+
+test("summarizeStore counts attempts and distinct questions with history", () => {
+  const store = {
+    storeVersion: CURRENT_VERSION,
+    attempts: [{ id: "att-1" }, { id: "att-2" }],
+    questionHistory: { "q-1": {}, "q-2": {}, "q-3": {} },
+  };
+  assert.deepEqual(summarizeStore(store), { attempts: 2, questionsWithHistory: 3 });
+});
+
+test("summarizeStore reports zeros for a fresh default store", () => {
+  assert.deepEqual(summarizeStore(defaultStore()), { attempts: 0, questionsWithHistory: 0 });
 });
 
 // --- Cross-tab reconciliation (finding #2) ---

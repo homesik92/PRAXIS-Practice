@@ -41,6 +41,85 @@ function pruneOldBackups(storage, keepVersion) {
   for (const key of toRemove) storage.removeItem(key);
 }
 
+// Parses raw text into a store-shaped object, with no storage access and no
+// side effects -- shared by loadStore (below) and importStoreFromJson, so
+// there's exactly one place that decides what "a valid stored value" means,
+// not two copies that can drift. Doesn't run the migration chain itself
+// (`migrateParsedStore` does that) -- callers differ on what happens around
+// a downgrade-needed value (loadStore backs up the raw localStorage value
+// first; an imported file has no equivalent live key to back up), so that
+// step stays theirs to sequence.
+//
+// @returns {{ok: true, parsed: object} | {ok: false, reason: "unreadable", raw: string}}
+function parseStoredValue(raw) {
+  let parsed;
+  try {
+    parsed = JSON.parse(raw);
+  } catch {
+    return { ok: false, reason: "unreadable", raw };
+  }
+
+  // Number.isInteger rejects NaN, Infinity, and non-numbers alike -- `typeof x ===
+  // "number"` alone lets NaN through (typeof NaN is "number"), and NaN compares
+  // false against CURRENT_VERSION on both sides, which silently fell through to
+  // "valid, current-version data" in an earlier version of this check (code review
+  // finding).
+  //
+  // Also checks `attempts`/`questionHistory` shape, not just `storeVersion` -- this
+  // used to matter only for a devtools-edited localStorage value, but Phase 6.7's
+  // importStoreFromJson (below) reuses this same check against arbitrary uploaded
+  // files, where a wrong-shape-but-version-valid file previously sailed through here
+  // and `saveStore` (which also only checks `storeVersion`), only to crash later at
+  // whatever first reads `store.attempts`/`store.questionHistory` -- `findAttempt`,
+  // `findInProgressAttempt`, etc. (code review finding).
+  if (
+    typeof parsed !== "object" ||
+    parsed === null ||
+    !Number.isInteger(parsed.storeVersion) ||
+    !Array.isArray(parsed.attempts) ||
+    typeof parsed.questionHistory !== "object" ||
+    parsed.questionHistory === null
+  ) {
+    return { ok: false, reason: "unreadable", raw };
+  }
+  return { ok: true, parsed };
+}
+
+// Runs an already-parsed, version-tagged value through the migration chain if
+// it's behind CURRENT_VERSION. Pure -- no storage access -- so both the live
+// loadStore path (which wraps this with a pre-migration backup of the real
+// localStorage value) and importStoreFromJson (which has no such live value
+// to back up -- the uploaded file IS the backup) can share the one migration
+// implementation rather than each re-deriving the version-fixup loop.
+//
+// @returns {{ok: true, store: object}
+//         | {ok: false, reason: "future-version", rejected: object}
+//         | {ok: false, reason: "missing-migration", rejected: object}
+//         | {ok: false, reason: "migration-failed", error: Error}}
+function migrateParsedStore(parsed) {
+  if (parsed.storeVersion > CURRENT_VERSION) {
+    // Never migrate downward -- report and read nothing rather than destroying a
+    // history written by a later version of the site (SCHEMA.md §2.8).
+    return { ok: false, reason: "future-version", rejected: parsed };
+  }
+  if (parsed.storeVersion === CURRENT_VERSION) {
+    return { ok: true, store: parsed };
+  }
+  try {
+    let migrated = parsed;
+    for (let v = parsed.storeVersion; v < CURRENT_VERSION; v++) {
+      const migrate = migrations[v + 1];
+      if (!migrate) {
+        return { ok: false, reason: "missing-migration", rejected: migrated };
+      }
+      migrated = migrate(migrated);
+    }
+    return { ok: true, store: migrated };
+  } catch (error) {
+    return { ok: false, reason: "migration-failed", error };
+  }
+}
+
 /**
  * Loads the progress store. Never throws -- every failure mode returns a tagged
  * result instead, per SCHEMA.md's "storage failures are visible, never silent" rule
@@ -71,54 +150,63 @@ export function loadStore(storage = globalThis.localStorage) {
     return { ok: true, store: defaultStore() };
   }
 
-  let parsed;
-  try {
-    parsed = JSON.parse(raw);
-  } catch {
-    return { ok: false, reason: "unreadable", raw };
-  }
-
-  // Number.isInteger rejects NaN, Infinity, and non-numbers alike -- `typeof x ===
-  // "number"` alone lets NaN through (typeof NaN is "number"), and NaN compares
-  // false against CURRENT_VERSION on both sides, which silently fell through to
-  // "valid, current-version data" in an earlier version of this check (code review
-  // finding).
-  if (typeof parsed !== "object" || parsed === null || !Number.isInteger(parsed.storeVersion)) {
-    return { ok: false, reason: "unreadable", raw };
-  }
-
-  if (parsed.storeVersion > CURRENT_VERSION) {
-    // Never migrate downward -- report and read nothing rather than destroying a
-    // history written by a later version of the site (SCHEMA.md §2.8).
-    return { ok: false, reason: "future-version", rejected: parsed };
-  }
+  const parsedResult = parseStoredValue(raw);
+  if (!parsedResult.ok) return parsedResult;
+  const { parsed } = parsedResult;
 
   if (parsed.storeVersion < CURRENT_VERSION) {
-    // The whole migration path is wrapped: backupBeforeMigrate and pruneOldBackups
-    // call storage.setItem/removeItem, which can throw (quota exceeded is the
-    // realistic case, and it's most likely to happen exactly here, since a backup
-    // temporarily doubles this key's footprint). Without this try/catch, loadStore's
-    // own documented "never throws" contract broke at the one call site guarding the
-    // project's only backup mechanism (code review finding).
+    // This try/catch wraps only the backup step: backupBeforeMigrate and
+    // pruneOldBackups call storage.setItem/removeItem, which can throw (quota
+    // exceeded is the realistic case, and it's most likely to happen exactly here,
+    // since a backup temporarily doubles this key's footprint). Without this
+    // try/catch, loadStore's own documented "never throws" contract broke at the one
+    // call site guarding the project's only backup mechanism (code review finding).
+    // The migration loop itself has its own separate try/catch inside
+    // migrateParsedStore (below, called unwrapped a few lines down) -- Phase 6.7's
+    // extraction moved it out of this block, so don't assume an exception thrown by
+    // a future migrate() function is caught here too (code review finding: this
+    // comment previously claimed "the whole migration path is wrapped," which
+    // stopped being true once the loop moved).
     try {
       backupBeforeMigrate(storage, raw, parsed.storeVersion);
       pruneOldBackups(storage, parsed.storeVersion);
-
-      let migrated = parsed;
-      for (let v = parsed.storeVersion; v < CURRENT_VERSION; v++) {
-        const migrate = migrations[v + 1];
-        if (!migrate) {
-          return { ok: false, reason: "missing-migration", rejected: migrated };
-        }
-        migrated = migrate(migrated);
-      }
-      return { ok: true, store: migrated };
     } catch (error) {
       return { ok: false, reason: "migration-failed", error };
     }
   }
 
-  return { ok: true, store: parsed };
+  return migrateParsedStore(parsed);
+}
+
+/**
+ * Parses and validates an uploaded backup file's text (the counterpart to
+ * `exportStoreAsJson`, SCHEMA.md finding #9's restore half) into a store ready to
+ * pass to `saveStore`. Never throws, same tagged-result contract as `loadStore` --
+ * a caller that only ever handled `loadStore`'s result shape already knows how to
+ * handle this one.
+ *
+ * Deliberately does NOT write to storage itself, and does NOT run
+ * `backupBeforeMigrate`/`pruneOldBackups` -- those exist to protect the live
+ * localStorage value during an *automatic* migration; an imported file has no
+ * live value in that sense to protect, and the uploaded file itself is already
+ * the user's out-of-band backup (SCHEMA.md finding #9). The caller decides
+ * whether/when to actually call `saveStore(result.store)` -- this project's
+ * "restore" flow does that only after the person confirms an explicit warning
+ * that it replaces whatever's currently saved on this device (session owner's
+ * call, 2026-08-18: replace, not merge -- merging progress from two devices is
+ * a separate, harder problem, not part of this feature).
+ *
+ * @param {string} jsonText
+ * @returns {{ok: true, store: object}
+ *         | {ok: false, reason: "unreadable", raw: string}
+ *         | {ok: false, reason: "future-version", rejected: object}
+ *         | {ok: false, reason: "missing-migration", rejected: object}
+ *         | {ok: false, reason: "migration-failed", error: Error}}
+ */
+export function importStoreFromJson(jsonText) {
+  const parsedResult = parseStoredValue(jsonText);
+  if (!parsedResult.ok) return parsedResult;
+  return migrateParsedStore(parsedResult.parsed);
 }
 
 /**
@@ -165,6 +253,25 @@ export function exportStoreAsJson(store, { now = () => new Date() } = {}) {
   return {
     filename: `praxis-practice-progress-${timestamp}.json`,
     content: JSON.stringify(store, null, 2),
+  };
+}
+
+/**
+ * A short, human-readable summary of a store's contents -- attempt count and
+ * distinct-questions-with-history count. Exists as an exported helper (rather than
+ * inline UI code) so the restore-confirmation flow (Phase 6.7) can describe both the
+ * store about to be overwritten AND the incoming file's own contents with the same
+ * logic, and so it's unit-testable independent of any page (code review finding: this
+ * was originally written inline in test.html, reachable by only one of the two stores
+ * it needed to describe).
+ *
+ * @param {{attempts: object[], questionHistory: object}} store
+ * @returns {{attempts: number, questionsWithHistory: number}}
+ */
+export function summarizeStore(store) {
+  return {
+    attempts: store.attempts.length,
+    questionsWithHistory: Object.keys(store.questionHistory).length,
   };
 }
 

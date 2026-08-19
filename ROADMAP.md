@@ -56,6 +56,7 @@ site with no server.
 | 6 | Hardening | ☑ |
 | 6.5 | Workflow & progress dashboard | ☑ |
 | 6.6 | Progress dashboard visual redesign | ◐ |
+| 6.7 | Restore progress ("upload progress") | ☑ |
 | 7 | Content authoring (parallel track) | ◐ |
 | 8 | Launch (NAS) | ◐ |
 
@@ -837,6 +838,64 @@ built into the real `dashboard.html`.
   category-test control's actual `disabled`/`aria-disabled`/`opacity`/
   `cursor` state, and the mobile layout (375px) — zero console errors
   throughout.
+
+### Phase 6.7 — Restore progress ("upload progress")
+
+Pairs with Phase 6.2's export. D-26: replaces the whole store, never merges —
+cross-device merge is a separate, harder problem, explicitly deferred.
+
+- ☑ **6.7.1 Restore flow, end to end.** `js/store.js` gained
+  `importStoreFromJson(jsonText)` (parses/validates/migrates an uploaded file
+  through the same shape checks `loadStore` applies to `localStorage`, but
+  never touches storage itself) and `summarizeStore(store)` (attempt count +
+  distinct-questions-with-history count, shared by both halves of the restore
+  confirmation). `test.html` gained an "Upload progress" file input next to
+  "Download my progress": on file select, shows a per-reason error message or
+  opens a native `<dialog>` (matching Phase 3.2's confirm-submit precedent)
+  summarizing both what's currently saved (about to be lost) and what the
+  uploaded file contains, before `saveStore` + reload on confirm.
+  `/code-review` at high effort (8 parallel angles) found 10 findings, 9
+  fixed, 1 deliberately skipped (see below). Most severe: `importStoreFromJson`
+  only validated `storeVersion`, not that `attempts`/`questionHistory` were
+  the right shape — a malformed-but-version-valid uploaded file could crash
+  `run.html`/`dashboard.html`/`test.html` on the next load; fixed by
+  tightening the shared `parseStoredValue` check (also hardens `loadStore`
+  against the same class of corrupted `localStorage` value). Second: the
+  confirmation dialog's summary was a stale snapshot from file-select time,
+  never re-checked before the actual write — another tab could save new
+  progress while the dialog sat open, silently discarding it without that
+  ever being reflected in what was confirmed; fixed by re-checking the exact
+  raw stored value (not the rendered summary text, which two different stores
+  can coincidentally match) immediately before the write, re-prompting if it
+  changed. Also fixed: no try/catch around the async file-read (an unhandled
+  rejection could leave the user with zero feedback on a failed read); no
+  re-entrancy guard on the file input during the async gap; a stale code
+  comment misdescribing which `try`/`catch` covers migration errors after the
+  Phase 6.7 extraction; a new "NaN storeVersion" test that didn't actually
+  test NaN (`JSON.stringify` serializes `NaN` to `null`, and real JSON has no
+  NaN token at all, so a JSON-text-based API can never receive literal `NaN`
+  — reworded to describe what it actually covers). One finding deliberately
+  skipped: extracting a shared dialog-wiring helper between this new dialog
+  and `run.html`'s existing confirm-submit dialog (real duplication, matches
+  this project's own precedent for extracting a pattern once it repeats) —
+  skipped because it would mean touching and re-testing a different,
+  already-shipped page for a cleanup-category finding, more risk than this
+  PR should take on; left as a candidate for a future pass if a third
+  occurrence ever appears. 63/63 `tools/test-store.mjs` tests green (14 new:
+  7 for `importStoreFromJson` itself, 2 for `summarizeStore`, 2 for the new
+  shape-validation cases, 1 reworded, plus regression coverage), 282/282
+  across the full suite, `verify.mjs` clean. Live-verified in the browser
+  (fresh port each round per this project's stale-module-cache landmine,
+  driven entirely via `javascript_exec` with real `File`/`DataTransfer`
+  objects, never `computer` clicks, per the stray-click landmine): the happy
+  path (import correctly replaces the current store), Cancel, both error
+  messages, the Escape/focus-return path, and — critically — the fixed
+  stale-summary race itself, reproduced directly (seeded a same-shaped-but-
+  different "current" store while the dialog sat open, confirmed the first
+  Confirm click correctly detected the change via the raw-value comparison
+  and blocked the save, and the second click then proceeded correctly) and
+  the try/catch fix (monkey-patched `File.prototype.text` to reject, confirmed
+  a clear message and no unhandled rejection). Zero console errors throughout.
 
 ### Phase 8 — Launch (NAS)
 
