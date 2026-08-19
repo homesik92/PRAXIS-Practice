@@ -74,6 +74,20 @@ a {
   color: var(--color-accent);
 }
 
+/* S2's test-menu nav (test.html) is the only place several sibling <a> links get
+   appended directly with no wrapping <li>/block markup between them -- a bare <nav>
+   has no default layout, so with none of this those inline links ran together with
+   zero visual gap (e.g. "Take a practice testStudy a topic" read as one link, found
+   live-testing the NAS deploy). Scoped to the bare element since this is the only
+   <nav> in the app today. */
+nav {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.6rem;
+  margin: 1rem 0;
+}
+
 /* Never rely on color alone (SCHEMA.md S1.3) -- every interactive element gets a
    visible, non-color focus indicator. */
 :focus-visible {
