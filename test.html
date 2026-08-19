@@ -14,7 +14,16 @@
   </main>
   <script type="module">
     import { loadManifest, loadBank, assembleDueDrill, weakestCategory, flattenCategoryTree } from "./js/schema.js";
-    import { loadStore, findInProgressAttempt, findFirstAndLatestAttempts, exportStoreAsJson } from "./js/store.js";
+    import {
+      STORAGE_KEY,
+      loadStore,
+      saveStore,
+      findInProgressAttempt,
+      findFirstAndLatestAttempts,
+      exportStoreAsJson,
+      importStoreFromJson,
+      summarizeStore,
+    } from "./js/store.js";
     import { percentOf } from "./js/results.js";
 
     const params = new URLSearchParams(location.search);
@@ -149,6 +158,152 @@
         });
         main.appendChild(exportButton);
         main.appendChild(exportStatus);
+
+        // "Upload progress" (Phase 6.7, SCHEMA.md finding #9's restore half) --
+        // restores a previously-exported backup file, REPLACING whatever's currently
+        // saved on this device after an explicit confirmation. Deliberately does NOT
+        // attempt to merge with existing data (session owner's call, 2026-08-18):
+        // merging progress from two devices is a separate, harder feature, not part
+        // of this one.
+        const importStatus = document.createElement("p");
+        importStatus.className = "status-note";
+        importStatus.hidden = true;
+
+        const importLabel = document.createElement("label");
+        importLabel.appendChild(document.createTextNode("Upload progress "));
+        const importInput = document.createElement("input");
+        importInput.type = "file";
+        importInput.accept = "application/json,.json";
+        importLabel.appendChild(importInput);
+
+        const importDialog = document.createElement("dialog");
+        importDialog.setAttribute("aria-labelledby", "import-confirm-heading");
+        const importHeading = document.createElement("h2");
+        importHeading.id = "import-confirm-heading";
+        importHeading.textContent = "Replace your progress?";
+        const importMessage = document.createElement("p");
+        const importCancelButton = document.createElement("button");
+        importCancelButton.type = "button";
+        importCancelButton.textContent = "Cancel";
+        const importConfirmButton = document.createElement("button");
+        importConfirmButton.type = "button";
+        importConfirmButton.textContent = "Replace progress";
+        importDialog.append(importHeading, importMessage, importCancelButton, importConfirmButton);
+
+        let pendingImportStore = null;
+        // The exact raw localStorage value present when the dialog's summary was
+        // last built -- compared byte-for-byte against a fresh read right before the
+        // actual write (code review finding: the rendered summary TEXT alone isn't a
+        // reliable staleness signal, since two genuinely different stores can
+        // summarize to the identical count -- e.g. "1 attempt, 0 questions with
+        // history" either way -- and text-equality would then wrongly treat a real
+        // change as unchanged).
+        let currentRawAtSummaryTime = null;
+
+        // Maps importStoreFromJson's tagged failure reasons to a message a person
+        // uploading the wrong (or a stale/future) file can actually act on, matching
+        // this project's "storage failures are visible, never silent" convention
+        // (Phase 6.1) rather than a single generic "import failed."
+        const importErrorMessages = {
+          unreadable: "That file doesn't look like a valid progress export. Nothing was changed.",
+          "future-version":
+            "That file was exported from a newer version of this app and can't be restored here. Nothing was changed.",
+          "missing-migration":
+            "That file is from an older version of this app that can no longer be read. Nothing was changed.",
+          "migration-failed": "That file couldn't be converted to the current format. Nothing was changed.",
+        };
+
+        // Builds the "This will replace X with Y" message from fresh reads of both
+        // stores every time it's called (code review finding: describes the incoming
+        // file too, not just what's being replaced, and is called again right before
+        // the actual write below rather than trusted from file-select time).
+        function describeReplacement(incomingStore) {
+          currentRawAtSummaryTime = localStorage.getItem(STORAGE_KEY);
+          const currentLoadResult = loadStore();
+          const current = currentLoadResult.ok ? summarizeStore(currentLoadResult.store) : null;
+          const currentText = current
+            ? `${current.attempts} attempt${current.attempts === 1 ? "" : "s"}, ${current.questionsWithHistory} question${current.questionsWithHistory === 1 ? "" : "s"} with history`
+            : "your current progress";
+          const incoming = summarizeStore(incomingStore);
+          const incomingText = `${incoming.attempts} attempt${incoming.attempts === 1 ? "" : "s"}, ${incoming.questionsWithHistory} question${incoming.questionsWithHistory === 1 ? "" : "s"} with history`;
+          return `This will permanently replace ${currentText} currently saved on this device with the uploaded file (${incomingText}). This can't be undone.`;
+        }
+
+        importInput.addEventListener("change", async () => {
+          const file = importInput.files[0];
+          if (!file) return;
+          importStatus.hidden = true;
+          // Re-entrancy guard (code review finding): the file input stays enabled
+          // while this async handler is mid-flight, so without this a second `change`
+          // before the first completes could call showModal() on an already-open
+          // dialog (throws) and desync pendingImportStore from the displayed summary.
+          importInput.disabled = true;
+
+          try {
+            const text = await file.text();
+            const result = importStoreFromJson(text);
+            if (!result.ok) {
+              importStatus.textContent =
+                importErrorMessages[result.reason] ?? "That file couldn't be imported. Nothing was changed.";
+              importStatus.hidden = false;
+              importInput.value = ""; // allow re-selecting the same (or a corrected) file
+              return;
+            }
+            importMessage.textContent = describeReplacement(result.store);
+            pendingImportStore = result.store;
+            importDialog.showModal();
+          } catch {
+            // e.g. File.text() rejecting (an interrupted/inaccessible read) -- visible,
+            // not silent, matching this project's storage-failure convention even
+            // though this specific failure isn't storage (code review finding: this
+            // handler previously had no try/catch at all).
+            importStatus.textContent = "That file couldn't be read. Nothing was changed.";
+            importStatus.hidden = false;
+            importInput.value = "";
+          } finally {
+            importInput.disabled = false;
+          }
+        });
+
+        importCancelButton.addEventListener("click", () => importDialog.close());
+        // Fires on every close path (Cancel click, Esc) so the file input always
+        // resets and focus always returns predictably, matching the confirm-submit
+        // dialog's own close-event pattern in run.html (Phase 3.2) rather than
+        // duplicating this per button.
+        importDialog.addEventListener("close", () => {
+          importInput.value = "";
+          pendingImportStore = null;
+          importInput.focus();
+        });
+
+        importConfirmButton.addEventListener("click", () => {
+          // Checked right now, immediately before the actual write, rather than
+          // trusting the summary computed when the dialog opened (code review
+          // finding): the dialog can sit open indefinitely, and another tab may have
+          // saved new progress in the meantime. Compares the exact raw stored value,
+          // not the rendered summary text -- two genuinely different stores can
+          // summarize to an identical count (e.g. "1 attempt, 0 questions with
+          // history" either way), so a text comparison alone can miss a real change.
+          // If the underlying data changed, show the updated warning and make the
+          // person confirm again against accurate information instead of silently
+          // destroying whatever's newly there.
+          if (localStorage.getItem(STORAGE_KEY) !== currentRawAtSummaryTime) {
+            importMessage.textContent = describeReplacement(pendingImportStore);
+            return;
+          }
+          const saveResult = saveStore(pendingImportStore);
+          importDialog.close();
+          if (!saveResult.ok) {
+            importStatus.textContent = "Your progress could not be saved, so the restore didn't complete.";
+            importStatus.hidden = false;
+            return;
+          }
+          location.reload();
+        });
+
+        main.appendChild(importLabel);
+        main.appendChild(importDialog);
+        main.appendChild(importStatus);
       }
     }
   </script>

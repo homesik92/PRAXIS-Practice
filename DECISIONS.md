@@ -681,3 +681,23 @@ new test" list where that filter actually belongs. `enabled` was designed to mea
 **Attribution:** Session owner's call — presented as a design fork ("unfiltered
 lookup for review/resume" vs. "leave it, accept the data becomes unreachable while
 paused") via AskUserQuestion; the unfiltered-lookup option was chosen.
+
+### D-26: "Upload progress" (Phase 6.7) replaces the whole store, never merges
+
+**Date:** 2026-08-18
+**Decision:** The restore half of finding #9 (SCHEMA.md) — pairing the existing
+"download my progress" export (Phase 6.2, D-9-adjacent) with an "upload progress"
+restore — replaces whatever's currently saved on this device with the uploaded
+file's contents entirely, after an explicit confirmation naming both what's being
+lost and what the file contains. It does not attempt to reconcile or combine the
+uploaded file with whatever's already on the device.
+**Why:** Merging two devices' progress (e.g. taking the union of `attempts`, and
+reconciling `questionHistory` entries for the same question seen on both — whose
+spaced-repetition state wins?) is a materially harder problem with no obvious
+single correct answer, and isn't what the session owner actually needed: the
+real use case is moving progress to a new device or recovering after storage was
+cleared, both of which are naturally "replace," not "combine." Building merge
+semantics now would be speculative complexity for a need that hasn't come up.
+**Attribution:** Session owner's call, via AskUserQuestion — merge-vs-replace was
+presented as a fork; replace was chosen, with cross-device merge explicitly named
+and deferred as a separate, harder feature if it's ever actually needed.
