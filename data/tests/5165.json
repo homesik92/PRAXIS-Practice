@@ -5,6 +5,7 @@
   "timeLimitMinutes": 180,
   "formLength": 66,
   "referencePanel": "reference/5165-formulas.json",
+  "teachingContent": "teaching/5165.json",
   "overlays": [
     { "id": "tot", "label": "Task of Teaching Mathematics", "targetShare": 0.25 }
   ],

@@ -1,0 +1,115 @@
+{
+  "schemaVersion": 1,
+  "testCode": "5165",
+  "sections": [
+    {
+      "id": "number-quantity-real-number-system",
+      "categoryId": "I-A",
+      "heading": "The real number system",
+      "entries": [
+        {
+          "id": "concept",
+          "label": "Concept",
+          "content": {
+            "format": "text",
+            "value": "Every real number falls into one of two non-overlapping groups: rational or irrational. A rational number can be written as a ratio of two integers, p/q, with q not equal to zero — this includes every integer (5 = 5/1), every terminating decimal (0.75 = 3/4), and every repeating decimal (0.333... = 1/3). An irrational number cannot be written that way: its decimal expansion goes on forever without ever settling into a repeating pattern. π and √2 are the two most common examples. Together, the rationals and irrationals make up the real numbers — there is no third category and no overlap between the two."
+          }
+        },
+        {
+          "id": "rational-definition",
+          "label": "Definition: rational number",
+          "content": {
+            "format": "mathml",
+            "value": "<math><mi>r</mi><mo>=</mo><mfrac><mi>p</mi><mi>q</mi></mfrac><mo>,</mo><mtext>&#160;where&#160;</mtext><mi>p</mi><mo>,</mo><mi>q</mi><mo>&#8712;</mo><mi>&#8484;</mi><mtext>&#160;and&#160;</mtext><mi>q</mi><mo>&#8800;</mo><mn>0</mn></math>"
+          }
+        },
+        {
+          "id": "why-it-matters-for-teaching",
+          "label": "Why it matters for teaching",
+          "content": {
+            "format": "text",
+            "value": "This category is where the exam's \"Task of Teaching Mathematics\" overlay shows up most often (BLUEPRINT.md's F-4 — roughly a quarter of all 5165 questions). A typical item won't just ask you to classify a number; it will ask you to spot the reasoning error in a student's incorrect classification, or to choose the best next question to ask that student. Knowing the definition isn't enough on its own — you also need to recognize what a partial or confused understanding of it looks like on paper."
+          }
+        }
+      ]
+    },
+    {
+      "id": "number-quantity-worked-example",
+      "categoryId": "I-A",
+      "heading": "Worked example: classifying a repeating decimal",
+      "entries": [
+        {
+          "id": "problem",
+          "label": "Problem",
+          "content": {
+            "format": "text",
+            "value": "Is 0.454545... (the digits 45 repeating forever) rational or irrational? Justify your answer by writing it as a ratio of two integers, or explain why that's impossible."
+          }
+        },
+        {
+          "id": "step-1",
+          "label": "Step 1 — name it and shift the decimal",
+          "content": {
+            "format": "mathml",
+            "value": "<math><mi>x</mi><mo>=</mo><mn>0.454545</mn><mo>...</mo><mtext>&#160;&#160;&#8658;&#160;&#160;</mtext><mn>100</mn><mi>x</mi><mo>=</mo><mn>45.454545</mn><mo>...</mo></math>"
+          }
+        },
+        {
+          "id": "step-2",
+          "label": "Step 2 — subtract to cancel the repeating part",
+          "content": {
+            "format": "mathml",
+            "value": "<math><mn>100</mn><mi>x</mi><mo>&#8722;</mo><mi>x</mi><mo>=</mo><mn>45.454545</mn><mo>...</mo><mo>&#8722;</mo><mn>0.454545</mn><mo>...</mo><mtext>&#160;&#160;&#8658;&#160;&#160;</mtext><mn>99</mn><mi>x</mi><mo>=</mo><mn>45</mn></math>"
+          }
+        },
+        {
+          "id": "answer",
+          "label": "Answer",
+          "content": {
+            "format": "mathml",
+            "value": "<math><mi>x</mi><mo>=</mo><mfrac><mn>45</mn><mn>99</mn></mfrac><mo>=</mo><mfrac><mn>5</mn><mn>11</mn></mfrac><mtext>&#160;&#8212;&#160;a ratio of two integers, so </mtext><mn>0.454545</mn><mo>...</mo><mtext>&#160;is </mtext><mi>rational</mi><mo>.</mo></math>"
+          }
+        },
+        {
+          "id": "why-the-trick-works",
+          "label": "Why the trick works",
+          "content": {
+            "format": "text",
+            "value": "Multiplying by 100 (or 10, or 1000 — whatever shifts the decimal point past exactly one full repeating block) lines up the repeating digits so that subtracting the original number cancels them completely, leaving a whole number on both sides. This works for any repeating decimal, no matter how long the repeating block is — a 2-digit repeat needs ×100, a 3-digit repeat needs ×1000, and so on."
+          }
+        }
+      ]
+    },
+    {
+      "id": "number-quantity-common-mistakes",
+      "categoryId": "I-A",
+      "heading": "Common mistakes",
+      "entries": [
+        {
+          "id": "mistake-all-decimals-are-irrational",
+          "label": "Mistake: \"it has a decimal, so it must be irrational\"",
+          "content": {
+            "format": "text",
+            "value": "A decimal by itself says nothing about rationality — what matters is whether it terminates, repeats, or does neither. 0.75 and 0.333... are both rational (they terminate or repeat); 0.101001000100001... (a deliberately non-repeating pattern) is irrational. A student who classifies by \"has a decimal point\" alone will misclassify most rational numbers."
+          }
+        },
+        {
+          "id": "mistake-all-roots-are-irrational",
+          "label": "Mistake: \"square roots are always irrational\"",
+          "content": {
+            "format": "mathml",
+            "value": "<math><msqrt><mn>4</mn></msqrt><mo>=</mo><mn>2</mn><mo>,</mo><mtext>&#160;</mtext><msqrt><mn>9</mn></msqrt><mo>=</mo><mn>3</mn><mo>,</mo><mtext>&#160;</mtext><msqrt><mfrac><mn>25</mn><mn>4</mn></mfrac></msqrt><mo>=</mo><mfrac><mn>5</mn><mn>2</mn></mfrac><mtext>&#160;&#8212; all rational, because 4, 9, and 25/4 are perfect squares.</mtext></math>"
+          }
+        },
+        {
+          "id": "exam-tip",
+          "label": "Tip for the exam",
+          "content": {
+            "format": "text",
+            "value": "When a question shows a radical, check whether the number under the root is a perfect square (or a ratio of two perfect squares) before assuming anything about it. Only a root of a non-perfect-square is irrational — √2, √3, √5, √50 all are, but √4, √16, √(9/4) are not."
+          }
+        }
+      ]
+    }
+  ]
+}

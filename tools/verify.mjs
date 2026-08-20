@@ -245,6 +245,14 @@ export function validateBank(bank, { dataDir } = {}) {
     }
   }
 
+  if (bank.teachingContent !== undefined) {
+    if (!isNonEmptyString(bank.teachingContent)) {
+      errors.push("teachingContent must be a string path if present");
+    } else if (dataDir && !existsSync(path.join(dataDir, bank.teachingContent))) {
+      errors.push(`teachingContent "${bank.teachingContent}" does not exist under ${dataDir}`);
+    }
+  }
+
   const categoryIds = new Set();
   const weightBearing = walkCategories(bank.categories, { seenIds: categoryIds, errors, pathLabel: "categories" });
 
@@ -368,6 +376,48 @@ export function validateReferencePanel(panel, { code } = {}) {
     }
   }
 
+  return { errors, warnings };
+}
+
+/**
+ * Leaf (weight-bearing) category ids for a bank's own category tree -- the same
+ * granularity a question's `categoryId` (§2.4/§2.6) and a teaching chapter's
+ * `categoryId` (§2.11) both attach to. A thin wrapper around walkCategories,
+ * discarding the error/warning collection since every caller here already ran
+ * validateBank on this same bank and doesn't want duplicate category-shape errors
+ * reported a second time.
+ */
+function leafCategoryIds(categories) {
+  const weightBearing = walkCategories(categories ?? [], { seenIds: new Set(), errors: [], pathLabel: "categories" });
+  return new Set(weightBearing.map((w) => w.id));
+}
+
+/**
+ * Validates a teaching-page content file (SCHEMA.md §2.11, D-29) -- reuses
+ * validateReferencePanel's own shape checking directly (schemaVersion/testCode
+ * header, unique section/entry ids, heading/label presence, content format
+ * validity) since §2.11 is §2.9's shape verbatim, then adds the one check specific
+ * to this content: every section's `categoryId` must resolve to a real leaf
+ * category in the owning bank. The same risk D-21's `REFERENCE_PANEL_SHAPES`
+ * cross-check guards against (a wrong-shape or wrong-bank file self-validating
+ * cleanly) applies here too, just to a `categoryId` typo instead of a whole wrong
+ * shape -- a chapter with a typo'd categoryId would validate fine on its own but
+ * be silently unreachable from any real Start-menu link.
+ */
+export function validateTeachingContent(content, { code, bank } = {}) {
+  const { errors, warnings } = validateReferencePanel(content, { code });
+  if (bank && Array.isArray(content.sections)) {
+    const validIds = leafCategoryIds(bank.categories);
+    for (const section of content.sections) {
+      if (!isPlainObject(section)) continue;
+      const sLabel = `section ${section.id ?? "(no id)"}`;
+      if (!isNonEmptyString(section.categoryId)) {
+        errors.push(`${sLabel}: missing or invalid categoryId`);
+      } else if (!validIds.has(section.categoryId)) {
+        errors.push(`${sLabel}: categoryId "${section.categoryId}" is not a real leaf category in this bank`);
+      }
+    }
+  }
   return { errors, warnings };
 }
 
@@ -535,6 +585,36 @@ async function loadJson(filePath) {
   return JSON.parse(raw);
 }
 
+/**
+ * Loads, parses, and validates one of a bank's optional content files
+ * (`referencePanel` or `teachingContent`), reporting the result exactly like
+ * every other checked file. A no-op (returning zero errors/warnings) if the
+ * field is absent, or if the file doesn't exist (already reported by
+ * validateBank's own existence check). Shared by both content-file kinds
+ * specifically so neither's failure path can short-circuit the other's check --
+ * before this was extracted, each kind's JSON-parse-failure branch did its own
+ * `continue` inside the per-bank loop in `main()`, which jumped past whatever
+ * came after it in that same iteration (a real bug once teachingContent was
+ * added after referencePanel: a broken reference-panel file silently skipped
+ * teaching-content validation for that same bank). Returning from this
+ * function instead of the caller's loop makes that impossible by construction.
+ */
+async function validateAndReportContentFile(bank, dataDir, field, validate, extraOpts) {
+  if (!isNonEmptyString(bank[field])) return { errors: 0, warnings: 0 };
+  const filePath = path.join(dataDir, bank[field]);
+  if (!existsSync(filePath)) return { errors: 0, warnings: 0 };
+  let content;
+  try {
+    content = await loadJson(filePath);
+  } catch (e) {
+    report(bank[field], [`invalid JSON: ${e.message}`], []);
+    return { errors: 1, warnings: 0 };
+  }
+  const { errors, warnings } = validate(content, extraOpts);
+  report(bank[field], errors, warnings);
+  return { errors: errors.length, warnings: warnings.length };
+}
+
 async function main() {
   const dataDir = path.resolve(process.argv[2] ?? "data");
   const manifestPath = path.join(dataDir, "manifest.json");
@@ -575,23 +655,18 @@ async function main() {
       allErrors += errors.length;
       allWarnings += warnings.length;
 
-      if (isNonEmptyString(bank.referencePanel)) {
-        const panelPath = path.join(dataDir, bank.referencePanel);
-        if (existsSync(panelPath)) {
-          let panel;
-          try {
-            panel = await loadJson(panelPath);
-          } catch (e) {
-            report(bank.referencePanel, [`invalid JSON: ${e.message}`], []);
-            allErrors += 1;
-            continue;
-          }
-          const { errors: pErrors, warnings: pWarnings } = validateReferencePanelContent(panel, { code: bank.code });
-          report(bank.referencePanel, pErrors, pWarnings);
-          allErrors += pErrors.length;
-          allWarnings += pWarnings.length;
-        } // else already reported by validateBank's own referencePanel existence check
-      }
+      const refResult = await validateAndReportContentFile(bank, dataDir, "referencePanel", validateReferencePanelContent, {
+        code: bank.code,
+      });
+      allErrors += refResult.errors;
+      allWarnings += refResult.warnings;
+
+      const teachResult = await validateAndReportContentFile(bank, dataDir, "teachingContent", validateTeachingContent, {
+        code: bank.code,
+        bank,
+      });
+      allErrors += teachResult.errors;
+      allWarnings += teachResult.warnings;
     }
   }
 

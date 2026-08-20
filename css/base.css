@@ -861,3 +861,40 @@ details.backup summary svg {
   border: 1px solid var(--color-border);
   border-radius: 2px;
 }
+
+/* teach.html, "Study a topic" (Phase 6.9, D-29). Same section/dl/dt/dd rules as
+   #reference-list (Phase 5.1) since renderReferencePanel builds identical markup for
+   both -- but read as ordinary page content, not a bordered floating panel, since
+   this page has nothing else on it competing for space the way the reference panel
+   shares a test-taking screen with a question. */
+#chapter-content {
+  max-width: 40rem;
+}
+
+#chapter-content section + section {
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-border);
+}
+
+#chapter-content h3 {
+  margin: 0 0 0.5rem;
+}
+
+#chapter-content dl {
+  margin: 0;
+}
+
+#chapter-content dt {
+  font-weight: 600;
+  margin-top: 0.75rem;
+}
+
+#chapter-content dd {
+  margin: 0.15rem 0 0;
+  color: var(--color-text);
+}
+
+#chapter-content math {
+  font-size: 1.1rem;
+}

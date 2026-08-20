@@ -753,3 +753,36 @@ unanswered (how deep is "a couple of pages" per category; what's the content sch
 **Attribution:** Session owner's call throughout, refined over two rounds of
 AskUserQuestion: (5)'s fate (keep as-is, recommended option was "fold into (4)" —
 rejected) and (4)'s scheduling (own phase, recommended and accepted).
+
+### D-29: Teaching-page content schema settled — reuses the reference-panel shape, not a new one
+
+**Date:** 2026-08-20
+**Decision:** Settles Phase 6.9.1's design pass. `data/teaching/<code>.json` is
+`{schemaVersion, testCode, sections: [{id, categoryId, heading, entries: [{id, label,
+content: {format, value}}]}]}` — SCHEMA.md §2.11. This is §2.9's reference-panel shape
+verbatim (D-21's `{format, value}` text/mathml discriminator, the same
+`sections`/`entries` nesting) with exactly one addition: a `categoryId` per section, so
+a chapter can be selected and rendered on its own rather than shown as one continuous
+document the way the reference panel is. A new `teachingContent` bank field (parallel
+to `referencePanel`), a thin `loadTeachingContent` wrapper in `js/schema.js` (mirroring
+`loadReferencePanel`), and `tools/verify.mjs` validation (existence, JSON validity,
+`validateReferencePanel`'s existing shape check reused as-is, plus a new check that
+every section's `categoryId` resolves to a real leaf category in the owning bank) all
+follow the referencePanel precedent directly. Rendering reuses
+`js/reference-panel.js`'s existing `renderContent`/`renderReferencePanel` unchanged —
+no new render code, no new `format` values. Ships as its own page, `teach.html`, not a
+`run.html` mode: no timer, no scoring, no `questionHistory` write (D-28).
+**Why:** ROADMAP.md's own framing of Phase 6.9 ("closer in kind to Phase 5's reference
+panels... than a UI task") turned out to be true at the schema level, not just in
+spirit — a teaching chapter's prose and worked-example math notation have exactly the
+needs D-21 already solved, and a chapter is addressable-by-category in the same way the
+reference panel is deliberately *not*. Inventing a second, parallel content shape for
+what's structurally the same authored-prose problem (label + `{format, value}` content,
+grouped into headed sections) would have meant maintaining two rendering paths, two
+verify.mjs validators, and two mental models for what is, on inspection, one shape used
+two ways.
+**Attribution:** Surfaced while reading `js/reference-panel.js` and SCHEMA.md §2.9
+during the design pass — the original plan (from the prior session's proposal) assumed
+a new schema section would be needed; re-reading the actual reference-panel code before
+writing one showed the reuse was available. No AskUserQuestion round needed: an
+implementation-approach call (reuse vs. invent), not a scope or user-facing decision.

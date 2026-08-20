@@ -58,7 +58,7 @@ site with no server.
 | 6.6 | Progress dashboard visual redesign | ◐ |
 | 6.7 | Restore progress ("upload progress") | ☑ |
 | 6.8 | S2 redesign (test-menu hub) | ☑ |
-| 6.9 | Topic teaching pages ("Study a topic") | ☐ |
+| 6.9 | Topic teaching pages ("Study a topic") | ◐ |
 | 7 | Content authoring (parallel track) | ◐ |
 | 8 | Launch (NAS) — v1, Mathematics only | ◐ |
 | 9 | Multi-subject entry (S1 redesign) | ☐ |
@@ -1040,18 +1040,66 @@ category explaining how to work its problems — worked examples and
 explanation, not a quiz. Content-authoring-heavy, closer in kind to Phase
 5's reference panels or Phase 7's question banks than to a UI task; deserves
 its own design pass (content schema, page shape, how deep "a couple of
-pages" of teaching per category actually runs) before any authoring starts.
-Not scoped or started. Same standing rule applies as everywhere else in this
+pages" of teaching per category actually runs) before any authoring starts —
+design pass done, see 6.9.1 below. Same standing rule applies as everywhere else in this
 project: written from scratch against the underlying skill, never adapted
 from the gitignored ETS study-companion PDFs — arguably an even sharper risk
 here than for quiz questions, since teaching prose is closer in *kind* to
 what a study guide's own prose looks like.
 
-- ☐ **6.9.1 Design pass.** Content schema, page shape, scope per category
-  (BLUEPRINT.md's Mathematics categories are the natural unit — 6 chapters
-  for 5165). Not started.
+- ☑ **6.9.1 Design pass — settled (D-29).** Content schema: `data/teaching/<code>.json`
+  reuses SCHEMA.md §2.9's reference-panel `sections`/`entries`/`{format, value}` shape
+  verbatim, adding one field — a per-section `categoryId` (a leaf id from the bank's own
+  category tree) so a chapter can be selected on its own rather than shown as one
+  continuous document. Page shape: a new standalone page, `teach.html?code=<code>&
+  category=<id>`, not a `run.html` mode — no timer, no scoring, no `questionHistory`
+  write. Rendering reuses `js/reference-panel.js`'s `renderContent`/`renderReferencePanel`
+  unchanged (no new render code); `teach.html` filters to the requested category's
+  descendant chapters via the existing `categoryAndDescendantIds`, same convention S5's
+  drill picker already uses. New `teachingContent` bank field (parallel to
+  `referencePanel`), `js/schema.js`'s `loadTeachingContent`, and `tools/verify.mjs`'s
+  `leafCategoryIds`/`validateTeachingContent` (existence, JSON validity, shape reused
+  from `validateReferencePanel`, plus a `categoryId`-resolves-to-a-real-leaf-category
+  cross-check) all follow the referencePanel precedent. Proved against one real authored
+  chapter (5165's "Number and Quantity," `data/teaching/5165.json` — concept overview,
+  a worked example, common mistakes, exercising both `text` and `mathml` content).
+  301/301 tests green (5 new in each of `test-schema.mjs`/`test-verify.mjs`),
+  `verify.mjs` clean. Live-tested in the browser: the authored chapter renders correctly
+  (prose and MathML — fractions, radicals, ℤ — all display properly), both
+  category-not-found and no-lesson-yet-authored paths, a test with no `teachingContent`
+  field at all, missing code/category params, zero console errors throughout. 8-angle
+  `/code-review` at high effort found 4 real findings, all fixed: a `continue` inside
+  the referencePanel content-validation branch of `tools/verify.mjs`'s per-bank loop
+  jumped past the entire rest of that iteration, silently skipping teachingContent
+  validation for the same bank whenever the reference panel's JSON failed to parse —
+  fixed by extracting a shared `validateAndReportContentFile` helper that `return`s
+  from its own scope instead of `continue`-ing the caller's loop (this also closed a
+  ~14-line copy-paste the reuse/simplification angles flagged between the
+  referencePanel and teachingContent validation blocks); `teach.html`'s categoryId
+  filter used an exact match against `contentResult.content.sections`, so picking a
+  *branch* category (e.g. top-level "I") would show "no lesson" even when its child
+  leaves ("I-A"/"I-B") both have authored chapters — fixed to use
+  `categoryAndDescendantIds`, matching how every other "pick a category" entry point
+  in this codebase already works; `teach.html` had no guard on
+  `contentResult.content.sections` before calling `.filter()` on it — an uncaught
+  `TypeError` on a malformed/not-yet-`verify.mjs`-checked content file, unlike every
+  sibling failure path in the same function — fixed with an `Array.isArray` check
+  folded into the existing `!contentResult.ok` branch; this ROADMAP.md entry itself
+  wasn't flipped to ☑ in the same pass D-29 settled the design (conventions-angle
+  finding, self-referential — fixed by writing this entry). Two forward-looking
+  findings deliberately left as documentation rather than code changes, since nothing
+  in the current 5165 tree exercises them yet: `leafCategoryIds` only accepts
+  weight-bearing leaves, stricter than `flattenCategoryTree`'s any-node lookup —
+  relevant only if a future `weight: null` "study filter" category (SCHEMA.md §2.4)
+  ever gets its own chapter, which none does today; and `teachingContent` is one file
+  per bank covering every chapter (following `referencePanel`'s own precedent), which
+  means Phase 6.9.2 authoring all 6 Mathematics chapters into that one file will make
+  every single-chapter page load fetch (and discard) the other five chapters' content
+  — worth reconsidering (e.g. one file per chapter) before or during 6.9.2 if that
+  file grows large enough to matter, but not a problem yet at one chapter's size.
 - ☐ **6.9.2 Author Mathematics' 6 chapters.** High effort, matching this
-  project's question-authoring standard (SKILL.md). Not started.
+  project's question-authoring standard (SKILL.md). One of 6 done (I-A, shipped as
+  6.9.1's proof-of-shape chapter above) — 5 remaining (I-B, II-A, II-B, III, IV).
 - ☐ **6.9.3 Wire up the Start-menu control.** Replace 6.8.2's `disabled`
   stub with the real link once content exists. Shallow — self-reviewed.
 
