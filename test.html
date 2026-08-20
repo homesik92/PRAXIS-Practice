@@ -51,33 +51,29 @@
 
           <div class="start-test-option">
             <div class="start-test-text">
-              <span class="start-test-title">
-                Practice a topic <span class="coming-soon-badge">Coming soon</span>
-              </span>
+              <span class="start-test-title">Practice a topic</span>
               <span class="start-test-desc">
                 10 questions from one category, untimed, same flag-and-review flow as a
                 real test. Won't be recorded or change your stats above.
               </span>
             </div>
             <div class="category-test-controls">
-              <select id="practice-topic-select" aria-label="Choose a category" disabled></select>
-              <a class="btn btn-secondary" href="#" aria-disabled="true" tabindex="-1">Start &rarr;</a>
+              <select id="practice-topic-select" aria-label="Choose a category"></select>
+              <a id="practice-topic-start-link" class="btn btn-secondary" href="#">Start &rarr;</a>
             </div>
           </div>
 
           <div class="start-test-option">
             <div class="start-test-text">
-              <span class="start-test-title">
-                Category test <span class="coming-soon-badge">Coming soon</span>
-              </span>
+              <span class="start-test-title">Category test</span>
               <span class="start-test-desc">
                 10 questions from one category, timed like the real test. Won't be
                 recorded or change your stats above.
               </span>
             </div>
             <div class="category-test-controls">
-              <select id="category-test-select" aria-label="Choose a category" disabled></select>
-              <a class="btn btn-secondary" href="#" aria-disabled="true" tabindex="-1">Start &rarr;</a>
+              <select id="category-test-select" aria-label="Choose a category"></select>
+              <a id="category-test-start-link" class="btn btn-secondary" href="#">Start &rarr;</a>
             </div>
           </div>
 
@@ -178,7 +174,9 @@
     const takeTestLink = document.getElementById("take-test-link");
     const reviewTopicLink = document.getElementById("review-topic-link");
     const practiceTopicSelect = document.getElementById("practice-topic-select");
+    const practiceTopicStartLink = document.getElementById("practice-topic-start-link");
     const categoryTestSelect = document.getElementById("category-test-select");
+    const categoryTestStartLink = document.getElementById("category-test-start-link");
 
     const exportButton = document.getElementById("export-button");
     const exportStatus = document.getElementById("export-status");
@@ -474,11 +472,11 @@
         takeTestLink.href = `run.html?code=${encodeURIComponent(code)}&mode=test`;
         reviewTopicLink.href = `run.html?code=${encodeURIComponent(code)}&mode=study`;
 
-        // Practice-a-topic / category-test category pickers (Coming soon, Phase
-        // 6.8.2 PR B) -- populated with real categories now, at every depth
-        // (matching S5's own picker), so they read correctly once those modes
-        // ship for real. Both stay disabled until then (honest preview, same
-        // pattern this project used for 6.6.2's original stub).
+        // Practice-a-topic / category-test category pickers (Phase 6.8.2 PR B) --
+        // populated with real categories at every depth, matching S5's own
+        // picker (a branch selection drills into everything under it, via
+        // run.html's assembleCategoryDrill -> categoryAndDescendantIds, same as
+        // Review a topic's assembleDrill already does).
         for (const { id, label, depth } of flattenCategoryTree(bank.categories)) {
           const prefix = "— ".repeat(depth);
           const opt1 = document.createElement("option");
@@ -490,6 +488,23 @@
           opt2.textContent = `${prefix}${label}`;
           categoryTestSelect.appendChild(opt2);
         }
+
+        function drillHref(categoryId, timed) {
+          return (
+            `run.html?code=${encodeURIComponent(code)}&mode=drill&category=${encodeURIComponent(categoryId)}` +
+            (timed ? "&timed=1" : "")
+          );
+        }
+
+        function wireDrillPicker(select, link, timed) {
+          link.href = drillHref(select.value, timed);
+          select.addEventListener("change", () => {
+            link.href = drillHref(select.value, timed);
+          });
+        }
+
+        wireDrillPicker(practiceTopicSelect, practiceTopicStartLink, false);
+        wireDrillPicker(categoryTestSelect, categoryTestStartLink, true);
 
         const loadResult = loadStore();
         if (!loadResult.ok) {

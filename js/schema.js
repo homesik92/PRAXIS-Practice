@@ -409,6 +409,29 @@ export function assembleDrill(bank, categoryId, { history = {}, random = Math.ra
   return { questions: shuffleQuestionOptions(drawn, random) };
 }
 
+/**
+ * Assembles a short, capped-length category drill (Phase 6.8.2: S2's "Practice a
+ * topic"/"Category test" entries) -- same category-and-descendants pool and
+ * least-recently-seen draw as {@link assembleDrill}, just target-limited to `count`
+ * instead of drawing the whole pool. Deliberately takes no `history` here (unlike
+ * assembleDrill/assembleForm) -- the caller (run.html) never reads the store for
+ * this mode at all, by design, so this always draws in fully random order rather
+ * than biased by real question history. A simpler tradeoff than threading a
+ * read-only store load through a code path whose entire point is to prove it never
+ * touches the store.
+ *
+ * @param {object} bank
+ * @param {string} categoryId
+ * @param {{count?: number, random?: () => number}} [options]
+ * @returns {{questions: object[]}}
+ */
+export function assembleCategoryDrill(bank, categoryId, { count = 10, random = Math.random } = {}) {
+  const categoryIds = categoryAndDescendantIds(bank.categories, categoryId);
+  const pool = (bank.questions ?? []).filter((q) => !q.retired && categoryIds.has(q.categoryId));
+  const { drawn } = drawForCategory(pool, Math.min(count, pool.length), {}, random);
+  return { questions: shuffleQuestionOptions(drawn, random) };
+}
+
 // Mirrors lastSeenRank's stance above via the same parsedHistoryDate helper,
 // with a different sentinel: a malformed/unparseable/missing dueAt is "not
 // due" (null) here rather than -Infinity, since this value feeds a filter, not

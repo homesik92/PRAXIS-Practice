@@ -141,9 +141,10 @@
     </dialog>
   </main>
   <script type="module">
-    import { loadBank, loadManifest, loadReferencePanel, assembleForm, resumeForm, flattenCategoryTree, assembleDrill, assembleDueDrill } from "./js/schema.js";
+    import { loadBank, loadManifest, loadReferencePanel, assembleForm, resumeForm, flattenCategoryTree, assembleDrill, assembleDueDrill, assembleCategoryDrill } from "./js/schema.js";
     import {
       isCorrect,
+      scoreAttempt,
       buildReviewRows,
       countReviewStatus,
       initialAnnouncedThresholds,
@@ -780,9 +781,12 @@
     }
 
     // Single source of truth for "which modes exist" (code review finding) --
-    // the dispatch below still needs its own test/study branch to know which to
-    // run, but every future mode only has to be added here to be recognized.
-    const VALID_MODES = ["test", "study"];
+    // the dispatch below still needs its own test/study/drill branch to know
+    // which to run, but every future mode only has to be added here to be
+    // recognized. "drill" (Phase 6.8.2) covers both S2's "Practice a topic"
+    // (untimed) and "Category test" (timed, &timed=1) -- one mode, since they
+    // differ only by whether a clock runs, not by anything else in the flow.
+    const VALID_MODES = ["test", "study", "drill"];
 
     if (!code) {
       showStatus("No test selected. Go back and choose one.");
@@ -811,6 +815,8 @@
           showStatus("This test's questions could not be loaded. Try again later.");
         } else if (mode === "test") {
           runTest(result.bank);
+        } else if (mode === "drill") {
+          runCategoryDrill(result.bank);
         } else {
           runStudy(result.bank);
         }
@@ -986,6 +992,86 @@
       );
     }
 
+    // Shared by beginRun's (S3) and runCategoryDrill's (Phase 6.8.2) countdown
+    // timers -- formats the remaining time into timerEl, announces any newly-crossed
+    // threshold, and reports whether the deadline has passed. The caller decides what
+    // "expired" means (finish() in both cases, but each closes over its own).
+    function tickCountdown(deadline, thresholds, announcedThresholds, timerEl) {
+      const remainingMs = Math.max(0, deadline - Date.now());
+      const totalSeconds = Math.floor(remainingMs / 1000);
+      const minutes = Math.floor(totalSeconds / 60);
+      const seconds = totalSeconds % 60;
+      timerEl.textContent = `Time remaining: ${minutes}:${String(seconds).padStart(2, "0")}`;
+      if (remainingMs > 0) {
+        for (const threshold of crossedThresholds(remainingMs, thresholds, announcedThresholds)) {
+          announcedThresholds.add(threshold);
+          const label = threshold === 60_000 ? "1 minute" : `${threshold / 60_000} minutes`;
+          announce(`${label} remaining`);
+        }
+      }
+      return remainingMs <= 0;
+    }
+
+    // Shared by beginRun's and runCategoryDrill's review passes -- same row markup,
+    // built from whatever answers array the caller is tracking (store-backed vs. a
+    // local array), reopened via whatever reopen handler the caller supplies.
+    function renderReviewListInto(reviewListEl, questions, answers, categoryLabels, onReopen) {
+      const rows = buildReviewRows(questions, answers, categoryLabels);
+      reviewListEl.innerHTML = "";
+      for (const row of rows) {
+        const li = document.createElement("li");
+        const parts = [row.categoryLabel, "--", row.stemExcerpt];
+        if (row.answered) {
+          parts.push(row.chosenOptionText ? `(${row.chosen[0]}) ${row.chosenOptionText}` : "(answer no longer available)");
+        }
+        if (row.flagged) parts.push("(flagged)");
+        if (!row.answered) parts.push("(not answered)");
+        li.append(`${parts.join(" ")} `);
+        const reopenButton = document.createElement("button");
+        reopenButton.type = "button";
+        reopenButton.textContent = "Reopen";
+        reopenButton.addEventListener("click", () => onReopen(row.questionId));
+        li.appendChild(reopenButton);
+        if (row.flagged) {
+          const flagIcon = document.createElement("span");
+          flagIcon.className = "flag-icon";
+          flagIcon.textContent = "\u{1F6A9}";
+          flagIcon.setAttribute("aria-hidden", "true");
+          li.appendChild(flagIcon);
+        }
+        reviewListEl.appendChild(li);
+      }
+    }
+
+    // Shared by beginRun's and runCategoryDrill's confirm-submit dialogs -- same
+    // unanswered/flagged counting and message text, built from whatever answers
+    // array the caller is tracking.
+    function buildConfirmSubmitMessage(questions, answers, categoryLabels) {
+      const rows = buildReviewRows(questions, answers, categoryLabels);
+      const { unanswered, flagged } = countReviewStatus(rows);
+      const unansweredText = unanswered === 1 ? "1 question unanswered" : `${unanswered} questions unanswered`;
+      const flaggedText = flagged === 1 ? "1 question flagged for review" : `${flagged} questions flagged for review`;
+      return `${unansweredText}, ${flaggedText}. Submitting will score your answers now.`;
+    }
+
+    // Shared Cancel/close/Confirm wiring for the one `#confirm-submit-dialog` both
+    // modes reuse -- only what happens on confirm differs between them.
+    function wireConfirmSubmitDialog(onConfirm) {
+      confirmCancelButton.addEventListener("click", () => confirmSubmitDialog.close());
+      // Fires on every close path (Cancel click, Esc) so focus reliably returns to
+      // the button that opened the dialog rather than relying on browser-specific
+      // focus-restoration behavior.
+      confirmSubmitDialog.addEventListener("close", () => submitButton.focus());
+      confirmSubmitButton.addEventListener(
+        "click",
+        () => {
+          confirmSubmitDialog.close();
+          onConfirm();
+        },
+        { once: true },
+      );
+    }
+
     function beginRun(bank, form, initialStore, attempt, startIndex, { resumingExistingTimer, moveFocusOnFirstRender }) {
       startScreen.hidden = true;
       runScreen.hidden = false;
@@ -1035,27 +1121,11 @@
       updateTimer();
 
       function updateTimer() {
-        const remainingMs = Math.max(0, deadline - Date.now());
-        const totalSeconds = Math.floor(remainingMs / 1000);
-        const minutes = Math.floor(totalSeconds / 60);
-        const seconds = totalSeconds % 60;
-        timerEl.textContent = `Time remaining: ${minutes}:${String(seconds).padStart(2, "0")}`;
-        // Skipped once expired (code review finding): a large time jump (the tab was
-        // asleep/backgrounded) can cross several thresholds in the same tick as
-        // expiry, and announcing them a moment before finish() navigates away is
-        // stale and misleading rather than useful.
-        if (remainingMs > 0) {
-          for (const threshold of crossedThresholds(remainingMs, ANNOUNCE_THRESHOLDS_MS, announcedThresholds)) {
-            announcedThresholds.add(threshold);
-            const label = threshold === 60_000 ? "1 minute" : `${threshold / 60_000} minutes`;
-            announce(`${label} remaining`);
-          }
-        }
         // The timer expiring while the tab stays open scores the attempt immediately
         // (SCHEMA.md S3, finding #10) -- no confirmation, unlike the Submit button's
         // dialog, since this is a forced deadline rather than a discretionary
         // choice. finish() clears this interval first, so this can't re-fire.
-        if (remainingMs <= 0) finish();
+        if (tickCountdown(deadline, ANNOUNCE_THRESHOLDS_MS, announcedThresholds, timerEl)) finish();
       }
 
       function abortRun(message) {
@@ -1338,39 +1408,7 @@
 
       function renderReviewList() {
         const currentAttempt = findAttempt(store, attempt.id);
-        const rows = buildReviewRows(form.questions, currentAttempt.answers, categoryLabels);
-        reviewList.innerHTML = "";
-        for (const row of rows) {
-          const li = document.createElement("li");
-          const parts = [row.categoryLabel, "--", row.stemExcerpt];
-          if (row.answered) {
-            // Degrades to a generic note rather than omitting the answer silently
-            // (code review consideration, matching S5's correctOption fallback
-            // elsewhere in this file) if chosen[0] no longer resolves to a real
-            // option -- a hand-edited record or a bank edited since the attempt.
-            parts.push(row.chosenOptionText ? `(${row.chosen[0]}) ${row.chosenOptionText}` : "(answer no longer available)");
-          }
-          if (row.flagged) parts.push("(flagged)");
-          if (!row.answered) parts.push("(not answered)");
-          li.append(`${parts.join(" ")} `);
-          const reopenButton = document.createElement("button");
-          reopenButton.type = "button";
-          reopenButton.textContent = "Reopen";
-          reopenButton.addEventListener("click", () => reopenQuestion(row.questionId));
-          li.appendChild(reopenButton);
-          if (row.flagged) {
-            // Decorative only -- the "(flagged)" text above already carries this to
-            // a screen reader, so this doesn't repeat it (SCHEMA.md S1.3's "never by
-            // color/icon alone" principle: the icon is a sighted-user enhancement on
-            // top of the existing text marker, not a replacement for it).
-            const flagIcon = document.createElement("span");
-            flagIcon.className = "flag-icon";
-            flagIcon.textContent = "\u{1F6A9}";
-            flagIcon.setAttribute("aria-hidden", "true");
-            li.appendChild(flagIcon);
-          }
-          reviewList.appendChild(li);
-        }
+        renderReviewListInto(reviewList, form.questions, currentAttempt.answers, categoryLabels, reopenQuestion);
       }
 
       function showReviewScreen() {
@@ -1397,29 +1435,11 @@
         // reopenQuestion's pattern -- the confirm dialog's counts must reflect
         // whatever was last recorded, not a stale render (finding #11).
         const currentAttempt = findAttempt(store, attempt.id);
-        const rows = buildReviewRows(form.questions, currentAttempt.answers, categoryLabels);
-        const { unanswered, flagged } = countReviewStatus(rows);
-        const unansweredText = unanswered === 1 ? "1 question unanswered" : `${unanswered} questions unanswered`;
-        const flaggedText = flagged === 1 ? "1 question flagged for review" : `${flagged} questions flagged for review`;
-        confirmSubmitMessage.textContent =
-          `${unansweredText}, ${flaggedText}. Submitting will score your answers now.`;
+        confirmSubmitMessage.textContent = buildConfirmSubmitMessage(form.questions, currentAttempt.answers, categoryLabels);
         confirmSubmitDialog.showModal();
       }
 
-      confirmCancelButton.addEventListener("click", () => confirmSubmitDialog.close());
-      // Fires on every close path (Cancel click, Esc) so focus reliably returns to
-      // the button that opened the dialog rather than relying on browser-specific
-      // focus-restoration behavior.
-      confirmSubmitDialog.addEventListener("close", () => submitButton.focus());
-
-      confirmSubmitButton.addEventListener(
-        "click",
-        () => {
-          confirmSubmitDialog.close();
-          finish();
-        },
-        { once: true },
-      );
+      wireConfirmSubmitDialog(finish);
 
       function finish() {
         clearInterval(timerHandle);
@@ -1612,6 +1632,241 @@
           studyAgainLink.href = againHref;
           // Always reached via the "Next question" click on the last question -- a
           // genuine same-page transition, unlike the drill's first render.
+          studyCompleteHeading.focus();
+        }
+      }
+    }
+
+    // -- S2's "Practice a topic" / "Category test" (Phase 6.8.2) -----------------
+    // One shared ephemeral drill: a short (10-question), one-category round using
+    // the same flag/skip/review-pass/confirm-submit interaction S3 uses, timed
+    // only when &timed=1 ("Category test") vs untimed ("Practice a topic").
+    // Deliberately holds every bit of state (`answers`, `index`) in plain local
+    // variables scoped to this function -- no `store`, no attempt id, and none of
+    // js/store.js's exports are imported into this file's mutating half at all
+    // for this path. "This never touches saved progress" is true by construction
+    // here, not by carefully avoiding certain calls in a function that could
+    // otherwise reach them, which is what the code review for this change is
+    // built to verify. The completion screen reuses S5's #study-complete-screen
+    // (a locally-tallied, unrecorded result is exactly what that screen already
+    // means) rather than results.html, which needs a real stored attempt id this
+    // mode never creates.
+    function runCategoryDrill(bank) {
+      heading.textContent = bank.name;
+      const categoryId = params.get("category");
+      const timed = params.get("timed") === "1";
+
+      if (!categoryId) {
+        showStatus("No category selected. Go back and choose one.");
+        return;
+      }
+      const categoryNode = flattenCategoryTree(bank.categories).find((n) => n.id === categoryId);
+      if (!categoryNode) {
+        showStatus(`This topic ("${categoryId}") isn't part of this test.`);
+        return;
+      }
+
+      // No `history` passed here (unlike assembleForm/assembleDrill) -- this mode
+      // deliberately never reads the store either, so the draw is fully random
+      // rather than least-recently-seen-biased. See assembleCategoryDrill's own
+      // doc comment for why that's an acceptable simplification here.
+      const drill = assembleCategoryDrill(bank, categoryId, { count: 10 });
+      if (drill.questions.length === 0) {
+        showStatus(`"${categoryNode.label}" has no questions available yet.`);
+        return;
+      }
+
+      const categoryLabels = flattenCategoryLabels(bank.categories);
+
+      // Proportional to the real test's own pace, not a flat number, so a
+      // 10-question round scales with however long this bank's real form takes
+      // per question. Floored at 1 minute so a fast per-question pace on some
+      // future test can never produce a 0-minute clock.
+      const drillMinutes = Math.max(1, Math.round((bank.timeLimitMinutes * drill.questions.length) / bank.formLength));
+
+      startSummary.textContent =
+        `${drill.questions.length} questions${timed ? `, ${drillMinutes} minutes` : ", untimed"}. ` +
+        "Once you answer a question you move straight to the next one -- answered questions can't be " +
+        "revisited except through the review pass after the last question, where you can reopen and " +
+        "change any answer before submitting. To skip a question instead of answering it, flag it first " +
+        "-- flagging reveals a Skip option. Nothing here is recorded: it won't create an attempt or " +
+        "change your stats.";
+      startScreen.hidden = false;
+
+      startButton.addEventListener("click", beginDrillRun, { once: true });
+
+      function beginDrillRun() {
+        startScreen.hidden = true;
+        runScreen.hidden = false;
+        timerEl.hidden = !timed;
+        positionEl.hidden = false;
+        if (bank.code === CALCULATOR_TEST_CODE) showCalculatorToggle();
+        ensureReferencePanelLoaded(bank);
+
+        // Reached only via the Start click above -- always a fresh entry, never a
+        // résumé (this mode has none), unlike beginRun's own conditional flag.
+        const transitionFocus = makeTransitionFocus(true);
+
+        let answers = [];
+        let index = 0;
+        let editingQuestionId = null;
+        let timerHandle = null;
+
+        if (timed) {
+          const deadline = Date.now() + drillMinutes * 60_000;
+          // Filtered to thresholds shorter than this drill's own total time
+          // (code review consideration carried over from beginRun's equivalent):
+          // without this, a drill whose total time is under 10 minutes would
+          // announce "10 minutes remaining" at the very first tick, which is
+          // simply false for a round that was never that long to begin with.
+          const thresholds = [10 * 60_000, 5 * 60_000, 1 * 60_000].filter((t) => t < drillMinutes * 60_000);
+          const announcedThresholds = new Set();
+          timerHandle = setInterval(updateTimer, 1000);
+          updateTimer();
+
+          function updateTimer() {
+            // Matches S3's own rule (SCHEMA.md, finding #10): the clock expiring
+            // while the tab stays open scores immediately, no confirmation --
+            // this is a forced deadline, not a discretionary submit.
+            if (tickCountdown(deadline, thresholds, announcedThresholds, timerEl)) finish();
+          }
+        }
+
+        flagToggle.addEventListener("change", () => {
+          if (editingQuestionId) {
+            // Committed immediately, matching beginRun's live-persisted flag
+            // edit -- there's no separate save step to fail here, so unlike
+            // beginRun this never needs its own error path.
+            const idx = answers.findIndex((a) => a.questionId === editingQuestionId);
+            if (idx !== -1) answers[idx] = { ...answers[idx], flagged: flagToggle.checked };
+            return;
+          }
+          skipButton.hidden = !flagToggle.checked;
+          if (flagToggle.checked) announce("Skip this question button available.");
+        });
+
+        skipButton.addEventListener("click", () => recordAndAdvance(drill.questions[index], []));
+        backToReviewButton.addEventListener("click", () => showReviewScreen());
+
+        renderQuestion();
+
+        function renderQuestion() {
+          editingQuestionId = null;
+          editingNote.hidden = true;
+          flagToggle.checked = false;
+          skipButton.hidden = true;
+          resetCalculatorForNewQuestion();
+
+          const question = drill.questions[index];
+          positionEl.textContent = `Question ${index + 1} of ${drill.questions.length}`;
+          stemEl.textContent = question.stem.value;
+          renderOptions(optionsEl, question, null, (option) => recordAndAdvance(question, [option.id]));
+          transitionFocus(questionFieldset, positionEl.textContent);
+        }
+
+        function recordAndAdvance(question, chosen) {
+          answers.push({
+            questionId: question.id,
+            chosen,
+            correct: isCorrect(question, chosen),
+            flagged: flagToggle.checked,
+          });
+          if (chosen.length === 0) announce("Question skipped.");
+
+          index += 1;
+          if (index < drill.questions.length) {
+            renderQuestion();
+          } else {
+            showReviewScreen();
+          }
+        }
+
+        function renderQuestionForEdit(question, answer) {
+          editingQuestionId = question.id;
+          editingNote.hidden = false;
+          flagToggle.checked = Boolean(answer.flagged);
+          resetCalculatorForNewQuestion();
+          skipButton.hidden = true;
+
+          const qIndex = drill.questions.findIndex((q) => q.id === question.id);
+          positionEl.textContent = `Reviewing question ${qIndex + 1} of ${drill.questions.length}`;
+          stemEl.textContent = question.stem.value;
+          renderOptions(optionsEl, question, answer.chosen[0], (option) => commitEdit(question, option));
+          transitionFocus(questionFieldset, positionEl.textContent);
+        }
+
+        function commitEdit(question, option) {
+          const chosen = [option.id];
+          const answerIndex = answers.findIndex((a) => a.questionId === question.id);
+          answers[answerIndex] = { ...answers[answerIndex], chosen, correct: isCorrect(question, chosen) };
+          showReviewScreen();
+        }
+
+        function reopenQuestion(questionId) {
+          const question = drill.questions.find((q) => q.id === questionId);
+          const answer = answers.find((a) => a.questionId === questionId);
+          if (!answer) {
+            showStatus("This question has no recorded answer to reopen, so it can't be edited here.");
+            return;
+          }
+          reviewScreen.hidden = true;
+          runScreen.hidden = false;
+          renderQuestionForEdit(question, answer);
+        }
+
+        function renderReviewList() {
+          renderReviewListInto(reviewList, drill.questions, answers, categoryLabels, reopenQuestion);
+        }
+
+        function showReviewScreen() {
+          runScreen.hidden = true;
+          reviewScreen.hidden = false;
+          resetCalculatorForNewQuestion();
+          positionEl.textContent = `Review pass -- ${drill.questions.length} questions`;
+          renderReviewList();
+          transitionFocus(reviewHeading, positionEl.textContent);
+        }
+
+        submitButton.addEventListener("click", openConfirmSubmitDialog);
+
+        function openConfirmSubmitDialog() {
+          confirmSubmitMessage.textContent = buildConfirmSubmitMessage(drill.questions, answers, categoryLabels);
+          confirmSubmitDialog.showModal();
+        }
+
+        wireConfirmSubmitDialog(finish);
+
+        function finish() {
+          if (timerHandle) clearInterval(timerHandle);
+          // Unlike beginRun's finish() (which always navigates away via
+          // location.href, discarding an open dialog with the page), this mode's
+          // completion is an in-page reveal -- so the timer-expiry path can reach
+          // here directly while the confirm-submit dialog is still showing (a
+          // Category Test's clock can expire mid-review). Close it explicitly, or
+          // it's left stacked on top of the completion screen underneath.
+          if (confirmSubmitDialog.open) confirmSubmitDialog.close();
+          const score = scoreAttempt(bank, answers);
+          showDrillComplete(score);
+        }
+
+        function showDrillComplete(score) {
+          reviewScreen.hidden = true;
+          runScreen.hidden = true;
+          timerEl.hidden = true;
+          positionEl.hidden = true;
+          hideCalculatorToggle();
+          hideReferenceToggle();
+          studyCompleteScreen.hidden = false;
+          studyCompleteSummary.textContent =
+            `You got ${score.correct} of ${score.total} correct in this ${timed ? "category test" : "practice round"}. ` +
+            "This wasn't recorded -- it doesn't create an attempt or change your stats.";
+          studyAgainLink.textContent = "Try again";
+          studyAgainLink.href =
+            `run.html?code=${encodeURIComponent(bank.code)}&mode=drill&category=${encodeURIComponent(categoryId)}` +
+            (timed ? "&timed=1" : "");
+          // Always reached via the Submit confirmation or the clock expiring, a
+          // genuine same-page transition -- matches showDrillComplete's (S5)
+          // precedent of focusing this heading unconditionally.
           studyCompleteHeading.focus();
         }
       }

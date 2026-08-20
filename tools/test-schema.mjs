@@ -15,6 +15,7 @@ import {
   flattenCategoryTree,
   categoryAndDescendantIds,
   assembleDrill,
+  assembleCategoryDrill,
   assembleDueDrill,
   weakestCategory,
   aggregateCategoryStats,
@@ -528,6 +529,77 @@ test("assembleDrill treats a null history (not just a missing key) as no questio
     drill.questions.map((q) => q.id),
     ["q1"],
   );
+});
+
+// --- assembleCategoryDrill (Phase 6.8.2: S2's "Practice a topic"/"Category test") ---
+
+test("assembleCategoryDrill caps at the default count of 10 even when the pool is larger", () => {
+  const ids = Array.from({ length: 15 }, (_, i) => `q${i}`);
+  const bank = studyBank({ "I-A": ids });
+  const drill = assembleCategoryDrill(bank, "I-A", { random: seededRandom(1) });
+  assert.equal(drill.questions.length, 10);
+});
+
+test("assembleCategoryDrill returns every available question when the pool is smaller than count", () => {
+  const bank = studyBank({ "I-A": ["q1", "q2", "q3"] });
+  const drill = assembleCategoryDrill(bank, "I-A", { random: seededRandom(1) });
+  assert.equal(drill.questions.length, 3);
+});
+
+test("assembleCategoryDrill respects a custom count", () => {
+  const bank = studyBank({ "I-A": ["q1", "q2", "q3", "q4", "q5"] });
+  const drill = assembleCategoryDrill(bank, "I-A", { count: 2, random: seededRandom(1) });
+  assert.equal(drill.questions.length, 2);
+});
+
+test("assembleCategoryDrill picking a branch gathers questions from every descendant leaf, not other branches", () => {
+  const bank = studyBank({ "I-A": ["q1"], "I-B": ["q2"], II: ["q3"] });
+  const drill = assembleCategoryDrill(bank, "I", { random: seededRandom(1) });
+  assert.deepEqual(
+    drill.questions.map((q) => q.id).sort(),
+    ["q1", "q2"],
+  );
+});
+
+test("assembleCategoryDrill excludes retired questions", () => {
+  const bank = studyBank({ "I-A": ["q1", "q2"] }, { retired: ["q2"] });
+  const drill = assembleCategoryDrill(bank, "I-A", { random: seededRandom(1) });
+  assert.deepEqual(
+    drill.questions.map((q) => q.id),
+    ["q1"],
+  );
+});
+
+test("assembleCategoryDrill returns an empty questions array for a category with nothing matching, not a throw", () => {
+  const bank = studyBank({ "I-A": ["q1"] });
+  const drill = assembleCategoryDrill(bank, "I-B", { random: seededRandom(1) });
+  assert.deepEqual(drill.questions, []);
+});
+
+test("assembleCategoryDrill shuffles each question's options to a permutation of the originals", () => {
+  const bank = studyBank({ "I-A": ["q1"] });
+  const drill = assembleCategoryDrill(bank, "I-A", { random: seededRandom(7) });
+  assert.ok(isPermutationOf(drill.questions[0].options.map((o) => o.id), ["a", "b"]));
+});
+
+test("assembleCategoryDrill's same seeded random reproduces the exact same order", () => {
+  const bank = studyBank({ "I-A": ["q1", "q2", "q3", "q4", "q5"] });
+  const first = assembleCategoryDrill(bank, "I-A", { random: seededRandom(42) }).questions.map((q) => q.id);
+  const second = assembleCategoryDrill(bank, "I-A", { random: seededRandom(42) }).questions.map((q) => q.id);
+  assert.deepEqual(first, second);
+});
+
+test("assembleCategoryDrill ignores an unrelated history argument -- this mode never reads real history", () => {
+  // The function signature intentionally has no `history` parameter at all (see its
+  // own doc comment) -- this just confirms passing one has no effect rather than
+  // throwing on an unexpected option, in case a future caller passes one by mistake.
+  const bank = studyBank({ "I-A": ["q1", "q2", "q3"] });
+  const withHistory = assembleCategoryDrill(bank, "I-A", {
+    history: { q1: { lastSeenAt: "2020-01-01T00:00:00.000Z" } },
+    random: seededRandom(3),
+  }).questions.map((q) => q.id);
+  const withoutHistory = assembleCategoryDrill(bank, "I-A", { random: seededRandom(3) }).questions.map((q) => q.id);
+  assert.deepEqual(withHistory, withoutHistory);
 });
 
 // --- assembleDueDrill (Phase 4.3, S2's "N questions due" entry point) ---
