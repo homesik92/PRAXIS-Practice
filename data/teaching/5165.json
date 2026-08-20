@@ -110,6 +110,655 @@
           }
         }
       ]
+    },
+    {
+      "id": "algebra-linear-and-quadratic-equations",
+      "categoryId": "I-B",
+      "heading": "Linear equations, quadratic equations, and systems",
+      "entries": [
+        {
+          "id": "algebra-concept",
+          "label": "Concept",
+          "content": {
+            "format": "text",
+            "value": "An equation asserts that two expressions are equal, and \"solving\" it means finding every value of the variable that makes the assertion true. A linear equation (variable raised only to the first power, like 3x + 5 = 20) has at most one solution, found by undoing operations in reverse order until the variable stands alone. A quadratic equation (variable raised to the second power, like x^2 - 2x - 15 = 0) has at most two solutions, because a squared term can come from either a positive or a negative input. A system of equations asks for the value(s) that satisfy two or more equations at once — graphically, the point(s) where their graphs intersect."
+          }
+        },
+        {
+          "id": "algebra-quadratic-standard-form",
+          "label": "Standard form of a quadratic equation",
+          "content": {
+            "format": "mathml",
+            "value": "<math><mi>a</mi><msup><mi>x</mi><mn>2</mn></msup><mo>+</mo><mi>b</mi><mi>x</mi><mo>+</mo><mi>c</mi><mo>=</mo><mn>0</mn><mo>,</mo><mtext>&#160;where&#160;</mtext><mi>a</mi><mo>&#8800;</mo><mn>0</mn></math>"
+          }
+        },
+        {
+          "id": "algebra-quadratic-formula",
+          "label": "The quadratic formula",
+          "content": {
+            "format": "mathml",
+            "value": "<math><mi>x</mi><mo>=</mo><mfrac><mrow><mo>&#8722;</mo><mi>b</mi><mo>&#177;</mo><msqrt><mrow><msup><mi>b</mi><mn>2</mn></msup><mo>&#8722;</mo><mn>4</mn><mi>a</mi><mi>c</mi></mrow></msqrt></mrow><mrow><mn>2</mn><mi>a</mi></mrow></mfrac></math>"
+          }
+        },
+        {
+          "id": "algebra-systems-of-equations",
+          "label": "Solving systems: substitution and elimination",
+          "content": {
+            "format": "text",
+            "value": "Two standard methods solve a system of two linear equations. Substitution solves one equation for one variable, then plugs that expression into the other equation, collapsing the system to a single-variable equation. Elimination adds or subtracts multiples of the equations so that one variable's coefficients cancel, leaving a single-variable equation directly. Both methods reduce two unknowns to one; which is faster depends on whether a variable is already isolated (favor substitution) or the coefficients line up neatly for cancellation (favor elimination)."
+          }
+        },
+        {
+          "id": "algebra-why-it-matters-for-teaching",
+          "label": "Why it matters for teaching",
+          "content": {
+            "format": "text",
+            "value": "Algebra is where the exam's \"Task of Teaching Mathematics\" overlay (BLUEPRINT.md's F-4, roughly a quarter of all 5165 questions) has the richest material to work with, because algebraic errors follow such predictable patterns. A question may show a student's work and ask you to name the specific misconception — distributing a negative sign across only the first term, forgetting that taking a square root introduces both a positive and a negative solution, or trying to factor before setting the equation equal to zero — and then ask what instructional move addresses that exact gap. Recognizing the correct final answer is not enough; you need to recognize what a plausible but flawed line of student reasoning looks like on paper."
+          }
+        }
+      ]
+    },
+    {
+      "id": "algebra-worked-example",
+      "categoryId": "I-B",
+      "heading": "Worked example: solving a quadratic equation by factoring",
+      "entries": [
+        {
+          "id": "algebra-problem",
+          "label": "Problem",
+          "content": {
+            "format": "text",
+            "value": "Solve for x: x^2 - 2x - 15 = 0."
+          }
+        },
+        {
+          "id": "algebra-step-1",
+          "label": "Step 1 — factor the left side",
+          "content": {
+            "format": "mathml",
+            "value": "<math><mtext>Find two numbers that multiply to </mtext><mo>&#8722;</mo><mn>15</mn><mtext>&#160;and add to </mtext><mo>&#8722;</mo><mn>2</mn><mtext>: they are </mtext><mo>&#8722;</mo><mn>5</mn><mtext>&#160;and&#160;</mtext><mn>3</mn><mo>.</mo><mtext>&#160;&#8658;&#160;</mtext><mo>(</mo><mi>x</mi><mo>&#8722;</mo><mn>5</mn><mo>)</mo><mo>(</mo><mi>x</mi><mo>+</mo><mn>3</mn><mo>)</mo><mo>=</mo><mn>0</mn></math>"
+          }
+        },
+        {
+          "id": "algebra-step-2",
+          "label": "Step 2 — apply the zero product property",
+          "content": {
+            "format": "mathml",
+            "value": "<math><mi>x</mi><mo>&#8722;</mo><mn>5</mn><mo>=</mo><mn>0</mn><mtext>&#160;&#160;or&#160;&#160;</mtext><mi>x</mi><mo>+</mo><mn>3</mn><mo>=</mo><mn>0</mn></math>"
+          }
+        },
+        {
+          "id": "algebra-answer",
+          "label": "Answer",
+          "content": {
+            "format": "mathml",
+            "value": "<math><mi>x</mi><mo>=</mo><mn>5</mn><mtext>&#160;&#160;or&#160;&#160;</mtext><mi>x</mi><mo>=</mo><mo>&#8722;</mo><mn>3</mn><mtext>&#160;&#8212; check both in the original equation: </mtext><msup><mn>5</mn><mn>2</mn></msup><mo>&#8722;</mo><mn>2</mn><mo>(</mo><mn>5</mn><mo>)</mo><mo>&#8722;</mo><mn>15</mn><mo>=</mo><mn>0</mn><mo>,</mo><mtext>&#160;</mtext><msup><mrow><mo>(</mo><mo>&#8722;</mo><mn>3</mn><mo>)</mo></mrow><mn>2</mn></msup><mo>&#8722;</mo><mn>2</mn><mo>(</mo><mo>&#8722;</mo><mn>3</mn><mo>)</mo><mo>&#8722;</mo><mn>15</mn><mo>=</mo><mn>0</mn><mo>.</mo></math>"
+          }
+        },
+        {
+          "id": "algebra-why-the-trick-works",
+          "label": "Why the trick works",
+          "content": {
+            "format": "text",
+            "value": "The zero product property says that if two factors multiply to zero, at least one of them must itself be zero — there's no other way to get a product of zero from nonzero real numbers. Rewriting the quadratic as a product of two binomials turns one equation with a squared term into two separate, simple linear equations, each of which is easy to solve. This is exactly why the equation must first be set equal to zero before factoring: the zero product property only applies when one side of the equation actually is zero. Factoring x^2 - 2x = 15 as x(x - 2) = 15 and then setting each factor equal to 15 is a common but invalid shortcut — 15 can be split into a product in infinitely many ways, so that step proves nothing."
+          }
+        }
+      ]
+    },
+    {
+      "id": "algebra-common-mistakes",
+      "categoryId": "I-B",
+      "heading": "Common mistakes",
+      "entries": [
+        {
+          "id": "algebra-mistake-factoring-before-zero",
+          "label": "Mistake: factoring before setting the equation to zero",
+          "content": {
+            "format": "text",
+            "value": "The zero product property only works when one side of the equation is 0. A student solving x^2 - 2x = 15 by factoring the left side as x(x - 2) and then writing x = 15 or x - 2 = 15 has made an invalid move — there's no rule that says a product equaling 15 forces one of its factors to equal 15. The equation must first be rearranged to x^2 - 2x - 15 = 0 before factoring and applying the zero product property."
+          }
+        },
+        {
+          "id": "algebra-mistake-dropping-negative-root",
+          "label": "Mistake: dropping the negative solution when taking a square root",
+          "content": {
+            "format": "mathml",
+            "value": "<math><msup><mi>x</mi><mn>2</mn></msup><mo>=</mo><mn>25</mn><mtext>&#160;&#8658;&#160;</mtext><mi>x</mi><mo>=</mo><mo>&#177;</mo><msqrt><mn>25</mn></msqrt><mo>=</mo><mo>&#177;</mo><mn>5</mn><mo>,</mo><mtext>&#160;not just </mtext><mi>x</mi><mo>=</mo><mn>5</mn><mo>.</mo></math>"
+          }
+        },
+        {
+          "id": "algebra-mistake-distributing-negative-sign",
+          "label": "Mistake: distributing a negative sign across only one term",
+          "content": {
+            "format": "text",
+            "value": "Simplifying an expression like 8 - 3(x - 4), a student may correctly multiply 3 by x to get 3x, but multiply -3 by only the first term of the parenthesis rather than both, writing 8 - 3x - 4 instead of the correct 8 - 3x + 12. Every term inside the parentheses has to be multiplied by the -3, not just the first one — this is the single most common sign error in simplifying linear expressions, and it's worth checking for explicitly whenever a subtraction sits directly in front of a parenthesis."
+          }
+        },
+        {
+          "id": "algebra-exam-tip",
+          "label": "Tip for the exam",
+          "content": {
+            "format": "text",
+            "value": "Whenever a quadratic equation appears, check first whether it's already set equal to zero — if not, that's the first move, not factoring. And whenever a solution comes from undoing a square (taking a square root to isolate x), expect two answers, not one, unless the problem's context rules one of them out (like a length or a time, which can't be negative)."
+          }
+        }
+      ]
+    },
+    {
+      "id": "functions-concept-overview",
+      "categoryId": "II-A",
+      "heading": "Functions: notation, domain/range, and transformations",
+      "entries": [
+        {
+          "id": "functions-concept-notation",
+          "label": "Concept",
+          "content": {
+            "format": "text",
+            "value": "A function is a rule that pairs each input with exactly one output. The notation f(x) names the rule f and shows what it does to an input called x — it does not mean \"f times x.\" To evaluate f(x) at a specific number, replace every x in the rule with that number and simplify. For example, if f(x) = 2x^2 - 5, then f(3) means \"put 3 everywhere x appears\": f(3) = 2(3)^2 - 5 = 2(9) - 5 = 13. The same idea extends to expressions as inputs — f(a + 1) replaces x with the whole expression a + 1, not just the letter a, which is a common source of algebra slips."
+          }
+        },
+        {
+          "id": "functions-domain-range-definition",
+          "label": "Definition: domain and range",
+          "content": {
+            "format": "mathml",
+            "value": "<math><mtext>Domain of&#160;</mtext><mi>f</mi><mo>(</mo><mi>x</mi><mo>)</mo><mo>=</mo><mfrac><mn>1</mn><mrow><mi>x</mi><mo>&#8722;</mo><mn>3</mn></mrow></mfrac><mtext>&#160;is&#160;</mtext><mo>{</mo><mi>x</mi><mo>&#8712;</mo><mi>&#8477;</mi><mtext>&#160;|&#160;</mtext><mi>x</mi><mo>&#8800;</mo><mn>3</mn><mo>}</mo><mtext>,&#160;&#160;since division by 0 is undefined</mtext></math>"
+          }
+        },
+        {
+          "id": "functions-transformations",
+          "label": "Concept: transformations of a parent function",
+          "content": {
+            "format": "text",
+            "value": "Every transformation of a parent function y = f(x) can be tracked through the four numbers in y = a f(b(x - h)) + k. h slides the graph horizontally — and its sign is counterintuitive, since x - h shifts right when h is positive and left when h is negative. k slides the graph vertically, up for positive k and down for negative k, and behaves the way most people expect. a stretches or compresses the graph vertically (|a| > 1 stretches, 0 < |a| < 1 compresses), and a negative a also reflects it over the x-axis. b does the same job horizontally but works inversely — |b| > 1 compresses the graph toward the y-axis, and a negative b reflects it over the y-axis. The safest way to apply several transformations at once is one step at a time, in the order: horizontal stretch/reflection, horizontal shift, vertical stretch/reflection, vertical shift — checking one or two key points from the parent graph after each step. The horizontal order matters because b and h sit inside the same parentheses: b(x - h) = bx - bh, so scaling has to happen before shifting to land on the intended graph — applying the shift first and then the stretch produces a different function."
+          }
+        },
+        {
+          "id": "functions-composition-inverse-overview",
+          "label": "Concept: composition and inverse functions",
+          "content": {
+            "format": "text",
+            "value": "Composition chains two functions so that one function's output becomes the next function's input: (f composed with g)(x), written f(g(x)), first evaluates g at x, then feeds that result into f. Order matters — f(g(x)) and g(f(x)) are generally different functions. An inverse function, written f^-1(x), undoes what f does: if f takes a to b, then f^-1 takes b back to a, so composing a function with its own inverse in either order returns the original input, f(f^-1(x)) = x and f^-1(f(x)) = x. A function only has an inverse that is itself a function when the original function is one-to-one — no two different inputs may share the same output — because the inverse has to be able to send that shared output back to a single, unambiguous input."
+          }
+        },
+        {
+          "id": "functions-why-it-matters-for-teaching",
+          "label": "Why it matters for teaching",
+          "content": {
+            "format": "text",
+            "value": "Functions is one of the largest content categories (13 of 66 questions, about 20%) and the exam's \"Task of Teaching Mathematics\" overlay (BLUEPRINT.md's F-4 — roughly a quarter of all 5165 questions) shows up heavily here because function concepts are where student misconceptions are so visible and so consistent from class to class. A typical overlay item won't just ask you to evaluate or transform a function; it will show a student's work — a mis-shifted graph, a composition done in the wrong order, an inverse found without checking one-to-one-ness — and ask you to name the misconception or pick the best next question or example to address it. Being able to evaluate, transform, compose, and invert functions fluently is necessary but not sufficient; you also need to recognize the specific, predictable ways students get each of those steps wrong."
+          }
+        }
+      ]
+    },
+    {
+      "id": "functions-worked-example",
+      "categoryId": "II-A",
+      "heading": "Worked example: finding the inverse of a rational function",
+      "entries": [
+        {
+          "id": "functions-problem",
+          "label": "Problem",
+          "content": {
+            "format": "text",
+            "value": "Find the inverse of f(x) = (2x + 1) / (x - 3), and state the domain restriction on the inverse."
+          }
+        },
+        {
+          "id": "functions-step-1",
+          "label": "Step 1 — replace f(x) with y",
+          "content": {
+            "format": "mathml",
+            "value": "<math><mi>y</mi><mo>=</mo><mfrac><mrow><mn>2</mn><mi>x</mi><mo>+</mo><mn>1</mn></mrow><mrow><mi>x</mi><mo>&#8722;</mo><mn>3</mn></mrow></mfrac></math>"
+          }
+        },
+        {
+          "id": "functions-step-2",
+          "label": "Step 2 — swap x and y",
+          "content": {
+            "format": "mathml",
+            "value": "<math><mi>x</mi><mo>=</mo><mfrac><mrow><mn>2</mn><mi>y</mi><mo>+</mo><mn>1</mn></mrow><mrow><mi>y</mi><mo>&#8722;</mo><mn>3</mn></mrow></mfrac></math>"
+          }
+        },
+        {
+          "id": "functions-step-3",
+          "label": "Step 3 — clear the fraction and collect the y terms",
+          "content": {
+            "format": "mathml",
+            "value": "<math><mi>x</mi><mo>(</mo><mi>y</mi><mo>&#8722;</mo><mn>3</mn><mo>)</mo><mo>=</mo><mn>2</mn><mi>y</mi><mo>+</mo><mn>1</mn><mtext>&#160;&#160;&#8658;&#160;&#160;</mtext><mi>x</mi><mi>y</mi><mo>&#8722;</mo><mn>3</mn><mi>x</mi><mo>=</mo><mn>2</mn><mi>y</mi><mo>+</mo><mn>1</mn><mtext>&#160;&#160;&#8658;&#160;&#160;</mtext><mi>x</mi><mi>y</mi><mo>&#8722;</mo><mn>2</mn><mi>y</mi><mo>=</mo><mn>3</mn><mi>x</mi><mo>+</mo><mn>1</mn></math>"
+          }
+        },
+        {
+          "id": "functions-step-4",
+          "label": "Step 4 — factor out y and solve",
+          "content": {
+            "format": "mathml",
+            "value": "<math><mi>y</mi><mo>(</mo><mi>x</mi><mo>&#8722;</mo><mn>2</mn><mo>)</mo><mo>=</mo><mn>3</mn><mi>x</mi><mo>+</mo><mn>1</mn><mtext>&#160;&#160;&#8658;&#160;&#160;</mtext><mi>y</mi><mo>=</mo><mfrac><mrow><mn>3</mn><mi>x</mi><mo>+</mo><mn>1</mn></mrow><mrow><mi>x</mi><mo>&#8722;</mo><mn>2</mn></mrow></mfrac></math>"
+          }
+        },
+        {
+          "id": "functions-answer",
+          "label": "Answer",
+          "content": {
+            "format": "mathml",
+            "value": "<math><msup><mi>f</mi><mrow><mo>&#8722;</mo><mn>1</mn></mrow></msup><mo>(</mo><mi>x</mi><mo>)</mo><mo>=</mo><mfrac><mrow><mn>3</mn><mi>x</mi><mo>+</mo><mn>1</mn></mrow><mrow><mi>x</mi><mo>&#8722;</mo><mn>2</mn></mrow></mfrac><mo>,</mo><mtext>&#160;&#160;domain&#160;</mtext><mi>x</mi><mo>&#8800;</mo><mn>2</mn></math>"
+          }
+        },
+        {
+          "id": "functions-why-the-trick-works",
+          "label": "Why the trick works",
+          "content": {
+            "format": "text",
+            "value": "Swapping x and y before solving is exactly what \"undoing\" a function means: the original rule maps an input y-value to an output x-value, so relabeling and re-solving finds the rule that maps that output back to its input — which is the definition of an inverse. Graphically, swapping x and y is the same as reflecting the graph over the line y = x. The domain restriction carries over in a mirrored way too: f's domain excludes x = 3 because that made the original denominator zero, and f^-1's domain excludes x = 2 because that's the value that was in f's denominator after the swap — in general, the domain of f^-1 equals the range of f, and the range of f^-1 equals the domain of f."
+          }
+        }
+      ]
+    },
+    {
+      "id": "functions-common-mistakes",
+      "categoryId": "II-A",
+      "heading": "Common mistakes",
+      "entries": [
+        {
+          "id": "functions-mistake-shift-direction",
+          "label": "Mistake: \"f(x - 3) shifts the graph left\"",
+          "content": {
+            "format": "text",
+            "value": "Seeing a minus sign, many students shift the graph in the direction the sign suggests — left for subtraction. But f(x - 3) shifts the parent graph right by 3, because the graph now reaches its old value of f(x) three units later than before (at x = 3 instead of x = 0). f(x + 3), with a plus sign, shifts left by 3 for the same reason. The rule is easiest to keep straight by testing one point: if f(0) = 5, then f(x - 3) = 5 when x - 3 = 0, i.e., when x = 3 — the key point moved right."
+          }
+        },
+        {
+          "id": "functions-mistake-canceling-hides-domain",
+          "label": "Mistake: simplifying away a domain restriction",
+          "content": {
+            "format": "mathml",
+            "value": "<math><mi>f</mi><mo>(</mo><mi>x</mi><mo>)</mo><mo>=</mo><mfrac><mrow><msup><mi>x</mi><mn>2</mn></msup><mo>&#8722;</mo><mn>4</mn></mrow><mrow><mi>x</mi><mo>&#8722;</mo><mn>2</mn></mrow></mfrac><mo>=</mo><mi>x</mi><mo>+</mo><mn>2</mn><mtext>&#160;&#160;for all&#160;</mtext><mi>x</mi><mo>&#8800;</mo><mn>2</mn><mtext>&#160;&#160;&#8212; the simplified form still has a hole at&#160;</mtext><mi>x</mi><mo>=</mo><mn>2</mn></math>"
+          }
+        },
+        {
+          "id": "functions-exam-tip",
+          "label": "Tip for the exam",
+          "content": {
+            "format": "text",
+            "value": "Whenever a function involves a fraction, a square root, or gets algebraically simplified, find the domain from the original, unsimplified expression before doing any canceling — canceling a common factor removes a restriction from view without removing it from the function. This matters just as much when composing functions: the domain of f(g(x)) can exclude values beyond what the simplified composite expression alone would suggest, whenever those values were already excluded from g's own domain."
+          }
+        }
+      ]
+    },
+    {
+      "id": "calculus-derivative-rate-of-change",
+      "categoryId": "II-B",
+      "heading": "The derivative as a rate of change",
+      "entries": [
+        {
+          "id": "calculus-concept",
+          "label": "Concept",
+          "content": {
+            "format": "text",
+            "value": "The derivative of a function at a point measures how fast the function's output is changing right at that point — its instantaneous rate of change. Graphically, it is the slope of the line tangent to the curve at that point. This is different from the average rate of change over an interval, which is the slope of the secant line connecting two points on the curve. The derivative is what that average rate of change approaches as the two points are pulled closer and closer together, until the interval between them shrinks to nothing. Because the derivative can be found at any point where the curve is smooth, it is itself a function of x, usually written f'(x) (read \"f prime of x\") or dy/dx."
+          }
+        },
+        {
+          "id": "calculus-derivative-definition",
+          "label": "Definition: derivative as a limit",
+          "content": {
+            "format": "mathml",
+            "value": "<math><msup><mi>f</mi><mo>&#8242;</mo></msup><mo>(</mo><mi>x</mi><mo>)</mo><mo>=</mo><munder><mi>lim</mi><mrow><mi>h</mi><mo>&#8594;</mo><mn>0</mn></mrow></munder><mfrac><mrow><mi>f</mi><mo>(</mo><mi>x</mi><mo>+</mo><mi>h</mi><mo>)</mo><mo>&#8722;</mo><mi>f</mi><mo>(</mo><mi>x</mi><mo>)</mo></mrow><mi>h</mi></mfrac></math>"
+          }
+        },
+        {
+          "id": "calculus-power-rule",
+          "label": "Rule: the power rule",
+          "content": {
+            "format": "mathml",
+            "value": "<math><mfrac><mi>d</mi><mrow><mi>d</mi><mi>x</mi></mrow></mfrac><mo>[</mo><msup><mi>x</mi><mi>n</mi></msup><mo>]</mo><mo>=</mo><mi>n</mi><msup><mi>x</mi><mrow><mi>n</mi><mo>&#8722;</mo><mn>1</mn></mrow></msup><mtext>&#160;&#160;(bring the exponent down as a coefficient, then subtract 1 from the exponent)</mtext></math>"
+          }
+        },
+        {
+          "id": "calculus-why-it-matters-for-teaching",
+          "label": "Why it matters for teaching",
+          "content": {
+            "format": "text",
+            "value": "The exam's \"Task of Teaching Mathematics\" overlay shows up here as questions about diagnosing a student's confusion between average and instantaneous rate of change — for example, a student who computes a secant slope over an interval when the question asked for the rate of change \"at\" a single point. You may also see items asking you to choose the best next instructional move for a student who applies the power rule inconsistently (correct on some terms, wrong on others), which requires recognizing not just that the answer is wrong but which specific step broke down."
+          }
+        }
+      ]
+    },
+    {
+      "id": "calculus-worked-example",
+      "categoryId": "II-B",
+      "heading": "Worked example: finding a tangent line using the power rule",
+      "entries": [
+        {
+          "id": "calculus-problem",
+          "label": "Problem",
+          "content": {
+            "format": "text",
+            "value": "Let f(x) = x³ − 4x. Find the slope of the line tangent to the graph of f at x = 2, and write the equation of that tangent line."
+          }
+        },
+        {
+          "id": "calculus-step-1",
+          "label": "Step 1 — differentiate using the power rule",
+          "content": {
+            "format": "mathml",
+            "value": "<math><mi>f</mi><mo>(</mo><mi>x</mi><mo>)</mo><mo>=</mo><msup><mi>x</mi><mn>3</mn></msup><mo>&#8722;</mo><mn>4</mn><mi>x</mi><mtext>&#160;&#160;&#8658;&#160;&#160;</mtext><msup><mi>f</mi><mo>&#8242;</mo></msup><mo>(</mo><mi>x</mi><mo>)</mo><mo>=</mo><mn>3</mn><msup><mi>x</mi><mn>2</mn></msup><mo>&#8722;</mo><mn>4</mn></math>"
+          }
+        },
+        {
+          "id": "calculus-step-2",
+          "label": "Step 2 — evaluate the derivative at x = 2 to get the slope",
+          "content": {
+            "format": "mathml",
+            "value": "<math><msup><mi>f</mi><mo>&#8242;</mo></msup><mo>(</mo><mn>2</mn><mo>)</mo><mo>=</mo><mn>3</mn><mo>(</mo><msup><mn>2</mn><mn>2</mn></msup><mo>)</mo><mo>&#8722;</mo><mn>4</mn><mo>=</mo><mn>12</mn><mo>&#8722;</mo><mn>4</mn><mo>=</mo><mn>8</mn></math>"
+          }
+        },
+        {
+          "id": "calculus-step-3",
+          "label": "Step 3 — find the point on the curve, then write the equation",
+          "content": {
+            "format": "mathml",
+            "value": "<math><mi>f</mi><mo>(</mo><mn>2</mn><mo>)</mo><mo>=</mo><msup><mn>2</mn><mn>3</mn></msup><mo>&#8722;</mo><mn>4</mn><mo>(</mo><mn>2</mn><mo>)</mo><mo>=</mo><mn>8</mn><mo>&#8722;</mo><mn>8</mn><mo>=</mo><mn>0</mn><mtext>&#160;&#160;&#8658;&#160;&#160;point (2, 0), slope 8:&#160;&#160;</mtext><mi>y</mi><mo>&#8722;</mo><mn>0</mn><mo>=</mo><mn>8</mn><mo>(</mo><mi>x</mi><mo>&#8722;</mo><mn>2</mn><mo>)</mo></math>"
+          }
+        },
+        {
+          "id": "calculus-answer",
+          "label": "Answer",
+          "content": {
+            "format": "mathml",
+            "value": "<math><mi>y</mi><mo>=</mo><mn>8</mn><mi>x</mi><mo>&#8722;</mo><mn>16</mn><mtext>&#160;&#8212; the tangent line to </mtext><mi>f</mi><mo>(</mo><mi>x</mi><mo>)</mo><mo>=</mo><msup><mi>x</mi><mn>3</mn></msup><mo>&#8722;</mo><mn>4</mn><mi>x</mi><mtext>&#160;at </mtext><mi>x</mi><mo>=</mo><mn>2</mn><mo>.</mo></math>"
+          }
+        },
+        {
+          "id": "calculus-why-the-trick-works",
+          "label": "Why the trick works",
+          "content": {
+            "format": "text",
+            "value": "The derivative f'(x) tells you the slope of the tangent line at every x-value on the curve, but a slope alone doesn't pin down a specific line — infinitely many lines share a slope of 8. Plugging x = 2 into the original function f gives the one point where we want that slope to apply, (2, 0). Point-slope form, y − y1 = m(x − x1), is built exactly for this: it takes a single point and a single slope and produces the one line through that point with that slope. This same two-step pattern — differentiate, then evaluate at the point of interest — is how every tangent-line problem in this style is solved, regardless of how complicated f is."
+          }
+        }
+      ]
+    },
+    {
+      "id": "calculus-common-mistakes",
+      "categoryId": "II-B",
+      "heading": "Common mistakes",
+      "entries": [
+        {
+          "id": "calculus-mistake-power-rule-errors",
+          "label": "Mistake: misapplying the power rule",
+          "content": {
+            "format": "text",
+            "value": "The power rule has two moves that must both happen: bring the exponent down as a multiplying coefficient, and subtract 1 from the exponent. Students often do only one. Differentiating x³ as 3x³ keeps the old exponent (forgot to subtract 1); differentiating x³ as x² drops the coefficient entirely (forgot to bring the exponent down). The correct result keeps both changes: the derivative of x³ is 3x². This error is easy to miss when checking work quickly, because the wrong answer still \"looks like\" a derivative — it has a smaller-looking exponent or a new coefficient, just not both."
+          }
+        },
+        {
+          "id": "calculus-mistake-average-vs-instantaneous",
+          "label": "Mistake: treating average rate of change as instantaneous rate of change",
+          "content": {
+            "format": "text",
+            "value": "A student asked for the rate of change \"at x = a\" sometimes instead computes (f(b) − f(a)) / (b − a) using some nearby second point b — that formula gives the average rate of change over an interval (the secant line's slope), not the instantaneous rate of change at a single point (the tangent line's slope, f'(a)). The two values are generally different and only coincide when the function is linear over that interval. On the exam, watch the wording closely: \"at a point\" or \"at x = a\" signals the derivative; \"average rate of change\" or \"between x = a and x = b\" signals the secant-slope formula, with no differentiation needed at all."
+          }
+        },
+        {
+          "id": "calculus-exam-tip",
+          "label": "Tip for the exam",
+          "content": {
+            "format": "text",
+            "value": "Before differentiating anything, decide which quantity the question is actually asking for. If it gives one x-value and asks for a rate, slope, or tangent line \"at\" that value, you need the derivative evaluated there. If it gives two x-values (or an interval) and asks for an average rate of change, you need the plain slope formula between the two output values — differentiating is unnecessary and will point you at the wrong answer choice."
+          }
+        }
+      ]
+    },
+    {
+      "id": "geometry-core-relationships",
+      "categoryId": "III",
+      "heading": "Core relationships in geometry",
+      "entries": [
+        {
+          "id": "geometry-concept-right-triangles",
+          "label": "Concept: right triangles and the Pythagorean theorem",
+          "content": {
+            "format": "text",
+            "value": "A right triangle has exactly one 90-degree angle, and the side opposite that angle — always the longest side — is called the hypotenuse. The Pythagorean theorem relates the three sides of any right triangle: the sum of the squares of the two legs equals the square of the hypotenuse. This relationship holds only for right triangles; it says nothing about acute or obtuse ones. It is one of the most heavily tested relationships on the exam because it underlies distance and diagonal calculations and shows up in plenty of everyday right-triangle setups — ladders against walls, ramps, screen sizes, and more."
+          }
+        },
+        {
+          "id": "geometry-pythagorean-definition",
+          "label": "Definition: Pythagorean theorem",
+          "content": {
+            "format": "mathml",
+            "value": "<math><msup><mi>a</mi><mn>2</mn></msup><mo>+</mo><msup><mi>b</mi><mn>2</mn></msup><mo>=</mo><msup><mi>c</mi><mn>2</mn></msup><mtext>&#160;where&#160;</mtext><mi>c</mi><mtext>&#160;is the hypotenuse (the side opposite the right angle) and&#160;</mtext><mi>a</mi><mtext>,&#160;</mtext><mi>b</mi><mtext>&#160;are the two legs.</mtext></math>"
+          }
+        },
+        {
+          "id": "geometry-concept-similarity-congruence",
+          "label": "Concept: similarity vs. congruence",
+          "content": {
+            "format": "text",
+            "value": "Two figures are congruent when they have exactly the same size and shape — every corresponding side and angle matches, and one figure could be picked up and placed exactly on top of the other. Two figures are similar when they have the same shape but not necessarily the same size: corresponding angles are equal, and corresponding sides are all in the same fixed ratio, the scale factor. Congruence is really similarity with a scale factor of 1. Students often conflate the two, or assume that matching angles alone guarantee congruence when they only guarantee similarity."
+          }
+        },
+        {
+          "id": "geometry-why-it-matters-for-teaching",
+          "label": "Why it matters for teaching",
+          "content": {
+            "format": "text",
+            "value": "Geometry is a rich source of visible, diagnosable student errors, which is exactly what the exam's \"Task of Teaching Mathematics\" overlay (roughly a quarter of all 5165 questions) likes to probe. A student who applies the Pythagorean theorem to a triangle that isn't a right triangle, or who assumes matching angles alone prove two figures are congruent, is giving you a specific, identifiable misconception — not just \"a wrong answer.\" Expect items that show a student's incorrect work and ask you to name the underlying error, or to choose the follow-up question, counterexample, or manipulative most likely to correct it."
+          }
+        }
+      ]
+    },
+    {
+      "id": "geometry-worked-example",
+      "categoryId": "III",
+      "heading": "Worked example: finding a missing leg with the Pythagorean theorem",
+      "entries": [
+        {
+          "id": "geometry-problem",
+          "label": "Problem",
+          "content": {
+            "format": "text",
+            "value": "A 25-foot ladder leans against a vertical wall. The base of the ladder rests on level ground, 7 feet from the base of the wall. How far up the wall does the ladder reach?"
+          }
+        },
+        {
+          "id": "geometry-step-1",
+          "label": "Step 1 — identify the right triangle and set up the equation",
+          "content": {
+            "format": "mathml",
+            "value": "<math><mtext>The wall, the ground, and the ladder form a right triangle (the wall meets the ground at 90&#176;), so&#160;</mtext><mi>c</mi><mo>=</mo><mn>25</mn><mtext>&#160;(hypotenuse, the ladder),&#160;</mtext><mi>a</mi><mo>=</mo><mn>7</mn><mtext>&#160;(known leg, the base)&#160;&#160;&#8658;&#160;&#160;</mtext><msup><mn>7</mn><mn>2</mn></msup><mo>+</mo><msup><mi>h</mi><mn>2</mn></msup><mo>=</mo><msup><mn>25</mn><mn>2</mn></msup></math>"
+          }
+        },
+        {
+          "id": "geometry-step-2",
+          "label": "Step 2 — solve for the unknown leg",
+          "content": {
+            "format": "mathml",
+            "value": "<math><mn>49</mn><mo>+</mo><msup><mi>h</mi><mn>2</mn></msup><mo>=</mo><mn>625</mn><mtext>&#160;&#160;&#8658;&#160;&#160;</mtext><msup><mi>h</mi><mn>2</mn></msup><mo>=</mo><mn>625</mn><mo>&#8722;</mo><mn>49</mn><mo>=</mo><mn>576</mn><mtext>&#160;&#160;&#8658;&#160;&#160;</mtext><mi>h</mi><mo>=</mo><msqrt><mn>576</mn></msqrt></math>"
+          }
+        },
+        {
+          "id": "geometry-answer",
+          "label": "Answer",
+          "content": {
+            "format": "mathml",
+            "value": "<math><mi>h</mi><mo>=</mo><mn>24</mn><mtext>&#160;&#8212; the ladder reaches 24 feet up the wall.</mtext></math>"
+          }
+        },
+        {
+          "id": "geometry-why-it-works",
+          "label": "Why this works",
+          "content": {
+            "format": "text",
+            "value": "Because the wall is vertical and the ground is horizontal, the corner where they meet is a right angle, which makes the ladder, wall, and ground a right triangle every time — regardless of how far out the base sits. That guarantees the Pythagorean theorem applies. The ladder itself is always the hypotenuse here because it's the side directly opposite that right angle, so it goes in the c² slot; the base and the height-up-the-wall are the two legs, interchangeable as a and b."
+          }
+        }
+      ]
+    },
+    {
+      "id": "geometry-common-mistakes",
+      "categoryId": "III",
+      "heading": "Common mistakes",
+      "entries": [
+        {
+          "id": "geometry-mistake-any-triangle",
+          "label": "Mistake: \"the Pythagorean theorem works on any triangle\"",
+          "content": {
+            "format": "text",
+            "value": "a² + b² = c² is only true for right triangles. Applying it to an acute or obtuse triangle produces a number that looks like a legitimate answer but has no geometric meaning — there's no right angle to justify the relationship. A related slip is plugging a leg into the c² slot: c must always be the side opposite the right angle (the longest side), never one of the other two."
+          }
+        },
+        {
+          "id": "geometry-mistake-scale-factor",
+          "label": "Mistake: forgetting to square (or cube) the scale factor for area and volume",
+          "content": {
+            "format": "mathml",
+            "value": "<math><mtext>Two similar rectangles have side lengths in a ratio of&#160;</mtext><mn>2</mn><mo>:</mo><mn>3</mn><mtext>. The area ratio is&#160;</mtext><msup><mn>2</mn><mn>2</mn></msup><mo>:</mo><msup><mn>3</mn><mn>2</mn></msup><mo>=</mo><mn>4</mn><mo>:</mo><mn>9</mn><mtext>&#160;&#8212; not 2:3. If these were similar solids instead, the volume ratio would be&#160;</mtext><msup><mn>2</mn><mn>3</mn></msup><mo>:</mo><msup><mn>3</mn><mn>3</mn></msup><mo>=</mo><mn>8</mn><mo>:</mo><mn>27</mn><mtext>.</mtext></math>"
+          }
+        },
+        {
+          "id": "geometry-exam-tip",
+          "label": "Tip for the exam",
+          "content": {
+            "format": "text",
+            "value": "Before applying any triangle formula, confirm a right angle is actually given or provable — a diagram \"looking\" square isn't enough, and marked congruent tick marks aren't the same as a right-angle marker. When a problem involves similar figures and asks about area or volume rather than length, square or cube the linear scale factor before comparing — do not carry the linear ratio straight over."
+          }
+        }
+      ]
+    },
+    {
+      "id": "statistics-concept-overview",
+      "categoryId": "IV",
+      "heading": "Describing data and basic probability",
+      "entries": [
+        {
+          "id": "statistics-concept-center-and-spread",
+          "label": "Concept: measures of center and spread",
+          "content": {
+            "format": "text",
+            "value": "Three familiar statistics — mean, median, and mode — each describe the \"center\" of a data set, but they answer slightly different questions and behave differently when the data is skewed or contains outliers. The mean (the arithmetic average) uses every value in its calculation, which makes it sensitive to unusually large or small values pulling it away from where most of the data actually sits. The median (the middle value when the data is ordered) ignores the exact size of extreme values and cares only about their rank, so it stays put even when one data point is far from the rest. The mode (the most frequent value) is the only one of the three that works on non-numeric categorical data, and a data set can have one mode, several modes, or none at all. Spread tells a complementary story: the range (maximum minus minimum) is a quick but crude measure, while the standard deviation measures how far, on average, each data point sits from the mean — a small standard deviation means the data clusters tightly around the mean, and a large one means it is spread out."
+          }
+        },
+        {
+          "id": "statistics-std-dev-definition",
+          "label": "Definition: standard deviation",
+          "content": {
+            "format": "mathml",
+            "value": "<math><mi>&#963;</mi><mo>=</mo><msqrt><mfrac><mrow><munderover><mo>&#8721;</mo><mrow><mi>i</mi><mo>=</mo><mn>1</mn></mrow><mi>n</mi></munderover><msup><mrow><mo>(</mo><msub><mi>x</mi><mi>i</mi></msub><mo>&#8722;</mo><mover><mi>x</mi><mo>&#175;</mo></mover><mo>)</mo></mrow><mn>2</mn></msup></mrow><mi>n</mi></mfrac></msqrt><mo>,</mo><mtext>&#160;the root-mean-square distance of each value from the mean&#160;</mtext><mover><mi>x</mi><mo>&#175;</mo></mover></math>"
+          }
+        },
+        {
+          "id": "statistics-concept-probability-rules",
+          "label": "Concept: independent and dependent events",
+          "content": {
+            "format": "text",
+            "value": "Two events are independent when the outcome of one has no effect on the probability of the other — flipping a coin and then rolling a die are independent, so the probability of both happening is just the product of their individual probabilities: P(A and B) = P(A) · P(B). Two events are dependent when one event's outcome changes the probability of the other — drawing a card from a deck and then drawing a second card without replacing the first are dependent, because the first draw changes what cards remain. Conditional probability, written P(A | B) and read \"the probability of A given B,\" is the tool for handling dependent events: it asks what fraction of the outcomes where B already happened also have A happening. Independence has a precise test hiding inside that idea: A and B are independent exactly when P(A | B) = P(A) — in other words, knowing that B happened does not change how likely A is."
+          }
+        },
+        {
+          "id": "statistics-conditional-probability-definition",
+          "label": "Definition: conditional probability",
+          "content": {
+            "format": "mathml",
+            "value": "<math><mi>P</mi><mo>(</mo><mi>A</mi><mo>|</mo><mi>B</mi><mo>)</mo><mo>=</mo><mfrac><mrow><mi>P</mi><mo>(</mo><mi>A</mi><mtext>&#160;and&#160;</mtext><mi>B</mi><mo>)</mo></mrow><mrow><mi>P</mi><mo>(</mo><mi>B</mi><mo>)</mo></mrow></mfrac><mo>,</mo><mtext>&#160;where&#160;</mtext><mi>P</mi><mo>(</mo><mi>B</mi><mo>)</mo><mo>&#8800;</mo><mn>0</mn></math>"
+          }
+        },
+        {
+          "id": "statistics-why-it-matters-for-teaching",
+          "label": "Why it matters for teaching",
+          "content": {
+            "format": "text",
+            "value": "This category also feeds heavily into the exam's \"Task of Teaching Mathematics\" overlay (roughly a quarter of all 5165 questions, per BLUEPRINT.md's F-4). A typical item here rarely just asks you to compute a statistic — it asks you to evaluate a student's reasoning about one. For example: a student reports the mean household income of a neighborhood where one household earns far more than the rest and calls that figure \"typical\" — what should the teacher ask next? Or: a student claims two events can't be independent if they're mutually exclusive — is that correct, and how would a teacher respond? Being able to compute the number isn't the skill being tested; being able to diagnose why a student's interpretation of it went wrong, and what question or example would surface the misconception, is."
+          }
+        }
+      ]
+    },
+    {
+      "id": "statistics-worked-example",
+      "categoryId": "IV",
+      "heading": "Worked example: conditional probability from survey data",
+      "entries": [
+        {
+          "id": "statistics-problem",
+          "label": "Problem",
+          "content": {
+            "format": "text",
+            "value": "A drama club surveyed all 50 of its members about two after-school activities. Of the 50 members, 30 play a sport. Of those 30 who play a sport, 18 also play a musical instrument. If a member is chosen at random from the club, what is the probability that the member plays an instrument, given that the member plays a sport?"
+          }
+        },
+        {
+          "id": "statistics-step-1",
+          "label": "Step 1 — restrict the sample space to the given condition",
+          "content": {
+            "format": "text",
+            "value": "The phrase \"given that the member plays a sport\" tells you to stop thinking about all 50 club members. The new, smaller sample space is just the 30 members who play a sport — everyone outside that group is no longer part of the calculation."
+          }
+        },
+        {
+          "id": "statistics-step-2",
+          "label": "Step 2 — divide the joint count by the conditioning count",
+          "content": {
+            "format": "mathml",
+            "value": "<math><mi>P</mi><mo>(</mo><mtext>instrument</mtext><mo>|</mo><mtext>sport</mtext><mo>)</mo><mo>=</mo><mfrac><mrow><mtext>members who play both</mtext></mrow><mrow><mtext>members who play a sport</mtext></mrow></mfrac><mo>=</mo><mfrac><mn>18</mn><mn>30</mn></mfrac><mo>=</mo><mfrac><mn>3</mn><mn>5</mn></mfrac></math>"
+          }
+        },
+        {
+          "id": "statistics-answer",
+          "label": "Answer",
+          "content": {
+            "format": "mathml",
+            "value": "<math><mfrac><mn>3</mn><mn>5</mn></mfrac><mo>=</mo><mn>0.6</mn><mtext>&#160;&#8212; a 60% chance that a club member who plays a sport also plays an instrument.</mtext></math>"
+          }
+        },
+        {
+          "id": "statistics-why-the-trick-works",
+          "label": "Why the trick works",
+          "content": {
+            "format": "text",
+            "value": "Conditioning on an event doesn't change the underlying data — it changes which slice of the data you're allowed to look at. Once you've shrunk the sample space down to \"members who play a sport,\" the question \"what fraction of them also play an instrument\" is just an ordinary part-to-whole ratio, no different from any other percentage problem. That's all P(A | B) = P(A and B) / P(B) is doing algebraically: it's dividing out the group you were told to condition on so that what's left is a plain fraction within that group."
+          }
+        }
+      ]
+    },
+    {
+      "id": "statistics-common-mistakes",
+      "categoryId": "IV",
+      "heading": "Common mistakes",
+      "entries": [
+        {
+          "id": "statistics-mistake-reversing-conditional",
+          "label": "Mistake: reversing P(A | B) and P(B | A)",
+          "content": {
+            "format": "text",
+            "value": "\"The probability a student passed, given that they studied\" and \"the probability a student studied, given that they passed\" are usually different numbers, because they restrict the sample space in different directions — one starts from everyone who studied, the other starts from everyone who passed. Treating P(A | B) as automatically equal to P(B | A) is one of the most common probability errors, and it's worth explicitly naming which group is the \"given\" (the denominator) before doing any arithmetic."
+          }
+        },
+        {
+          "id": "statistics-mistake-independent-vs-mutually-exclusive",
+          "label": "Mistake: treating \"independent\" and \"mutually exclusive\" as the same idea",
+          "content": {
+            "format": "mathml",
+            "value": "<math><mtext>If&#160;</mtext><mi>A</mi><mtext>&#160;and&#160;</mtext><mi>B</mi><mtext>&#160;are mutually exclusive,&#160;</mtext><mi>P</mi><mo>(</mo><mi>A</mi><mtext>&#160;and&#160;</mtext><mi>B</mi><mo>)</mo><mo>=</mo><mn>0</mn><mo>,</mo><mtext>&#160;but for independent events&#160;</mtext><mi>P</mi><mo>(</mo><mi>A</mi><mtext>&#160;and&#160;</mtext><mi>B</mi><mo>)</mo><mo>=</mo><mi>P</mi><mo>(</mo><mi>A</mi><mo>)</mo><mo>&#183;</mo><mi>P</mi><mo>(</mo><mi>B</mi><mo>)</mo><mtext>&#160;&#8212; so if both events have nonzero probability, they cannot be both mutually exclusive and independent at the same time.</mtext></math>"
+          }
+        },
+        {
+          "id": "statistics-mistake-mean-on-skewed-data",
+          "label": "Mistake: using the mean to summarize a skewed data set",
+          "content": {
+            "format": "text",
+            "value": "The mean is pulled toward extreme values, so on a skewed data set — home prices in a neighborhood with one mansion, incomes in a company with one very highly paid executive — it can land far from where most of the data actually sits, making it a misleading stand-in for \"typical.\" The median, which only cares about rank order and not magnitude, is far more resistant to that kind of distortion and is usually the better choice for describing the center of a skewed distribution."
+          }
+        },
+        {
+          "id": "statistics-exam-tip",
+          "label": "Tip for the exam",
+          "content": {
+            "format": "text",
+            "value": "When a probability problem gives you a condition (\"given that...\", \"if we already know...\"), rewrite the sample space in your head — or on scratch paper — before computing anything. And when a data-description problem mentions an outlier or a skewed shape, expect the question to be testing whether you know the mean is the more easily distorted of the center measures, not whether you can compute it."
+          }
+        }
+      ]
     }
   ]
 }
