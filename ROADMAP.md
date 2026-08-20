@@ -58,6 +58,7 @@ site with no server.
 | 6.6 | Progress dashboard visual redesign | ◐ |
 | 6.7 | Restore progress ("upload progress") | ☑ |
 | 6.8 | S2 redesign (test-menu hub) | ◐ |
+| 6.9 | Topic teaching pages ("Study a topic") | ☐ |
 | 7 | Content authoring (parallel track) | ◐ |
 | 8 | Launch (NAS) — v1, Mathematics only | ◐ |
 | 9 | Multi-subject entry (S1 redesign) | ☐ |
@@ -905,30 +906,83 @@ zeroed/empty-state, so a first-time visitor can see where their data will
 eventually show up. Folds in 6.6.2's deferred category-test mode (session
 owner's call, 2026-08-20) rather than building it against the old S2 later.
 
-- ◐ **6.8.1 Mockup, iterate to sign-off.** First pass published as an Artifact
-  2026-08-19: a card-based hub (two primary action cards, a highlighted
-  "pick up where you left off" card for resume/due/weakest-category, backup/
-  restore in a collapsed `<details>`), reusing `css/base.css`'s tokens.
-  Session owner's feedback (2026-08-20): rework toward `dashboard.html`'s own
-  component language instead of the card idiom, and merge S2's entry actions
-  with a live-or-zeroed S6 dashboard view rather than keeping them visually
-  separate. Second pass not yet built. **Not started:** how the folded-in
-  category-test control (10 questions, one category, explicitly unrecorded —
-  writes nothing to `questionHistory`, not just skips creating an `attempt`)
-  fits this new layout — needs its own line in the mockup, not just a ported
-  `disabled` control.
-  *Accepts:* session owner signs off on a mockup before any real-code changes
-  land in `test.html`/`dashboard.html`.
-- ☐ **6.8.2 Build and wire up.** Port the signed-off mockup into real
-  `test.html`/`dashboard.html` code; implement the category-test mode for
-  real (new `run.html` mode, non-persisting, per 6.6.2's original design
-  note above).
-  *Accepts:* S2 matches the signed-off mockup with real data in every state
-  (first-visit, resume/due/weakest present, zero-attempt dashboard); a
-  category test completes without creating an `attempt` or writing
-  `questionHistory`, confirmed by inspecting the store directly.
-  Deep change (a new `run.html` mode, persistence-adjacent) — full 8-angle
-  `/code-review` required per Gate 3.
+- ☑ **6.8.1 Mockup, iterate to sign-off.** First pass published as an Artifact
+  2026-08-19: a card-based hub. Session owner's feedback (2026-08-20): rework
+  toward `dashboard.html`'s own component language, merge S2's entry actions
+  with a live-or-zeroed dashboard view. Second pass (2026-08-20) rebuilt on
+  that direction — meters/category-bars reused directly from `dashboard.html`,
+  a zero-filled category list on first visit (every leaf category shown
+  `pending`, not just ones with history), a "Continue" callout wrapping
+  resume/due/weakest, backup/restore in a collapsed `<details>`. **Signed off.**
+  While reviewing the mockup, the Start-menu scope itself grew — see 6.8.2's
+  final shape below, settled via two rounds of AskUserQuestion (2026-08-20).
+- ☐ **6.8.2 Build and wire up.** Scope, as settled 2026-08-20 — the Start
+  section ends up with **five** entries, not the two the mockup showed:
+  1. **Full practice test** — existing, unchanged.
+  2. **Practice a topic** (new) — untimed, 10 questions from one category,
+     same flag/review-pass/submit flow as a real test, scored locally,
+     never persisted.
+  3. **Category test** (new) — identical to #2 but timed, matching a real
+     test's clock. Shares one new engine mode with #2 (a timer on/off flag),
+     not two separate builds.
+  4. **Study a topic** (new *label*, new *destination*) — a short,
+     textbook-chapter-style teaching page for the category (explanation of
+     how to work its problems, not a quiz). **Ships as a `disabled`/"Coming
+     soon" stub in this phase** — the real content is its own new phase, see
+     Phase 6.9 below (session owner's call, via AskUserQuestion).
+  5. **Review a topic** — today's existing S5 immediate-reveal drill (pick a
+     category, answer one at a time, see the explanation right away, work
+     the whole pool), kept exactly as-is (session owner's call, via
+     AskUserQuestion: don't retire or fold it into anything). Relabeled from
+     its current "Study a topic" text to avoid colliding with #4's new
+     destination — same `run.html` mode/URL, display copy only.
+
+  Two PRs, split by risk (dev-workflow's "propose splitting when scope
+  grows mid-session"):
+  - **PR A — page merge (moderate, self-reviewed).** Fold `dashboard.html`'s
+    rendering into `test.html`; delete `dashboard.html` (nothing else links
+    to it directly — confirmed by grep: `index.html`/`run.html`/
+    `results.html` all already link to `test.html?code=...`). Zero-fill the
+    category list from the bank's own question set (`categoryId`s that
+    appear in `bank.questions`), no `schema.js` change needed. #2–#4 render
+    as `disabled` stubs in this PR; #1 and #5 (relabeled) work for real.
+    No persisted-data shape change.
+  - **PR B — the shared practice/category-test mode (deep, full 8-angle
+    review).** New pure draw function (10 questions, one category, reusing
+    `drawForCategory`'s pattern) and a new `run.html` mode covering both #2
+    and #3. The review's central job: verify it truly never calls
+    `recordAnswer`/`completeAttempt`/`recordQuestionHistory` — "not
+    recorded" must hold under an actual store inspection, not just visual
+    inspection. Enables #2/#3's controls for real.
+  *Accepts:* PR A — S2 matches the signed-off mockup with real data in every
+  state (first-visit zeroed, resume/due/weakest present, populated
+  dashboard); #2–#4 visibly present but inert. PR B — a practice/category
+  test of either kind completes and scores without creating an `attempt` or
+  writing `questionHistory`, confirmed by inspecting the store directly
+  before and after.
+
+### Phase 6.9 — Topic teaching pages ("Study a topic")
+
+New, split off from 6.8.2's Start-menu scope (session owner's call, via
+AskUserQuestion, 2026-08-20): a short, textbook-chapter-style page per
+category explaining how to work its problems — worked examples and
+explanation, not a quiz. Content-authoring-heavy, closer in kind to Phase
+5's reference panels or Phase 7's question banks than to a UI task; deserves
+its own design pass (content schema, page shape, how deep "a couple of
+pages" of teaching per category actually runs) before any authoring starts.
+Not scoped or started. Same standing rule applies as everywhere else in this
+project: written from scratch against the underlying skill, never adapted
+from the gitignored ETS study-companion PDFs — arguably an even sharper risk
+here than for quiz questions, since teaching prose is closer in *kind* to
+what a study guide's own prose looks like.
+
+- ☐ **6.9.1 Design pass.** Content schema, page shape, scope per category
+  (BLUEPRINT.md's Mathematics categories are the natural unit — 6 chapters
+  for 5165). Not started.
+- ☐ **6.9.2 Author Mathematics' 6 chapters.** High effort, matching this
+  project's question-authoring standard (SKILL.md). Not started.
+- ☐ **6.9.3 Wire up the Start-menu control.** Replace 6.8.2's `disabled`
+  stub with the real link once content exists. Shallow — self-reviewed.
 
 ### Phase 8 — Launch (NAS)
 
@@ -1044,5 +1098,6 @@ reaching the same 3×-depth, answer-key-verified standard as 5165) and Phase 9.
 | 2026-08-18 | Phase 6.6 — progress dashboard visual redesign | Session owner asked for the dashboard to look "professional and colorful" instead of plain lists. Iterated as a published Artifact mockup first — including a side-by-side comparison of four bar styles (rounded pill, segmented gauge, bullet graph, hairline+marker) — before touching real code; session owner picked the bullet graph. Built into `dashboard.html`: circular meters (one hue, two shades) for the attempt comparison with a delta indicator, bullet-graph bars with a 75% threshold tick for the category breakdown, status chips (icon + text, never color alone). Deliberately light-only, matching every other screen in the app; reuses `--color-accent`/`--color-correct`/`--color-incorrect` rather than a new palette. Also closed two small pre-existing findings while in the file: `percentOf` (js/results.js) exported and reused by `dashboard.html`/`test.html` instead of three duplicate inline copies; `dashboard.html`'s category-label lookup switched to the existing `flattenCategoryLabels` instead of a hand-rolled duplicate. Mid-mockup-review, session owner also asked for a "category test" option (10 questions, one category, explicitly not recorded/no stats effect) — recognized as new architecture (a new ephemeral `run.html` mode, not a display change) rather than part of the visual redesign; session owner's call to ship the redesign now and defer the real feature to its own plan (6.6.2, still open). The "Start another test" section previews the control today as a real but `disabled` dropdown + button with a "Coming soon" badge. Self-reviewed (CSS/UI + a benign function export, not a deep change). 273/273 tests green, `verify.mjs` clean. Live-verified in the browser: zero/one/many-attempt comparison states, all four category-status tiers with real seeded history (including the pending "N of 5 answered" state), the disabled category-test control's real `disabled`/`aria-disabled`/opacity/cursor state, and the 375px mobile layout — zero console errors throughout. |
 | 2026-08-18 | Phase 6.5 — workflow & progress dashboard | New `dashboard.html` (S6) plus supporting aggregation helpers: `js/store.js`'s `findFirstAndLatestAttempts` (earliest/latest completed attempt for a test code), `js/schema.js`'s `aggregateCategoryStats` (every leaf category's all-time accuracy, sharing a newly-extracted `aggregateHistoryByCategory` helper with the pre-existing `weakestCategory` rather than duplicating its aggregation loop), and `js/results.js`'s `categoriesNeedingPractice` (this attempt's own under-practiced categories, deliberately attempt-scoped rather than cross-attempt). `test.html` gained a "View progress dashboard" link (once a completed attempt exists); `results.html` gained a "Practice your weak spots" section linking each flagged category into S5's existing drill. Separately, per the session owner's own design simplification, `data/manifest.json` now runs one subject at a time (5165 `enabled: true`, 5101/5485/5652 `enabled: false`, config-only) and `index.html`'s copy no longer hardcodes "four." 273/273 tests green, `verify.mjs` clean throughout. Deep change (progress-persistence-adjacent) — 8-angle `/code-review` at high effort found 9 findings; the most severe, confirmed independently by 3 angles, was that gating a bank lookup on `enabled` (as `results.html`/`run.html`/`test.html`/`dashboard.html` all did) silently orphaned review/resume access to any *already-completed* attempt on a test disabled by the 6.5.4 manifest change — fixed by giving `loadManifest` an `includeDisabled` option and switching all four pages' by-code bank lookups to pass it, so only S1's start-a-new-test list (`loadTestList`) still filters to enabled tests; this also happened to unify results.html/run.html's hand-rolled raw-fetch lookup with test.html/dashboard.html's `loadManifest`-based one (an altitude-angle finding, fixed as a side effect). Second confirmed finding: `tools/verify.mjs` was skipping schema validation for any disabled bank, silently losing answer-key-verification coverage for a test that's still reachable by direct URL — fixed by dropping the `!entry.enabled` short-circuit, validating every registered bank regardless of enabled state. Remaining findings (CSS rule duplication, two duplicated magic-number thresholds, a duplicated percent-rounding formula, a wasted per-question computation, one redundant early-return branch) left as-is — each low-severity, easily rediscoverable, not worth a GitHub issue on its own. Live-verified in the browser: seeded a completed attempt for a disabled test (5101) and confirmed `results.html`, `test.html`, and `dashboard.html` all correctly resolve and render it (previously would have shown "could not be loaded"/"not registered"), zero console errors; separately confirmed the dashboard/practice-links flow end-to-end on the still-enabled 5165 test (first-vs-latest comparison, per-category breakdown, "Practice your weak spots" linking to the exact two deliberately-failed categories with correct "missed N" counts). **Phase 6.5 is now fully done.** |
 | 2026-08-20 | Doc-only — remaining v1 scope formalized (D-27) | Session owner listed six remaining project-level tasks (S2 redesign, v1 acceptance, S1 multi-subject redesign, author the other three banks, verify cross-subject export/import, final acceptance) and asked what was missing from the docs. Confirmed against D-4/D-23/D-24: the plan itself was already decided, just not scheduled as ROADMAP.md phases — added Phase 6.8 (S2 redesign, ◐, in mockup iteration — see 6.8.1), Phase 8.3 (v1/Mathematics-only acceptance, gates Phase 9), Phase 9 (S1 redesign + re-enabling 5101/5485/5652 in the manifest), and Phase 10 (final four-subject testing and acceptance). Phase 7's resume target made explicit (1,035 questions across the three remaining tests, at D-23's 3×-depth standard). Confirmed items 1 and 5 needed no new work: item 5 (multi-subject download/upload) is already satisfied by the store's existing global (not per-test) shape — folded into Phase 10.1 as a verification step, not a build task. Session owner's call (via AskUserQuestion): 6.6.2's deferred "category test" mode folds into the new Phase 6.8 S2 redesign rather than shipping as its own separate later pass. **No code changed.** |
+| 2026-08-20 | Doc-only — Phase 6.8's Start menu settled at five entries; Phase 6.9 split off (D-28) | Continuing the S2/6.8 mockup discussion: the session owner specified the real Start-menu shape — full test (unchanged), Practice a topic (new, untimed 10Q/one-category flag-review-pass, unrecorded), Category test (new, same but timed — shares one new `run.html` mode with Practice via a timer flag rather than being a separate build), Study a topic (new destination — a textbook-chapter-style teaching page per category, ships as a `disabled` stub only, real content split into new Phase 6.9), and Review a topic (today's existing S5 immediate-reveal drill, kept exactly as-is per the session owner's call via AskUserQuestion, relabeled since "Study a topic" now names the new teaching-page destination instead). 6.8.2 rewritten with this scope, split into two PRs by risk (page-merge, self-reviewed; the shared Practice/Category-test mode, deep — full 8-angle review required, its central job being to prove the mode never calls `recordAnswer`/`completeAttempt`/`recordQuestionHistory`). New Phase 6.9 added (design pass → author Mathematics' 6 chapters → wire up the control), not started. Logged D-28, indexed in DECISIONS-INDEX.md. **No code changed yet — 6.8.2's real build starts next.** |
 | 2026-08-19 | Phase 8.1/8.2 — NAS hosting decided, first deploy live | Resolved 8.1 (open since Phase 4's design plan): session owner's Synology NAS, Web Station (not a plain file share — `fetch()` for `data/manifest.json`/question banks doesn't work under `file://`), SSH-driven transfer via a dedicated low-privilege `praxis-deploy` account rather than admin. Bootstrapping that account's SSH key access cost most of a session on its own: DSM 7.2.1 has no per-user "SSH Key" GUI tab (removed/not-yet-added in this version), so the key was placed manually in `authorized_keys` — which then still failed auth with a bare `Permission denied (publickey,password)` despite verifiably-correct key content, ownership, permissions, home-directory path, `sshd_config`, and PAM config, and with **zero evidence in any log**, including DSM's own Log Center (traced to: OpenSSH's PAM auth chain, which is what all of Synology's logging hooks into, is only invoked for password auth, never for publickey — so a failed publickey attempt is invisible everywhere). Root cause only surfaced by running a disposable debug `sshd -d` instance on a spare port and reading its live verbose output directly: Synology's own `syno_acl_safe_path` check was rejecting based on a Windows-style ACL on the home directory, invisible in a plain `ls -l` unless you know to look for the trailing `+`. Fixed via `synoacltool -del` (which itself zeroed the POSIX permission bits as a side effect, needing a follow-up `chmod 711`). Web Station's Virtual Host (Web Service + Port-based Web Portal, port 8080, Nginx, static site type) was comparatively simple once SSH worked. First deploy (8.2) copied the site to `/volume1/praxis-practice` via a plain `tar`-over-SSH pipe, since rsync/scp/sftp all turned out to be independently blocked on this NAS for reasons not further diagnosed (plain shell exec confirmed working throughout, isolating the problem to those three transfer tools specifically, not auth or write permissions). Deploy was done from a clean `main` checkout — `feature/6.7-restore-progress`'s in-progress uncommitted work was stashed first and restored immediately after, untouched. **Site is live at `http://10.0.0.37:8080/`**, homepage and `data/manifest.json` both confirmed serving correctly. 8.2 stays ◐, not ☑: a complete timed attempt hasn't been live-tested start-to-score against this real deployment yet, and this deploy was a direct overwrite with no "previous version kept alongside for rollback" folder in place — both still open against this task's own Accepts criteria. Full diagnostic detail for both the SSH/ACL and the rsync/scp/sftp landmines lives in the session owner's own NAS-device notes, not repeated here since it applies to any future project on this NAS, not just this one. |
 
