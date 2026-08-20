@@ -40,7 +40,7 @@
         <div id="start-test-options">
           <div class="start-test-option">
             <div class="start-test-text">
-              <span class="start-test-title">Full practice test</span>
+              <span class="start-test-title" id="full-test-title">Full practice test</span>
               <span class="start-test-desc">
                 Every category, the full form length and time limit. Recorded as your
                 latest attempt above.
@@ -65,7 +65,7 @@
 
           <div class="start-test-option">
             <div class="start-test-text">
-              <span class="start-test-title">Category test</span>
+              <span class="start-test-title" id="category-test-title">Category test</span>
               <span class="start-test-desc">
                 10 questions from one category, timed like the real test. Won't be
                 recorded or change your stats above.
@@ -171,6 +171,8 @@
     const categoryStatsList = document.getElementById("category-stats-list");
     const categoryLegend = document.getElementById("category-legend");
 
+    const fullTestTitle = document.getElementById("full-test-title");
+    const categoryTestTitle = document.getElementById("category-test-title");
     const takeTestLink = document.getElementById("take-test-link");
     const reviewTopicLink = document.getElementById("review-topic-link");
     const practiceTopicSelect = document.getElementById("practice-topic-select");
@@ -468,6 +470,14 @@
         heading.textContent = bank.name;
         statusNote.remove();
         hub.hidden = false;
+
+        // Category test's drill is a fixed 10-question slice (assembleCategoryDrill's
+        // default in js/schema.js, matching the "10 questions" already stated in this
+        // page's own description text above) run at the real test's per-question pace --
+        // same proportional-minutes formula run.html uses for its own timer.
+        fullTestTitle.textContent = `${fullTestTitle.textContent} (${bank.timeLimitMinutes} Minutes)`;
+        const categoryTestMinutes = Math.max(1, Math.round((bank.timeLimitMinutes * 10) / bank.formLength));
+        categoryTestTitle.textContent = `${categoryTestTitle.textContent} (${categoryTestMinutes} Minutes)`;
 
         takeTestLink.href = `run.html?code=${encodeURIComponent(code)}&mode=test`;
         reviewTopicLink.href = `run.html?code=${encodeURIComponent(code)}&mode=study`;
