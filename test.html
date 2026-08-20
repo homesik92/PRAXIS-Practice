@@ -11,9 +11,142 @@
     <p><a href="index.html">&larr; Choose a different test</a></p>
     <h1 id="test-name">Test menu</h1>
     <p id="status-note" class="status-note">Loading&hellip;</p>
+    <div id="hub" hidden>
+      <div id="continue-callout" class="continue-callout" hidden>
+        <p class="continue-eyebrow">Pick up where you left off</p>
+        <div id="continue-items"></div>
+      </div>
+
+      <p id="progress-status-note" class="status-note" hidden></p>
+      <div id="progress-sections">
+        <section id="comparison-section">
+          <h2>Test attempts</h2>
+          <p id="comparison-note"></p>
+          <div id="comparison-meters"></div>
+        </section>
+        <section id="category-section">
+          <h2>By category (all-time)</h2>
+          <ul id="category-stats-list"></ul>
+          <p id="category-legend" hidden>
+            Strong &ge; 75% (marked by the tick) &middot; Building 50&ndash;74% &middot;
+            Needs practice &lt; 50% &middot; a category needs 5 answered questions before
+            it's scored
+          </p>
+        </section>
+      </div>
+
+      <section id="start-test-section">
+        <h2>Start</h2>
+        <div id="start-test-options">
+          <div class="start-test-option">
+            <div class="start-test-text">
+              <span class="start-test-title">Full practice test</span>
+              <span class="start-test-desc">
+                Every category, the full form length and time limit. Recorded as your
+                latest attempt above.
+              </span>
+            </div>
+            <a id="take-test-link" class="btn btn-primary" href="#">Start full test &rarr;</a>
+          </div>
+
+          <div class="start-test-option">
+            <div class="start-test-text">
+              <span class="start-test-title">
+                Practice a topic <span class="coming-soon-badge">Coming soon</span>
+              </span>
+              <span class="start-test-desc">
+                10 questions from one category, untimed, same flag-and-review flow as a
+                real test. Won't be recorded or change your stats above.
+              </span>
+            </div>
+            <div class="category-test-controls">
+              <select id="practice-topic-select" aria-label="Choose a category" disabled></select>
+              <a class="btn btn-secondary" href="#" aria-disabled="true" tabindex="-1">Start &rarr;</a>
+            </div>
+          </div>
+
+          <div class="start-test-option">
+            <div class="start-test-text">
+              <span class="start-test-title">
+                Category test <span class="coming-soon-badge">Coming soon</span>
+              </span>
+              <span class="start-test-desc">
+                10 questions from one category, timed like the real test. Won't be
+                recorded or change your stats above.
+              </span>
+            </div>
+            <div class="category-test-controls">
+              <select id="category-test-select" aria-label="Choose a category" disabled></select>
+              <a class="btn btn-secondary" href="#" aria-disabled="true" tabindex="-1">Start &rarr;</a>
+            </div>
+          </div>
+
+          <div class="start-test-option">
+            <div class="start-test-text">
+              <span class="start-test-title">
+                Study a topic <span class="coming-soon-badge">Coming soon</span>
+              </span>
+              <span class="start-test-desc">
+                A short lesson on how to work a category's problems, before you practice
+                it.
+              </span>
+            </div>
+            <a class="btn btn-secondary" href="#" aria-disabled="true" tabindex="-1">Open &rarr;</a>
+          </div>
+
+          <div class="start-test-option">
+            <div class="start-test-text">
+              <span class="start-test-title">Review a topic</span>
+              <span class="start-test-desc">
+                Untimed, one category at a time, with the answer explained right after
+                each question.
+              </span>
+            </div>
+            <a id="review-topic-link" class="btn btn-secondary" href="#">Choose a topic &rarr;</a>
+          </div>
+        </div>
+      </section>
+
+      <details class="backup">
+        <summary>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Back up or restore progress
+        </summary>
+        <div class="backup-body">
+          <div class="backup-row">
+            <p class="backup-row-text">Save a copy of every test's history to a file on this device.</p>
+            <button id="export-button" type="button" class="btn btn-secondary">Download progress</button>
+          </div>
+          <p id="export-status" class="status-note" hidden></p>
+
+          <div class="backup-row">
+            <p class="backup-row-text">Replace what's saved here with a previously downloaded file.</p>
+            <label class="btn btn-secondary file-btn">
+              Upload progress
+              <input id="import-input" type="file" accept="application/json,.json" />
+            </label>
+          </div>
+          <p id="import-status" class="status-note" hidden></p>
+        </div>
+      </details>
+    </div>
+
+    <dialog id="import-dialog" aria-labelledby="import-confirm-heading">
+      <h2 id="import-confirm-heading">Replace your progress?</h2>
+      <p id="import-message"></p>
+      <button id="import-cancel-button" type="button">Cancel</button>
+      <button id="import-confirm-button" type="button">Replace progress</button>
+    </dialog>
   </main>
   <script type="module">
-    import { loadManifest, loadBank, assembleDueDrill, weakestCategory, flattenCategoryTree } from "./js/schema.js";
+    import {
+      loadManifest,
+      loadBank,
+      assembleDueDrill,
+      weakestCategory,
+      flattenCategoryTree,
+      aggregateCategoryStats,
+    } from "./js/schema.js";
     import {
       STORAGE_KEY,
       loadStore,
@@ -24,122 +157,428 @@
       importStoreFromJson,
       summarizeStore,
     } from "./js/store.js";
-    import { percentOf } from "./js/results.js";
+    import { scoreAttempt } from "./js/runner.js";
+    import { summarizeAttempt, percentOf, flattenCategoryLabels } from "./js/results.js";
 
     const params = new URLSearchParams(location.search);
     const code = params.get("code");
     const heading = document.getElementById("test-name");
     const statusNote = document.getElementById("status-note");
-    const main = document.querySelector("main");
+    const hub = document.getElementById("hub");
+
+    const continueCallout = document.getElementById("continue-callout");
+    const continueItems = document.getElementById("continue-items");
+    const progressStatusNote = document.getElementById("progress-status-note");
+    const progressSections = document.getElementById("progress-sections");
+    const comparisonNote = document.getElementById("comparison-note");
+    const comparisonMeters = document.getElementById("comparison-meters");
+    const categoryStatsList = document.getElementById("category-stats-list");
+    const categoryLegend = document.getElementById("category-legend");
+
+    const takeTestLink = document.getElementById("take-test-link");
+    const reviewTopicLink = document.getElementById("review-topic-link");
+    const practiceTopicSelect = document.getElementById("practice-topic-select");
+    const categoryTestSelect = document.getElementById("category-test-select");
+
+    const exportButton = document.getElementById("export-button");
+    const exportStatus = document.getElementById("export-status");
+    const importInput = document.getElementById("import-input");
+    const importStatus = document.getElementById("import-status");
+    const importDialog = document.getElementById("import-dialog");
+    const importMessage = document.getElementById("import-message");
+    const importCancelButton = document.getElementById("import-cancel-button");
+    const importConfirmButton = document.getElementById("import-confirm-button");
+
+    function showStatus(message) {
+      statusNote.textContent = message;
+      statusNote.hidden = false;
+    }
+
+    // Trusted, hand-authored markup only (never user/attempt data) -- same
+    // <template> parse js/reference-panel.js uses for MathML, reused here so
+    // these small status icons stay as plain, readable SVG literals instead of
+    // a wall of createElementNS calls. Carried over from dashboard.html as-is.
+    function parseSvg(markup) {
+      const template = document.createElement("template");
+      template.innerHTML = markup.trim();
+      return template.content.firstElementChild;
+    }
+
+    const STATUS_LABEL = { good: "Strong", warn: "Building", crit: "Needs practice" };
+    const STATUS_ICON = {
+      good: '<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M3 8.5l3 3 7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>',
+      warn: '<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="6.2" stroke="currentColor" stroke-width="1.8"/><path d="M8 5v3.4M8 11h.01" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>',
+      crit: '<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="M8 1.5l7 12.6H1L8 1.5z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M8 6.4v3M8 11.2h.01" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>',
+      pending: '<svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><circle cx="8" cy="8" r="6.2" stroke="currentColor" stroke-width="1.8" stroke-dasharray="2.4 2.4"/></svg>',
+    };
+
+    // -- Circular meters (attempt comparison) -- carried over from dashboard.html,
+    // plus a new empty/"Not started" state (finding driving this whole redesign:
+    // a first-time visitor should see where their data will go, not just a bare
+    // sentence) -- an unfilled track with no progress ring, distinct from any real
+    // score including a genuine 0%. -------------------------------------------
+    const METER_R = 52;
+    const METER_C = 2 * Math.PI * METER_R;
+    const SVG_NS = "http://www.w3.org/2000/svg";
+
+    function buildMeter(pct, fillClass, ariaLabel, isEmpty) {
+      const svg = document.createElementNS(SVG_NS, "svg");
+      svg.setAttribute("width", "120");
+      svg.setAttribute("height", "120");
+      svg.setAttribute("viewBox", "0 0 120 120");
+      svg.setAttribute("role", "img");
+      svg.setAttribute("aria-label", ariaLabel);
+
+      const track = document.createElementNS(SVG_NS, "circle");
+      track.setAttribute("cx", "60");
+      track.setAttribute("cy", "60");
+      track.setAttribute("r", String(METER_R));
+      track.setAttribute("fill", "none");
+      track.setAttribute("stroke-width", "12");
+      track.setAttribute("class", "dashboard-meter-track");
+      svg.appendChild(track);
+
+      if (!isEmpty) {
+        // Clamped defensively -- a corrupted/rounding-edge score should draw a
+        // full or empty ring, never an invalid negative dash offset.
+        const clamped = Math.max(0, Math.min(100, pct));
+        const fill = document.createElementNS(SVG_NS, "circle");
+        fill.setAttribute("cx", "60");
+        fill.setAttribute("cy", "60");
+        fill.setAttribute("r", String(METER_R));
+        fill.setAttribute("fill", "none");
+        fill.setAttribute("stroke-width", "12");
+        fill.setAttribute("stroke-linecap", "round");
+        fill.setAttribute("transform", "rotate(-90 60 60)");
+        fill.setAttribute("stroke-dasharray", String(METER_C));
+        fill.setAttribute("stroke-dashoffset", String(METER_C * (1 - clamped / 100)));
+        fill.setAttribute("class", fillClass);
+        svg.appendChild(fill);
+      }
+
+      const text = document.createElementNS(SVG_NS, "text");
+      text.setAttribute("x", "60");
+      text.setAttribute("y", isEmpty ? "64" : "67");
+      text.setAttribute("text-anchor", "middle");
+      text.setAttribute("class", "dashboard-meter-value");
+      text.setAttribute("font-size", isEmpty ? "15" : "28");
+      if (isEmpty) text.setAttribute("fill", "var(--color-muted)");
+      text.textContent = isEmpty ? "Not started" : `${pct}%`;
+      svg.appendChild(text);
+
+      return svg;
+    }
+
+    function buildMeterFigure(pct, fillClass, label, dateStr, isEmpty = false) {
+      const wrap = document.createElement("div");
+      wrap.className = "dashboard-meter";
+      wrap.appendChild(buildMeter(pct, fillClass, isEmpty ? label : `${label}: ${pct} percent`, isEmpty));
+
+      const caption = document.createElement("div");
+      caption.className = "dashboard-meter-caption";
+      const labelEl = document.createElement("span");
+      labelEl.className = "label";
+      labelEl.textContent = label;
+      caption.appendChild(labelEl);
+      if (dateStr) {
+        const subEl = document.createElement("span");
+        subEl.className = "sub";
+        subEl.textContent = dateStr;
+        caption.appendChild(subEl);
+      }
+      wrap.appendChild(caption);
+      return wrap;
+    }
+
+    function formatDate(iso) {
+      const d = new Date(iso);
+      return Number.isNaN(d.getTime())
+        ? ""
+        : d.toLocaleDateString(undefined, { year: "numeric", month: "short", day: "numeric" });
+    }
+
+    function scorePercent(bank, attempt) {
+      const score = scoreAttempt(bank, attempt.answers);
+      return summarizeAttempt(score, bank).overall.percent;
+    }
+
+    function buildDelta(firstPct, latestPct) {
+      const diff = latestPct - firstPct;
+      const direction = diff > 0 ? "up" : diff < 0 ? "down" : "flat";
+
+      const delta = document.createElement("div");
+      delta.className = "dashboard-delta";
+
+      if (direction !== "flat") {
+        const arrow = document.createElementNS(SVG_NS, "svg");
+        arrow.setAttribute("viewBox", "0 0 24 24");
+        arrow.setAttribute("fill", "none");
+        arrow.setAttribute("aria-hidden", "true");
+        arrow.setAttribute("class", `dashboard-delta-value ${direction}`);
+        arrow.style.width = "1.75rem";
+        arrow.style.height = "1.75rem";
+        const path = document.createElementNS(SVG_NS, "path");
+        path.setAttribute(
+          "d",
+          direction === "up" ? "M12 19V5M12 5L6 11M12 5l6 6" : "M12 5v14M12 19l-6-6M12 19l6-6"
+        );
+        path.setAttribute("stroke", "currentColor");
+        path.setAttribute("stroke-width", "2.4");
+        path.setAttribute("stroke-linecap", "round");
+        path.setAttribute("stroke-linejoin", "round");
+        arrow.appendChild(path);
+        delta.appendChild(arrow);
+      }
+
+      const deltaValue = document.createElement("span");
+      deltaValue.className = `dashboard-delta-value ${direction}`;
+      deltaValue.textContent = direction === "flat" ? "No change" : `${diff > 0 ? "+" : ""}${diff} pts`;
+      delta.appendChild(deltaValue);
+
+      const deltaNote = document.createElement("span");
+      deltaNote.className = "dashboard-delta-note";
+      deltaNote.textContent = "since first attempt";
+      delta.appendChild(deltaNote);
+
+      return delta;
+    }
+
+    // -- Category bullet-graph rows -- carried over from dashboard.html unchanged
+    // except statusFor now also accepts a synthetic zero-fill stat (see below),
+    // which already sets eligible:false so it renders identically to a real
+    // below-threshold category. --------------------------------------------
+    function statusFor(stat, pct) {
+      if (!stat.eligible) return "pending";
+      if (pct >= 75) return "good";
+      if (pct >= 50) return "warn";
+      return "crit";
+    }
+
+    function buildCategoryRow(stat, labelById) {
+      const pct = percentOf(stat.correct, stat.seen);
+      const status = statusFor(stat, pct);
+
+      const li = document.createElement("li");
+      li.className = "category-stat-row";
+
+      const nameEl = document.createElement("span");
+      nameEl.className = "category-stat-name";
+      nameEl.textContent = labelById.get(stat.categoryId) ?? stat.categoryId;
+      li.appendChild(nameEl);
+
+      const track = document.createElement("div");
+      track.className = status === "pending" ? "category-stat-track is-pending" : "category-stat-track";
+      if (status !== "pending") {
+        const fill = document.createElement("div");
+        fill.className = `category-stat-fill ${status}`;
+        fill.style.setProperty("--pct", `${pct}%`);
+        track.appendChild(fill);
+        const target = document.createElement("div");
+        target.className = "category-stat-target";
+        track.appendChild(target);
+      }
+      li.appendChild(track);
+
+      const meta = document.createElement("div");
+      meta.className = "category-stat-meta";
+
+      const pctEl = document.createElement("span");
+      pctEl.className = "category-stat-pct";
+      if (status === "pending") {
+        pctEl.textContent = "—";
+        pctEl.style.color = "var(--color-muted)";
+      } else {
+        pctEl.textContent = `${pct}%`;
+      }
+      meta.appendChild(pctEl);
+
+      const chip = document.createElement("span");
+      chip.className = `status-chip ${status}`;
+      chip.appendChild(parseSvg(STATUS_ICON[status]));
+      chip.appendChild(
+        document.createTextNode(status === "pending" ? `${stat.distinctSeen} of 5 answered` : STATUS_LABEL[status])
+      );
+      meta.appendChild(chip);
+
+      li.appendChild(meta);
+      return li;
+    }
+
+    // Every leaf category a real question can attach to, zero-filled with the
+    // same shape aggregateCategoryStats returns for a touched one -- so a
+    // first-time visitor sees every category the test actually covers, not just
+    // the ones they've already practiced (the change this redesign asked for:
+    // "show the dashboard with all zeros so the user knows where the data will
+    // be going"). Derived from the bank's own questions rather than walking the
+    // full category tree, since a branch/filter-only node (weight: null) never
+    // has questions attached to it directly and shouldn't get its own row here
+    // -- same leaf granularity aggregateCategoryStats/weakestCategory already use.
+    function allCategoryStats(bank, history) {
+      const leafIds = new Set((bank.questions ?? []).map((q) => q.categoryId));
+      const real = new Map(aggregateCategoryStats(bank, history).map((s) => [s.categoryId, s]));
+      return flattenCategoryTree(bank.categories)
+        .filter((n) => leafIds.has(n.id))
+        .map(
+          (n) =>
+            real.get(n.id) ?? {
+              categoryId: n.id,
+              correct: 0,
+              seen: 0,
+              distinctSeen: 0,
+              accuracy: 0,
+              eligible: false,
+            }
+        );
+    }
+
+    function continueItem(title, sub, href, linkText) {
+      const item = document.createElement("div");
+      item.className = "continue-item";
+      const text = document.createElement("div");
+      text.className = "continue-text";
+      const titleEl = document.createElement("span");
+      titleEl.className = "continue-title";
+      titleEl.textContent = title;
+      text.appendChild(titleEl);
+      const subEl = document.createElement("span");
+      subEl.className = "continue-sub";
+      subEl.textContent = sub;
+      text.appendChild(subEl);
+      item.appendChild(text);
+      const link = document.createElement("a");
+      link.className = "btn btn-primary";
+      link.href = href;
+      link.textContent = linkText;
+      item.appendChild(link);
+      return item;
+    }
 
     if (!code) {
-      statusNote.textContent = "No test selected. Go back and choose one.";
+      showStatus("No test selected. Go back and choose one.");
     } else {
-      // Loads the manifest entry and the full bank directly, rather than via
-      // loadTestList (Phase 1) -- S2 needs the bank's question ids for the due
-      // count below (Phase 4.3), and loadTestList's per-test summary shape doesn't
-      // carry them or the manifest's `file` path needed to fetch them separately.
-      // This also means S2 now fetches exactly one bank instead of every enabled
-      // test's summary just to find this one.
-      // includeDisabled: S2 is also the hub for resuming/reviewing/tracking progress
-      // on a test, not just starting a new one -- that must keep working even if this
-      // test has since been disabled for new attempts (Phase 6.5 finding).
+      // Loads the manifest entry and the full bank directly (Phase 4.3 needs the
+      // bank's question ids for the due count; includeDisabled keeps résumé/
+      // review/progress-tracking working even if this test has since been
+      // disabled for new attempts, D-25).
       const manifestResult = await loadManifest(globalThis.fetch, "data/manifest.json", { includeDisabled: true });
       const manifestEntry = manifestResult.ok ? manifestResult.tests.find((t) => t.code === code) : undefined;
       const bankResult = manifestEntry ? await loadBank(manifestEntry.file) : undefined;
       if (!bankResult || !bankResult.ok) {
-        statusNote.textContent = `Test "${code}" is not registered.`;
+        showStatus(`Test "${code}" is not registered.`);
       } else {
         const bank = bankResult.bank;
         heading.textContent = bank.name;
         statusNote.remove();
-        const nav = document.createElement("nav");
+        hub.hidden = false;
 
-        // S2 leads with a "Resume attempt" entry when one exists (finding #10) --
-        // run.html's own résumé lookup already handles the actual behavior identically
-        // whichever link is clicked, so this is purely a discoverability fix. A load
-        // failure here is skipped silently rather than surfaced: this is just an entry
-        // point, and run.html already reports storage failures robustly for the
-        // test-taking flow itself.
-        const loadResult = loadStore();
-        if (loadResult.ok) {
-          // "View progress dashboard" (Phase 6.5) -- only once at least one
-          // completed attempt exists, since the dashboard's comparison and
-          // per-category sections have nothing to show before then.
-          const { first } = findFirstAndLatestAttempts(loadResult.store, code);
-          if (first) {
-            const dashboardLink = document.createElement("a");
-            dashboardLink.href = `dashboard.html?code=${encodeURIComponent(code)}`;
-            dashboardLink.textContent = "View progress dashboard";
-            nav.appendChild(dashboardLink);
-          }
+        takeTestLink.href = `run.html?code=${encodeURIComponent(code)}&mode=test`;
+        reviewTopicLink.href = `run.html?code=${encodeURIComponent(code)}&mode=study`;
 
-          const inProgress = findInProgressAttempt(loadResult.store, code);
-          if (inProgress) {
-            const p = document.createElement("p");
-            p.textContent = `${inProgress.answers.length} of ${inProgress.formLength} questions answered.`;
-            const resumeLink = document.createElement("a");
-            resumeLink.href = `run.html?code=${encodeURIComponent(code)}&mode=test`;
-            resumeLink.textContent = "Resume attempt";
-            nav.appendChild(resumeLink);
-            nav.appendChild(p);
-          }
-
-          // "N questions due" (Phase 4.3, SCHEMA.md S2, D-8).
-          const dueCount = assembleDueDrill(bank, { history: loadResult.store.questionHistory }).questions.length;
-          if (dueCount > 0) {
-            const dueLink = document.createElement("a");
-            dueLink.href = `run.html?code=${encodeURIComponent(code)}&mode=study&due=1`;
-            dueLink.textContent = `${dueCount} question${dueCount === 1 ? "" : "s"} due for review`;
-            nav.appendChild(dueLink);
-          }
-
-          // Weakest-category suggestion (Phase 4.4, SCHEMA.md S2, D-18) -- links
-          // straight into S5's existing category-mode path (Phase 4.1), which
-          // already accepts any valid category id and doesn't need to know this
-          // one was picked by accuracy rather than by hand from the picker.
-          const weakest = weakestCategory(bank, loadResult.store.questionHistory);
-          if (weakest) {
-            const categoryLabel =
-              flattenCategoryTree(bank.categories).find((n) => n.id === weakest.categoryId)?.label ?? weakest.categoryId;
-            const percent = percentOf(weakest.correct, weakest.seen);
-            const weakestLink = document.createElement("a");
-            weakestLink.href = `run.html?code=${encodeURIComponent(code)}&mode=study&category=${encodeURIComponent(weakest.categoryId)}`;
-            weakestLink.textContent = `You're weakest in ${categoryLabel} (${percent}% correct) — practice it`;
-            nav.appendChild(weakestLink);
-          }
+        // Practice-a-topic / category-test category pickers (Coming soon, Phase
+        // 6.8.2 PR B) -- populated with real categories now, at every depth
+        // (matching S5's own picker), so they read correctly once those modes
+        // ship for real. Both stay disabled until then (honest preview, same
+        // pattern this project used for 6.6.2's original stub).
+        for (const { id, label, depth } of flattenCategoryTree(bank.categories)) {
+          const prefix = "— ".repeat(depth);
+          const opt1 = document.createElement("option");
+          opt1.value = id;
+          opt1.textContent = `${prefix}${label}`;
+          practiceTopicSelect.appendChild(opt1);
+          const opt2 = document.createElement("option");
+          opt2.value = id;
+          opt2.textContent = `${prefix}${label}`;
+          categoryTestSelect.appendChild(opt2);
         }
 
-        const a = document.createElement("a");
-        a.href = `run.html?code=${encodeURIComponent(code)}&mode=test`;
-        a.textContent = "Take a practice test";
-        nav.appendChild(a);
+        const loadResult = loadStore();
+        if (!loadResult.ok) {
+          progressStatusNote.textContent =
+            "Your saved progress could not be loaded, so your history can't be shown right now.";
+          progressStatusNote.hidden = false;
+          progressSections.hidden = true;
+        } else {
+          const store = loadResult.store;
 
-        // No ?category= (Phase 4.1, SCHEMA.md S1.1 S2/S5) -- run.html's own picker
-        // is where a category gets chosen; the weakest-category link above (Phase
-        // 4.4) is the only *category*-pre-filtered entry point into S5 (the due
-        // link above it, Phase 4.3, pre-filters by due=1 instead).
-        const studyLink = document.createElement("a");
-        studyLink.href = `run.html?code=${encodeURIComponent(code)}&mode=study`;
-        studyLink.textContent = "Study a topic";
-        nav.appendChild(studyLink);
+          // -- Continue callout: resume / due / weakest, same triggers as before
+          // this redesign, now rendered as one grouped callout instead of bare
+          // sibling links. ------------------------------------------------------
+          const inProgress = findInProgressAttempt(store, code);
+          if (inProgress) {
+            continueItems.appendChild(
+              continueItem(
+                "Resume your attempt",
+                `${inProgress.answers.length} of ${inProgress.formLength} questions answered`,
+                `run.html?code=${encodeURIComponent(code)}&mode=test`,
+                "Resume"
+              )
+            );
+          }
 
-        main.appendChild(nav);
+          const dueCount = assembleDueDrill(bank, { history: store.questionHistory }).questions.length;
+          if (dueCount > 0) {
+            continueItems.appendChild(
+              continueItem(
+                `${dueCount} question${dueCount === 1 ? "" : "s"} due for review`,
+                "Spaced-repetition items ready to revisit",
+                `run.html?code=${encodeURIComponent(code)}&mode=study&due=1`,
+                "Review"
+              )
+            );
+          }
 
-        // "Download my progress" (Phase 6.2, SCHEMA.md finding #9) -- exports the
-        // WHOLE store (every test's attempts + history), not just this one, even
-        // though the button lives on this per-test page; there's no other screen
-        // that's a more natural home for a single global export action.
-        const exportStatus = document.createElement("p");
-        exportStatus.className = "status-note";
-        exportStatus.hidden = true;
-        const exportButton = document.createElement("button");
-        exportButton.type = "button";
-        exportButton.textContent = "Download my progress";
+          const weakest = weakestCategory(bank, store.questionHistory);
+          if (weakest) {
+            const categoryLabel =
+              flattenCategoryTree(bank.categories).find((n) => n.id === weakest.categoryId)?.label ??
+              weakest.categoryId;
+            const percent = percentOf(weakest.correct, weakest.seen);
+            continueItems.appendChild(
+              continueItem(
+                `You're weakest in ${categoryLabel}`,
+                `${percent}% correct so far`,
+                `run.html?code=${encodeURIComponent(code)}&mode=study&category=${encodeURIComponent(weakest.categoryId)}`,
+                "Practice it"
+              )
+            );
+          }
+
+          if (inProgress || dueCount > 0 || weakest) continueCallout.hidden = false;
+
+          // -- Attempt comparison, zero-filled -------------------------------
+          const { first, latest } = findFirstAndLatestAttempts(store, code);
+          if (!first) {
+            comparisonMeters.appendChild(buildMeterFigure(0, "", "Best score", null, true));
+            comparisonNote.textContent = "Take a full practice test to start tracking your score here.";
+          } else if (latest.id === first.id) {
+            const pct = scorePercent(bank, first);
+            comparisonMeters.appendChild(
+              buildMeterFigure(pct, "dashboard-meter-fill-single", "Only attempt", formatDate(first.finishedAt))
+            );
+            comparisonNote.textContent = "Take another full test when you're ready to compare progress.";
+          } else {
+            const firstPct = scorePercent(bank, first);
+            const latestPct = scorePercent(bank, latest);
+            comparisonMeters.appendChild(
+              buildMeterFigure(firstPct, "dashboard-meter-fill-first", "First attempt", formatDate(first.finishedAt))
+            );
+            comparisonMeters.appendChild(buildDelta(firstPct, latestPct));
+            comparisonMeters.appendChild(
+              buildMeterFigure(latestPct, "dashboard-meter-fill-latest", "Latest attempt", formatDate(latest.finishedAt))
+            );
+          }
+
+          // -- Per-category strengths/weaknesses, all-time, zero-filled ------
+          const labelById = flattenCategoryLabels(bank.categories);
+          for (const stat of allCategoryStats(bank, store.questionHistory)) {
+            categoryStatsList.appendChild(buildCategoryRow(stat, labelById));
+          }
+          categoryLegend.hidden = false;
+        }
+
+        // -- Download my progress (Phase 6.2, SCHEMA.md finding #9) -- exports
+        // the WHOLE store (every test's attempts + history), not just this one.
         exportButton.addEventListener("click", () => {
-          // Re-loads fresh rather than reusing the page-load `loadResult` closure --
-          // another tab may have written since this page loaded, and an export that's
-          // silently stale defeats the point of a backup/recovery mechanism.
           const freshLoadResult = loadStore();
           if (!freshLoadResult.ok) {
             exportStatus.textContent = "Your progress could not be loaded, so it can't be exported right now.";
@@ -156,54 +595,10 @@
           link.click();
           URL.revokeObjectURL(url);
         });
-        main.appendChild(exportButton);
-        main.appendChild(exportStatus);
 
-        // "Upload progress" (Phase 6.7, SCHEMA.md finding #9's restore half) --
-        // restores a previously-exported backup file, REPLACING whatever's currently
-        // saved on this device after an explicit confirmation. Deliberately does NOT
-        // attempt to merge with existing data (session owner's call, 2026-08-18):
-        // merging progress from two devices is a separate, harder feature, not part
-        // of this one.
-        const importStatus = document.createElement("p");
-        importStatus.className = "status-note";
-        importStatus.hidden = true;
-
-        const importLabel = document.createElement("label");
-        importLabel.appendChild(document.createTextNode("Upload progress "));
-        const importInput = document.createElement("input");
-        importInput.type = "file";
-        importInput.accept = "application/json,.json";
-        importLabel.appendChild(importInput);
-
-        const importDialog = document.createElement("dialog");
-        importDialog.setAttribute("aria-labelledby", "import-confirm-heading");
-        const importHeading = document.createElement("h2");
-        importHeading.id = "import-confirm-heading";
-        importHeading.textContent = "Replace your progress?";
-        const importMessage = document.createElement("p");
-        const importCancelButton = document.createElement("button");
-        importCancelButton.type = "button";
-        importCancelButton.textContent = "Cancel";
-        const importConfirmButton = document.createElement("button");
-        importConfirmButton.type = "button";
-        importConfirmButton.textContent = "Replace progress";
-        importDialog.append(importHeading, importMessage, importCancelButton, importConfirmButton);
-
-        let pendingImportStore = null;
-        // The exact raw localStorage value present when the dialog's summary was
-        // last built -- compared byte-for-byte against a fresh read right before the
-        // actual write (code review finding: the rendered summary TEXT alone isn't a
-        // reliable staleness signal, since two genuinely different stores can
-        // summarize to the identical count -- e.g. "1 attempt, 0 questions with
-        // history" either way -- and text-equality would then wrongly treat a real
-        // change as unchanged).
-        let currentRawAtSummaryTime = null;
-
-        // Maps importStoreFromJson's tagged failure reasons to a message a person
-        // uploading the wrong (or a stale/future) file can actually act on, matching
-        // this project's "storage failures are visible, never silent" convention
-        // (Phase 6.1) rather than a single generic "import failed."
+        // -- Upload progress (Phase 6.7, SCHEMA.md finding #9's restore half) --
+        // restores a previously-exported backup file, REPLACING whatever's
+        // currently saved on this device after an explicit confirmation (D-26).
         const importErrorMessages = {
           unreadable: "That file doesn't look like a valid progress export. Nothing was changed.",
           "future-version":
@@ -213,10 +608,9 @@
           "migration-failed": "That file couldn't be converted to the current format. Nothing was changed.",
         };
 
-        // Builds the "This will replace X with Y" message from fresh reads of both
-        // stores every time it's called (code review finding: describes the incoming
-        // file too, not just what's being replaced, and is called again right before
-        // the actual write below rather than trusted from file-select time).
+        let pendingImportStore = null;
+        let currentRawAtSummaryTime = null;
+
         function describeReplacement(incomingStore) {
           currentRawAtSummaryTime = localStorage.getItem(STORAGE_KEY);
           const currentLoadResult = loadStore();
@@ -233,10 +627,6 @@
           const file = importInput.files[0];
           if (!file) return;
           importStatus.hidden = true;
-          // Re-entrancy guard (code review finding): the file input stays enabled
-          // while this async handler is mid-flight, so without this a second `change`
-          // before the first completes could call showModal() on an already-open
-          // dialog (throws) and desync pendingImportStore from the displayed summary.
           importInput.disabled = true;
 
           try {
@@ -246,17 +636,13 @@
               importStatus.textContent =
                 importErrorMessages[result.reason] ?? "That file couldn't be imported. Nothing was changed.";
               importStatus.hidden = false;
-              importInput.value = ""; // allow re-selecting the same (or a corrected) file
+              importInput.value = "";
               return;
             }
             importMessage.textContent = describeReplacement(result.store);
             pendingImportStore = result.store;
             importDialog.showModal();
           } catch {
-            // e.g. File.text() rejecting (an interrupted/inaccessible read) -- visible,
-            // not silent, matching this project's storage-failure convention even
-            // though this specific failure isn't storage (code review finding: this
-            // handler previously had no try/catch at all).
             importStatus.textContent = "That file couldn't be read. Nothing was changed.";
             importStatus.hidden = false;
             importInput.value = "";
@@ -266,10 +652,6 @@
         });
 
         importCancelButton.addEventListener("click", () => importDialog.close());
-        // Fires on every close path (Cancel click, Esc) so the file input always
-        // resets and focus always returns predictably, matching the confirm-submit
-        // dialog's own close-event pattern in run.html (Phase 3.2) rather than
-        // duplicating this per button.
         importDialog.addEventListener("close", () => {
           importInput.value = "";
           pendingImportStore = null;
@@ -277,16 +659,6 @@
         });
 
         importConfirmButton.addEventListener("click", () => {
-          // Checked right now, immediately before the actual write, rather than
-          // trusting the summary computed when the dialog opened (code review
-          // finding): the dialog can sit open indefinitely, and another tab may have
-          // saved new progress in the meantime. Compares the exact raw stored value,
-          // not the rendered summary text -- two genuinely different stores can
-          // summarize to an identical count (e.g. "1 attempt, 0 questions with
-          // history" either way), so a text comparison alone can miss a real change.
-          // If the underlying data changed, show the updated warning and make the
-          // person confirm again against accurate information instead of silently
-          // destroying whatever's newly there.
           if (localStorage.getItem(STORAGE_KEY) !== currentRawAtSummaryTime) {
             importMessage.textContent = describeReplacement(pendingImportStore);
             return;
@@ -300,10 +672,6 @@
           }
           location.reload();
         });
-
-        main.appendChild(importLabel);
-        main.appendChild(importDialog);
-        main.appendChild(importStatus);
       }
     }
   </script>
