@@ -19,9 +19,10 @@
  * for a by-code lookup that must keep working for a test that's been disabled --
  * reviewing/resuming/tracking progress on an attempt already taken doesn't stop
  * being valid just because the test isn't offered for a *new* attempt anymore
- * (Phase 6.5 code-review finding: results.html/run.html/test.html/dashboard.html
- * all used to hard-filter to enabled, silently orphaning any history on a test
- * disabled after the fact).
+ * (Phase 6.5 code-review finding: results.html/run.html/test.html (and, until
+ * Phase 6.8 merged it back in, the since-retired dashboard.html) all used to
+ * hard-filter to enabled, silently orphaning any history on a test disabled
+ * after the fact).
  * Never throws -- a fetch failure or invalid JSON returns a tagged failure, matching
  * store.js's "storage failures are visible, never silent" convention (SCHEMA.md
  * finding #6) extended to network/data-loading failures.

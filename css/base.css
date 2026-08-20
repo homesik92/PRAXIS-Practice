@@ -50,6 +50,11 @@
   --color-bar-track: #edeff2;
   --color-bar-band-2: #e0e4ea;
   --color-bar-band-3: #ccd3dd;
+
+  /* S2 test hub (Phase 6.8) -- a pale accent wash for the "pick up where you
+     left off" callout background, distinct from --color-accent-light (which
+     is reserved for the dashboard meter's "first attempt" stroke). */
+  --color-accent-wash: #eef3ff;
 }
 
 html {
@@ -450,6 +455,135 @@ nav {
   padding: 0.55rem 0.9rem;
   white-space: nowrap;
   border: 1px solid transparent;
+  cursor: pointer;
+}
+
+/* S2 test hub (Phase 6.8) -- the "pick up where you left off" callout wrapping
+   the pre-existing résumé/due/weakest-category entry points (previously bare
+   sibling <a> links) in one grouped block, matching this redesign's move from
+   plain links to something closer to a real GUI. */
+.continue-callout {
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  padding: 1.1rem 1.25rem;
+  margin: 0 0 1.5rem;
+  border: 1px solid var(--color-accent-light);
+  background: var(--color-accent-wash);
+  border-radius: 10px;
+}
+
+/* An author-stylesheet `display` declaration beats the UA stylesheet's own
+   `[hidden] { display: none }` regardless of source order (equal specificity,
+   author origin wins) -- without this override, JS setting the `hidden`
+   attribute here would do nothing and the empty callout would always render
+   (caught live-testing: it rendered on a zero-state page with no resume/due/
+   weakest items at all). */
+.continue-callout[hidden] {
+  display: none;
+}
+
+.continue-eyebrow {
+  margin: 0;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+}
+
+.continue-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.continue-item + .continue-item {
+  padding-top: 0.6rem;
+  border-top: 1px solid rgba(11, 95, 255, 0.16);
+}
+
+.continue-text {
+  display: flex;
+  flex-direction: column;
+  gap: 0.1rem;
+}
+
+.continue-title {
+  font-weight: 600;
+  font-size: 0.92rem;
+}
+
+.continue-sub {
+  font-size: 0.78rem;
+  color: var(--color-muted);
+}
+
+/* S2 test hub (Phase 6.8) -- the collapsed "Back up or restore progress"
+   section wrapping the pre-existing export/import controls (Phase 6.2/6.7),
+   moved out of the page's main flow now that the hub has more to show above
+   it. */
+details.backup {
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 0.15rem 0.9rem;
+  margin-top: 1.5rem;
+}
+
+details.backup summary {
+  padding: 0.6rem 0;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  color: var(--color-muted);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+details.backup summary svg {
+  width: 1rem;
+  height: 1rem;
+}
+
+.backup-body {
+  padding: 0 0 0.9rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.backup-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.backup-row-text {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--color-muted);
+  max-width: 22rem;
+}
+
+/* A <label> wrapping a visually-hidden file input, styled like .btn so
+   "Upload progress" reads as a button even though the real interactive
+   element underneath is the file input itself (finding carried over from the
+   original Phase 6.7 implementation: the click target must be the actual
+   <input type=file>, not a proxy button, for the OS file picker to open). */
+.file-btn {
+  position: relative;
+  overflow: hidden;
+}
+
+.file-btn input[type="file"] {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
   cursor: pointer;
 }
 

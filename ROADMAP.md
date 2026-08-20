@@ -916,7 +916,7 @@ owner's call, 2026-08-20) rather than building it against the old S2 later.
   resume/due/weakest, backup/restore in a collapsed `<details>`. **Signed off.**
   While reviewing the mockup, the Start-menu scope itself grew — see 6.8.2's
   final shape below, settled via two rounds of AskUserQuestion (2026-08-20).
-- ☐ **6.8.2 Build and wire up.** Scope, as settled 2026-08-20 — the Start
+- ◐ **6.8.2 Build and wire up.** Scope, as settled 2026-08-20 — the Start
   section ends up with **five** entries, not the two the mockup showed:
   1. **Full practice test** — existing, unchanged.
   2. **Practice a topic** (new) — untimed, 10 questions from one category,
@@ -939,27 +939,67 @@ owner's call, 2026-08-20) rather than building it against the old S2 later.
 
   Two PRs, split by risk (dev-workflow's "propose splitting when scope
   grows mid-session"):
-  - **PR A — page merge (moderate, self-reviewed).** Fold `dashboard.html`'s
-    rendering into `test.html`; delete `dashboard.html` (nothing else links
-    to it directly — confirmed by grep: `index.html`/`run.html`/
-    `results.html` all already link to `test.html?code=...`). Zero-fill the
-    category list from the bank's own question set (`categoryId`s that
-    appear in `bank.questions`), no `schema.js` change needed. #2–#4 render
-    as `disabled` stubs in this PR; #1 and #5 (relabeled) work for real.
-    No persisted-data shape change.
-  - **PR B — the shared practice/category-test mode (deep, full 8-angle
+  - ☑ **PR A — page merge (moderate, self-reviewed).** `dashboard.html`'s
+    rendering (meters, category bars, legend) folded directly into
+    `test.html`; `dashboard.html` deleted (confirmed by grep before starting:
+    nothing else linked to it directly — `index.html`/`run.html`/
+    `results.html` all already link to `test.html?code=...`). Category list
+    is zero-filled from the bank's own question set (`categoryId`s that
+    appear in `bank.questions`, matched in tree order via
+    `flattenCategoryTree`, no `schema.js` change needed) — every leaf a real
+    question attaches to now shows a `pending`/"0 of 5 answered" row before
+    any history exists for it, not just the ones already touched. The
+    résumé/due/weakest-category entry points (previously bare sibling links)
+    are now one grouped "Pick up where you left off" callout. #2–#4 render
+    as real, populated (not just "Coming soon" text) `disabled` stubs — the
+    category-test/practice-topic pickers are pre-filled with this bank's
+    actual categories, same honest-preview pattern 6.6.2 established. #1 and
+    #5 (relabeled from "Study a topic" to "Review a topic") work for real,
+    same underlying `run.html` links as before. No persisted-data shape
+    change; no `js/store.js`/`js/schema.js` function signatures touched
+    (`allCategoryStats`, the only new logic, lives in `test.html` itself).
+    **One real bug caught live-testing, fixed before shipping:** the new
+    `.continue-callout { display: flex; }` CSS rule overrode the browser's
+    own `[hidden] { display: none }` default (an author-stylesheet `display`
+    declaration always wins over the UA stylesheet regardless of source
+    order) — the empty callout rendered even on a fresh, zero-attempt store
+    with `hidden` correctly set by the script. Fixed with an explicit
+    `.continue-callout[hidden] { display: none; }` override; the app has no
+    other case where a `hidden`-toggled element's own class sets `display`,
+    so this pattern isn't repeated elsewhere in `css/base.css` today.
+    284/284 tests green (no test file changes — this PR touches only
+    `test.html`/`css/base.css`/a stale comment in `js/schema.js`),
+    `verify.mjs` clean. Live-verified in the browser (plain `python3 -m
+    http.server`, `localStorage.clear()` for the zero-state, then a
+    hand-constructed store — two completed attempts, 60 questions'
+    `questionHistory`, one in-progress attempt — written directly to
+    `localStorage` for the populated state, matching this project's
+    established hand-edited-storage testing technique): zero-state shows
+    "Not started" on the meter and all six leaf categories pending with no
+    callout at all; the populated state correctly shows all three callout
+    entries (resume, weakest-category — due didn't trigger since seeded
+    `dueAt` values were in the future, expected), both meters with the
+    correct delta, and a realistic mixed category breakdown (some
+    `Building`, some still pending); "Download progress" produced a real
+    blob URL with the correct filename; "Upload progress" opened the
+    confirm dialog with an accurate current-vs-incoming summary and Cancel
+    correctly left storage untouched. Zero console errors from real app
+    code throughout (the browser tool's own console-log buffer persisted
+    stale errors from an earlier test-script bug of mine across
+    reloads/navigations — traced and ruled out, not an app issue).
+  - ☐ **PR B — the shared practice/category-test mode (deep, full 8-angle
     review).** New pure draw function (10 questions, one category, reusing
     `drawForCategory`'s pattern) and a new `run.html` mode covering both #2
     and #3. The review's central job: verify it truly never calls
     `recordAnswer`/`completeAttempt`/`recordQuestionHistory` — "not
     recorded" must hold under an actual store inspection, not just visual
-    inspection. Enables #2/#3's controls for real.
+    inspection. Enables #2/#3's controls for real. Not started.
   *Accepts:* PR A — S2 matches the signed-off mockup with real data in every
   state (first-visit zeroed, resume/due/weakest present, populated
-  dashboard); #2–#4 visibly present but inert. PR B — a practice/category
-  test of either kind completes and scores without creating an `attempt` or
-  writing `questionHistory`, confirmed by inspecting the store directly
-  before and after.
+  dashboard); #2–#4 visibly present but inert. **PR A done, live-verified.**
+  PR B — a practice/category test of either kind completes and scores
+  without creating an `attempt` or writing `questionHistory`, confirmed by
+  inspecting the store directly before and after. **Not started.**
 
 ### Phase 6.9 — Topic teaching pages ("Study a topic")
 
@@ -1098,6 +1138,7 @@ reaching the same 3×-depth, answer-key-verified standard as 5165) and Phase 9.
 | 2026-08-18 | Phase 6.6 — progress dashboard visual redesign | Session owner asked for the dashboard to look "professional and colorful" instead of plain lists. Iterated as a published Artifact mockup first — including a side-by-side comparison of four bar styles (rounded pill, segmented gauge, bullet graph, hairline+marker) — before touching real code; session owner picked the bullet graph. Built into `dashboard.html`: circular meters (one hue, two shades) for the attempt comparison with a delta indicator, bullet-graph bars with a 75% threshold tick for the category breakdown, status chips (icon + text, never color alone). Deliberately light-only, matching every other screen in the app; reuses `--color-accent`/`--color-correct`/`--color-incorrect` rather than a new palette. Also closed two small pre-existing findings while in the file: `percentOf` (js/results.js) exported and reused by `dashboard.html`/`test.html` instead of three duplicate inline copies; `dashboard.html`'s category-label lookup switched to the existing `flattenCategoryLabels` instead of a hand-rolled duplicate. Mid-mockup-review, session owner also asked for a "category test" option (10 questions, one category, explicitly not recorded/no stats effect) — recognized as new architecture (a new ephemeral `run.html` mode, not a display change) rather than part of the visual redesign; session owner's call to ship the redesign now and defer the real feature to its own plan (6.6.2, still open). The "Start another test" section previews the control today as a real but `disabled` dropdown + button with a "Coming soon" badge. Self-reviewed (CSS/UI + a benign function export, not a deep change). 273/273 tests green, `verify.mjs` clean. Live-verified in the browser: zero/one/many-attempt comparison states, all four category-status tiers with real seeded history (including the pending "N of 5 answered" state), the disabled category-test control's real `disabled`/`aria-disabled`/opacity/cursor state, and the 375px mobile layout — zero console errors throughout. |
 | 2026-08-18 | Phase 6.5 — workflow & progress dashboard | New `dashboard.html` (S6) plus supporting aggregation helpers: `js/store.js`'s `findFirstAndLatestAttempts` (earliest/latest completed attempt for a test code), `js/schema.js`'s `aggregateCategoryStats` (every leaf category's all-time accuracy, sharing a newly-extracted `aggregateHistoryByCategory` helper with the pre-existing `weakestCategory` rather than duplicating its aggregation loop), and `js/results.js`'s `categoriesNeedingPractice` (this attempt's own under-practiced categories, deliberately attempt-scoped rather than cross-attempt). `test.html` gained a "View progress dashboard" link (once a completed attempt exists); `results.html` gained a "Practice your weak spots" section linking each flagged category into S5's existing drill. Separately, per the session owner's own design simplification, `data/manifest.json` now runs one subject at a time (5165 `enabled: true`, 5101/5485/5652 `enabled: false`, config-only) and `index.html`'s copy no longer hardcodes "four." 273/273 tests green, `verify.mjs` clean throughout. Deep change (progress-persistence-adjacent) — 8-angle `/code-review` at high effort found 9 findings; the most severe, confirmed independently by 3 angles, was that gating a bank lookup on `enabled` (as `results.html`/`run.html`/`test.html`/`dashboard.html` all did) silently orphaned review/resume access to any *already-completed* attempt on a test disabled by the 6.5.4 manifest change — fixed by giving `loadManifest` an `includeDisabled` option and switching all four pages' by-code bank lookups to pass it, so only S1's start-a-new-test list (`loadTestList`) still filters to enabled tests; this also happened to unify results.html/run.html's hand-rolled raw-fetch lookup with test.html/dashboard.html's `loadManifest`-based one (an altitude-angle finding, fixed as a side effect). Second confirmed finding: `tools/verify.mjs` was skipping schema validation for any disabled bank, silently losing answer-key-verification coverage for a test that's still reachable by direct URL — fixed by dropping the `!entry.enabled` short-circuit, validating every registered bank regardless of enabled state. Remaining findings (CSS rule duplication, two duplicated magic-number thresholds, a duplicated percent-rounding formula, a wasted per-question computation, one redundant early-return branch) left as-is — each low-severity, easily rediscoverable, not worth a GitHub issue on its own. Live-verified in the browser: seeded a completed attempt for a disabled test (5101) and confirmed `results.html`, `test.html`, and `dashboard.html` all correctly resolve and render it (previously would have shown "could not be loaded"/"not registered"), zero console errors; separately confirmed the dashboard/practice-links flow end-to-end on the still-enabled 5165 test (first-vs-latest comparison, per-category breakdown, "Practice your weak spots" linking to the exact two deliberately-failed categories with correct "missed N" counts). **Phase 6.5 is now fully done.** |
 | 2026-08-20 | Doc-only — remaining v1 scope formalized (D-27) | Session owner listed six remaining project-level tasks (S2 redesign, v1 acceptance, S1 multi-subject redesign, author the other three banks, verify cross-subject export/import, final acceptance) and asked what was missing from the docs. Confirmed against D-4/D-23/D-24: the plan itself was already decided, just not scheduled as ROADMAP.md phases — added Phase 6.8 (S2 redesign, ◐, in mockup iteration — see 6.8.1), Phase 8.3 (v1/Mathematics-only acceptance, gates Phase 9), Phase 9 (S1 redesign + re-enabling 5101/5485/5652 in the manifest), and Phase 10 (final four-subject testing and acceptance). Phase 7's resume target made explicit (1,035 questions across the three remaining tests, at D-23's 3×-depth standard). Confirmed items 1 and 5 needed no new work: item 5 (multi-subject download/upload) is already satisfied by the store's existing global (not per-test) shape — folded into Phase 10.1 as a verification step, not a build task. Session owner's call (via AskUserQuestion): 6.6.2's deferred "category test" mode folds into the new Phase 6.8 S2 redesign rather than shipping as its own separate later pass. **No code changed.** |
+| 2026-08-20 | Phase 6.8.2 PR A — S2/S6 page merge | `dashboard.html`'s rendering folded into `test.html`; `dashboard.html` deleted. Category breakdown is now zero-filled (every leaf category from the bank's own questions shows a `pending` row before any history exists, not just touched ones); résumé/due/weakest-category links grouped into one "Pick up where you left off" callout; the Start section gained #2–#4 as real, populated `disabled` stubs and #5 (relabeled from "Study a topic" to "Review a topic"). No persisted-data shape change. Moderate change, self-reviewed per the plan. Live-testing caught one real bug before it shipped: a new `.continue-callout { display: flex }` CSS rule silently overrode the browser's own `[hidden]` default (author styles beat the UA stylesheet once `display` is declared, regardless of source order), so the empty callout rendered even with `hidden` correctly set on a fresh store — fixed with an explicit `.continue-callout[hidden] { display: none }` override. 284/284 tests green, `verify.mjs` clean. Live-verified in the browser (hand-constructed store written directly to `localStorage`, this project's established technique): zero-state (meter "Not started," all six categories pending, no callout), populated state (resume + weakest-category callout items, both meters with correct delta, mixed category statuses), and the download/upload backup flow, all correct with zero real console errors. Phase 6.8.2 PR B (the shared practice/category-test `run.html` mode) not started — deep change, full 8-angle review required. |
 | 2026-08-20 | Doc-only — Phase 6.8's Start menu settled at five entries; Phase 6.9 split off (D-28) | Continuing the S2/6.8 mockup discussion: the session owner specified the real Start-menu shape — full test (unchanged), Practice a topic (new, untimed 10Q/one-category flag-review-pass, unrecorded), Category test (new, same but timed — shares one new `run.html` mode with Practice via a timer flag rather than being a separate build), Study a topic (new destination — a textbook-chapter-style teaching page per category, ships as a `disabled` stub only, real content split into new Phase 6.9), and Review a topic (today's existing S5 immediate-reveal drill, kept exactly as-is per the session owner's call via AskUserQuestion, relabeled since "Study a topic" now names the new teaching-page destination instead). 6.8.2 rewritten with this scope, split into two PRs by risk (page-merge, self-reviewed; the shared Practice/Category-test mode, deep — full 8-angle review required, its central job being to prove the mode never calls `recordAnswer`/`completeAttempt`/`recordQuestionHistory`). New Phase 6.9 added (design pass → author Mathematics' 6 chapters → wire up the control), not started. Logged D-28, indexed in DECISIONS-INDEX.md. **No code changed yet — 6.8.2's real build starts next.** |
 | 2026-08-19 | Phase 8.1/8.2 — NAS hosting decided, first deploy live | Resolved 8.1 (open since Phase 4's design plan): session owner's Synology NAS, Web Station (not a plain file share — `fetch()` for `data/manifest.json`/question banks doesn't work under `file://`), SSH-driven transfer via a dedicated low-privilege `praxis-deploy` account rather than admin. Bootstrapping that account's SSH key access cost most of a session on its own: DSM 7.2.1 has no per-user "SSH Key" GUI tab (removed/not-yet-added in this version), so the key was placed manually in `authorized_keys` — which then still failed auth with a bare `Permission denied (publickey,password)` despite verifiably-correct key content, ownership, permissions, home-directory path, `sshd_config`, and PAM config, and with **zero evidence in any log**, including DSM's own Log Center (traced to: OpenSSH's PAM auth chain, which is what all of Synology's logging hooks into, is only invoked for password auth, never for publickey — so a failed publickey attempt is invisible everywhere). Root cause only surfaced by running a disposable debug `sshd -d` instance on a spare port and reading its live verbose output directly: Synology's own `syno_acl_safe_path` check was rejecting based on a Windows-style ACL on the home directory, invisible in a plain `ls -l` unless you know to look for the trailing `+`. Fixed via `synoacltool -del` (which itself zeroed the POSIX permission bits as a side effect, needing a follow-up `chmod 711`). Web Station's Virtual Host (Web Service + Port-based Web Portal, port 8080, Nginx, static site type) was comparatively simple once SSH worked. First deploy (8.2) copied the site to `/volume1/praxis-practice` via a plain `tar`-over-SSH pipe, since rsync/scp/sftp all turned out to be independently blocked on this NAS for reasons not further diagnosed (plain shell exec confirmed working throughout, isolating the problem to those three transfer tools specifically, not auth or write permissions). Deploy was done from a clean `main` checkout — `feature/6.7-restore-progress`'s in-progress uncommitted work was stashed first and restored immediately after, untouched. **Site is live at `http://10.0.0.37:8080/`**, homepage and `data/manifest.json` both confirmed serving correctly. 8.2 stays ◐, not ☑: a complete timed attempt hasn't been live-tested start-to-score against this real deployment yet, and this deploy was a direct overwrite with no "previous version kept alongside for rollback" folder in place — both still open against this task's own Accepts criteria. Full diagnostic detail for both the SSH/ACL and the rsync/scp/sftp landmines lives in the session owner's own NAS-device notes, not repeated here since it applies to any future project on this NAS, not just this one. |
 

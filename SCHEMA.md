@@ -20,20 +20,32 @@ D-8 (spaced repetition), D-9/D-11 (screen flow), D-10 (question format), D-12
 question count, and how many questions the bank currently holds. Choosing one goes to
 S2. The list is generated from data, never hardcoded (D-4).
 
-**S2 · Test menu.** Two paths: *Take a practice test* (S3) or *Study a topic* (S5).
-Shows this test's recent attempt history and, when any questions are due for review
-(D-8), a "N questions due" entry point. **When an `in-progress` attempt exists for this
-test (§2.8), S2 leads with a "Resume attempt" entry** rather than only offering to start
-a fresh one — review finding #10/#1.
+**S2 · Test hub (Phase 6.8).** Merges the original test-menu with the standalone
+progress dashboard (S6, Phase 6.5/6.6) into one page: the attempt-comparison meters and
+per-category bullet-graph bars (§2.8-derived, same components as before) are always
+shown, zero-filled for every category the test actually covers even before any question
+in it has been answered — a first-time visitor sees where their data will go, not just
+an empty page or a bare sentence.
 
-**When this test has enough answered-question history, S2 also shows a weakest-category
-suggestion** (D-18): "You're weakest in `<category>` (`X`% correct) — practice it,"
-linking directly into S5 pre-filtered to that category. Ranked by accuracy (correct ÷
-answered) across all attempts and study sessions in that test, lowest first; a category
-needs at least 5 answered questions before it is eligible, so an early or lightly-touched
-category isn't singled out on a handful of unlucky guesses. Ties break toward the
-category least recently practiced. No suggestion is shown at all until some category
-in the test clears the threshold.
+Below that, a **Start** section offers five entries: *Take a practice test* (S3, full
+form/timer, recorded); *Practice a topic* (new, untimed, 10 questions from one category,
+same flag/review-pass/submit flow as a real test, never recorded — Phase 6.8.2 PR B);
+*Category test* (new, identical to Practice a topic but timed — shares its engine mode
+via a timer flag, Phase 6.8.2 PR B); *Study a topic* (new, a short textbook-chapter-style
+teaching page per category — content not yet authored, Phase 6.9, ships as a disabled
+"Coming soon" stub in the meantime); and *Review a topic* (S5, unchanged from before this
+redesign — untimed, one category, the answer explained immediately after each question).
+
+**When an `in-progress` attempt exists for this test (§2.8), a "Resume attempt" entry**
+leads a "Pick up where you left off" callout, alongside — when applicable — a "N
+questions due for review" entry point (D-8) and a weakest-category suggestion (D-18):
+"You're weakest in `<category>` (`X`% correct) — practice it," linking directly into
+*Review a topic*'s S5 flow pre-filtered to that category. The weakest-category pick is
+ranked by accuracy (correct ÷ answered) across all attempts and study sessions in that
+test, lowest first; a category needs at least 5 answered questions before it is
+eligible, so an early or lightly-touched category isn't singled out on a handful of
+unlucky guesses, and ties break toward the category least recently practiced. None of
+the three callout entries appear until their own trigger condition is met.
 
 **S3 · Test runner.** A Start button begins the timer and presents question 1.
 
