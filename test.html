@@ -496,15 +496,15 @@
           );
         }
 
-        practiceTopicStartLink.href = drillHref(practiceTopicSelect.value, false);
-        practiceTopicSelect.addEventListener("change", () => {
-          practiceTopicStartLink.href = drillHref(practiceTopicSelect.value, false);
-        });
+        function wireDrillPicker(select, link, timed) {
+          link.href = drillHref(select.value, timed);
+          select.addEventListener("change", () => {
+            link.href = drillHref(select.value, timed);
+          });
+        }
 
-        categoryTestStartLink.href = drillHref(categoryTestSelect.value, true);
-        categoryTestSelect.addEventListener("change", () => {
-          categoryTestStartLink.href = drillHref(categoryTestSelect.value, true);
-        });
+        wireDrillPicker(practiceTopicSelect, practiceTopicStartLink, false);
+        wireDrillPicker(categoryTestSelect, categoryTestStartLink, true);
 
         const loadResult = loadStore();
         if (!loadResult.ok) {

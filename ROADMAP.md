@@ -57,7 +57,7 @@ site with no server.
 | 6.5 | Workflow & progress dashboard | ☑ |
 | 6.6 | Progress dashboard visual redesign | ◐ |
 | 6.7 | Restore progress ("upload progress") | ☑ |
-| 6.8 | S2 redesign (test-menu hub) | ◐ |
+| 6.8 | S2 redesign (test-menu hub) | ☑ |
 | 6.9 | Topic teaching pages ("Study a topic") | ☐ |
 | 7 | Content authoring (parallel track) | ◐ |
 | 8 | Launch (NAS) — v1, Mathematics only | ◐ |
@@ -916,7 +916,7 @@ owner's call, 2026-08-20) rather than building it against the old S2 later.
   resume/due/weakest, backup/restore in a collapsed `<details>`. **Signed off.**
   While reviewing the mockup, the Start-menu scope itself grew — see 6.8.2's
   final shape below, settled via two rounds of AskUserQuestion (2026-08-20).
-- ◐ **6.8.2 Build and wire up.** Scope, as settled 2026-08-20 — the Start
+- ☑ **6.8.2 Build and wire up.** Scope, as settled 2026-08-20 — the Start
   section ends up with **five** entries, not the two the mockup showed:
   1. **Full practice test** — existing, unchanged.
   2. **Practice a topic** (new) — untimed, 10 questions from one category,
@@ -987,19 +987,50 @@ owner's call, 2026-08-20) rather than building it against the old S2 later.
     code throughout (the browser tool's own console-log buffer persisted
     stale errors from an earlier test-script bug of mine across
     reloads/navigations — traced and ruled out, not an app issue).
-  - ☐ **PR B — the shared practice/category-test mode (deep, full 8-angle
-    review).** New pure draw function (10 questions, one category, reusing
-    `drawForCategory`'s pattern) and a new `run.html` mode covering both #2
-    and #3. The review's central job: verify it truly never calls
-    `recordAnswer`/`completeAttempt`/`recordQuestionHistory` — "not
-    recorded" must hold under an actual store inspection, not just visual
-    inspection. Enables #2/#3's controls for real. Not started.
+  - ☑ **PR B — the shared practice/category-test mode (deep, full 8-angle
+    review).** New pure `assembleCategoryDrill(bank, categoryId, {count, random})`
+    in `js/schema.js` and a new `run.html` `mode=drill` covering both #2
+    (untimed) and #3 (`&timed=1`) — 10 questions, one category, same
+    flag/skip/review-pass/confirm-submit UI as a real test, scored locally.
+    Deliberately never imports/calls any of `js/store.js`'s mutating exports
+    — "never touches the store" is true by construction (a local `answers`
+    array), not by carefully avoiding certain calls. `test.html`'s two
+    disabled stubs enabled for real. 293/293 tests green (9 new),
+    `verify.mjs` clean. 8-angle `/code-review` at high effort found 5
+    findings, all fixed: a real bug (Angle A) — the drill's `finish()` never
+    closed `#confirm-submit-dialog` before revealing the completion screen
+    (harmless in the real S3 flow, whose `finish()` always navigates away
+    via `location.href` instead, discarding the dialog with the page), so a
+    Category Test's clock expiring while the confirm-submit dialog was open
+    left a stale modal stacked on the already-scored completion screen —
+    fixed by closing the dialog first if open; ~130-150 lines duplicated
+    between `beginRun` and the new `runCategoryDrill`, converging from 3
+    angles, extracted into three shared `run.html`-level helpers:
+    `tickCountdown` (the timer/threshold-announce body), `renderReviewListInto`
+    (the review-row-building loop), and `buildConfirmSubmitMessage`/
+    `wireConfirmSubmitDialog` (the count message + Cancel/close/Confirm
+    wiring) — `showReviewScreen`/`renderQuestionForEdit`/`reopenQuestion` left
+    as-is per the review's own note that they're genuinely more different
+    (no SRS-baseline/`priorHistory` to preserve in the drill); dead
+    `questionShownAt` in `runCategoryDrill` (assigned, never read) deleted;
+    `test.html`'s two picker-wiring blocks (only the `timed` flag differing)
+    consolidated into one `wireDrillPicker(select, link, timed)` helper.
+    Live-tested in the browser: full untimed run (flag+skip, reopen +
+    live-edit + change answer, confirm-submit counts, completion), full timed
+    run forced to expire via a `Date.now` monkey-patch specifically while the
+    confirm-submit dialog was open (the fixed bug's exact repro — confirmed
+    the dialog closes and the completion screen renders cleanly), both
+    category-not-found error paths, and a full regression pass of the real
+    S3 timed test (extraction didn't change its behavior). `localStorage`
+    confirmed byte-for-byte untouched (`null`) through every drill path,
+    zero console errors throughout, zero stray real clicks (verified via a
+    `document.addEventListener('click', ..., true)` capture).
   *Accepts:* PR A — S2 matches the signed-off mockup with real data in every
   state (first-visit zeroed, resume/due/weakest present, populated
   dashboard); #2–#4 visibly present but inert. **PR A done, live-verified.**
   PR B — a practice/category test of either kind completes and scores
   without creating an `attempt` or writing `questionHistory`, confirmed by
-  inspecting the store directly before and after. **Not started.**
+  inspecting the store directly before and after. **Done, live-verified.**
 
 ### Phase 6.9 — Topic teaching pages ("Study a topic")
 
@@ -1140,5 +1171,6 @@ reaching the same 3×-depth, answer-key-verified standard as 5165) and Phase 9.
 | 2026-08-20 | Doc-only — remaining v1 scope formalized (D-27) | Session owner listed six remaining project-level tasks (S2 redesign, v1 acceptance, S1 multi-subject redesign, author the other three banks, verify cross-subject export/import, final acceptance) and asked what was missing from the docs. Confirmed against D-4/D-23/D-24: the plan itself was already decided, just not scheduled as ROADMAP.md phases — added Phase 6.8 (S2 redesign, ◐, in mockup iteration — see 6.8.1), Phase 8.3 (v1/Mathematics-only acceptance, gates Phase 9), Phase 9 (S1 redesign + re-enabling 5101/5485/5652 in the manifest), and Phase 10 (final four-subject testing and acceptance). Phase 7's resume target made explicit (1,035 questions across the three remaining tests, at D-23's 3×-depth standard). Confirmed items 1 and 5 needed no new work: item 5 (multi-subject download/upload) is already satisfied by the store's existing global (not per-test) shape — folded into Phase 10.1 as a verification step, not a build task. Session owner's call (via AskUserQuestion): 6.6.2's deferred "category test" mode folds into the new Phase 6.8 S2 redesign rather than shipping as its own separate later pass. **No code changed.** |
 | 2026-08-20 | Phase 6.8.2 PR A — S2/S6 page merge | `dashboard.html`'s rendering folded into `test.html`; `dashboard.html` deleted. Category breakdown is now zero-filled (every leaf category from the bank's own questions shows a `pending` row before any history exists, not just touched ones); résumé/due/weakest-category links grouped into one "Pick up where you left off" callout; the Start section gained #2–#4 as real, populated `disabled` stubs and #5 (relabeled from "Study a topic" to "Review a topic"). No persisted-data shape change. Moderate change, self-reviewed per the plan. Live-testing caught one real bug before it shipped: a new `.continue-callout { display: flex }` CSS rule silently overrode the browser's own `[hidden]` default (author styles beat the UA stylesheet once `display` is declared, regardless of source order), so the empty callout rendered even with `hidden` correctly set on a fresh store — fixed with an explicit `.continue-callout[hidden] { display: none }` override. 284/284 tests green, `verify.mjs` clean. Live-verified in the browser (hand-constructed store written directly to `localStorage`, this project's established technique): zero-state (meter "Not started," all six categories pending, no callout), populated state (resume + weakest-category callout items, both meters with correct delta, mixed category statuses), and the download/upload backup flow, all correct with zero real console errors. Phase 6.8.2 PR B (the shared practice/category-test `run.html` mode) not started — deep change, full 8-angle review required. |
 | 2026-08-20 | Doc-only — Phase 6.8's Start menu settled at five entries; Phase 6.9 split off (D-28) | Continuing the S2/6.8 mockup discussion: the session owner specified the real Start-menu shape — full test (unchanged), Practice a topic (new, untimed 10Q/one-category flag-review-pass, unrecorded), Category test (new, same but timed — shares one new `run.html` mode with Practice via a timer flag rather than being a separate build), Study a topic (new destination — a textbook-chapter-style teaching page per category, ships as a `disabled` stub only, real content split into new Phase 6.9), and Review a topic (today's existing S5 immediate-reveal drill, kept exactly as-is per the session owner's call via AskUserQuestion, relabeled since "Study a topic" now names the new teaching-page destination instead). 6.8.2 rewritten with this scope, split into two PRs by risk (page-merge, self-reviewed; the shared Practice/Category-test mode, deep — full 8-angle review required, its central job being to prove the mode never calls `recordAnswer`/`completeAttempt`/`recordQuestionHistory`). New Phase 6.9 added (design pass → author Mathematics' 6 chapters → wire up the control), not started. Logged D-28, indexed in DECISIONS-INDEX.md. **No code changed yet — 6.8.2's real build starts next.** |
+| 2026-08-20 | Phase 6.8.2 PR B — shared practice/category-test mode | New pure `assembleCategoryDrill(bank, categoryId, {count, random})` in `js/schema.js` (same category-and-descendants least-recently-seen draw as `assembleDrill`, capped, deliberately takes no `history` param at all since this mode never reads the store) and a new `run.html` `mode=drill` covering both Practice a topic (untimed) and Category test (timed, `&timed=1`) — 10 questions, one category, the same flag/skip/review-pass/confirm-submit UI a real test uses, scored locally via a local `answers` array. Deliberately never imports/calls any of `js/store.js`'s mutating exports — "never touches the store" is true by construction, not by carefully avoiding certain calls. Reuses `js/runner.js`'s pure `buildReviewRows`/`countReviewStatus`/`scoreAttempt` directly and the same `#run-screen`/`#review-screen`/`#confirm-submit-dialog` DOM S3 already uses. `test.html`'s two disabled stubs enabled for real. 8-angle `/code-review` at high effort found 5 findings, all fixed: a real bug (Angle A, must-fix) — the drill's `finish()` never closed `#confirm-submit-dialog` before revealing the completion screen (harmless in the real S3 flow, whose `finish()` always navigates away via `location.href` instead, discarding the dialog with the page), so a Category Test's clock expiring while the confirm-submit dialog was open left a stale modal stacked on the already-scored completion screen underneath — fixed by closing the dialog first if open; ~130-150 lines duplicated between `beginRun` and the new `runCategoryDrill`, converging from 3 angles (reuse/simplification/altitude), extracted into three shared `run.html`-level helpers — `tickCountdown` (the timer/threshold-announce body), `renderReviewListInto` (the review-row-building loop), `buildConfirmSubmitMessage`/`wireConfirmSubmitDialog` (the count message + Cancel/close/Confirm wiring) — leaving `showReviewScreen`/`renderQuestionForEdit`/`reopenQuestion` as-is per the review's own note that they're genuinely more different (no SRS-baseline/`priorHistory` to preserve in the drill); dead `questionShownAt` in `runCategoryDrill` (assigned, never read) deleted; `test.html`'s two picker-wiring blocks (only the `timed` flag differing) consolidated into one `wireDrillPicker(select, link, timed)` helper. 293/293 tests green (9 new), `verify.mjs` clean. Live-tested in the browser: full untimed run (start → answer → flag+skip → review → reopen + live-edit-flag-during-edit + change answer → confirm-submit dialog with correct counts → completion), full timed run forced to expire via a `Date.now` monkey-patch specifically while the confirm-submit dialog was open (the fixed bug's exact repro — confirmed the dialog closes and the completion screen renders cleanly with no stray modal), both category-not-found error paths, and a full regression pass of the real S3 timed test (66-question form, timer, review, confirm-submit counts, submit → `results.html`) to confirm the shared-helper extraction changed nothing there. `localStorage` confirmed byte-for-byte untouched (`null`) through every drill path — the core property the review needed to verify — zero console errors throughout, zero stray real clicks (verified via a `document.addEventListener('click', ..., true)` capture, this project's established anti-contamination technique). **Phase 6.8 (S2 redesign) is now fully done.** |
 | 2026-08-19 | Phase 8.1/8.2 — NAS hosting decided, first deploy live | Resolved 8.1 (open since Phase 4's design plan): session owner's Synology NAS, Web Station (not a plain file share — `fetch()` for `data/manifest.json`/question banks doesn't work under `file://`), SSH-driven transfer via a dedicated low-privilege `praxis-deploy` account rather than admin. Bootstrapping that account's SSH key access cost most of a session on its own: DSM 7.2.1 has no per-user "SSH Key" GUI tab (removed/not-yet-added in this version), so the key was placed manually in `authorized_keys` — which then still failed auth with a bare `Permission denied (publickey,password)` despite verifiably-correct key content, ownership, permissions, home-directory path, `sshd_config`, and PAM config, and with **zero evidence in any log**, including DSM's own Log Center (traced to: OpenSSH's PAM auth chain, which is what all of Synology's logging hooks into, is only invoked for password auth, never for publickey — so a failed publickey attempt is invisible everywhere). Root cause only surfaced by running a disposable debug `sshd -d` instance on a spare port and reading its live verbose output directly: Synology's own `syno_acl_safe_path` check was rejecting based on a Windows-style ACL on the home directory, invisible in a plain `ls -l` unless you know to look for the trailing `+`. Fixed via `synoacltool -del` (which itself zeroed the POSIX permission bits as a side effect, needing a follow-up `chmod 711`). Web Station's Virtual Host (Web Service + Port-based Web Portal, port 8080, Nginx, static site type) was comparatively simple once SSH worked. First deploy (8.2) copied the site to `/volume1/praxis-practice` via a plain `tar`-over-SSH pipe, since rsync/scp/sftp all turned out to be independently blocked on this NAS for reasons not further diagnosed (plain shell exec confirmed working throughout, isolating the problem to those three transfer tools specifically, not auth or write permissions). Deploy was done from a clean `main` checkout — `feature/6.7-restore-progress`'s in-progress uncommitted work was stashed first and restored immediately after, untouched. **Site is live at `http://10.0.0.37:8080/`**, homepage and `data/manifest.json` both confirmed serving correctly. 8.2 stays ◐, not ☑: a complete timed attempt hasn't been live-tested start-to-score against this real deployment yet, and this deploy was a direct overwrite with no "previous version kept alongside for rollback" folder in place — both still open against this task's own Accepts criteria. Full diagnostic detail for both the SSH/ACL and the rsync/scp/sftp landmines lives in the session owner's own NAS-device notes, not repeated here since it applies to any future project on this NAS, not just this one. |
 

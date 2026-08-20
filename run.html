@@ -992,6 +992,86 @@
       );
     }
 
+    // Shared by beginRun's (S3) and runCategoryDrill's (Phase 6.8.2) countdown
+    // timers -- formats the remaining time into timerEl, announces any newly-crossed
+    // threshold, and reports whether the deadline has passed. The caller decides what
+    // "expired" means (finish() in both cases, but each closes over its own).
+    function tickCountdown(deadline, thresholds, announcedThresholds, timerEl) {
+      const remainingMs = Math.max(0, deadline - Date.now());
+      const totalSeconds = Math.floor(remainingMs / 1000);
+      const minutes = Math.floor(totalSeconds / 60);
+      const seconds = totalSeconds % 60;
+      timerEl.textContent = `Time remaining: ${minutes}:${String(seconds).padStart(2, "0")}`;
+      if (remainingMs > 0) {
+        for (const threshold of crossedThresholds(remainingMs, thresholds, announcedThresholds)) {
+          announcedThresholds.add(threshold);
+          const label = threshold === 60_000 ? "1 minute" : `${threshold / 60_000} minutes`;
+          announce(`${label} remaining`);
+        }
+      }
+      return remainingMs <= 0;
+    }
+
+    // Shared by beginRun's and runCategoryDrill's review passes -- same row markup,
+    // built from whatever answers array the caller is tracking (store-backed vs. a
+    // local array), reopened via whatever reopen handler the caller supplies.
+    function renderReviewListInto(reviewListEl, questions, answers, categoryLabels, onReopen) {
+      const rows = buildReviewRows(questions, answers, categoryLabels);
+      reviewListEl.innerHTML = "";
+      for (const row of rows) {
+        const li = document.createElement("li");
+        const parts = [row.categoryLabel, "--", row.stemExcerpt];
+        if (row.answered) {
+          parts.push(row.chosenOptionText ? `(${row.chosen[0]}) ${row.chosenOptionText}` : "(answer no longer available)");
+        }
+        if (row.flagged) parts.push("(flagged)");
+        if (!row.answered) parts.push("(not answered)");
+        li.append(`${parts.join(" ")} `);
+        const reopenButton = document.createElement("button");
+        reopenButton.type = "button";
+        reopenButton.textContent = "Reopen";
+        reopenButton.addEventListener("click", () => onReopen(row.questionId));
+        li.appendChild(reopenButton);
+        if (row.flagged) {
+          const flagIcon = document.createElement("span");
+          flagIcon.className = "flag-icon";
+          flagIcon.textContent = "\u{1F6A9}";
+          flagIcon.setAttribute("aria-hidden", "true");
+          li.appendChild(flagIcon);
+        }
+        reviewListEl.appendChild(li);
+      }
+    }
+
+    // Shared by beginRun's and runCategoryDrill's confirm-submit dialogs -- same
+    // unanswered/flagged counting and message text, built from whatever answers
+    // array the caller is tracking.
+    function buildConfirmSubmitMessage(questions, answers, categoryLabels) {
+      const rows = buildReviewRows(questions, answers, categoryLabels);
+      const { unanswered, flagged } = countReviewStatus(rows);
+      const unansweredText = unanswered === 1 ? "1 question unanswered" : `${unanswered} questions unanswered`;
+      const flaggedText = flagged === 1 ? "1 question flagged for review" : `${flagged} questions flagged for review`;
+      return `${unansweredText}, ${flaggedText}. Submitting will score your answers now.`;
+    }
+
+    // Shared Cancel/close/Confirm wiring for the one `#confirm-submit-dialog` both
+    // modes reuse -- only what happens on confirm differs between them.
+    function wireConfirmSubmitDialog(onConfirm) {
+      confirmCancelButton.addEventListener("click", () => confirmSubmitDialog.close());
+      // Fires on every close path (Cancel click, Esc) so focus reliably returns to
+      // the button that opened the dialog rather than relying on browser-specific
+      // focus-restoration behavior.
+      confirmSubmitDialog.addEventListener("close", () => submitButton.focus());
+      confirmSubmitButton.addEventListener(
+        "click",
+        () => {
+          confirmSubmitDialog.close();
+          onConfirm();
+        },
+        { once: true },
+      );
+    }
+
     function beginRun(bank, form, initialStore, attempt, startIndex, { resumingExistingTimer, moveFocusOnFirstRender }) {
       startScreen.hidden = true;
       runScreen.hidden = false;
@@ -1041,27 +1121,11 @@
       updateTimer();
 
       function updateTimer() {
-        const remainingMs = Math.max(0, deadline - Date.now());
-        const totalSeconds = Math.floor(remainingMs / 1000);
-        const minutes = Math.floor(totalSeconds / 60);
-        const seconds = totalSeconds % 60;
-        timerEl.textContent = `Time remaining: ${minutes}:${String(seconds).padStart(2, "0")}`;
-        // Skipped once expired (code review finding): a large time jump (the tab was
-        // asleep/backgrounded) can cross several thresholds in the same tick as
-        // expiry, and announcing them a moment before finish() navigates away is
-        // stale and misleading rather than useful.
-        if (remainingMs > 0) {
-          for (const threshold of crossedThresholds(remainingMs, ANNOUNCE_THRESHOLDS_MS, announcedThresholds)) {
-            announcedThresholds.add(threshold);
-            const label = threshold === 60_000 ? "1 minute" : `${threshold / 60_000} minutes`;
-            announce(`${label} remaining`);
-          }
-        }
         // The timer expiring while the tab stays open scores the attempt immediately
         // (SCHEMA.md S3, finding #10) -- no confirmation, unlike the Submit button's
         // dialog, since this is a forced deadline rather than a discretionary
         // choice. finish() clears this interval first, so this can't re-fire.
-        if (remainingMs <= 0) finish();
+        if (tickCountdown(deadline, ANNOUNCE_THRESHOLDS_MS, announcedThresholds, timerEl)) finish();
       }
 
       function abortRun(message) {
@@ -1344,39 +1408,7 @@
 
       function renderReviewList() {
         const currentAttempt = findAttempt(store, attempt.id);
-        const rows = buildReviewRows(form.questions, currentAttempt.answers, categoryLabels);
-        reviewList.innerHTML = "";
-        for (const row of rows) {
-          const li = document.createElement("li");
-          const parts = [row.categoryLabel, "--", row.stemExcerpt];
-          if (row.answered) {
-            // Degrades to a generic note rather than omitting the answer silently
-            // (code review consideration, matching S5's correctOption fallback
-            // elsewhere in this file) if chosen[0] no longer resolves to a real
-            // option -- a hand-edited record or a bank edited since the attempt.
-            parts.push(row.chosenOptionText ? `(${row.chosen[0]}) ${row.chosenOptionText}` : "(answer no longer available)");
-          }
-          if (row.flagged) parts.push("(flagged)");
-          if (!row.answered) parts.push("(not answered)");
-          li.append(`${parts.join(" ")} `);
-          const reopenButton = document.createElement("button");
-          reopenButton.type = "button";
-          reopenButton.textContent = "Reopen";
-          reopenButton.addEventListener("click", () => reopenQuestion(row.questionId));
-          li.appendChild(reopenButton);
-          if (row.flagged) {
-            // Decorative only -- the "(flagged)" text above already carries this to
-            // a screen reader, so this doesn't repeat it (SCHEMA.md S1.3's "never by
-            // color/icon alone" principle: the icon is a sighted-user enhancement on
-            // top of the existing text marker, not a replacement for it).
-            const flagIcon = document.createElement("span");
-            flagIcon.className = "flag-icon";
-            flagIcon.textContent = "\u{1F6A9}";
-            flagIcon.setAttribute("aria-hidden", "true");
-            li.appendChild(flagIcon);
-          }
-          reviewList.appendChild(li);
-        }
+        renderReviewListInto(reviewList, form.questions, currentAttempt.answers, categoryLabels, reopenQuestion);
       }
 
       function showReviewScreen() {
@@ -1403,29 +1435,11 @@
         // reopenQuestion's pattern -- the confirm dialog's counts must reflect
         // whatever was last recorded, not a stale render (finding #11).
         const currentAttempt = findAttempt(store, attempt.id);
-        const rows = buildReviewRows(form.questions, currentAttempt.answers, categoryLabels);
-        const { unanswered, flagged } = countReviewStatus(rows);
-        const unansweredText = unanswered === 1 ? "1 question unanswered" : `${unanswered} questions unanswered`;
-        const flaggedText = flagged === 1 ? "1 question flagged for review" : `${flagged} questions flagged for review`;
-        confirmSubmitMessage.textContent =
-          `${unansweredText}, ${flaggedText}. Submitting will score your answers now.`;
+        confirmSubmitMessage.textContent = buildConfirmSubmitMessage(form.questions, currentAttempt.answers, categoryLabels);
         confirmSubmitDialog.showModal();
       }
 
-      confirmCancelButton.addEventListener("click", () => confirmSubmitDialog.close());
-      // Fires on every close path (Cancel click, Esc) so focus reliably returns to
-      // the button that opened the dialog rather than relying on browser-specific
-      // focus-restoration behavior.
-      confirmSubmitDialog.addEventListener("close", () => submitButton.focus());
-
-      confirmSubmitButton.addEventListener(
-        "click",
-        () => {
-          confirmSubmitDialog.close();
-          finish();
-        },
-        { once: true },
-      );
+      wireConfirmSubmitDialog(finish);
 
       function finish() {
         clearInterval(timerHandle);
@@ -1696,7 +1710,6 @@
         let answers = [];
         let index = 0;
         let editingQuestionId = null;
-        let questionShownAt = Date.now();
         let timerHandle = null;
 
         if (timed) {
@@ -1712,22 +1725,10 @@
           updateTimer();
 
           function updateTimer() {
-            const remainingMs = Math.max(0, deadline - Date.now());
-            const totalSeconds = Math.floor(remainingMs / 1000);
-            const minutes = Math.floor(totalSeconds / 60);
-            const seconds = totalSeconds % 60;
-            timerEl.textContent = `Time remaining: ${minutes}:${String(seconds).padStart(2, "0")}`;
-            if (remainingMs > 0) {
-              for (const threshold of crossedThresholds(remainingMs, thresholds, announcedThresholds)) {
-                announcedThresholds.add(threshold);
-                const label = threshold === 60_000 ? "1 minute" : `${threshold / 60_000} minutes`;
-                announce(`${label} remaining`);
-              }
-            }
             // Matches S3's own rule (SCHEMA.md, finding #10): the clock expiring
             // while the tab stays open scores immediately, no confirmation --
             // this is a forced deadline, not a discretionary submit.
-            if (remainingMs <= 0) finish();
+            if (tickCountdown(deadline, thresholds, announcedThresholds, timerEl)) finish();
           }
         }
 
@@ -1774,7 +1775,6 @@
 
           index += 1;
           if (index < drill.questions.length) {
-            questionShownAt = Date.now();
             renderQuestion();
           } else {
             showReviewScreen();
@@ -1815,33 +1815,7 @@
         }
 
         function renderReviewList() {
-          const rows = buildReviewRows(drill.questions, answers, categoryLabels);
-          reviewList.innerHTML = "";
-          for (const row of rows) {
-            const li = document.createElement("li");
-            const parts = [row.categoryLabel, "--", row.stemExcerpt];
-            if (row.answered) {
-              parts.push(
-                row.chosenOptionText ? `(${row.chosen[0]}) ${row.chosenOptionText}` : "(answer no longer available)",
-              );
-            }
-            if (row.flagged) parts.push("(flagged)");
-            if (!row.answered) parts.push("(not answered)");
-            li.append(`${parts.join(" ")} `);
-            const reopenButton = document.createElement("button");
-            reopenButton.type = "button";
-            reopenButton.textContent = "Reopen";
-            reopenButton.addEventListener("click", () => reopenQuestion(row.questionId));
-            li.appendChild(reopenButton);
-            if (row.flagged) {
-              const flagIcon = document.createElement("span");
-              flagIcon.className = "flag-icon";
-              flagIcon.textContent = "\u{1F6A9}";
-              flagIcon.setAttribute("aria-hidden", "true");
-              li.appendChild(flagIcon);
-            }
-            reviewList.appendChild(li);
-          }
+          renderReviewListInto(reviewList, drill.questions, answers, categoryLabels, reopenQuestion);
         }
 
         function showReviewScreen() {
@@ -1856,28 +1830,21 @@
         submitButton.addEventListener("click", openConfirmSubmitDialog);
 
         function openConfirmSubmitDialog() {
-          const rows = buildReviewRows(drill.questions, answers, categoryLabels);
-          const { unanswered, flagged } = countReviewStatus(rows);
-          const unansweredText = unanswered === 1 ? "1 question unanswered" : `${unanswered} questions unanswered`;
-          const flaggedText = flagged === 1 ? "1 question flagged for review" : `${flagged} questions flagged for review`;
-          confirmSubmitMessage.textContent = `${unansweredText}, ${flaggedText}. Submitting will score your answers now.`;
+          confirmSubmitMessage.textContent = buildConfirmSubmitMessage(drill.questions, answers, categoryLabels);
           confirmSubmitDialog.showModal();
         }
 
-        confirmCancelButton.addEventListener("click", () => confirmSubmitDialog.close());
-        confirmSubmitDialog.addEventListener("close", () => submitButton.focus());
-
-        confirmSubmitButton.addEventListener(
-          "click",
-          () => {
-            confirmSubmitDialog.close();
-            finish();
-          },
-          { once: true },
-        );
+        wireConfirmSubmitDialog(finish);
 
         function finish() {
           if (timerHandle) clearInterval(timerHandle);
+          // Unlike beginRun's finish() (which always navigates away via
+          // location.href, discarding an open dialog with the page), this mode's
+          // completion is an in-page reveal -- so the timer-expiry path can reach
+          // here directly while the confirm-submit dialog is still showing (a
+          // Category Test's clock can expire mid-review). Close it explicitly, or
+          // it's left stacked on top of the completion screen underneath.
+          if (confirmSubmitDialog.open) confirmSubmitDialog.close();
           const score = scoreAttempt(bank, answers);
           showDrillComplete(score);
         }
