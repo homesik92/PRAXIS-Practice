@@ -701,3 +701,28 @@ semantics now would be speculative complexity for a need that hasn't come up.
 **Attribution:** Session owner's call, via AskUserQuestion — merge-vs-replace was
 presented as a fork; replace was chosen, with cross-device merge explicitly named
 and deferred as a separate, harder feature if it's ever actually needed.
+
+### D-27: Remaining v1 scope formalized into ROADMAP.md phases 6.8–10; 6.6.2 folds into 6.8
+
+**Date:** 2026-08-20
+**Decision:** The path from here to project completion — S2 redesign, v1 (Mathematics-
+only) acceptance, S1 multi-subject redesign, resumed content authoring for
+5101/5485/5652, and final four-subject acceptance — existed only as prose (D-24) and
+private session memory, not as scheduled ROADMAP.md phases. Formalized as: Phase 6.8
+(S2 redesign, ◐, mockup iteration in progress), Phase 8.3 (v1 acceptance, gates Phase
+9), Phase 9 (S1 redesign + re-enabling 5101/5485/5652 in the manifest), Phase 10 (final
+multi-subject testing and acceptance, gated on Phase 7's resumed authoring and Phase
+9). Phase 7's resume target is now explicit: 5101/5485/5652 each at 3× their real exam
+length per D-23's standard (360/375/300 — 1,035 questions total), the same standard
+5165 already met. Separately: **6.6.2's deferred "category test" mode folds into Phase
+6.8** rather than shipping as its own later pass — S2 is being rebuilt anyway, so
+designing the category-test entry point against the *new* layout avoids building it
+twice.
+**Why:** "Documentation is code" (SKILL.md) applies to what's ahead, not just what's
+shipped — the session owner asked what was missing before the project's remaining work
+started, and the honest answer was that most of it lived nowhere durable. Numbering it
+now makes the four-subject expansion an auditable plan rather than a remembered
+intention.
+**Attribution:** Session owner's call (the six-item scope list and its ordering);
+6.6.2's fold-in decided via AskUserQuestion (folding into 6.8 chosen over keeping it a
+separate deferred phase, or dropping it).
