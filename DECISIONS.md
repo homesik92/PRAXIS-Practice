@@ -726,3 +726,30 @@ intention.
 **Attribution:** Session owner's call (the six-item scope list and its ordering);
 6.6.2's fold-in decided via AskUserQuestion (folding into 6.8 chosen over keeping it a
 separate deferred phase, or dropping it).
+
+### D-28: S2's Start menu settled at five entries; teaching-page content split into Phase 6.9
+
+**Date:** 2026-08-20
+**Decision:** While iterating Phase 6.8's mockup, the session owner specified the real
+shape of S2's "Start" section: (1) full practice test, unchanged; (2) **Practice a
+topic** — new, untimed, 10 questions from one category, same flag/review-pass/submit
+flow as a real test, scored locally, never persisted; (3) **Category test** — identical
+to (2) but timed; (4) **Study a topic** — a new destination, a short textbook-
+chapter-style teaching page per category (worked examples/explanation, not a quiz); (5)
+**Review a topic** — today's existing S5 immediate-reveal drill, kept exactly as-is
+(not retired, not folded into anything), relabeled from its current "Study a topic"
+text since (4) now owns that name. (2) and (3) share one new `run.html` mode (a timer
+on/off flag) rather than being built as two separate features. (4)'s actual content is
+split into a new **Phase 6.9**, not built as part of 6.8 — it ships in 6.8 as a
+`disabled`/"Coming soon" stub only.
+**Why:** (2) and (3) differ only by a clock, so one mode covers both — building them
+as separate features would duplicate the flag/review-pass/scoring logic for no reason.
+(4) is a fundamentally different kind of work from the rest of 6.8: authored
+instructional prose per category, not a UI/engine task — closer to Phase 5's reference
+panels or Phase 7's question banks in required care (written from scratch, high effort,
+verified) than to a page-merge PR. Bundling it into 6.8 would have blocked a mechanical,
+low-risk change on a content-authoring project with its own design questions still
+unanswered (how deep is "a couple of pages" per category; what's the content schema).
+**Attribution:** Session owner's call throughout, refined over two rounds of
+AskUserQuestion: (5)'s fate (keep as-is, recommended option was "fold into (4)" —
+rejected) and (4)'s scheduling (own phase, recommended and accepted).
