@@ -9,6 +9,7 @@ import {
   validateReferencePanel,
   validateElementsAndConstants,
   validateReferencePanelContent,
+  validateTeachingContent,
 } from "./verify.mjs";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -215,6 +216,63 @@ test("reference panel entries using mathml do not warn -- unlike questions, the 
   const { errors, warnings } = validateReferencePanel(panel, { code: "5165" });
   assert.deepEqual(errors, []);
   assert.deepEqual(warnings, []);
+});
+
+function validTeachingContent() {
+  return {
+    schemaVersion: 1,
+    testCode: "5165",
+    sections: [
+      {
+        id: "number-quantity-intro",
+        categoryId: "I",
+        heading: "What counts as a number here",
+        entries: [{ id: "concept", label: "Concept", content: { format: "text", value: "..." } }],
+      },
+    ],
+  };
+}
+
+function bankWithCategories() {
+  return {
+    code: "5165",
+    categories: [
+      { id: "I", label: "Category One", weight: { count: 2, percent: 67 } },
+      { id: "II", label: "Category Two", weight: { count: 1, percent: 33 } },
+    ],
+  };
+}
+
+test("valid teaching content has zero errors", () => {
+  const { errors } = validateTeachingContent(validTeachingContent(), { code: "5165", bank: bankWithCategories() });
+  assert.deepEqual(errors, []);
+});
+
+test("teaching content reuses validateReferencePanel's own shape checks (e.g. testCode mismatch)", () => {
+  const content = validTeachingContent();
+  const { errors } = validateTeachingContent(content, { code: "5485", bank: bankWithCategories() });
+  assert.ok(errors.some((e) => e.includes('testCode "5165" does not match owning bank\'s code "5485"')));
+});
+
+test("teaching content catches a section with a missing categoryId", () => {
+  const content = validTeachingContent();
+  delete content.sections[0].categoryId;
+  const { errors } = validateTeachingContent(content, { code: "5165", bank: bankWithCategories() });
+  assert.ok(errors.some((e) => e.includes("missing or invalid categoryId")));
+});
+
+test("teaching content catches a section whose categoryId isn't a real leaf category in the bank", () => {
+  const content = validTeachingContent();
+  content.sections[0].categoryId = "does-not-exist";
+  const { errors } = validateTeachingContent(content, { code: "5165", bank: bankWithCategories() });
+  assert.ok(errors.some((e) => e.includes('categoryId "does-not-exist" is not a real leaf category')));
+});
+
+test("teaching content has no categoryId opinion when no bank is given", () => {
+  const content = validTeachingContent();
+  content.sections[0].categoryId = "does-not-exist";
+  const { errors } = validateTeachingContent(content, { code: "5165" });
+  assert.deepEqual(errors, []);
 });
 
 function validElementsAndConstants() {

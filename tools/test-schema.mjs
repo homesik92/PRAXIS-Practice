@@ -8,6 +8,7 @@ import {
   loadManifest,
   loadBank,
   loadReferencePanel,
+  loadTeachingContent,
   loadBankSummary,
   loadTestList,
   assembleForm,
@@ -171,6 +172,42 @@ test("loadReferencePanel reports invalid-json when the body can't be parsed", as
     "data/reference/5165-formulas.json": { ok: true, status: 200, json: async () => { throw new SyntaxError("bad json"); } },
   });
   const result = await loadReferencePanel("reference/5165-formulas.json", fetchImpl, "data");
+  assert.equal(result.ok, false);
+  assert.equal(result.reason, "invalid-json");
+});
+
+const validTeachingContent = {
+  schemaVersion: 1,
+  testCode: "5165",
+  sections: [
+    {
+      id: "number-quantity-intro",
+      categoryId: "I-A",
+      heading: "What counts as a number here",
+      entries: [{ id: "concept", label: "Concept", content: { format: "text", value: "..." } }],
+    },
+  ],
+};
+
+test("loadTeachingContent returns the full parsed content", async () => {
+  const fetchImpl = mockFetch({ "data/teaching/5165.json": jsonResponse(validTeachingContent) });
+  const result = await loadTeachingContent("teaching/5165.json", fetchImpl, "data");
+  assert.equal(result.ok, true);
+  assert.deepEqual(result.content, validTeachingContent);
+});
+
+test("loadTeachingContent reports fetch-failed on a non-ok response", async () => {
+  const fetchImpl = mockFetch({ "data/teaching/5165.json": jsonResponse({}, { ok: false, status: 404 }) });
+  const result = await loadTeachingContent("teaching/5165.json", fetchImpl, "data");
+  assert.equal(result.ok, false);
+  assert.equal(result.reason, "fetch-failed");
+});
+
+test("loadTeachingContent reports invalid-json when the body can't be parsed", async () => {
+  const fetchImpl = mockFetch({
+    "data/teaching/5165.json": { ok: true, status: 200, json: async () => { throw new SyntaxError("bad json"); } },
+  });
+  const result = await loadTeachingContent("teaching/5165.json", fetchImpl, "data");
   assert.equal(result.ok, false);
   assert.equal(result.reason, "invalid-json");
 });

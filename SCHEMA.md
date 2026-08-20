@@ -203,6 +203,7 @@ authority for them, not two that can disagree.
   "timeLimitMinutes": 180,
   "formLength": 66,
   "referencePanel": "reference/5165-formulas.json",
+  "teachingContent": "teaching/5165.json",
   "categories": [ /* §2.4 */ ],
   "overlays":   [ /* §2.5 */ ],
   "questions":  [ /* §2.6 */ ]
@@ -210,7 +211,8 @@ authority for them, not two that can disagree.
 ```
 
 `formLength` and `timeLimitMinutes` come from BLUEPRINT.md and are what make a practice
-attempt time-realistic. `referencePanel` is omitted for 5101 and 5652.
+attempt time-realistic. `referencePanel` is omitted for 5101 and 5652. `teachingContent`
+(§2.11, D-29) is omitted for any bank with no authored chapters yet.
 
 ## 2.4 Category tree — variable depth
 
@@ -632,6 +634,67 @@ Like §2.9, this is one continuous reference available throughout the test (real
 parity — BLUEPRINT.md's 5485 notes: "a periodic table plus a physical-constants table
 are provided on a Help screen"), not filtered by category or the current question.
 
+## 2.11 Teaching-page content — "Study a topic" (D-29)
+
+```json
+{
+  "schemaVersion": 1,
+  "testCode": "5165",
+  "sections": [
+    {
+      "id": "number-quantity-intro",
+      "categoryId": "I-A",
+      "heading": "What counts as a number here",
+      "entries": [
+        { "id": "concept", "label": "Concept",
+          "content": { "format": "text", "value": "..." } }
+      ]
+    }
+  ]
+}
+```
+
+Reuses §2.9's `sections`/`entries`/`{format, value}` shape verbatim, with one addition:
+each section carries a `categoryId` (a leaf id from the bank's own `categories` tree,
+§2.4) rather than being organized purely by topic the way the reference panel is. This
+is the one real structural difference from §2.9, and it follows directly from what a
+teaching page is *for*: unlike the reference panel (one continuous document, open
+throughout a test, never filtered — §2.9's own rationale), "Study a topic" is reached
+by picking exactly one category from S2's Start menu and must show only that
+category's chapter. A chapter is one or more `sections` sharing a `categoryId` — an
+overview, one or more worked examples, and common-mistakes notes are all separate
+`sections` of the same chapter, not one giant entry, so each can carry its own heading
+and be styled/spaced like the reference panel's own section breaks.
+
+Rendering reuses `js/reference-panel.js`'s existing `renderContent` (text/mathml
+dispatch, unchanged) and `renderReferencePanel` (the section/entry-list builder,
+unchanged) directly — a teaching page's container is filtered to just the requested
+`categoryId`'s sections before rendering, but the render call itself is the same
+function reference panels already use, not a fork of it. No new rendering code, no new
+`format` values: a teaching chapter's prose and worked-example math notation have
+exactly the same needs D-21 already solved for the reference panel.
+
+**Loading and validation follow the referencePanel precedent exactly:** a new
+`teachingContent` field on the bank record (parallel to `referencePanel`, §2.3),
+`js/schema.js` gets a thin `loadTeachingContent` wrapper (mirroring
+`loadReferencePanel`'s own one-line delegation to the shared fetch/parse logic), and
+`tools/verify.mjs` validates existence, JSON validity, and the `sections`/`entries`
+shape by calling the *same* `validateReferencePanel` reference panels already use (the
+shape is identical), plus one addition specific to this content: every section's
+`categoryId` must resolve to a real leaf category in the owning bank — the shared
+finding behind D-21's `REFERENCE_PANEL_SHAPES` cross-check (a wrong-shape or
+wrong-bank file self-validating cleanly) applies just as much to a `categoryId` typo
+silently orphaning a chapter no Start-menu link can ever reach.
+
+Explicitly **not** a `run.html` mode: no timer, no scoring, and — per the Phase 6.9
+Start-menu scope (D-28) — no `questionHistory` write either, unlike Review a topic's
+immediate-reveal drill. Ships as its own page, `teach.html?code=<code>&category=<id>`,
+alongside `index.html`/`results.html`/`test.html`/`dashboard.html`/`run.html`.
+
+Scoped to 5165 for Phase 6.9 (BLUEPRINT.md's 6 leaf categories — I-A, I-B, II-A, II-B,
+III, IV — are Mathematics' natural chapter unit); 5101/5485/5652 stay out of scope
+under D-24 same as everything else content-related right now.
+
 ---
 
 ## Open items carried forward
@@ -645,6 +708,9 @@ are provided on a Help screen"), not filtered by category or the current questio
   each think they are complete.
 - **Reference panel content** (D-12) is authored content. **Both schemas are now
   settled** — 5165 (§2.9, D-21) and 5485 (§2.10, D-22).
+- **Teaching-page content ("Study a topic," Phase 6.9) schema settled** (§2.11, D-29) —
+  reuses §2.9's shape with an added per-section `categoryId`. Authoring the 6 Mathematics
+  chapters and wiring up the Start-menu control are still open (ROADMAP.md 6.9.2/6.9.3).
 - **5165 gets a built scientific calculator, not a graphing one (D-14).** Resolves the
   escalation in REVIEW.md finding #14. In scope: arithmetic, logarithms, trig functions
   (sin/cos/tan and their inverses), and comparable scientific-calculator functionality,

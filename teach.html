@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Study a topic — PRAXIS-Practice</title>
+  <link rel="stylesheet" href="css/base.css" />
+</head>
+<body>
+  <main>
+    <p><a id="back-link" href="index.html">&larr; Back</a></p>
+    <h1 id="chapter-heading">Study a topic</h1>
+    <p id="status-note" class="status-note" hidden></p>
+    <div id="chapter-content"></div>
+  </main>
+  <script type="module">
+    // "Study a topic" (Phase 6.9, D-28/D-29) -- a short, textbook-chapter-style page
+    // per category, reached from S2's Start menu once its content is authored
+    // (ROADMAP.md 6.9.3, not yet wired up). Deliberately not a run.html mode: no
+    // timer, no scoring, and no questionHistory write either -- it's read-only
+    // prose, simpler than even the untimed drill mode. Content and rendering both
+    // reuse the reference-panel machinery verbatim (SCHEMA.md §2.11, D-29) --
+    // js/reference-panel.js's renderContent/renderReferencePanel were written for
+    // §2.9's reference panel, but the on-disk shape here is identical (plus a
+    // per-section categoryId), so there is no new render code in this page at all.
+    import { loadManifest, loadBank, loadTeachingContent, flattenCategoryTree, categoryAndDescendantIds } from "./js/schema.js";
+    import { renderReferencePanel } from "./js/reference-panel.js";
+
+    const params = new URLSearchParams(location.search);
+    const code = params.get("code");
+    const categoryId = params.get("category");
+
+    const backLink = document.getElementById("back-link");
+    const headingEl = document.getElementById("chapter-heading");
+    const statusNote = document.getElementById("status-note");
+    const chapterContentEl = document.getElementById("chapter-content");
+
+    if (code) backLink.href = `test.html?code=${encodeURIComponent(code)}`;
+
+    function showStatus(message) {
+      statusNote.textContent = message;
+      statusNote.hidden = false;
+    }
+
+    if (!code) {
+      showStatus("No test selected. Go back and choose one.");
+    } else if (!categoryId) {
+      showStatus("No category selected. Go back and choose one.");
+    } else {
+      // includeDisabled, matching run.html's study/review-mode lookup (Phase 6.5
+      // finding): a chapter link reached from an old bookmark or a disabled test's
+      // still-valid review flow shouldn't break just because the test itself isn't
+      // offered for a new attempt anymore.
+      const manifestResult = await loadManifest(fetch, "data/manifest.json", { includeDisabled: true });
+      const entry = manifestResult.ok ? manifestResult.tests.find((t) => t.code === code) : undefined;
+
+      if (!entry) {
+        showStatus(`Test "${code}" is not registered.`);
+      } else {
+        const bankResult = await loadBank(entry.file);
+        if (!bankResult.ok) {
+          showStatus("This test's questions could not be loaded. Try again later.");
+        } else {
+          const bank = bankResult.bank;
+          const categoryNode = flattenCategoryTree(bank.categories).find((n) => n.id === categoryId);
+
+          if (!categoryNode) {
+            showStatus(`This topic ("${categoryId}") isn't part of this test.`);
+          } else if (!bank.teachingContent) {
+            showStatus(`No lesson has been written for "${categoryNode.label}" yet.`);
+          } else {
+            const contentResult = await loadTeachingContent(bank.teachingContent);
+            if (!contentResult.ok || !Array.isArray(contentResult.content.sections)) {
+              showStatus("This lesson could not be loaded. Try again later.");
+            } else {
+              // Matches every other "pick a category" entry point in this codebase
+              // (assembleDrill/assembleCategoryDrill via categoryAndDescendantIds,
+              // js/schema.js) rather than an exact categoryId match: sections are
+              // only ever authored against a leaf categoryId (validateTeachingContent
+              // enforces this), but categoryId here can be a branch a few levels up
+              // (flattenCategoryTree resolves any node, not just leaves) -- picking a
+              // branch should show every descendant leaf's chapter, not "no lesson."
+              const wantedIds = categoryAndDescendantIds(bank.categories, categoryId);
+              const sections = contentResult.content.sections.filter((s) => wantedIds.has(s.categoryId));
+              if (sections.length === 0) {
+                showStatus(`No lesson has been written for "${categoryNode.label}" yet.`);
+              } else {
+                headingEl.textContent = categoryNode.label;
+                document.title = `${categoryNode.label} — Study a topic — PRAXIS-Practice`;
+                renderReferencePanel(chapterContentEl, { sections });
+              }
+            }
+          }
+        }
+      }
+    }
+  </script>
+</body>
+</html>

@@ -92,6 +92,20 @@ export async function loadReferencePanel(path, fetchImpl = globalThis.fetch, dat
 }
 
 /**
+ * Fetches and parses a teaching-page content file (SCHEMA.md §2.11, D-29) -- the
+ * `bank.teachingContent` path. Same delegation as loadReferencePanel, under its own
+ * name for the same reason: the two content files share an identical on-disk shape
+ * (§2.11 reuses §2.9's `sections`/`entries`/`{format, value}` structure verbatim, plus
+ * a per-section `categoryId`) but are conceptually distinct at every call site.
+ *
+ * @returns {Promise<{ok: true, content: object} | {ok: false, reason: "fetch-failed" | "invalid-json", error?: Error}>}
+ */
+export async function loadTeachingContent(path, fetchImpl = globalThis.fetch, dataDir = "data") {
+  const result = await loadBank(path, fetchImpl, dataDir);
+  return result.ok ? { ok: true, content: result.bank } : result;
+}
+
+/**
  * Fetches one bank file, returning only the fields S1/S2 need (name, timing, question
  * count) rather than the full record loadBank returns.
  *

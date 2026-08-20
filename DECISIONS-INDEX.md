@@ -14,7 +14,7 @@ read the full log only when a topic isn't indexed yet.
 | Test coverage & bank extensibility | D-4 → **N-3** (confirmed, 411 questions) → **D-23** (5165 authored first, to full depth; each bank is 3× the real exam length, not 1×) → **D-24** (5101/5485/5652 authoring paused until after launch) → **D-25** (`enabled: false` only affects starting a new attempt, never review/resume access) → **D-27** (resume target formalized: 1,035 questions across the three, ROADMAP.md Phase 7) |
 | Content-authoring order & per-test bank depth | N-3 → D-23 → D-24 → D-27 |
 | S2 test-menu redesign & category-test mode | ROADMAP.md Phase 6.6.2 (deferred) → **D-27** (folded into Phase 6.8 rather than built standalone) → **D-28** (five-entry Start menu settled; Practice/Category-test share one mode; teaching pages split into Phase 6.9) |
-| Topic teaching pages ("Study a topic" content) | **D-28** → ROADMAP.md Phase 6.9 (new, not started) |
+| Topic teaching pages ("Study a topic" content) | D-28 → **D-29** (content schema settled, SCHEMA.md §2.11 — reuses the reference-panel shape plus a per-section `categoryId`; ships as its own `teach.html` page) |
 | Disabled-test review/resume access | **D-25** (`loadManifest`'s `includeDisabled` option; only S1's start-a-new-test list filters to enabled) |
 | Question provenance & ETS copyright | D-5 |
 | v1 feature set | D-6, **D-8** (spaced repetition) |
