@@ -288,7 +288,7 @@
       return svg;
     }
 
-    function buildMeterFigure(pct, fillClass, label, dateStr, isEmpty = false) {
+    function buildMeterFigure(pct, fillClass, label, dateStr, isEmpty = false, attemptId = null) {
       const wrap = document.createElement("div");
       wrap.className = "dashboard-meter";
       wrap.appendChild(buildMeter(pct, fillClass, isEmpty ? label : `${label}: ${pct} percent`, isEmpty));
@@ -306,6 +306,20 @@
         caption.appendChild(subEl);
       }
       wrap.appendChild(caption);
+
+      // Every completed attempt's exact question order/answers are already
+      // kept forever in store.attempts (findFirstAndLatestAttempts just reads
+      // the first/last of that array) -- results.html?attempt=<id> already
+      // renders the full green/red/explanation review for any attempt id, so
+      // this only needs a link, no new data or rendering logic.
+      if (attemptId) {
+        const reviewLink = document.createElement("a");
+        reviewLink.className = "btn btn-secondary";
+        reviewLink.href = `results.html?attempt=${encodeURIComponent(attemptId)}`;
+        reviewLink.textContent = "Review test";
+        wrap.appendChild(reviewLink);
+      }
+
       return wrap;
     }
 
@@ -611,18 +625,39 @@
           } else if (latest.id === first.id) {
             const pct = scorePercent(bank, first);
             comparisonMeters.appendChild(
-              buildMeterFigure(pct, "dashboard-meter-fill-single", "Only attempt", formatDate(first.finishedAt))
+              buildMeterFigure(
+                pct,
+                "dashboard-meter-fill-single",
+                "Only attempt",
+                formatDate(first.finishedAt),
+                false,
+                first.id
+              )
             );
             comparisonNote.textContent = "Take another full test when you're ready to compare progress.";
           } else {
             const firstPct = scorePercent(bank, first);
             const latestPct = scorePercent(bank, latest);
             comparisonMeters.appendChild(
-              buildMeterFigure(firstPct, "dashboard-meter-fill-first", "First attempt", formatDate(first.finishedAt))
+              buildMeterFigure(
+                firstPct,
+                "dashboard-meter-fill-first",
+                "First attempt",
+                formatDate(first.finishedAt),
+                false,
+                first.id
+              )
             );
             comparisonMeters.appendChild(buildDelta(firstPct, latestPct));
             comparisonMeters.appendChild(
-              buildMeterFigure(latestPct, "dashboard-meter-fill-latest", "Latest attempt", formatDate(latest.finishedAt))
+              buildMeterFigure(
+                latestPct,
+                "dashboard-meter-fill-latest",
+                "Latest attempt",
+                formatDate(latest.finishedAt),
+                false,
+                latest.id
+              )
             );
           }
 
