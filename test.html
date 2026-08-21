@@ -258,12 +258,28 @@
 
       const text = document.createElementNS(SVG_NS, "text");
       text.setAttribute("x", "60");
-      text.setAttribute("y", isEmpty ? "64" : "67");
+      text.setAttribute("y", isEmpty ? "56" : "67");
       text.setAttribute("text-anchor", "middle");
       text.setAttribute("class", "dashboard-meter-value");
       text.setAttribute("font-size", isEmpty ? "15" : "28");
       if (isEmpty) text.setAttribute("fill", "var(--color-muted)");
-      text.textContent = isEmpty ? "Not started" : `${pct}%`;
+      if (isEmpty) {
+        // Two stacked lines via <tspan>, not one -- "Not started" as a single
+        // line overflows the track's inner width at this font size (issue
+        // #66). A single <text> node still reads as one accessible label via
+        // aria-label above, unaffected by the tspan split.
+        const line1 = document.createElementNS(SVG_NS, "tspan");
+        line1.setAttribute("x", "60");
+        line1.textContent = "Not";
+        text.appendChild(line1);
+        const line2 = document.createElementNS(SVG_NS, "tspan");
+        line2.setAttribute("x", "60");
+        line2.setAttribute("dy", "17");
+        line2.textContent = "started";
+        text.appendChild(line2);
+      } else {
+        text.textContent = `${pct}%`;
+      }
       svg.appendChild(text);
 
       return svg;
