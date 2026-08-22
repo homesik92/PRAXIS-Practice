@@ -1212,6 +1212,20 @@ reaching the same 3×-depth, answer-key-verified standard as 5165) and Phase 9.
   *Accepts:* session owner explicitly confirms the complete four-subject app
   is accepted as production-ready.
 
+### After Phase 10: spinning off `PRAXIS-iOS-<subject>` repos
+
+Not a phase of this project — recorded here because Phase 10.2's completion
+is the trigger for cross-project work in
+[[project-praxis-ios-math]]. Session owner's sequencing decision
+(2026-08-22, see D-30): finish PRAXIS-iOS-Math and get it fully
+user-accepted as a standalone app *first* (in that project, independent of
+this one), so it's a proven, settled template — only after that, and only
+after this project's Phase 10.2 closes (all four subjects authored and
+accepted here), do new `PRAXIS-iOS-<subject>` repos get spun off per
+subject by copying PRAXIS-iOS-Math (D-12's recipe). Authoring the other
+three subjects (Phase 7, resumed) does not by itself trigger any iOS work —
+both halves need to be independently done first.
+
 ## Session log
 
 | Date | Session | Outcome |
