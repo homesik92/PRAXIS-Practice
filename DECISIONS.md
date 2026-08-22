@@ -786,3 +786,36 @@ during the design pass — the original plan (from the prior session's proposal)
 a new schema section would be needed; re-reading the actual reference-panel code before
 writing one showed the reuse was available. No AskUserQuestion round needed: an
 implementation-approach call (reuse vs. invent), not a scope or user-facing decision.
+
+### D-30: This repo is the multi-subject master; each subject gets its own native wrapper repo
+
+**Date:** 2026-08-22
+
+**Decision:** PRAXIS-Practice grows to cover every Praxis exam over time (its
+`data/manifest.json` already supports multiple subjects by design). Each subject also
+gets a thin native iOS wrapper — a hybrid SwiftUI-shell-plus-`WKWebView` app that
+bundles a manual copy of this repo's shared engine files (`test.html`, `results.html`,
+`css/base.css`, `js/*`) and one subject's data. Every wrapper lives in its own
+repo, named `PRAXIS-iOS-<subject>` — `PRAXIS-iOS-Math` (5165) exists today; more will
+follow as new subjects ship here. This was decided from the wrapper-app side as
+[PRAXIS-iOS-Math D-12](https://github.com/homesik92/PRAXIS-iOS-Math/blob/main/DECISIONS.md)
+(separate repo per subject, not multiple Xcode targets in one repo) — this entry
+records the same split from this repo's side, since nothing here previously
+acknowledged the wrapper apps exist at all.
+
+**Why:** the two projects are tied together in a way that isn't visible from inside
+this repo alone — a PR here that touches `test.html`, `results.html`, `css/base.css`,
+or anything under `js/` can silently leave every wrapper app's bundled copy stale,
+since nothing propagates automatically (a real instance of this already happened:
+issue #66's score-meter text fix shipped here and sat unsynced in PRAXIS-iOS-Math for
+a full session before being noticed and manually ported). Without a written pointer,
+that risk is invisible to whoever's working here next.
+
+**What it means:** flag it explicitly in the PR description whenever a PR touches
+`test.html`, `results.html`, `css/base.css`, or `js/*` — noting that downstream native
+wrapper repos may need a manual re-sync — so it's visible at review time rather than
+discovered later. See `CLAUDE.md`'s new "Downstream native apps" note.
+
+**Attribution:** Session owner's call, made explicit when asked directly how the
+projects should relate going forward, after PRAXIS-iOS-Math D-12 settled the
+separate-repo structure from the wrapper-app side.

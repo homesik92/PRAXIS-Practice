@@ -36,3 +36,4 @@ read the full log only when a topic isn't indexed yet.
 | Weakest-category practice suggestion (S2) | **D-18** |
 | Attempt record shape — résumé (`questionOrder`) | **D-19** |
 | Prior 185-question Mathematics set | N-2 |
+| Relationship to native iOS wrapper apps (PRAXIS-iOS-\<subject\>) | **D-30** |

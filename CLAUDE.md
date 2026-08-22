@@ -35,6 +35,18 @@ surface of the old one.
 The PDFs are gitignored and stay that way — this matters more, not less, on a public
 repo. The full rule is in `.claude/skills/dev-workflow/SKILL.md`.
 
+## Downstream native apps
+
+This repo is the multi-subject master — it's the source of truth for every Praxis
+exam's content and shared engine code. Each subject also has a thin native iOS
+wrapper app in its own repo (`PRAXIS-iOS-Math` for 5165 today; more `PRAXIS-iOS-<subject>`
+repos as new subjects ship here), each bundling a manual copy of `test.html`,
+`results.html`, `css/base.css`, and `js/*` — see D-30. Nothing propagates a change
+here to those repos automatically. **Flag it in the PR description** whenever a PR
+touches any of those files, so a downstream sync isn't missed — this has already
+happened for real once (issue #66's fix sat unsynced in PRAXIS-iOS-Math for a full
+session before being noticed).
+
 ## Verification
 
 `tools/verify.mjs` is a dependency-free Node script that validates the manifest and
