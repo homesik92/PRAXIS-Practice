@@ -101,6 +101,9 @@
     <div id="review-screen" hidden>
       <h2 id="review-heading" tabindex="-1">Review your answers</h2>
       <p>Reopen any question below to change its answer or flag before submitting.</p>
+      <!-- Same action as #submit-button below (session owner request) -- lets
+           someone submit without scrolling through the whole review list first. -->
+      <button id="submit-button-top" type="button">Submit test</button>
       <ol id="review-list"></ol>
       <button id="submit-button" type="button">Submit test</button>
     </div>
@@ -203,6 +206,7 @@
     const reviewHeading = document.getElementById("review-heading");
     const reviewList = document.getElementById("review-list");
     const submitButton = document.getElementById("submit-button");
+    const submitButtonTop = document.getElementById("submit-button-top");
     const announcer = document.getElementById("announcer");
     const confirmSubmitDialog = document.getElementById("confirm-submit-dialog");
     const confirmSubmitMessage = document.getElementById("confirm-submit-message");
@@ -1066,12 +1070,15 @@
 
     // Shared Cancel/close/Confirm wiring for the one `#confirm-submit-dialog` both
     // modes reuse -- only what happens on confirm differs between them.
+    // Tracks whichever of #submit-button/#submit-button-top actually opened the
+    // dialog (set by wireSubmitButtons below), defaulting to the bottom one.
+    let submitTriggerButton = submitButton;
     function wireConfirmSubmitDialog(onConfirm) {
       confirmCancelButton.addEventListener("click", () => confirmSubmitDialog.close());
       // Fires on every close path (Cancel click, Esc) so focus reliably returns to
       // the button that opened the dialog rather than relying on browser-specific
       // focus-restoration behavior.
-      confirmSubmitDialog.addEventListener("close", () => submitButton.focus());
+      confirmSubmitDialog.addEventListener("close", () => submitTriggerButton.focus());
       confirmSubmitButton.addEventListener(
         "click",
         () => {
@@ -1080,6 +1087,19 @@
         },
         { once: true },
       );
+    }
+
+    // Wires both the top and bottom "Submit test" buttons to the same handler
+    // (session owner request: submitting shouldn't require scrolling through the
+    // whole review list first). Records which one was actually clicked so the
+    // dialog's close handler above can return focus to that specific button.
+    function wireSubmitButtons(onOpen) {
+      for (const button of [submitButtonTop, submitButton]) {
+        button.addEventListener("click", () => {
+          submitTriggerButton = button;
+          onOpen();
+        });
+      }
     }
 
     function beginRun(bank, form, initialStore, attempt, startIndex, { resumingExistingTimer, moveFocusOnFirstRender }) {
@@ -1438,7 +1458,7 @@
         transitionFocus(reviewHeading, positionEl.textContent);
       }
 
-      submitButton.addEventListener("click", openConfirmSubmitDialog);
+      wireSubmitButtons(openConfirmSubmitDialog);
 
       function openConfirmSubmitDialog() {
         // Re-fetched fresh rather than reusing renderReviewList's, matching
@@ -1843,7 +1863,7 @@
           transitionFocus(reviewHeading, positionEl.textContent);
         }
 
-        submitButton.addEventListener("click", openConfirmSubmitDialog);
+        wireSubmitButtons(openConfirmSubmitDialog);
 
         function openConfirmSubmitDialog() {
           confirmSubmitMessage.textContent = buildConfirmSubmitMessage(drill.questions, answers, categoryLabels);
