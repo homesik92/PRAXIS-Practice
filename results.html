@@ -45,6 +45,7 @@
       categoriesNeedingPractice,
     } from "./js/results.js";
     import { loadStore, findAttempt } from "./js/store.js";
+    import { renderReviewRow } from "./js/review-row.js";
 
     const params = new URLSearchParams(location.search);
     const attemptId = params.get("attempt");
@@ -62,61 +63,6 @@
     const fullReviewEl = document.getElementById("full-review");
     const fullReviewListEl = document.getElementById("full-review-list");
     const backLink = document.getElementById("back-link");
-
-    // Text markers, not color alone (SCHEMA.md S1.3) -- the label text itself is
-    // still what carries the meaning to a screen reader; the color applied to it in
-    // renderReviewRow below is a sighted-user addition on top of that, not a
-    // replacement (same pattern as the review pass's flag icon).
-    function optionSuffix(option) {
-      if (!option.isChosen) return option.isCorrectOption ? " (correct answer)" : "";
-      return option.isCorrectOption ? " (your answer — correct)" : " (your answer — incorrect)";
-    }
-
-    function renderReviewRow(row) {
-      const li = document.createElement("li");
-
-      const categoryEl = document.createElement("p");
-      const categoryStrong = document.createElement("strong");
-      categoryStrong.textContent = row.categoryLabel;
-      categoryEl.appendChild(categoryStrong);
-      li.appendChild(categoryEl);
-
-      const stemEl = document.createElement("p");
-      stemEl.textContent = row.stem;
-      li.appendChild(stemEl);
-
-      const optionsEl = document.createElement("ul");
-      for (const option of row.options) {
-        const optionLi = document.createElement("li");
-        optionLi.appendChild(document.createTextNode(option.text));
-        const suffix = optionSuffix(option);
-        if (suffix) {
-          const suffixEl = document.createElement("span");
-          // isCorrectOption alone decides the color (not the suffix string) --
-          // both "(correct answer)" (unchosen) and "(your answer — correct)"
-          // (chosen) are the same green; only a chosen-and-wrong option is red.
-          suffixEl.className = option.isCorrectOption ? "option-suffix-correct" : "option-suffix-incorrect";
-          suffixEl.textContent = suffix;
-          optionLi.appendChild(suffixEl);
-        }
-        optionsEl.appendChild(optionLi);
-      }
-      li.appendChild(optionsEl);
-
-      if (!row.answered) {
-        const notAnsweredEl = document.createElement("p");
-        notAnsweredEl.textContent = "You did not answer this question.";
-        li.appendChild(notAnsweredEl);
-      }
-
-      if (row.explanation) {
-        const explanationEl = document.createElement("p");
-        explanationEl.textContent = `Explanation: ${row.explanation}`;
-        li.appendChild(explanationEl);
-      }
-
-      return li;
-    }
 
     function showStatus(message) {
       statusNote.textContent = message;

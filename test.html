@@ -528,10 +528,14 @@
           opt1.value = id;
           opt1.textContent = `${prefix}${label}`;
           practiceTopicSelect.appendChild(opt1);
-          const opt2 = document.createElement("option");
-          opt2.value = id;
-          opt2.textContent = `${prefix}${label}`;
-          categoryTestSelect.appendChild(opt2);
+          // Category test only offers top-level groups (session owner feedback) --
+          // unlike the other two pickers, which offer every depth of the tree.
+          if (depth === 0) {
+            const opt2 = document.createElement("option");
+            opt2.value = id;
+            opt2.textContent = label;
+            categoryTestSelect.appendChild(opt2);
+          }
           const opt3 = document.createElement("option");
           opt3.value = id;
           opt3.textContent = `${prefix}${label}`;
