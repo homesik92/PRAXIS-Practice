@@ -127,9 +127,12 @@ nav {
    its Reopen button) reads as one unit, not a wall of text. `> li` on the S4 selector
    is deliberate, not just tidiness: each full-review row nests its own `<ul>` of
    options (code review finding), and a bare `#full-review-list li` descendant selector
-   would also catch those, wrapping every individual option in its own bordered box. */
+   would also catch those, wrapping every individual option in its own bordered box.
+   #drill-full-review-list (Phase 6.9.4) reuses js/review-row.js's identical markup for
+   Practice-a-topic/Category-test's own completion-screen review, same reasoning. */
 #review-list li,
-#full-review-list > li {
+#full-review-list > li,
+#drill-full-review-list > li {
   border: 1px solid var(--color-border);
   border-radius: 4px;
   padding: 0.5rem 0.75rem;
@@ -746,7 +749,9 @@ details.backup summary svg {
 
 #reference-list h3 {
   margin: 0 0 0.5rem;
-  font-size: 1rem;
+  font-size: 1.1rem;
+  text-align: center;
+  color: var(--color-accent);
 }
 
 #reference-list dl {

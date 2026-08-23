@@ -131,6 +131,13 @@
       <h2 id="study-complete-heading" tabindex="-1">Drill complete</h2>
       <p id="study-complete-summary"></p>
       <p><a id="study-again-link" href="#">Study this topic again</a></p>
+      <!-- Practice-a-topic/Category-test only (mode=drill's own showDrillComplete) --
+           S5's study mode (Review a topic) never populates or unhides this, since
+           its immediate-per-question reveal already showed every explanation. -->
+      <div id="drill-full-review" hidden>
+        <h3>Full review</h3>
+        <ol id="drill-full-review-list"></ol>
+      </div>
     </div>
 
     <dialog id="confirm-submit-dialog" aria-labelledby="confirm-submit-heading">
@@ -150,7 +157,8 @@
       initialAnnouncedThresholds,
       crossedThresholds,
     } from "./js/runner.js";
-    import { flattenCategoryLabels } from "./js/results.js";
+    import { flattenCategoryLabels, buildFullReview } from "./js/results.js";
+    import { renderReviewRow } from "./js/review-row.js";
     import { updateHistory } from "./js/srs.js";
     import { evaluateExpression } from "./js/calculator.js";
     import { renderReferencePanel, createPanelShell } from "./js/reference-panel.js";
@@ -215,6 +223,8 @@
     const studyCompleteHeading = document.getElementById("study-complete-heading");
     const studyCompleteSummary = document.getElementById("study-complete-summary");
     const studyAgainLink = document.getElementById("study-again-link");
+    const drillFullReview = document.getElementById("drill-full-review");
+    const drillFullReviewList = document.getElementById("drill-full-review-list");
 
     if (code) backLink.href = `test.html?code=${encodeURIComponent(code)}`;
 
@@ -1652,19 +1662,25 @@
     // means) rather than results.html, which needs a real stored attempt id this
     // mode never creates.
     function runCategoryDrill(bank) {
-      heading.textContent = bank.name;
       const categoryId = params.get("category");
       const timed = params.get("timed") === "1";
 
       if (!categoryId) {
+        heading.textContent = bank.name;
         showStatus("No category selected. Go back and choose one.");
         return;
       }
       const categoryNode = flattenCategoryTree(bank.categories).find((n) => n.id === categoryId);
       if (!categoryNode) {
+        heading.textContent = bank.name;
         showStatus(`This topic ("${categoryId}") isn't part of this test.`);
         return;
       }
+      // Shows the topic chosen in test.html's dropdown, not the subject name --
+      // the subject is already implied by having navigated here, whereas the
+      // category is the one thing worth confirming before starting (session
+      // owner feedback: the heading used to just repeat "Mathematics").
+      heading.textContent = categoryNode.label;
 
       // No `history` passed here (unlike assembleForm/assembleDrill) -- this mode
       // deliberately never reads the store either, so the draw is fully random
@@ -1864,6 +1880,18 @@
           studyAgainLink.href =
             `run.html?code=${encodeURIComponent(bank.code)}&mode=drill&category=${encodeURIComponent(categoryId)}` +
             (timed ? "&timed=1" : "");
+
+          // Same full review results.html's S4 shows for a real attempt (session
+          // owner feedback, Phase 6.9.4) -- built directly from drill.questions
+          // (already form-shaped, same as resumeForm's output) and this closure's
+          // own answers array, no attempt record needed since none exists here.
+          const rows = buildFullReview({ questions: drill.questions }, answers, categoryLabels);
+          const fragment = document.createDocumentFragment();
+          for (const row of rows) {
+            fragment.appendChild(renderReviewRow(row));
+          }
+          drillFullReviewList.appendChild(fragment);
+          drillFullReview.hidden = false;
           // Always reached via the Submit confirmation or the clock expiring, a
           // genuine same-page transition -- matches showDrillComplete's (S5)
           // precedent of focusing this heading unconditionally.
