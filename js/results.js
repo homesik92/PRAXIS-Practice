@@ -183,10 +183,17 @@ export function formatElapsed(startedAt, finishedAt) {
  * actually given) -- the two need to look identical here even though only one of
  * them has a stored record.
  *
- * @param {{questions: {id: string, categoryId: string, stem: {value: string}, options: {id: string, content: {value: string}}[], correct: string[], explanation?: {value: string}}[]}} form
+ * `stem`/`explanation`/each option's `content` are passed through as the full
+ * `{format, value}` object, not flattened to a plain string (issue #45) -- the
+ * caller renders them via `js/reference-panel.js`'s `renderContent`, the same
+ * text/mathml/code dispatch every other content surface in this app uses, so a
+ * `code`-format 5652 question's pseudocode still renders as a real `<pre><code>`
+ * block here instead of collapsing to one run-together line.
+ *
+ * @param {{questions: {id: string, categoryId: string, stem: {format: string, value: string}, options: {id: string, content: {format: string, value: string}}[], correct: string[], explanation?: {format: string, value: string}}[]}} form
  * @param {{questionId: string, chosen: string[]}[]} answers
  * @param {Map<string, string>} categoryLabels
- * @returns {{questionId: string, categoryLabel: string, stem: string, options: {id: string, text: string, isChosen: boolean, isCorrectOption: boolean}[], explanation: string, answered: boolean, correct: boolean|null}[]}
+ * @returns {{questionId: string, categoryLabel: string, stem: {format: string, value: string}, options: {id: string, content: {format: string, value: string}, isChosen: boolean, isCorrectOption: boolean}[], explanation: {format: string, value: string}, answered: boolean, correct: boolean|null}[]}
  */
 export function buildFullReview(form, answers, categoryLabels) {
   return joinAnswers(form.questions, answers).map(({ question, answer }) => {
@@ -195,14 +202,14 @@ export function buildFullReview(form, answers, categoryLabels) {
     return {
       questionId: question.id,
       categoryLabel: categoryLabels.get(question.categoryId) ?? question.categoryId,
-      stem: question.stem.value,
+      stem: question.stem,
       options: question.options.map((option) => ({
         id: option.id,
-        text: option.content.value,
+        content: option.content,
         isChosen: option.id === chosenId,
         isCorrectOption: question.correct.includes(option.id),
       })),
-      explanation: question.explanation?.value ?? "",
+      explanation: question.explanation ?? { format: "text", value: "" },
       answered,
       correct: answered ? isCorrect(question, answer.chosen) : null,
     };

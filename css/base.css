@@ -75,6 +75,22 @@ main {
   padding: 1.5rem;
 }
 
+/* `format: "code"` content (issue #45, 5652's pseudocode) -- js/reference-panel.js's
+   renderContent wraps it in <pre><code>. overflow-x: auto on the block itself, not the
+   page, so a long unwrapped line scrolls just the block (same finding-#17 reasoning as
+   the periodic-table grid above). Scoped to the single <main> every page has, since
+   this is the app's first real `<pre>` usage outside a reference/teaching panel. */
+main pre {
+  overflow-x: auto;
+  margin: 0.5rem 0;
+  padding: 0.6rem 0.85rem;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
 a {
   color: var(--color-accent);
 }
