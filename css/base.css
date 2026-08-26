@@ -91,6 +91,20 @@ main pre {
   line-height: 1.4;
 }
 
+/* #question-fieldset/#study-fieldset (run.html) use a real <legend> for the question
+   stem so the fieldset's accessible name comes from it natively (Phase 3.4) -- but
+   browsers only reserve border space for a legend's first line, so any wrapped lines
+   on a long word problem spilled out above the box instead of inside it (session
+   owner finding, live-testing). `float: left; width: 100%` is the standard fix: it
+   makes the browser lay the legend out as a normal block inside the fieldset's border
+   rather than straddling it, so a stem of any length wraps fully inside the box next
+   to the options below it. */
+#question-stem,
+#study-stem {
+  float: left;
+  width: 100%;
+}
+
 a {
   color: var(--color-accent);
 }
@@ -615,6 +629,15 @@ details.backup summary svg {
   background: transparent;
   color: var(--color-accent);
   border-color: var(--color-accent);
+}
+
+/* "Clear performance data" (test.html) and its confirm dialog -- --color-incorrect
+   rather than --color-accent, so a destructive/irreversible action reads visually
+   distinct from the backup/restore buttons next to it. */
+.btn-danger {
+  background: transparent;
+  color: var(--color-incorrect);
+  border-color: var(--color-incorrect);
 }
 
 .btn[disabled],

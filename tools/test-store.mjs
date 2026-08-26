@@ -22,6 +22,7 @@ import {
   findInProgressAttempt,
   findAttempt,
   findFirstAndLatestAttempts,
+  clearTestData,
   handleStorageEvent,
   _internal,
 } from "../js/store.js";
@@ -529,6 +530,57 @@ test("findFirstAndLatestAttempts scopes to the given test code only", () => {
   const result = findFirstAndLatestAttempts(s, "5165");
   assert.equal(result.first.id, mathAttempt.attempt.id);
   assert.equal(result.latest.id, mathAttempt.attempt.id);
+});
+
+// --- clearTestData ("Clear performance data", session owner request) ---
+
+test("clearTestData removes only the given test code's attempts", () => {
+  let s = defaultStore();
+  const mathAttempt = startAttempt(s, startParams, fixedNow("2026-08-17T10:00:00.000Z"));
+  s = completeAttempt(mathAttempt.store, mathAttempt.attempt.id, fixedNow("2026-08-17T10:15:00.000Z")).store;
+  const otherAttempt = startAttempt(s, { ...startParams, testCode: "5101" }, fixedNow("2026-08-17T11:00:00.000Z"));
+  s = completeAttempt(otherAttempt.store, otherAttempt.attempt.id, fixedNow("2026-08-17T11:15:00.000Z")).store;
+
+  const result = clearTestData(s, "5165", []);
+  assert.deepEqual(
+    result.attempts.map((a) => a.id),
+    [otherAttempt.attempt.id],
+  );
+});
+
+test("clearTestData removes only questionHistory entries for the given question ids", () => {
+  const s = {
+    ...defaultStore(),
+    questionHistory: {
+      "5165-0001": { seen: 3 },
+      "5165-0002": { seen: 1 },
+      "5101-0001": { seen: 5 },
+    },
+  };
+  const result = clearTestData(s, "5165", ["5165-0001", "5165-0002"]);
+  assert.deepEqual(result.questionHistory, { "5101-0001": { seen: 5 } });
+});
+
+test("clearTestData clears a retired question's stale history too, since the caller passes every bank question id", () => {
+  const s = { ...defaultStore(), questionHistory: { "5165-0099-retired": { seen: 2 } } };
+  const result = clearTestData(s, "5165", ["5165-0099-retired"]);
+  assert.deepEqual(result.questionHistory, {});
+});
+
+test("clearTestData does not mutate the store it's given", () => {
+  const s = {
+    ...defaultStore(),
+    attempts: [{ id: "att-1", testCode: "5165" }],
+    questionHistory: { "5165-0001": { seen: 1 } },
+  };
+  const before = JSON.stringify(s);
+  clearTestData(s, "5165", ["5165-0001"]);
+  assert.equal(JSON.stringify(s), before);
+});
+
+test("clearTestData leaves an empty store unchanged (no matching data to clear)", () => {
+  const result = clearTestData(defaultStore(), "5165", ["5165-0001"]);
+  assert.deepEqual(result, defaultStore());
 });
 
 // --- importStoreFromJson (Phase 6.7, the restore half of finding #9) ---

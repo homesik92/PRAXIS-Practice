@@ -512,6 +512,35 @@ export function findFirstAndLatestAttempts(store, testCode) {
   return { first: completed[0], latest: completed[completed.length - 1] };
 }
 
+/**
+ * "Clear performance data" (test.html, session owner request): erases one test's
+ * attempts and spaced-repetition history, so it looks brand new -- without touching
+ * any other test's data in this same shared store. The real trigger: a full-length
+ * attempt's timer expires while the person is away (SCHEMA.md's finding #10 path),
+ * silently crediting only the few questions answered before they left and permanently
+ * becoming that test's "first attempt" on the dashboard (Phase 6.5) with no way back
+ * to a genuinely fresh start.
+ *
+ * `attempts` are already tagged with `testCode` (SCHEMA.md §2.8), so those filter
+ * directly. `questionHistory` is not test-scoped in the store -- it's a flat map keyed
+ * by raw question id (Phase 2.3) -- so the caller passes every question id belonging
+ * to this test's bank (`bank.questions.map(q => q.id)`), including retired ones, so a
+ * retired question's stale history doesn't survive the clear either.
+ *
+ * @param {object} store
+ * @param {string} testCode
+ * @param {string[]} questionIds
+ * @returns {object} a new store, structurally sharing everything not filtered out
+ */
+export function clearTestData(store, testCode, questionIds) {
+  const idsToClear = new Set(questionIds);
+  const attempts = store.attempts.filter((a) => a.testCode !== testCode);
+  const questionHistory = Object.fromEntries(
+    Object.entries(store.questionHistory).filter(([id]) => !idsToClear.has(id)),
+  );
+  return { ...store, attempts, questionHistory };
+}
+
 // -- Cross-tab reconciliation (SCHEMA.md §2.8 finding #2) ---------------------------
 
 /**
