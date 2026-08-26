@@ -103,20 +103,20 @@ test("invalid fixture bank warns on unimplemented type without erroring on type 
   assert.ok(warnings.some((w) => w.includes('type "multi" is not implemented')));
 });
 
-test("a question stem using a non-text format warns (question rendering doesn't support it yet, issue #45), without erroring", async () => {
+test("a question stem using a non-text format is accepted without warning (renderContent supports it, issue #45 closed)", async () => {
   const bank = JSON.parse(await readFile(path.join(__dirname, "fixtures/valid-bank.json"), "utf-8"));
   bank.questions[0].stem = { format: "mathml", value: "<math><mi>x</mi></math>" };
   const { errors, warnings } = validateBank(bank);
   assert.deepEqual(errors, []);
-  assert.ok(warnings.some((w) => w.includes('stem.format is "mathml"') && w.includes("issue #45")));
+  assert.ok(!warnings.some((w) => w.includes("stem.format")));
 });
 
-test("a question option using a non-text format warns the same way a stem does", async () => {
+test("a question option using a non-text format is accepted without warning, same as a stem", async () => {
   const bank = JSON.parse(await readFile(path.join(__dirname, "fixtures/valid-bank.json"), "utf-8"));
   bank.questions[0].options[0].content = { format: "code", value: "x = 1" };
   const { errors, warnings } = validateBank(bank);
   assert.deepEqual(errors, []);
-  assert.ok(warnings.some((w) => w.includes('option.content.format is "code"')));
+  assert.ok(!warnings.some((w) => w.includes("option.content.format")));
 });
 
 test("manifest with duplicate test codes is rejected", () => {

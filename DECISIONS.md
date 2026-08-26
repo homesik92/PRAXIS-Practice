@@ -819,3 +819,38 @@ discovered later. See `CLAUDE.md`'s new "Downstream native apps" note.
 **Attribution:** Session owner's call, made explicit when asked directly how the
 projects should relate going forward, after PRAXIS-iOS-Math D-12 settled the
 separate-repo structure from the wrapper-app side.
+
+---
+
+### D-31: 5652 (Computer Science) authored now, ahead of D-24's post-launch pause
+
+**Date:** 2026-08-26
+
+**Decision:** D-24 paused all authoring on 5101/5485/5652 until after the app is
+complete and in production (Phase 8). The session owner opened this session by asking
+directly whether there was enough context to generate the 5652 bank now, without
+waiting for that gate — superseding D-24 for 5652 specifically. The full 300-question
+bank (3× BLUEPRINT.md's 100-question real exam, matching D-23/D-27's standard) was
+authored, merged, and independently answer-key-verified in this session; see
+ROADMAP.md Phase 7's "5652 — Computer Science bank progress" for the per-category
+breakdown.
+
+**Why:** the session owner's stated forward plan is to build out the three remaining
+subjects' banks, test each in the practice web app, then create each as its own iOS
+wrapper app (per D-30) — the same 5165 → PRAXIS-iOS-Math pattern already proven working
+on a real device. Waiting for Phase 8.3's v1 acceptance gate before starting that work
+would just delay it without changing what has to happen; the session owner chose to
+start now while attention and tokens are available, rather than treat D-24's pause as
+a hard prerequisite.
+
+**What it means:** D-24's pause no longer governs 5652 (now fully authored) and is
+understood to no longer bind 5101/5485 either — the session owner may resume authoring
+any of the three remaining subjects without re-litigating the pause each time. Phase
+8.3's v1 (Mathematics-only) acceptance gate and Phase 9's manifest re-enable/S1 redesign
+are otherwise unchanged; a bank being authored does not by itself re-enable that test in
+`data/manifest.json` (still Phase 9.2's job) or trigger iOS wrapper work (D-30's own
+"resumed authoring does not by itself trigger any iOS work" note stands).
+
+**Attribution:** Session owner's call ("we have some tokens, do you have what you need
+to generate the question bank for the computer science test?"), made at the start of
+this session.
