@@ -116,14 +116,13 @@ function validateOverlays(overlays, errors) {
 }
 
 /**
- * `warnings`, when passed, flags a non-"text" format as a warning even though it's a
- * schema-valid `KNOWN_FORMATS` value -- question stem/option/explanation rendering
- * (run.html) only actually implements plain-text rendering today (D-21, issue #45);
- * reference-panel content (§2.9) genuinely supports mathml, so its own call site
- * below doesn't pass this. Without it, authoring a question with `format: "mathml"`
- * (copy-pasted from data/reference/5165-formulas.json, the one place in this repo
- * that pattern actually works) would pass this gate cleanly and then render as
- * literal `<math>...</math>` text on a real practice test.
+ * `warnings` was used to flag a non-"text" format even though it's a schema-valid
+ * `KNOWN_FORMATS` value, back when question stem/option/explanation rendering
+ * (run.html) only actually implemented plain text (D-21, issue #45). `renderContent`
+ * (js/reference-panel.js) closed that gap -- run.html and js/review-row.js now call it
+ * for question content too, so mathml and code render for real there, same as they
+ * always have for reference-panel content (§2.9). The parameter is kept (unused) so
+ * call sites don't need touching if a genuinely-unimplemented format shows up again.
  */
 function validateContentField(field, fieldName, errors, context, warnings) {
   if (!isPlainObject(field)) {
@@ -132,11 +131,6 @@ function validateContentField(field, fieldName, errors, context, warnings) {
   }
   if (!KNOWN_FORMATS.includes(field.format)) {
     errors.push(`${context}: ${fieldName}.format must be one of ${KNOWN_FORMATS.join(", ")}`);
-  } else if (warnings && field.format !== "text") {
-    warnings.push(
-      `${context}: ${fieldName}.format is "${field.format}", but question rendering only implements "text" ` +
-        `today (issue #45) -- this will render as literal markup, not ${field.format}`,
-    );
   }
   if (!isNonEmptyString(field.value)) {
     errors.push(`${context}: ${fieldName}.value must be a non-empty string`);
