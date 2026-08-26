@@ -126,6 +126,31 @@
           <p id="import-status" class="status-note" hidden></p>
         </div>
       </details>
+
+      <!-- Session owner request: a full-length attempt's timer expiring while they're
+           away silently credits only the few questions answered, permanently becoming
+           this test's "first attempt" on the dashboard with no way back to a genuinely
+           fresh start. Scoped to this test's own testCode/question ids (js/store.js's
+           clearTestData) -- other tests in this same shared store are untouched, and
+           the wording below says so explicitly since "Replace progress" right above
+           this affects every test, an easy pair to confuse. -->
+      <details class="backup">
+        <summary>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 6h18"/><path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/></svg>
+          Clear performance data
+        </summary>
+        <div class="backup-body">
+          <div class="backup-row">
+            <p class="backup-row-text">
+              Erase every saved attempt and study-history record for this test on this
+              device, so it looks brand new. Other tests are not affected. This cannot
+              be undone.
+            </p>
+            <button id="clear-data-button" type="button" class="btn btn-danger">Clear performance data</button>
+          </div>
+          <p id="clear-data-status" class="status-note" hidden></p>
+        </div>
+      </details>
     </div>
 
     <dialog id="import-dialog" aria-labelledby="import-confirm-heading">
@@ -133,6 +158,13 @@
       <p id="import-message"></p>
       <button id="import-cancel-button" type="button">Cancel</button>
       <button id="import-confirm-button" type="button">Replace progress</button>
+    </dialog>
+
+    <dialog id="clear-data-dialog" aria-labelledby="clear-data-confirm-heading">
+      <h2 id="clear-data-confirm-heading">Clear all progress for this test?</h2>
+      <p id="clear-data-message"></p>
+      <button id="clear-data-cancel-button" type="button">Cancel</button>
+      <button id="clear-data-confirm-button" type="button">Clear performance data</button>
     </dialog>
   </main>
   <script type="module">
@@ -153,6 +185,7 @@
       exportStoreAsJson,
       importStoreFromJson,
       summarizeStore,
+      clearTestData,
     } from "./js/store.js";
     import { scoreAttempt } from "./js/runner.js";
     import { summarizeAttempt, percentOf, flattenCategoryLabels } from "./js/results.js";
@@ -191,6 +224,13 @@
     const importMessage = document.getElementById("import-message");
     const importCancelButton = document.getElementById("import-cancel-button");
     const importConfirmButton = document.getElementById("import-confirm-button");
+
+    const clearDataButton = document.getElementById("clear-data-button");
+    const clearDataStatus = document.getElementById("clear-data-status");
+    const clearDataDialog = document.getElementById("clear-data-dialog");
+    const clearDataMessage = document.getElementById("clear-data-message");
+    const clearDataCancelButton = document.getElementById("clear-data-cancel-button");
+    const clearDataConfirmButton = document.getElementById("clear-data-confirm-button");
 
     function showStatus(message) {
       statusNote.textContent = message;
@@ -765,6 +805,41 @@
           if (!saveResult.ok) {
             importStatus.textContent = "Your progress could not be saved, so the restore didn't complete.";
             importStatus.hidden = false;
+            return;
+          }
+          location.reload();
+        });
+
+        // -- Clear performance data (session owner request) -- scoped to this test's
+        // own testCode and question ids (js/store.js's clearTestData), unlike "Replace
+        // progress" above which affects every test in the shared store.
+        clearDataButton.addEventListener("click", () => {
+          clearDataMessage.textContent =
+            `This will permanently erase every saved attempt and study-history record for ${bank.name} ` +
+            "on this device. Other tests are not affected. This can't be undone.";
+          clearDataDialog.showModal();
+        });
+
+        clearDataCancelButton.addEventListener("click", () => clearDataDialog.close());
+        clearDataDialog.addEventListener("close", () => clearDataButton.focus());
+
+        clearDataConfirmButton.addEventListener("click", () => {
+          clearDataDialog.close();
+          const freshLoadResult = loadStore();
+          if (!freshLoadResult.ok) {
+            clearDataStatus.textContent = "Your progress could not be loaded, so it can't be cleared right now.";
+            clearDataStatus.hidden = false;
+            return;
+          }
+          const cleared = clearTestData(
+            freshLoadResult.store,
+            code,
+            bank.questions.map((q) => q.id),
+          );
+          const saveResult = saveStore(cleared);
+          if (!saveResult.ok) {
+            clearDataStatus.textContent = "Your progress could not be saved, so the clear didn't complete.";
+            clearDataStatus.hidden = false;
             return;
           }
           location.reload();
