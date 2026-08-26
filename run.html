@@ -164,7 +164,7 @@
     import { renderReviewRow } from "./js/review-row.js";
     import { updateHistory } from "./js/srs.js";
     import { evaluateExpression } from "./js/calculator.js";
-    import { renderReferencePanel, createPanelShell } from "./js/reference-panel.js";
+    import { renderReferencePanel, createPanelShell, renderContent } from "./js/reference-panel.js";
     import { ELEMENT_CATEGORIES } from "./js/element-categories.js";
     import {
       loadStore,
@@ -780,7 +780,10 @@
         if (option.id === selectedOptionId) input.checked = true;
         input.addEventListener("change", () => onChoose(option));
         label.appendChild(input);
-        label.append(` ${option.content.value}`);
+        label.append(" ");
+        const optionContentEl = document.createElement("span");
+        renderContent(optionContentEl, option.content);
+        label.appendChild(optionContentEl);
         container.appendChild(label);
       }
     }
@@ -1256,7 +1259,7 @@
 
         const question = form.questions[index];
         positionEl.textContent = `Question ${index + 1} of ${form.questions.length}`;
-        stemEl.textContent = question.stem.value;
+        renderContent(stemEl, question.stem);
         renderOptions(optionsEl, question, null, (option) => selectAnswer(question, option));
         // Advancing moves focus to the new question and announces position
         // (SCHEMA.md S1.3, finding #15) -- without this, a screen-reader/keyboard
@@ -1369,7 +1372,7 @@
 
         const qIndex = form.questions.findIndex((q) => q.id === question.id);
         positionEl.textContent = `Reviewing question ${qIndex + 1} of ${form.questions.length}`;
-        stemEl.textContent = question.stem.value;
+        renderContent(stemEl, question.stem);
         renderOptions(optionsEl, question, answer.chosen[0], (option) => commitEdit(question, option));
         transitionFocus(questionFieldset, positionEl.textContent);
       }
@@ -1595,7 +1598,7 @@
           resetCalculatorForNewQuestion();
           const question = drill.questions[index];
           studyPosition.textContent = `Question ${index + 1} of ${drill.questions.length}`;
-          studyStemEl.textContent = question.stem.value;
+          renderContent(studyStemEl, question.stem);
           renderOptions(studyOptionsEl, question, null, (option) => revealAnswer(question, option));
           transitionFocus(studyFieldset, studyPosition.textContent);
         }
@@ -1618,7 +1621,7 @@
           const correctOption = question.options.find((o) => question.correct.includes(o.id));
           const correctText = correctOption ? `Correct answer: ${correctOption.content.value}` : "See the explanation below.";
           studyCorrectness.textContent = correct ? "Correct." : `Incorrect. ${correctText}`;
-          studyExplanation.textContent = question.explanation?.value ?? "";
+          renderContent(studyExplanation, question.explanation ?? { format: "text", value: "" });
           studyFeedback.hidden = false;
           // Focus alone, no separate announce(): the feedback region's own text
           // (correctness + explanation) is what a screen reader needs to hear here,
@@ -1795,7 +1798,7 @@
 
           const question = drill.questions[index];
           positionEl.textContent = `Question ${index + 1} of ${drill.questions.length}`;
-          stemEl.textContent = question.stem.value;
+          renderContent(stemEl, question.stem);
           renderOptions(optionsEl, question, null, (option) => recordAndAdvance(question, [option.id]));
           transitionFocus(questionFieldset, positionEl.textContent);
         }
@@ -1826,7 +1829,7 @@
 
           const qIndex = drill.questions.findIndex((q) => q.id === question.id);
           positionEl.textContent = `Reviewing question ${qIndex + 1} of ${drill.questions.length}`;
-          stemEl.textContent = question.stem.value;
+          renderContent(stemEl, question.stem);
           renderOptions(optionsEl, question, answer.chosen[0], (option) => commitEdit(question, option));
           transitionFocus(questionFieldset, positionEl.textContent);
         }

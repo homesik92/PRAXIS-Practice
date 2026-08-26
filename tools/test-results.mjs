@@ -223,8 +223,8 @@ test("buildFullReview marks the chosen-and-correct option and reports correct: t
   assert.equal(row.answered, true);
   assert.equal(row.correct, true);
   assert.equal(row.categoryLabel, "Number & Quantity and Algebra");
-  assert.equal(row.stem, "Stem for q1");
-  assert.equal(row.explanation, "Why q1 is a");
+  assert.deepEqual(row.stem, { format: "text", value: "Stem for q1" });
+  assert.deepEqual(row.explanation, { format: "text", value: "Why q1 is a" });
   assert.deepEqual(
     row.options.map((o) => [o.id, o.isChosen, o.isCorrectOption]),
     [
@@ -285,12 +285,12 @@ test("buildFullReview falls back to the category id when the label map has no en
   assert.equal(row.categoryLabel, "does-not-exist");
 });
 
-test("buildFullReview defaults explanation to an empty string when the question has none", () => {
+test("buildFullReview defaults explanation to an empty text value when the question has none", () => {
   const question = reviewQuestion("q1");
   delete question.explanation;
   const form = { questions: [question] };
   const [row] = buildFullReview(form, [], categoryLabels);
-  assert.equal(row.explanation, "");
+  assert.deepEqual(row.explanation, { format: "text", value: "" });
 });
 
 test("buildFullReview preserves the form's question order, not the answers' order", () => {

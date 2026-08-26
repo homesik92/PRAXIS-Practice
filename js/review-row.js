@@ -9,6 +9,8 @@
 // DOM-touching, like js/reference-panel.js -- verified live in the browser, not
 // via Node unit tests.
 
+import { renderContent } from "./reference-panel.js";
+
 /**
  * Text markers, not color alone (SCHEMA.md S1.3) -- the label text itself is
  * still what carries the meaning to a screen reader; the color applied to it in
@@ -38,13 +40,15 @@ export function renderReviewRow(row) {
   li.appendChild(categoryEl);
 
   const stemEl = document.createElement("p");
-  stemEl.textContent = row.stem;
+  renderContent(stemEl, row.stem);
   li.appendChild(stemEl);
 
   const optionsEl = document.createElement("ul");
   for (const option of row.options) {
     const optionLi = document.createElement("li");
-    optionLi.appendChild(document.createTextNode(option.text));
+    const optionContentEl = document.createElement("span");
+    renderContent(optionContentEl, option.content);
+    optionLi.appendChild(optionContentEl);
     const suffix = optionSuffix(option);
     if (suffix) {
       const suffixEl = document.createElement("span");
@@ -65,9 +69,12 @@ export function renderReviewRow(row) {
     li.appendChild(notAnsweredEl);
   }
 
-  if (row.explanation) {
-    const explanationEl = document.createElement("p");
-    explanationEl.textContent = `Explanation: ${row.explanation}`;
+  if (row.explanation.value) {
+    const explanationLabel = document.createElement("p");
+    explanationLabel.textContent = "Explanation:";
+    li.appendChild(explanationLabel);
+    const explanationEl = document.createElement("div");
+    renderContent(explanationEl, row.explanation);
     li.appendChild(explanationEl);
   }
 

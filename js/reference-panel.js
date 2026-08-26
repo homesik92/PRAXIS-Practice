@@ -4,9 +4,10 @@
 // are genuinely different: a labeled formula list here, a tabular grid there), so this
 // module only owns what's actually identical between them: the finding-#17 non-modal
 // in-document-flow pattern (open/close/Escape/focus-return), 5165's own section/entry
-// rendering, and the first real format dispatch (text/mathml) this codebase has ever
-// had -- every prior stem/option/explanation render call ignores `format` entirely and
-// assumes "text" (D-21; question rendering retrofit deferred to issue #45).
+// rendering, and the format dispatch (text/mathml/code) this codebase uses.
+// `renderContent` closed issue #45 (question stem/option/explanation rendering never
+// respected `format`, always assumed "text") -- run.html/js/review-row.js now call it
+// directly for question content too, not just reference-panel entries.
 //
 // DOM-touching, like run.html's own UI code and unlike js/calculator.js's pure
 // evaluator -- verified live in the browser (ROADMAP.md's established convention for
@@ -37,6 +38,19 @@ export function renderContent(el, content) {
     } else {
       el.textContent = content.value;
     }
+    return;
+  }
+  if (content.format === "code") {
+    // <pre><code>, whitespace preserved, never syntax-highlighted (SCHEMA.md
+    // §2.6) -- used by 5652's pseudocode. `.textContent` on the inner <code>
+    // still escapes the raw string safely; <pre> is what preserves the
+    // newlines/indentation a plain block-level element would otherwise collapse.
+    el.replaceChildren();
+    const pre = document.createElement("pre");
+    const code = document.createElement("code");
+    code.textContent = content.value;
+    pre.appendChild(code);
+    el.appendChild(pre);
     return;
   }
   el.textContent = content.value;

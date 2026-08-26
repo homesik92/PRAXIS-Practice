@@ -5,11 +5,136 @@
   "timeLimitMinutes": 180,
   "formLength": 100,
   "categories": [
-    { "id": "I", "label": "Impacts of Computing", "weight": { "count": 15, "percent": 15 } },
-    { "id": "II", "label": "Algorithms and Computational Thinking", "weight": { "count": 25, "percent": 25 } },
-    { "id": "III", "label": "Programming", "weight": { "count": 30, "percent": 30 } },
-    { "id": "IV", "label": "Data", "weight": { "count": 15, "percent": 15 } },
-    { "id": "V", "label": "Computing Systems and Networks", "weight": { "count": 15, "percent": 15 } }
+    {
+      "id": "I",
+      "label": "Impacts of Computing",
+      "weight": {
+        "count": 15,
+        "percent": 15
+      },
+      "children": [
+        {
+          "id": "I-A",
+          "label": "Impact of and Obstacles to Computing",
+          "weight": {
+            "count": 7,
+            "percent": 7
+          }
+        },
+        {
+          "id": "I-B",
+          "label": "Intellectual Property, Ethics, Privacy, and Security",
+          "weight": {
+            "count": 8,
+            "percent": 8
+          }
+        }
+      ]
+    },
+    {
+      "id": "II",
+      "label": "Algorithms and Computational Thinking",
+      "weight": {
+        "count": 25,
+        "percent": 25
+      },
+      "children": [
+        {
+          "id": "II-A",
+          "label": "Abstraction, Patterns, Decomposition, and Number Bases",
+          "weight": {
+            "count": 12,
+            "percent": 12
+          }
+        },
+        {
+          "id": "II-B",
+          "label": "Algorithm Analysis, Searching, and Sorting",
+          "weight": {
+            "count": 13,
+            "percent": 13
+          }
+        }
+      ]
+    },
+    {
+      "id": "III",
+      "label": "Programming",
+      "weight": {
+        "count": 30,
+        "percent": 30
+      },
+      "children": [
+        {
+          "id": "III-A",
+          "label": "Control Structures and Standard Operators",
+          "weight": {
+            "count": 15,
+            "percent": 15
+          }
+        },
+        {
+          "id": "III-B",
+          "label": "Procedures, Event-Driven Programs, Usability, and Data",
+          "weight": {
+            "count": 15,
+            "percent": 15
+          }
+        }
+      ]
+    },
+    {
+      "id": "IV",
+      "label": "Data",
+      "weight": {
+        "count": 15,
+        "percent": 15
+      },
+      "children": [
+        {
+          "id": "IV-A",
+          "label": "Digitalization and Encryption/Decryption",
+          "weight": {
+            "count": 7,
+            "percent": 7
+          }
+        },
+        {
+          "id": "IV-B",
+          "label": "Simulation, Modeling, and Data Manipulation",
+          "weight": {
+            "count": 8,
+            "percent": 8
+          }
+        }
+      ]
+    },
+    {
+      "id": "V",
+      "label": "Computing Systems and Networks",
+      "weight": {
+        "count": 15,
+        "percent": 15
+      },
+      "children": [
+        {
+          "id": "V-A",
+          "label": "Operating Systems, Computing Systems, and Inter-Device Communication",
+          "weight": {
+            "count": 7,
+            "percent": 7
+          }
+        },
+        {
+          "id": "V-B",
+          "label": "Networks, Security, and the Web",
+          "weight": {
+            "count": 8,
+            "percent": 8
+          }
+        }
+      ]
+    }
   ],
   "questions": []
 }
