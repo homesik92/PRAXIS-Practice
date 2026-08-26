@@ -4,6 +4,6 @@
     { "code": "5101", "file": "tests/5101.json", "enabled": false },
     { "code": "5165", "file": "tests/5165.json", "enabled": true },
     { "code": "5485", "file": "tests/5485.json", "enabled": false },
-    { "code": "5652", "file": "tests/5652.json", "enabled": false }
+    { "code": "5652", "file": "tests/5652.json", "enabled": true }
   ]
 }
