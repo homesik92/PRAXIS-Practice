@@ -59,7 +59,7 @@ site with no server.
 | 6.7 | Restore progress ("upload progress") | ☑ |
 | 6.8 | S2 redesign (test-menu hub) | ☑ |
 | 6.9 | Topic teaching pages ("Study a topic") | ☑ |
-| 7 | Content authoring (parallel track) | ◐ |
+| 7 | Content authoring (parallel track) | ☑ |
 | 8 | Launch (NAS) — v1, Mathematics only | ◐ |
 | 9 | Multi-subject entry (S1 redesign) | ☐ |
 | 10 | Final testing & acceptance (all four subjects) | ☐ |
@@ -799,14 +799,39 @@ call, given several subcategories are as small as 2 questions per real draw;
   (`bizlaw-024`'s two-defensible-answers ambiguity under the UCC's $500
   statute-of-frauds threshold).
 
-5165, 5652, and 5101 are now fully authored. The one remaining test (5485)
-stays at 0 authored questions — **not scheduled until after Phase 8.3 (v1
-accepted), per D-24, though the session owner is choosing to build the
-others out now rather than wait (D-31)**, ahead of turning each into its own
-iOS wrapper app per the downstream-native-apps plan (CLAUDE.md). Resumes at
-the same 3×-depth, high-effort, independently-verified standard the other
-three used: 5485 (125×3=375 questions). Feeds Phase 9.2's manifest re-enable
-and Phase 10's final acceptance.
+**5485 — Physical Science bank progress** (target 375, 3× BLUEPRINT.md's
+125-question exam; category tree expanded from 4 flat top-level categories
+into BLUEPRINT.md's 9 subcategories — session owner's explicit call, the
+2–3-subcategories-per-branch shape matching 5652's expanded tree rather than
+5101's too-fine 33; ✓ = category complete, count is
+questions-with-verified-answer-key / target):
+
+- ☑ I-A — Nature of Science — 27/27
+- ☑ I-B — Science, Engineering, Technology, Society, and the Environment — 27/27
+- ☑ II-A — Atomic and Nuclear Structure and Processes — 36/36
+- ☑ II-B — Relationships Between Energy and Matter — 39/39
+- ☑ III-A — Chemical Composition, Bonding, and Structure — 42/42
+- ☑ III-B — Chemical Reactions and Periodicity — 42/42
+- ☑ III-C — Solutions and Acid-Base Chemistry — 39/39
+- ☑ IV-A — Mechanics — 60/60
+- ☑ IV-B — Electricity, Magnetism, and Waves — 63/63
+- **Total: 375/375 — complete. Answer keys independently blind-verified (5
+  fresh subagents, each re-deriving every answer from stem + options alone —
+  working every calorimetry, nuclear-balancing, equation-balancing,
+  stoichiometry, pH, kinematics, momentum, and circuit calculation by hand —
+  before comparing to the stored key): 0 discrepancies found across all 375
+  questions.** This is the first bank to populate both of a test's
+  cross-cutting overlays (SCHEMA.md §2.5) at scale: `sep` (Science and
+  Engineering Practice) on 260/375 = 69% against a ≥50% target, and `tot`
+  (Task of Teaching Science) on 116/375 = 31% against a 25–33% target — both
+  hit on the first pass, with no rebalancing needed.
+
+All four v1 banks are now fully authored — 5165 (198), 5652 (300), 5101
+(360), and 5485 (375), **1,233 questions total**, each built to D-23's
+3×-depth standard and each independently blind-verified with zero
+answer-key discrepancies. Feeds Phase 9.2's manifest re-enable and Phase
+10's final acceptance; 5485 is still `enabled: false` in
+`data/manifest.json` until it has been live-tested and deployed.
 
 ### Phase 6.5 — Workflow & progress dashboard
 
@@ -1276,6 +1301,7 @@ both halves need to be independently done first.
 
 | Date | Session | Outcome |
 | --- | --- | --- |
+| 2026-08-27 | Phase 7 — 5485 full question bank (375 questions); **all four v1 banks now authored** | Final content-authoring session of Phase 7, same pattern as 5652/5101. Expanded `data/tests/5485.json`'s category tree from 4 flat top-level categories into BLUEPRINT.md's 9 subcategories (I-A/I-B, II-A/II-B, III-A/III-B/III-C, IV-A/IV-B) — session owner's call via AskUserQuestion, the 2–3-per-branch shape matching 5652's expanded tree rather than 5101's too-fine 33; ETS publishes no leaf-level weights for this test, so each branch's published count was split as evenly as the numbers allow (leaf counts sum to `formLength` 125, which `verify.mjs` enforces). Authored 375 questions (3× the 125-question real exam) across 9 parallel per-leaf subagents: I-A 27, I-B 27, II-A 36, II-B 39, III-A 42, III-B 42, III-C 39, IV-A 60, IV-B 63. **First bank to populate both cross-cutting overlays (SCHEMA.md §2.5) at scale** — `sep` 260/375 = 69% (≥50% target) and `tot` 116/375 = 31% (25–33% target), both hit on the first pass by giving each authoring agent its own per-leaf overlay quota, with no rebalancing pass needed. The known id-prefix landmine did not bite this time: agents were told their `5485-<slug>-NNN` prefix up front, so no post-merge rename pass was needed. **Answer-key verification**: 5 fresh subagents (scopes I-A+I-B+II-A, II-B+III-A, III-B+III-C, IV-A, IV-B), each re-deriving every answer from stem + options alone before reading the stored key or explanation — working every calorimetry, half-life, nuclear-equation, equation-balancing, stoichiometry, molarity, pH, kinematics, momentum-sign, circuit, and wave calculation by hand. **0 discrepancies across all 375 questions.** The 5652/5101 defect patterns were baked into the authoring prompts up front this time rather than found reactively, and the result shows: **0 letter/ordinal references bank-wide** (vs. 34 in 5652 and 19 in 5101 found after the fact), and only 16 length-tell candidates (4%, vs. 94% in one 5101 category) of which 8 were genuine justifying-clause tells and were fixed, the other 8 cleared by the verifiers as inherent content-length differences. The verification pass still earned its keep on explanation accuracy, finding 14 factual defects that no other gate could catch — none of which changed an answer key: `bonding-027` called an inverted g/(g·mol⁻¹) ratio "moles per gram squared" when it is reciprocal moles (worst of the set, since that item *is* the dimensional-analysis question); `bonding-037` claimed a single-bonded oxygen was short of an octet in a CO₂ Lewis structure when only carbon is; `reactions-010` said every distractor left oxygen short on the reactant side when one supplies it in excess; `nature-026` mischaracterized a 96.25% distractor as a ratio rather than 100% minus the percent error; `mechanics-030` labelled a coefficient×mass product "6.0 N" when it is not a force; `emwaves-006`/`-017`/`-043` mis-stated or failed to account for their distractor arithmetic; plus overstated claims in `stse-015` (fly ash "largely basic oxides"), `solutions-021` ("most salts" absorb heat on dissolving — false for CaCl₂/MgCl₂, also de-icers), and `emwaves-049` ("a million million times"). Three stems tightened: `reactions-009` now asks for the equation that "uses the correct formulas **and** is correctly balanced" (a distractor was atom-balanced but substituted O₃ for O₂), `mechanics-051` now specifies an **ideal** machine, and `emwaves-062` dropped an overclaim that its table-scratching activity demonstrates sound's *speed* when it only demonstrates transmission efficiency. Two test-validity fixes: `emwaves-028`'s correct option stated the general induction principle verbatim, giving away `emwaves-029`'s answer whenever both landed on the same form — restructured so all four options report only the observation, with the principle left to the explanation (shown only after submission); and `mechanics-014`'s ramp distractor was defensibly correct too (rolling spheres also accelerate independently of mass), replaced with a ramp-angle variation. Finally, bank-wide answer-key hygiene: several leaves had degenerate stored-key patterns (III-A was entirely `"a"`, II-A ran a strict `a,c,b,d` cycle for 32 consecutive questions, IV-A/IV-B skewed 30/26 toward `a`) — harmless at runtime since `shuffleQuestionOptions` runs on every form-assembly path, but a 100%-predictable key in the raw JSON. Re-spread deterministically by rotating each question's option contents and its key together using a hash of the question id, asserting per question that the key still resolves to the same option content and that no option text was lost; bank-wide spread is now 95/100/84/96 with a longest strictly-cyclic run of 5 (chance level). 306/306 tests green throughout, `verify.mjs` clean (0 errors, 0 warnings). No new decision logged — covered by D-31's existing authorization to resume 5485 authoring without re-litigating D-24's pause. |
 | 2026-08-26 | 5101 re-enabled in the manifest | Same one-line config change as 5652's ([PR #77](https://github.com/homesik92/PRAXIS-Practice/pull/77)) — `data/manifest.json`'s 5101 entry flipped `enabled: false` → `true` (5485 stays `false`) after redeploying the finished 5101 bank to the NAS. No code changes needed. `verify.mjs` clean, 306/306 tests green. Covered by D-31 — no new decision entry needed. |
 | 2026-08-26 | Phase 7 — 5101 full question bank (360 questions), continuing D-31's authoring-ahead-of-launch plan | Content-authoring session, same pattern as 5652's. Kept 5101's existing flat 8-category tree rather than expanding into BLUEPRINT.md's 33 subcategories — presented as an explicit design choice (several subcategories are as small as 2 questions per real draw), session owner chose the flat tree. Authored 360 questions (3× the 120-question real exam) across 8 parallel category-authoring subagents: I 54, II 54, III 36, IV 36, V 54, VI 36, VII 54, VIII 36. Merged into `data/tests/5101.json`, ids reprefixed `5101-<category>-NNN`. **Answer-key verification**: 4 fresh subagents, one per category pair, each re-deriving every answer from stem + options alone (working every calculation independently) before comparing to the stored key. **0 discrepancies found across all 360 questions.** The same pass caught one genuine content bug — `5101-bizlaw-024` had two defensible answers, since its "wrong" $900 office-supply purchase actually also cleared the UCC's $500 statute-of-frauds writing threshold (fixed by lowering the distractor's dollar amount below $500) — and a systemic length/justification tell far more severe than 5652's: the correct option was the longest in 94% of Category VIII's questions and 59% of Category III/V's, with several also carrying a justifying clause ("...because X") that no distractor had. Presented to the session owner as two scope decisions via AskUserQuestion: Category VIII (94% incidence) got a full rewrite of all 36 questions; the other categories got fixes only for the sharpest cases (≥1.6× length ratio or an embedded justification clause), not every borderline one. 5 remediation subagents fixed 101 questions total (34 in VIII, 27 in III/V, 21 in I/IV, 12 in II/VI, 7 in VII), plus 19 explanations that referenced options by letter ("Choice A...") or shuffle-dependent ordinal language ("...respectively") — broken since the app shuffles option order and never shows letters — and 2 minor overstated legal/privacy claims (`comm-032`'s protected-characteristics claim, `profed-018`'s FERPA claim). Post-fix measurement confirmed the remediation worked: Category VIII's longest-is-correct rate dropped from 94% to 31% (matching the ~25% chance baseline), with 0 sharp (≥1.6×) tells remaining bank-wide outside a couple of untouched borderline items. 306/306 tests green throughout, `verify.mjs` clean (0 errors, 0 warnings) against the finished 360-question bank. No new decision logged — covered by D-31's existing authorization to resume 5101/5485 authoring without re-litigating D-24's pause. |
 | 2026-08-26 | 5652 re-enabled in the manifest | Doc-adjacent config change, ahead of Phase 9.2's originally-planned timing for this exact flip — the session owner asked for it directly after redeploying the finished 5652 bank to the NAS and noticing `index.html`'s test picker still only listed Mathematics. `data/manifest.json`'s 5652 entry flipped `enabled: false` → `true` (5101/5485 stay `false`); no code changes needed — `index.html`'s `loadTestList` and every other by-code lookup already handle any number of enabled tests, `data/manifest.json` was the only thing gating the second one from view. `verify.mjs` clean, 306/306 tests green (no test-relevant logic changed). Covered by D-31's authorization to move ahead of the original phase order for 5652 specifically — no new decision entry needed. |
