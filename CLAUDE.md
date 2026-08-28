@@ -65,9 +65,12 @@ in `tools/test-verify.mjs`:
 node tools/test-verify.mjs
 ```
 
-Until CI is wired up, this is the *only* gate, so run both before every push. Once CI
-exists it becomes the fast local check that precedes the authoritative PR run — never a
-step that requires `npm install`.
+These run in CI on every pull request and every push to `main`
+(`.github/workflows/verify.yml`), which is the **authoritative** gate. Running them
+locally first is still the right habit — it catches most mistakes in seconds rather
+than a CI cycle — but the PR run is what decides. The workflow installs nothing:
+this project has no `package.json` and no build step (D-3), so the gate is just Node
+running these same commands.
 
 ## Answer keys are the real correctness surface
 
