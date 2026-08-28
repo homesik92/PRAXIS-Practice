@@ -854,3 +854,64 @@ are otherwise unchanged; a bank being authored does not by itself re-enable that
 **Attribution:** Session owner's call ("we have some tokens, do you have what you need
 to generate the question bank for the computer science test?"), made at the start of
 this session.
+
+---
+
+### D-32: "Study a topic" chapters exist only for Mathematics; Phase 6.10 created to author the rest
+
+**Context:** Live use surfaced what no gate had: picking "Networks, Security, and the
+Web" under Computer Science shows *"No lesson has been written for … yet."* Verified
+against the data rather than reasoned about — `data/teaching/` contains exactly one
+file (`5165.json`), and `teachingContent` appears in exactly one bank
+(`data/tests/5165.json`), so 5652, 5101, and 5485 all land on `teach.html`'s
+`!bank.teachingContent` branch.
+
+**This is a scoping gap, not a defect.** Phase 6.9.2 is titled *"Author Mathematics'
+6 chapters"* and was Mathematics-only by design; it closed correctly against its own
+text. Phase 6.9.3 then wired a **generic** Start-menu control — `wireCategoryPicker`,
+shared by all three pickers — which works for every registered test. The UI therefore
+shipped for four subjects while the content shipped for one. Phase 7 authored question
+banks and never teaching chapters; Phase 10 is regression plus acceptance. No task
+anywhere covered the remaining 27 chapters (5652: 10, 5485: 9, 5101: 8, counted from
+each bank's own leaf-category tree).
+
+**Decision, in three parts:**
+
+1. **A new Phase 6.10**, rather than reopening 6.9 or folding into Phase 7. Phase 6.9
+   genuinely completed what it described; rewriting its status to cover work it never
+   claimed would make the log less accurate, not more. Phase 7's text and D-23/D-27 are
+   written entirely around question-bank depth, so teaching chapters do not belong
+   there either. The overview table's 6.9 row was relabelled "— Mathematics" in the
+   same change: the unqualified label is what made the gap invisible in the one place
+   most likely to be read.
+2. **Phase 6.10 gates Phase 10.2, but explicitly not Phase 8.3.** 8.3 accepts the
+   Mathematics-only build, and Mathematics' chapters have been complete since 6.9.2, so
+   6.10 has no bearing on it. 10.2 is different: Phase 9's study hub presents all four
+   subjects as equals, and a final four-subject acceptance should not bless a build
+   where three of them dead-end on a visible, enabled Start-menu control.
+3. **One `data/teaching/<code>.json` per bank stands** — the referencePanel precedent —
+   rather than splitting to one file per chapter. This **re-examines rather than
+   inherits** the landmine 6.9.1 raised, that a single-chapter page load fetches and
+   discards every other chapter in the file: 5165's 6 chapters are 53K, so 5652's 10
+   project to roughly 90K, which is one fetch on a local-network-only NAS. Splitting
+   would change the content schema and `tools/verify.mjs`'s `validateTeachingContent`,
+   converting three data-only authoring sessions into a deep change — an unfavourable
+   trade at this size. Revisit if a bank's file grows materially past that.
+
+**Why it matters:** the authoring itself is Phase 7-sized — 27 chapters, ~81 sections
+against 5165's existing 18 — and content is this project's real correctness surface.
+Each sub-task therefore carries 6.9.2's full *Accepts*, including the **independent
+verification pass that re-derives every worked example from scratch** instead of reading
+the authored explanation. That pass is what caught 6.9.2's genuinely wrong
+horizontal-shift/stretch ordering, and it is the only gate in this project capable of
+catching a subject-matter error in teaching prose. The ETS copyright rule also binds
+harder here than for quiz items, as 6.9 itself noted: teaching prose is closer in kind
+to a study companion's own prose, so paraphrase drift is a live risk rather than a
+theoretical one.
+
+**What it does not change:** no code, no bank files, no `teach.html`, no `verify.mjs`.
+The teaching-page system built in 6.9.1 needs nothing added to support three more
+subjects — only a `teachingContent` key per bank and the content behind it.
+
+**Attribution:** Session owner's call on all three parts, via AskUserQuestion, after
+noticing the empty lesson page in live use and asking whether the roadmap had a gap.
