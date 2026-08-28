@@ -569,9 +569,54 @@ export function validateManifest(manifest, dataDir) {
     if (typeof entry.enabled !== "boolean") {
       errors.push(`${label}: enabled must be a boolean`);
     }
+    // Display metadata duplicated from the bank so S1 can render the picker from
+    // the manifest alone, without fetching every bank file just to read four
+    // scalars. validateManifestAgreement below is what keeps the copy honest.
+    if (!isNonEmptyString(entry.name)) {
+      errors.push(`${label}: name missing`);
+    }
+    for (const field of ["timeLimitMinutes", "formLength", "bankSize"]) {
+      if (typeof entry[field] !== "number" || !Number.isFinite(entry[field])) {
+        errors.push(`${label}: ${field} must be a number`);
+      }
+    }
   }
 
   return { errors, warnings };
+}
+
+/**
+ * Cross-checks a manifest entry's duplicated display metadata against the bank file
+ * it points at. The duplication exists purely so S1 needs one small fetch instead of
+ * every bank (~1.8 MB at four subjects); this check is the reason that duplication is
+ * safe, since nothing else would notice the two drifting apart.
+ */
+export function validateManifestAgreement(entry, bank) {
+  const errors = [];
+  const label = `manifest entry ${entry?.code ?? "(no code)"}`;
+
+  const expected = {
+    name: bank?.name,
+    timeLimitMinutes: bank?.timeLimitMinutes,
+    formLength: bank?.formLength,
+    bankSize: Array.isArray(bank?.questions) ? bank.questions.length : undefined,
+  };
+
+  for (const [field, want] of Object.entries(expected)) {
+    if (want === undefined) continue; // the bank's own validation reports a missing field
+    if (entry[field] !== want) {
+      errors.push(
+        `${label}: ${field} is ${JSON.stringify(entry[field])} but the bank says ` +
+          `${JSON.stringify(want)} -- update data/manifest.json to match`,
+      );
+    }
+  }
+
+  if (entry.code !== undefined && bank?.code !== undefined && entry.code !== bank.code) {
+    errors.push(`${label}: code does not match the bank's own code "${bank.code}"`);
+  }
+
+  return { errors, warnings: [] };
 }
 
 async function loadJson(filePath) {
@@ -645,8 +690,10 @@ async function main() {
         continue;
       }
       const { errors, warnings } = validateBank(bank, { dataDir });
-      report(entry.file, errors, warnings);
-      allErrors += errors.length;
+      const agreement = validateManifestAgreement(entry, bank);
+      const allBankErrors = [...errors, ...agreement.errors];
+      report(entry.file, allBankErrors, warnings);
+      allErrors += allBankErrors.length;
       allWarnings += warnings.length;
 
       const refResult = await validateAndReportContentFile(bank, dataDir, "referencePanel", validateReferencePanelContent, {

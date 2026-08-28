@@ -1,9 +1,41 @@
 {
   "schemaVersion": 1,
   "tests": [
-    { "code": "5101", "file": "tests/5101.json", "enabled": true },
-    { "code": "5165", "file": "tests/5165.json", "enabled": true },
-    { "code": "5485", "file": "tests/5485.json", "enabled": true },
-    { "code": "5652", "file": "tests/5652.json", "enabled": true }
+    {
+      "code": "5101",
+      "file": "tests/5101.json",
+      "enabled": true,
+      "name": "Business Education",
+      "timeLimitMinutes": 120,
+      "formLength": 120,
+      "bankSize": 360
+    },
+    {
+      "code": "5165",
+      "file": "tests/5165.json",
+      "enabled": true,
+      "name": "Mathematics",
+      "timeLimitMinutes": 180,
+      "formLength": 66,
+      "bankSize": 198
+    },
+    {
+      "code": "5485",
+      "file": "tests/5485.json",
+      "enabled": true,
+      "name": "Physical Science",
+      "timeLimitMinutes": 150,
+      "formLength": 125,
+      "bankSize": 375
+    },
+    {
+      "code": "5652",
+      "file": "tests/5652.json",
+      "enabled": true,
+      "name": "Computer Science",
+      "timeLimitMinutes": 180,
+      "formLength": 100,
+      "bankSize": 300
+    }
   ]
 }
