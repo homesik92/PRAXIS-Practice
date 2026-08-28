@@ -4,6 +4,7 @@
   "name": "Computer Science",
   "timeLimitMinutes": 180,
   "formLength": 100,
+  "teachingContent": "teaching/5652.json",
   "categories": [
     {
       "id": "I",
