@@ -1060,10 +1060,19 @@ details.backup summary svg {
   margin: 0 0 0.75rem;
 }
 
+/* One column on phones, a balanced 2x2 above that. Deliberately an explicit
+   breakpoint rather than auto-fit: auto-fit packs 3 across at desktop widths and
+   strands the fourth subject alone on its own row. */
 .hub-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(17.5rem, 1fr));
+  grid-template-columns: 1fr;
   gap: 1rem;
+}
+
+@media (min-width: 44rem) {
+  .hub-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 .hub-card {
