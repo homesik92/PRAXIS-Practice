@@ -6,6 +6,7 @@ import { fileURLToPath } from "node:url";
 import {
   validateBank,
   validateManifest,
+  validateManifestAgreement,
   validateReferencePanel,
   validateElementsAndConstants,
   validateReferencePanelContent,
@@ -130,6 +131,40 @@ test("manifest with duplicate test codes is rejected", () => {
   const { errors } = validateManifest(manifest, null);
   assert.ok(errors.some((e) => e.includes("duplicate test code")));
 });
+
+test("validateManifestAgreement accepts an entry that matches its bank", () => {
+  const bank = { code: "5485", name: "Physical Science", timeLimitMinutes: 150, formLength: 125, questions: new Array(375) };
+  const entry = { code: "5485", name: "Physical Science", timeLimitMinutes: 150, formLength: 125, bankSize: 375 };
+  const { errors } = validateManifestAgreement(entry, bank);
+  assert.deepEqual(errors, []);
+});
+
+test("validateManifestAgreement catches every drifted display field", () => {
+  const bank = { code: "5485", name: "Physical Science", timeLimitMinutes: 150, formLength: 125, questions: new Array(375) };
+  const entry = { code: "5485", name: "Physical Sciences", timeLimitMinutes: 90, formLength: 100, bankSize: 374 };
+  const { errors } = validateManifestAgreement(entry, bank);
+  assert.equal(errors.length, 4);
+  for (const field of ["name", "timeLimitMinutes", "formLength", "bankSize"]) {
+    assert.ok(errors.some((e) => e.includes(field)), `expected an error naming ${field}`);
+  }
+});
+
+test("validateManifestAgreement catches a manifest entry pointing at another test's bank", () => {
+  const bank = { code: "5165", name: "Mathematics", timeLimitMinutes: 180, formLength: 66, questions: new Array(198) };
+  const entry = { code: "5485", name: "Mathematics", timeLimitMinutes: 180, formLength: 66, bankSize: 198 };
+  const { errors } = validateManifestAgreement(entry, bank);
+  assert.ok(errors.some((e) => e.includes("does not match the bank's own code")));
+});
+
+test("validateManifestAgreement stays quiet about fields the bank itself is missing", () => {
+  // A malformed bank is the bank validator's problem to report -- this check must
+  // not pile a second, more confusing error on top of it.
+  const bank = { code: "5485", questions: new Array(375) };
+  const entry = { code: "5485", name: "Physical Science", timeLimitMinutes: 150, formLength: 125, bankSize: 375 };
+  const { errors } = validateManifestAgreement(entry, bank);
+  assert.deepEqual(errors, []);
+});
+
 
 test("empty manifest with zero tests is valid (Phase 0 starting state)", () => {
   const manifest = { schemaVersion: 1, tests: [] };

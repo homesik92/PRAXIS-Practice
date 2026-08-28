@@ -62,6 +62,53 @@ const validBank = {
   questions: [{}, {}, {}, {}, {}],
 };
 
+test("loadManifest carries display metadata through when the entry has it", async () => {
+  const fetchImpl = mockFetch({
+    "data/manifest.json": jsonResponse({
+      schemaVersion: 1,
+      tests: [
+        {
+          code: "5485",
+          file: "tests/5485.json",
+          enabled: true,
+          name: "Physical Science",
+          timeLimitMinutes: 150,
+          formLength: 125,
+          bankSize: 375,
+        },
+      ],
+    }),
+  });
+  const result = await loadManifest(fetchImpl, "data/manifest.json");
+  assert.equal(result.ok, true);
+  // S1 renders its whole picker from these, so they have to survive the mapping.
+  assert.deepEqual(result.tests, [
+    {
+      code: "5485",
+      file: "tests/5485.json",
+      enabled: true,
+      name: "Physical Science",
+      timeLimitMinutes: 150,
+      formLength: 125,
+      bankSize: 375,
+    },
+  ]);
+});
+
+test("loadManifest omits display-metadata keys entirely when the entry lacks them", async () => {
+  const fetchImpl = mockFetch({
+    "data/manifest.json": jsonResponse({
+      schemaVersion: 1,
+      tests: [{ code: "5165", file: "tests/5165.json", enabled: true }],
+    }),
+  });
+  const result = await loadManifest(fetchImpl, "data/manifest.json");
+  assert.equal(result.ok, true);
+  // Not `name: undefined` -- an entry without metadata stays the plain routing
+  // record it always was.
+  assert.deepEqual(Object.keys(result.tests[0]).sort(), ["code", "enabled", "file"]);
+});
+
 test("loadManifest returns only enabled entries", async () => {
   const fetchImpl = mockFetch({
     "data/manifest.json": jsonResponse({

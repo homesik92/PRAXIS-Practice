@@ -47,7 +47,24 @@ export async function loadManifest(fetchImpl = globalThis.fetch, manifestUrl = "
     return { ok: false, reason: "invalid-json", error };
   }
   const tests = Array.isArray(manifest.tests) ? manifest.tests.filter((t) => t && (includeDisabled || t.enabled)) : [];
-  return { ok: true, tests: tests.map((t) => ({ code: t.code, file: t.file, enabled: !!t.enabled })) };
+  // Display metadata (name/timing/counts) is carried through as well as the routing
+  // fields: S1 renders its whole picker from the manifest alone rather than fetching
+  // every bank file just to read those scalars. tools/verify.mjs cross-checks each
+  // against the bank it points at, so the duplicated values cannot drift unnoticed.
+  const DISPLAY_FIELDS = ["name", "timeLimitMinutes", "formLength", "bankSize"];
+  return {
+    ok: true,
+    tests: tests.map((t) => {
+      const entry = { code: t.code, file: t.file, enabled: !!t.enabled };
+      // Copied only when actually present, so an entry without display metadata
+      // stays the plain routing record it has always been rather than gaining a
+      // set of undefined keys.
+      for (const field of DISPLAY_FIELDS) {
+        if (t[field] !== undefined) entry[field] = t[field];
+      }
+      return entry;
+    }),
+  };
 }
 
 /**

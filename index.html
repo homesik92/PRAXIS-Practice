@@ -6,39 +6,280 @@
   <title>PRAXIS-Practice</title>
   <link rel="stylesheet" href="css/base.css" />
 </head>
-<body>
+<body class="page-hub">
   <main>
-    <h1>PRAXIS-Practice</h1>
-    <p>Practice tests for Praxis Subject Assessments. Not affiliated with or
-      endorsed by ETS.</p>
-    <h2>Choose a test</h2>
-    <ul id="test-list" aria-live="polite">
-      <li class="status-note">Loading tests&hellip;</li>
-    </ul>
+    <header class="hub-masthead">
+      <h1 class="hub-wordmark">PRAXIS <span class="hub-wordmark-thin">Practice</span></h1>
+      <p class="hub-tagline">Full-length practice tests, topic drills, and spaced review
+        for four Praxis Subject Assessments.</p>
+      <p class="hub-disclaimer">Unofficial practice material. Not affiliated with or
+        endorsed by ETS.</p>
+    </header>
+
+    <p id="hub-summary" class="hub-summary" hidden></p>
+
+    <div id="hub-resume-slot"></div>
+
+    <h2 class="hub-section-label">All subjects</h2>
+    <div id="test-list" class="hub-grid" aria-live="polite" aria-busy="true">
+      <p class="status-note">Loading tests&hellip;</p>
+    </div>
+
+    <p id="hub-failed" class="status-note" hidden></p>
+
+    <p class="hub-footnote">The 75% mark on each bar is the same readiness threshold the
+      progress dashboard uses, so a score means the same thing on every screen. Scores
+      shown are your best completed attempt for that subject.</p>
   </main>
+
   <script type="module">
-    import { loadTestList } from "./js/schema.js";
+    import { loadManifest, loadBank } from "./js/schema.js";
+    import { loadStore, defaultStore, findInProgressAttempt } from "./js/store.js";
+    import { scoreAttempt } from "./js/runner.js";
+    import { summarizeAttempt } from "./js/results.js";
 
     const list = document.getElementById("test-list");
-    const result = await loadTestList();
-    const tests = result.ok ? result.tests : [];
+    const summaryEl = document.getElementById("hub-summary");
+    const resumeSlot = document.getElementById("hub-resume-slot");
+    const failedEl = document.getElementById("hub-failed");
 
-    list.innerHTML = "";
-    if (tests.length === 0) {
-      const li = document.createElement("li");
-      li.className = "status-note";
-      li.textContent = "No tests are registered yet.";
-      list.appendChild(li);
-    } else {
-      for (const test of tests) {
-        const li = document.createElement("li");
-        const a = document.createElement("a");
-        a.href = `test.html?code=${encodeURIComponent(test.code)}`;
-        const plural = test.questionCount === 1 ? "question" : "questions";
-        a.textContent = `${test.name} — ${test.timeLimitMinutes} min, ${test.questionCount} ${plural}`;
-        li.appendChild(a);
-        list.appendChild(li);
+    /**
+     * Best completed-attempt percentage for one test, or null if none completed.
+     *
+     * Deliberately recomputed from the bank via scoreAttempt rather than read from
+     * each answer's stored `correct` flag: js/results.js keeps the score "never
+     * cached, always recomputed from answers", and S6 does the same. Trusting the
+     * cached flag here would let S1 disagree with the dashboard after any answer-key
+     * correction -- two screens showing different scores for one attempt. This is
+     * the only reason S1 loads a bank at all, which is why it loads one *only* for
+     * subjects that actually have a completed attempt to score.
+     */
+    function bestPercent(store, bank, testCode) {
+      let best = null;
+      for (const attempt of store.attempts) {
+        if (attempt.testCode !== testCode || attempt.status !== "completed") continue;
+        const percent = summarizeAttempt(scoreAttempt(bank, attempt.answers), bank).overall.percent;
+        if (best === null || percent > best) best = percent;
       }
+      return best;
+    }
+
+    function completedCount(store, testCode) {
+      return store.attempts.filter((a) => a.testCode === testCode && a.status === "completed").length;
+    }
+
+    /** Whole minutes left on an in-progress attempt, or null once it has run out. */
+    function minutesRemaining(attempt, now = Date.now()) {
+      const started = Date.parse(attempt.startedAt);
+      if (Number.isNaN(started) || typeof attempt.timeLimitMinutes !== "number") return null;
+      const leftMs = started + attempt.timeLimitMinutes * 60000 - now;
+      return leftMs > 0 ? Math.ceil(leftMs / 60000) : null;
+    }
+
+    function el(tag, className, text) {
+      const node = document.createElement(tag);
+      if (className) node.className = className;
+      if (text !== undefined) node.textContent = text;
+      return node;
+    }
+
+    /** The shared bullet bar: fill + the 75% readiness tick S6 also draws. */
+    function buildBar(percent, fillClass) {
+      const bar = el("span", "hub-bar");
+      const fill = el("span", `hub-bar-fill ${fillClass}`);
+      fill.style.width = `${Math.max(0, Math.min(100, percent))}%`;
+      bar.appendChild(fill);
+      bar.appendChild(el("span", "hub-bar-tick"));
+      return bar;
+    }
+
+    function buildCard(entry, state) {
+      const card = el("a", "hub-card");
+      card.href = `test.html?code=${encodeURIComponent(entry.code)}`;
+
+      const head = el("div", "hub-card-head");
+      head.appendChild(el("h3", "hub-card-name", entry.name));
+      head.appendChild(el("span", "hub-card-code", entry.code));
+      card.appendChild(head);
+
+      const plural = entry.formLength === 1 ? "question" : "questions";
+      card.appendChild(
+        el("p", "hub-card-meta", `${entry.timeLimitMinutes} min · ${entry.formLength} ${plural}`),
+      );
+
+      const stateRow = el("div", "hub-state");
+      if (state.kind === "in-progress") {
+        stateRow.appendChild(el("span", "hub-pill hub-pill-live", "In progress"));
+        stateRow.appendChild(
+          el("span", "hub-state-note", `Question ${state.answered + 1} of ${state.formLength}`),
+        );
+        card.appendChild(stateRow);
+        const progress = el("div", "hub-score");
+        progress.appendChild(buildBar((state.answered / state.formLength) * 100, "is-progress"));
+        card.appendChild(progress);
+        card.appendChild(el("span", "hub-card-cta", "Resume test →"));
+      } else if (state.kind === "completed") {
+        const attemptLabel = state.attempts === 1 ? "1 attempt" : `${state.attempts} attempts`;
+        stateRow.appendChild(el("span", "hub-pill hub-pill-done", attemptLabel));
+        stateRow.appendChild(el("span", "hub-state-note", "Best score"));
+        card.appendChild(stateRow);
+        // Filled in by fillScore once this subject's bank has loaded. The card is
+        // complete and clickable before then -- the score is the only part waiting.
+        card.appendChild(el("div", "hub-score"));
+        card.appendChild(el("span", "hub-card-cta", "Continue studying →"));
+      } else if (state.kind === "unknown") {
+        // Saved progress couldn't be read. Show the subject without inventing a
+        // status -- claiming "Not started" here would be a guess, not a fact.
+        card.appendChild(el("span", "hub-card-cta", "Open →"));
+      } else {
+        stateRow.appendChild(el("span", "hub-pill hub-pill-idle", "Not started"));
+        card.appendChild(stateRow);
+        card.appendChild(
+          el("p", "hub-empty-note", `${state.bankSize} questions ready across every topic.`),
+        );
+        card.appendChild(el("span", "hub-card-cta", "Start a practice test →"));
+      }
+      return card;
+    }
+
+    /** Drops the computed best score into a card already on the page. */
+    function fillScore(card, percent) {
+      const slot = card.querySelector(".hub-score");
+      if (!slot) return;
+      const band = percent >= 75 ? "is-good" : "is-building";
+      slot.appendChild(el("span", `hub-score-num ${band}`, `${percent}%`));
+      slot.appendChild(buildBar(percent, band));
+    }
+
+    function buildResume(entry, attempt) {
+      const link = el("a", "hub-resume");
+      link.href = `test.html?code=${encodeURIComponent(entry.code)}`;
+
+      const body = el("div", "hub-resume-body");
+      body.appendChild(el("span", "hub-resume-label", "Pick up where you left off"));
+      body.appendChild(el("div", "hub-resume-title", entry.name));
+
+      const left = minutesRemaining(attempt);
+      const answered = attempt.answers.length;
+      const detail =
+        left === null
+          ? `Question ${answered + 1} of ${attempt.formLength} · time expired`
+          : `Question ${answered + 1} of ${attempt.formLength} · ${left} minutes remaining`;
+      body.appendChild(el("div", "hub-resume-detail", detail));
+
+      link.appendChild(body);
+      link.appendChild(el("span", "hub-resume-cta", "Resume test"));
+      return link;
+    }
+
+    try {
+      const manifestResult = await loadManifest();
+
+      // loadStore returns an {ok, store} envelope, not the store (same shape as
+      // loadBank/loadManifest). A corrupt or unreadable store must not blank the
+      // picker: fall back to an empty store and say so, matching how S2 surfaces
+      // the same failure rather than failing silently.
+      const storeResult = loadStore();
+      const progressAvailable = storeResult.ok;
+      const store = storeResult.ok ? storeResult.store : defaultStore();
+
+      list.innerHTML = "";
+      list.setAttribute("aria-busy", "false");
+
+      if (!manifestResult.ok) {
+        list.appendChild(el("p", "status-note", "Could not load the list of tests."));
+      } else {
+        // Every card renders from the manifest alone -- name, timing, form length and
+        // bank size all live there, and verify.mjs cross-checks each against the bank
+        // so the copies cannot drift. The picker used to fetch and parse all four bank
+        // files, ~1.8 MB, purely to read those four scalars.
+        const entries = manifestResult.tests;
+        let totalQuestions = 0;
+        let attemptsCompleted = 0;
+        let inProgressCount = 0;
+        let resume = null;
+        const needScore = [];
+
+        for (const entry of entries) {
+          totalQuestions += entry.bankSize;
+
+          const attempt = findInProgressAttempt(store, entry.code);
+          const attempts = completedCount(store, entry.code);
+          attemptsCompleted += attempts;
+
+          let state;
+          if (!progressAvailable) {
+            state = { kind: "unknown" };
+          } else if (attempt) {
+            inProgressCount += 1;
+            state = {
+              kind: "in-progress",
+              answered: attempt.answers.length,
+              formLength: attempt.formLength,
+            };
+            if (!resume) resume = { entry, attempt };
+          } else if (attempts > 0) {
+            state = { kind: "completed", attempts };
+          } else {
+            state = { kind: "not-started", bankSize: entry.bankSize };
+          }
+
+          const card = buildCard(entry, state);
+          list.appendChild(card);
+          if (state.kind === "completed") needScore.push({ entry, card });
+        }
+
+        if (entries.length === 0) {
+          list.appendChild(el("p", "status-note", "No tests are registered yet."));
+        }
+
+        if (resume) resumeSlot.appendChild(buildResume(resume.entry, resume.attempt));
+
+        const subjectWord = entries.length === 1 ? "subject" : "subjects";
+        const parts = [
+          `<b>${entries.length}</b> ${subjectWord}`,
+          `<b>${totalQuestions.toLocaleString()}</b> practice questions`,
+        ];
+        if (attemptsCompleted > 0) {
+          parts.push(
+            `<b>${attemptsCompleted}</b> ${attemptsCompleted === 1 ? "attempt" : "attempts"} completed`,
+          );
+        }
+        if (inProgressCount > 0) parts.push(`<b>${inProgressCount}</b> in progress`);
+        summaryEl.innerHTML = parts.map((p) => `<span>${p}</span>`).join("");
+        summaryEl.hidden = false;
+
+        // Only now, and only for subjects with something to score, is a bank fetched.
+        // Someone who has not finished a test downloads no bank at all.
+        const failed = [];
+        for (const { entry, card } of needScore) {
+          const result = await loadBank(entry.file);
+          if (!result.ok) {
+            failed.push(entry.code);
+            continue;
+          }
+          const percent = bestPercent(store, result.bank, entry.code);
+          if (percent !== null) fillScore(card, percent);
+        }
+
+        const notes = [];
+        if (failed.length > 0) notes.push(`Could not load saved scores for: ${failed.join(", ")}.`);
+        if (!progressAvailable) {
+          notes.push("Your saved progress could not be loaded, so per-subject progress isn't shown.");
+        }
+        if (notes.length > 0) {
+          failedEl.textContent = notes.join(" ");
+          failedEl.hidden = false;
+        }
+      }
+    } catch (error) {
+      // Never leave the picker blank: the list is cleared before rendering, so an
+      // unexpected throw past this point would otherwise show an empty page with
+      // no explanation at all.
+      list.innerHTML = "";
+      list.setAttribute("aria-busy", "false");
+      list.appendChild(el("p", "status-note", "Something went wrong loading your tests. Reloading the page usually fixes it."));
+      throw error;
     }
   </script>
 </body>

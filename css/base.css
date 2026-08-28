@@ -931,3 +931,320 @@ details.backup summary svg {
 #chapter-content math {
   font-size: 1.1rem;
 }
+
+/* S1 study hub (Phase 9.2) -- index.html only, scoped under .page-hub so the
+   wider grid layout doesn't touch the 40rem <main> every other page uses.
+   Palette is the existing token set throughout; the bar reuses S6's bullet-graph
+   language including its 75% readiness tick, so a score reads the same on S1 and
+   S6. Light-only like every other screen here. */
+.page-hub main {
+  max-width: 60rem;
+}
+
+.hub-masthead {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.hub-wordmark {
+  font-size: 2.125rem;
+  font-weight: 700;
+  letter-spacing: -0.021em;
+  line-height: 1.1;
+  margin: 0;
+  text-wrap: balance;
+}
+
+.hub-wordmark-thin {
+  font-weight: 400;
+  color: var(--color-muted);
+}
+
+.hub-tagline {
+  margin: 0;
+  font-size: 1.0625rem;
+  color: var(--color-muted);
+  max-width: 46ch;
+}
+
+.hub-disclaimer {
+  margin: 0;
+  font-size: 0.8125rem;
+  color: var(--color-muted);
+}
+
+.hub-summary {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1.25rem;
+  padding: 0.75rem 0;
+  margin: 0 0 1.75rem;
+  border-top: 1px solid var(--color-bar-track);
+  border-bottom: 1px solid var(--color-bar-track);
+  font-size: 0.9375rem;
+  color: var(--color-muted);
+}
+
+.hub-summary b {
+  font-weight: 650;
+  color: var(--color-text);
+  font-variant-numeric: tabular-nums;
+}
+
+/* Resume callout -- same accent-wash treatment as S2's own "pick up where you
+   left off" box (Phase 6.8), so the two read as the same affordance. */
+.hub-resume {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1rem;
+  background: var(--color-accent-wash);
+  border: 1px solid var(--color-accent-light);
+  border-radius: 10px;
+  padding: 1rem 1.125rem;
+  margin-bottom: 1.75rem;
+  text-decoration: none;
+  color: var(--color-text);
+}
+
+.hub-resume:hover,
+.hub-resume:focus-visible {
+  border-color: var(--color-accent);
+}
+
+.hub-resume-body {
+  flex: 1 1 16rem;
+  min-width: 0;
+}
+
+.hub-resume-label {
+  display: block;
+  font-size: 0.8125rem;
+  font-weight: 650;
+  color: var(--color-accent);
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  margin-bottom: 0.25rem;
+}
+
+.hub-resume-title {
+  font-size: 1.0625rem;
+  font-weight: 600;
+}
+
+.hub-resume-detail {
+  font-size: 0.9375rem;
+  color: var(--color-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.hub-resume-cta {
+  flex: 0 0 auto;
+  background: var(--color-accent);
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 0.9375rem;
+  padding: 0.5rem 1rem;
+  border-radius: 7px;
+}
+
+.hub-section-label {
+  font-size: 0.8125rem;
+  font-weight: 650;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--color-muted);
+  margin: 0 0 0.75rem;
+}
+
+/* One column on phones, a balanced 2x2 above that. Deliberately an explicit
+   breakpoint rather than auto-fit: auto-fit packs 3 across at desktop widths and
+   strands the fourth subject alone on its own row. */
+.hub-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
+}
+
+@media (min-width: 44rem) {
+  .hub-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.hub-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+  background: var(--color-bg);
+  border: 1px solid var(--color-bar-track);
+  border-radius: 10px;
+  padding: 1.125rem;
+  text-decoration: none;
+  color: var(--color-text);
+  transition: border-color 120ms ease, transform 120ms ease;
+}
+
+.hub-card:hover,
+.hub-card:focus-visible {
+  border-color: var(--color-accent);
+  transform: translateY(-1px);
+}
+
+.hub-card-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.75rem;
+}
+
+.hub-card-name {
+  font-size: 1.375rem;
+  font-weight: 640;
+  letter-spacing: -0.012em;
+  line-height: 1.2;
+  margin: 0;
+}
+
+.hub-card-code {
+  flex: 0 0 auto;
+  font-size: 0.8125rem;
+  color: var(--color-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.hub-card-meta {
+  margin: -0.5rem 0 0;
+  font-size: 0.9375rem;
+  color: var(--color-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.hub-state {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.hub-pill {
+  font-size: 0.8125rem;
+  font-weight: 650;
+  padding: 0.1875rem 0.5rem;
+  border-radius: 999px;
+}
+
+.hub-pill-idle {
+  background: var(--color-bar-track);
+  color: var(--color-muted);
+}
+
+.hub-pill-live {
+  background: var(--color-accent-wash);
+  color: var(--color-accent);
+}
+
+.hub-pill-done {
+  background: #e7f4ec;
+  color: var(--color-correct);
+}
+
+.hub-state-note {
+  font-size: 0.9375rem;
+  color: var(--color-muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.hub-score {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.hub-score-num {
+  font-size: 1.5rem;
+  font-weight: 680;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.hub-score-num.is-good {
+  color: var(--color-correct);
+}
+
+.hub-score-num.is-building {
+  color: var(--color-warning);
+}
+
+.hub-bar {
+  position: relative;
+  flex: 1;
+  height: 8px;
+  background: var(--color-bar-track);
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.hub-bar-fill {
+  position: absolute;
+  inset: 0 auto 0 0;
+  border-radius: 999px;
+}
+
+.hub-bar-fill.is-good {
+  background: var(--color-correct);
+}
+
+.hub-bar-fill.is-building {
+  background: var(--color-warning);
+}
+
+.hub-bar-fill.is-progress {
+  background: var(--color-accent-light);
+}
+
+/* The 75% readiness tick S6's category bars also draw. */
+.hub-bar-tick {
+  position: absolute;
+  top: -2px;
+  bottom: -2px;
+  left: 75%;
+  width: 2px;
+  background: var(--color-text);
+  opacity: 0.45;
+}
+
+.hub-card-cta {
+  margin-top: auto;
+  font-size: 0.9375rem;
+  font-weight: 620;
+  color: var(--color-accent);
+}
+
+.hub-empty-note {
+  margin: 0;
+  font-size: 0.9375rem;
+  color: var(--color-muted);
+}
+
+.hub-footnote {
+  margin: 2rem 0 0;
+  padding-top: 1rem;
+  border-top: 1px solid var(--color-bar-track);
+  font-size: 0.8125rem;
+  color: var(--color-muted);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hub-card {
+    transition: none;
+  }
+
+  .hub-card:hover,
+  .hub-card:focus-visible {
+    transform: none;
+  }
+}
