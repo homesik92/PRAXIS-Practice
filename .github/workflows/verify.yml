@@ -1,0 +1,47 @@
+# The project's verification gate, run on every PR and every push to main.
+#
+# Deliberately dependency-free: this project has no package.json, no lockfile and
+# no build step (D-3), so there is nothing to install and no cache to warm. The
+# whole gate is Node running the same two commands CLAUDE.md tells a contributor
+# to run locally -- `tools/verify.mjs` for the manifest/bank invariants, then every
+# `tools/test-*.mjs` suite. Each of those sets a non-zero exit code on failure, so
+# a red run here means a real defect, not a flaky harness.
+name: verify
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Validate the manifest and every question bank
+        run: node tools/verify.mjs
+
+      # One step per suite rather than a loop, so a red X in the Actions UI names
+      # the suite that broke instead of making someone read the log to find out.
+      - name: Unit tests -- schema
+        run: node tools/test-schema.mjs
+      - name: Unit tests -- store
+        run: node tools/test-store.mjs
+      - name: Unit tests -- runner
+        run: node tools/test-runner.mjs
+      - name: Unit tests -- results
+        run: node tools/test-results.mjs
+      - name: Unit tests -- srs
+        run: node tools/test-srs.mjs
+      - name: Unit tests -- calculator
+        run: node tools/test-calculator.mjs
+      - name: Unit tests -- verify
+        run: node tools/test-verify.mjs
