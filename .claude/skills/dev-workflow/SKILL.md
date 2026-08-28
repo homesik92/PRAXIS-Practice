@@ -79,7 +79,7 @@ Debugging is where corners get cut fastest, so it has its own discipline:
 Human review is highest-leverage at intent (Gate 1) and outcome (Gate 5); between them, the automated review round plus a green gate is the real quality check. The merge pause is therefore tiered, not universal. After any merge, wait for the deploy/release step to complete and confirm it went green before declaring anything live.
 
 - **Interactive sessions, non-deep changes: merge on green.** Once CI is green and the Gate 3 review round is clean and remediated, merge without waiting for a further click — and say plainly in the session that the merge happened.
-- **The pause stays — the session owner's explicit go-ahead required, every time — for:** deep changes (Gate 3's taxonomy); dependency additions or upgrades; anything that changes the question-bank schema or the shape of saved progress data; and **anything that copies files to the NAS**. When unsure which tier a change is in, ask.
+- **The pause stays — the session owner's explicit go-ahead required, every time — for:** deep changes (Gate 3's taxonomy); dependency additions or upgrades; and anything that changes the question-bank schema or the shape of saved progress data. When unsure which tier a change is in, ask.
 - **Mechanical precondition:** merge-on-green applies only once branch protection actually enforces the project's verification gate on `main` (Phase 0 of the coding plan sets this up). Until then, treat every merge as requiring explicit go-ahead.
 - **The audit loop replaces the dropped pause once merge-on-green is active:** at each live-test session, review `git log --oneline` on `main` since your last visit as the merge digest.
 
@@ -108,7 +108,7 @@ The gates erode through plausible-sounding exceptions, not open defiance. The us
 |---|---|
 | "This change is trivial — skip the plan." | Trivial still gets a two-line plan and a "go." Gate 1 is how *trivial* gets confirmed. |
 | "They answered my clarifying questions, so that's approval." | Approval is an unambiguous "go," nothing less. |
-| "CI is green and review is clean — merging." | Only if Gate 4's tier allows it: interactive session, non-deep change. Deep, dependency, and schema/progress-data changes, and every NAS copy, and all autonomous-session PRs wait for the session owner. |
+| "CI is green and review is clean — merging." | Only if Gate 4's tier allows it: interactive session, non-deep change. Deep, dependency, and schema/progress-data changes, and all autonomous-session PRs wait for the session owner. |
 | "I'm autonomous, but this PR is clean — merging it unblocks the next one." | Autonomous sessions never merge. The stop-at-PR is an integration serialization point, not a quality verdict. |
 | "I'll file the issue at close-out." | File it when discovered. Close-out verifies issues exist; it doesn't remember them for you. |
 | "This session's full write-up is worth keeping — append it to memory." | Memory is forward state, not a changelog; the write-up already lives in the decision log, the PR, and the issue's evidence comment. Appending per session grows memory past what a single read can load. |
@@ -174,7 +174,7 @@ Read `design-methodology.md` (in this skill) for the ideation → design → adv
 
 ## Heading to production?
 
-"Production" here means the copy of the site served from the session owner's NAS, which is used **only for the final version** — every other stage of work, including intermediate builds the session owner wants to try, happens through the normal GitHub PR loop above, same as the sibling projects. Read `launch-and-cutover.md` (in this skill) **at the planning stage** before the first NAS deploy.
+**Production is the coupled pair:** the GitHub Pages site at `github.io` and the session owner's NAS copy serving the final version. These two are kept in sync and together constitute the production system. Any update to the webpage on GitHub Pages should automatically trigger a corresponding NAS update, so both remain in sync. Every other stage of work, including intermediate builds the session owner wants to try, happens through the normal GitHub PR loop above, same as the sibling projects. Read `launch-and-cutover.md` (in this skill) **at the planning stage** before the first NAS deploy.
 
 That document was written for a live business with real users, and most of it is oversized for a static study site with one user and no server-side data. Two parts still earn their keep, and they are the two that bite hardest here:
 
