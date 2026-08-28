@@ -59,7 +59,7 @@ site with no server.
 | 6.7 | Restore progress ("upload progress") | ☑ |
 | 6.8 | S2 redesign (test-menu hub) | ☑ |
 | 6.9 | Topic teaching pages ("Study a topic") — Mathematics | ☑ |
-| 6.10 | Topic teaching pages — remaining three subjects | ☐ |
+| 6.10 | Topic teaching pages — remaining three subjects | ◐ |
 | 7 | Content authoring (parallel track) | ☑ |
 | 8 | Launch (NAS) — v1, Mathematics only | ◐ |
 | 9 | Multi-subject entry (S1 redesign) | ☑ |
@@ -1254,7 +1254,7 @@ category renders all its descendant leaves' chapters).
 These are content-authoring sessions, closer in kind to Phase 7 than to a UI
 task — high effort, one subject per session, each with its own plan gate.
 
-- ☐ **6.10.1 Computer Science (5652) — 10 chapters.** I-A Impact of and
+- ☑ **6.10.1 Computer Science (5652) — 10 chapters, done.** I-A Impact of and
   Obstacles to Computing · I-B Intellectual Property, Ethics, Privacy, and
   Security · II-A Abstraction, Patterns, Decomposition, and Number Bases ·
   II-B Algorithm Analysis, Searching, and Sorting · III-A Control Structures
@@ -1262,11 +1262,56 @@ task — high effort, one subject per session, each with its own plan gate.
   and Data · IV-A Digitalization and Encryption/Decryption · IV-B Simulation,
   Modeling, and Data Manipulation · V-A Operating Systems, Computing Systems,
   and Inter-Device Communication · V-B Networks, Security, and the Web.
-  Note: chapters needing traced code use `format: "code"`, which renders as a
-  real `<pre><code>` block via `js/reference-panel.js`'s `renderContent` — the
-  dispatch added when issue #45 closed. Follow ETS's published Pseudocode
-  Notation for consistency with this bank's questions, as the 5652 authoring
-  session did.
+  Chapters needing traced code use `format: "code"`, rendering via
+  `js/reference-panel.js`'s existing `renderContent` dispatch — no new code,
+  matching 6.9's precedent. Authored via 10 parallel per-category subagents
+  (high effort), each producing the same 3-section shape as 5165's chapters
+  (concept overview, worked example, common mistakes); zero id collisions on
+  merge into `data/teaching/5652.json` (30 sections, 136 entries).
+  **Independent verification, 5 subagents (one per category pair), each
+  re-deriving worked-example arithmetic/traces from scratch before comparing**
+  — the standard this project holds for content correctness. Found and fixed
+  18 real defects before merge: an off-by-one counterfactual stated twice in
+  III-A's loop trace (claimed `<` would end the loop "one pass earlier" than
+  `<=`; actually two, since the intervening pass left `total` unchanged); a
+  `double`-vs-`int` mismatch in II-A's pseudocode where the declared type
+  contradicted its own "real division" comment, invisible in the chosen trace
+  data because all three category averages happened to divide evenly; an
+  internal contradiction in I-A's worked example (a district described as
+  "suburban and rural" whose analysis depends on an urban school); a sentence
+  in the same example that read as contradicting its own conclusion; an
+  overstated FERPA claim in I-B implying the law constrains an individual
+  student's side project rather than the school itself; an unhedged "the
+  strongest factors" ranking that omitted educational attainment, one of the
+  strongest documented predictors; a satellite-connectivity characterization
+  dated with respect to LEO service; a copyright claim that identifiers fall
+  outside "the expression" (they don't — the actual reason renaming a copy
+  doesn't launder it is that a modified copy is still a derivative work); a
+  missing IP-header/TCP-header distinction in V-B (sequence numbers live in
+  TCP, not IP, self-contradicted two sentences later in the same entry); an
+  incomplete firewall-visibility claim in V-B omitting that TLS's SNI field is
+  sent in cleartext, which is how school content filters actually block by
+  domain; V-A's page-load trace attributing DNS resolution to the OS kernel,
+  contradicting V-B's own browser-does-it account; an understated RAM-to-
+  storage speed gap (three-plus orders of magnitude, stated as one); an
+  overgeneralized "arrays and records pass a reference" claim in III-B, true
+  for arrays but false for C/Pascal-style value-type records/structs (fixed
+  in both its occurrences); and a same-chapter tension between "firewalls
+  don't examine file content" and "firewalls filter on... sometimes
+  application content." Verified fully correct with no changes: all Caesar
+  cipher arithmetic (IV-A), the full compound-growth simulation (IV-B), the
+  selection-sort trace (II-B), the ACM Code of Ethics citations and FERPA/
+  COPPA thresholds (I-B), and every TLS/HTTPS security claim (V-B) — flagged
+  by its own verifier as "unusually well-calibrated," better than typical
+  study material. `node tools/verify.mjs` clean throughout; 312/312 tests
+  green (unchanged — data-only). Live-tested in the browser: the exact
+  scenario that surfaced this gap (5652's "Networks, Security, and the Web")
+  now renders the corrected content with zero console errors; the branch-
+  aggregation case (parent category "III") correctly renders both III-A and
+  III-B chapters together; II-A's number-base-conversion MathML renders as
+  real typeset math (division symbols, subscripts, superscripts — confirmed
+  visually, not just DOM-checked); 5485/5101 categories still correctly show
+  "No lesson has been written... yet" pending 6.10.2/6.10.3.
 - ☐ **6.10.2 Physical Science (5485) — 9 chapters.** I-A Nature of Science ·
   I-B Science, Engineering, Technology, Society, and the Environment · II-A
   Atomic and Nuclear Structure and Processes · II-B Relationships Between
@@ -1400,6 +1445,7 @@ both halves need to be independently done first.
 
 | Date | Session | Outcome |
 | --- | --- | --- |
+| 2026-08-28 | Phase 6.10.1 — Computer Science (5652) teaching chapters authored, verified, fixed | All 10 leaf-category chapters authored via 10 parallel per-category subagents (concept overview/worked example/common mistakes, matching 5165's precedent), merged into `data/teaching/5652.json` (30 sections, 136 entries, zero id collisions), `teachingContent` key added to the 5652 bank. **Independent verification**, 5 subagents re-deriving every worked-example computation/trace from scratch before comparing: found and fixed 18 real defects (full list in the Phase 6.10.1 entry above) — the most severe being an off-by-one counterfactual stated twice in III-A, a `double`/`int` type mismatch in II-A's own "real division" pseudocode example, a self-contradicted IP/TCP-header claim in V-B, an overstated FERPA claim in I-B, and a firewall-visibility gap in V-B (missing that TLS's SNI field is sent in cleartext). Verified fully correct with no changes needed: the Caesar cipher (IV-A), the compound-growth simulation (IV-B), the selection-sort trace (II-B), and every TLS/HTTPS and ACM/FERPA/COPPA legal claim (I-B, V-B) — one verifier called the security content "unusually well-calibrated." `node tools/verify.mjs` clean, 312/312 tests green (data-only, no test changes needed). Live-tested in the browser: the exact "Networks, Security, and the Web" dead-end that surfaced D-32's gap now renders correctly with zero console errors; branch-category aggregation (parent "III") correctly shows both III-A and III-B together; II-A's number-base MathML renders as real typeset math (division, subscripts, superscripts, visually confirmed); 5485/5101 still correctly show "not yet written" pending 6.10.2/6.10.3. 6.10.1 flipped to ☑; 6.10 overview row moves to ◐ (one of three subjects done). No new decision logged — this executes Phase 6.10 as D-32 already scoped it. |
 | 2026-08-28 | Doc-only — "Study a topic" content gap found; Phase 6.10 added (D-32) | Session owner noticed that picking "Networks, Security, and the Web" under Computer Science showed "No lesson has been written for … yet." and suspected the teaching chapters had only ever been authored for Mathematics. **Confirmed against the data, not assumed:** `data/teaching/` holds exactly one file (`5165.json`), and only `data/tests/5165.json` carries a `teachingContent` key — so 5652/5101/5485 all hit `teach.html`'s `!bank.teachingContent` branch, which renders precisely that message. **Root cause is a scoping gap, not a bug:** 6.9.2 was titled "Author Mathematics' 6 chapters" and closed correctly against its own Mathematics-only scope, while 6.9.3 wired a *generic* picker (`wireCategoryPicker`) covering every registered test — so the UI shipped for four subjects and the content for one. Phase 7 covered question banks only; Phase 10 is regression plus acceptance. The work was rostered nowhere, so 27 chapters (5652: 10, 5485: 9, 5101: 8 — counted from each bank's actual leaf-category tree) were invisible to the roadmap. Three forks settled by the session owner via AskUserQuestion: a **new Phase 6.10** rather than reopening 6.9 or folding into Phase 7 (keeps 6.9's ☑ honest — it really did finish what it described); **6.10 blocks Phase 10.2** but explicitly **not 8.3**, since 8.3 accepts the Mathematics-only build and Mathematics' chapters are complete — the reasoning being that 10.2 would otherwise sign off a build where three of four subjects dead-end on a visible Start-menu control, which Phase 9's study hub now presents as equals; and **one file per bank confirmed** over splitting per chapter, re-examining rather than inheriting the payload landmine 6.9.1 flagged (5165's 6 chapters are 53K, so 5652's 10 project to ~90K — one fetch on a local-network NAS; splitting would change the schema and `validateTeachingContent`, making data-only work deep). Also flipped the overview table's 6.9 row label to "…('Study a topic') — Mathematics", since the unqualified label is what made the gap invisible in the one place most likely to be read. Logged D-32, indexed. **No code, no content, no bank files touched** — the three authoring sessions are their own plan gates. |
 | 2026-08-27 | CI gate wired up (GitHub Actions) | Closes the long-standing "until CI is wired up" gap that CLAUDE.md and the dev-workflow skill both referenced — until now `tools/verify.mjs` plus the seven `tools/test-*.mjs` suites were only ever run locally, which made them exactly as reliable as whoever remembered to run them. New `.github/workflows/verify.yml` runs the same commands on every pull request and every push to `main`. Deliberately dependency-free: no `package.json`, no lockfile, no build step (D-3), so there is nothing to install and no cache to warm — just `actions/setup-node@v4` on Node 22 and the commands themselves. One step per suite rather than a loop, so a red X in the Actions UI names the suite that broke instead of forcing someone to read the log. **Verified the gate can actually fail before trusting it**: confirmed all seven test files set `process.exitCode` on failure, then injected deliberate manifest/bank drift and confirmed `verify.mjs` exits 1 (and 0 once restored) — a workflow that always goes green is worse than no workflow. Prerequisite for the methodology's merge-on-green tier, whose stated mechanical precondition is branch protection actually enforcing the verification gate on `main`; the `main protection` ruleset (restrict deletions, block force pushes, require a PR with required_approvals=0 — zero deliberately, since GitHub forbids self-approval and a value of 1 would lock a solo maintainer out of their own repo) was created by the session owner in the same sitting, and the required-status-check rule gets added once this workflow has reported once on a real PR. |
 | 2026-08-27 | Phase 9 — S1 study-hub redesign + front-page payload fix | Session owner asked for a real front page now that all four banks are done ("bare bones until now... we need a good web page"). That is Phase 9 exactly, which already anticipated "mockup-first, same precedent as 6.6/6.8"; Phase 9 was written as gated on Phase 8.3 (owner's v1 acceptance, still ☐) and the owner chose to move ahead of that gate, same spirit as D-31. **9.1**: two forks settled via AskUserQuestion — a progress-forward **study hub** over a marketing landing page, and **status + best score** depth — then an Artifact mockup built and signed off. Deliberately applied the app's existing `css/base.css` tokens rather than inventing a visual identity (the skill's own "honor what's already there" precedence), and kept `system-ui`: D-3 forbids runtime dependencies and the NAS is local-network-only, so a Google Fonts link would be both a violation and an offline failure — hierarchy comes from scale, weight and tabular numerals instead. **9.2**: `index.html` rebuilt as the hub; ~300 lines of S1 CSS appended to `css/base.css` scoped under `.page-hub` so the 60rem grid doesn't disturb the 40rem `main` every other page uses. **Live-testing the first commit found three real defects, all fixed** — it had been committed unrun under a token limit, so this was its first execution: (1) `loadStore()` returns an `{ok, store}` envelope, not the store, so `store.attempts` was undefined and the first `findInProgressAttempt` call threw, leaving the picker blank — now unwrapped like `test.html` does, falling back to `defaultStore()` and surfacing a note rather than inventing a "Not started" status that would be a guess; (2) the render body cleared the list before building it, so any unexpected throw showed an empty page with no explanation — wrapped in a try/catch that renders a real message and rethrows; (3) `grid-template-columns: auto-fit` packed 3 cards across at desktop widths and stranded the fourth subject alone on its own row — replaced with an explicit breakpoint giving 1 column on phones and a balanced 2×2 above 44rem. **Payload fix** (the redesign exposed it, measured live rather than assumed): the picker fetched and parsed all four banks — **1.83 MB, serially** — for five scalar fields. Display metadata moved into `data/manifest.json`; `loadManifest` now carries those fields through (only when present, so an entry without them stays the plain routing record it always was); new `validateManifestAgreement` in `tools/verify.mjs` cross-checks name/timing/formLength/bankSize/code against each bank, **verified by injecting deliberate drift and confirming it was caught with a message naming the fix**; and a bank is loaded only for a subject with a completed attempt to score. Measured after: a new visitor fetches **manifest.json alone, zero banks** (was 1.83 MB); a visitor with two scored subjects fetches exactly those two. Live-tested every card state by seeding real attempts through the store's own API — in-progress (resume strip, correct remaining-minutes math), completed above and below the 75% band, never-started, and empty-store — plus mobile at 375px (single column, no horizontal scroll). Best-of-attempts proved strictly by seeding a 90% attempt followed by a *worse* 70% one and confirming 90% renders. 312/312 tests green (+6: 2 for `loadManifest` metadata pass-through/omission, 4 for the drift guard, plus existing), `verify.mjs` clean. **Landmine, third occurrence:** browser caching muddied verification twice this session — a stale `index.html` showed the old page, then a stale `manifest.json` produced a phantom "NaN practice questions" that looked exactly like a code bug. `python3 -m http.server` sends no cache headers (the NAS sets `Cache-Control: no-cache`, so this is local-dev only); when a local live-test shows stale output, prime with `fetch(url, {cache:"reload"})` before concluding anything about the code. No new decision logged — Phase 9's design was already settled in ROADMAP. |

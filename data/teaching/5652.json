@@ -1,0 +1,1304 @@
+{
+  "schemaVersion": 1,
+  "testCode": "5652",
+  "sections": [
+    {
+      "id": "impact-concept-computing-and-society",
+      "categoryId": "I-A",
+      "heading": "Computing's impact on society",
+      "entries": [
+        {
+          "id": "impact-concept-eras-of-computing",
+          "label": "Concept: how computing's social role changed",
+          "content": {
+            "format": "text",
+            "value": "Computing's effect on society has widened in roughly four stages, and each stage changed who was affected rather than just what machines could do. In the mainframe era, computers were scarce institutional assets owned by governments, universities, and large corporations, so their impact reached ordinary people indirectly, through payroll, census work, and banking. The personal-computer era of the late 1970s and 1980s moved computation into homes and small businesses, making individuals the operators rather than the subjects of computing. Networking and the public Web in the 1990s shifted the center of value from the machine to the connections between machines, turning computing into a communication medium. The mobile and cloud era made continuous connectivity the default, so software now mediates commerce, transportation, health records, schooling, and social life for people who never chose to be users of a computer at all."
+          }
+        },
+        {
+          "id": "impact-concept-digital-divide",
+          "label": "Concept: the digital divide",
+          "content": {
+            "format": "text",
+            "value": "The digital divide is the gap between people who can make effective use of computing and networks and people who cannot. It is not a single line but at least three layers: an access layer (is there a device, and is there affordable broadband where the person lives?), a quality layer (is the connection fast and reliable enough for video, uploads, and large downloads, and is the device modern enough to run current software?), and a skills-and-support layer (does the person know how to use the tools, and is there someone to ask when something breaks?). A household can clear the first layer and still be stranded on the third. Because each layer has a different cause, each also has a different remedy, and a program that addresses only one of them will show disappointing results."
+          }
+        },
+        {
+          "id": "impact-concept-divide-factors",
+          "label": "Concept: what drives the divide",
+          "content": {
+            "format": "text",
+            "value": "Major contributing factors include income, geography, educational attainment, age, disability, and language — research on broadband adoption consistently finds educational attainment among the strongest single predictors, alongside income. Income determines whether a family can buy devices and pay a monthly subscription; geography matters because the cost of laying fiber or building towers per household is far higher in sparsely populated rural areas, so providers build there last. Older adults and people with disabilities face barriers of interface design and training rather than pure cost, and software published only in dominant languages excludes fluent speakers of other languages regardless of their income. These factors compound: a low-income rural household typically faces the access, quality, and skills layers all at once, which is why divides tend to persist even as national connectivity averages rise."
+          }
+        },
+        {
+          "id": "impact-concept-costs-and-work",
+          "label": "Concept: economic and environmental costs",
+          "content": {
+            "format": "text",
+            "value": "Computing has real physical and economic costs that are easy to overlook because the interface hides them. Data centers consume large amounts of electricity and water for cooling, manufacturing devices requires mined metals and rare earth elements, and short replacement cycles generate electronic waste containing lead, mercury, and other hazards that are difficult to recycle safely. Economically, automation and networked work have displaced some occupations while creating others, shifted routine tasks away from human workers, enabled remote and gig arrangements that decouple jobs from location, and concentrated market power in a small number of platform firms. Culturally, the same infrastructure that lets a rural student attend a university lecture also enables surveillance, misinformation at scale, and the erosion of the boundary between work hours and personal time. Sound analysis of any computing change names both the benefit and the cost rather than treating the technology as automatically good or automatically harmful."
+          }
+        }
+      ]
+    },
+    {
+      "id": "impact-worked-example-district-laptop-program",
+      "categoryId": "I-A",
+      "heading": "Worked example: a district's one-to-one laptop program",
+      "entries": [
+        {
+          "id": "impact-worked-example-scenario",
+          "label": "Scenario",
+          "content": {
+            "format": "text",
+            "value": "A school district serving a mix of suburban, rural, and urban neighborhoods gives every student in grades 6 through 12 an identical laptop and moves homework submission entirely online. A year later, administrators find that completion rates rose sharply at two suburban schools but fell at a rural school and at an urban school serving a largely low-income population. All students received the same hardware on the same day, and the district asks what went wrong. The task is to explain the outcome in terms of access and adoption obstacles, and to recommend what the district should change."
+          }
+        },
+        {
+          "id": "impact-worked-example-step-1",
+          "label": "Step 1 — separate the device from the connection",
+          "content": {
+            "format": "text",
+            "value": "The program equalized devices, which is only the first layer of the divide. Homework submission requires home broadband, and the district never provisioned it. At the rural school, the likely obstacle is availability: households outside the cable footprint may have only satellite or cellular service — older geostationary satellite service in particular is high-latency and often data-capped, so uploading assignments over it is unreliable even when a family is willing to pay, though newer low-orbit satellite service has closed much of that gap where it is available. At the low-income urban school, availability is probably fine but affordability is not: broadband exists on the street and the household cannot sustain the monthly bill, or shares a single mobile hotspot among several people. Same symptom, two different causes, and they call for two different fixes."
+          }
+        },
+        {
+          "id": "impact-worked-example-step-2",
+          "label": "Step 2 — look for the skills and support layer",
+          "content": {
+            "format": "text",
+            "value": "Even with a working connection, a student needs someone who can help when the laptop will not update, the submission portal rejects a file, or an account is locked. Suburban households are more likely to include an adult who works with these tools daily; households where adults work jobs without computers, or who are not fluent in the interface language, have no such fallback. The district also gave no training to families and provided support only during school hours, which is precisely when the students are not doing homework. This layer explains why the gap widened rather than merely persisting: online submission raised the level of independent technical competence a student needed just to get credit for work they had already done."
+          }
+        },
+        {
+          "id": "impact-worked-example-step-3",
+          "label": "Step 3 — weigh the tradeoffs of the candidate fixes",
+          "content": {
+            "format": "text",
+            "value": "Three remedies are on the table. Loaning cellular hotspots is fast to deploy and helps the urban school immediately, but carries recurring monthly cost and still performs poorly in the rural area's weak-signal zones. Extending building hours so students can work on campus costs little in hardware but shifts the burden onto students who ride buses or hold after-school jobs, so it helps some and not others. Allowing offline work — software that stores assignments locally and syncs whenever a connection appears, plus an accepted paper option — addresses both schools at once and does not depend on infrastructure the district does not control, but requires changes to the submission workflow and to teacher grading practice. Notice that the cheapest option (extended hours) is not the most equitable, and the option requiring the most engineering work up front (offline sync) is the one that actually reaches both schools."
+          }
+        },
+        {
+          "id": "impact-worked-example-conclusion",
+          "label": "Conclusion",
+          "content": {
+            "format": "text",
+            "value": "The program failed because it treated the divide as a hardware problem when the binding constraints were connectivity, affordability, and home support. The strongest recommendation is to make the coursework itself tolerant of intermittent connectivity — offline-capable submission with automatic sync, plus an explicitly accepted non-digital path — and to pair that with subsidized connectivity where it is available and family-facing support outside school hours. The general principle worth carrying forward is that a uniform distribution of technology does not produce a uniform outcome; equal inputs applied to unequal conditions can widen the very gap the program was meant to close."
+          }
+        }
+      ]
+    },
+    {
+      "id": "impact-common-mistakes-access-and-effects",
+      "categoryId": "I-A",
+      "heading": "Common mistakes",
+      "entries": [
+        {
+          "id": "impact-common-mistakes-device-equals-access",
+          "label": "Mistake: treating a device as access",
+          "content": {
+            "format": "text",
+            "value": "The most frequent error is equating the digital divide with device ownership, so that handing out hardware appears to solve it. Access also requires an affordable and adequate connection, working software, electricity, a usable interface, and the knowledge and support to keep all of that running. Whenever a scenario reports that everyone received the same equipment yet outcomes still diverged, look past the hardware to connectivity, cost, and support before concluding anything."
+          }
+        },
+        {
+          "id": "impact-common-mistakes-technology-is-neutral",
+          "label": "Mistake: assuming a technology is purely good or purely harmful",
+          "content": {
+            "format": "text",
+            "value": "Candidates often reach for one of two reflexes: new technology is progress, or new technology is a threat. Both produce shallow analysis. Nearly every significant computing change distributes benefits and costs unevenly across groups — remote work frees some workers and isolates others; automation raises output while displacing specific occupations; cloud services deliver convenience while consuming energy and centralizing control over data. The stronger answer names who gains, who bears the cost, and what tradeoff was accepted, rather than issuing a verdict on the technology itself."
+          }
+        },
+        {
+          "id": "impact-common-mistakes-invisible-costs",
+          "label": "Mistake: overlooking physical and second-order costs",
+          "content": {
+            "format": "text",
+            "value": "Because computing feels immaterial, its energy use, water use, mining footprint, and electronic waste are easy to forget, and so are second-order effects such as job displacement, privacy loss, and dependence on a single vendor. A related slip is assuming that a benefit measured for one group generalizes to everyone; a change that improves average performance can still leave a subgroup worse off. When evaluating any adoption decision, deliberately check three things the interface hides: the physical resources consumed, the people whose work or privacy is affected, and what happens to those who cannot or do not adopt it."
+          }
+        }
+      ]
+    },
+    {
+      "id": "ipethics-concept-overview",
+      "categoryId": "I-B",
+      "heading": "Concept overview",
+      "entries": [
+        {
+          "id": "ipethics-concept-copyright-patent-license",
+          "label": "Copyright, patents, and licenses",
+          "content": {
+            "format": "text",
+            "value": "Copyright protects a particular expression of an idea, and in software that means the source code and object code a programmer actually wrote. It attaches automatically the moment the work is fixed in a tangible form, so no registration or copyright notice is required for protection to exist. A patent protects a novel, non-obvious invention — a process or method — and must be applied for and granted, so two programmers who independently write different code for the same patented method can both infringe the patent even though neither copied the other's expression. A license is not a separate kind of protection at all: it is permission granted by the rights holder to do things that copyright would otherwise forbid, which is why open-source code is still copyrighted code that simply comes with a broad standing permission attached. Trademarks are a fourth, distinct category covering names and logos that identify the source of a product, which is why a project's code may be freely reusable while its name and logo are not."
+          }
+        },
+        {
+          "id": "ipethics-concept-open-source-and-attribution",
+          "label": "Open-source licenses and academic integrity",
+          "content": {
+            "format": "text",
+            "value": "Open-source licenses fall roughly into permissive licenses such as MIT, BSD, and Apache, which allow reuse in nearly any project provided the copyright notice and license text are preserved, and copyleft licenses such as the GPL, which additionally require that derived works distributed to others be released under the same terms. \"Free to use\" therefore never means \"free of obligations\" — the most common obligations are attribution, inclusion of the license text, and, for copyleft, reciprocal licensing of the derivative. Academic integrity is a separate obligation with a separate source: a license grants legal permission from the copyright holder, while a course policy governs what a student may submit as their own work. Code that is perfectly legal to copy under MIT can still be plagiarism if it is turned in unattributed as original student work, and the classroom remedy is straightforward — cite the source, note what was borrowed and what was written, and follow the assignment's stated collaboration rules."
+          }
+        },
+        {
+          "id": "ipethics-concept-ethics-and-privacy",
+          "label": "Ethical reasoning and privacy principles",
+          "content": {
+            "format": "text",
+            "value": "Ethical analysis of a computing decision usually proceeds by identifying the stakeholders, the harms and benefits to each, and the obligations the decision-maker has taken on, rather than by consulting a single rule. Professional codes of ethics such as the ACM Code of Ethics express this as duties to avoid harm, be honest and trustworthy, respect privacy, honor confidentiality, and be fair — and they treat unequal treatment of groups as a harm even when it is unintended. Recurring ethical problems in computing include algorithmic bias, where a model trained on historical data reproduces the inequities in that data; surveillance, where monitoring that is individually justifiable becomes oppressive in aggregate; and automated decision-making that offers no explanation or route of appeal. Core privacy principles include data minimization (collect only what the stated purpose requires), purpose limitation (use data only for the purpose disclosed at collection), informed consent (the person understands what is collected and can meaningfully decline), retention limits (delete data once the purpose is served), and transparency about who else receives the data. In K-12 settings these principles are reinforced by law: FERPA governs student education records and COPPA restricts collecting personal information from children under 13, which is why school software adoptions typically require a signed vendor agreement rather than a click-through consent."
+          }
+        },
+        {
+          "id": "ipethics-concept-security-foundations",
+          "label": "Security fundamentals and common threats",
+          "content": {
+            "format": "text",
+            "value": "Security is conventionally framed by the CIA triad: confidentiality (only authorized parties can read the data), integrity (the data has not been altered without authorization), and availability (authorized users can actually reach the system when they need it). Authentication answers \"who are you\" and is strengthened by combining factors — something you know (a password), something you have (a phone or hardware key), and something you are (a fingerprint) — while authorization is the separate question of what an authenticated user is permitted to do. Encryption conceptually transforms readable plaintext into ciphertext using a key: symmetric encryption uses the same key to encrypt and decrypt and is fast, while asymmetric (public-key) encryption uses a public key to encrypt and a mathematically related private key to decrypt, which is what lets strangers exchange secrets without a prior shared password. Hashing is related but distinct — it is one-way and produces a fixed-length digest, which is why passwords should be stored as salted hashes rather than encrypted, and why hashes are used to verify integrity. Common threats include phishing and social engineering (deceiving a person into surrendering credentials), malware such as viruses, worms, ransomware, and spyware, SQL injection and cross-site scripting (untrusted input treated as code), man-in-the-middle interception on unsecured networks, and denial-of-service attacks that target availability rather than secrecy."
+          }
+        }
+      ]
+    },
+    {
+      "id": "ipethics-worked-example",
+      "categoryId": "I-B",
+      "heading": "Worked example",
+      "entries": [
+        {
+          "id": "ipethics-worked-example-scenario",
+          "label": "The scenario",
+          "content": {
+            "format": "text",
+            "value": "A student in a programming course is assigned to build a small web application that lets classmates post and vote on study questions. Rather than write a sorting-and-ranking routine from scratch, the student finds a public GitHub repository containing a well-written ranking module released under the MIT License, copies about eighty lines of it into their project, deletes the comment block at the top of the file because it looked untidy, and renames a few variables. The assignment instructions say that students may use external libraries but must document any code they did not write themselves. The application also stores each classmate's name, email address, school ID number, and every vote they cast, and the student plans to keep the database after the semester ends to use as a portfolio demo. The question to work through is whether anything here is a problem, and if so, which problems are legal, which are academic, and which are ethical."
+          }
+        },
+        {
+          "id": "ipethics-worked-example-step-licensing",
+          "label": "Step 1 — Analyze the license obligation",
+          "content": {
+            "format": "text",
+            "value": "Begin with the legal layer. The code is copyrighted the moment its author wrote it, and the MIT License is the author's grant of permission to use, copy, modify, and distribute it. That permission is not unconditional: MIT's single substantive requirement is that the copyright notice and permission text be included in copies or substantial portions of the software. The student deleted exactly that header block, which is the one thing the license asks for, so the copy is no longer covered by the grant and the reuse is technically infringing even though the code was freely offered. Note also that renaming variables does not change the analysis — identifiers are part of the code's expression just as the rest of the text is, so swapping a few names does not turn a copy into an independent work; a modified copy is still a derivative work of the original. The fix is trivial and complete: restore the license header, or add a LICENSE or NOTICE file crediting the original author and reproducing the MIT text."
+          }
+        },
+        {
+          "id": "ipethics-worked-example-step-integrity",
+          "label": "Step 2 — Analyze the academic-integrity obligation",
+          "content": {
+            "format": "text",
+            "value": "Now treat the classroom obligation as separate from the legal one, because satisfying the license does not automatically satisfy the course. The assignment permits external code but requires documentation of anything the student did not write, so the governing standard here is disclosure rather than prohibition. Submitting the eighty lines silently, especially after removing the header that identified their origin, presents another author's work as the student's own and is plagiarism regardless of the MIT grant. The remedy is again disclosure rather than deletion: a comment or README noting which module was borrowed, from where, under what license, and what the student changed. This is the general shape of the distinction worth memorizing — the license answers \"was I allowed to copy this,\" the course policy answers \"may I submit this as mine,\" and a yes to the first is not a yes to the second."
+          }
+        },
+        {
+          "id": "ipethics-worked-example-step-privacy",
+          "label": "Step 3 — Analyze the privacy and security obligations",
+          "content": {
+            "format": "text",
+            "value": "The data side of the project is a distinct problem and, in practice, the more serious one. Apply data minimization: the application needs a way to identify a voter to prevent double voting, but it does not need school ID numbers, and it probably does not need email addresses either — a pseudonymous account identifier would serve the stated purpose. Apply purpose limitation and consent: classmates supplied their information in order to use a class study tool, and repurposing that database as a personal portfolio demo after the term is a use they never agreed to, which also violates retention limits since the purpose has ended. There is a security dimension as well, because a student project holding names paired with school ID numbers is an attractive and poorly defended target, and a per-user vote history is sensitive in a way the students may not have anticipated. FERPA itself binds the school and those acting on the school's behalf, not an individual student's independent side project, so it does not directly regulate this app as built — but if the district or a teacher ever adopted it for class use, that adoption would likely bring it under FERPA's school-official exception, and a district data-governance review would be the right gate to require before that happens."
+          }
+        },
+        {
+          "id": "ipethics-worked-example-conclusion",
+          "label": "Conclusion",
+          "content": {
+            "format": "text",
+            "value": "Three separate obligations were in play and each has its own remedy. Legally, the MIT reuse becomes compliant the moment the copyright and license notice is restored. Academically, the reuse becomes honest the moment it is documented as required by the assignment. Ethically and with respect to privacy, the design should stop collecting school ID numbers, replace real identifiers with pseudonymous accounts where possible, disclose to classmates what is stored and for how long, and either delete the database at the end of the term or rebuild the portfolio demo with synthetic data. The general lesson for the exam is that permission, attribution, and privacy are independent tests: a project can pass one and fail the others, and a complete answer to a scenario like this names each layer separately rather than collapsing them into a single verdict of \"cheating\" or \"fine\"."
+          }
+        }
+      ]
+    },
+    {
+      "id": "ipethics-common-mistakes",
+      "categoryId": "I-B",
+      "heading": "Common mistakes",
+      "entries": [
+        {
+          "id": "ipethics-common-mistakes-copyright-vs-patent",
+          "label": "Confusing copyright, patents, and \"free\" code",
+          "content": {
+            "format": "text",
+            "value": "Candidates frequently swap the two protections: copyright is automatic, covers the specific expression, and lasts for decades, while a patent must be applied for and granted, covers an invention or method, and lasts around twenty years. Independent creation is a complete defense to copyright infringement but is no defense at all to patent infringement, which is the sharpest practical difference between them. A second version of the same error is treating publicly visible code as public domain — code posted openly on the internet is still copyrighted by default, and code with no license attached grants no permissions at all, making it legally riskier to reuse than code under a clearly stated open-source license. Public domain is a narrow category (expired copyright or an explicit dedication such as CC0), not a synonym for \"I could see it without logging in.\""
+          }
+        },
+        {
+          "id": "ipethics-common-mistakes-public-data-privacy",
+          "label": "Assuming public or anonymized data carries no privacy risk",
+          "content": {
+            "format": "text",
+            "value": "A common misconception is that information a person has already shared publicly, or a dataset with names stripped out, raises no further privacy concerns. Aggregation defeats both assumptions: individually harmless public facts combined across sources can reveal a home address or a daily routine, and \"anonymized\" records have repeatedly been re-identified by cross-referencing quasi-identifiers such as ZIP code, birth date, and gender against another dataset. Context matters as much as secrecy — data disclosed for one purpose being reused for another violates purpose limitation even when nothing was technically secret. A related error is treating consent as a formality satisfied by a checkbox; consent is only meaningful when the person understands what is collected, can realistically decline, and is not coerced by the fact that the software is required for class."
+          }
+        },
+        {
+          "id": "ipethics-common-mistakes-encryption-and-bias",
+          "label": "Treating encryption as complete security, or algorithms as neutral",
+          "content": {
+            "format": "text",
+            "value": "Encryption is not a synonym for security. It principally protects confidentiality of data in transit or at rest, and it does nothing about a phished password, a user tricked into installing malware, an over-permissioned account, an unpatched server, or an outage that destroys availability — most real breaches route around the cryptography rather than through it. Candidates also confuse encryption with hashing and with encoding: encoding such as Base64 is a reversible format change with no key and no protection whatsoever, hashing is deliberately one-way, and only encryption is designed to be reversed with the correct key. The parallel misconception on the ethics side is that software is neutral because it is mathematical — a model trained on biased historical data will reproduce that bias at scale and with an unearned appearance of objectivity, so fairness has to be designed, tested, and audited for rather than assumed from the absence of an explicit rule about race or gender in the code."
+          }
+        }
+      ]
+    },
+    {
+      "id": "abstraction-concept-overview",
+      "categoryId": "II-A",
+      "heading": "Abstraction, decomposition, patterns, and number bases",
+      "entries": [
+        {
+          "id": "abstraction-concept-interface-vs-implementation",
+          "label": "Abstraction: interface vs. implementation",
+          "content": {
+            "format": "text",
+            "value": "Abstraction is the separation of WHAT a piece of code does from HOW it does it. The what is the interface: the procedure's name, the parameters it takes, the value it returns, and the behavior it promises. The how is the implementation: the statements inside the body. A caller that uses only the interface is insulated from the body, so the body can be replaced -- a linear search swapped for a binary search, a loop swapped for a closed-form formula -- without touching a single line of calling code. That is the whole payoff, and it is why exam questions about abstraction usually turn on the question \"who needs to know this?\" Named constants abstract a magic number, procedures abstract a block of statements, parameters abstract the specific values a block was written for, and an abstract data type (a stack, a queue, a list) abstracts a storage layout behind operations like push and pop. In every case the same trade is being made: the user of the abstraction gives up control over the details and gets, in return, less to think about and code that keeps working when the details change."
+          }
+        },
+        {
+          "id": "abstraction-concept-decomposition",
+          "label": "Decomposition: splitting a problem into subproblems",
+          "content": {
+            "format": "text",
+            "value": "Decomposition is the act of breaking one problem into smaller subproblems that can be solved independently and then composed back into a solution. Abstraction and decomposition are partners but they are not the same thing: decomposition is the cut, abstraction is what each resulting piece hides once the cut is made. Practical rules of thumb, all of which show up in exam items: one procedure should do one job, and if you cannot name it without using the word \"and\" it is probably two procedures; cut where the data flowing across the boundary is narrowest, because a subproblem needing eight parameters is usually a bad cut; name every subproblem before writing any of its code, since a subproblem you cannot name is one you do not yet understand; and work top-down, writing the highest-level procedure first in terms of subprocedures that do not exist yet, so the top level reads like a restatement of the original problem. The payoffs are testability (each piece can be checked on its own), reuse (a well-cut piece serves other problems), and parallel work (two people can implement two subproblems from the interfaces alone)."
+          }
+        },
+        {
+          "id": "abstraction-concept-pattern-recognition",
+          "label": "Recognizing patterns in code and data",
+          "content": {
+            "format": "text",
+            "value": "Pattern recognition is noticing that two things share a structure, so one general solution can replace several specific ones. In code, the giveaway is repetition: several near-identical statements that differ only in one value become a loop over that value, and several near-identical blocks that differ in more than one value become a procedure taking those values as parameters. Learning the small catalogue of standard code shapes is worth real points on this exam, because most short code segments are one of them -- the accumulator (a running total updated inside a loop), the counter (increment when a condition holds), the guarded search (walk until a match, return a sentinel such as -1 if none is found), the swap through a temporary variable, and the nested loop that pairs every element with every other. In data, the pattern is usually arithmetic (a constant difference between terms), geometric (a constant ratio, which is what doubling and halving look like), or cyclic (a repeating block, which is what the modulo operator detects). Recognizing which one you are looking at turns a table of values into a formula you can extend to any term."
+          }
+        },
+        {
+          "id": "abstraction-concept-number-bases",
+          "label": "Number bases and how to convert between them",
+          "content": {
+            "format": "text",
+            "value": "A base-b numeral uses the digits 0 through b-1, and each position is worth a power of b, counting from b to the 0 in the rightmost place. Binary is base 2 (digits 0 and 1), octal is base 8 (digits 0-7), decimal is base 10, and hexadecimal is base 16, whose six extra digits A, B, C, D, E, F stand for 10, 11, 12, 13, 14, 15. Four conversions cover almost everything asked. Any base to decimal: multiply each digit by its place value and add. Decimal to any base: divide repeatedly by the base, keeping each remainder, and read the remainders from the LAST one to the first; equivalently, for binary, subtract the largest power of 2 that fits and repeat. Binary to hex or octal: group the bits from the RIGHT, four at a time for hex and three at a time for octal, padding the leftmost group with zeros, and convert each group on its own -- this works because 16 = 2 to the 4 and 8 = 2 to the 3, so one hex digit is always exactly four bits. Hex or octal to binary: expand each digit back into its 4-bit or 3-bit group. Binary arithmetic follows the same carrying rules as decimal, only sooner: 0+0=0, 0+1=1, and 1+1=0 with a carry of 1 into the next column (1+1+1 = 1 with a carry of 1). Knowing the powers of 2 up to 1024 by sight makes all of this fast."
+          }
+        },
+        {
+          "id": "abstraction-concept-conversion-arithmetic",
+          "label": "The conversion algorithms in arithmetic",
+          "content": {
+            "format": "mathml",
+            "value": "<math><mtable columnalign=\"right left left\"><mtr><mtd><mn>156</mn><mo>&#247;</mo><mn>2</mn></mtd><mtd><mo>=</mo><mn>78</mn></mtd><mtd><mtext>&#160;remainder&#160;</mtext><mn>0</mn></mtd></mtr><mtr><mtd><mn>78</mn><mo>&#247;</mo><mn>2</mn></mtd><mtd><mo>=</mo><mn>39</mn></mtd><mtd><mtext>&#160;remainder&#160;</mtext><mn>0</mn></mtd></mtr><mtr><mtd><mn>39</mn><mo>&#247;</mo><mn>2</mn></mtd><mtd><mo>=</mo><mn>19</mn></mtd><mtd><mtext>&#160;remainder&#160;</mtext><mn>1</mn></mtd></mtr><mtr><mtd><mn>19</mn><mo>&#247;</mo><mn>2</mn></mtd><mtd><mo>=</mo><mn>9</mn></mtd><mtd><mtext>&#160;remainder&#160;</mtext><mn>1</mn></mtd></mtr><mtr><mtd><mn>9</mn><mo>&#247;</mo><mn>2</mn></mtd><mtd><mo>=</mo><mn>4</mn></mtd><mtd><mtext>&#160;remainder&#160;</mtext><mn>1</mn></mtd></mtr><mtr><mtd><mn>4</mn><mo>&#247;</mo><mn>2</mn></mtd><mtd><mo>=</mo><mn>2</mn></mtd><mtd><mtext>&#160;remainder&#160;</mtext><mn>0</mn></mtd></mtr><mtr><mtd><mn>2</mn><mo>&#247;</mo><mn>2</mn></mtd><mtd><mo>=</mo><mn>1</mn></mtd><mtd><mtext>&#160;remainder&#160;</mtext><mn>0</mn></mtd></mtr><mtr><mtd><mn>1</mn><mo>&#247;</mo><mn>2</mn></mtd><mtd><mo>=</mo><mn>0</mn></mtd><mtd><mtext>&#160;remainder&#160;</mtext><mn>1</mn><mtext>&#160;&#8592;&#160;read&#160;upward&#160;from&#160;here</mtext></mtd></mtr><mtr><mtd><msub><mn>156</mn><mn>10</mn></msub></mtd><mtd><mo>=</mo><msub><mn>10011100</mn><mn>2</mn></msub></mtd><mtd></mtd></mtr><mtr><mtd><msub><mn>10011100</mn><mn>2</mn></msub></mtd><mtd><mo>=</mo><msup><mn>2</mn><mn>7</mn></msup><mo>+</mo><msup><mn>2</mn><mn>4</mn></msup><mo>+</mo><msup><mn>2</mn><mn>3</mn></msup><mo>+</mo><msup><mn>2</mn><mn>2</mn></msup><mo>=</mo><mn>128</mn><mo>+</mo><mn>16</mn><mo>+</mo><mn>8</mn><mo>+</mo><mn>4</mn><mo>=</mo><mn>156</mn></mtd><mtd><mtext>&#160;(check)</mtext></mtd></mtr><mtr><mtd><msub><mn>2A</mn><mn>16</mn></msub></mtd><mtd><mo>=</mo><mn>2</mn><mo>&#215;</mo><msup><mn>16</mn><mn>1</mn></msup><mo>+</mo><mn>10</mn><mo>&#215;</mo><msup><mn>16</mn><mn>0</mn></msup><mo>=</mo><mn>32</mn><mo>+</mo><mn>10</mn><mo>=</mo><mn>42</mn></mtd><mtd><mtext>&#160;(A&#160;=&#160;10)</mtext></mtd></mtr></mtable></math>"
+          }
+        }
+      ]
+    },
+    {
+      "id": "abstraction-worked-example-course-grade",
+      "categoryId": "II-A",
+      "heading": "Worked example: decomposing a course-grade calculation",
+      "entries": [
+        {
+          "id": "abstraction-worked-example-problem",
+          "label": "The problem",
+          "content": {
+            "format": "text",
+            "value": "A gradebook program must report a student's final letter grade. The raw data is three arrays of scores -- homework, quizzes, and exams. Each category is averaged on its own, the three averages are combined using the weights 0.4, 0.2, and 0.4, and the resulting percent is turned into a letter (90 and up is an A, 80 and up a B, 70 and up a C, otherwise F). Written as one long procedure this is perhaps thirty lines with three loops and a chain of comparisons, and every change to any rule means re-reading all of it. Decomposition turns it into four short procedures that each fit in your head at once."
+          }
+        },
+        {
+          "id": "abstraction-worked-example-subproblems",
+          "label": "Step 1 - name the subproblems before writing code",
+          "content": {
+            "format": "text",
+            "value": "Read the problem statement and underline each thing it says the program must be able to do. Three independent jobs fall out: (1) average the scores within one category, (2) combine several category averages according to their weights, and (3) convert a percent into a letter. A fourth procedure sits on top and composes the other three -- it is the one that reads like the original sentence. Notice how narrow each boundary is: job 1 needs only an array and its length, job 2 needs two parallel arrays and a length, job 3 needs a single number. None of them needs to know anything about the others, and none of them mentions homework, quizzes, or exams by name, so each is reusable for any category and, in the case of job 1, for any list of numbers at all."
+          }
+        },
+        {
+          "id": "abstraction-worked-example-pseudocode",
+          "label": "Step 2 - the decomposed solution",
+          "content": {
+            "format": "code",
+            "value": "// Subproblem 1: average the scores inside one category\ndouble categoryAverage ( int [ ] scores , int n )\n    double total <- 0.0\n    for ( i <- 0; i < n; i <- i + 1 )\n        total <- total + scores [ i ]\n    end for\n    return total / n          // real division: total is declared double\nend categoryAverage\n\n// Subproblem 2: combine category averages using their weights\ndouble weightedPercent ( double [ ] averages , double [ ] weights , int n )\n    double total <- 0.0\n    for ( i <- 0; i < n; i <- i + 1 )\n        total <- total + averages [ i ] * weights [ i ]\n    end for\n    return total\nend weightedPercent\n\n// Subproblem 3: turn a percent into a letter\nString letterGrade ( double percent )\n    if ( percent >= 90 )\n        return \"A\"\n    end if\n    if ( percent >= 80 )\n        return \"B\"\n    end if\n    if ( percent >= 70 )\n        return \"C\"\n    end if\n    return \"F\"\nend letterGrade\n\n// Top level: composes the three, and reads like the problem statement\nString courseGrade ( double [ ] averages , double [ ] weights , int n )\n    return letterGrade ( weightedPercent ( averages , weights , n ) )\nend courseGrade\n\n// Driver\naverages [ 0 ] <- categoryAverage ( homework , 4 )\naverages [ 1 ] <- categoryAverage ( quizzes , 3 )\naverages [ 2 ] <- categoryAverage ( exams , 2 )\nprint ( courseGrade ( averages , weights , 3 ) )"
+          }
+        },
+        {
+          "id": "abstraction-worked-example-trace",
+          "label": "Step 3 - trace it with real numbers",
+          "content": {
+            "format": "text",
+            "value": "Let homework be {90, 80, 100, 90}, quizzes be {70, 80, 90}, exams be {85, 95}, and weights be {0.4, 0.2, 0.4}. The three calls to categoryAverage return 360/4 = 90, 240/3 = 80, and 180/2 = 90, so averages holds {90, 80, 90}. weightedPercent accumulates 0.4 x 90 = 36, then 0.2 x 80 = 16, then 0.4 x 90 = 36, returning 88. letterGrade tests 88 >= 90 (false) and then 88 >= 80 (true), returning \"B\". Trace each procedure separately, the way it was written: this is the practical benefit of decomposition on an exam item, because when a traced result is wrong you can tell which of the four procedures produced the wrong value instead of re-reading thirty interleaved lines."
+          }
+        },
+        {
+          "id": "abstraction-worked-example-what-abstraction-buys",
+          "label": "Step 4 - what the abstraction bought",
+          "content": {
+            "format": "text",
+            "value": "Now change the requirements, which is what exam questions about abstraction actually test. Move to a plus/minus scale: only letterGrade changes. Reweight the categories 0.3 / 0.3 / 0.4: no procedure changes at all, only the values in the weights array, because the weights were made a parameter rather than being written into the code. Add a fourth category: only the driver changes. Drop each student's lowest quiz: only the driver's second line changes, calling a new dropLowest procedure whose result is passed to categoryAverage. Compare that with the thirty-line version, where every one of those changes means editing the same procedure and risking the other three rules. That containment -- a change to one rule touches exactly one interface -- is the measurable result of good decomposition, and the point of picking the boundaries carefully in step 1."
+          }
+        }
+      ]
+    },
+    {
+      "id": "abstraction-common-mistakes-notes",
+      "categoryId": "II-A",
+      "heading": "Common mistakes",
+      "entries": [
+        {
+          "id": "abstraction-common-mistakes-remainder-order-and-powers",
+          "label": "Reading remainders forward, and off-by-one place values",
+          "content": {
+            "format": "text",
+            "value": "The repeated-division method produces the answer's digits from RIGHT to LEFT, so the first remainder you compute is the LAST digit of the result. Writing them down in the order you found them reverses the numeral: 156 becomes 00111001 instead of 10011100, and because the reversed string is often still a plausible-looking answer choice, the error is rarely obvious. Always finish by expanding your answer back to decimal as a check -- it takes ten seconds and catches this immediately. The related off-by-one error is in the place values themselves: the rightmost bit is 2 to the 0, not 2 to the 1, so an 8-bit number's leftmost bit is worth 128 (2 to the 7) and not 256. This also drives the range fact these items like to test: n bits represent 2 to the n distinct values, but the largest of them is 2 to the n, minus 1 -- 8 bits give 256 values, 0 through 255, so 256 does not fit in a byte."
+          }
+        },
+        {
+          "id": "abstraction-common-mistakes-hex-digit-values",
+          "label": "Hex digits, and how many bits a digit is worth",
+          "content": {
+            "format": "text",
+            "value": "The letters are digits, not labels: A = 10, B = 11, C = 12, D = 13, E = 14, F = 15. The most common slip is treating a hex numeral as if it were decimal, so 10 in hex is read as ten when it is 1 x 16 + 0 = 16, and FF is read as a large mystery when it is 15 x 16 + 15 = 255, the largest value in one byte. The second slip is grouping bits wrongly when converting between binary and hex: one hex digit is exactly four bits, one octal digit is exactly three, and the grouping must start from the RIGHT, padding the leftmost group with zeros. Grouping 10011100 from the left as 1001 1100 happens to be right here only because the bit count is already a multiple of four; do the same to 1011100 and you get the wrong answer, where grouping from the right gives 0101 1100 = 5C. Finally, do not mix the bases up in your notation -- write the base as a subscript on every intermediate result, because an unlabeled 11 could be three, nine, or eleven."
+          }
+        },
+        {
+          "id": "abstraction-common-mistakes-abstraction-vs-decomposition",
+          "label": "Confusing abstraction with decomposition (and cutting badly)",
+          "content": {
+            "format": "text",
+            "value": "Decomposition is dividing a problem into subproblems; abstraction is hiding a subproblem's implementation behind an interface so callers do not depend on it. You can decompose without abstracting -- ten short procedures that all read and write the same shared global variables are split up but hide nothing, so a change to any one of them can still break the others -- and that arrangement, not the long procedure, is the classic wrong answer on items asking why a decomposition failed to help. Two related habits to watch for in your own work: a subprocedure that prints its result instead of returning it cannot be reused or tested by its caller, so return the value and let the top level decide what to display; and a procedure whose parameter list keeps growing is a sign the cut was made where the data flow is thick, which usually means the subproblem boundary is in the wrong place rather than that the procedure needs more parameters."
+          }
+        }
+      ]
+    },
+    {
+      "id": "algoanalysis-concept-efficiency-search-and-sorting",
+      "categoryId": "II-B",
+      "heading": "Efficiency, searching, and sorting",
+      "entries": [
+        {
+          "id": "algoanalysis-concept-what-efficiency-means",
+          "label": "What algorithmic efficiency means",
+          "content": {
+            "format": "text",
+            "value": "Efficiency is not about how fast a program runs on one particular machine — a slow algorithm on a fast computer can still beat a fast algorithm on a slow one for small inputs. What matters is how the amount of work grows as the input gets bigger. Count the operations that dominate the work (comparisons, swaps, loop iterations) and ask what happens when the input size n doubles. Three growth patterns cover almost everything on this exam. Constant work: the count does not change with n at all, such as reading arr[0]. Linear growth: doubling n roughly doubles the work, which is what a single loop over every element does. Logarithmic growth: doubling n adds only one more step, because each step throws away half of what is left. A fourth pattern shows up in the simple sorts — a loop nested inside another loop, where doubling n multiplies the work by about four. That difference is the whole point of the topic: on 1,000 items a linear scan does about 1,000 checks, a halving search does about 10, and a nested-loop sort does about 500,000 comparisons."
+          }
+        },
+        {
+          "id": "algoanalysis-concept-linear-search",
+          "label": "Linear search (sequential search)",
+          "content": {
+            "format": "text",
+            "value": "Linear search walks the list from one end to the other, comparing each element to the target and stopping as soon as it matches. If it reaches the end without a match, the target is not present. Its great advantage is that it makes no assumptions: the data may be in any order, and it works on structures that only allow you to move one step at a time, such as a linked list. In the best case the target is the first element and one comparison is enough. In the worst case (the target is last, or absent) it makes n comparisons, and on average about half of that. Work grows linearly with the size of the list."
+          }
+        },
+        {
+          "id": "algoanalysis-concept-binary-search",
+          "label": "Binary search and its precondition",
+          "content": {
+            "format": "text",
+            "value": "Binary search keeps track of a range of the array that could still contain the target, using a low and a high index. It looks at the middle element of that range. If the middle element equals the target, the search is done. If the middle element is too small, everything from the middle leftward is discarded and low moves to the right of the middle; if it is too large, everything from the middle rightward is discarded and high moves to the left. Each comparison eliminates about half of the remaining candidates, so a list of 1,000 items is settled in about 10 comparisons and a list of 1,000,000 in about 20. The catch is the precondition: binary search is only valid on data that is already sorted by the key being searched, and stored so that any index can be reached directly (an array, not a linked list). On unsorted data the decision to discard half the range is unjustified, and the algorithm can report 'not found' for an item that is sitting in the array."
+          }
+        },
+        {
+          "id": "algoanalysis-concept-bubble-and-selection",
+          "label": "Bubble sort and selection sort",
+          "content": {
+            "format": "text",
+            "value": "Bubble sort compares neighbouring pairs. Walking left to right, it compares arr[j] with arr[j+1] and swaps them if they are out of order. One full pass guarantees that the largest remaining value has been carried to the right-hand end, so the sorted region grows by one from the right and the next pass can stop one position earlier. Repeating until a pass makes no swaps at all leaves the array sorted; it tends to do many swaps, but it finishes early on data that is already nearly sorted. Selection sort attacks the same problem with far fewer swaps. On each pass it scans the entire unsorted region to find the smallest remaining value, then swaps that value into the first position of the unsorted region. For an array of n elements it performs exactly n − 1 passes and at most n − 1 swaps, no matter how the data started out. Both algorithms use a loop inside a loop, so both do roughly n²/2 comparisons — fine for a classroom demonstration or a short list, poor for large data."
+          }
+        },
+        {
+          "id": "algoanalysis-concept-insertion-and-choosing",
+          "label": "Insertion sort, and choosing between algorithms",
+          "content": {
+            "format": "text",
+            "value": "Insertion sort builds a sorted region at the left-hand end. It takes the first element of the unsorted region and slides it leftward past every larger element until it lands in its correct place, the way most people sort a hand of playing cards. Like the other two it is a nested-loop sort, but on data that is already nearly in order each new element stops almost immediately, so it approaches linear work — the best of the three on nearly sorted input. Choosing between algorithms for a task means matching the algorithm's assumptions and growth to the situation, not memorising a ranking. Searching an unsorted list once: linear search, because sorting first would cost more than the scan. Searching the same sorted list thousands of times: sort once, then binary search each query. Sorting a short list, or one that is already nearly ordered: a simple sort such as insertion sort is easy to write and fast enough. Sorting a large list repeatedly: the simple sorts are the wrong tool, and a divide-and-conquer sort such as merge sort is the standard answer."
+          }
+        }
+      ]
+    },
+    {
+      "id": "algoanalysis-worked-example-selection-sort-trace",
+      "categoryId": "II-B",
+      "heading": "Worked example: tracing selection sort",
+      "entries": [
+        {
+          "id": "algoanalysis-worked-example-problem",
+          "label": "Problem",
+          "content": {
+            "format": "text",
+            "value": "Trace selection sort on the five-element array [29, 10, 14, 37, 13], sorting into ascending order. Show the array after every pass, and count the comparisons the algorithm makes."
+          }
+        },
+        {
+          "id": "algoanalysis-worked-example-pseudocode",
+          "label": "The algorithm",
+          "content": {
+            "format": "code",
+            "value": "// Selection sort: arr holds n values, sorted into ascending order in place.\nfor ( i <- 0; i < n - 1; i <- i + 1 )\n    // Assume the first unsorted slot holds the smallest value ...\n    minIndex <- i\n    // ... then check every later element to see if that is really true.\n    for ( j <- i + 1; j < n; j <- j + 1 )\n        if ( arr [ j ] < arr [ minIndex ] )\n            minIndex <- j\n        end if\n    end for\n    // Swap the true minimum into position i.\n    if ( minIndex != i )\n        temp <- arr [ i ]\n        arr [ i ] <- arr [ minIndex ]\n        arr [ minIndex ] <- temp\n    end if\nend for\nprint ( arr )"
+          }
+        },
+        {
+          "id": "algoanalysis-worked-example-pass-1",
+          "label": "Pass 1 (i = 0)",
+          "content": {
+            "format": "text",
+            "value": "Start: [29, 10, 14, 37, 13]. minIndex starts at 0, holding 29. The inner loop compares indices 1 through 4 against the current minimum: 10 < 29, so minIndex becomes 1; 14 is not less than 10; 37 is not less than 10; 13 is not less than 10. Four comparisons. The true minimum is 10 at index 1, and minIndex is not 0, so swap arr[0] and arr[1]. Array is now [10, 29, 14, 37, 13], and index 0 is finished."
+          }
+        },
+        {
+          "id": "algoanalysis-worked-example-pass-2",
+          "label": "Pass 2 (i = 1)",
+          "content": {
+            "format": "text",
+            "value": "Working array: [10, 29, 14, 37, 13], with index 0 already sorted. minIndex starts at 1, holding 29. Compare indices 2 through 4: 14 < 29, so minIndex becomes 2; 37 is not less than 14; 13 < 14, so minIndex becomes 4. Three comparisons. Swap arr[1] and arr[4]. Array is now [10, 13, 14, 37, 29]. Notice that 29 moved a long way to the right in a single swap — selection sort does not shuffle values one position at a time."
+          }
+        },
+        {
+          "id": "algoanalysis-worked-example-pass-3-and-4",
+          "label": "Passes 3 and 4",
+          "content": {
+            "format": "text",
+            "value": "Pass 3 (i = 2): working array [10, 13, 14, 37, 29]. minIndex starts at 2, holding 14. Compare indices 3 and 4: 37 is not less than 14; 29 is not less than 14. Two comparisons, minIndex is still 2, so the guard skips the swap and the array is unchanged: [10, 13, 14, 37, 29]. Pass 4 (i = 3): minIndex starts at 3, holding 37. One comparison: 29 < 37, so minIndex becomes 4. Swap arr[3] and arr[4], giving [10, 13, 14, 29, 37]. The outer loop condition i < n − 1 is now false, so the algorithm stops."
+          }
+        },
+        {
+          "id": "algoanalysis-worked-example-result-and-count",
+          "label": "Result and the comparison count",
+          "content": {
+            "format": "text",
+            "value": "Final array: [10, 13, 14, 29, 37]. Two facts about the count are worth carrying into the exam. First, the outer loop ran n − 1 = 4 times, not 5: once the four smallest values are placed, the last element has nowhere else to go. Second, the comparisons were 4 + 3 + 2 + 1 = 10, and that total is fixed — selection sort makes the same 10 comparisons on [10, 13, 14, 29, 37] as it does on [37, 29, 14, 13, 10], because the inner loop always scans the whole unsorted region regardless of what it finds. Only the number of swaps varied here: three swaps happened and one was skipped. In general the comparison count is n(n − 1)/2, which for n = 5 is 5 × 4 / 2 = 10."
+          }
+        }
+      ]
+    },
+    {
+      "id": "algoanalysis-common-mistakes-searching-and-sorting",
+      "categoryId": "II-B",
+      "heading": "Common mistakes",
+      "entries": [
+        {
+          "id": "algoanalysis-common-mistakes-binary-search-unsorted",
+          "label": "Running binary search on unsorted data",
+          "content": {
+            "format": "text",
+            "value": "Binary search's speed comes entirely from the promise that everything left of the middle is smaller and everything right of it is larger. Break that promise and the algorithm does not slow down or crash — it silently returns a wrong answer, usually 'not found' for a value that is present. On [8, 3, 91, 5, 40] searching for 91, the middle element is 91 at index 2 and you get lucky; searching for 40, the middle element 91 is too large, so the whole right half containing 40 is discarded and the search fails. Two related traps: the array must be sorted on the same key you are searching by (a list sorted by surname supports binary search by surname, not by ZIP code), and if you must sort the data first, the cost of sorting swamps the saving when you only intend to search once."
+          }
+        },
+        {
+          "id": "algoanalysis-common-mistakes-off-by-one",
+          "label": "Off-by-one errors in loop bounds",
+          "content": {
+            "format": "text",
+            "value": "Almost every incorrect trace on this topic comes from a boundary, not from the idea. Watch four places. Array indices run 0 to n − 1, so a loop written as i <= n reads past the end. Selection sort's outer loop stops at i < n − 1 because the final element is already in place; a loop that runs to i < n is not wrong, merely one wasted pass. Bubble sort compares arr[j] with arr[j+1], so its inner loop must stop at j < n − 1 − i or the comparison reaches off the end of the array. In binary search, mid is computed as (low + high) / 2 with integer division, and the discarded half must exclude mid itself — low <- mid + 1 or high <- mid − 1. Writing low <- mid instead loops forever when high equals low + 1, and the loop must continue while low <= high, not low < high, or a one-element range is never examined."
+          }
+        },
+        {
+          "id": "algoanalysis-common-mistakes-comparing-algorithms",
+          "label": "Miscounting and misranking the algorithms",
+          "content": {
+            "format": "text",
+            "value": "Three confusions recur. First, treating comparisons and swaps as the same measure: selection sort and bubble sort do about the same number of comparisons in the worst case, but selection sort performs at most n − 1 swaps while bubble sort may perform hundreds, which is why they can behave very differently on data whose elements are expensive to move. Second, forgetting that best case, worst case, and average case may differ for one algorithm and not for another: bubble sort and insertion sort finish quickly on nearly sorted input because their early-exit and short-slide behavior kicks in, whereas selection sort's comparison count is identical no matter how the data started, since its inner loop always scans the whole remaining unsorted region regardless of what it finds. Third, ranking algorithms in the abstract instead of for the task in the question — 'binary search is faster than linear search' is only true given sorted, directly indexable data, and on an unsorted list scanned once, linear search is the correct choice. Also resist assuming that fewer lines of code means fewer operations; a nested loop hides far more work than its two lines suggest."
+          }
+        }
+      ]
+    },
+    {
+      "id": "control-concept-overview",
+      "categoryId": "III-A",
+      "heading": "Control structures, boolean logic, and precedence",
+      "entries": [
+        {
+          "id": "control-concept-three-structures",
+          "label": "The three control structures",
+          "content": {
+            "format": "text",
+            "value": "Every program, in every language, is built from exactly three ways of ordering work. Sequence: statements run one after another, top to bottom, each one finishing before the next begins. Selection: a boolean test decides which of two or more blocks runs — if / else if / else. Iteration: a block repeats while some condition holds — while, for, do-while. That is the whole inventory. A structured-programming result from the 1960s (the Bohm-Jacopini theorem) says these three are sufficient to express any computable algorithm, which is why exam questions can describe an arbitrarily complicated program using only these pieces. When you read unfamiliar code, your first move is to label each block as one of the three; the shape of the program falls out immediately."
+          }
+        },
+        {
+          "id": "control-concept-selection-vs-iteration",
+          "label": "Selection versus iteration — a decision that trips people up",
+          "content": {
+            "format": "text",
+            "value": "An if and a while look almost identical: both test a boolean condition and both guard a block. The difference is what happens at the bottom of the block. An if runs its block at most once and then falls through to whatever comes next. A while jumps back to re-test the condition, so its block may run zero times, once, or many times. Two consequences follow. First, a while whose condition is false on arrival runs zero times — the body is not guaranteed to execute at all. Second, a while's condition is only ever checked at the top, never in the middle, so a variable can move past the boundary the condition describes and stay there until the next top-of-loop test. Also distinguish the loop kinds: a for loop is the right choice when the number of repetitions is known before the loop starts (counting through a fixed range); a while loop is right when the count is not known in advance and the loop ends on a condition (reading until end of input, converging on an answer)."
+          }
+        },
+        {
+          "id": "control-concept-boolean-truth-tables",
+          "label": "AND, OR, NOT and their truth tables",
+          "content": {
+            "format": "text",
+            "value": "Boolean expressions evaluate to exactly one of two values, true (T) or false (F), and are combined with three operators.\n\nAND (conjunction) — true only when both operands are true:\n  T AND T = T    T AND F = F    F AND T = F    F AND F = F\n\nOR (disjunction, inclusive) — true when at least one operand is true, including when both are:\n  T OR T = T     T OR F = T     F OR T = T     F OR F = F\n\nNOT (negation) — flips the value:\n  NOT T = F      NOT F = T\n\nTwo facts worth memorizing. (1) OR in programming is inclusive: T OR T is true, not false. (2) De Morgan's laws let you push a NOT inward, and the operator flips as it goes: NOT (a AND b) is equivalent to (NOT a) OR (NOT b), and NOT (a OR b) is equivalent to (NOT a) AND (NOT b). Most languages also short-circuit: in a AND b, if a is false the answer is already false and b is never evaluated; in a OR b, if a is true, b is never evaluated. Short-circuiting matters when the second operand has a side effect or could cause an error, as in the common guard `if ( n <> 0 AND total / n > 5 )`."
+          }
+        },
+        {
+          "id": "control-concept-comparison-operators",
+          "label": "Comparison (relational) operators",
+          "content": {
+            "format": "text",
+            "value": "Comparison operators take two values and produce a boolean. The six standard ones are: equal to, not equal to, less than, greater than, less than or equal to, greater than or equal to. In the notation used throughout these materials, `<-` is assignment (store a value in a variable) and `==` is the equality test (ask whether two values are the same); most C-family languages use `=` and `==` for those two jobs, which is the single most common source of confusion in this topic. Note the boundary behaviour of the ordering operators: `<` excludes the endpoint, `<=` includes it. A loop written `while ( i < 10 )` starting at i <- 1 runs 9 times, with i taking the values 1 through 9; written `while ( i <= 10 )` it runs 10 times, with i reaching 10. Nearly every off-by-one error in exam code comes from that one character."
+          }
+        },
+        {
+          "id": "control-concept-precedence",
+          "label": "Operator precedence and associativity",
+          "content": {
+            "format": "text",
+            "value": "When an expression mixes operators, precedence decides which one binds its operands first, and associativity decides ties among equal-precedence operators (nearly always left to right, with exponentiation and assignment being the usual right-to-left exceptions). Working from tightest binding to loosest:\n\n  1. parentheses ( )\n  2. NOT, and unary minus\n  3. multiplication, division, MOD (remainder)\n  4. addition, subtraction\n  5. comparisons: <  <=  >  >=\n  6. equality: ==  and not-equal\n  7. AND\n  8. OR\n  9. assignment  <-\n\nThe practical shape of that list: arithmetic happens before comparison, comparison happens before boolean combination, and AND binds tighter than OR. So `a OR b AND c` means `a OR (b AND c)`, not `(a OR b) AND c` — AND is the boolean multiplication and OR the boolean addition, and the analogy to 2 + 3 * 4 is exact. Likewise `x + 1 > y AND z` parses as `((x + 1) > y) AND z`. When in doubt on an exam, mentally insert the parentheses the table implies before you evaluate anything; when writing code, insert them for real."
+          }
+        }
+      ]
+    },
+    {
+      "id": "control-worked-example-nested-loop-trace",
+      "categoryId": "III-A",
+      "heading": "Worked example: tracing an if/else inside a guarded while loop",
+      "entries": [
+        {
+          "id": "control-worked-example-code",
+          "label": "The code to trace",
+          "content": {
+            "format": "code",
+            "value": "// Walk i upward from 1, adding the even values to a running total.\n// The loop is supposed to stop once the total passes 20.\n// MOD gives the remainder of integer division, so i MOD 2 == 0 tests \"is i even\".\n\ntotal <- 0\nevens <- 0\nodds  <- 0\ni     <- 1\n\nwhile ( i <= 20 AND total <= 20 )\n\n    if ( i MOD 2 == 0 )\n        total <- total + i\n        evens <- evens + 1\n    else\n        odds <- odds + 1\n    end if\n\n    i <- i + 1\n\nend while\n\nprint ( evens )\nprint ( odds )\nprint ( total )"
+          }
+        },
+        {
+          "id": "control-worked-example-setup",
+          "label": "Step 1 — set up the trace table and check the condition once",
+          "content": {
+            "format": "text",
+            "value": "Tracing means keeping a table with one column per variable and one row per pass through the loop, and never carrying a value in your head. The four variables start at: total = 0, evens = 0, odds = 0, i = 1.\n\nBefore the body can run even once, the loop condition is tested: `i <= 20 AND total <= 20` is `1 <= 20 AND 0 <= 20`, which is `T AND T`, which is T. The body runs. Now work the body top to bottom. `i MOD 2` is the remainder when 1 is divided by 2, which is 1, so `1 == 0` is false and the else branch runs: odds becomes 1. Then `i <- i + 1` makes i = 2. End of pass 1 — go back to the top and re-test."
+          }
+        },
+        {
+          "id": "control-worked-example-passes-1-to-6",
+          "label": "Step 2 — passes 1 through 6",
+          "content": {
+            "format": "text",
+            "value": "Each row shows the state at the moment the body finishes, after `i <- i + 1` has run. The condition column is the test that let this pass begin.\n\n  pass | condition at top      | branch | total | evens | odds | i after\n  -----+-----------------------+--------+-------+-------+------+--------\n    1  | 1<=20 T AND 0<=20 T   | else   |   0   |   0   |  1   |   2\n    2  | 2<=20 T AND 0<=20 T   | if     |   2   |   1   |  1   |   3\n    3  | 3<=20 T AND 2<=20 T   | else   |   2   |   1   |  2   |   4\n    4  | 4<=20 T AND 2<=20 T   | if     |   6   |   2   |  2   |   5\n    5  | 5<=20 T AND 6<=20 T   | else   |   6   |   2   |  3   |   6\n    6  | 6<=20 T AND 6<=20 T   | if     |  12   |   3   |  3   |   7\n\nThe pattern is now visible: odd values of i take the else branch and only bump odds; even values take the if branch and add themselves to total. total is accumulating 2, then 2+4 = 6, then 6+6 = 12."
+          }
+        },
+        {
+          "id": "control-worked-example-passes-7-to-10",
+          "label": "Step 3 — passes 7 through 10, and the pass that changes everything",
+          "content": {
+            "format": "text",
+            "value": "  pass | condition at top       | branch | total | evens | odds | i after\n  -----+------------------------+--------+-------+-------+------+--------\n    7  | 7<=20 T AND 12<=20 T   | else   |  12   |   3   |  4   |   8\n    8  | 8<=20 T AND 12<=20 T   | if     |  20   |   4   |  4   |   9\n    9  | 9<=20 T AND 20<=20 T   | else   |  20   |   4   |  5   |  10\n   10  | 10<=20 T AND 20<=20 T  | if     |  30   |   5   |  5   |  11\n\nTwo moments deserve a second look. At the top of pass 9, total is exactly 20, and the test is `total <= 20`. Because the operator is `<=` and not `<`, 20 passes and the loop continues — and it continues for two more passes, not one: at the top of pass 10 total is still 20 (pass 9 took the else branch and never touched total), so `total <= 20` is true again. A `<` there would have ended the loop two passes earlier, at the top of pass 9, with total still 12. And in pass 10, the if branch adds 10 to a total of 20, producing 30. Nothing stops that: the guard `total <= 20` is only consulted at the top of the loop, never in the middle of the body, so total sails past 20 and stays there until the next top-of-loop test."
+          }
+        },
+        {
+          "id": "control-worked-example-exit-and-output",
+          "label": "Step 4 — the exit test and the printed output",
+          "content": {
+            "format": "text",
+            "value": "Control returns to the top of the loop with total = 30, evens = 5, odds = 5, i = 11. The condition is evaluated one final time: `11 <= 20 AND 30 <= 20` is `T AND F`, and AND requires both operands to be true, so the whole condition is F. The body does not run an eleventh time; control jumps past `end while` to the three print statements. (Short-circuiting is not what ends this loop — the left operand is true, so the right one is evaluated and it is the one that fails.)\n\nThe output, in order, is:\n\n  5\n  5\n  30\n\nevens = 5 counts the even numbers actually added (2, 4, 6, 8, 10); odds = 5 counts the odd values of i that reached the else branch (1, 3, 5, 7, 9); total = 30 is 2+4+6+8+10."
+          }
+        },
+        {
+          "id": "control-worked-example-takeaways",
+          "label": "What this example is really testing",
+          "content": {
+            "format": "text",
+            "value": "Three transferable lessons, each of which shows up on its own in other questions. (1) A loop condition is a gate you pass through, not a fence around the body: it is evaluated at the top only, so a variable can overshoot the bound the condition names — total finishes at 30 even though the condition says `total <= 20`. If a question asks for the largest value total ever holds, the answer is 30, not 20. (2) A compound condition joined by AND ends the loop as soon as either side goes false; you must check both sides on every pass, not just the counter. (3) `<=` includes its endpoint, and that endpoint can be revisited on more than one pass if nothing in between changes the value being tested — here it bought two extra passes at total = 20, not one, because pass 9 left total unchanged. Always trace on paper with a table — the mistakes on this kind of question are almost never conceptual, they are bookkeeping slips from trying to hold five changing values in your head."
+          }
+        }
+      ]
+    },
+    {
+      "id": "control-common-mistakes-and-traps",
+      "categoryId": "III-A",
+      "heading": "Common mistakes and how to avoid them",
+      "entries": [
+        {
+          "id": "control-common-mistakes-assignment-vs-equality",
+          "label": "Confusing assignment with equality",
+          "content": {
+            "format": "text",
+            "value": "Assignment stores a value; equality asks a question. In this notation they are `<-` and `==`; in C, Java, JavaScript, and Python they are `=` and `==`, and the two are easy to swap under time pressure. `x = 5` means \"make x be 5\" and its value is 5, which many languages treat as true — so `if (x = 5)` assigns 5 to x, tests a truthy value, and takes the then-branch unconditionally, silently destroying whatever x used to hold. `if (x == 5)` leaves x alone and asks whether it equals 5. Python rejects the mistake outright with a syntax error, C compilers usually warn, and older languages accept it in silence. Read every condition in exam code and confirm it is a question, not a command. Related trap: `==` compares values, but in some languages applied to objects or arrays it compares identity (whether they are the same object in memory) rather than contents, so two distinct arrays with identical elements can compare unequal."
+          }
+        },
+        {
+          "id": "control-common-mistakes-off-by-one-and-infinite-loops",
+          "label": "Off-by-one bounds and loops that never end",
+          "content": {
+            "format": "text",
+            "value": "Off-by-one errors come from three recurring spots. First, `<` versus `<=`: `for ( i <- 0; i < n; i <- i + 1 )` runs exactly n times with i from 0 to n-1, while `i <= n` runs n+1 times and, on a zero-indexed array of length n, walks off the end on that final pass. Second, the starting value: counting from 0 versus 1 shifts every subsequent value. Third, the count itself — the number of integers from a to b inclusive is b - a + 1, not b - a. When a question asks how many times a loop body ran, write out the first two and the last two values of the counter rather than reasoning about the count abstractly.\n\nAn infinite loop is the same bookkeeping failure taken to its limit: the condition never becomes false. The three causes are forgetting to update the loop variable inside the body, updating it in the wrong direction (`i <- i - 1` under a condition of `i < 10`), and updating it in a way that steps over the exit value — `while ( i <> 10 )` with `i <- i + 3` from 0 gives 0, 3, 6, 9, 12, and never equals 10. That last one is why `<` and `>` are safer loop conditions than `<>` or `==`. Also watch for a variable that is modified inside an if branch that some passes never take. Before answering, confirm that the loop variable changes on every path through the body, and that the change moves it toward the condition failing."
+          }
+        },
+        {
+          "id": "control-common-mistakes-precedence-and-conditions",
+          "label": "Precedence slips and malformed conditions",
+          "content": {
+            "format": "text",
+            "value": "AND binds tighter than OR, so `a OR b AND c` is `a OR (b AND c)`. Reading it left to right as `(a OR b) AND c` gives a different answer whenever a is true and c is false: the correct reading is true, the misreading is false. Treat AND as boolean multiplication and OR as boolean addition and the grouping follows the same rule as 2 + 3 * 4.\n\nThree companion traps. (1) A range test cannot be chained the way it is written in mathematics: `1 < x < 10` is legal in Python but not in most other languages, where it evaluates `1 < x` to a boolean and then compares that boolean to 10 — usually nonsense. Write `x > 1 AND x < 10`. (2) Negating a compound condition requires De Morgan's laws, not just moving the NOT outside: the opposite of `x > 0 AND x < 10` is `x <= 0 OR x >= 10`, with the AND becoming an OR and both comparisons flipping including their endpoints. Changing only the operators, or only the connective, is wrong. (3) In an if / else if / else chain, exactly one branch runs — the first whose condition is true — so overlapping conditions are not a bug but an ordering question: once `if ( score >= 90 )` has matched, a later `else if ( score >= 80 )` is never even tested. Rewriting that chain as a series of separate if statements changes the behaviour, because then every matching branch runs."
+          }
+        }
+      ]
+    },
+    {
+      "id": "procedures-concept-overview",
+      "categoryId": "III-B",
+      "heading": "Procedures, Events, Usability, and Data",
+      "entries": [
+        {
+          "id": "procedures-concept-what-is-a-procedure",
+          "label": "Procedures and functions",
+          "content": {
+            "format": "text",
+            "value": "A procedure (also called a function, method, or subroutine) is a named block of code that can be called from elsewhere in a program. It exists for three reasons: to avoid repeating the same logic, to give a chunk of behavior a meaningful name, and to let you test and change that behavior in one place. A call transfers control into the procedure's body; when the body finishes or hits a return, control goes back to the statement immediately after the call.\n\nA useful distinction on the exam: a function is normally expected to compute and hand back a value, while a procedure may exist purely for its effect (drawing to the screen, writing a file, updating a display). Many languages blur the line, but the reasoning is the same. Design each one to do a single, describable job — if you cannot name a procedure without using the word 'and', it is probably doing two jobs."
+          }
+        },
+        {
+          "id": "procedures-concept-parameters-and-return",
+          "label": "Parameters, arguments, and return values",
+          "content": {
+            "format": "text",
+            "value": "A parameter is the placeholder name written in the procedure's declaration. An argument is the actual value supplied at the call site. When the call happens, the arguments are matched to the parameters in order, and the procedure body runs with those names bound to those values.\n\nUnder pass-by-value — the default in most languages you will be asked about — the parameter receives a copy of the argument's value. Assigning a new value to the parameter inside the procedure changes only that copy, so the caller's variable is untouched. Under pass-by-reference, the parameter is an alias for the caller's variable, so assignments inside the procedure are visible to the caller. A third case trips people up constantly, and it does not resolve the same way in every language: in Java, JavaScript, and Python, passing an array or an object by value copies a reference to the structure, not the structure itself, so the procedure cannot replace the caller's array but it usually can modify the elements inside it. In C, C++, and Pascal, however, a record or struct passed by value is copied wholesale — mutating a field inside the procedure does not touch the caller's copy at all, which is the one case where this rule flips. When tracing pseudocode, check which behavior the question intends rather than assuming the array rule always applies.\n\nThe return value is the single result handed back to the caller. Executing return ends the procedure immediately; any statements after it in the body never run. A procedure that computes something but never returns it, and never stores it anywhere the caller can see, has computed nothing useful."
+          }
+        },
+        {
+          "id": "procedures-concept-scope",
+          "label": "Scope and lifetime of variables",
+          "content": {
+            "format": "text",
+            "value": "Scope is the region of program text in which a name is visible. A local variable is declared inside a procedure and is visible only within it; a global variable is declared outside every procedure and is visible throughout the program.\n\nTwo local variables in two different procedures may share a name and still be entirely unrelated — the name is resolved by where the code sits, not by spelling. When a local name matches a global name, the local one shadows the global inside that procedure, and references there mean the local.\n\nLifetime is a separate idea from scope. A local variable is typically created when the procedure is entered and destroyed when it returns, so it does not remember its value between calls; a global lives for the whole run of the program. This is exactly why globals look tempting and why they cause trouble: any procedure can change one, so when a global holds a wrong value, the suspect list is the entire program. Prefer parameters in and a return value out, and reserve globals for genuinely program-wide state."
+          }
+        },
+        {
+          "id": "procedures-concept-event-driven-model",
+          "label": "The event-driven model",
+          "content": {
+            "format": "text",
+            "value": "A batch-style program runs top to bottom and decides for itself what happens next. An event-driven program instead sits inside an event loop: a loop maintained by the runtime or GUI framework that waits for something to happen — a click, a keystroke, a timer expiring, data arriving from the network — places the event on a queue, and dispatches each event to the handler registered for it.\n\nA handler (or listener, or callback) is an ordinary procedure that you write but do not call. You register it, and the loop calls it when the matching event occurs. Because of that, the order in which handlers run is decided by the user and the environment, not by the order the handlers appear in your source file. Nothing guarantees the user will fill a form top to bottom, or click Calculate before clicking Save.\n\nOne consequence dominates practical GUI work: the event loop is usually single-threaded, so while your handler is running, no other event is being processed and the interface is frozen. Handlers should be short. Long work belongs on a background thread or split into chunks, with the handler returning promptly so the loop can keep dispatching."
+          }
+        },
+        {
+          "id": "procedures-concept-usability-principles",
+          "label": "Usability principles for interfaces",
+          "content": {
+            "format": "text",
+            "value": "Usability is a design property that can be reasoned about, not a matter of taste. Four principles carry most of the weight:\n\nConsistency — the same action looks the same and behaves the same everywhere in the program, and follows the conventions of the platform. If Ctrl+S saves on one screen it saves on all of them; if the primary button is on the right in one dialog, it is on the right in every dialog.\n\nFeedback — every user action produces a visible response, and slow operations show progress. A button that appears to do nothing for two seconds gets clicked twice, which is a correctness problem as much as a comfort one.\n\nError prevention over error messages — make the wrong action hard to take in the first place. Disable a Submit button until the form is valid, offer a date picker rather than a free-text date field, and constrain the input to what is legal. When an error does occur, say what went wrong and what to do about it, in the user's terms, not the system's.\n\nVisibility, recognition, and forgiveness — show the available options rather than requiring the user to recall commands, keep the user informed of the current state, and provide undo and confirmation for destructive actions. Accessibility belongs here too: sufficient contrast, keyboard operation for everything reachable by mouse, labels on controls, and never using color as the only carrier of meaning."
+          }
+        },
+        {
+          "id": "procedures-concept-data-structures",
+          "label": "Arrays, lists, and records",
+          "content": {
+            "format": "text",
+            "value": "An array holds a fixed number of elements of the same type, each reached by a numeric index in constant time. Indexing usually starts at 0, so an array of n elements has valid indices 0 through n-1; reaching for index n is the classic off-by-one error. A list is the same idea relaxed — it grows and shrinks as items are added and removed — and is often what pseudocode means when it appends to a collection.\n\nA record (a struct, or the field portion of an object) groups a fixed set of named fields that may have different types: a student record might hold name, id, and grade. You reach a field by name, as in student.grade, rather than by position.\n\nThe two combine naturally, and that combination is the everyday shape of application data: an array of records is a table, one record per row, one field per column. Choosing between them is about access pattern. Use an index when the position is meaningful and elements are interchangeable; use named fields when each piece means something different. A record with fields named item1, item2, item3 should have been an array, and an array whose element 0 means 'name' and element 1 means 'grade' should have been a record."
+          }
+        }
+      ]
+    },
+    {
+      "id": "procedures-worked-example-scope-trace",
+      "categoryId": "III-B",
+      "heading": "Worked example: tracing a call, a return, and scope",
+      "entries": [
+        {
+          "id": "procedures-worked-example-setup",
+          "label": "The scenario",
+          "content": {
+            "format": "text",
+            "value": "We will trace a short program that computes a price with sales tax. It is deliberately built to exercise the three things questions in this area test at once: a parameter receiving a copy of an argument, a local variable that is invisible outside its procedure, and a global variable that the main program updates from a returned value.\n\nRead the code first, then follow the trace line by line. The whole point is to answer, at each print, what value is actually in scope."
+          }
+        },
+        {
+          "id": "procedures-worked-example-code",
+          "label": "The pseudocode",
+          "content": {
+            "format": "code",
+            "value": "// global - visible everywhere in this program\nint total <- 0\n\nint addTax ( int amount )\n{\n    int rate <- 8                                 // local to addTax\n    int result <- amount + ( amount * rate ) / 100\n    amount <- 0                                   // changes the LOCAL copy only\n    return result\n}\n\n// main program\nint price <- 200\n\ntotal <- addTax ( price )\n\nprint ( price )    // what is printed here?\nprint ( total )    // and here?\n// print ( rate )  // this line would not run at all - see the trace"
+          }
+        },
+        {
+          "id": "procedures-worked-example-trace",
+          "label": "Step-by-step trace",
+          "content": {
+            "format": "text",
+            "value": "1. int total <- 0. A global named total is created and holds 0.\n\n2. int price <- 200. A variable price is created in the main program and holds 200.\n\n3. total <- addTax ( price ). The right-hand side is evaluated first, so the call runs before any assignment to total. The argument price evaluates to 200, and a copy of that value is bound to the parameter amount. Inside the call: amount = 200.\n\n4. int rate <- 8. A local named rate is created inside addTax and holds 8. It did not exist before this call and will not exist after it.\n\n5. int result <- amount + ( amount * rate ) / 100. Working inside out: amount * rate is 200 * 8 = 1600; 1600 / 100 = 16; 200 + 16 = 216. So result = 216.\n\n6. amount <- 0. The local parameter is now 0. This is a change to addTax's own copy. The caller's price is a separate variable and is still 200.\n\n7. return result. The value 216 leaves the procedure. Control returns to the assignment in step 3, so total <- 216. As addTax exits, its locals amount, rate, and result cease to exist.\n\n8. print ( price ) prints 200 — unchanged, because the assignment in step 6 touched only the copy.\n\n9. print ( total ) prints 216 — the global was updated by the assignment, not by the procedure reaching out and changing it.\n\n10. print ( rate ) would not be a working line. rate is local to addTax and is simply not a visible name in the main program; the program would fail rather than print 8 or 0."
+          }
+        },
+        {
+          "id": "procedures-worked-example-variation",
+          "label": "One variation, and what it changes",
+          "content": {
+            "format": "code",
+            "value": "// Variation: the procedure writes the global directly and returns nothing\n\nint total <- 0\n\nvoid addTaxToTotal ( int amount )\n{\n    int rate <- 8\n    total <- amount + ( amount * rate ) / 100   // assigns the GLOBAL total\n}\n\nint price <- 200\naddTaxToTotal ( price )\nprint ( total )     // 216 - same answer, reached a different way"
+          }
+        },
+        {
+          "id": "procedures-worked-example-takeaway",
+          "label": "What the variation teaches",
+          "content": {
+            "format": "text",
+            "value": "Both versions print 216, so a question that asks only for the output cannot tell them apart. The difference is in what else is true.\n\nIn the first version, addTax communicates through its parameter list and its return value alone. Call it with any number and it gives back a number; you can call it twice, use it in a larger expression, or test it in isolation. Nothing outside it changes.\n\nIn the second version, the procedure reads and writes a global as a side effect. It cannot be reused to tax a value you did not want added to total, its result depends on whatever else in the program has touched total, and calling it twice silently overwrites rather than accumulates. Notice also that inside addTaxToTotal there is no local named total, so the name resolves to the global — but if someone later declared a local total in that procedure, it would shadow the global and the assignment would quietly stop having any effect outside the procedure.\n\nThe general rule this illustrates: prefer values in through parameters and out through a return. Reach for a global only when the state genuinely belongs to the whole program."
+          }
+        }
+      ]
+    },
+    {
+      "id": "procedures-common-mistakes",
+      "categoryId": "III-B",
+      "heading": "Common mistakes",
+      "entries": [
+        {
+          "id": "procedures-common-mistakes-pass-by-value",
+          "label": "Expecting a parameter assignment to change the caller's variable",
+          "content": {
+            "format": "text",
+            "value": "The most frequent error in tracing questions is assuming that because a procedure was called with price, assigning to the parameter inside the procedure changes price. Under pass-by-value it does not: the parameter is a separate variable that started life as a copy. In the worked example above, amount <- 0 leaves price at 200.\n\nThree qualifications keep this from becoming a superstition. First, if the language or the question specifies pass-by-reference, the parameter is an alias and the caller's variable does change. Second, when the argument is an array or an object (as in Java, JavaScript, or Python), the copied value is a reference to the structure, so writing scores[0] <- 5 inside the procedure is normally visible to the caller even though scores <- someOtherArray is not. Third, that reference behavior is not universal: a C-style struct or Pascal-style record passed by value is copied in full, so changing one of its fields inside the procedure leaves the caller's copy untouched — the opposite of the array case. Confirm which kind of structure and which language a question is using before applying the array rule.\n\nThe safe habit when tracing: keep a separate column for the caller's variables and the procedure's parameters, and never write into the caller's column from inside the procedure unless the question told you the parameter is by reference."
+          }
+        },
+        {
+          "id": "procedures-common-mistakes-scope-confusion",
+          "label": "Confusing local and global scope",
+          "content": {
+            "format": "text",
+            "value": "This shows up in three shapes. Reading a local from outside its procedure — the code that tries to print rate after addTax has returned — is not a stale value or a zero, it is a name that does not exist there. Assuming a local survives between calls is the second: a local declared and initialized inside a procedure is rebuilt from scratch on every call, so it cannot accumulate a running total across calls the way a global can.\n\nThe third is shadowing, and it is the quiet one. If a procedure declares a local with the same name as a global, every mention of that name inside the procedure refers to the local. The global keeps its old value, the procedure appears to work while you step through it, and the bug only surfaces later when some other part of the program reads the global and finds it unchanged. When a variable stubbornly refuses to update, check whether a local somewhere is shadowing it."
+          }
+        },
+        {
+          "id": "procedures-common-mistakes-event-order",
+          "label": "Assuming handlers fire in the order you wrote them",
+          "content": {
+            "format": "text",
+            "value": "Event handlers are called by the event loop in response to what the user and the system do, not in the order they appear in your source. Code that assumes the user pressed Calculate before pressing Save, or that a data-loaded handler ran before a button-click handler, will work every time you test it and fail for a user who works in a different order.\n\nThe practical consequences to watch for: a handler reading state that another handler has not yet initialized; a slow handler blocking the single-threaded event loop so the whole interface freezes and the user clicks the button a second time, firing the handler twice; and a handler that itself changes a control's value, triggering the very change event it is inside and looping. Guard against all three by having each handler check the state it depends on rather than assuming it, by disabling a control while its work is in progress, and by keeping long operations off the handler so it returns quickly.\n\nA related slip on the design side: doing validation only when Submit is clicked, and then reporting failures in system language. Preventing the bad input — disabling Submit until the form is valid, constraining the field — is better usability than any error message you can write."
+          }
+        }
+      ]
+    },
+    {
+      "id": "digitization-concept-analog-to-digital-and-keys",
+      "categoryId": "IV-A",
+      "heading": "Digitizing information, and protecting it",
+      "entries": [
+        {
+          "id": "digitization-concept-what-digitization-means",
+          "label": "What digitization means",
+          "content": {
+            "format": "text",
+            "value": "The physical world is continuous: a sound pressure wave, the brightness falling on a camera sensor, and the position of a needle on a dial all vary smoothly and can take infinitely many in-between values. A computer stores only discrete numbers, so before any of that can be processed it has to be digitized — measured at particular moments, and each measurement rounded to one of a fixed set of allowed values. Digitization is therefore always an approximation. The two questions that decide how good the approximation is are: how often do we measure, and how finely do we record each measurement? Those are exactly sampling rate and bit depth. Text is the easy case, because it is already discrete: digitizing text just means agreeing on a code that maps each character to a number (ASCII maps 'A' to 65; Unicode extends the same idea to essentially every writing system), so no information is lost at all."
+          }
+        },
+        {
+          "id": "digitization-concept-sampling-rate",
+          "label": "Sampling rate — how often you measure",
+          "content": {
+            "format": "text",
+            "value": "Sampling is taking a snapshot of the signal at regular intervals. The sampling rate is how many snapshots per second (for audio, measured in hertz — CD audio uses 44,100 samples per second) or how many per unit of area (for images, where the equivalent idea is resolution: the number of pixels across and down). A higher sampling rate captures faster changes in the signal, so it reproduces high-frequency detail — a cymbal crash, a thin hairline in a scanned drawing. Too low a rate and fast detail is missed entirely or, worse, misread as something that was never there: in audio this produces a false low tone, and in images it produces the stair-stepped or moiré patterns you see when a fine striped shirt is photographed at low resolution. Sampling controls detail along the time or space axis."
+          }
+        },
+        {
+          "id": "digitization-concept-bit-depth",
+          "label": "Bit depth — how finely you record each measurement",
+          "content": {
+            "format": "text",
+            "value": "Each individual sample still has to be rounded to a whole number, and bit depth is how many bits are available to hold it. With n bits there are 2^n distinct levels: 8-bit audio gives 256 possible amplitude levels, 16-bit audio gives 65,536. In images the same idea is called color depth — 8 bits per channel gives 256 shades of red, green, and blue each, or about 16.7 million colors in combination. Low bit depth forces each true value to be rounded further from where it actually was, and that rounding error is audible as hiss or graininess in sound and visible as banding across what should be a smooth sky in an image. Bit depth controls precision along the value axis, which is why it is a genuinely separate control from sampling rate. Both raise file size: as a first approximation, total bits equals number of samples times bits per sample."
+          }
+        },
+        {
+          "id": "digitization-concept-why-encryption-and-the-key",
+          "label": "Why encryption, and what a key is",
+          "content": {
+            "format": "text",
+            "value": "Once information is digitized it is easy to copy, forward, and intercept, so anything private needs protection in transit and at rest. Encryption transforms readable plaintext into unreadable ciphertext using an algorithm plus a key; decryption reverses it. The key is the whole point of the design. Modern practice assumes the algorithm itself is public and well studied — that assumption is known as Kerckhoffs's principle — so the only secret is the key. This is a strength, not a weakness: a public algorithm can be attacked by researchers for decades and shown to hold up, and when a key is compromised you replace the key rather than the entire system. It also means security scales with the number of possible keys (the keyspace). A cipher with only 25 usable keys can be broken by trying all of them; a 128-bit key cannot be, because there are roughly 3.4 x 10^38 possibilities."
+          }
+        },
+        {
+          "id": "digitization-concept-symmetric-vs-asymmetric",
+          "label": "Symmetric vs. asymmetric encryption",
+          "content": {
+            "format": "text",
+            "value": "In symmetric encryption the same secret key both encrypts and decrypts (AES is the standard example). It is fast and well suited to bulk data, but it has a distribution problem: both parties must already share the secret, and getting it to them safely over an untrusted network is the very problem you were trying to solve. Asymmetric, or public-key, encryption uses a mathematically linked pair of keys (RSA is the classic example). The public key can be published to anyone and is used to encrypt; the matching private key is never shared and is the only thing that decrypts. That solves distribution — a stranger can send you a confidential message with nothing but your public key — and, run in the other direction, it also enables digital signatures: something encrypted with your private key can be verified by anyone holding your public key, which proves it came from you. Asymmetric encryption is much slower, so real systems combine the two: asymmetric to agree on a temporary symmetric key, then symmetric for the actual conversation. That hybrid is what HTTPS does on every secure web request."
+          }
+        }
+      ]
+    },
+    {
+      "id": "digitization-worked-example-caesar-cipher",
+      "categoryId": "IV-A",
+      "heading": "Worked example: a Caesar cipher, encrypted and decrypted",
+      "entries": [
+        {
+          "id": "digitization-worked-example-problem",
+          "label": "Problem",
+          "content": {
+            "format": "text",
+            "value": "Encrypt the plaintext message MEET AT NOON using a Caesar cipher with a shift key of k = 7, then show how the intended recipient recovers the original message. A Caesar cipher is a monoalphabetic substitution cipher: every letter is replaced by the letter a fixed number of positions further along the alphabet, wrapping around from Z back to A. Spaces are left unchanged here so the structure stays readable; real use would strip them, since word lengths leak information."
+          }
+        },
+        {
+          "id": "digitization-worked-example-numbering",
+          "label": "Step 1 — number the alphabet",
+          "content": {
+            "format": "text",
+            "value": "To do the shift as arithmetic rather than by counting on the alphabet, assign each letter a number from 0 to 25: A = 0, B = 1, C = 2, ... , M = 12, N = 13, O = 14, ... , T = 19, U = 20, V = 21, ... , Z = 25. Starting at 0 rather than 1 is what makes the wrap-around work cleanly with the modulo operation in the next step."
+          }
+        },
+        {
+          "id": "digitization-worked-example-encryption-formula",
+          "label": "Step 2 — the encryption formula",
+          "content": {
+            "format": "mathml",
+            "value": "<math><mi>C</mi><mo>=</mo><mo>(</mo><mi>P</mi><mo>+</mo><mi>k</mi><mo>)</mo><mspace width=\"0.25em\"/><mtext>mod</mtext><mspace width=\"0.25em\"/><mn>26</mn><mo>,</mo><mtext>&#160;with&#160;</mtext><mi>k</mi><mo>=</mo><mn>7</mn></math>"
+          }
+        },
+        {
+          "id": "digitization-worked-example-encrypting",
+          "label": "Step 3 — encrypt each letter",
+          "content": {
+            "format": "text",
+            "value": "Apply the formula letter by letter. M (12) + 7 = 19, which is T. E (4) + 7 = 11, which is L, and the second E gives L again. T (19) + 7 = 26, and 26 mod 26 = 0, which is A — this is the wrap-around case, where the shift runs off the end of the alphabet and starts over. A (0) + 7 = 7, which is H. T gives A again. N (13) + 7 = 20, which is U. O (14) + 7 = 21, which is V, and the second O gives V again. The final N gives U. So MEET AT NOON encrypts to TLLA HA UVVU."
+          }
+        },
+        {
+          "id": "digitization-worked-example-decryption",
+          "label": "Step 4 — decryption reverses the shift",
+          "content": {
+            "format": "mathml",
+            "value": "<math><mi>P</mi><mo>=</mo><mo>(</mo><mi>C</mi><mo>&#8722;</mo><mi>k</mi><mo>)</mo><mspace width=\"0.25em\"/><mtext>mod</mtext><mspace width=\"0.25em\"/><mn>26</mn><mo>:</mo><mspace width=\"0.5em\"/><mtext>A</mtext><mo>&#8594;</mo><mo>(</mo><mn>0</mn><mo>&#8722;</mo><mn>7</mn><mo>)</mo><mspace width=\"0.25em\"/><mtext>mod</mtext><mspace width=\"0.25em\"/><mn>26</mn><mo>=</mo><mn>19</mn><mo>&#8594;</mo><mtext>T</mtext></math>"
+          }
+        },
+        {
+          "id": "digitization-worked-example-recovering-plaintext",
+          "label": "Step 5 — recover the plaintext",
+          "content": {
+            "format": "text",
+            "value": "Running the subtraction across the whole ciphertext: T (19) - 7 = 12 = M; L (11) - 7 = 4 = E, twice; A (0) - 7 = -7, and -7 mod 26 = 19 = T, the wrap-around going backwards; H (7) - 7 = 0 = A; A again gives T; U (20) - 7 = 13 = N; V (21) - 7 = 14 = O, twice; U gives N. TLLA HA UVVU decrypts back to MEET AT NOON. Two things are worth noticing. First, encryption and decryption are inverse operations on the same key, which makes the Caesar cipher symmetric — sender and receiver must both know that k = 7. Second, negative results still need the modulo: in many programming languages the built-in % operator returns a negative value for -7 % 26, so implementations usually add 26 before taking the modulus."
+          }
+        }
+      ]
+    },
+    {
+      "id": "digitization-common-mistakes",
+      "categoryId": "IV-A",
+      "heading": "Common mistakes",
+      "entries": [
+        {
+          "id": "digitization-common-mistakes-rate-vs-depth",
+          "label": "Treating sampling rate and bit depth as the same knob",
+          "content": {
+            "format": "text",
+            "value": "These are independent, and they degrade the signal in different ways. Sampling rate (or, for images, resolution) is how many measurements you take along time or space; bit depth (or color depth) is how precisely each single measurement is stored. Doubling the sampling rate does nothing to fix banding in a gradient, and doubling the bit depth does nothing to recover detail that was never sampled. A quick check: if the problem is blockiness, blur, or missing fine detail, that points to sampling; if the problem is a stepped, posterized, or hissy quality where the values should change smoothly, that points to bit depth. Also keep both distinct from compression, which is a separate step applied after digitization and may be lossless or lossy."
+          }
+        },
+        {
+          "id": "digitization-common-mistakes-substitution-is-not-secure",
+          "label": "Assuming a substitution cipher is actually secure",
+          "content": {
+            "format": "text",
+            "value": "The Caesar cipher is a teaching device, not a security mechanism. It has only 25 useful keys, so brute force means trying at most 25 shifts — trivial by hand and instantaneous by computer. Even a general substitution cipher with an arbitrary scrambled alphabet, which has a far larger keyspace, falls quickly to frequency analysis: because each plaintext letter always maps to the same ciphertext letter, the statistical fingerprint of the language survives encryption. In English, E is the most common letter, so the most common ciphertext symbol in a long enough message is very likely E; repeated patterns and one-letter words fill in the rest. A large keyspace is necessary for security but nowhere near sufficient — the cipher must also destroy the patterns in the plaintext, which is exactly what modern block ciphers are engineered to do."
+          }
+        },
+        {
+          "id": "digitization-common-mistakes-which-key-does-what",
+          "label": "Mixing up which asymmetric key does what",
+          "content": {
+            "format": "text",
+            "value": "The most frequent error is thinking you encrypt with your own public key, or that the private key is what you hand out. To send someone a confidential message you encrypt with the recipient's public key, and only their private key can open it — your own keys play no part in that direction. Signing runs the opposite way: you sign with your private key so that anyone with your public key can verify it came from you. Confidentiality uses the recipient's key pair; authenticity uses the sender's. A related mistake is claiming asymmetric encryption has simply replaced symmetric encryption. It has not — it is far slower, so secure systems use it briefly to establish a shared symmetric key and then encrypt the actual data symmetrically."
+          }
+        }
+      ]
+    },
+    {
+      "id": "simulation-concept-overview",
+      "categoryId": "IV-B",
+      "heading": "Models, Simulation, and Working with Data",
+      "entries": [
+        {
+          "id": "simulation-what-a-model-is",
+          "label": "What a model is",
+          "content": {
+            "format": "text",
+            "value": "A model is a simplified representation of a real system, built to answer a specific question about that system. The word simplified is the important part: a model deliberately leaves things out. A model of a town's population might track only the current head count and a yearly growth rate, ignoring individual people entirely, because the question being asked is \"roughly how many residents in ten years?\" A model of a traffic light might track only the current colour and how many seconds it has been that colour, ignoring the cars, the weather, and the road surface.\n\nBuilding a model means choosing the variables that matter to the question and discarding everything else. Those choices are the model's assumptions. A model is never right or wrong in an absolute sense; it is useful or not useful for a particular question, and that usefulness depends entirely on whether the discarded details actually mattered."
+          }
+        },
+        {
+          "id": "simulation-what-simulation-is",
+          "label": "What simulation is",
+          "content": {
+            "format": "text",
+            "value": "Simulation is running a model to see what happens. Where a model is the description of the system, a simulation is the execution of that description, usually stepped forward through time or through a set of scenarios.\n\nA typical simulation has a state (the current values of the model's variables), a set of update rules (how the state changes from one step to the next), and a stopping condition (a number of steps, or a target value being reached). The program applies the rules over and over and records the state along the way.\n\nSimulation is used when the real experiment is too slow, too expensive, too dangerous, or simply impossible: you cannot rerun a hurricane, wait fifty years for a forest, or crash a hundred real cars. It is also used when a system has no clean closed-form answer, so the only practical way to see the outcome is to step through it."
+          }
+        },
+        {
+          "id": "simulation-abstraction-tradeoff",
+          "label": "The detail tradeoff",
+          "content": {
+            "format": "text",
+            "value": "Every model sits somewhere on a scale between too simple and too complex, and both ends have real costs.\n\nToo little detail: the model omits a variable that actually drives the behaviour, so its output is confidently wrong. A population model with a fixed growth rate will not predict a crash caused by running out of food, because food was never in the model.\n\nToo much detail: the model becomes expensive to run, slower to develop, harder to explain, and harder to debug. It also needs more input data, and each extra input is another number that might be measured badly. A model with fifty parameters can be tuned to match past data perfectly and still fail on new data.\n\nThe practical rule is to include the variables the question depends on and no more, then test whether adding one more detail actually changes the conclusion. If it does not, leave it out."
+          }
+        },
+        {
+          "id": "simulation-data-manipulation-basics",
+          "label": "Data manipulation: filter, aggregate, sort",
+          "content": {
+            "format": "text",
+            "value": "Simulations produce data, and so does the real world. Three operations cover most of what is done with a table of records, whether in a spreadsheet, a database query, or a loop in code.\n\nFiltering (selecting) keeps only the rows that satisfy a condition and drops the rest. \"Only the students who scored 70 or above.\" Filtering changes how many rows you have but not what each row contains.\n\nAggregating (summarizing) collapses many rows into a single value: a sum, a count, an average, a minimum, a maximum. Aggregation destroys the individual rows; once you have the average you cannot recover the values that produced it.\n\nSorting reorders the rows by the value in some column, ascending or descending. Sorting changes neither the number of rows nor their contents, which is why it is safe to do at any point; it is used to find the top few items or to make a result readable.\n\nA fourth operation, grouping, combines the first two: split the rows into groups by the value of some column, then aggregate within each group, producing one summary row per group."
+          }
+        },
+        {
+          "id": "simulation-deterministic-and-random",
+          "label": "Deterministic versus random models",
+          "content": {
+            "format": "text",
+            "value": "A deterministic model produces exactly the same output every time it is run with the same inputs. A population that grows by exactly 8 percent per year is deterministic: run it a thousand times and you get one answer.\n\nA stochastic (random) model includes randomness, so each run gives a different result. A model where each customer arrives at a random time, or each coin flip is random, is stochastic. A single run of a stochastic model tells you very little, because it is one sample. That is why such models are run many times and the results aggregated: run the simulation 10,000 times, then report the average outcome and how widely the outcomes spread.\n\nThis is the practical reason simulations are described as being run \"repeatedly\": with a deterministic model repetition is pointless, but with a stochastic one a single run can easily be an unrepresentative outlier."
+          }
+        }
+      ]
+    },
+    {
+      "id": "simulation-worked-example-population",
+      "categoryId": "IV-B",
+      "heading": "Worked Example: Simulating Population Growth",
+      "entries": [
+        {
+          "id": "simulation-worked-example-setup",
+          "label": "The question and the model",
+          "content": {
+            "format": "text",
+            "value": "Question: a town has 2,000 residents and has been growing at about 8 percent per year. If that rate holds, what is the population after 4 years?\n\nThe model: one state variable, population, and one rule, population at the end of a year equals population at the start of the year multiplied by 1.08. One step of the simulation equals one year.\n\nWhat this model assumes: the growth rate stays exactly 8 percent every year; growth compounds once at year end; nothing limits growth such as housing, jobs, or land; and population can be a fractional number between reporting points. Every one of those assumptions is false in some detail about the real town. They are stated up front so the output can be read honestly."
+          }
+        },
+        {
+          "id": "simulation-worked-example-pseudocode",
+          "label": "The simulation in pseudocode",
+          "content": {
+            "format": "code",
+            "value": "// Model: population grows by a fixed percentage each year\n\npopulation <- 2000\nrate <- 0.08\nyears <- 4\n\nyear <- 0\nwhile ( year < years ) {\n    // one step of the simulation = one year\n    population <- population * ( 1 + rate )\n    year <- year + 1\n\n    print ( year )\n    print ( population )\n}\n\n// after the loop, population holds the year-4 value\nprint ( population - 2000 )   // total growth over the run"
+          }
+        },
+        {
+          "id": "simulation-worked-example-trace-first-two",
+          "label": "Tracing years 1 and 2",
+          "content": {
+            "format": "text",
+            "value": "Trace the loop by hand, keeping the running value rather than rounding at each step.\n\nStart: population = 2000, year = 0.\n\nYear 1: 2000 x 1.08 = 2160. Now population = 2160, year = 1. Growth this year: 160 residents.\n\nYear 2: 2160 x 1.08 = 2332.8. Now population = 2332.8, year = 2. Growth this year: 172.8 residents.\n\nNotice that the second year adds more people than the first even though the rate did not change. That is compounding: the 8 percent is applied to a larger base each time. Reading a trace table is the standard way to check that a simulation's update rule is doing what you intended."
+          }
+        },
+        {
+          "id": "simulation-worked-example-trace-last-two",
+          "label": "Tracing years 3 and 4",
+          "content": {
+            "format": "text",
+            "value": "Year 3: 2332.8 x 1.08 = 2519.424. Now population = 2519.424, year = 3. Growth this year: 186.624 residents.\n\nYear 4: 2519.424 x 1.08 = 2720.97792. Now population = 2720.97792, year = 4. Growth this year: 201.55392 residents.\n\nThe loop condition year < 4 is now false, so the simulation stops. The answer to the original question is about 2,721 residents, and the rounding to a whole number happens once at the end, when reporting, not at every step."
+          }
+        },
+        {
+          "id": "simulation-worked-example-aggregate",
+          "label": "Summarizing the output",
+          "content": {
+            "format": "text",
+            "value": "The simulation produced a small dataset: the year-end populations 2160, 2332.8, 2519.424, and 2720.97792. Aggregating it answers follow-up questions.\n\nSum of the four year-end values: 2160 + 2332.8 = 4492.8; 4492.8 + 2519.424 = 7012.224; 7012.224 + 2720.97792 = 9733.20192.\n\nAverage year-end population: 9733.20192 / 4 = 2433.30048, so about 2,433.\n\nTotal growth over the run: 2720.97792 - 2000 = 720.97792, about 721 residents, which is roughly 36.05 percent of the starting population.\n\nThat last figure is worth pausing on. Multiplying 8 percent by 4 years gives 32 percent, but the simulation gives about 36 percent. The extra 4 percentage points are compounding, and they are exactly the kind of behaviour that stepping a model through time captures and a back-of-the-envelope multiplication misses."
+          }
+        },
+        {
+          "id": "simulation-worked-example-limits",
+          "label": "Reading the result honestly",
+          "content": {
+            "format": "text",
+            "value": "The correct statement of the result is: under this model's assumptions, the population after 4 years is about 2,721. It is not \"the town will have 2,721 residents.\"\n\nThe output inherits every assumption in the model. If the real growth rate averages 6 percent rather than 8, the year-4 result is 2000 x 1.06^4 = about 2525, roughly 200 fewer people; a 2-point error in one input moved the answer by about 7 percent. If the town runs out of buildable land in year 3, the model has no way to represent that at all and will keep growing forever.\n\nTesting how much the output moves when an input is changed is called sensitivity analysis, and it is a normal part of using a model. Rerunning at 6 percent and at 10 percent gives a range rather than a single misleadingly precise number."
+          }
+        }
+      ]
+    },
+    {
+      "id": "simulation-common-mistakes",
+      "categoryId": "IV-B",
+      "heading": "Common Mistakes",
+      "entries": [
+        {
+          "id": "simulation-common-mistakes-prediction",
+          "label": "Treating model output as a guaranteed prediction",
+          "content": {
+            "format": "text",
+            "value": "The most common error is reading a simulation's output as a statement about the future rather than as a conditional result. A model says \"if these rules and these inputs hold, this follows.\" It does not say \"this will happen.\"\n\nThe error is made worse by precision. A result of 2720.97792 looks far more authoritative than \"roughly 2,700,\" but the extra digits come from the arithmetic, not from any extra knowledge about the town. Precision in the output can never exceed the accuracy of the inputs and the fidelity of the rules.\n\nThe fix is to report the assumptions alongside the number, and to report a range from several plausible inputs rather than one figure carried to five decimal places."
+          }
+        },
+        {
+          "id": "simulation-common-mistakes-ignoring-limits",
+          "label": "Forgetting the model's stated limitations",
+          "content": {
+            "format": "text",
+            "value": "A model is built to answer one question over one range of conditions, and it is easy to keep using it outside that range because it keeps returning numbers. Software does not refuse; a fixed-rate growth model asked for year 200 will happily report tens of millions of residents in a town with room for ten thousand.\n\nRelated versions of the same mistake: reusing a model built for one system on a different system because the shapes look alike; continuing to use a model after the world changed, so an assumption that held when it was written is now false; and forgetting that a discarded variable was discarded, then treating the model's silence about it as evidence that it does not matter.\n\nThe fix is to write the model's assumptions and its valid range down next to the model, and to check the question against that list before trusting an answer."
+          }
+        },
+        {
+          "id": "simulation-common-mistakes-filter-order",
+          "label": "Aggregating before filtering",
+          "content": {
+            "format": "text",
+            "value": "When filtering and aggregating are combined, the order changes the answer, and aggregating first is usually the mistake, because aggregation destroys the rows the filter was supposed to examine.\n\nTake five test scores: 55, 72, 90, 68, 80. Question: what is the average score among students who passed, where passing is 70 or above?\n\nWrong order (aggregate, then filter): the average of all five is (55 + 72 + 90 + 68 + 80) / 5 = 365 / 5 = 73. That single value 73 is above 70, so it survives any later filter, and 73 gets reported. But 73 is the average of everyone, passing and failing, and answers a different question.\n\nRight order (filter, then aggregate): keep 72, 90, and 80. Their sum is 242, and 242 / 3 = 80.67. The correct answer is about 80.67, nearly 8 points higher.\n\nThe general rule is that filters restricting which records count must be applied before the aggregate is computed. A condition on the aggregate itself, such as \"show only groups whose average is above 75,\" is genuinely applied afterward. Confusing these two kinds of condition is exactly the distinction that WHERE and HAVING draw in SQL."
+          }
+        }
+      ]
+    },
+    {
+      "id": "systems-concept-os-architecture-and-clients",
+      "categoryId": "V-A",
+      "heading": "What an operating system does, and the machine underneath it",
+      "entries": [
+        {
+          "id": "systems-concept-why-an-os",
+          "label": "Why an operating system exists",
+          "content": {
+            "format": "text",
+            "value": "Bare hardware does exactly one thing: it executes machine instructions. It has no notion of a \"file\", a \"window\", or \"two programs at once\". The operating system is the layer of software that sits between applications and hardware and supplies those notions. It exists for two reasons. First, abstraction: without it, every application author would have to write code specific to each brand of disk, each network card, each keyboard. The OS hides that variety behind uniform interfaces, so a program calls \"open this file\" or \"send these bytes\" and the OS translates the request into whatever the actual device requires. Second, arbitration: the CPU, the memory, and the disk are finite shared resources, and multiple programs want them simultaneously. Someone has to decide who gets what, and when, and has to stop one program from reading or corrupting another's data. That referee is the OS."
+          }
+        },
+        {
+          "id": "systems-concept-four-jobs",
+          "label": "The four things an OS manages",
+          "content": {
+            "format": "text",
+            "value": "OS responsibilities are conventionally grouped into four areas. (1) Process management: creating, scheduling, suspending, and terminating running programs, and giving each one the illusion that it has the CPU to itself. (2) Memory management: assigning each process a region of RAM, keeping processes out of each other's memory, and reclaiming memory when a process ends. Modern systems use virtual memory, in which each process sees its own private address space that the OS (with hardware help) maps onto real physical memory — and can temporarily move data out to disk when RAM runs short. (3) File system management: organizing persistent storage into named files and directories, tracking where each file's blocks physically live, and enforcing permissions on who may read or write them. (4) Device and I/O management: talking to keyboards, displays, disks, and network interfaces through device drivers, and buffering data between fast components and slow ones."
+          }
+        },
+        {
+          "id": "systems-concept-scheduling",
+          "label": "Scheduling and the illusion of simultaneity",
+          "content": {
+            "format": "text",
+            "value": "A single CPU core can execute only one instruction stream at a time, yet a laptop appears to run a browser, a music player, and a text editor at once. The OS achieves this by time-slicing: the scheduler gives one process the CPU for a few milliseconds, then performs a context switch — saving that process's registers and program counter, loading another process's saved state, and resuming it. Switching happens fast enough that a human perceives continuous, simultaneous execution. This is concurrency (tasks interleaved and making progress over the same period), which is distinct from true parallelism (tasks literally executing at the same instant on separate cores). A scheduler must balance competing goals: keeping the CPU busy, giving interactive tasks fast response, and preventing any process from being starved of CPU time indefinitely."
+          }
+        },
+        {
+          "id": "systems-concept-architecture",
+          "label": "Basic architecture: CPU, RAM, storage, I/O",
+          "content": {
+            "format": "text",
+            "value": "Four components and the buses connecting them account for most of what a computer does. The CPU executes instructions and contains a small number of extremely fast registers plus a control unit and an arithmetic/logic unit (ALU) that performs arithmetic and comparisons. RAM (main memory) holds the instructions and data of currently running programs; it is fast, directly addressable by the CPU, and volatile — its contents vanish when power is lost. Secondary storage (SSD or hard disk) is persistent and much larger, but far slower, and the CPU cannot execute instructions directly from it: data must be loaded into RAM first. I/O devices — keyboard, display, network interface — move data between the machine and the outside world. A useful mental model is a hierarchy ordered by speed and cost: registers, then CPU cache, then RAM, then storage. Registers, cache, and RAM each step down by roughly an order of magnitude in speed and up in size; the final step to storage is far bigger than that — RAM answers in tens of nanoseconds, while even a fast SSD takes tens of microseconds, roughly a thousand-fold jump, and a traditional spinning hard disk is slower still. A great deal of system design amounts to keeping the data you need soon as high up that hierarchy as possible, precisely because that last gap is so large."
+          }
+        },
+        {
+          "id": "systems-concept-fetch-decode-execute",
+          "label": "The fetch-decode-execute cycle",
+          "content": {
+            "format": "text",
+            "value": "At the lowest level the CPU repeats one loop, billions of times per second. Fetch: the CPU reads the instruction stored at the address held in the program counter. Decode: the control unit interprets the instruction's bit pattern to determine the operation and its operands. Execute: the operation is carried out — an ALU calculation, a load from or store to memory, or a jump. Then the program counter advances to the next instruction (or is set to a new address if the instruction was a branch) and the cycle repeats. Everything a computer does — rendering video, running a compiler, serving a web page — is this cycle repeated over an enormous number of very simple steps. It is also why a stored-program computer is general purpose: instructions live in the same memory as data, so loading different bytes into memory turns the machine into a different application."
+          }
+        },
+        {
+          "id": "systems-concept-client-server",
+          "label": "The client-server model",
+          "content": {
+            "format": "text",
+            "value": "When two devices communicate, the most common arrangement is client-server. The client initiates: it sends a request for a resource or an action. The server waits, listens for incoming requests, performs the work, and sends back a response. The roles are defined by behavior in a particular exchange, not by hardware — the same machine can be a server for one conversation and a client in another. Servers are typically always available at a known address, and a single server usually handles many clients. Communication follows a protocol, an agreed set of rules about message format and ordering, so that machines built by different manufacturers and running different operating systems can interoperate; HTTP is the protocol for web requests. The contrasting arrangement is peer-to-peer, where every participant can both request and supply, with no central authority. Client-server is simpler to secure and administer but creates a single point of failure; peer-to-peer degrades more gracefully but is harder to control."
+          }
+        }
+      ]
+    },
+    {
+      "id": "systems-worked-example-loading-a-web-page",
+      "categoryId": "V-A",
+      "heading": "Worked example: what happens when a user opens a browser and loads a page",
+      "entries": [
+        {
+          "id": "systems-worked-example-scenario",
+          "label": "The scenario",
+          "content": {
+            "format": "text",
+            "value": "A student double-clicks a browser icon, types a web address, and presses Enter. A few hundred milliseconds later a page appears. Trace what the operating system, the hardware, and the network each contribute — from the click to the rendered page. This single scenario touches nearly every idea in this category, which is why it is worth walking end to end rather than memorizing the pieces separately."
+          }
+        },
+        {
+          "id": "systems-worked-example-step-1",
+          "label": "Step 1 — the OS creates a process",
+          "content": {
+            "format": "text",
+            "value": "The double-click is an I/O event: the mouse driver reports it, and the OS delivers it to the desktop environment, which asks the OS to launch the browser. The OS locates the browser's executable file on storage through the file system, checks that the user has permission to execute it, and creates a new process. Creating a process means building a bookkeeping record — a process control block — that holds a unique process ID, the process's current state, its saved register values, and its memory boundaries. The executable's instructions are read from slow persistent storage into RAM, because the CPU can only execute from memory. The program (the file sitting on disk) has now become a process (a running instance with its own memory and its own place in the scheduler's queue)."
+          }
+        },
+        {
+          "id": "systems-worked-example-step-2",
+          "label": "Step 2 — memory is allocated and the CPU begins executing",
+          "content": {
+            "format": "text",
+            "value": "The OS gives the new process an address space: a region for its instructions, a region for static data, a stack for function calls and local variables, and a heap for memory the program requests as it runs. Those addresses are virtual — the OS and the memory-management hardware translate them to physical RAM locations, which is what keeps this process from reading the memory of any other. The scheduler then places the process in the ready queue; when its turn comes, the CPU's program counter is set to the program's entry point and the fetch-decode-execute cycle begins running browser code. The browser draws its window by asking the OS to write to the display, since it has no direct access to the graphics hardware itself."
+          }
+        },
+        {
+          "id": "systems-worked-example-step-3",
+          "label": "Step 3 — the request travels to a server",
+          "content": {
+            "format": "text",
+            "value": "The typed address arrives as another sequence of I/O events. Before the browser can open a connection it needs an IP address, and that resolution is normally done by the browser itself (checking its own cache first) or by a resolver library the browser calls, not by the OS kernel — the OS's role is to carry the resolver's own DNS query out over the network like any other request. Once an address is in hand, the browser makes a system call — a controlled request into the OS kernel — asking to open a network connection to that address; the OS carries out the low-level work of exchanging packets to establish it. HTTP is then sent over that connection: the browser is the client, and it is asking for a specific resource. The message is broken into packets and forwarded hop by hop across intermediate routers until it reaches the destination machine. Note what the specific thread waiting on this exchange is doing meanwhile: nothing — it is blocked, waiting on I/O — but the browser process as a whole is not frozen, since other threads keep servicing the rest of the interface. The scheduler hands the CPU to other processes (and other threads within this one) rather than letting it idle, which is part of why the rest of the machine stays responsive during a slow page load."
+          }
+        },
+        {
+          "id": "systems-worked-example-step-4",
+          "label": "Step 4 — the server responds and the browser renders",
+          "content": {
+            "format": "text",
+            "value": "On the far end, a server program is running as a process under its own operating system, listening for incoming requests. It receives this one, reads the requested page from its file system or generates it from a database, and sends back a response containing a status code and the page's content. The packets travel back, the client OS reassembles them in order, and signals the waiting browser process that its data is ready. The scheduler moves the browser back to ready, then to running. The browser parses the returned HTML, requests any additional resources it references (images, stylesheets — each one another request-response exchange), computes a layout, and asks the OS to paint the result on screen. If the user saves the page, the reverse of step 1 occurs: bytes move from RAM back to persistent storage through the file system."
+          }
+        },
+        {
+          "id": "systems-worked-example-conclusion",
+          "label": "Conclusion",
+          "content": {
+            "format": "text",
+            "value": "The whole sequence is one continuous chain of the category's core ideas: the OS turned a program into a process, allocated it memory, and mediated every access to hardware; the CPU did nothing but fetch, decode, and execute; data moved from storage into RAM to be worked on and back to storage to persist; and the two machines cooperated as client and server under a shared protocol. The most transferable lesson is the layering — the browser never touched the disk or the network card directly. It asked the OS, and the OS, which alone runs with the privilege to command hardware, did it on the browser's behalf. That is what makes it possible to run untrusted programs on a shared machine without them wrecking each other."
+          }
+        }
+      ]
+    },
+    {
+      "id": "systems-common-mistakes-and-misconceptions",
+      "categoryId": "V-A",
+      "heading": "Common mistakes and misconceptions",
+      "entries": [
+        {
+          "id": "systems-common-mistakes-ram-versus-storage",
+          "label": "Confusing RAM with storage",
+          "content": {
+            "format": "text",
+            "value": "The most persistent beginner error is treating \"memory\" and \"storage\" as one thing — encouraged by everyday phrasing like \"my phone is out of memory\" when the disk is full. They differ on three axes. Volatility: RAM loses its contents the instant power is cut, which is why unsaved work disappears in a crash; storage persists. Speed: RAM is orders of magnitude faster, and the CPU can address it directly, whereas storage must be read in blocks into RAM before its contents can be used. Purpose: RAM holds what is being worked on right now; storage holds what must survive until later. The practical test for students is the save operation. If saving a file were merely a formality, RAM and storage would be the same thing. Saving exists precisely because it copies data from the volatile place to the persistent one. A related confusion is thinking a program \"runs from the hard drive\" — it is loaded from storage into RAM, and executes there."
+          }
+        },
+        {
+          "id": "systems-common-mistakes-server-is-a-machine",
+          "label": "Assuming a server is always a big machine somewhere far away",
+          "content": {
+            "format": "text",
+            "value": "\"Server\" names a role in a conversation, not a category of hardware and not a location. A server is any software that listens for requests and returns responses; the machine it happens to run on is incidental. Three consequences follow, and each shows up in exam items. First, a client and a server can be the same physical device: a student running a local web server for a class project sends requests from a browser to a server process on that same laptop, over the loopback address, with no network hop at all — which is why classroom web development works without internet access. Second, one machine can be both at once: a web server that queries a database is a server to the browser and a client to the database. Third, being a server has nothing to do with size — a thermostat, a printer, or a Raspberry Pi can serve requests. The complementary error is thinking \"the cloud\" is something other than ordinary servers in ordinary buildings, owned by someone else."
+          }
+        },
+        {
+          "id": "systems-common-mistakes-program-versus-process",
+          "label": "Blurring program, process, and thread",
+          "content": {
+            "format": "text",
+            "value": "A program is passive: a file of instructions sitting in storage, doing nothing. A process is active: one running instance of that program, with its own memory, its own CPU state, and its own entry in the OS's process table. The distinction becomes concrete the moment you open the same application twice — one program, two processes, each with separate memory, so text typed in one window does not appear in the other. It also explains why \"quitting\" an application removes a process without deleting the program. A thread goes one level finer: a single flow of execution inside a process, sharing that process's memory with the other threads in it. That sharing is exactly why threads are efficient to switch between and also why they are hazardous — two threads writing the same variable can interleave badly, whereas two processes are isolated by default."
+          }
+        },
+        {
+          "id": "systems-common-mistakes-os-is-the-interface",
+          "label": "Believing the OS is the desktop you can see",
+          "content": {
+            "format": "text",
+            "value": "Students frequently equate the operating system with its graphical interface — the icons, windows, and menus. The interface is one program running on top of the OS, not the OS itself, which is why a server can run the same operating system with no graphical shell at all, and why changing the visual theme changes nothing about scheduling or memory management. The core of the OS is the kernel, invisible code that runs in a privileged mode of the CPU where it alone may command hardware directly. Ordinary programs run unprivileged and must cross into the kernel through system calls to do anything real — open a file, allocate memory, send a packet. That privilege boundary, not the appearance of the desktop, is what makes an operating system an operating system."
+          }
+        }
+      ]
+    },
+    {
+      "id": "networks-concept-overview",
+      "categoryId": "V-B",
+      "heading": "How networks and the Web work",
+      "entries": [
+        {
+          "id": "networks-concept-lan-wan-internet",
+          "label": "LAN, WAN, and the internet as a network of networks",
+          "content": {
+            "format": "text",
+            "value": "A network is two or more computing devices connected so they can exchange data. A local area network (LAN) covers a small geographic area under a single administrative owner — a classroom, a building, a home. LANs are typically built from Ethernet cabling and Wi-Fi access points joined by switches, and because the distances are short they are fast and cheap to run. A wide area network (WAN) connects sites across cities, countries, or continents, usually over infrastructure leased from telecommunications carriers rather than owned outright; a district office linked to twelve school buildings is a WAN. The internet is the largest WAN, but the important idea for the exam is that it is not one network at all: it is a network of networks. Tens of thousands of independently owned and operated networks — university campuses, corporate LANs, residential ISPs, cloud data centers — agree to interconnect and to forward each other's traffic using a common set of protocols. No single organization owns it or controls its routing. Devices that join networks together are worth distinguishing: a switch forwards traffic within one LAN, while a router connects different networks to each other and decides which way to send traffic that is leaving the local network. Your home router is the boundary between your LAN and your ISP's network, which is itself a step toward the rest of the internet."
+          }
+        },
+        {
+          "id": "networks-concept-ip-and-dns",
+          "label": "IP addresses and DNS",
+          "content": {
+            "format": "text",
+            "value": "Every device that participates in an internet conversation needs an IP address — a numeric identifier that says where it is on the network. IPv4 addresses are 32 bits, written as four decimal numbers from 0 to 255 separated by dots (198.51.100.7). Because 32 bits allows only about 4.3 billion addresses and the world ran out, IPv6 was introduced with 128-bit addresses written as up to eight groups of hexadecimal digits; a run of all-zero groups can be compressed once, with \"::\", so 2001:0db8:85a3::8a2e:0370:7334 is short for eight groups even though only seven appear on the page. An IP address is not a permanent property of a machine; most devices are assigned one automatically by DHCP when they join a network, and a laptop gets a different address at school than it has at home. Humans, however, do not want to memorize numbers, so the Domain Name System (DNS) provides a distributed directory that maps human-readable domain names such as example.org onto IP addresses. DNS is hierarchical: the name is read right to left, from the root, through a top-level domain (.org, .edu, .gov), down to the domain and any subdomains (www.example.org). When a computer needs to resolve a name it asks a resolver, which queries the hierarchy on its behalf and caches the answer for a set period so the same lookup does not have to be repeated. The key conceptual point is that DNS is a translation service layered on top of the network — it does not carry your data, it only tells your computer what address to send the data to."
+          }
+        },
+        {
+          "id": "networks-concept-packets-and-routing",
+          "label": "Packets, routing, and protocol layers",
+          "content": {
+            "format": "text",
+            "value": "Data does not travel across the internet as one continuous stream. The sending computer breaks a message — an email, an image, a web page — into small chunks called packets. Each packet carries a header with the source IP address and the destination IP address, followed by its slice of the actual data; if the packet belongs to a TCP connection, the TCP header riding inside that data also carries a sequence number, which is what lets the receiving end detect loss and put packets back in order. This is packet switching, and it is the design choice that makes the internet resilient and efficient: many conversations can share the same links by interleaving their packets, and no pair of machines has to reserve a dedicated circuit. Routers move each packet one hop at a time. A router examines the destination address, consults its routing table, and forwards the packet toward whichever neighboring router seems to be a step closer; it does not know or need to know the whole path. Because each packet is routed independently, packets from the same message can travel different physical routes, arrive out of order, arrive damaged, or not arrive at all. Reassembly and repair are handled by the layer above: TCP (Transmission Control Protocol) numbers the packets, acknowledges what arrived, requests retransmission of what did not, and hands the receiving application an ordered, complete stream. UDP is the alternative that skips those guarantees for speed, which suits live video and games where a late packet is worthless anyway. The layered picture to remember is IP for addressing and delivery, TCP or UDP for transport behavior, and application protocols such as HTTP, SMTP, or DNS riding on top."
+          }
+        },
+        {
+          "id": "networks-concept-web-http-html",
+          "label": "The Web: HTTP, URLs, HTML, and CSS",
+          "content": {
+            "format": "text",
+            "value": "The Web is an application built on top of the internet, not a synonym for it — email, file transfer, and streaming use the same internet without being part of the Web. The Web runs on a client-server, request-response model: a browser (the client) sends an HTTP request to a web server, and the server sends back an HTTP response. A URL specifies what to request and how. In https://www.example.org/courses/index.html?term=fall, the scheme is https, the host is www.example.org (the part DNS resolves), the path is /courses/index.html, and term=fall is a query string passed to the server. HTTP requests carry a method — GET to retrieve a resource, POST to submit data — plus headers. Responses carry a status code (200 for success, 301 for a permanent redirect, 404 for not found, 500 for a server-side error), headers describing the content, and usually a body. HTTP is stateless: each request is handled independently, and continuity such as a login session is reconstructed using cookies or tokens sent with every request. The body of a page response is typically HTML, a markup language whose tags describe structure and meaning — headings, paragraphs, lists, links, images. CSS is a separate language that describes presentation: color, spacing, typography, layout. Keeping structure in HTML and appearance in CSS is the separation-of-concerns principle applied to documents. JavaScript adds the third layer, behavior, running inside the browser to change the page after it has loaded."
+          }
+        },
+        {
+          "id": "networks-concept-security-basics",
+          "label": "Security concepts: encryption, firewalls, and common threats",
+          "content": {
+            "format": "text",
+            "value": "Because packets pass through equipment nobody in the conversation controls, anything sent in plaintext can in principle be read or altered in transit. HTTPS solves this by wrapping ordinary HTTP inside TLS (Transport Layer Security, the successor to SSL). TLS does three things: it authenticates the server using a digital certificate issued by a certificate authority, it negotiates a shared secret key using public-key cryptography, and it then encrypts the traffic with fast symmetric encryption so an eavesdropper sees only ciphertext and any tampering is detected. A firewall performs a different job — it filters traffic crossing a network boundary, allowing or blocking packets based on rules about ports, addresses, protocols, and sometimes application content. Firewalls decide what may pass; encryption decides who can read what passes. Threats worth recognizing include eavesdropping or packet sniffing on shared networks; man-in-the-middle attacks, where an attacker relays and possibly alters traffic between two parties who believe they are talking directly; denial-of-service and distributed denial-of-service attacks, which exhaust a server's capacity with floods of requests rather than stealing anything; spoofing, which forges a source address or identity; and phishing, a social attack that tricks a person into surrendering credentials and that no amount of encryption prevents. Defenses layer accordingly: encryption for confidentiality in transit, firewalls and access control at boundaries, authentication and strong credentials for identity, and user education for the human layer."
+          }
+        }
+      ]
+    },
+    {
+      "id": "networks-worked-example-url-to-page",
+      "categoryId": "V-B",
+      "heading": "Worked example: typing a URL and pressing enter",
+      "entries": [
+        {
+          "id": "networks-worked-example-step-1-dns",
+          "label": "Steps 1-2: parse the URL, then resolve the name with DNS",
+          "content": {
+            "format": "text",
+            "value": "Suppose a user types https://www.example.org/courses/index.html and presses enter. Step 1: the browser parses the URL into its parts — scheme https, host www.example.org, path /courses/index.html — and notes that https means port 443 and an encrypted connection by default. Step 2: the browser needs an IP address, because routers forward by address and know nothing about names. It checks caches in order, cheapest first: its own in-memory DNS cache, then the operating system cache and the local hosts file. On a miss it asks the configured DNS resolver, usually one run by the ISP or a public service. The resolver, if it too has no cached answer, walks the hierarchy: it asks a root server, which points it at the .org top-level domain servers; those point it at the authoritative name servers for example.org; and those return the address record for www.example.org — say 198.51.100.7. The answer travels back to the browser and is cached along the way for the record's time-to-live. Notice that this lookup is a complete network conversation of its own, finished before the first byte of the actual web request is sent. If DNS fails here, the browser reports that the site's address could not be found — a different failure from a site that resolves but does not respond."
+          }
+        },
+        {
+          "id": "networks-worked-example-step-2-connection-tls",
+          "label": "Steps 3-4: open a TCP connection, then negotiate TLS",
+          "content": {
+            "format": "text",
+            "value": "Step 3: the browser opens a TCP connection to 198.51.100.7 on port 443. TCP begins with a three-way handshake — the client sends SYN, the server replies SYN-ACK, the client answers ACK — which confirms both directions work and establishes the sequence numbers used to order and acknowledge packets. Every packet in this exchange is routed hop by hop across the internet as described earlier; neither endpoint knows or controls the path. Step 4: because the scheme is https, TLS is negotiated on top of that TCP connection before any HTTP is sent. The client announces which cipher suites and TLS versions it supports; the server chooses one and presents its digital certificate. The browser validates that certificate — checking that it was issued by a certificate authority the browser trusts, that it has not expired or been revoked, and crucially that the name on the certificate matches www.example.org. If validation fails, the browser shows a security warning rather than proceeding. On success the two sides use public-key cryptography to agree on a symmetric session key, and from that point everything — the request line, headers, cookies, page content — is encrypted. This ordering is the point worth memorizing: DNS lookup, then TCP connection, then TLS handshake, then HTTP. TLS protects the HTTP conversation; it does not protect the DNS lookup that preceded it, which is why the domain being visited can still be observable on the network."
+          }
+        },
+        {
+          "id": "networks-worked-example-step-3-request-response",
+          "label": "Steps 5-6: the HTTP request and the server's response",
+          "content": {
+            "format": "text",
+            "value": "Step 5: inside the encrypted channel the browser sends an HTTP request. The request line reads GET /courses/index.html HTTP/1.1, followed by headers — Host: www.example.org so a server hosting many sites on one address knows which is meant, User-Agent identifying the browser, Accept listing acceptable content types, and any Cookie values previously stored for this domain. A GET request has no body. Step 6: the web server receives the request, either returning a static file from disk or invoking application code that queries a database and generates the page. It replies with a status line — HTTP/1.1 200 OK for success, or 404 if the path does not exist, 301 or 302 to redirect the browser elsewhere, 500 if server-side code failed — plus response headers such as Content-Type: text/html and caching directives, and then the response body containing the HTML. Because HTTP is stateless, the server does not inherently remember this browser from one request to the next; if the user is logged in, that continuity comes from a session cookie or token included in each request. The entire response is broken into packets, transmitted, reassembled by TCP in the correct order, decrypted by TLS, and handed to the browser as a stream of HTML."
+          }
+        },
+        {
+          "id": "networks-worked-example-step-4-rendering",
+          "label": "Steps 7-8: rendering the page and fetching subresources",
+          "content": {
+            "format": "text",
+            "value": "Step 7: the browser parses the HTML into a tree structure, the Document Object Model, which represents the nesting of elements. As it parses, it encounters references to other resources — a stylesheet at /css/site.css, images, fonts, script files, possibly assets on other domains entirely. Step 8: each of those is a separate HTTP request. Same-host resources reuse the existing connection where the protocol allows; resources on a different host trigger their own DNS lookup, connection, and TLS handshake. As CSS arrives the browser builds a style model, combines it with the DOM to compute the final appearance of each element, lays out the elements geometrically, and paints pixels to the screen. JavaScript that arrives may modify the DOM afterward, causing another layout and repaint, which is why a page can visibly change after it first appears. Because the HTML arrives first and subresources are fetched afterward, users often see unstyled or partially assembled content momentarily on a slow connection. When the user later clicks a link, the cycle repeats — though cached DNS answers, a warm TCP connection, a resumed TLS session, and cached CSS and images typically make subsequent pages load much faster than the first."
+          }
+        },
+        {
+          "id": "networks-worked-example-firewall-checkpoints",
+          "label": "Where a firewall inspects this sequence",
+          "content": {
+            "format": "text",
+            "value": "A firewall sits at a network boundary and evaluates packets against rules at several points in the trace above. On the outbound side, a school or corporate firewall may check whether the destination port is permitted — 443 for HTTPS and 53 for DNS are normally allowed while unusual ports are blocked — and may compare the destination address or requested domain against a blocklist, refusing to let the connection open at all. It may force DNS queries through an approved internal resolver so that name resolution can be logged and filtered; a content filter that blocks a site typically acts at this DNS stage or on the connection attempt, which is why a blocked page often fails before any HTTP request is sent. On the inbound side, a firewall protecting the web server checks that arriving traffic is destined for a service that is supposed to be reachable — permitting 443 while dropping attempts to reach a database port — and a stateful firewall additionally tracks established connections so that response packets belonging to a conversation the inside started are allowed back in while unsolicited inbound packets are dropped. What the firewall generally cannot do is read the content of an HTTPS conversation once it is encrypted, since TLS protects the request and response bodies; but the TLS handshake itself is not fully hidden — the requested hostname is typically sent in the clear in the ClientHello's SNI field, so a firewall can and often does block or log connections by the domain name being requested, in addition to seeing addresses, ports, packet sizes, and timing. That is exactly how school and corporate content filters commonly enforce blocklists at the connection stage described above. Filtering on SNI has limits of its own — it can be evaded by protocols that encrypt the hostname — which is why organizations that want to see the actual page content, not just the domain, still need to filter at the DNS layer or deploy an inspection proxy that terminates and re-encrypts TLS."
+          }
+        }
+      ]
+    },
+    {
+      "id": "networks-common-mistakes",
+      "categoryId": "V-B",
+      "heading": "Common mistakes and misconceptions",
+      "entries": [
+        {
+          "id": "networks-common-mistakes-name-vs-address",
+          "label": "Confusing a domain name with an IP address",
+          "content": {
+            "format": "text",
+            "value": "A domain name and an IP address are not the same identifier in two formats; they are entries on two sides of a lookup table maintained by an entirely separate system. The IP address is what the network actually uses to deliver packets, and routers have no knowledge of names at all. The domain name is a human convenience that must be translated by DNS before any data moves. The relationship is also not one-to-one in either direction: a single domain can map to many IP addresses for load balancing or geographic distribution, many domains can share one IP address on a shared host (which is why the HTTP Host header exists), and the address behind a name can change at any time. A related confusion is between a URL and a domain name — the domain is only the host portion of a URL, which also contains a scheme, a path, and possibly a query string and port. Two more distinctions commonly tested: an IP address identifies a device's position on a network and changes when it moves to a different network, whereas a MAC address is a hardware identifier burned into the network interface and used only within the local network segment. And a DNS failure produces a different symptom from a server failure — 'server not found' means the name could not be translated, while a 404 or a timeout means the name resolved fine and the problem lies further along."
+          }
+        },
+        {
+          "id": "networks-common-mistakes-https-means-safe",
+          "label": "Assuming HTTPS means a site is trustworthy",
+          "content": {
+            "format": "text",
+            "value": "The padlock and the https scheme make exactly two guarantees, and neither is about the site's honesty. First, the connection is encrypted, so someone watching the network cannot read or silently alter the traffic. Second, the certificate shows that the server genuinely controls the domain name shown in the address bar, so you are talking to whoever owns that name rather than an impostor intercepting the connection. What HTTPS does not tell you is whether that domain's owner is legitimate, whether the site sells real products, whether it will handle your data responsibly, or whether it is a phishing page. Basic domain-validated certificates are free and automated, so criminals obtain them routinely; a phishing site at a lookalike domain will show a perfectly valid padlock while encrypting your stolen password on its way to the attacker. The security question HTTPS answers is 'is this conversation private and is this really the domain named?' — not 'is this domain worth trusting?' Judging trustworthiness means reading the domain name character by character for lookalikes, considering how you arrived at the page, and being suspicious of unexpected requests for credentials. Conversely, a plain-http page is not necessarily malicious, but anything typed into it travels in readable form and should be treated as public."
+          }
+        },
+        {
+          "id": "networks-common-mistakes-firewall-vs-antivirus",
+          "label": "Confusing firewalls, antivirus, and encryption",
+          "content": {
+            "format": "text",
+            "value": "These three defenses are often lumped together as 'security software,' but each addresses a distinct threat and none substitutes for the others. A traditional firewall controls traffic at a network boundary, deciding which packets may cross based on addresses, ports, protocols, and connection state; it is a gatekeeper rather than a content scanner. A basic packet-filtering firewall does not examine the contents of files and cannot tell whether a program is malicious — some more advanced firewalls do inspect limited application-level signals, such as a requested hostname, but reading and scanning full file contents is still fundamentally antivirus's job, not the firewall's. Antivirus or anti-malware software runs on a host and inspects files, processes, and behavior for known malicious signatures or suspicious activity; it can catch a virus in a downloaded attachment, which a firewall that permitted the download would never notice. Encryption makes data unreadable to anyone lacking the key, protecting confidentiality in transit (TLS) or at rest (disk encryption); it neither blocks nor detects anything, and it will faithfully protect malware in transit just as well as legitimate data. The practical consequences are worth stating plainly: a firewall will not stop a user from installing malware they deliberately downloaded over an allowed port, antivirus will not stop a denial-of-service flood aimed at a server, and encryption will not stop a phishing victim from typing a password into an attacker's form. Effective security uses all three in layers, together with authentication and access control, on the assumption that any single layer may fail."
+          }
+        }
+      ]
+    }
+  ]
+}
