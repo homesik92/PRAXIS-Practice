@@ -9,12 +9,176 @@
 <body class="page-hub">
   <main>
     <header class="hub-masthead">
-      <h1 class="hub-wordmark">PRAXIS <span class="hub-wordmark-thin">Practice</span></h1>
-      <p class="hub-tagline">Full-length practice tests, topic drills, and spaced review
-        for four Praxis Subject Assessments.</p>
-      <p class="hub-disclaimer">Unofficial practice material. Not affiliated with or
-        endorsed by ETS.</p>
+      <div class="hub-masthead-text">
+        <h1 class="hub-wordmark">PRAXIS <span class="hub-wordmark-thin">Practice</span></h1>
+        <p class="hub-tagline">Full-length practice tests, topic drills, and spaced review
+          for four Praxis Subject Assessments.</p>
+        <p class="hub-disclaimer">Unofficial practice material. Not affiliated with or
+          endorsed by ETS.</p>
+      </div>
+
+      <!-- "Go Navy, Beat Army!", deliberately unlabelled: a personal accent
+           from the session owner (a Naval Academy alum) for other alumni to
+           spot, not a claim of any institutional affiliation — it's the
+           generic rivalry cheer rendered as plain text in two colors, not any
+           school's logo or wordmark artwork, the same care the ETS disclaimer
+           beside it takes. Decorative only, so it is aria-hidden: naming it
+           would announce the easter egg to screen-reader users that sighted
+           users have to find, and it carries no information needed to use the
+           page. -->
+      <div class="hub-signature">
+        <svg viewBox="0 0 180 74" xmlns="http://www.w3.org/2000/svg" class="hub-signature-mark"
+             role="presentation" aria-hidden="true" focusable="false">
+          <text x="4" y="28">Go Navy</text>
+          <text x="26" y="60">Beat Army!</text>
+        </svg>
+      </div>
     </header>
+
+    <!-- Session owner's motto (Phase 6.11.1). Real content, not decoration --
+         rendered as ordinary accessible text in a distinct serif, not an
+         aria-hidden SVG graphic, so it's actually announced to a screen
+         reader rather than skipped like the masthead's easter-egg mark. -->
+    <div class="hub-motto">
+      <p class="hub-motto-lead">The secret to passing PRAXIS&hellip;</p>
+      <ol class="hub-motto-list">
+        <li><strong>Respect</strong> the test</li>
+        <li><strong>Don't assume</strong> you already know anything</li>
+        <li>Take preparation <strong>seriously</strong></li>
+      </ol>
+    </div>
+
+    <!-- Welcoming hero illustration (Phase 6.11.1) — a flat-vector classroom
+         scene, not stock photography, matching the "illustrated, welcoming"
+         direction chosen for this refresh. The whiteboard's little bar chart
+         deliberately echoes the site's own hub-bar/category-stat visual
+         language (SCHEMA.md's bullet-graph bars), so it isn't just generic
+         decoration. Figures are abstract (no facial features, no depicted
+         ethnicity) with varied flat skin/hair tones for a diverse-without-
+         guessing look. Purely decorative: aria-hidden, since it carries no
+         information not already in the surrounding text. -->
+    <div class="hub-hero-illustration">
+      <svg viewBox="0 0 800 190" xmlns="http://www.w3.org/2000/svg" class="hub-hero-svg"
+           role="presentation" aria-hidden="true" focusable="false">
+        <circle cx="170" cy="95" r="125" fill="var(--color-accent-wash)" opacity="0.8"/>
+        <line x1="20" y1="184" x2="780" y2="184" stroke="var(--color-bar-track)" stroke-width="2"/>
+        <circle cx="650" cy="28" r="5" fill="var(--color-bar-track)"/>
+        <circle cx="702" cy="48" r="4" fill="var(--color-bar-track)"/>
+        <circle cx="742" cy="22" r="6" fill="var(--color-bar-track)"/>
+
+        <!-- Whiteboard, teacher's gesture points toward it -->
+        <g transform="translate(190,22)">
+          <rect x="0" y="0" width="150" height="98" rx="6" fill="#ffffff" stroke="var(--color-border)" stroke-width="2"/>
+          <line x1="14" y1="18" x2="90" y2="18" stroke="var(--color-muted)" stroke-width="3" stroke-linecap="round" opacity="0.5"/>
+          <rect x="20" y="58" width="16" height="28" rx="3" fill="var(--color-accent-light)"/>
+          <rect x="48" y="43" width="16" height="43" rx="3" fill="var(--color-correct)"/>
+          <rect x="76" y="66" width="16" height="20" rx="3" fill="var(--color-warning)"/>
+          <rect x="104" y="50" width="16" height="36" rx="3" fill="var(--color-accent)"/>
+          <line x1="14" y1="86" x2="132" y2="86" stroke="var(--color-border)" stroke-width="2"/>
+        </g>
+
+        <!-- Teacher, standing, right arm raised toward the whiteboard. Limbs
+             and torso are tapered (wider at shoulder/hip, narrower at
+             wrist/ankle) rather than uniform-width capsules, with a neck and
+             rounded hand/foot terminals — reads as a proportioned figure
+             instead of a stick figure at this scale. -->
+        <g transform="translate(100,182)">
+          <!-- legs -->
+          <circle cx="-8" cy="-44" r="7" fill="var(--color-mark-navy)"/>
+          <circle cx="-8" cy="-2" r="5.5" fill="var(--color-mark-navy)"/>
+          <path d="M -15,-44 L -13.5,-2 L -2.5,-2 L -1,-44 Z" fill="var(--color-mark-navy)"/>
+          <circle cx="8" cy="-44" r="7" fill="var(--color-mark-navy)"/>
+          <circle cx="8" cy="-2" r="5.5" fill="var(--color-mark-navy)"/>
+          <path d="M 1,-44 L 2.5,-2 L 13.5,-2 L 15,-44 Z" fill="var(--color-mark-navy)"/>
+          <ellipse cx="-11" cy="-1" rx="9" ry="4" fill="#33302a"/>
+          <ellipse cx="11" cy="-1" rx="9" ry="4" fill="#33302a"/>
+          <!-- torso -->
+          <circle cx="0" cy="-98" r="24" fill="var(--color-accent)"/>
+          <circle cx="0" cy="-48" r="18" fill="var(--color-accent)"/>
+          <path d="M -24,-98 L -18,-48 L 18,-48 L 24,-98 Z" fill="var(--color-accent)"/>
+          <!-- neck -->
+          <rect x="-7" y="-106" width="14" height="8" fill="#c68863"/>
+          <!-- left arm, hanging -->
+          <circle cx="-24" cy="-94" r="7" fill="var(--color-accent)"/>
+          <circle cx="-24" cy="-50" r="5.5" fill="var(--color-accent)"/>
+          <path d="M -31,-94 L -29.5,-50 L -18.5,-50 L -17,-94 Z" fill="var(--color-accent)"/>
+          <circle cx="-24" cy="-50" r="7" fill="#c68863"/>
+          <!-- right arm, raised toward the board -->
+          <g transform="rotate(-120 20 -94)">
+            <circle cx="20" cy="-94" r="7" fill="var(--color-accent)"/>
+            <circle cx="20" cy="-50" r="5.5" fill="var(--color-accent)"/>
+            <path d="M 13,-94 L 14.5,-50 L 25.5,-50 L 27,-94 Z" fill="var(--color-accent)"/>
+            <circle cx="20" cy="-50" r="7" fill="#c68863"/>
+          </g>
+          <!-- head -->
+          <circle cx="0" cy="-122" r="16" fill="#c68863"/>
+          <path d="M -15 -129 A 17 17 0 0 1 15 -129" fill="none" stroke="#3b2a20" stroke-width="9" stroke-linecap="round"/>
+        </g>
+
+        <!-- Desk -->
+        <rect x="470" y="150" width="300" height="16" rx="5" fill="#c9a583"/>
+        <rect x="470" y="163" width="300" height="5" rx="2" fill="#a9835e" opacity="0.5"/>
+
+        <!-- Student 1, seated, open book. Arms angle inward toward the book
+             (negative rotation swings the left-shoulder arm's hand rightward,
+             positive swings the right-shoulder arm's hand leftward) — the
+             original uniform-capsule version had these signs backwards, so
+             the arms splayed outward instead of toward the book; fixed here
+             alongside the taper pass. -->
+        <g transform="translate(560,150)">
+          <circle cx="0" cy="-56" r="20" fill="var(--color-correct)"/>
+          <path d="M -20,-56 L -16,0 L 16,0 L 20,-56 Z" fill="var(--color-correct)"/>
+          <rect x="-7" y="-64" width="14" height="8" fill="#f4c2a1"/>
+          <g transform="rotate(-20 -16 -50)">
+            <circle cx="-16" cy="-50" r="6.5" fill="var(--color-correct)"/>
+            <circle cx="-16" cy="-16" r="5" fill="var(--color-correct)"/>
+            <path d="M -22.5,-50 L -21,-16 L -11,-16 L -9.5,-50 Z" fill="var(--color-correct)"/>
+            <circle cx="-16" cy="-16" r="6.5" fill="#f4c2a1"/>
+          </g>
+          <g transform="rotate(20 16 -50)">
+            <circle cx="16" cy="-50" r="6.5" fill="var(--color-correct)"/>
+            <circle cx="16" cy="-16" r="5" fill="var(--color-correct)"/>
+            <path d="M 9.5,-50 L 11,-16 L 21,-16 L 22.5,-50 Z" fill="var(--color-correct)"/>
+            <circle cx="16" cy="-16" r="6.5" fill="#f4c2a1"/>
+          </g>
+          <circle cx="0" cy="-79" r="15" fill="#f4c2a1"/>
+          <path d="M -14 -86 A 15 15 0 0 1 14 -86" fill="none" stroke="#5c3a21" stroke-width="8" stroke-linecap="round"/>
+          <circle cx="0" cy="-97" r="5" fill="#5c3a21"/>
+        </g>
+        <g transform="translate(560,150)">
+          <path d="M -30,-2 L -3,-7 L -3,7 L -30,12 Z" fill="var(--color-bg)" stroke="var(--color-border)" stroke-width="1.5"/>
+          <path d="M 30,-2 L 3,-7 L 3,7 L 30,12 Z" fill="var(--color-bg)" stroke="var(--color-border)" stroke-width="1.5"/>
+        </g>
+
+        <!-- Student 2, seated, laptop. A tighter inward angle than student 1
+             (hands converge near center, typing) rather than the wider
+             book-holding angle. -->
+        <g transform="translate(690,150)">
+          <circle cx="0" cy="-56" r="20" fill="var(--color-warning)"/>
+          <path d="M -20,-56 L -16,0 L 16,0 L 20,-56 Z" fill="var(--color-warning)"/>
+          <rect x="-7" y="-64" width="14" height="8" fill="#8d5524"/>
+          <g transform="rotate(-30 -16 -50)">
+            <circle cx="-16" cy="-50" r="6.5" fill="var(--color-warning)"/>
+            <circle cx="-16" cy="-16" r="5" fill="var(--color-warning)"/>
+            <path d="M -22.5,-50 L -21,-16 L -11,-16 L -9.5,-50 Z" fill="var(--color-warning)"/>
+            <circle cx="-16" cy="-16" r="6.5" fill="#8d5524"/>
+          </g>
+          <g transform="rotate(30 16 -50)">
+            <circle cx="16" cy="-50" r="6.5" fill="var(--color-warning)"/>
+            <circle cx="16" cy="-16" r="5" fill="var(--color-warning)"/>
+            <path d="M 9.5,-50 L 11,-16 L 21,-16 L 22.5,-50 Z" fill="var(--color-warning)"/>
+            <circle cx="16" cy="-16" r="6.5" fill="#8d5524"/>
+          </g>
+          <circle cx="0" cy="-79" r="15" fill="#8d5524"/>
+          <path d="M -13 -86 A 13 13 0 0 1 13 -86" fill="none" stroke="#1a1a1a" stroke-width="7" stroke-linecap="round"/>
+        </g>
+        <g transform="translate(690,150)">
+          <path d="M -24,10 L 24,10 L 18,0 L -18,0 Z" fill="#444444"/>
+          <rect x="-18" y="-30" width="36" height="30" rx="3" fill="#444444"/>
+          <rect x="-14" y="-26" width="28" height="22" fill="var(--color-accent-light)" opacity="0.5"/>
+        </g>
+      </svg>
+    </div>
 
     <p id="hub-summary" class="hub-summary" hidden></p>
 

@@ -55,6 +55,12 @@
      left off" callout background, distinct from --color-accent-light (which
      is reserved for the dashboard meter's "first attempt" stroke). */
   --color-accent-wash: #eef3ff;
+
+  /* S1 masthead mark (Phase 6.11) -- a fixed navy/gold pair for the personal
+     wordmark accent, deliberately distinct from --color-accent so the mark
+     never reads as a clickable link. */
+  --color-mark-navy: #12294f;
+  --color-mark-gold: #c9a227;
 }
 
 html {
@@ -943,9 +949,33 @@ details.backup summary svg {
 
 .hub-masthead {
   display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+.hub-masthead-text {
+  display: flex;
   flex-direction: column;
   gap: 0.5rem;
-  margin-bottom: 1.5rem;
+  min-width: 0;
+}
+
+/* Subtle illustration background for the masthead — welcoming, approachable mood */
+.hub-masthead::before {
+  content: "";
+  position: absolute;
+  top: -3rem;
+  right: -2rem;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle at 30% 30%, var(--color-accent-light) 0%, transparent 70%);
+  border-radius: 50%;
+  z-index: -1;
+  opacity: 0.3;
 }
 
 .hub-wordmark {
@@ -973,6 +1003,81 @@ details.backup summary svg {
   margin: 0;
   font-size: 0.8125rem;
   color: var(--color-muted);
+}
+
+/* Motto (Phase 6.11.1). Deliberately a different font family (serif) from
+   the rest of the page's system-sans typography, so it reads as a distinct
+   voice -- a personal statement, not UI chrome. list-style:none plus a
+   counter-driven ::before doesn't remove the <ol>'s real list semantics, so
+   a screen reader still gets "list, 3 items" even with the custom numerals. */
+.hub-motto {
+  margin: 0 0 1.75rem;
+  text-align: center;
+  font-family: Georgia, "Times New Roman", Times, serif;
+}
+
+/* Same right-anchored 58% column as .hub-motto-list below (widened and
+   nudged off the far edge via the small right margin, so item 2's longest
+   line fits without wrapping), both left-aligned within it, so the two lines
+   share one left edge instead of the lead line spanning the full width. */
+.hub-motto-lead {
+  margin: 0 1.5% 0.6rem auto;
+  max-width: 58%;
+  text-align: left;
+  font-size: 1.75rem;
+  font-style: italic;
+  font-weight: 600;
+  color: var(--color-text);
+}
+
+/* Pushed right and left-aligned so the list sits above the two seated
+   students in the illustration below, rather than centered under the lead
+   line -- the lead line itself is untouched. */
+.hub-motto-list {
+  margin: 0 1.5% 0 auto;
+  padding: 0;
+  max-width: 58%;
+  text-align: left;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  counter-reset: motto;
+}
+
+@media (max-width: 30rem) {
+  .hub-motto-lead,
+  .hub-motto-list {
+    margin-left: 0;
+    max-width: none;
+  }
+}
+
+.hub-motto-list li {
+  font-size: 1.375rem;
+  color: var(--color-muted);
+  counter-increment: motto;
+}
+
+.hub-motto-list li::before {
+  content: counter(motto) ". ";
+  font-weight: 700;
+  color: var(--color-mark-navy);
+}
+
+/* Hero illustration (Phase 6.11.1). Explicit aspect-ratio, not just
+   height:auto -- learned live-testing the masthead mark that an inline SVG
+   sized by width alone doesn't reliably derive its height from viewBox
+   across browsers, and silently crops instead. */
+.hub-hero-illustration {
+  margin: 0.5rem 0 2rem;
+}
+
+.hub-hero-svg {
+  display: block;
+  width: 100%;
+  aspect-ratio: 800 / 190;
+  height: auto;
 }
 
 .hub-summary {
@@ -1080,18 +1185,40 @@ details.backup summary svg {
   flex-direction: column;
   gap: 0.875rem;
   background: var(--color-bg);
-  border: 1px solid var(--color-bar-track);
+  border: 2px solid var(--color-bar-track);
   border-radius: 10px;
   padding: 1.125rem;
   text-decoration: none;
   color: var(--color-text);
-  transition: border-color 120ms ease, transform 120ms ease;
+  transition: border-color 120ms ease, transform 120ms ease, box-shadow 120ms ease;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Illustrated background decoration on cards — welcoming visual accent */
+.hub-card::before {
+  content: "";
+  position: absolute;
+  top: -20px;
+  right: -30px;
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  opacity: 0.06;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.hub-card > * {
+  position: relative;
+  z-index: 1;
 }
 
 .hub-card:hover,
 .hub-card:focus-visible {
   border-color: var(--color-accent);
-  transform: translateY(-1px);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(11, 95, 255, 0.15);
 }
 
 .hub-card-head {
@@ -1238,6 +1365,44 @@ details.backup summary svg {
   color: var(--color-muted);
 }
 
+/* The page's quiet mark (Phase 6.11). Sits in the masthead's top-right corner
+   -- findable, not announced. No caption by design: it's an accent for those
+   who recognize it, and labelling it would defeat that. Fixed navy/gold
+   rather than the muted-to-accent treatment other decorative marks on this
+   site use, since this one carries its own two-color identity. */
+.hub-signature {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: flex-start;
+  padding-top: 0.3rem;
+}
+
+.hub-signature-mark {
+  width: 100px;
+  aspect-ratio: 180 / 74;
+  height: auto;
+  overflow: visible;
+  opacity: 0.7;
+  transition: opacity 200ms ease;
+}
+
+.hub-signature-mark text {
+  font-family: var(--font-sans);
+  font-size: 26px;
+  font-weight: 800;
+  paint-order: stroke fill;
+  fill: var(--color-mark-navy);
+  stroke: var(--color-mark-gold);
+  stroke-width: 2.2;
+  stroke-linejoin: round;
+}
+
+/* A small reward for noticing it. Not a control -- nothing is clickable here,
+   so this only ever reads as a bit of life on the page. */
+.hub-signature:hover .hub-signature-mark {
+  opacity: 1;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .hub-card {
     transition: none;
@@ -1246,5 +1411,15 @@ details.backup summary svg {
   .hub-card:hover,
   .hub-card:focus-visible {
     transform: none;
+  }
+
+  .hub-signature-mark {
+    transition: none;
+  }
+}
+
+@media (max-width: 26rem) {
+  .hub-signature-mark {
+    width: 74px;
   }
 }
