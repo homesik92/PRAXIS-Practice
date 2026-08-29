@@ -62,7 +62,7 @@ site with no server.
 | 6.10 | Topic teaching pages — remaining three subjects | ◐ |
 | 6.11 | Landing page visual refresh | ☑ |
 | 7 | Content authoring (parallel track) | ☑ |
-| 7.1 | History-aware draw for Practice a topic / Category test | ◐ |
+| 7.1 | History-aware draw for Practice a topic / Category test | ☑ |
 | 7.2 | Supplemental authoring — 5165 Functions & Calculus | ◐ |
 | 8 | Launch (NAS) — v1, Mathematics only | ◐ |
 | 9 | Multi-subject entry (S1 redesign) | ☑ |
@@ -881,16 +881,25 @@ repeating. This reverses the original fully-random tradeoff from Phase
   topic modes changes — they were already history-aware.
 
 **Tasks:**
-- ☐ **7.1.1** `js/schema.js` — thread `history` through `assembleCategoryDrill`.
-- ☐ **7.1.2** `run.html` — `runCategoryDrill` loads the store (read-only) and
+- ☑ **7.1.1** `js/schema.js` — thread `history` through `assembleCategoryDrill`.
+- ☑ **7.1.2** `run.html` — `runCategoryDrill` loads the store (read-only) and
   passes `questionHistory` through; update the function's header comment
   (currently documents the now-superseded "never touches the store" design).
-- ☐ **7.1.3** `tools/test-schema.mjs` — replace the fully-random test with a
-  least-recently-seen test; run the full suite green.
-- ☐ **7.1.4** Live-verify in the browser: seed some history, confirm
-  "Practice a topic" now prefers unseen questions.
-- ☐ **7.1.5** Log D-35, index it, flag for downstream sync to
+- ☑ **7.1.3** `tools/test-schema.mjs` — replace the fully-random test with a
+  least-recently-seen test; run the full suite green. (314/314 across all
+  `tools/test-*.mjs`.)
+- ☑ **7.1.4** Live-verify in the browser: seed some history, confirm
+  "Practice a topic" now prefers unseen questions. Confirmed against the
+  real `run.html` UI (not just unit tests) — seeded real `localStorage`
+  history marking 37/39 Functions questions as recently seen, reloaded with
+  the browser's HTTP cache explicitly bypassed (`fetch(..., {cache:
+  "reload"})` primed first — the local dev server's static JS otherwise
+  served a stale cached copy across reloads, a test-harness artifact, not a
+  product bug), clicked Start, and the very first question shown was one of
+  the two seeded-unseen questions. Test `localStorage` entry removed after.
+- ☑ **7.1.5** Log D-35, index it, flag for downstream sync to
   `PRAXIS-iOS-Math` (D-30) since this touches `run.html` and `js/schema.js`.
+  **Phase 7.1 complete.**
 
 ### Phase 7.2 — Supplemental authoring: 5165 Functions & Calculus
 
