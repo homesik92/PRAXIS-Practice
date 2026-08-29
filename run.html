@@ -117,6 +117,7 @@
       <button id="submit-button-top" type="button">Submit test</button>
       <ol id="review-list"></ol>
       <button id="submit-button" type="button">Submit test</button>
+      <p><a id="back-link-bottom" href="index.html">&larr; Back</a></p>
     </div>
 
     <!-- S5 -- topic study (Phase 4.1). Untimed and separate from S3's state machine
@@ -152,6 +153,7 @@
         <h3>Full review</h3>
         <ol id="drill-full-review-list"></ol>
       </div>
+      <p><a id="back-link-bottom-drill" href="index.html">&larr; Back</a></p>
     </div>
 
     <dialog id="confirm-submit-dialog" aria-labelledby="confirm-submit-heading">
@@ -195,6 +197,8 @@
     const mode = params.get("mode");
 
     const backLink = document.getElementById("back-link");
+    const backLinkBottom = document.getElementById("back-link-bottom");
+    const backLinkBottomDrill = document.getElementById("back-link-bottom-drill");
     const heading = document.getElementById("test-heading");
     const statusNote = document.getElementById("status-note");
     const startScreen = document.getElementById("start-screen");
@@ -241,7 +245,12 @@
     const drillFullReview = document.getElementById("drill-full-review");
     const drillFullReviewList = document.getElementById("drill-full-review-list");
 
-    if (code) backLink.href = `test.html?code=${encodeURIComponent(code)}`;
+    if (code) {
+      const href = `test.html?code=${encodeURIComponent(code)}`;
+      backLink.href = href;
+      backLinkBottom.href = href;
+      backLinkBottomDrill.href = href;
+    }
 
     function showStatus(message) {
       // Clear-then-set (same reasoning as announce() below, code review finding)
