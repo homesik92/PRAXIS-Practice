@@ -60,6 +60,7 @@ site with no server.
 | 6.8 | S2 redesign (test-menu hub) | ☑ |
 | 6.9 | Topic teaching pages ("Study a topic") — Mathematics | ☑ |
 | 6.10 | Topic teaching pages — remaining three subjects | ◐ |
+| 6.11 | Landing page visual refresh | ☐ |
 | 7 | Content authoring (parallel track) | ☑ |
 | 8 | Launch (NAS) — v1, Mathematics only | ◐ |
 | 9 | Multi-subject entry (S1 redesign) | ☑ |
@@ -1329,6 +1330,35 @@ task — high effort, one subject per session, each with its own plan gate.
   Note: this bank's categories are flat top-level leaves (no subcategories —
   the session owner's call during 5101's question authoring), so its 8 chapters
   each cover a broader span than 5652's or 5485's subdivided ones.
+
+### Phase 6.11 — Landing page visual refresh
+
+Visual improvement to `index.html` and `css/base.css` — keep all existing content
+and functionality, add visual polish and imagery to make the landing page more
+engaging.
+
+- ☐ **6.11.1 Requirements & design ideation.** Interview session to gather vision
+  for the landing page improvement. Propose 2–3 initial design concepts capturing:
+  overlay imagery of adults taking tests and teachers at chalkboards (faded/
+  transparent treatment), integration with existing content, potential color palette
+  improvements, and placement strategy for Bill the Goat mascot as a subtle accent.
+  *Accepts:* documented design direction with visual concepts sketched or described.
+  *Pending.*
+
+- ☐ **6.11.2 Asset sourcing & graphics proposal.** Research and propose candidate
+  graphics: test-taker and teacher/chalkboard imagery (considering opacity,
+  transparency, and size); Bill the Goat placement and sizing as a mascot accent.
+  Propose final visual treatment and placement on the page.
+  *Accepts:* candidate graphics reviewed and approved for implementation.
+  *Pending.*
+
+- ☐ **6.11.3 Implementation.** Update `index.html` and `css/base.css` to integrate
+  approved graphics, maintain existing content structure and functionality, apply
+  color/visual polish. Ensure responsive design across mobile/tablet/desktop and
+  verify accessibility (text contrast, semantic markup, screen-reader compatibility).
+  *Accepts:* landing page loads with new visuals, all text readable, existing
+  functionality unchanged, responsive and accessible.
+  *Pending.*
 
 ### Phase 8 — Launch (NAS)
 
