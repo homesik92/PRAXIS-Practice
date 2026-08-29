@@ -62,6 +62,8 @@ site with no server.
 | 6.10 | Topic teaching pages — remaining three subjects | ◐ |
 | 6.11 | Landing page visual refresh | ☑ |
 | 7 | Content authoring (parallel track) | ☑ |
+| 7.1 | History-aware draw for Practice a topic / Category test | ◐ |
+| 7.2 | Supplemental authoring — 5165 Functions & Calculus | ◐ |
 | 8 | Launch (NAS) — v1, Mathematics only | ◐ |
 | 9 | Multi-subject entry (S1 redesign) | ☑ |
 | 10 | Final testing & acceptance (all four subjects) | ☐ |
@@ -834,6 +836,98 @@ All four v1 banks are now fully authored — 5165 (198), 5652 (300), 5101
 answer-key discrepancies. Feeds Phase 9.2's manifest re-enable and Phase
 10's final acceptance; 5485 is still `enabled: false` in
 `data/manifest.json` until it has been live-tested and deployed.
+
+### Phase 7.1 — History-aware draw for Practice a topic / Category test
+
+**Trigger:** live-testing feedback (2026-08-29) — the session owner noticed
+seeing some 5165 Functions/Calculus questions repeat across a handful of
+"Practice a topic" and "Category test" rounds, despite each category having
+3× a real exam's worth of questions. Root cause, confirmed by reading
+`js/schema.js`: **`assembleCategoryDrill`** (the shared draw behind both S2
+modes, Phase 6.8.2/D-28) is fully random with no `history` parameter at
+all — a deliberate original tradeoff (its own doc comment: "this always
+draws in fully random order rather than biased by real question history...
+a simpler tradeoff than threading a read-only store load through a code
+path whose entire point is to prove it never touches the store"). This is
+different from **`assembleForm`** (full test) and **`assembleDrill`**
+("Review a topic"), which both already bias toward least-recently-seen via
+`drawForCategory`. A fully-random draw from even a 39-question pool
+reproduces questions within 2-3 rounds by chance — more questions reduces
+that probability but never guarantees a full sweep before repeats the way
+the other two modes do.
+
+**Decision (session owner, 2026-08-29, via AskUserQuestion):** fix the draw
+now rather than deferring to a follow-up issue — thread `history` through
+`assembleCategoryDrill` the same way `assembleDrill` already does, so
+"Practice a topic"/"Category test" also exhausts unseen questions before
+repeating. This reverses the original fully-random tradeoff from Phase
+6.8.2, logged as D-35.
+
+**Scope — what changes, what doesn't:**
+- `js/schema.js`: `assembleCategoryDrill` gains a `history = {}` parameter,
+  passed into `drawForCategory` (currently passes `{}` unconditionally at
+  line 462) — otherwise identical to `assembleDrill`'s existing pattern.
+- `run.html`'s `runCategoryDrill`: reads `store.questionHistory` via
+  `loadStore()` (read-only) to pass into `assembleCategoryDrill`. This is a
+  **read**, not a write — the mode still never creates an attempt record,
+  never calls `recordAnswer`, and never persists anything from the drill
+  itself. Only the *draw* becomes history-aware; "won't be recorded or
+  change your stats" (test.html's own description of this mode) stays true.
+- `tools/test-schema.mjs`: the existing test asserting fully-random
+  behavior ("assembleCategoryDrill ignores an unrelated history argument")
+  gets replaced with a least-recently-seen assertion mirroring
+  `assembleDrill`'s own coverage.
+- Nothing about `assembleForm`, `assembleDrill`, or the full test/Review-a-
+  topic modes changes — they were already history-aware.
+
+**Tasks:**
+- ☐ **7.1.1** `js/schema.js` — thread `history` through `assembleCategoryDrill`.
+- ☐ **7.1.2** `run.html` — `runCategoryDrill` loads the store (read-only) and
+  passes `questionHistory` through; update the function's header comment
+  (currently documents the now-superseded "never touches the store" design).
+- ☐ **7.1.3** `tools/test-schema.mjs` — replace the fully-random test with a
+  least-recently-seen test; run the full suite green.
+- ☐ **7.1.4** Live-verify in the browser: seed some history, confirm
+  "Practice a topic" now prefers unseen questions.
+- ☐ **7.1.5** Log D-35, index it, flag for downstream sync to
+  `PRAXIS-iOS-Math` (D-30) since this touches `run.html` and `js/schema.js`.
+
+### Phase 7.2 — Supplemental authoring: 5165 Functions & Calculus
+
+**Trigger:** same live-testing session as 7.1 — even with 7.1's fix, a
+39-question Functions pool and a 21-question Calculus pool exhaust their
+unseen questions quickly against the session owner's stated usage ("these
+practices will be taken as many as three times"). More depth in exactly
+these two categories directly addresses that, on top of 7.1's fix (the two
+efforts are complementary, not alternatives — 7.1 fixes *how* questions are
+selected, 7.2 grows *how many* there are to select from).
+
+**Target:** written from scratch against the skill (never adapted from the
+ETS study companion — the project's standing copyright rule), Sonnet at
+high effort per SKILL.md's authoring guidance, independently blind-verified
+answer keys per Phase 7's established pattern.
+
+- ☐ **II-A — Functions**: 39 → 64 (+25). Existing coverage: evaluation,
+  domain/range, composition, inverses, transformations, piecewise, even/odd,
+  one-to-one, arithmetic combinations, zeros, increasing/decreasing,
+  exponential growth, average rate of change. New coverage to add: deeper
+  composite-function operations, rational functions (asymptotes/behavior),
+  absolute value functions, more piecewise reasoning.
+- ☐ **II-B — Calculus**: 21 → 51 (+30). Existing coverage: power/product/
+  chain/quotient rules, trig/exponential/log derivatives, critical points,
+  max/min, integrals (power rule, constants, definite), velocity/position,
+  limits. New coverage to add: implicit differentiation, related rates,
+  concavity/inflection points, integration by substitution (conceptual),
+  area under curves, optimization word problems.
+- ☐ Answer-key verification: fresh review re-deriving every new answer from
+  stem + options alone before comparing to the stored key (Phase 7's
+  established standard), scoped to just these 55 new questions.
+- ☐ `node tools/verify.mjs` clean (category counts still sum correctly —
+  category *counts* in the tree are exam-form targets, unaffected by pool
+  depth; this only grows the pool `assembleForm`/`assembleDrill`/
+  `assembleCategoryDrill` draw from).
+- ☐ Flag for downstream sync to `PRAXIS-iOS-Math` (D-30) — `data/tests/5165.json`
+  is a bundled file there.
 
 ### Phase 6.5 — Workflow & progress dashboard
 
