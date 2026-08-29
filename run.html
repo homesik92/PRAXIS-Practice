@@ -50,9 +50,14 @@
     <div id="calculator-panel" hidden aria-labelledby="calculator-heading">
       <h2 id="calculator-heading" class="visually-hidden">Scientific calculator</h2>
       <p id="calculator-mode-indicator"></p>
+      <!-- readonly: this is a display driven only by the on-screen keypad below
+           (a real calculator, not a text field), and staying readonly keeps it
+           focusable for a11y/cursor purposes without iOS/iPadOS popping up the
+           software keyboard every time a keypad button calls .focus() on it. -->
       <input
         id="calculator-expression"
         type="text"
+        readonly
         autocomplete="off"
         spellcheck="false"
         aria-label="Calculator expression"
