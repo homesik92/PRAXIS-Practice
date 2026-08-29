@@ -60,7 +60,7 @@ site with no server.
 | 6.8 | S2 redesign (test-menu hub) | ☑ |
 | 6.9 | Topic teaching pages ("Study a topic") — Mathematics | ☑ |
 | 6.10 | Topic teaching pages — remaining three subjects | ◐ |
-| 6.11 | Landing page visual refresh | ☐ |
+| 6.11 | Landing page visual refresh | ☑ |
 | 7 | Content authoring (parallel track) | ☑ |
 | 8 | Launch (NAS) — v1, Mathematics only | ◐ |
 | 9 | Multi-subject entry (S1 redesign) | ☑ |
@@ -1333,32 +1333,46 @@ task — high effort, one subject per session, each with its own plan gate.
 
 ### Phase 6.11 — Landing page visual refresh
 
-Visual improvement to `index.html` and `css/base.css` — keep all existing content
-and functionality, add visual polish and imagery to make the landing page more
+Visual improvement to `index.html` and `css/base.css` — kept all existing content
+and functionality, added visual polish and imagery to make the landing page more
 engaging.
 
-- ☐ **6.11.1 Requirements & design ideation.** Interview session to gather vision
-  for the landing page improvement. Propose 2–3 initial design concepts capturing:
-  overlay imagery of adults taking tests and teachers at chalkboards (faded/
-  transparent treatment), integration with existing content, potential color palette
-  improvements, and placement strategy for Bill the Goat mascot as a subtle accent.
-  *Accepts:* documented design direction with visual concepts sketched or described.
-  *Pending.*
+**Ran as one continuous interactive session, not the three separable steps originally
+planned below** (requirements → asset sourcing → implementation): the ideation
+questions, the illustration/mark build, and the live-reviewed iteration all happened
+in sequence with no external-asset handoff, since nothing ended up sourced — see D-34.
+The sub-task numbers are kept as a record of what was planned; their bodies now
+describe what actually shipped.
 
-- ☐ **6.11.2 Asset sourcing & graphics proposal.** Research and propose candidate
-  graphics: test-taker and teacher/chalkboard imagery (considering opacity,
-  transparency, and size); Bill the Goat placement and sizing as a mascot accent.
-  Propose final visual treatment and placement on the page.
-  *Accepts:* candidate graphics reviewed and approved for implementation.
-  *Pending.*
-
-- ☐ **6.11.3 Implementation.** Update `index.html` and `css/base.css` to integrate
-  approved graphics, maintain existing content structure and functionality, apply
-  color/visual polish. Ensure responsive design across mobile/tablet/desktop and
-  verify accessibility (text contrast, semantic markup, screen-reader compatibility).
-  *Accepts:* landing page loads with new visuals, all text readable, existing
-  functionality unchanged, responsive and accessible.
-  *Pending.*
+- ☑ **6.11.1 Requirements & design ideation.** *Complete.* Direction gathered via
+  AskUserQuestion rather than a separate interview session: welcoming/approachable
+  mood, illustrated/vector imagery (not photographic), a subtle personal accent for
+  the session owner (Naval Academy alum) rather than a literal "Bill the Goat" mascot
+  placement, and the existing results/dashboard color palette carried onto S1 for
+  visual continuity.
+- ☑ **6.11.2 Asset sourcing & graphics proposal.** *Complete — no external sourcing.*
+  Every visual is hand-authored inline SVG built directly in this session (D-34), not
+  sourced or commissioned imagery: a classroom hero illustration (teacher at a
+  whiteboard, two seated students, colored from the existing site palette), and a
+  masthead mark whose final form went through real iteration — a drawn "Bill the
+  Goat" silhouette, then the real USNA athletics mark, then a fouled anchor, settling
+  on "Go Navy, Beat Army!" as plain colored SVG text (D-33 has the full reasoning for
+  each step).
+- ☑ **6.11.3 Implementation.** *Complete.* `index.html`/`css/base.css` updated with
+  the masthead mark, hero illustration, and a two-line serif motto block
+  ("The secret to passing PRAXIS…" + 3 points), all scoped to new S1-only classes —
+  no existing markup, JS, or data files touched. A real bug was found and fixed along
+  the way: an inline SVG sized by CSS `width` alone (no `height` attribute, no
+  `aspect-ratio`) doesn't reliably derive its height from `viewBox`, and was silently
+  cropping the mark to its top ~30% — fixed with an explicit `aspect-ratio`, applied
+  to both new SVGs. `node tools/verify.mjs` green throughout (unaffected — no data/
+  schema files touched); every design iteration was live-tested by the session owner
+  via hard-refreshes of the local dev server, using Claude-published preview
+  artifacts as an intermediate visual-review step given a broken in-session browser
+  pane. Shallow change per Gate 3 (pure CSS/HTML, no code-review round run); merged
+  via [PR #88](https://github.com/homesik92/PRAXIS-Practice/pull/88). iPhone/native-
+  wrapper fit deliberately deferred — filed as
+  [issue #87](https://github.com/homesik92/PRAXIS-Practice/issues/87).
 
 ### Phase 8 — Launch (NAS)
 
@@ -1475,6 +1489,7 @@ both halves need to be independently done first.
 
 | Date | Session | Outcome |
 | --- | --- | --- |
+| 2026-08-29 | Phase 6.11.1 — Landing page visual refresh (masthead mark, hero illustration, motto) | [PR #88](https://github.com/homesik92/PRAXIS-Practice/pull/88). Ideation gathered via AskUserQuestion (welcoming/illustrated direction, results-page palette carried onto S1, a subtle personal accent rather than a literal Bill-the-Goat placement) collapsed the plan's three separate sub-phases into one continuous session — see D-34 for why. Added: a "Go Navy, Beat Army!" masthead wordmark (plain SVG text, `paint-order` outline), a hand-authored flat-vector classroom hero illustration (teacher + whiteboard, two seated students, colors from the existing results palette), and a two-line serif motto block. **The masthead mark went through real iteration, not straight to its final form** — a drawn Bill-the-Goat silhouette (rejected: invented an unstated USNA affiliation), the actual USNA athletics mark the session owner supplied (not used: redistributing someone else's registered artwork on a public repo is a different act than personally referencing it, regardless of monetization), a fouled anchor (shipped briefly, then judged unclear at final size), settling on plain colored text — full reasoning in D-33. **Two real bugs found and fixed mid-session, neither by a separate review pass:** an inline SVG sized by CSS `width` alone with no `height` attribute or `aspect-ratio` doesn't reliably derive its height from `viewBox`, silently cropping the mark to its top ~30% (fixed with explicit `aspect-ratio`, applied pre-emptively to the second SVG too); and the illustration's two seated students had their arm-rotation signs backwards, swinging away from the book/laptop props instead of toward them (caught while re-deriving the tapered-limb geometry for a "make the figures more realistic" pass). Verification: `node tools/verify.mjs` clean throughout (no data/schema touched); strict XML well-formedness checked on every inline SVG addition (caught an invalid `--` inside two HTML comments); CSS brace balance and the inline module script's syntax checked after every edit. Self-reviewed per Gate 3 (shallow — pure CSS/HTML, no code-review round run): confirmed no dead CSS survived the goat→anchor→wordmark churn, reduced-motion coverage extended to the new transitioning element, JS/data logic untouched. **Live-tested by the session owner across every design iteration** via hard-refreshes of the local dev server — the in-session Browser pane was non-functional for this entire session (blank screenshots, zero-size element rects), so each iteration was instead shown as a Claude-published preview Artifact before the session owner confirmed it live. CI green, merged (branch protection isn't configured on `main` yet, so this needed explicit go-ahead despite being shallow). Filed [issue #87](https://github.com/homesik92/PRAXIS-Practice/issues/87): whether/how `index.html`'s new visual complexity needs an iPhone-fit redesign is deferred to when the session owner resumes the `PRAXIS-iOS-Math` native-wrapper sync (D-30) — that wrapper doesn't bundle `index.html` today. Logged D-33 and D-34. |
 | 2026-08-28 | Phase 6.10.1 — Computer Science (5652) teaching chapters authored, verified, fixed | All 10 leaf-category chapters authored via 10 parallel per-category subagents (concept overview/worked example/common mistakes, matching 5165's precedent), merged into `data/teaching/5652.json` (30 sections, 136 entries, zero id collisions), `teachingContent` key added to the 5652 bank. **Independent verification**, 5 subagents re-deriving every worked-example computation/trace from scratch before comparing: found and fixed 18 real defects (full list in the Phase 6.10.1 entry above) — the most severe being an off-by-one counterfactual stated twice in III-A, a `double`/`int` type mismatch in II-A's own "real division" pseudocode example, a self-contradicted IP/TCP-header claim in V-B, an overstated FERPA claim in I-B, and a firewall-visibility gap in V-B (missing that TLS's SNI field is sent in cleartext). Verified fully correct with no changes needed: the Caesar cipher (IV-A), the compound-growth simulation (IV-B), the selection-sort trace (II-B), and every TLS/HTTPS and ACM/FERPA/COPPA legal claim (I-B, V-B) — one verifier called the security content "unusually well-calibrated." `node tools/verify.mjs` clean, 312/312 tests green (data-only, no test changes needed). Live-tested in the browser: the exact "Networks, Security, and the Web" dead-end that surfaced D-32's gap now renders correctly with zero console errors; branch-category aggregation (parent "III") correctly shows both III-A and III-B together; II-A's number-base MathML renders as real typeset math (division, subscripts, superscripts, visually confirmed); 5485/5101 still correctly show "not yet written" pending 6.10.2/6.10.3. 6.10.1 flipped to ☑; 6.10 overview row moves to ◐ (one of three subjects done). No new decision logged — this executes Phase 6.10 as D-32 already scoped it. |
 | 2026-08-28 | Doc-only — "Study a topic" content gap found; Phase 6.10 added (D-32) | Session owner noticed that picking "Networks, Security, and the Web" under Computer Science showed "No lesson has been written for … yet." and suspected the teaching chapters had only ever been authored for Mathematics. **Confirmed against the data, not assumed:** `data/teaching/` holds exactly one file (`5165.json`), and only `data/tests/5165.json` carries a `teachingContent` key — so 5652/5101/5485 all hit `teach.html`'s `!bank.teachingContent` branch, which renders precisely that message. **Root cause is a scoping gap, not a bug:** 6.9.2 was titled "Author Mathematics' 6 chapters" and closed correctly against its own Mathematics-only scope, while 6.9.3 wired a *generic* picker (`wireCategoryPicker`) covering every registered test — so the UI shipped for four subjects and the content for one. Phase 7 covered question banks only; Phase 10 is regression plus acceptance. The work was rostered nowhere, so 27 chapters (5652: 10, 5485: 9, 5101: 8 — counted from each bank's actual leaf-category tree) were invisible to the roadmap. Three forks settled by the session owner via AskUserQuestion: a **new Phase 6.10** rather than reopening 6.9 or folding into Phase 7 (keeps 6.9's ☑ honest — it really did finish what it described); **6.10 blocks Phase 10.2** but explicitly **not 8.3**, since 8.3 accepts the Mathematics-only build and Mathematics' chapters are complete — the reasoning being that 10.2 would otherwise sign off a build where three of four subjects dead-end on a visible Start-menu control, which Phase 9's study hub now presents as equals; and **one file per bank confirmed** over splitting per chapter, re-examining rather than inheriting the payload landmine 6.9.1 flagged (5165's 6 chapters are 53K, so 5652's 10 project to ~90K — one fetch on a local-network NAS; splitting would change the schema and `validateTeachingContent`, making data-only work deep). Also flipped the overview table's 6.9 row label to "…('Study a topic') — Mathematics", since the unqualified label is what made the gap invisible in the one place most likely to be read. Logged D-32, indexed. **No code, no content, no bank files touched** — the three authoring sessions are their own plan gates. |
 | 2026-08-27 | CI gate wired up (GitHub Actions) | Closes the long-standing "until CI is wired up" gap that CLAUDE.md and the dev-workflow skill both referenced — until now `tools/verify.mjs` plus the seven `tools/test-*.mjs` suites were only ever run locally, which made them exactly as reliable as whoever remembered to run them. New `.github/workflows/verify.yml` runs the same commands on every pull request and every push to `main`. Deliberately dependency-free: no `package.json`, no lockfile, no build step (D-3), so there is nothing to install and no cache to warm — just `actions/setup-node@v4` on Node 22 and the commands themselves. One step per suite rather than a loop, so a red X in the Actions UI names the suite that broke instead of forcing someone to read the log. **Verified the gate can actually fail before trusting it**: confirmed all seven test files set `process.exitCode` on failure, then injected deliberate manifest/bank drift and confirmed `verify.mjs` exits 1 (and 0 once restored) — a workflow that always goes green is worse than no workflow. Prerequisite for the methodology's merge-on-green tier, whose stated mechanical precondition is branch protection actually enforcing the verification gate on `main`; the `main protection` ruleset (restrict deletions, block force pushes, require a PR with required_approvals=0 — zero deliberately, since GitHub forbids self-approval and a value of 1 would lock a solo maintainer out of their own repo) was created by the session owner in the same sitting, and the required-status-check rule gets added once this workflow has reported once on a real PR. |

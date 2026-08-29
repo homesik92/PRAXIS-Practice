@@ -915,3 +915,95 @@ subjects — only a `teachingContent` key per bank and the content behind it.
 
 **Attribution:** Session owner's call on all three parts, via AskUserQuestion, after
 noticing the empty lesson page in live use and asking whether the roadmap had a gap.
+
+---
+
+### D-33: Landing page masthead mark — personal accent, not institutional artwork
+
+**Context:** Phase 6.11.1's design direction (welcoming, illustrated, with the
+results-page palette carried onto S1) included a session owner's request for a
+personal, subtly-placed accent referencing their own Naval Academy background, for
+other alumni to notice. Three concrete forms were tried in sequence before landing on
+one, each rejected or replaced for a distinct, real reason rather than aesthetic
+preference:
+
+1. **A hand-drawn "Bill the Goat" silhouette** — rejected on a second look: it invented
+   an unstated USNA affiliation in its accompanying copy, and a generic goat shape
+   invites exactly the "which mascot is this" ambiguity the ETS-disclaimer pattern
+   already exists on this page to avoid.
+2. **USNA's actual charging-goat athletics mark** (the session owner supplied the real
+   image) — not used. Session owner's own reasoning ("not an infringement for an
+   alumnus to point to it, app isn't monetized") is a real basis for *displaying* a
+   nod to Bill, but committing the mark's actual artwork into this **public** GitHub
+   repository is redistribution of someone else's registered image, a different act
+   the reasoning doesn't cover — the same public-repo posture that already governs the
+   ETS PDFs (never committed) applies here. It would also disintegrate as linework at
+   the ~44px the mark ships at.
+3. **A fouled anchor** — a generic naval heraldic device (rope wound around an anchor),
+   not any one service's artwork, so it sidesteps the trademark question entirely.
+   Shipped briefly, but the session owner judged the redrawn silhouette didn't read
+   clearly at final size.
+4. **"Go Navy, Beat Army!" as plain SVG text** — what shipped. A generic, decades-old
+   rivalry cheer in navy-fill/gold-outline text carries no logo, insignia, or specific
+   artwork at all, which is a strictly smaller ask than any of 1–3. Implemented as real
+   `<text>` elements (`paint-order: stroke fill` for the outline), not a traced image.
+
+**Accessibility split, decided along the way:** the mark is `aria-hidden` (an
+unlabelled easter egg — captioning it would announce to screen-reader users what
+sighted users have to notice themselves), but the separately-added motto block
+("The secret to passing PRAXIS…") is real instructional content and was deliberately
+**not** built the same way — plain accessible HTML/CSS in a distinct serif, so it's
+actually announced rather than skipped.
+
+**A real bug found and fixed mid-implementation, unrelated to the mark itself:** sizing
+an inline SVG by CSS `width` alone, with no `height` attribute and no `aspect-ratio`,
+does not reliably derive the height from `viewBox` across browsers — the first shipped
+version of the mark silently cropped to roughly its top 30%. Fixed by adding explicit
+`aspect-ratio` alongside `width`/`height:auto`, and the same fix was applied
+pre-emptively to the hero illustration's own SVG added in the same phase.
+
+**Attribution:** Session owner's call throughout — each of the three pivots above was
+the session owner's own correction, not a design review catching it independently.
+
+---
+
+### D-34: Hero illustration and motto are original, hand-authored SVG — no imagery sourcing step
+
+**Context:** ROADMAP.md's original Phase 6.11.2 planned a distinct "asset sourcing &
+graphics proposal" sub-task, assuming candidate test-taker/teacher imagery would be
+found or commissioned externally and then integrated. In practice, 6.11.1's ideation
+answers (illustrated/vector, not photographic) and this project's zero-runtime-
+dependency stance (D-3) made an image-asset pipeline unnecessary: the classroom scene
+(a teacher gesturing at a whiteboard, two seated students) is hand-authored inline SVG
+using primitive shapes, built and iterated in the same continuous session as the
+requirements conversation and the implementation, with the session owner live-reviewing
+each pass via Claude-published preview artifacts before it landed in `index.html`.
+
+**Figures are deliberately abstract** — no facial features, no depicted ethnicity —
+using varied flat skin/hair tones across the three figures for a diverse-without-
+guessing look, rather than making representation choices about specific people.
+
+**A real bug found and fixed during the "make the figures more realistic" pass:** the
+seated students' arm-rotation angles had their signs backwards, so the arms swung away
+from the book/laptop props instead of toward them. Caught and corrected while
+re-deriving the rotation math for the tapered-limb rebuild, not by separate review.
+
+**Why this collapses Phase 6.11's three planned sub-phases into one:** 6.11.1
+(requirements), 6.11.2 (asset sourcing), and 6.11.3 (implementation) were written
+assuming three separable steps with an external-asset handoff between the first two.
+Actual execution was one continuous interactive session — ideation via AskUserQuestion,
+then direct build-and-review iteration with no separate sourcing step, since nothing
+was sourced. ROADMAP.md's phase-detail section was rewritten in the same change to
+describe what was actually built rather than leave the original three-step plan
+standing as if it had been followed literally.
+
+**What was deliberately left out of scope, filed as
+[issue #87](https://github.com/homesik92/PRAXIS-Practice/issues/87):** whether this
+now-more-visually-complex `index.html` will need a redesign pass to fit an iPhone
+screen when the session owner resumes the `PRAXIS-iOS-Math` native wrapper template
+(D-30) — `index.html` isn't among the files that wrapper currently bundles, so this is
+a real open question rather than a known gap today.
+
+**Attribution:** Session owner's call on "fuller scene" vs. minimal composition and on
+requesting the tapered-limb realism pass, via AskUserQuestion and live feedback on
+published preview artifacts.

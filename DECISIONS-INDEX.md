@@ -37,3 +37,4 @@ read the full log only when a topic isn't indexed yet.
 | Attempt record shape — résumé (`questionOrder`) | **D-19** |
 | Prior 185-question Mathematics set | N-2 |
 | Relationship to native iOS wrapper apps (PRAXIS-iOS-\<subject\>) | **D-30** |
+| S1 landing page visual refresh (Phase 6.11) | D-30 (native-wrapper scope, re-examined) → **D-33** (masthead mark provenance: Bill the Goat → USNA artwork → fouled anchor → "Go Navy" text, and why) → **D-34** (hero illustration/motto are original hand-authored SVG, no asset-sourcing step; iPhone-fit redesign deferred to issue #87) |
