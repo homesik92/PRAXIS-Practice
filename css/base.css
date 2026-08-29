@@ -151,6 +151,17 @@ nav {
   border: 0;
 }
 
+/* run.html's Start screen (full test only, not the untimed study/drill flows) --
+   the wall-clock timer never pauses while the app is backgrounded or killed
+   (session owner's explicit call over pausing it, given a real proctored exam
+   doesn't pause either), so this states that plainly before commitment rather
+   than as a surprise mid-test. Deliberately plain -- same font/size/color as
+   #start-summary above it, just spaced apart, with only "real clock time" and
+   "does not pause" bolded inline for emphasis. */
+.start-warning {
+  margin-top: 1.5rem;
+}
+
 .status-note {
   color: var(--color-muted);
   border: 1px dashed var(--color-border);
