@@ -594,12 +594,6 @@ export function validateManifest(manifest, dataDir) {
 }
 
 /**
- * Cross-checks a manifest entry's duplicated display metadata against the bank file
- * it points at. The duplication exists purely so S1 needs one small fetch instead of
- * every bank (~1.8 MB at four subjects); this check is the reason that duplication is
- * safe, since nothing else would notice the two drifting apart.
- */
-/**
  * The fields a derived question copies verbatim from its source. Everything else is
  * either rewritten by the derivation (`id`, `categoryId`) or added by it
  * (`derivedFrom`). Keep in sync with `CARRIED` in tools/derive-5436.mjs.
@@ -667,7 +661,12 @@ export function validateDerivedQuestions(bank, sourceBanks = {}) {
 
   return { errors, warnings };
 }
-
+/**
+ * Cross-checks a manifest entry's duplicated display metadata against the bank file
+ * it points at. The duplication exists purely so S1 needs one small fetch instead of
+ * every bank (~1.8 MB at four subjects); this check is the reason that duplication is
+ * safe, since nothing else would notice the two drifting apart.
+ */
 export function validateManifestAgreement(entry, bank) {
   const errors = [];
   const label = `manifest entry ${entry?.code ?? "(no code)"}`;

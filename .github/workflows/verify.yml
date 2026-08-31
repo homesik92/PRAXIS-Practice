@@ -46,6 +46,13 @@ jobs:
       - name: Unit tests -- verify
         run: node tools/test-verify.mjs
 
+      # verify.mjs's validateDerivedQuestions catches a derived copy that was EDITED
+      # away from its source, and one whose source was deleted -- but not one that was
+      # never created, because a question added to 5485 leaves the existing 5436 copies
+      # all individually valid. Caught only here, by comparing the whole generated file.
+      - name: 5436's derived questions are in sync with 5485
+        run: node tools/derive-5436.mjs --check
+
       # The one non-Node step. tools/pdf-text.py is a developer utility (it reads the
       # gitignored study companions for blueprint work, and nothing the site ships
       # depends on it), but it has real parsing logic worth guarding. Its self-test
