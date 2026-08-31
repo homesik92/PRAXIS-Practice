@@ -3241,6 +3241,899 @@
       "correct": ["a"],
       "explanation": { "format": "text", "value": "All probabilities in a valid distribution must sum to 1: 0.2 + 0.3 + x + 0.1 = 1, so x = 1 − 0.6 = 0.4." },
       "authored": "2026-08-18"
+    },
+    {
+      "id": "5165-0199",
+      "type": "single",
+      "categoryId": "II-A",
+      "retired": false,
+      "stem": { "format": "text", "value": "Which pair of functions f and g could be used to write h(x) = (3x + 1)\u00b2 as h(x) = f(g(x))?" },
+      "options": [
+        { "id": "a", "content": { "format": "text", "value": "g(x) = 3x + 1 and f(x) = x\u00b2" } },
+        { "id": "b", "content": { "format": "text", "value": "g(x) = x\u00b2 and f(x) = 3x + 1" } },
+        { "id": "c", "content": { "format": "text", "value": "g(x) = 3x + 1 and f(x) = 2x\u00b2" } },
+        { "id": "d", "content": { "format": "text", "value": "g(x) = x + 1 and f(x) = 3x\u00b2" } }
+      ],
+      "correct": ["a"],
+      "explanation": { "format": "text", "value": "With g(x) = 3x + 1 and f(x) = x\u00b2, f(g(x)) = (3x + 1)\u00b2, which matches h(x) exactly. Reversing the order (g(x) = x\u00b2, f(x) = 3x + 1) instead gives 3x\u00b2 + 1. Adding an extra factor of 2 gives 2(3x + 1)\u00b2, and using f(x) = 3x\u00b2 with g(x) = x + 1 gives 3(x + 1)\u00b2, none of which equals (3x + 1)\u00b2." },
+      "authored": "2026-08-29"
+    },
+    {
+      "id": "5165-0200",
+      "type": "single",
+      "categoryId": "II-A",
+      "retired": false,
+      "stem": { "format": "text", "value": "If f(x) = x + 1, g(x) = 2x, and h(x) = x \u2212 3, what is f(g(h(2)))?" },
+      "options": [
+        { "id": "a", "content": { "format": "text", "value": "\u22123" } },
+        { "id": "b", "content": { "format": "text", "value": "1" } },
+        { "id": "c", "content": { "format": "text", "value": "3" } },
+        { "id": "d", "content": { "format": "text", "value": "\u22121" } }
+      ],
+      "correct": ["d"],
+      "explanation": { "format": "text", "value": "Work from the innermost function outward: h(2) = 2 \u2212 3 = \u22121, then g(\u22121) = 2(\u22121) = \u22122, then f(\u22122) = \u22122 + 1 = \u22121." },
+      "authored": "2026-08-29"
+    },
+    {
+      "id": "5165-0201",
+      "type": "single",
+      "categoryId": "II-A",
+      "retired": false,
+      "stem": { "format": "text", "value": "The following values are given for f and g: f(1) = 3, f(2) = 4, f(3) = 1, f(4) = 2, and g(1) = 2, g(2) = 3, g(3) = 4, g(4) = 1. What is f(g(3))?" },
+      "options": [
+        { "id": "a", "content": { "format": "text", "value": "3" } },
+        { "id": "b", "content": { "format": "text", "value": "4" } },
+        { "id": "c", "content": { "format": "text", "value": "2" } },
+        { "id": "d", "content": { "format": "text", "value": "1" } }
+      ],
+      "correct": ["c"],
+      "explanation": { "format": "text", "value": "Evaluate the inner function first: g(3) = 4. Then evaluate f at that output: f(4) = 2. So f(g(3)) = 2." },
+      "authored": "2026-08-29"
+    },
+    {
+      "id": "5165-0202",
+      "type": "single",
+      "categoryId": "II-A",
+      "retired": false,
+      "stem": { "format": "text", "value": "The graph of f contains the points (0, 2), (1, 3), (2, 5), and (3, 0). The graph of g contains the points (0, 1), (1, 0), (2, 3), and (3, 2). What is g(f(1))?" },
+      "options": [
+        { "id": "a", "content": { "format": "text", "value": "5" } },
+        { "id": "b", "content": { "format": "text", "value": "2" } },
+        { "id": "c", "content": { "format": "text", "value": "0" } },
+        { "id": "d", "content": { "format": "text", "value": "3" } }
+      ],
+      "correct": ["b"],
+      "explanation": { "format": "text", "value": "First find f(1): the graph of f passes through (1, 3), so f(1) = 3. Then find g(3): the graph of g passes through (3, 2), so g(3) = 2. Therefore g(f(1)) = 2." },
+      "authored": "2026-08-29"
+    },
+    {
+      "id": "5165-0203",
+      "type": "single",
+      "categoryId": "II-A",
+      "overlays": ["tot"],
+      "retired": false,
+      "stem": { "format": "text", "value": "A student is asked to find the domain of f(g(x)) where f(x) = 1/(x \u2212 5) and g(x) = \u221a(x \u2212 2). The student writes the domain as x \u2265 2, reasoning that the square root is the only restriction. Which of the following identifies the error and gives the correct domain?" },
+      "options": [
+        { "id": "a", "content": { "format": "text", "value": "The student ignored that g(x) itself is undefined at x = 5, so the correct domain is x \u2265 2 and x \u2260 5." } },
+        { "id": "b", "content": { "format": "text", "value": "The student ignored that f(g(x)) is also undefined where g(x) = 5; since \u221a(x \u2212 2) = 5 when x = 27, the correct domain is x \u2265 2 and x \u2260 27." } },
+        { "id": "c", "content": { "format": "text", "value": "The student's domain is correct because the restriction on f only matters when evaluating f directly, not within a composition." } },
+        { "id": "d", "content": { "format": "text", "value": "The domain should be all real numbers, since composing two functions removes any individual restrictions." } }
+      ],
+      "correct": ["b"],
+      "explanation": { "format": "text", "value": "The domain of a composition f(g(x)) requires both that x is in the domain of g (x \u2265 2, so the square root is defined) and that g(x) is in the domain of f (g(x) \u2260 5, so the outer denominator isn't zero). Solving \u221a(x \u2212 2) = 5 gives x \u2212 2 = 25, so x = 27 must be excluded. The full domain is x \u2265 2 and x \u2260 27." },
+      "authored": "2026-08-29"
+    },
+    {
+      "id": "5165-0204",
+      "type": "single",
+      "categoryId": "II-A",
+      "retired": false,
+      "stem": { "format": "text", "value": "For f(x) = (x\u00b2 \u2212 x \u2212 2)/(x\u00b2 \u2212 4), which of the following correctly identifies the hole and the vertical asymptote?" },
+      "options": [
+        { "id": "a", "content": { "format": "text", "value": "There is a hole at x = 2 and a vertical asymptote at x = \u22122." } },
+        { "id": "b", "content": { "format": "text", "value": "There is a hole at x = \u22122 and a vertical asymptote at x = 2." } },
+        { "id": "c", "content": { "format": "text", "value": "There are vertical asymptotes at both x = 2 and x = \u22122, with no holes." } },
+        { "id": "d", "content": { "format": "text", "value": "There is a hole at x = 2 and no vertical asymptote at all." } }
+      ],
+      "correct": ["a"],
+      "explanation": { "format": "text", "value": "Factor both parts: the numerator x\u00b2 \u2212 x \u2212 2 = (x \u2212 2)(x + 1), and the denominator x\u00b2 \u2212 4 = (x \u2212 2)(x + 2). The common factor (x \u2212 2) cancels, producing a removable hole at x = 2. The remaining denominator factor (x + 2), which does not cancel, produces a vertical asymptote at x = \u22122." },
+      "authored": "2026-08-29"
+    },
+    {
+      "id": "5165-0205",
+      "type": "single",
+      "categoryId": "II-A",
+      "retired": false,
+      "stem": { "format": "text", "value": "What are the x-intercepts of f(x) = (x\u00b2 \u2212 x \u2212 6)/(x + 1)?" },
+      "options": [
+        { "id": "a", "content": { "format": "text", "value": "x = 3 and x = \u22122" } },
+        { "id": "b", "content": { "format": "text", "value": "x = 3 and x = 2" } },
+        { "id": "c", "content": { "format": "text", "value": "x = \u22121 only" } },
+        { "id": "d", "content": { "format": "text", "value": "x = 3, x = \u22122, and x = \u22121" } }
+      ],
+      "correct": ["a"],
+      "explanation": { "format": "text", "value": "X-intercepts occur where the numerator equals zero and the denominator does not. Factoring the numerator gives (x \u2212 3)(x + 2) = 0, so x = 3 or x = \u22122; neither makes the denominator (x + 1) zero, so both are valid intercepts. x = \u22121 makes the denominator zero, so it is a vertical asymptote, not an intercept." },
+      "authored": "2026-08-29"
+    },
+    {
+      "id": "5165-0206",
+      "type": "single",
+      "categoryId": "II-A",
+      "retired": false,
+      "stem": { "format": "text", "value": "For f(x) = (x + 2)/(x \u2212 3), as x \u2192 3\u207b (approaches 3 from the left), what does f(x) approach?" },
+      "options": [
+        { "id": "a", "content": { "format": "text", "value": "\u2212\u221e" } },
+        { "id": "b", "content": { "format": "text", "value": "+\u221e" } },
+        { "id": "c", "content": { "format": "text", "value": "0" } },
+        { "id": "d", "content": { "format": "text", "value": "5" } }
+      ],
+      "correct": ["a"],
+      "explanation": { "format": "text", "value": "As x approaches 3, the numerator x + 2 approaches 5, a fixed positive value. For x slightly less than 3 (such as x = 2.99), the denominator x \u2212 3 is a small negative number. A positive value divided by a small negative number is a large negative number, so f(x) \u2192 \u2212\u221e as x \u2192 3\u207b." },
+      "authored": "2026-08-29"
+    },
+    {
+      "id": "5165-0207",
+      "type": "single",
+      "categoryId": "II-A",
+      "retired": false,
+      "stem": { "format": "text", "value": "After simplifying f(x) = (x\u00b2 + 5x + 6)/(x\u00b2 \u2212 4) completely, what are its vertical asymptote(s)?" },
+      "options": [
+        { "id": "a", "content": { "format": "text", "value": "x = 2 and x = \u22122" } },
+        { "id": "b", "content": { "format": "text", "value": "x = 2" } },
+        { "id": "c", "content": { "format": "text", "value": "x = \u22122" } },
+        { "id": "d", "content": { "format": "text", "value": "x = \u22123" } }
+      ],
+      "correct": ["b"],
+      "explanation": { "format": "text", "value": "Factor first: the numerator is (x + 2)(x + 3) and the denominator is (x \u2212 2)(x + 2). The (x + 2) factor cancels, leaving (x + 3)/(x \u2212 2); that cancellation means x = \u22122 is only a hole, not an asymptote. The uncanceled denominator factor (x \u2212 2) gives the true vertical asymptote at x = 2." },
+      "authored": "2026-08-29"
+    },
+    {
+      "id": "5165-0208",
+      "type": "single",
+      "categoryId": "II-A",
+      "overlays": ["tot"],
+      "retired": false,
+      "stem": { "format": "text", "value": "A student analyzes f(x) = (x\u00b2 \u2212 9)/(x \u2212 3) and concludes there is a vertical asymptote at x = 3, without factoring first. Which of the following identifies the error and describes what actually happens at x = 3?" },
+      "options": [
+        { "id": "a", "content": { "format": "text", "value": "The function is undefined for all real numbers, since both the numerator and denominator can equal zero at once." } },
+        { "id": "b", "content": { "format": "text", "value": "The numerator factors as (x \u2212 3)(x + 3), which cancels the (x \u2212 3) in the denominator; x = 3 is a removable hole, not a vertical asymptote." } },
+        { "id": "c", "content": { "format": "text", "value": "The student is correct; any value that makes the denominator zero is always a vertical asymptote, regardless of the numerator." } },
+        { "id": "d", "content": { "format": "text", "value": "Since the degrees of the numerator and denominator differ, x = 3 must be a vertical asymptote rather than a hole." } }
+      ],
+      "correct": ["b"],
+      "explanation": { "format": "text", "value": "The student treated every zero of the denominator as an asymptote without checking for cancellation. Factoring the numerator as a difference of squares gives (x \u2212 3)(x + 3); the (x \u2212 3) factor cancels with the denominator, leaving the simplified function x + 3. Since the cancellation removes the factor entirely, the graph has a hole at (3, 6) rather than a vertical asymptote." },
+      "authored": "2026-08-29"
+    },
+    {
+      "id": "5165-0209",
+      "type": "single",
+      "categoryId": "II-A",
+      "retired": false,
+      "stem": { "format": "text", "value": "Solve for x: |3x \u2212 5| = 11." },
+      "options": [
+        { "id": "a", "content": { "format": "text", "value": "x = \u22122 only" } },
+        { "id": "b", "content": { "format": "text", "value": "x = 2 and x = \u221216/3" } },
+        { "id": "c", "content": { "format": "text", "value": "x = 16/3 and x = \u22122" } },
+        { "id": "d", "content": { "format": "text", "value": "x = 16/3 only" } }
+      ],
+      "correct": ["c"],
+      "explanation": { "format": "text", "value": "An absolute value equation |A| = 11 splits into two cases: A = 11 or A = \u221211. Solving 3x \u2212 5 = 11 gives 3x = 16, so x = 16/3. Solving 3x \u2212 5 = \u221211 gives 3x = \u22126, so x = \u22122. Both values satisfy the original equation." },
+      "authored": "2026-08-29"
+    },
+    {
+      "id": "5165-0210",
+      "type": "single",
+      "categoryId": "II-A",
+      "retired": false,
+      "stem": { "format": "text", "value": "The graph of g(x) = |x + 3| \u2212 2 is the graph of f(x) = |x| transformed by:" },
+      "options": [
+        { "id": "a", "content": { "format": "text", "value": "shifting left 3 units and down 2 units" } },
+        { "id": "b", "content": { "format": "text", "value": "shifting right 3 units and up 2 units" } },
+        { "id": "c", "content": { "format": "text", "value": "shifting left 3 units and up 2 units" } },
+        { "id": "d", "content": { "format": "text", "value": "shifting right 3 units and down 2 units" } }
+      ],
+      "correct": ["a"],
+      "explanation": { "format": "text", "value": "Replacing x with (x + 3) inside the absolute value shifts the graph left 3 units, since the vertex occurs where x + 3 = 0, at x = \u22123. Subtracting 2 outside the absolute value shifts the entire graph down 2 units, moving the vertex to (\u22123, \u22122)." },
+      "authored": "2026-08-29"
+    },
+    {
+      "id": "5165-0211",
+      "type": "single",
+      "categoryId": "II-A",
+      "retired": false,
+      "stem": { "format": "text", "value": "What is the range of f(x) = \u2212|x \u2212 4| + 7?" },
+      "options": [
+        { "id": "a", "content": { "format": "text", "value": "y \u2264 4" } },
+        { "id": "b", "content": { "format": "text", "value": "y \u2264 7" } },
+        { "id": "c", "content": { "format": "text", "value": "y \u2265 7" } },
+        { "id": "d", "content": { "format": "text", "value": "all real numbers" } }
+      ],
+      "correct": ["b"],
+      "explanation": { "format": "text", "value": "Since |x \u2212 4| \u2265 0 for every x, multiplying by \u22121 gives \u2212|x \u2212 4| \u2264 0. Adding 7 to both sides gives f(x) \u2264 7, with the maximum value of 7 occurring at the vertex (4, 7), where the negative sign reflects the usual upward V-shape downward. So the range is y \u2264 7." },
+      "authored": "2026-08-29"
+    },
+    {
+      "id": "5165-0212",
+      "type": "single",
+      "categoryId": "II-A",
+      "overlays": ["tot"],
+      "retired": false,
+      "stem": { "format": "text", "value": "A student solves |x \u2212 4| = 6 by writing x \u2212 4 = 6, so x = 10, and stops there with only one solution. Which of the following identifies the missing case and gives the complete solution set?" },
+      "options": [
+        { "id": "a", "content": { "format": "text", "value": "The student missed the case x \u2212 4 = \u22126, which gives x = \u22122; the complete solution set is {\u22122, 10}." } },
+        { "id": "b", "content": { "format": "text", "value": "The student's answer is complete; absolute value equations always have exactly one solution." } },
+        { "id": "c", "content": { "format": "text", "value": "The missing solution comes from setting x + 4 = 6, giving an additional solution of x = 2." } },
+        { "id": "d", "content": { "format": "text", "value": "Since x \u2212 4 = 6 gives x = 10, the other solution must be its opposite, x = \u221210." } }
+      ],
+      "correct": ["a"],
+      "explanation": { "format": "text", "value": "An absolute value equation |A| = 6 has two cases: A = 6 or A = \u22126, because both 6 and \u22126 have an absolute value of 6. The student solved only the positive case. Setting x \u2212 4 = \u22126 gives x = \u22122. Checking both values in the original equation confirms the complete solution set is {\u22122, 10}." },
+      "authored": "2026-08-29"
+    },
+    {
+      "id": "5165-0213",
+      "type": "single",
+      "categoryId": "II-A",
+      "retired": false,
+      "stem": { "format": "text", "value": "Consider f(x) = x + 2 for x < 1, and f(x) = 3x for x \u2265 1. Is f continuous at x = 1?" },
+      "options": [
+        { "id": "a", "content": { "format": "text", "value": "Yes, because both pieces approach the value 3 at x = 1." } },
+        { "id": "b", "content": { "format": "text", "value": "No, because the two pieces use different formulas." } },
+        { "id": "c", "content": { "format": "text", "value": "No, because the left piece gives 3 but the right piece gives 1." } },
+        { "id": "d", "content": { "format": "text", "value": "Yes, but only because piecewise functions are always continuous at their boundary points." } }
+      ],
+      "correct": ["a"],
+      "explanation": { "format": "text", "value": "As x approaches 1 from the left, x + 2 approaches 1 + 2 = 3. The right piece applies at x = 1 itself (since x \u2265 1), giving f(1) = 3(1) = 3. Since the left-hand limit and the function's value both equal 3, there is no jump, and f is continuous at x = 1." },
+      "authored": "2026-08-29"
+    },
+    {
+      "id": "5165-0214",
+      "type": "single",
+      "categoryId": "II-A",
+      "retired": false,
+      "stem": { "format": "text", "value": "For f(x) = kx + 1 when x \u2264 2, and f(x) = x\u00b2 \u2212 3 when x > 2, what value of k makes f continuous at x = 2?" },
+      "options": [
+        { "id": "a", "content": { "format": "text", "value": "k = \u22121" } },
+        { "id": "b", "content": { "format": "text", "value": "k = 0" } },
+        { "id": "c", "content": { "format": "text", "value": "k = 1" } },
+        { "id": "d", "content": { "format": "text", "value": "k = 2" } }
+      ],
+      "correct": ["b"],
+      "explanation": { "format": "text", "value": "Continuity at x = 2 requires the value of the first piece at x = 2 to equal the limit of the second piece as x approaches 2: 2k + 1 must equal 2\u00b2 \u2212 3 = 1. Solving 2k + 1 = 1 gives 2k = 0, so k = 0." },
+      "authored": "2026-08-29"
+    },
+    {
+      "id": "5165-0215",
+      "type": "single",
+      "categoryId": "II-A",
+      "retired": false,
+      "stem": { "format": "text", "value": "A rental company charges a flat $30 fee plus $0.20 per mile for trips of 100 miles or less, and a flat $50 fee with no per-mile charge for trips over 100 miles. Which piecewise function models the cost C(x) for x miles driven?" },
+      "options": [
+        { "id": "a", "content": { "format": "text", "value": "C(x) = 30 + 0.20x for 0 \u2264 x \u2264 100, and C(x) = 50 + 0.20x for x > 100" } },
+        { "id": "b", "content": { "format": "text", "value": "C(x) = 30 + 0.20x for 0 \u2264 x \u2264 100, and C(x) = 50 for x > 100" } },
+        { "id": "c", "content": { "format": "text", "value": "C(x) = 30 + 0.20x for all values of x" } },
+        { "id": "d", "content": { "format": "text", "value": "C(x) = 50 for 0 \u2264 x \u2264 100, and C(x) = 30 + 0.20x for x > 100" } }
+      ],
+      "correct": ["b"],
+      "explanation": { "format": "text", "value": "For trips of 100 miles or less, the cost is the base fee plus the per-mile rate: 30 + 0.20x. The description states that trips over 100 miles cost a flat $50 with no per-mile charge, so that piece must be the constant 50, not an expression still involving x. Only the choice pairing 30 + 0.20x on 0 \u2264 x \u2264 100 with a constant 50 beyond 100 miles matches both conditions." },
+      "authored": "2026-08-29"
+    },
+    {
+      "id": "5165-0216",
+      "type": "single",
+      "categoryId": "II-A",
+      "overlays": ["tot"],
+      "retired": false,
+      "stem": { "format": "text", "value": "For f(x) = x\u00b2 when x < 1, and f(x) = 2x + 3 when x \u2265 1, a student evaluates f(1) using the first piece, computing f(1) = 1\u00b2 = 1. Which of the following identifies the error and gives the correct value of f(1)?" },
+      "options": [
+        { "id": "a", "content": { "format": "text", "value": "The student's answer of 1 is correct, since x = 1 is close to the boundary between both pieces." } },
+        { "id": "b", "content": { "format": "text", "value": "Both pieces should be averaged at the boundary, giving f(1) = (1 + 5)/2 = 3." } },
+        { "id": "c", "content": { "format": "text", "value": "Since x = 1 does not satisfy x < 1, the function is undefined at x = 1." } },
+        { "id": "d", "content": { "format": "text", "value": "Since the condition x \u2265 1 includes x = 1, the second piece must be used: f(1) = 2(1) + 3 = 5." } }
+      ],
+      "correct": ["d"],
+      "explanation": { "format": "text", "value": "Piecewise definitions apply based strictly on which condition a value satisfies. The value x = 1 does not satisfy x < 1, so the first piece does not apply there; it does satisfy x \u2265 1, so the second piece must be used: f(1) = 2(1) + 3 = 5." },
+      "authored": "2026-08-29"
+    },
+    {
+      "id": "5165-0217",
+      "type": "single",
+      "categoryId": "II-A",
+      "retired": false,
+      "stem": { "format": "text", "value": "Which computation confirms that f(x) = (x \u2212 4)/3 and g(x) = 3x + 4 are inverse functions?" },
+      "options": [
+        { "id": "a", "content": { "format": "text", "value": "f(g(x)) = (3x + 4 \u2212 4)/3 = x, but g(f(x)) = 3x \u2212 4 + 4 = 3x, so they are not inverses." } },
+        { "id": "b", "content": { "format": "text", "value": "Since f(x) and g(x) have different slopes, they cannot be inverse functions." } },
+        { "id": "c", "content": { "format": "text", "value": "f(x) and g(x) are inverses only because g(x) is the reciprocal of f(x)." } },
+        { "id": "d", "content": { "format": "text", "value": "f(g(x)) = ((3x + 4) \u2212 4)/3 = x, and g(f(x)) = 3((x \u2212 4)/3) + 4 = x, so both compositions return x." } }
+      ],
+      "correct": ["d"],
+      "explanation": { "format": "text", "value": "Two functions are inverses when both compositions return x. Substituting g(x) into f: f(g(x)) = ((3x + 4) \u2212 4)/3 = 3x/3 = x. Substituting f(x) into g: g(f(x)) = 3((x \u2212 4)/3) + 4 = (x \u2212 4) + 4 = x. Since both simplify to x, the functions are confirmed inverses." },
+      "authored": "2026-08-29"
+    },
+    {
+      "id": "5165-0218",
+      "type": "single",
+      "categoryId": "II-A",
+      "retired": false,
+      "stem": { "format": "text", "value": "The graph of g(x) = \u22123(x + 2)\u00b2 + 5 is obtained from the graph of f(x) = x\u00b2 by which sequence of transformations?" },
+      "options": [
+        { "id": "a", "content": { "format": "text", "value": "shift left 2 units, vertically shrink by a factor of 3, reflect over the x-axis, then shift down 5 units" } },
+        { "id": "b", "content": { "format": "text", "value": "shift left 2 units, vertically stretch by a factor of 3, reflect over the x-axis, then shift up 5 units" } },
+        { "id": "c", "content": { "format": "text", "value": "shift right 2 units, vertically stretch by a factor of 3, reflect over the x-axis, then shift up 5 units" } },
+        { "id": "d", "content": { "format": "text", "value": "shift left 2 units, vertically stretch by a factor of 3, reflect over the y-axis, then shift up 5 units" } }
+      ],
+      "correct": ["b"],
+      "explanation": { "format": "text", "value": "Replacing x with (x + 2) shifts the graph left 2 units, since the vertex moves to where x + 2 = 0. The factor of 3 stretches the graph vertically. The negative sign in front reflects the graph over the x-axis, flipping it to open downward. Adding 5 shifts the entire graph up 5 units, placing the vertex at (\u22122, 5)." },
+      "authored": "2026-08-29"
+    },
+    {
+      "id": "5165-0219",
+      "type": "single",
+      "categoryId": "II-A",
+      "retired": false,
+      "stem": { "format": "text", "value": "Solve for x, rounding to the nearest hundredth: 5\u02e3 = 40." },
+      "options": [
+        { "id": "a", "content": { "format": "text", "value": "x \u2248 8.00" } },
+        { "id": "b", "content": { "format": "text", "value": "x \u2248 0.44" } },
+        { "id": "c", "content": { "format": "text", "value": "x \u2248 2.29" } },
+        { "id": "d", "content": { "format": "text", "value": "x \u2248 1.60" } }
+      ],
+      "correct": ["c"],
+      "explanation": { "format": "text", "value": "Taking the logarithm of both sides converts the exponential equation to x \u00b7 log(5) = log(40). Dividing gives x = log(40)/log(5) \u2248 1.602/0.699 \u2248 2.29. Checking: 5^2.29 \u2248 40, confirming the solution." },
+      "authored": "2026-08-29"
+    },
+    {
+      "id": "5165-0220",
+      "type": "single",
+      "categoryId": "II-A",
+      "retired": false,
+      "stem": { "format": "text", "value": "A phone plan charges a flat monthly fee of $25 plus $0.10 per text message sent beyond the first 500, which are free. Which function models the monthly cost C(t) in dollars for t text messages, where t > 500?" },
+      "options": [
+        { "id": "a", "content": { "format": "text", "value": "C(t) = 25 + 0.10(t \u2212 500)" } },
+        { "id": "b", "content": { "format": "text", "value": "C(t) = 25 + 0.10t" } },
+        { "id": "c", "content": { "format": "text", "value": "C(t) = 25(t \u2212 500) + 0.10" } },
+        { "id": "d", "content": { "format": "text", "value": "C(t) = 0.10t \u2212 500 + 25" } }
+      ],
+      "correct": ["a"],
+      "explanation": { "format": "text", "value": "The flat fee of $25 applies regardless of usage. The per-text charge of $0.10 applies only to messages beyond the free 500, so the number of charged messages is (t \u2212 500), not t itself. This gives C(t) = 25 + 0.10(t \u2212 500)." },
+      "authored": "2026-08-29"
+    },
+    {
+      "id": "5165-0221",
+      "type": "single",
+      "categoryId": "II-A",
+      "retired": false,
+      "stem": { "format": "text", "value": "On what interval is f(x) = \u2212x\u00b2 + 4x \u2212 1 decreasing?" },
+      "options": [
+        { "id": "a", "content": { "format": "text", "value": "(\u22122, \u221e)" } },
+        { "id": "b", "content": { "format": "text", "value": "(2, \u221e)" } },
+        { "id": "c", "content": { "format": "text", "value": "(\u2212\u221e, 2)" } },
+        { "id": "d", "content": { "format": "text", "value": "(\u2212\u221e, \u22122)" } }
+      ],
+      "correct": ["b"],
+      "explanation": { "format": "text", "value": "The vertex occurs at x = \u2212b/(2a) = \u22124/(2(\u22121)) = 2. Since the leading coefficient is negative, the parabola opens downward: it increases up to the vertex and decreases after it. So f is decreasing on (2, \u221e)." },
+      "authored": "2026-08-29"
+    },
+    {
+      "id": "5165-0222",
+      "type": "single",
+      "categoryId": "II-A",
+      "overlays": ["tot"],
+      "retired": false,
+      "stem": { "format": "text", "value": "To find the inverse of f(x) = (x + 3)/2, a student simply changes the sign of the 3, writing f\u207b\u00b9(x) = (x \u2212 3)/2, without swapping x and y and solving. Which of the following identifies the error and gives the correct inverse?" },
+      "options": [
+        { "id": "a", "content": { "format": "text", "value": "The correct inverse is f\u207b\u00b9(x) = (x + 3)/2, since f(x) is already its own inverse." } },
+        { "id": "b", "content": { "format": "text", "value": "The correct inverse is f\u207b\u00b9(x) = 2x + 3, obtained by multiplying both sides by 2 without changing the sign." } },
+        { "id": "c", "content": { "format": "text", "value": "The student skipped swapping x and y; solving x = (y + 3)/2 for y gives the correct inverse f\u207b\u00b9(x) = 2x \u2212 3." } },
+        { "id": "d", "content": { "format": "text", "value": "The student's shortcut is valid; changing the sign of any constant term always produces the correct inverse." } }
+      ],
+      "correct": ["c"],
+      "explanation": { "format": "text", "value": "Finding an inverse requires setting y = (x + 3)/2, swapping x and y to get x = (y + 3)/2, and then solving for y: multiplying both sides by 2 gives 2x = y + 3, and subtracting 3 gives y = 2x \u2212 3. So f\u207b\u00b9(x) = 2x \u2212 3. Checking: f(f\u207b\u00b9(x)) = ((2x \u2212 3) + 3)/2 = 2x/2 = x, confirming the result." },
+      "authored": "2026-08-29"
+    },
+    {
+      "id": "5165-0223",
+      "type": "single",
+      "categoryId": "II-A",
+      "overlays": ["tot"],
+      "retired": false,
+      "stem": { "format": "text", "value": "A student analyzes f(x) = (x\u00b2 + 2)/(x \u2212 1) and concludes the horizontal asymptote is y = 1, by taking the ratio of the leading coefficients as if the degrees were equal. Which of the following identifies the error and describes the function's actual end behavior?" },
+      "options": [
+        { "id": "a", "content": { "format": "text", "value": "Because the denominator has the smaller degree, the horizontal asymptote should be y = 0 instead of y = 1." } },
+        { "id": "b", "content": { "format": "text", "value": "The function actually has two horizontal asymptotes, y = 1 and y = 0, one for each end-behavior direction." } },
+        { "id": "c", "content": { "format": "text", "value": "The degrees are not equal \u2014 the numerator's exceeds the denominator's by one \u2014 so there is no horizontal asymptote; the graph follows a slant asymptote." } },
+        { "id": "d", "content": { "format": "text", "value": "The reasoning is valid, since the ratio of leading coefficients always determines the horizontal asymptote regardless of degree." } }
+      ],
+      "correct": ["c"],
+      "explanation": { "format": "text", "value": "The ratio-of-leading-coefficients shortcut for horizontal asymptotes only applies when the numerator and denominator have the same degree. Here the numerator has degree 2 and the denominator has degree 1, so the degrees are not equal, and this rule does not apply. When the numerator's degree exceeds the denominator's by exactly one, the function has no horizontal asymptote and instead grows following a slant (oblique) asymptote." },
+      "authored": "2026-08-29"
+    },
+    {
+      "id": "5165-0224",
+      "type": "single",
+      "categoryId": "II-B",
+      "retired": false,
+      "stem": { "format": "text", "value": "Find dy/dx if x\u00b2 + y\u00b2 = 25." },
+      "options": [
+        { "id": "a", "content": { "format": "text", "value": "-x/y" } },
+        { "id": "b", "content": { "format": "text", "value": "x/y" } },
+        { "id": "c", "content": { "format": "text", "value": "-y/x" } },
+        { "id": "d", "content": { "format": "text", "value": "y/x" } }
+      ],
+      "correct": ["a"],
+      "explanation": { "format": "text", "value": "Differentiating both sides of x\u00b2 + y\u00b2 = 25 with respect to x gives 2x + 2y(dy/dx) = 0, using the chain rule on the y\u00b2 term since y is a function of x. Solving for dy/dx: 2y(dy/dx) = -2x, so dy/dx = -x/y." },
+      "authored": "2026-08-29"
+    },
+    {
+      "id": "5165-0225",
+      "type": "single",
+      "categoryId": "II-B",
+      "retired": false,
+      "stem": { "format": "text", "value": "Find dy/dx if x\u00b3 + y\u00b3 = 9." },
+      "options": [
+        { "id": "a", "content": { "format": "text", "value": "-y\u00b2/x\u00b2" } },
+        { "id": "b", "content": { "format": "text", "value": "-x\u00b2/y\u00b2" } },
+        { "id": "c", "content": { "format": "text", "value": "x\u00b2/y\u00b2" } },
+        { "id": "d", "content": { "format": "text", "value": "-x/y" } }
+      ],
+      "correct": ["b"],
+      "explanation": { "format": "text", "value": "Differentiating x\u00b3 + y\u00b3 = 9 with respect to x gives 3x\u00b2 + 3y\u00b2(dy/dx) = 0. Dividing by 3 and solving for dy/dx: y\u00b2(dy/dx) = -x\u00b2, so dy/dx = -x\u00b2/y\u00b2." },
+      "authored": "2026-08-29"
+    },
+    {
+      "id": "5165-0226",
+      "type": "single",
+      "categoryId": "II-B",
+      "retired": false,
+      "stem": { "format": "text", "value": "Find dy/dx if x\u00b2y = 8." },
+      "options": [
+        { "id": "a", "content": { "format": "text", "value": "-y/(2x)" } },
+        { "id": "b", "content": { "format": "text", "value": "2y/x" } },
+        { "id": "c", "content": { "format": "text", "value": "-2y/x" } },
+        { "id": "d", "content": { "format": "text", "value": "-2x/y" } }
+      ],
+      "correct": ["c"],
+      "explanation": { "format": "text", "value": "The left side requires the product rule since both x\u00b2 and y depend on x: d/dx(x\u00b2y) = 2xy + x\u00b2(dy/dx). The right side, 8, differentiates to 0. So 2xy + x\u00b2(dy/dx) = 0, giving x\u00b2(dy/dx) = -2xy, and dy/dx = -2xy/x\u00b2 = -2y/x." },
+      "authored": "2026-08-29"
+    },
+    {
+      "id": "5165-0227",
+      "type": "single",
+      "categoryId": "II-B",
+      "retired": false,
+      "stem": { "format": "text", "value": "Find dy/dx if sin(y) = x." },
+      "options": [
+        { "id": "a", "content": { "format": "text", "value": "cos y" } },
+        { "id": "b", "content": { "format": "text", "value": "-1/cos y" } },
+        { "id": "c", "content": { "format": "text", "value": "1/sin y" } },
+        { "id": "d", "content": { "format": "text", "value": "1/cos y" } }
+      ],
+      "correct": ["d"],
+      "explanation": { "format": "text", "value": "Differentiating sin(y) = x with respect to x requires the chain rule on the left side, since y is a function of x: cos(y)(dy/dx) = 1. Solving for dy/dx gives dy/dx = 1/cos(y)." },
+      "authored": "2026-08-29"
+    },
+    {
+      "id": "5165-0228",
+      "type": "single",
+      "categoryId": "II-B",
+      "overlays": ["tot"],
+      "retired": false,
+      "stem": { "format": "text", "value": "A student is asked to find dy/dx for xy = 6. Believing that only the y factor needs to be differentiated since x is 'already the variable,' the student differentiates the left side as x(dy/dx), sets it equal to the derivative of the right side, and concludes dy/dx = 0. Which of the following correctly applies the product rule to find dy/dx?" },
+      "options": [
+        { "id": "a", "content": { "format": "text", "value": "dy/dx = -y/x" } },
+        { "id": "b", "content": { "format": "text", "value": "dy/dx = 0" } },
+        { "id": "c", "content": { "format": "text", "value": "dy/dx = y/x" } },
+        { "id": "d", "content": { "format": "text", "value": "dy/dx = -x/y" } }
+      ],
+      "correct": ["a"],
+      "explanation": { "format": "text", "value": "The product rule gives d/dx(xy) = x(dy/dx) + y(dx/dx) = x(dy/dx) + y, since both factors depend on x. Setting this equal to the derivative of the constant 6, which is 0: x(dy/dx) + y = 0, so dy/dx = -y/x. The student's error was treating x as if it were a fixed coefficient rather than a variable, which dropped the y(dx/dx) term the product rule requires." },
+      "authored": "2026-08-29"
+    },
+    {
+      "id": "5165-0229",
+      "type": "single",
+      "categoryId": "II-B",
+      "overlays": ["tot"],
+      "retired": false,
+      "stem": { "format": "text", "value": "A student differentiates x\u00b2 + 4y\u00b2 = 16 implicitly but forgets that y is a function of x, writing d/dx(4y\u00b2) = 8y instead of 8y(dy/dx). Solving 2x + 8y = 0 as if it were already the derivative equation, the student concludes dy/dx = -x/4. Which of the following correctly applies the chain rule to find dy/dx?" },
+      "options": [
+        { "id": "a", "content": { "format": "text", "value": "dy/dx = -x/4" } },
+        { "id": "b", "content": { "format": "text", "value": "dy/dx = -x/(4y)" } },
+        { "id": "c", "content": { "format": "text", "value": "dy/dx = x/(4y)" } },
+        { "id": "d", "content": { "format": "text", "value": "dy/dx = -4x/y" } }
+      ],
+      "correct": ["b"],
+      "explanation": { "format": "text", "value": "Differentiating x\u00b2 + 4y\u00b2 = 16 with respect to x requires the chain rule on the y\u00b2 term: 2x + 8y(dy/dx) = 0. Solving for dy/dx: 8y(dy/dx) = -2x, so dy/dx = -2x/(8y) = -x/(4y). The student's error was omitting the dy/dx factor when differentiating 4y\u00b2, effectively treating y as if it were the independent variable x. Note also that 2x + 8y = 0 solves to y = -x/4, an expression for y itself rather than for dy/dx \u2014 a second sign that the derivative equation was never actually formed." },
+      "authored": "2026-08-29"
+    },
+    {
+      "id": "5165-0230",
+      "type": "single",
+      "categoryId": "II-B",
+      "retired": false,
+      "stem": { "format": "text", "value": "A 10-foot ladder leans against a vertical wall. The bottom of the ladder is being pulled away from the wall at a rate of 2 ft/s. At the moment the bottom of the ladder is 6 feet from the wall, how fast is the top of the ladder sliding down the wall?" },
+      "options": [
+        { "id": "a", "content": { "format": "text", "value": "2.67 ft/s" } },
+        { "id": "b", "content": { "format": "text", "value": "1.5 ft/s, moving upward" } },
+        { "id": "c", "content": { "format": "text", "value": "1.5 ft/s, moving downward" } },
+        { "id": "d", "content": { "format": "text", "value": "2 ft/s, moving downward" } }
+      ],
+      "correct": ["c"],
+      "explanation": { "format": "text", "value": "Let x be the distance from the wall to the base of the ladder and y the height of the top, so x\u00b2 + y\u00b2 = 100 (ladder length 10). Differentiating with respect to time: 2x(dx/dt) + 2y(dy/dt) = 0, so dy/dt = -(x/y)(dx/dt). When x = 6, y = \u221a(100-36) = 8. With dx/dt = 2 ft/s: dy/dt = -(6/8)(2) = -1.5 ft/s, meaning the top slides down at 1.5 ft/s." },
+      "authored": "2026-08-29"
+    },
+    {
+      "id": "5165-0231",
+      "type": "single",
+      "categoryId": "II-B",
+      "retired": false,
+      "stem": { "format": "text", "value": "A spherical balloon is being inflated so that its volume increases at a rate of 100 cm\u00b3/s. At the instant the radius is 5 cm, how fast is the radius increasing?" },
+      "options": [
+        { "id": "a", "content": { "format": "text", "value": "5/\u03c0 cm/s" } },
+        { "id": "b", "content": { "format": "text", "value": "4/\u03c0 cm/s" } },
+        { "id": "c", "content": { "format": "text", "value": "100/\u03c0 cm/s" } },
+        { "id": "d", "content": { "format": "text", "value": "1/\u03c0 cm/s" } }
+      ],
+      "correct": ["d"],
+      "explanation": { "format": "text", "value": "The volume of a sphere is V = (4/3)\u03c0r\u00b3. Differentiating with respect to time: dV/dt = 4\u03c0r\u00b2(dr/dt). Solving for dr/dt: dr/dt = dV/dt / (4\u03c0r\u00b2). With dV/dt = 100 cm\u00b3/s and r = 5 cm: dr/dt = 100/(4\u03c0\u00b725) = 100/(100\u03c0) = 1/\u03c0 cm/s." },
+      "authored": "2026-08-29"
+    },
+    {
+      "id": "5165-0232",
+      "type": "single",
+      "categoryId": "II-B",
+      "retired": false,
+      "stem": { "format": "text", "value": "A streetlight is mounted on top of an 18-foot pole. A 6-foot-tall person walks away from the pole at a rate of 5 ft/s. At what rate is the length of the person's shadow increasing?" },
+      "options": [
+        { "id": "a", "content": { "format": "text", "value": "2.5 ft/s" } },
+        { "id": "b", "content": { "format": "text", "value": "5 ft/s" } },
+        { "id": "c", "content": { "format": "text", "value": "7.5 ft/s" } },
+        { "id": "d", "content": { "format": "text", "value": "1.67 ft/s" } }
+      ],
+      "correct": ["a"],
+      "explanation": { "format": "text", "value": "Let x be the person's distance from the pole and s the shadow's length. By similar triangles, the pole's height over the total distance to the shadow's tip equals the person's height over the shadow length: 18/(x+s) = 6/s. Cross-multiplying: 18s = 6x + 6s, so 12s = 6x, giving s = x/2. Differentiating with respect to time: ds/dt = (1/2)(dx/dt) = (1/2)(5) = 2.5 ft/s." },
+      "authored": "2026-08-29"
+    },
+    {
+      "id": "5165-0233",
+      "type": "single",
+      "categoryId": "II-B",
+      "retired": false,
+      "stem": { "format": "text", "value": "Water is being pumped into a cylindrical tank of radius 4 m at a rate of 20 m\u00b3/min. How fast is the water level rising?" },
+      "options": [
+        { "id": "a", "content": { "format": "text", "value": "5/\u03c0 m/min" } },
+        { "id": "b", "content": { "format": "text", "value": "5/(4\u03c0) m/min" } },
+        { "id": "c", "content": { "format": "text", "value": "5/(16\u03c0) m/min" } },
+        { "id": "d", "content": { "format": "text", "value": "1.25 m/min" } }
+      ],
+      "correct": ["b"],
+      "explanation": { "format": "text", "value": "For a cylindrical tank of fixed radius r, V = \u03c0r\u00b2h. Differentiating with respect to time (r constant): dV/dt = \u03c0r\u00b2(dh/dt), so dh/dt = dV/dt/(\u03c0r\u00b2). With dV/dt = 20 m\u00b3/min and r = 4 m: dh/dt = 20/(\u03c0\u00b716) = 20/(16\u03c0) = 5/(4\u03c0) m/min." },
+      "authored": "2026-08-29"
+    },
+    {
+      "id": "5165-0234",
+      "type": "single",
+      "categoryId": "II-B",
+      "retired": false,
+      "stem": { "format": "text", "value": "Car A travels north from an intersection at 30 mph. Car B travels east from the same intersection at 40 mph. Three hours after they start, at what rate is the straight-line distance between them increasing?" },
+      "options": [
+        { "id": "a", "content": { "format": "text", "value": "70 mph" } },
+        { "id": "b", "content": { "format": "text", "value": "35 mph" } },
+        { "id": "c", "content": { "format": "text", "value": "50 mph" } },
+        { "id": "d", "content": { "format": "text", "value": "62.5 mph" } }
+      ],
+      "correct": ["c"],
+      "explanation": { "format": "text", "value": "Let x be car A's distance north and y be car B's distance east, with z the distance between them, so z\u00b2 = x\u00b2 + y\u00b2. Differentiating with respect to time: 2z(dz/dt) = 2x(dx/dt) + 2y(dy/dt), so dz/dt = (x(dx/dt) + y(dy/dt))/z. After 3 hours, x = 30(3) = 90 mi, y = 40(3) = 120 mi, and z = \u221a(90\u00b2+120\u00b2) = \u221a22500 = 150 mi. So dz/dt = (90\u00b730 + 120\u00b740)/150 = (2700+4800)/150 = 7500/150 = 50 mph." },
+      "authored": "2026-08-29"
+    },
+    {
+      "id": "5165-0235",
+      "type": "single",
+      "categoryId": "II-B",
+      "overlays": ["tot"],
+      "retired": false,
+      "stem": { "format": "text", "value": "A 13-foot ladder leans against a vertical wall, with the bottom sliding away from the wall at 3 ft/s. When the bottom of the ladder is 5 feet from the wall, a student computes the rate at which the top is sliding down by writing dy/dt = -(y/x)(dx/dt) and plugging in the current height and distance. Using the Pythagorean relationship correctly, what is the actual rate at which the top of the ladder is sliding down at this instant?" },
+      "options": [
+        { "id": "a", "content": { "format": "text", "value": "7.2 ft/s" } },
+        { "id": "b", "content": { "format": "text", "value": "1.25 ft/s, moving upward" } },
+        { "id": "c", "content": { "format": "text", "value": "3 ft/s" } },
+        { "id": "d", "content": { "format": "text", "value": "1.25 ft/s" } }
+      ],
+      "correct": ["d"],
+      "explanation": { "format": "text", "value": "Let x be the distance from the wall to the base and y the height of the top, with x\u00b2 + y\u00b2 = 169 (ladder length 13). Differentiating: 2x(dx/dt) + 2y(dy/dt) = 0, so dy/dt = -(x/y)(dx/dt) \u2014 the x/y ratio, not y/x. When x = 5, y = \u221a(169-25) = \u221a144 = 12. With dx/dt = 3 ft/s: dy/dt = -(5/12)(3) = -1.25 ft/s, so the top slides down at 1.25 ft/s. The student's error was inverting the ratio to y/x instead of the correct x/y." },
+      "authored": "2026-08-29"
+    },
+    {
+      "id": "5165-0236",
+      "type": "single",
+      "categoryId": "II-B",
+      "retired": false,
+      "stem": { "format": "text", "value": "Find the x-coordinate of the inflection point of f(x) = x\u00b3 \u2212 6x\u00b2 + 9x + 1." },
+      "options": [
+        { "id": "a", "content": { "format": "text", "value": "x = 2" } },
+        { "id": "b", "content": { "format": "text", "value": "x = 1" } },
+        { "id": "c", "content": { "format": "text", "value": "x = 3" } },
+        { "id": "d", "content": { "format": "text", "value": "x = 4" } }
+      ],
+      "correct": ["a"],
+      "explanation": { "format": "text", "value": "f'(x) = 3x\u00b2 - 12x + 9, and f''(x) = 6x - 12. Setting f''(x) = 0 gives x = 2. Since f''(x) is negative for x < 2 and positive for x > 2, the second derivative changes sign there, so the concavity actually changes from down to up, confirming x = 2 is a genuine inflection point. (Setting f'(x) = 0 instead gives x = 1 and x = 3, which are critical points \u2014 locations of a local max/min \u2014 not inflection points.)" },
+      "authored": "2026-08-29"
+    },
+    {
+      "id": "5165-0237",
+      "type": "single",
+      "categoryId": "II-B",
+      "retired": false,
+      "stem": { "format": "text", "value": "Is the graph of f(x) = x\u2074 \u2212 4x\u00b3 concave up or concave down at x = 1?" },
+      "options": [
+        { "id": "a", "content": { "format": "text", "value": "Concave up, because f''(1) = -12 indicates the graph is curving upward" } },
+        { "id": "b", "content": { "format": "text", "value": "Concave down, because f''(1) = 12(1)\u00b2 \u2212 24(1) = -12, which is negative" } },
+        { "id": "c", "content": { "format": "text", "value": "Concave down, because f'(1) = 4(1)\u00b3 \u2212 12(1)\u00b2 = -8, which is negative" } },
+        { "id": "d", "content": { "format": "text", "value": "Cannot be determined without knowing f(1)" } }
+      ],
+      "correct": ["b"],
+      "explanation": { "format": "text", "value": "f'(x) = 4x\u00b3 - 12x\u00b2, so f''(x) = 12x\u00b2 - 24x. At x = 1: f''(1) = 12(1)\u00b2 - 24(1) = 12 - 24 = -12, which is negative, so the graph is concave down at x = 1. Concavity is determined by the sign of the second derivative, not the first \u2014 evaluating f'(1) tells you whether f is increasing or decreasing, not how it curves." },
+      "authored": "2026-08-29"
+    },
+    {
+      "id": "5165-0238",
+      "type": "single",
+      "categoryId": "II-B",
+      "retired": false,
+      "stem": { "format": "text", "value": "For all x in the domain of f(x) = ln x (that is, x > 0), is the graph concave up or concave down?" },
+      "options": [
+        { "id": "a", "content": { "format": "text", "value": "Concave up everywhere, since f'(x) = 1/x is always positive, meaning f is always increasing" } },
+        { "id": "b", "content": { "format": "text", "value": "Concave down for 0 < x < 1 and concave up for x > 1, since the rate of increase changes at x = 1" } },
+        { "id": "c", "content": { "format": "text", "value": "Concave down everywhere, since f''(x) = -1/x\u00b2, which is negative for all x > 0" } },
+        { "id": "d", "content": { "format": "text", "value": "Neither \u2014 ln x has no concavity since it is always increasing" } }
+      ],
+      "correct": ["c"],
+      "explanation": { "format": "text", "value": "f(x) = ln x has f'(x) = 1/x and f''(x) = -1/x\u00b2. For every x > 0, -1/x\u00b2 is negative, so f''(x) < 0 throughout the entire domain, meaning the graph is concave down everywhere \u2014 there is no point where the sign of f'' changes, so no inflection point exists." },
+      "authored": "2026-08-29"
+    },
+    {
+      "id": "5165-0239",
+      "type": "single",
+      "categoryId": "II-B",
+      "overlays": ["tot"],
+      "retired": false,
+      "stem": { "format": "text", "value": "A student believes that a decreasing function must be concave down, and an increasing function must be concave up. Applying this reasoning to f(x) = x\u00b2, the student argues that since f is decreasing on the interval x < 0, the graph must be concave down there. Which of the following correctly evaluates the concavity of f(x) = x\u00b2 for x < 0?" },
+      "options": [
+        { "id": "a", "content": { "format": "text", "value": "Concave down for x < 0, matching the student's reasoning, since decreasing functions always curve downward" } },
+        { "id": "b", "content": { "format": "text", "value": "Concave down for x < 0 and concave up for x > 0, since concavity switches wherever a function's behavior changes" } },
+        { "id": "c", "content": { "format": "text", "value": "Neither concave up nor concave down for x < 0, since a function cannot be both decreasing and concave up at the same time" } },
+        { "id": "d", "content": { "format": "text", "value": "Concave up for all x, including x < 0, since f''(x) = 2 is positive everywhere" } }
+      ],
+      "correct": ["d"],
+      "explanation": { "format": "text", "value": "f(x) = x\u00b2 has f'(x) = 2x, which is indeed negative for x < 0, confirming f is decreasing there. But concavity depends on f''(x) = 2, which is positive for every real x, including x < 0. Since f''(x) > 0 everywhere, the graph is concave up on the entire real line \u2014 a function can be decreasing and concave up at the same time, as with the left branch of this parabola. Concavity depends only on the sign of the second derivative, not on whether the function happens to be increasing or decreasing." },
+      "authored": "2026-08-29"
+    },
+    {
+      "id": "5165-0240",
+      "type": "single",
+      "categoryId": "II-B",
+      "overlays": ["tot"],
+      "retired": false,
+      "stem": { "format": "text", "value": "A student believes inflection points occur wherever f'(x) = 0, the same condition used for critical points. For f(x) = x\u00b3 \u2212 3x\u00b2, the student sets f'(x) = 3x\u00b2 \u2212 6x = 0 and concludes there are inflection points at x = 0 and x = 2. Using the correct condition for inflection points, where does f actually have an inflection point?" },
+      "options": [
+        { "id": "a", "content": { "format": "text", "value": "x = 1, since f''(x) = 6x \u2212 6 changes sign there" } },
+        { "id": "b", "content": { "format": "text", "value": "x = 0 and x = 2, since these are where f'(x) = 0" } },
+        { "id": "c", "content": { "format": "text", "value": "x = 2 only, since this is the larger of the two critical points" } },
+        { "id": "d", "content": { "format": "text", "value": "There is no inflection point, since f is a cubic" } }
+      ],
+      "correct": ["a"],
+      "explanation": { "format": "text", "value": "f'(x) = 3x\u00b2 - 6x, and f''(x) = 6x - 6. Setting f''(x) = 0 gives x = 1, and f'' changes sign from negative (x<1) to positive (x>1) there, confirming a genuine inflection point at x = 1. Setting f'(x) = 0 instead gives 3x\u00b2 - 6x = 0, or x = 0 and x = 2 \u2014 these are critical points (a local max and local min), found from the first derivative, not inflection points, which require examining where the second derivative changes sign." },
+      "authored": "2026-08-29"
+    },
+    {
+      "id": "5165-0241",
+      "type": "single",
+      "categoryId": "II-B",
+      "retired": false,
+      "stem": { "format": "text", "value": "Evaluate \u222b2x(x\u00b2+1)\u00b3 dx using u-substitution." },
+      "options": [
+        { "id": "a", "content": { "format": "text", "value": "(x\u00b2+1)\u2074 + C" } },
+        { "id": "b", "content": { "format": "text", "value": "(x\u00b2+1)\u2074/4 + C" } },
+        { "id": "c", "content": { "format": "text", "value": "(x\u00b2+1)\u00b3/3 + C" } },
+        { "id": "d", "content": { "format": "text", "value": "2x(x\u00b2+1)\u2074/4 + C" } }
+      ],
+      "correct": ["b"],
+      "explanation": { "format": "text", "value": "Let u = x\u00b2 + 1, so du = 2x dx \u2014 exactly the factor present in the integrand. The integral becomes \u222bu\u00b3 du = u\u2074/4 + C. Substituting back: (x\u00b2+1)\u2074/4 + C." },
+      "authored": "2026-08-29"
+    },
+    {
+      "id": "5165-0242",
+      "type": "single",
+      "categoryId": "II-B",
+      "retired": false,
+      "stem": { "format": "text", "value": "Evaluate \u222bsin(4x) dx using u-substitution." },
+      "options": [
+        { "id": "a", "content": { "format": "text", "value": "(1/4)cos(4x) + C" } },
+        { "id": "b", "content": { "format": "text", "value": "-cos(4x) + C" } },
+        { "id": "c", "content": { "format": "text", "value": "-(1/4)cos(4x) + C" } },
+        { "id": "d", "content": { "format": "text", "value": "-4cos(4x) + C" } }
+      ],
+      "correct": ["c"],
+      "explanation": { "format": "text", "value": "Let u = 4x, so du = 4 dx, meaning dx = du/4. The integral becomes \u222bsin(u)\u00b7(du/4) = (1/4)\u222bsin(u) du = (1/4)(-cos(u)) + C = -(1/4)cos(4x) + C." },
+      "authored": "2026-08-29"
+    },
+    {
+      "id": "5165-0243",
+      "type": "single",
+      "categoryId": "II-B",
+      "retired": false,
+      "stem": { "format": "text", "value": "Evaluate \u222bx\u00b7e\u02e3\u00b2 dx using u-substitution." },
+      "options": [
+        { "id": "a", "content": { "format": "text", "value": "e\u02e3\u00b2 + C" } },
+        { "id": "b", "content": { "format": "text", "value": "2e\u02e3\u00b2 + C" } },
+        { "id": "c", "content": { "format": "text", "value": "(1/2)x\u00b2e\u02e3\u00b2 + C" } },
+        { "id": "d", "content": { "format": "text", "value": "(1/2)e\u02e3\u00b2 + C" } }
+      ],
+      "correct": ["d"],
+      "explanation": { "format": "text", "value": "Let u = x\u00b2, so du = 2x dx, meaning x dx = du/2. The integral becomes \u222be\u1d58\u00b7(du/2) = (1/2)\u222be\u1d58 du = (1/2)e\u1d58 + C = (1/2)e\u02e3\u00b2 + C." },
+      "authored": "2026-08-29"
+    },
+    {
+      "id": "5165-0244",
+      "type": "single",
+      "categoryId": "II-B",
+      "retired": false,
+      "stem": { "format": "text", "value": "Which of the following integrals can be evaluated directly using a simple u-substitution, as opposed to requiring integration by parts or a trigonometric identity?" },
+      "options": [
+        { "id": "a", "content": { "format": "text", "value": "\u222b2x cos(x\u00b2) dx" } },
+        { "id": "b", "content": { "format": "text", "value": "\u222bx cos(x) dx" } },
+        { "id": "c", "content": { "format": "text", "value": "\u222bsin\u00b2(x) dx" } },
+        { "id": "d", "content": { "format": "text", "value": "\u222bx\u00b2e\u02e3 dx" } }
+      ],
+      "correct": ["a"],
+      "explanation": { "format": "text", "value": "Substitution works cleanly when the derivative of an inner function appears as a factor in the integrand. In 2x cos(x\u00b2), the derivative of x\u00b2 is 2x, which is present exactly, so u = x\u00b2 gives du = 2x dx and the integral reduces directly to \u222bcos(u) du. The other integrands lack this structure: a product of x and cos x, or x\u00b2 and e\u02e3, requires integration by parts since no matching derivative factor is present, and sin\u00b2(x) requires a power-reduction identity rather than a substitution." },
+      "authored": "2026-08-29"
+    },
+    {
+      "id": "5165-0245",
+      "type": "single",
+      "categoryId": "II-B",
+      "overlays": ["tot"],
+      "retired": false,
+      "stem": { "format": "text", "value": "A student evaluates \u222bcos(3x) dx by treating the substitution as if it doesn't change the differential at all, writing the antiderivative directly as sin(3x) + C. Using u-substitution correctly, what is the actual value of the integral?" },
+      "options": [
+        { "id": "a", "content": { "format": "text", "value": "sin(3x) + C" } },
+        { "id": "b", "content": { "format": "text", "value": "(1/3)sin(3x) + C" } },
+        { "id": "c", "content": { "format": "text", "value": "3sin(3x) + C" } },
+        { "id": "d", "content": { "format": "text", "value": "(1/3)sin(x) + C" } }
+      ],
+      "correct": ["b"],
+      "explanation": { "format": "text", "value": "Let u = 3x, so du = 3 dx, meaning dx = du/3. The integral becomes \u222bcos(u)\u00b7(du/3) = (1/3)\u222bcos(u) du = (1/3)sin(u) + C = (1/3)sin(3x) + C. The student's error was treating the substitution as if dx and du were interchangeable, ignoring the factor of 3 that differentiating u = 3x introduces." },
+      "authored": "2026-08-29"
+    },
+    {
+      "id": "5165-0246",
+      "type": "single",
+      "categoryId": "II-B",
+      "retired": false,
+      "stem": { "format": "text", "value": "Find the area under the curve y = x\u00b2 from x = 0 to x = 3." },
+      "options": [
+        { "id": "a", "content": { "format": "text", "value": "27" } },
+        { "id": "b", "content": { "format": "text", "value": "4.5" } },
+        { "id": "c", "content": { "format": "text", "value": "9" } },
+        { "id": "d", "content": { "format": "text", "value": "18" } }
+      ],
+      "correct": ["c"],
+      "explanation": { "format": "text", "value": "\u222b\u2080\u00b3 x\u00b2 dx has antiderivative x\u00b3/3. Evaluating: (3\u00b3/3) - (0\u00b3/3) = 27/3 - 0 = 9." },
+      "authored": "2026-08-29"
+    },
+    {
+      "id": "5165-0247",
+      "type": "single",
+      "categoryId": "II-B",
+      "retired": false,
+      "stem": { "format": "text", "value": "The region under the line y = 2x + 1 from x = 1 to x = 4 forms a trapezoid. What is the value of \u222b\u2081\u2074 (2x + 1) dx?" },
+      "options": [
+        { "id": "a", "content": { "format": "text", "value": "20" } },
+        { "id": "b", "content": { "format": "text", "value": "21" } },
+        { "id": "c", "content": { "format": "text", "value": "9" } },
+        { "id": "d", "content": { "format": "text", "value": "18" } }
+      ],
+      "correct": ["d"],
+      "explanation": { "format": "text", "value": "The antiderivative of 2x + 1 is x\u00b2 + x. Evaluating from 1 to 4: (4\u00b2 + 4) - (1\u00b2 + 1) = 20 - 2 = 18. This matches the trapezoid formed under the line, with parallel sides f(1) = 3 and f(4) = 9 and width 3: area = (1/2)(3+9)(3) = 18." },
+      "authored": "2026-08-29"
+    },
+    {
+      "id": "5165-0248",
+      "type": "single",
+      "categoryId": "II-B",
+      "retired": false,
+      "stem": { "format": "text", "value": "On the interval [0,4], the graph of y = x \u2212 2 forms a triangle below the x-axis (from x=0 to x=2) and a congruent triangle above the x-axis (from x=2 to x=4). What is \u222b\u2080\u2074 (x\u22122) dx, and how does it compare to the total area enclosed between the curve and the x-axis?" },
+      "options": [
+        { "id": "a", "content": { "format": "text", "value": "The integral equals 0, because the areas below and above the axis (2 square units each) cancel in the signed sum, even though the total enclosed area is 4 square units" } },
+        { "id": "b", "content": { "format": "text", "value": "The integral equals 4, matching the total enclosed area, since definite integrals always compute unsigned area" } },
+        { "id": "c", "content": { "format": "text", "value": "The integral equals -4, because the entire region should be counted as negative when part of the curve lies below the axis" } },
+        { "id": "d", "content": { "format": "text", "value": "The integral equals 0, and this also correctly represents the total enclosed area, since the regions cancel out entirely" } }
+      ],
+      "correct": ["a"],
+      "explanation": { "format": "text", "value": "The antiderivative of x - 2 is x\u00b2/2 - 2x. Evaluating from 0 to 4: (16/2 - 8) - (0 - 0) = (8-8) - 0 = 0. Geometrically, from x=0 to x=2 the line is below the axis, forming a triangle of area (1/2)(2)(2) = 2 that contributes -2 to the integral; from x=2 to x=4 the line is above the axis, forming a congruent triangle contributing +2. These cancel to a net signed integral of 0, but the total enclosed area \u2014 adding the absolute value of each piece \u2014 is 2 + 2 = 4." },
+      "authored": "2026-08-29"
+    },
+    {
+      "id": "5165-0249",
+      "type": "single",
+      "categoryId": "II-B",
+      "retired": false,
+      "stem": { "format": "text", "value": "Find the area under the curve y = 12 \u2212 3x\u00b2 from x = 0 to x = 2." },
+      "options": [
+        { "id": "a", "content": { "format": "text", "value": "24" } },
+        { "id": "b", "content": { "format": "text", "value": "16" } },
+        { "id": "c", "content": { "format": "text", "value": "8" } },
+        { "id": "d", "content": { "format": "text", "value": "0" } }
+      ],
+      "correct": ["b"],
+      "explanation": { "format": "text", "value": "The antiderivative of 12 - 3x\u00b2 is 12x - x\u00b3. Evaluating from 0 to 2: (24 - 8) - (0 - 0) = 16. Because 12 - 3x\u00b2 is nonnegative on [0,2] (it reaches 0 exactly at x = 2), the region lies entirely above the axis, so the definite integral gives the area directly. Evaluating the function at x = 2 instead of integrating gives 0, and integrating only one of the two terms gives 24 or 8." },
+      "authored": "2026-08-29"
+    },
+    {
+      "id": "5165-0250",
+      "type": "single",
+      "categoryId": "II-B",
+      "overlays": ["tot"],
+      "retired": false,
+      "stem": { "format": "text", "value": "A student computes \u222b\u2080\u00b3 (x\u00b2 \u2212 9) dx = \u221218 and concludes that the area between the curve y = x\u00b2 \u2212 9 and the x-axis on [0,3] is \u221218 square units, since 'that's what the integral gives.' What is the actual enclosed area?" },
+      "options": [
+        { "id": "a", "content": { "format": "text", "value": "-18 square units, exactly as the student computed, because area can be negative when a curve lies below the axis" } },
+        { "id": "b", "content": { "format": "text", "value": "18 square units, but only because the interval should have been reversed to [3,0] before integrating" } },
+        { "id": "c", "content": { "format": "text", "value": "18 square units, since the curve lies entirely below the x-axis on [0,3], making the integral the negative of the area" } },
+        { "id": "d", "content": { "format": "text", "value": "0 square units, since a negative integral means the curve does not enclose any area with the axis" } }
+      ],
+      "correct": ["c"],
+      "explanation": { "format": "text", "value": "On [0,3], x\u00b2 \u2264 9, so x\u00b2 - 9 \u2264 0 throughout, meaning the curve lies at or below the x-axis for the entire interval. The antiderivative of x\u00b2 - 9 is x\u00b3/3 - 9x. Evaluating from 0 to 3: (9 - 27) - 0 = -18. Because the region lies below the axis, the definite integral gives the negative of the physical area. The actual enclosed area is the absolute value, |-18| = 18 square units. When a curve crosses the axis, split the interval at the x-intercepts and add the absolute value of each piece; here the curve stays below the axis throughout, so there is a single piece." },
+      "authored": "2026-08-29"
+    },
+    {
+      "id": "5165-0251",
+      "type": "single",
+      "categoryId": "II-B",
+      "retired": false,
+      "stem": { "format": "text", "value": "A rectangle has a perimeter of 40 units. What dimensions maximize its enclosed area, and what is that maximum area?" },
+      "options": [
+        { "id": "a", "content": { "format": "text", "value": "20 by 0, giving a maximum area of 0 square units" } },
+        { "id": "b", "content": { "format": "text", "value": "5 by 15, giving an area of 75 square units" } },
+        { "id": "c", "content": { "format": "text", "value": "10 by 10, giving a maximum area of 400 square units" } },
+        { "id": "d", "content": { "format": "text", "value": "10 by 10, giving a maximum area of 100 square units" } }
+      ],
+      "correct": ["d"],
+      "explanation": { "format": "text", "value": "Let x and y be the rectangle's side lengths, with 2x + 2y = 40, so y = 20 - x. The area is A(x) = x(20-x) = 20x - x\u00b2. Setting A'(x) = 20 - 2x = 0 gives x = 10, so y = 10 as well. Since A''(x) = -2 < 0, this is a maximum, and A(10) = 10(10) = 100 square units." },
+      "authored": "2026-08-29"
+    },
+    {
+      "id": "5165-0252",
+      "type": "single",
+      "categoryId": "II-B",
+      "retired": false,
+      "stem": { "format": "text", "value": "An open-top box with a square base is to have a volume of 32 cubic feet. What base length and height minimize the total surface area of the box, and what is that minimum surface area?" },
+      "options": [
+        { "id": "a", "content": { "format": "text", "value": "Base 4 ft by 4 ft, height 2 ft, minimum surface area 48 ft\u00b2" } },
+        { "id": "b", "content": { "format": "text", "value": "Base 4 ft by 4 ft, height 2 ft, minimum surface area 64 ft\u00b2" } },
+        { "id": "c", "content": { "format": "text", "value": "Base 8 ft by 8 ft, height 0.5 ft, surface area 80 ft\u00b2" } },
+        { "id": "d", "content": { "format": "text", "value": "Base 2 ft by 2 ft, height 8 ft, surface area 68 ft\u00b2" } }
+      ],
+      "correct": ["a"],
+      "explanation": { "format": "text", "value": "Let x be the side length of the square base and h the height, with volume x\u00b2h = 32, so h = 32/x\u00b2. The surface area of the open-top box is S(x) = x\u00b2 + 4xh = x\u00b2 + 4x(32/x\u00b2) = x\u00b2 + 128/x. Setting S'(x) = 2x - 128/x\u00b2 = 0 gives 2x\u00b3 = 128, so x\u00b3 = 64 and x = 4 ft. Then h = 32/16 = 2 ft, and S(4) = 16 + 128/4 = 16 + 32 = 48 ft\u00b2. Checking S''(x) = 2 + 256/x\u00b3 > 0 confirms this is a minimum." },
+      "authored": "2026-08-29"
+    },
+    {
+      "id": "5165-0253",
+      "type": "single",
+      "categoryId": "II-B",
+      "retired": false,
+      "stem": { "format": "text", "value": "A farmer has 200 ft of fencing to enclose a rectangular field bordering a straight river; no fencing is needed along the river side. What dimensions maximize the enclosed area, and what is that maximum area?" },
+      "options": [
+        { "id": "a", "content": { "format": "text", "value": "50 ft (parallel to the river) by 50 ft, giving an area of 2500 ft\u00b2" } },
+        { "id": "b", "content": { "format": "text", "value": "100 ft (parallel to the river) by 50 ft, giving an area of 5000 ft\u00b2" } },
+        { "id": "c", "content": { "format": "text", "value": "66.7 ft (parallel to the river) by 66.7 ft, giving an area of about 4444 ft\u00b2" } },
+        { "id": "d", "content": { "format": "text", "value": "100 ft (parallel to the river) by 100 ft, giving an area of 10000 ft\u00b2" } }
+      ],
+      "correct": ["b"],
+      "explanation": { "format": "text", "value": "Let x be the side parallel to the river and y be each of the two perpendicular sides, with x + 2y = 200, so x = 200 - 2y. The enclosed area is A(y) = xy = (200-2y)y = 200y - 2y\u00b2. Setting A'(y) = 200 - 4y = 0 gives y = 50, so x = 200 - 100 = 100 ft. Since A''(y) = -4 < 0, this is a maximum, and A = 100(50) = 5000 ft\u00b2." },
+      "authored": "2026-08-29"
     }
   ]
 }
