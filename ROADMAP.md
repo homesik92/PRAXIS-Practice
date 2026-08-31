@@ -62,6 +62,8 @@ site with no server.
 | 6.10 | Topic teaching pages — remaining three subjects | ◐ |
 | 6.11 | Landing page visual refresh | ☑ |
 | 7 | Content authoring (parallel track) | ☑ |
+| 7.1 | History-aware draw for Practice a topic / Category test | ☑ |
+| 7.2 | Supplemental authoring — 5165 Functions & Calculus | ☑ |
 | 7.3 | 5436 General Science — scaffold + derivation from 5485 | ☑ |
 | 7.4 | 5436 General Science — author Life Science, Earth & Space, gap topics | ☐ |
 | 8 | Launch (NAS) — v1, Mathematics only | ◐ |
@@ -837,6 +839,118 @@ answer-key discrepancies. Feeds Phase 9.2's manifest re-enable and Phase
 10's final acceptance; 5485 is still `enabled: false` in
 `data/manifest.json` until it has been live-tested and deployed.
 
+### Phase 7.1 — History-aware draw for Practice a topic / Category test
+
+**Trigger:** live-testing feedback (2026-08-29) — the session owner noticed
+seeing some 5165 Functions/Calculus questions repeat across a handful of
+"Practice a topic" and "Category test" rounds, despite each category having
+3× a real exam's worth of questions. Root cause, confirmed by reading
+`js/schema.js`: **`assembleCategoryDrill`** (the shared draw behind both S2
+modes, Phase 6.8.2/D-28) is fully random with no `history` parameter at
+all — a deliberate original tradeoff (its own doc comment: "this always
+draws in fully random order rather than biased by real question history...
+a simpler tradeoff than threading a read-only store load through a code
+path whose entire point is to prove it never touches the store"). This is
+different from **`assembleForm`** (full test) and **`assembleDrill`**
+("Review a topic"), which both already bias toward least-recently-seen via
+`drawForCategory`. A fully-random draw from even a 39-question pool
+reproduces questions within 2-3 rounds by chance — more questions reduces
+that probability but never guarantees a full sweep before repeats the way
+the other two modes do.
+
+**Decision (session owner, 2026-08-29, via AskUserQuestion):** fix the draw
+now rather than deferring to a follow-up issue — thread `history` through
+`assembleCategoryDrill` the same way `assembleDrill` already does, so
+"Practice a topic"/"Category test" also exhausts unseen questions before
+repeating. This reverses the original fully-random tradeoff from Phase
+6.8.2, logged as D-35.
+
+**Scope — what changes, what doesn't:**
+- `js/schema.js`: `assembleCategoryDrill` gains a `history = {}` parameter,
+  passed into `drawForCategory` (currently passes `{}` unconditionally at
+  line 462) — otherwise identical to `assembleDrill`'s existing pattern.
+- `run.html`'s `runCategoryDrill`: reads `store.questionHistory` via
+  `loadStore()` (read-only) to pass into `assembleCategoryDrill`. This is a
+  **read**, not a write — the mode still never creates an attempt record,
+  never calls `recordAnswer`, and never persists anything from the drill
+  itself. Only the *draw* becomes history-aware; "won't be recorded or
+  change your stats" (test.html's own description of this mode) stays true.
+- `tools/test-schema.mjs`: the existing test asserting fully-random
+  behavior ("assembleCategoryDrill ignores an unrelated history argument")
+  gets replaced with a least-recently-seen assertion mirroring
+  `assembleDrill`'s own coverage.
+- Nothing about `assembleForm`, `assembleDrill`, or the full test/Review-a-
+  topic modes changes — they were already history-aware.
+
+**Tasks:**
+- ☑ **7.1.1** `js/schema.js` — thread `history` through `assembleCategoryDrill`.
+- ☑ **7.1.2** `run.html` — `runCategoryDrill` loads the store (read-only) and
+  passes `questionHistory` through; update the function's header comment
+  (currently documents the now-superseded "never touches the store" design).
+- ☑ **7.1.3** `tools/test-schema.mjs` — replace the fully-random test with a
+  least-recently-seen test; run the full suite green. (314/314 across all
+  `tools/test-*.mjs`.)
+- ☑ **7.1.4** Live-verify in the browser: seed some history, confirm
+  "Practice a topic" now prefers unseen questions. Confirmed against the
+  real `run.html` UI (not just unit tests) — seeded real `localStorage`
+  history marking 37/39 Functions questions as recently seen, reloaded with
+  the browser's HTTP cache explicitly bypassed (`fetch(..., {cache:
+  "reload"})` primed first — the local dev server's static JS otherwise
+  served a stale cached copy across reloads, a test-harness artifact, not a
+  product bug), clicked Start, and the very first question shown was one of
+  the two seeded-unseen questions. Test `localStorage` entry removed after.
+- ☑ **7.1.5** Log D-35, index it, flag for downstream sync to
+  `PRAXIS-iOS-Math` (D-30) since this touches `run.html` and `js/schema.js`.
+  **Phase 7.1 complete.**
+
+### Phase 7.2 — Supplemental authoring: 5165 Functions & Calculus
+
+**Trigger:** same live-testing session as 7.1 — even with 7.1's fix, a
+39-question Functions pool and a 21-question Calculus pool exhaust their
+unseen questions quickly against the session owner's stated usage ("these
+practices will be taken as many as three times"). More depth in exactly
+these two categories directly addresses that, on top of 7.1's fix (the two
+efforts are complementary, not alternatives — 7.1 fixes *how* questions are
+selected, 7.2 grows *how many* there are to select from).
+
+**Target:** written from scratch against the skill (never adapted from the
+ETS study companion — the project's standing copyright rule), Sonnet at
+high effort per SKILL.md's authoring guidance, independently blind-verified
+answer keys per Phase 7's established pattern.
+
+- ☑ **II-A — Functions**: 39 → 64 (+25). Existing coverage: evaluation,
+  domain/range, composition, inverses, transformations, piecewise, even/odd,
+  one-to-one, arithmetic combinations, zeros, increasing/decreasing,
+  exponential growth, average rate of change. Added: deeper
+  composite-function operations, rational functions (asymptotes/behavior),
+  absolute value functions, more piecewise reasoning.
+- ☑ **II-B — Calculus**: 21 → 51 (+30). Existing coverage: power/product/
+  chain/quotient rules, trig/exponential/log derivatives, critical points,
+  max/min, integrals (power rule, constants, definite), velocity/position,
+  limits. Added: implicit differentiation, related rates,
+  concavity/inflection points, integration by substitution (conceptual),
+  area under curves, optimization word problems.
+- ☑ Answer-key verification: two blind subagents (one per category) re-derived
+  every answer from stem + options alone before seeing the stored key.
+  **0 key discrepancies across all 55** — the fourth consecutive bank with a
+  clean key set. 18 non-key defects found and fixed; see the session-log entry
+  for the full list. `bankSize` in `data/manifest.json` updated 198 → 253.
+- ☑ `node tools/verify.mjs` clean (category counts still sum correctly —
+  category *counts* in the tree are exam-form targets, unaffected by pool
+  depth; this only grows the pool `assembleForm`/`assembleDrill`/
+  `assembleCategoryDrill` draw from). 7/7 test suites green.
+- ☑ Flag for downstream sync to `PRAXIS-iOS-Math` (D-30) — `data/tests/5165.json`
+  and `data/manifest.json` are both bundled files there. **Flagged in the PR
+  description; not yet synced.**
+- ☐ **Deferred, own PR:** the pre-existing 198 questions are 183/198 (92%)
+  keyed `"a"` with zero `"d"` answers — a raw-JSON exposure only, since
+  `shuffleQuestionOptions` randomises every assembly path, but 5165 is the
+  only bank with it (5652 36%, 5101 27%, 5485 25%). Tracked as
+  [issue #93](https://github.com/homesik92/PRAXIS-Practice/issues/93): it
+  rewrites already-live content and needs its own iOS sync and redeploy, so
+  it does not belong in this PR.
+
+  **Phase 7.2 complete.**
 ### Phase 7.3 — 5436 General Science: scaffold and derivation from 5485
 
 **Trigger:** the session owner found that most local high schools hire against 5485
@@ -1557,6 +1671,7 @@ both halves need to be independently done first.
 | Date | Session | Outcome |
 | --- | --- | --- |
 | 2026-08-31 | Phase 7.3 — 5436 (General Science) added as a fifth test, reusing 5485's bank by generated copy | Started from a question, not a task: most local high schools hire against 5485 (Physical Science) but Colorado lists **5436 (General Science)**, and the session owner asked what 5436 covers that 5485 does not. **No PDF tooling exists on this machine** — `pdftoppm`, `pdftotext`, `mutool`, `qpdf`, and every Python PDF library are all absent, and PyObjC/Quartz isn't available either — so rather than ask for a Homebrew install (risky on this Ventura/Xcode-14.3.1 machine per the environment notes), a dependency-free extractor was written to the scratchpad: it walks the page tree for real page order, inflates FlateDecode content streams, applies each font's `/Differences` encoding, and — the part that mattered — expands PDF 1.5+ `/ObjStm` compressed object streams, without which the 5436 guide reported **zero** pages because all 53 lived inside 37 object streams. Reading stopped before each guide's sample-question section, per the standing blueprint-not-content rule. **Finding: the overlap is about half, not "a small difference."** 5436 is 150 min / 135 questions across I Nature & Impact 20 (15%), II Physical Science 50 (37%), III Life Science 35 (26%), IV Earth & Space Science 30 (22%) — so **65 of 135 questions (48%) are Life Science and Earth & Space Science, which 5485 does not touch at all**, while 5436's physical-science half (50) is roughly half the depth of 5485's (107). A bullet-level diff of both Content Topics also found smaller gaps *inside* the shared half that a category-name comparison would have missed — chemical equilibrium and Le Châtelier (5485 has no equilibrium topic whatsoever), entropy and the second law, colligative properties, absorption/emission spectra, intensive vs extensive properties, colloids, rotational motion and torque, capacitance, Doppler beyond sound, plus category-I environment and resource topics. **Architecture (D-36):** 5436 gets its own bank and reuses 5485's questions as generated copies carrying `derivedFrom`, produced by the re-runnable `tools/derive-5436.mjs` and cross-checked by a new `validateDerivedQuestions` in `verify.mjs`. Sharing one physical question between banks was rejected on a concrete behavioural ground rather than effort: `questionHistory` is a flat, deliberately non-test-scoped map keyed by raw question id, so shared ids would merge the two tests' spaced-repetition schedules and let `clearTestData` on one test reach into the other's history. Plain copying with no check was rejected because a hand-maintained duplicate is exactly how a *corrected* answer key survives in one bank and not the other — this repo's stated highest risk, and it has already shipped one unsynced fix (issue #66) on UI, where it was at least visible. The mapping from 5485's nine leaves into 5436's is a pure many-to-one aggregation (I-A→I-A, I-B→I-B, II-A+II-B→II-A, III-A+III-B+III-C→II-B, IV-A+IV-B→II-C), so no question needed a judgement call; **375 derived** (I-A 27, I-B 27, II-A 75, II-B 123, II-C 123). Session owner chose to carry all 375 rather than trim to the 3× target, since banks load lazily and the surplus gives category II a 6.4× pool. **The drift check was proved to fail before being trusted**, in both directions: tampering with a 5436 copy is caught, and — the real-world case — correcting an answer key in 5485 alone turns both `verify.mjs` and `derive-5436.mjs --check` red, with the repair being a single re-run. One real obstacle surfaced en route: reference-panel files carry a `testCode` that must match the owning bank, so 5436 could not point at 5485's periodic table; rather than duplicate a second static periodic table (the very hazard being designed out), `testCode` now accepts an array and the one file serves both tests, with a mis-wired panel still caught. That change altered an error message asserted by three pre-existing tests, which were updated. 10 new unit tests; **322/322 green**, `verify.mjs` clean (0 errors, 0 warnings). 5436 is registered `enabled: false`: a real `assembleForm` draws **70 of 135** with honest shortfalls recorded against III-A/III-B/IV-A/IV-B, independently confirming the ~52% coverage figure the blueprint analysis predicted. **The Gate 3 review round found a real gap in the guard itself, since fixed:** `validateDerivedQuestions` only inspects questions that already carry `derivedFrom`, so it caught an *edited* copy and a *deleted* source but **not a question added to 5485 and never copied across** — every existing copy stays individually valid, so `verify.mjs` reported 0 errors while 5436 silently lacked it (proved by adding a question and bumping the manifest `bankSize` to match, exactly what an authoring session does). That defeated the stated goal, so `derive-5436.mjs --check` — which compares the whole generated file and does catch it — is now a CI step, re-proved to exit 1 on the same scenario. A comment-accuracy finding was also fixed (the new code had been inserted between `validateManifestAgreement`'s JSDoc and the function it documents). Four further findings were deliberately not changed and are tracked as [issue #95](https://github.com/homesik92/PRAXIS-Practice/issues/95). Phase 7.4 (~245 questions) is the remaining work. Logged D-36, indexed. Shipped as [PR #94](https://github.com/homesik92/PRAXIS-Practice/pull/94). |
+| 2026-08-31 | Phase 7.2 — 5165 Functions & Calculus expansion verified and remediated (198 → 253) | Verification and remediation session for the 55 questions authored on the branch (II-A 39 → 64, II-B 21 → 51); `data/manifest.json`'s `bankSize` 198 → 253. **Answer-key verification**: two blind subagents, one per category, each re-deriving every answer from stem + options alone — writing Phase 1 conclusions to a scratch file *before* being allowed to open the stored key — then comparing and auditing explanations. **0 key discrepancies across all 55**, the fourth consecutive bank with a clean key set, which continues to confirm that the pass's real yield is explanation accuracy and test validity rather than the keys. 18 non-key defects found and fixed. **Explanations (8):** `0237` dropped the square from `f''(x) = 12x² − 24x`, showing `12(1) − 24(1)` — right answer by coincidence (1² = 1), wrong substitution, in a second-derivative item; `0236` said "the concavity changes sign" when `f''` changes sign and concavity changes down-to-up, in the one item meant to distinguish them; `0250` claimed a definite integral is "never" the correct measure of area below the axis and never taught the split-at-zeros technique; `0229` diagnosed the missing chain-rule factor but left the `−x/4` distractor's origin (a solved-for-*y* expression mistaken for a derivative) unexplained; `0199` used "neither" for three enumerated expressions; `0201`'s stem promised "the table below" with the values inline as prose, and its explanation said "(from the table)"; `0223`'s **keyed option** over-generalised, asserting a slant asymptote whenever the numerator's degree exceeds the denominator's, when it requires exceeding by exactly one — its own explanation already said "by exactly one", so the keyed option taught a second wrong degree rule in an item about misapplying a degree rule. **Letter/ordinal reference (1):** `0215` ended "Only the first option matches both conditions" — broken, since `shuffleQuestionOptions` (js/schema.js:281, called from all four assembly paths) randomises order and the UI never renders letters. **Test validity (2):** `0207` asked for "its vertical asymptote", the singular pre-eliminating the very misconception distractor the item exists to test; `0253`'s keyed option was the only one of four mentioning the river constraint, making it pickable with no calculus (all four options given parallel orientation phrasing, and "a maximum area" normalised to "an area" so the keyed option isn't the only one asserting maximality). **Cross-question give-aways (10 found, 1 fixed by scope decision):** the check added to the playbook after 5485's `emwaves-028` found substantially more here. `0250`'s stem prints `∫₀³(x² − 9)dx = −18` while `0249` asked for the area under `y = 9 − x²` on the same interval — the exact negation — handing over `0249`'s answer as a printed number; `0249` re-based onto `y = 12 − 3x²` on [0,2] (nonnegative throughout, area 16), which also cleared its old 27/9 distractors that collided with `0246`'s. The other nine (`0204`↔`0207`, `0213`↔`0216`, `0248`↔`0250` near-duplicates, plus six method give-aways) were **reviewed and deliberately accepted** — session owner's scope call — on the grounds that one item teaching a rule that helps on another is largely a practice app working as intended. **Key hygiene:** the 25 new II-A questions were 25/25 keyed `"a"`; re-spread by rotating each question's option contents and its key together, asserting per question that the key still resolves to the same option *content* and that no option text was lost. **Two of my own bugs caught by the checks built around the fix, worth recording:** the first rotation pass matched all 64 II-A questions rather than the 25 new ones, rewriting 39 already-merged questions (restored from a pre-edit backup, then scoped by diffing against `HEAD`); and a djb2 hash of the question id correlated across sequential ids (`5165-0199`, `-0200`, …), producing an even 7/7/6/5 spread with a visible 10-long `a,b,c,d` cycle — the exact `i % 4` failure mode 5485 hit. Switched to SHA-256, which avalanches: longest ascending/descending/same-letter runs are now 3/4/3 at n=25, chance level. **A larger pre-existing finding, deliberately deferred:** the 198 already-merged 5165 questions are 183/198 (92%) keyed `"a"` with **zero** `"d"` answers, and II-B was 21/21 `"a"` — 5165 is the only bank affected (5652 36%, 5101 27%, 5485 25% — the last re-spread deliberately on 2026-08-27). Runtime impact is nil because of `shuffleQuestionOptions`; it is a raw-JSON exposure. Left out of this PR because it rewrites already-live content and needs its own `PRAXIS-iOS-Math` sync and redeploy. Remediation was applied as a single asserted script editing the raw file text rather than parse-then-stringify, since the bank's hand-formatting (one-line `stem`/`options`/`explanation`, non-ASCII escaped) would otherwise have reflowed 244,713 → 321,771 bytes and buried the real edits; every edit asserted its own precondition, and the final diff is **893 insertions / 0 deletions** on `data/tests/5165.json`, mechanically confirming that none of the 198 pre-existing questions changed. Post-remediation measurement: no question's keyed option now reaches 1.6× the mean distractor length (`0223` was the only one, at 1.63, and the correctness fix plus a tightening pass brought it under), zero letter/ordinal references remain, and the new 55 key spread is 16/17/12/10. `verify.mjs` clean (0 errors, 0 warnings), 7/7 test suites green. No new decision logged — Phase 7.2 was already planned on this branch, and the give-away scope call is recorded here rather than as a D-number since it is a content-scope judgement, not a design fork. |
 | 2026-08-29 | Phase 6.11.1 — Landing page visual refresh (masthead mark, hero illustration, motto) | [PR #88](https://github.com/homesik92/PRAXIS-Practice/pull/88). Ideation gathered via AskUserQuestion (welcoming/illustrated direction, results-page palette carried onto S1, a subtle personal accent rather than a literal Bill-the-Goat placement) collapsed the plan's three separate sub-phases into one continuous session — see D-34 for why. Added: a "Go Navy, Beat Army!" masthead wordmark (plain SVG text, `paint-order` outline), a hand-authored flat-vector classroom hero illustration (teacher + whiteboard, two seated students, colors from the existing results palette), and a two-line serif motto block. **The masthead mark went through real iteration, not straight to its final form** — a drawn Bill-the-Goat silhouette (rejected: invented an unstated USNA affiliation), the actual USNA athletics mark the session owner supplied (not used: redistributing someone else's registered artwork on a public repo is a different act than personally referencing it, regardless of monetization), a fouled anchor (shipped briefly, then judged unclear at final size), settling on plain colored text — full reasoning in D-33. **Two real bugs found and fixed mid-session, neither by a separate review pass:** an inline SVG sized by CSS `width` alone with no `height` attribute or `aspect-ratio` doesn't reliably derive its height from `viewBox`, silently cropping the mark to its top ~30% (fixed with explicit `aspect-ratio`, applied pre-emptively to the second SVG too); and the illustration's two seated students had their arm-rotation signs backwards, swinging away from the book/laptop props instead of toward them (caught while re-deriving the tapered-limb geometry for a "make the figures more realistic" pass). Verification: `node tools/verify.mjs` clean throughout (no data/schema touched); strict XML well-formedness checked on every inline SVG addition (caught an invalid `--` inside two HTML comments); CSS brace balance and the inline module script's syntax checked after every edit. Self-reviewed per Gate 3 (shallow — pure CSS/HTML, no code-review round run): confirmed no dead CSS survived the goat→anchor→wordmark churn, reduced-motion coverage extended to the new transitioning element, JS/data logic untouched. **Live-tested by the session owner across every design iteration** via hard-refreshes of the local dev server — the in-session Browser pane was non-functional for this entire session (blank screenshots, zero-size element rects), so each iteration was instead shown as a Claude-published preview Artifact before the session owner confirmed it live. CI green, merged (branch protection isn't configured on `main` yet, so this needed explicit go-ahead despite being shallow). Filed [issue #87](https://github.com/homesik92/PRAXIS-Practice/issues/87): whether/how `index.html`'s new visual complexity needs an iPhone-fit redesign is deferred to when the session owner resumes the `PRAXIS-iOS-Math` native-wrapper sync (D-30) — that wrapper doesn't bundle `index.html` today. Logged D-33 and D-34. |
 | 2026-08-28 | Phase 6.10.1 — Computer Science (5652) teaching chapters authored, verified, fixed | All 10 leaf-category chapters authored via 10 parallel per-category subagents (concept overview/worked example/common mistakes, matching 5165's precedent), merged into `data/teaching/5652.json` (30 sections, 136 entries, zero id collisions), `teachingContent` key added to the 5652 bank. **Independent verification**, 5 subagents re-deriving every worked-example computation/trace from scratch before comparing: found and fixed 18 real defects (full list in the Phase 6.10.1 entry above) — the most severe being an off-by-one counterfactual stated twice in III-A, a `double`/`int` type mismatch in II-A's own "real division" pseudocode example, a self-contradicted IP/TCP-header claim in V-B, an overstated FERPA claim in I-B, and a firewall-visibility gap in V-B (missing that TLS's SNI field is sent in cleartext). Verified fully correct with no changes needed: the Caesar cipher (IV-A), the compound-growth simulation (IV-B), the selection-sort trace (II-B), and every TLS/HTTPS and ACM/FERPA/COPPA legal claim (I-B, V-B) — one verifier called the security content "unusually well-calibrated." `node tools/verify.mjs` clean, 312/312 tests green (data-only, no test changes needed). Live-tested in the browser: the exact "Networks, Security, and the Web" dead-end that surfaced D-32's gap now renders correctly with zero console errors; branch-category aggregation (parent "III") correctly shows both III-A and III-B together; II-A's number-base MathML renders as real typeset math (division, subscripts, superscripts, visually confirmed); 5485/5101 still correctly show "not yet written" pending 6.10.2/6.10.3. 6.10.1 flipped to ☑; 6.10 overview row moves to ◐ (one of three subjects done). No new decision logged — this executes Phase 6.10 as D-32 already scoped it. |
 | 2026-08-28 | Doc-only — "Study a topic" content gap found; Phase 6.10 added (D-32) | Session owner noticed that picking "Networks, Security, and the Web" under Computer Science showed "No lesson has been written for … yet." and suspected the teaching chapters had only ever been authored for Mathematics. **Confirmed against the data, not assumed:** `data/teaching/` holds exactly one file (`5165.json`), and only `data/tests/5165.json` carries a `teachingContent` key — so 5652/5101/5485 all hit `teach.html`'s `!bank.teachingContent` branch, which renders precisely that message. **Root cause is a scoping gap, not a bug:** 6.9.2 was titled "Author Mathematics' 6 chapters" and closed correctly against its own Mathematics-only scope, while 6.9.3 wired a *generic* picker (`wireCategoryPicker`) covering every registered test — so the UI shipped for four subjects and the content for one. Phase 7 covered question banks only; Phase 10 is regression plus acceptance. The work was rostered nowhere, so 27 chapters (5652: 10, 5485: 9, 5101: 8 — counted from each bank's actual leaf-category tree) were invisible to the roadmap. Three forks settled by the session owner via AskUserQuestion: a **new Phase 6.10** rather than reopening 6.9 or folding into Phase 7 (keeps 6.9's ☑ honest — it really did finish what it described); **6.10 blocks Phase 10.2** but explicitly **not 8.3**, since 8.3 accepts the Mathematics-only build and Mathematics' chapters are complete — the reasoning being that 10.2 would otherwise sign off a build where three of four subjects dead-end on a visible Start-menu control, which Phase 9's study hub now presents as equals; and **one file per bank confirmed** over splitting per chapter, re-examining rather than inheriting the payload landmine 6.9.1 flagged (5165's 6 chapters are 53K, so 5652's 10 project to ~90K — one fetch on a local-network NAS; splitting would change the schema and `validateTeachingContent`, making data-only work deep). Also flipped the overview table's 6.9 row label to "…('Study a topic') — Mathematics", since the unqualified label is what made the gap invisible in the one place most likely to be read. Logged D-32, indexed. **No code, no content, no bank files touched** — the three authoring sessions are their own plan gates. |

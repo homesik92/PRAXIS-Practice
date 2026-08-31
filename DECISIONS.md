@@ -997,6 +997,33 @@ was sourced. ROADMAP.md's phase-detail section was rewritten in the same change 
 describe what was actually built rather than leave the original three-step plan
 standing as if it had been followed literally.
 
+### D-35: "Practice a topic"/"Category test" draw made history-aware, reversing Phase 6.8.2's fully-random tradeoff
+
+**Date:** 2026-08-29
+**Decision:** `assembleCategoryDrill` (`js/schema.js`, the shared draw behind S2's
+"Practice a topic" and "Category test") now threads `history` through to
+`drawForCategory`, the same least-recently-seen preference `assembleForm` (full test)
+and `assembleDrill` ("Review a topic") already use. `run.html`'s `runCategoryDrill`
+reads `store.questionHistory` via a read-only `loadStore()` call to supply it. Phase
+6.8.2 originally built this draw fully random and explicitly undocumented `history` as
+a parameter at all, reasoning (per the function's own doc comment at the time) that
+threading a store read through a code path "whose entire point is to prove it never
+touches the store" wasn't worth it for a simpler tradeoff. This decision reverses that
+tradeoff.
+**Why:** live-testing surfaced a real, reproducible instance of the tradeoff's cost —
+the session owner reported seeing 5165 Functions/Calculus questions repeat within a
+handful of "Practice a topic" rounds despite a 3×-real-exam-depth pool (Phase 7,
+D-23). Root-caused to `assembleCategoryDrill`'s fully-random draw: unlike the other two
+modes, it carries no memory of what's already been seen, so repeats are a matter of
+when, not if, regardless of pool depth. The read added here is scoped narrowly — it
+only informs which questions get drawn; the mode still never writes an attempt record
+and never calls `recordAnswer`, so "won't be recorded or change your stats"
+(test.html's own description of this mode) remains true. Complements, not replaces,
+Phase 7.2's supplemental question authoring for the same two categories — one fixes
+*how* questions are chosen, the other grows *how many* there are to choose from.
+**Attribution:** Session owner's call via `AskUserQuestion`, choosing to fix the draw
+logic in this session over filing it as a deferred follow-up issue.
+
 **What was deliberately left out of scope, filed as
 [issue #87](https://github.com/homesik92/PRAXIS-Practice/issues/87):** whether this
 now-more-visually-complex `index.html` will need a redesign pass to fit an iPhone

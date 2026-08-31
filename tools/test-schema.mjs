@@ -673,17 +673,34 @@ test("assembleCategoryDrill's same seeded random reproduces the exact same order
   assert.deepEqual(first, second);
 });
 
-test("assembleCategoryDrill ignores an unrelated history argument -- this mode never reads real history", () => {
-  // The function signature intentionally has no `history` parameter at all (see its
-  // own doc comment) -- this just confirms passing one has no effect rather than
-  // throwing on an unexpected option, in case a future caller passes one by mistake.
+test("assembleCategoryDrill orders least-recently-seen first, same preference as the timed draw (D-35)", () => {
+  const bank = studyBank({ "I-A": ["never-seen", "seen-recently", "seen-long-ago"] });
+  const history = {
+    "seen-recently": { lastSeenAt: "2026-08-17T00:00:00.000Z" },
+    "seen-long-ago": { lastSeenAt: "2020-01-01T00:00:00.000Z" },
+  };
+  const drill = assembleCategoryDrill(bank, "I-A", { history, random: seededRandom(1) });
+  assert.deepEqual(
+    drill.questions.map((q) => q.id),
+    ["never-seen", "seen-long-ago", "seen-recently"],
+  );
+});
+
+test("assembleCategoryDrill treats a null history (not just a missing key) as no question ever seen, not a throw", () => {
+  const bank = studyBank({ "I-A": ["q1"] });
+  const drill = assembleCategoryDrill(bank, "I-A", { history: null, random: seededRandom(1) });
+  assert.deepEqual(
+    drill.questions.map((q) => q.id),
+    ["q1"],
+  );
+});
+
+test("assembleCategoryDrill defaults to no history (fully random) when none is passed", () => {
+  // Callers that don't pass history (or a caller whose store load failed) still get a
+  // working draw -- just without the least-recently-seen bias, same as before D-35.
   const bank = studyBank({ "I-A": ["q1", "q2", "q3"] });
-  const withHistory = assembleCategoryDrill(bank, "I-A", {
-    history: { q1: { lastSeenAt: "2020-01-01T00:00:00.000Z" } },
-    random: seededRandom(3),
-  }).questions.map((q) => q.id);
-  const withoutHistory = assembleCategoryDrill(bank, "I-A", { random: seededRandom(3) }).questions.map((q) => q.id);
-  assert.deepEqual(withHistory, withoutHistory);
+  const drill = assembleCategoryDrill(bank, "I-A", { random: seededRandom(1) });
+  assert.equal(drill.questions.length, 3);
 });
 
 // --- assembleDueDrill (Phase 4.3, S2's "N questions due" entry point) ---

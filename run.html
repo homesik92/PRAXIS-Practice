@@ -50,9 +50,14 @@
     <div id="calculator-panel" hidden aria-labelledby="calculator-heading">
       <h2 id="calculator-heading" class="visually-hidden">Scientific calculator</h2>
       <p id="calculator-mode-indicator"></p>
+      <!-- readonly: this is a display driven only by the on-screen keypad below
+           (a real calculator, not a text field), and staying readonly keeps it
+           focusable for a11y/cursor purposes without iOS/iPadOS popping up the
+           software keyboard every time a keypad button calls .focus() on it. -->
       <input
         id="calculator-expression"
         type="text"
+        readonly
         autocomplete="off"
         spellcheck="false"
         aria-label="Calculator expression"
@@ -112,6 +117,7 @@
       <button id="submit-button-top" type="button">Submit test</button>
       <ol id="review-list"></ol>
       <button id="submit-button" type="button">Submit test</button>
+      <p><a id="back-link-bottom" href="index.html">&larr; Back</a></p>
     </div>
 
     <!-- S5 -- topic study (Phase 4.1). Untimed and separate from S3's state machine
@@ -147,6 +153,7 @@
         <h3>Full review</h3>
         <ol id="drill-full-review-list"></ol>
       </div>
+      <p><a id="back-link-bottom-drill" href="index.html">&larr; Back</a></p>
     </div>
 
     <dialog id="confirm-submit-dialog" aria-labelledby="confirm-submit-heading">
@@ -190,6 +197,8 @@
     const mode = params.get("mode");
 
     const backLink = document.getElementById("back-link");
+    const backLinkBottom = document.getElementById("back-link-bottom");
+    const backLinkBottomDrill = document.getElementById("back-link-bottom-drill");
     const heading = document.getElementById("test-heading");
     const statusNote = document.getElementById("status-note");
     const startScreen = document.getElementById("start-screen");
@@ -236,7 +245,12 @@
     const drillFullReview = document.getElementById("drill-full-review");
     const drillFullReviewList = document.getElementById("drill-full-review-list");
 
-    if (code) backLink.href = `test.html?code=${encodeURIComponent(code)}`;
+    if (code) {
+      const href = `test.html?code=${encodeURIComponent(code)}`;
+      backLink.href = href;
+      backLinkBottom.href = href;
+      backLinkBottomDrill.href = href;
+    }
 
     function showStatus(message) {
       // Clear-then-set (same reasoning as announce() below, code review finding)
@@ -1676,20 +1690,24 @@
       }
     }
 
-    // -- S2's "Practice a topic" / "Category test" (Phase 6.8.2) -----------------
+    // -- S2's "Practice a topic" / "Category test" (Phase 6.8.2, draw made
+    // history-aware by D-35) -------------------------------------------------
     // One shared ephemeral drill: a short (10-question), one-category round using
     // the same flag/skip/review-pass/confirm-submit interaction S3 uses, timed
     // only when &timed=1 ("Category test") vs untimed ("Practice a topic").
     // Deliberately holds every bit of state (`answers`, `index`) in plain local
-    // variables scoped to this function -- no `store`, no attempt id, and none of
-    // js/store.js's exports are imported into this file's mutating half at all
-    // for this path. "This never touches saved progress" is true by construction
-    // here, not by carefully avoiding certain calls in a function that could
-    // otherwise reach them, which is what the code review for this change is
-    // built to verify. The completion screen reuses S5's #study-complete-screen
-    // (a locally-tallied, unrecorded result is exactly what that screen already
-    // means) rather than results.html, which needs a real stored attempt id this
-    // mode never creates.
+    // variables scoped to this function -- no attempt id, and no `saveStore`/
+    // `recordAnswer`/`completeAttempt` call anywhere in this function. "This
+    // never *writes* saved progress" is true by construction here, not by
+    // carefully avoiding certain calls in a function that could otherwise reach
+    // them, which is what the code review for this change is built to verify.
+    // D-35 added exactly one read -- `loadStore()` below, purely to bias the
+    // draw toward unseen questions -- so "won't be recorded or change your
+    // stats" (test.html's own description) stays true for writes; only the
+    // draw's *selection* now has memory. The completion screen reuses S5's
+    // #study-complete-screen (a locally-tallied, unrecorded result is exactly
+    // what that screen already means) rather than results.html, which needs a
+    // real stored attempt id this mode never creates.
     function runCategoryDrill(bank) {
       const categoryId = params.get("category");
       const timed = params.get("timed") === "1";
@@ -1711,11 +1729,13 @@
       // owner feedback: the heading used to just repeat "Mathematics").
       heading.textContent = categoryNode.label;
 
-      // No `history` passed here (unlike assembleForm/assembleDrill) -- this mode
-      // deliberately never reads the store either, so the draw is fully random
-      // rather than least-recently-seen-biased. See assembleCategoryDrill's own
-      // doc comment for why that's an acceptable simplification here.
-      const drill = assembleCategoryDrill(bank, categoryId, { count: 10 });
+      // Read-only (D-35): a failed load falls back to {} (no bias, same as
+      // Phase 6.8.2's original fully-random behavior) rather than blocking this
+      // mode on a storage problem -- the draw working at all matters more than
+      // it being history-biased.
+      const historyLoadResult = loadStore();
+      const history = historyLoadResult.ok ? historyLoadResult.store.questionHistory : {};
+      const drill = assembleCategoryDrill(bank, categoryId, { count: 10, history });
       if (drill.questions.length === 0) {
         showStatus(`"${categoryNode.label}" has no questions available yet.`);
         return;
