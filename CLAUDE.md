@@ -70,7 +70,28 @@ These run in CI on every pull request and every push to `main`
 locally first is still the right habit — it catches most mistakes in seconds rather
 than a CI cycle — but the PR run is what decides. The workflow installs nothing:
 this project has no `package.json` and no build step (D-3), so the gate is just Node
-running these same commands.
+running these same commands, plus `tools/pdf-text.py`'s own self-test (python3 is
+preinstalled on the runner, so nothing is installed there either).
+
+## Reading the study companions
+
+`tools/pdf-text.py` extracts text from a PDF with no third-party dependencies — this
+machine has no `pdftotext`/`pdftoppm`/`mutool`/`qpdf` and no Python PDF library, and
+this project deliberately has no dependencies to add one to (D-3).
+
+```
+python3 tools/pdf-text.py Knowledge-Guides/5436-General\ Science.pdf --pages 3-18
+python3 tools/pdf-text.py --self-test
+```
+
+It handles PDF 1.5+ compressed object streams, which the newer companions use — without
+that they parse as zero pages. It **refuses encrypted PDFs with an error** rather than
+returning blank pages; `5165-Mathematics.pdf` is encrypted, the other four are not.
+
+⚠ **Blueprint only.** Use it to read "Test at a Glance" and "Content Topics," and stop
+before the sample-question sections. Making the PDFs readable makes the copyright rule
+above easier to break by accident, not harder — extracted prose must never be pasted
+into a bank, a doc, or a question.
 
 ## Answer keys are the real correctness surface
 

@@ -697,6 +697,64 @@ under D-24 same as everything else content-related right now.
 
 ---
 
+## 2.12 Derived questions — one question, two tests (D-36)
+
+Two Praxis tests can assess the same content under different category trees. 5436
+(General Science) and 5485 (Physical Science) are the first real case: **every** 5485
+question is valid on 5436, but 5436 files all of physical science under one top-level
+category (II) where 5485 spends three (II Matter & Energy, III Chemistry, IV Physics),
+and then spends the rest of its form on Life Science and Earth & Space Science, which
+5485 does not cover at all.
+
+A question that appears on both tests carries **`derivedFrom`**: the id of the question
+it was copied from.
+
+```json
+{
+  "id": "5436-nature-001",
+  "categoryId": "II-A",
+  "derivedFrom": "5485-nature-001",
+  "…": "every other field copied verbatim from the source"
+}
+```
+
+**Rules.**
+
+- `derivedFrom` is optional. A question without it is **natively authored** and owned by
+  its own bank — that is how 5436's Life Science and Earth & Space content, and its
+  gap-topic questions, exist.
+- The copy rewrites exactly two fields: `id` (re-prefixed to the owning bank's code, so
+  §2.3's id-prefix rule still holds) and `categoryId` (remapped to the owning bank's
+  tree). Every other field — `type`, `overlays`, `retired`, `stem`, `options`,
+  `correct`, `explanation`, `authored` — is copied **verbatim**.
+- Copies are **generated, never hand-edited**: `tools/derive-5436.mjs` produces them and
+  is re-runnable. To change a derived question, change its source and re-derive.
+- `validateDerivedQuestions` in `tools/verify.mjs` cross-checks every copy against its
+  source and errors on any difference. A `derivedFrom` naming a bank that isn't
+  available to compare against is an **error, not a skip**.
+
+**Why copies rather than shared ids.** Sharing one physical question between two banks
+was considered and rejected. `questionHistory` (§2.8) is a flat map keyed by raw
+question id and is deliberately *not* test-scoped, so shared ids would silently join the
+two tests' spaced-repetition schedules, and `clearTestData`'s "clear this test's
+progress" would reach into the other test's history. Copies keep each test's progress
+its own.
+
+**Why the drift check is not optional.** This repo's stated highest-risk failure is a
+wrong answer key, and a hand-maintained duplicate is precisely how a *corrected* key
+survives in one bank and not the other. The check makes that failure impossible to ship
+quietly: correcting a key in 5485 without re-deriving turns CI red. It is the same
+tactic `validateManifestAgreement` already uses to keep the manifest's duplicated
+display metadata honest — applied to content instead of scalars.
+
+**Shared reference panels.** A reference-panel file's `testCode` (§2.9/§2.10) may be a
+single code **or an array of codes**, for content genuinely shared between tests rather
+than duplicated. `reference/5485-periodic.json` serves both 5485 and 5436, since both
+provide the same periodic table and constants table. A mis-wired panel is still caught:
+the owning bank's code must appear in the list.
+
+---
+
 ## Open items carried forward
 
 - **MathML support (closed 2026-08-17, issue #2).** Verified against current

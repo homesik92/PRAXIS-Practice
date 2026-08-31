@@ -1034,3 +1034,64 @@ a real open question rather than a known gap today.
 **Attribution:** Session owner's call on "fuller scene" vs. minimal composition and on
 requesting the tapered-limb realism pass, via AskUserQuestion and live feedback on
 published preview artifacts.
+
+---
+
+### D-36: 5436 (General Science) reuses 5485's questions by generated copy, cross-checked in CI
+
+**Context.** The session owner found that most local high schools hire against **5485
+Physical Science** while the State of Colorado lists **5436 General Science**, and asked
+how far the two overlap. Comparing both study companions' Content Topics (BLUEPRINT.md,
+"5436 vs 5485") showed the overlap is large but partial: every 5485 question is valid on
+5436, yet **65 of 5436's 135 questions (48%) — all of Life Science and Earth & Space
+Science — are content 5485 does not cover at all**, and 5436's physical-science half is
+about half as deep as 5485's. So 5436 is a genuinely separate test, not a relabelling,
+but re-authoring its physical-science half would duplicate 375 already-verified
+questions.
+
+**Decision.** 5436 gets its own bank, and reuses 5485's questions as **generated copies**
+carrying a `derivedFrom` id (SCHEMA.md §2.12). `tools/derive-5436.mjs` produces them;
+`validateDerivedQuestions` in `tools/verify.mjs` cross-checks every copy against its
+source on every run and errors on any difference.
+
+**Alternatives considered, and why they lost.**
+
+- **Share one physical question between both banks** (an `includes`/import mechanism, no
+  duplication at all). Rejected on a concrete behavioural ground, not on effort:
+  `questionHistory` is a flat map keyed by raw question id and deliberately *not*
+  test-scoped (SCHEMA.md §2.8), so shared ids would silently merge the two tests'
+  spaced-repetition schedules, and `clearTestData`'s per-test reset would reach into the
+  other test's history. It would also have required schema, engine, and verify changes
+  together.
+- **Plain copy with no check.** Rejected: this repo's stated highest-risk failure is a
+  wrong answer key, and a hand-maintained duplicate is exactly how a *corrected* key
+  survives in one bank and not the other. This project has already shipped an unsynced
+  fix once (issue #66, unnoticed for a full session) — on UI, where it was visible.
+  The same mistake on an answer key teaches someone the wrong science.
+
+**Why the check is the load-bearing part.** Verified by injection, both directions:
+tampering with a 5436 copy is caught, and — the real-world case — correcting an answer
+key in 5485 alone turns both `verify.mjs` and `derive-5436.mjs --check` red. The tactic
+is borrowed directly from `validateManifestAgreement`, which already exists so the
+manifest's duplicated display metadata "cannot drift"; this applies it to content.
+
+**Consequences.**
+
+- 375 questions were derived on day one: 5436's categories I and II are fully populated,
+  and a real form assembly draws **70 of 135** with honest shortfalls recorded against
+  III and IV. 5436 stays `enabled: false` in the manifest until that content exists.
+- **5485 questions must be edited in 5485 only.** Editing a 5436 copy directly is a CI
+  failure by design; re-run the derivation instead.
+- Remaining authoring is ~245 questions at D-23's 3× standard: Life Science, Earth &
+  Space Science, and the gap topics in BLUEPRINT.md (equilibrium and Le Châtelier,
+  entropy, colligative properties, spectra, torque, capacitance, and the category-I
+  environment/resource topics), which the derived questions do **not** cover.
+- Reference-panel `testCode` may now be an array, so 5485 and 5436 share one periodic
+  table rather than duplicating it. The file is still named `reference/5485-periodic.json`
+  — a naming wart worth a rename if it ever gets confusing, deliberately not done here
+  to avoid churn in the file the iOS wrapper bundles.
+
+**Attribution:** Session owner chose to create 5436 as its own test and asked explicitly
+whether 5485's existing questions could be leveraged; chose copy-with-CI-check over the
+shared-pool and plain-copy alternatives, and chose to carry all 375 rather than trim to
+the 3× target, via AskUserQuestion.

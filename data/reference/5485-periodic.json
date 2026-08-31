@@ -1,6 +1,6 @@
 {
   "schemaVersion": 1,
-  "testCode": "5485",
+  "testCode": ["5485", "5436"],
   "elements": [
     {
       "atomicNumber": 1,

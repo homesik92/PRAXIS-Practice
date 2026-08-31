@@ -24,12 +24,18 @@ edition before any bank is called complete.
 | --- | --- | --- | --- | --- | --- |
 | 5101 | Business Education: Content Knowledge | 120 min | 120 | 1.0 min/q | Selected-response **and numeric entry** |
 | 5165 | Mathematics | 180 min | 66 | 2.7 min/q | Selected-response (**select one _or more_**), **numeric entry**, and other types |
+| 5436 | General Science | 150 min | 135 | 1.1 min/q | Selected-response (**select one _or more_**) and other types |
 | 5485 | Physical Science | 150 min | 125 | 1.2 min/q | Selected-response |
 | 5652 | Computer Science | 180 min | 100 | 1.8 min/q | Selected-response (**select one _or more_**) |
 
-All four are computer-delivered, and all four state that some questions may not count
+All five are computer-delivered, and all five state that some questions may not count
 toward the score (unscored pretest items). This project does not model unscored items —
 every question in a bank counts.
+
+**5436 was added later than the original four** (2026-08-31), after the session owner
+found that Colorado lists **5436 General Science** as its science test while most local
+high schools use **5485 Physical Science**. See "5436 vs 5485" below — the two overlap
+heavily but are not interchangeable.
 
 **⚠ Only 5485 is described by ETS as plain selected-response.** The other three
 explicitly include numeric entry, multi-select, or both. See "Open format question"
@@ -80,6 +86,71 @@ does not offer an equivalent, a practice score will understate readiness on
 calculator-dependent items. **Approximately 25% of questions apply mathematics to a
 "Task of Teaching Mathematics"** — a pedagogical framing rather than a pure content
 question. Aligned to Common Core (2010), NCTM/CAEP (2012), and NCTM PSSM (2000).
+
+## 5436 — General Science
+
+**150 minutes · 135 questions · 1.1 min/question**
+
+| # | Content category | Qs | % | Subcategories |
+| --- | --- | --- | --- | --- |
+| I | Nature and Impact of Science and Engineering | 20 | 15% | Nature of Science; Science, Engineering, Technology, Society, and the Environment |
+| II | Physical Science | 50 | 37% | Principles and Models of Matter and Energy; Chemistry; Physics |
+| III | Life Science | 35 | 26% | Cells and Processes, Including Genetics; Evolution, Diversity of Life, and Ecology |
+| IV | Earth and Space Science | 30 | 22% | Astronomy; Earth Science |
+
+Notes: **no calculator is needed**, and a periodic table plus a physical-constants table
+are provided on a Help screen — same provision as 5485, and this site serves both from
+one shared `reference/5485-periodic.json` (SCHEMA.md §2.12). The same two cross-cutting
+overlays sit on top of the content categories, worded identically to 5485's: **half or
+more** of questions integrate a Science and Engineering Practice, and **one-quarter to
+one-third** apply content to a Task of Teaching Science. Aligned to the NGSS framework
+(DCIs and SEPs) and NSTA Preparation Standards.
+
+ETS publishes counts only at the top-level category level, so this project's split into
+nine weight-bearing leaves is **our own reasonable allocation**, not an ETS figure —
+same call already made for 5485 and 5652. Within category II the split (12/19/19)
+mirrors 5485's own published proportions across matter-and-energy, chemistry, and
+physics (25/41/41 of 107), scaled to 50.
+
+### 5436 vs 5485 — what overlaps, and what does not
+
+Analysed 2026-08-31 from both study companions' Content Topics. The short version:
+**5485 is roughly half of 5436, and 5436 is a much shallower slice of physical science.**
+
+| | 5485 | 5436 |
+| --- | --- | --- |
+| Nature & Impact of Science and Engineering | 18 (14%) | 20 (15%) |
+| Physical science content | II + III + IV = **107 (86%)** | II = **50 (37%)** |
+| Life Science | **none** | **35 (26%)** |
+| Earth & Space Science | **none** | **30 (22%)** |
+
+**65 of 5436's 135 questions (48%) are content 5485 does not touch at all.** Conversely,
+where they overlap 5485 goes roughly twice as deep, so 5485's authored bank is more than
+sufficient for 5436's physical-science half — which is why 5436 reuses it wholesale via
+`derivedFrom` (SCHEMA.md §2.12) rather than re-authoring.
+
+**Whole domains 5436 adds:** Life Science (cells and organelles, cell division,
+respiration and photosynthesis, biomolecules, DNA/RNA and protein synthesis, Mendelian
+and non-Mendelian inheritance, evolution and natural selection, classification and
+cladograms, plant and animal systems, ecology) and Earth & Space Science (Sun-Earth-Moon
+system, solar system, stars and cosmology, plate tectonics, minerals and the rock cycle,
+dating methods, hydrosphere, atmosphere, meteorology and climate).
+
+**Smaller gaps inside the shared half** — topics 5436 lists that 5485 does not, and so
+are *not* covered by the derived questions:
+
+- **Chemical equilibrium and Le Châtelier's principle** — 5485 has kinetics but no
+  equilibrium topic at all. The largest single gap in the overlap.
+- **Entropy and the second law**; reaction-progress / activation-energy diagrams.
+- **Colligative properties** (freezing-point depression, boiling-point elevation), plus
+  polar/nonpolar solute-solvent matching and precipitation.
+- **Absorption and emission spectra.**
+- **Intensive vs extensive properties**; colloids as a mixture type.
+- **Rotational motion and torque** — absent from 5485's mechanics.
+- **Capacitance**; the Doppler effect generalised beyond sound.
+- In category I: invasive species and biodiversity loss, ocean acidification and
+  sea-level rise, global resource distribution and extraction, land-surface use, product
+  lifecycle analysis, and technology applications in life science and Earth science.
 
 ## 5485 — Physical Science
 
@@ -133,6 +204,14 @@ Framework (2016), CSTA standards (2017), and ISTE Computational Thinking Compete
 **F-1 — The v1 authoring load is 411 questions.** One full-length attempt per test is
 120 + 66 + 125 + 100. This is the dominant cost in the entire project, and it is content
 work rather than code work.
+
+> **Updated 2026-08-31 — 5436 does not add a fifth full test's worth of authoring.**
+> A 5436 attempt is 135 questions, but 5485's bank already covers 70 of them (its
+> categories I and II), reused via `derivedFrom` rather than re-authored (SCHEMA.md
+> §2.12). The genuinely new content is Life Science, Earth & Space Science, and the
+> gap topics listed under "5436 vs 5485" — about 65 questions per attempt, or ~245 at
+> this project's 3× depth standard (D-23), against ~405 if 5436 were authored from
+> scratch.
 
 Sizing it in this project's own unit — a working session — rather than in calendar time,
 which depends entirely on how often sessions happen:

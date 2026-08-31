@@ -20,6 +20,15 @@
       "bankSize": 253
     },
     {
+      "code": "5436",
+      "file": "tests/5436.json",
+      "enabled": false,
+      "name": "General Science",
+      "timeLimitMinutes": 150,
+      "formLength": 135,
+      "bankSize": 375
+    },
+    {
       "code": "5485",
       "file": "tests/5485.json",
       "enabled": true,

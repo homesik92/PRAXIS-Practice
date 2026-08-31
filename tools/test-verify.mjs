@@ -7,6 +7,7 @@ import {
   validateBank,
   validateManifest,
   validateManifestAgreement,
+  validateDerivedQuestions,
   validateReferencePanel,
   validateElementsAndConstants,
   validateReferencePanelContent,
@@ -194,7 +195,7 @@ test("valid reference panel has zero errors", () => {
 test("reference panel testCode mismatched against the owning bank's code is rejected", () => {
   const panel = validReferencePanel();
   const { errors } = validateReferencePanel(panel, { code: "5485" });
-  assert.ok(errors.some((e) => e.includes('testCode "5165" does not match owning bank\'s code "5485"')));
+  assert.ok(errors.some((e) => e.includes('testCode "5165" does not include owning bank\'s code "5485"')));
 });
 
 test("reference panel with no sections is rejected", () => {
@@ -286,7 +287,7 @@ test("valid teaching content has zero errors", () => {
 test("teaching content reuses validateReferencePanel's own shape checks (e.g. testCode mismatch)", () => {
   const content = validTeachingContent();
   const { errors } = validateTeachingContent(content, { code: "5485", bank: bankWithCategories() });
-  assert.ok(errors.some((e) => e.includes('testCode "5165" does not match owning bank\'s code "5485"')));
+  assert.ok(errors.some((e) => e.includes('testCode "5165" does not include owning bank\'s code "5485"')));
 });
 
 test("teaching content catches a section with a missing categoryId", () => {
@@ -329,7 +330,7 @@ test("valid elements-and-constants panel has zero errors", () => {
 
 test("elements-and-constants testCode mismatched against the owning bank's code is rejected", () => {
   const { errors } = validateElementsAndConstants(validElementsAndConstants(), { code: "5165" });
-  assert.ok(errors.some((e) => e.includes('testCode "5485" does not match')));
+  assert.ok(errors.some((e) => e.includes('testCode "5485" does not include')));
 });
 
 test("elements-and-constants catches a duplicate atomicNumber", () => {
@@ -452,6 +453,99 @@ test("elements-and-constants does not flag a grid-position collision when group/
   panel.elements[0].group = 19;
   const { errors } = validateElementsAndConstants(panel, { code: "5485" });
   assert.ok(!errors.some((e) => e.includes("grid position")));
+});
+
+// -- validateDerivedQuestions (SCHEMA.md §2.12) -------------------------------------
+
+/** A source question and a faithful derived copy of it, as derive-5436.mjs produces. */
+function derivedPair(overrides = {}) {
+  const origin = {
+    id: "5485-nature-001",
+    type: "single",
+    categoryId: "I-A",
+    overlays: [],
+    retired: false,
+    stem: { format: "text", value: "Stem?" },
+    options: [
+      { id: "a", content: { format: "text", value: "A" } },
+      { id: "b", content: { format: "text", value: "B" } },
+    ],
+    correct: ["a"],
+    explanation: { format: "text", value: "Because A." },
+    authored: "2026-08-27",
+  };
+  const copy = {
+    ...structuredClone(origin),
+    id: "5436-nature-001",
+    categoryId: "II-A",
+    derivedFrom: "5485-nature-001",
+    ...overrides,
+  };
+  return { source: { code: "5485", questions: [origin] }, copy };
+}
+
+test("validateDerivedQuestions accepts a faithful copy", () => {
+  const { source, copy } = derivedPair();
+  const { errors } = validateDerivedQuestions({ code: "5436", questions: [copy] }, { 5485: source });
+  assert.deepEqual(errors, []);
+});
+
+test("validateDerivedQuestions catches a drifted answer key", () => {
+  const { source, copy } = derivedPair({ correct: ["b"] });
+  const { errors } = validateDerivedQuestions({ code: "5436", questions: [copy] }, { 5485: source });
+  assert.ok(errors.some((e) => e.includes("correct has drifted from source 5485-nature-001")));
+});
+
+test("validateDerivedQuestions catches a drifted explanation", () => {
+  const { source, copy } = derivedPair({ explanation: { format: "text", value: "Changed." } });
+  const { errors } = validateDerivedQuestions({ code: "5436", questions: [copy] }, { 5485: source });
+  assert.ok(errors.some((e) => e.includes("explanation has drifted")));
+});
+
+test("validateDerivedQuestions catches a drifted option", () => {
+  const { source, copy } = derivedPair();
+  copy.options[1].content.value = "B (reworded)";
+  const { errors } = validateDerivedQuestions({ code: "5436", questions: [copy] }, { 5485: source });
+  assert.ok(errors.some((e) => e.includes("options has drifted")));
+});
+
+test("validateDerivedQuestions ignores the fields the derivation deliberately rewrites", () => {
+  // A different id and categoryId is the whole point of deriving -- neither is drift.
+  const { source, copy } = derivedPair({ id: "5436-anything-999", categoryId: "II-C" });
+  const { errors } = validateDerivedQuestions({ code: "5436", questions: [copy] }, { 5485: source });
+  assert.deepEqual(errors, []);
+});
+
+test("validateDerivedQuestions errors when the source question no longer exists", () => {
+  const { source, copy } = derivedPair();
+  source.questions = []; // e.g. retired/removed from 5485 without re-deriving
+  const { errors } = validateDerivedQuestions({ code: "5436", questions: [copy] }, { 5485: source });
+  assert.ok(errors.some((e) => e.includes("does not exist in bank 5485")));
+});
+
+test("validateDerivedQuestions errors rather than skipping when the source bank is unavailable", () => {
+  // Silently passing here would defeat the check's entire purpose.
+  const { copy } = derivedPair();
+  const { errors } = validateDerivedQuestions({ code: "5436", questions: [copy] }, {});
+  assert.ok(errors.some((e) => e.includes("was not available to cross-check")));
+});
+
+test("validateDerivedQuestions leaves natively authored questions alone", () => {
+  const native = { id: "5436-cells-001", categoryId: "III-A", correct: ["a"] };
+  const { errors } = validateDerivedQuestions({ code: "5436", questions: [native] }, {});
+  assert.deepEqual(errors, []);
+});
+
+test("a reference panel may serve several tests via an array testCode", () => {
+  const panel = { ...validReferencePanel(), testCode: ["5485", "5436"] };
+  assert.deepEqual(validateReferencePanel(panel, { code: "5436" }).errors, []);
+  assert.deepEqual(validateReferencePanel(panel, { code: "5485" }).errors, []);
+});
+
+test("a reference panel whose testCode list omits the owning bank is still rejected", () => {
+  const panel = { ...validReferencePanel(), testCode: ["5485", "5436"] };
+  const { errors } = validateReferencePanel(panel, { code: "5101" });
+  assert.ok(errors.some((e) => e.includes("does not include owning bank's code")));
 });
 
 let failed = 0;
