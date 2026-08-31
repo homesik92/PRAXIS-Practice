@@ -943,9 +943,10 @@ answer keys per Phase 7's established pattern.
 - ☐ **Deferred, own PR:** the pre-existing 198 questions are 183/198 (92%)
   keyed `"a"` with zero `"d"` answers — a raw-JSON exposure only, since
   `shuffleQuestionOptions` randomises every assembly path, but 5165 is the
-  only bank with it (5652 36%, 5101 27%, 5485 25%). To be tracked as its own
-  issue: it rewrites already-live content and needs its own iOS sync and
-  redeploy, so it does not belong in this PR.
+  only bank with it (5652 36%, 5101 27%, 5485 25%). Tracked as
+  [issue #93](https://github.com/homesik92/PRAXIS-Practice/issues/93): it
+  rewrites already-live content and needs its own iOS sync and redeploy, so
+  it does not belong in this PR.
 
   **Phase 7.2 complete.**
 
