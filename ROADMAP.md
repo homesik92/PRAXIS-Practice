@@ -861,6 +861,15 @@ BLUEPRINT.md's "5436 vs 5485" and D-36.
   `verify.mjs` and `derive-5436.mjs --check` red. 10 new unit tests.
 - ☑ **7.3.6** `reference/5485-periodic.json` now serves both tests via an array
   `testCode`, rather than being duplicated.
+- ☑ **7.3.7** `tools/pdf-text.py` — the dependency-free PDF text extractor written to
+  read the study companions, kept as a repo tool at the session owner's request.
+  Handles PDF 1.5+ `/ObjStm` compressed object streams (without which the 5436 guide
+  parses as zero pages) and per-font `/Differences` encodings. **Refuses encrypted PDFs
+  with an error rather than returning blank pages** — a real finding: 5165's companion
+  *is* encrypted and the other four are not, so the naive behaviour would have been a
+  silent "this document has no text." `--self-test` builds PDFs in memory (both the
+  plain and `/ObjStm` layouts), needs no fixture, and runs in CI as the gate's one
+  non-Node step, since python3 is preinstalled on the runner and nothing is installed.
 
   **Phase 7.3 complete.** `verify.mjs` clean, 322/322 tests green. A real 5436 form
   assembly draws **70 of 135** with honest shortfalls against III-A/III-B/IV-A/IV-B —

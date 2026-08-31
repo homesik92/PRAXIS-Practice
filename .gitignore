@@ -10,3 +10,7 @@ Knowledge-Guides/
 # Build output (if the project ever gains a build step)
 dist/
 node_modules/
+
+# Python bytecode from tools/*.py
+__pycache__/
+*.pyc

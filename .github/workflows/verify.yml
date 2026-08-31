@@ -45,3 +45,11 @@ jobs:
         run: node tools/test-calculator.mjs
       - name: Unit tests -- verify
         run: node tools/test-verify.mjs
+
+      # The one non-Node step. tools/pdf-text.py is a developer utility (it reads the
+      # gitignored study companions for blueprint work, and nothing the site ships
+      # depends on it), but it has real parsing logic worth guarding. Its self-test
+      # builds PDFs in memory, so it needs no fixture -- and python3 is preinstalled
+      # on ubuntu-latest, so the gate stays dependency-free per D-3.
+      - name: Self-test -- pdf-text
+        run: python3 tools/pdf-text.py --self-test
