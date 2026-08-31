@@ -991,8 +991,27 @@ BLUEPRINT.md's "5436 vs 5485" and D-36.
 
 ### Phase 7.4 — 5436 General Science: author the content 5485 does not cover
 
-**Not started.** ~245 questions at D-23's 3× standard. The derived questions cover
+**In progress.** ~245 questions at D-23's 3× standard. The derived questions cover
 categories I and II only; nothing below is reachable by reuse.
+
+**▶ HOW TO RESUME THIS PHASE.** Authoring output lands in `.authoring/<slug>.json`
+(gitignored, one file per leaf, on the real filesystem rather than a session scratchpad
+so an interrupted session cannot destroy finished work). Agents rewrite their file every
+few questions, so a partial file is normal and usable. To pick up:
+
+1. `ls .authoring/` and `node tools/merge-authored-5436.mjs --dry-run` — shows what is
+   authored so far, per leaf, without writing.
+2. `node tools/merge-authored-5436.mjs` — validates hard (id prefix and uniqueness, leaf
+   categoryId, 4 options a–d, exactly one `correct`, declared overlays, no
+   letter/ordinal references in explanations) and merges into the bank, refreshing the
+   manifest's `bankSize`. **Safe to re-run**; it never touches derived questions, and it
+   writes nothing if any file has a problem.
+3. `node tools/verify.mjs` and the test suites.
+4. Re-run an authoring agent for whichever leaf is short of its target below.
+
+Counts below are targets. **A leaf's box is ticked only once its questions are authored
+*and* blind-verified** — authored-but-unverified is tracked in the session log, not by a
+☑, because an unverified answer key is this project's worst failure mode.
 
 - ☐ **III Life Science** (~105): cells and organelles, cell division, respiration and
   photosynthesis, biomolecules, DNA/RNA and protein synthesis, Mendelian and
