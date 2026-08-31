@@ -12,6 +12,7 @@
     <h1 id="chapter-heading">Study a topic</h1>
     <p id="status-note" class="status-note" hidden></p>
     <div id="chapter-content"></div>
+    <p><a id="back-link-bottom" href="index.html">&larr; Back</a></p>
   </main>
   <script type="module">
     // "Study a topic" (Phase 6.9, D-28/D-29) -- a short, textbook-chapter-style page
@@ -31,11 +32,16 @@
     const categoryId = params.get("category");
 
     const backLink = document.getElementById("back-link");
+    const backLinkBottom = document.getElementById("back-link-bottom");
     const headingEl = document.getElementById("chapter-heading");
     const statusNote = document.getElementById("status-note");
     const chapterContentEl = document.getElementById("chapter-content");
 
-    if (code) backLink.href = `test.html?code=${encodeURIComponent(code)}`;
+    if (code) {
+      const href = `test.html?code=${encodeURIComponent(code)}`;
+      backLink.href = href;
+      backLinkBottom.href = href;
+    }
 
     function showStatus(message) {
       statusNote.textContent = message;

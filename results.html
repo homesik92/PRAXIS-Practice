@@ -32,6 +32,7 @@
         <h2>Full review</h2>
         <ol id="full-review-list"></ol>
       </div>
+      <p><a id="back-link-bottom" href="index.html">&larr; Back to tests</a></p>
     </div>
   </main>
   <script type="module">
@@ -63,6 +64,7 @@
     const fullReviewEl = document.getElementById("full-review");
     const fullReviewListEl = document.getElementById("full-review-list");
     const backLink = document.getElementById("back-link");
+    const backLinkBottom = document.getElementById("back-link-bottom");
 
     function showStatus(message) {
       statusNote.textContent = message;
@@ -87,13 +89,19 @@
           // hasn't finished yet -- without this check, scoreAttempt would happily
           // score whatever's been answered so far and present a partial result
           // indistinguishably from a real final one (code review finding).
-          backLink.href = `test.html?code=${encodeURIComponent(attempt.testCode)}`;
+          const href = `test.html?code=${encodeURIComponent(attempt.testCode)}`;
+          backLink.href = href;
+          backLinkBottom.href = href;
           showStatus("This attempt hasn't finished yet, so there's no result to show.");
         } else if (attempt.status === "abandoned") {
-          backLink.href = `test.html?code=${encodeURIComponent(attempt.testCode)}`;
+          const href = `test.html?code=${encodeURIComponent(attempt.testCode)}`;
+          backLink.href = href;
+          backLinkBottom.href = href;
           showStatus("This attempt was abandoned before it finished, so there's no result to show.");
         } else {
-          backLink.href = `test.html?code=${encodeURIComponent(attempt.testCode)}`;
+          const href = `test.html?code=${encodeURIComponent(attempt.testCode)}`;
+          backLink.href = href;
+          backLinkBottom.href = href;
 
           // includeDisabled: reviewing a completed attempt must keep working even if
           // this test has since been disabled for new attempts (Phase 6.5 finding).
