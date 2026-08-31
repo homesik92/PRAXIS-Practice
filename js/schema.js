@@ -444,22 +444,29 @@ export function assembleDrill(bank, categoryId, { history = {}, random = Math.ra
  * Assembles a short, capped-length category drill (Phase 6.8.2: S2's "Practice a
  * topic"/"Category test" entries) -- same category-and-descendants pool and
  * least-recently-seen draw as {@link assembleDrill}, just target-limited to `count`
- * instead of drawing the whole pool. Deliberately takes no `history` here (unlike
- * assembleDrill/assembleForm) -- the caller (run.html) never reads the store for
- * this mode at all, by design, so this always draws in fully random order rather
- * than biased by real question history. A simpler tradeoff than threading a
- * read-only store load through a code path whose entire point is to prove it never
- * touches the store.
+ * instead of drawing the whole pool.
+ *
+ * `history` is read-only here (D-35): the caller (run.html's `runCategoryDrill`)
+ * loads it from the store purely to bias this draw toward unseen questions, but
+ * still never writes an attempt record or calls `recordAnswer` for this mode --
+ * "won't be recorded or change your stats" (test.html's own description) stays
+ * true for writes, only the read changed. Originally (Phase 6.8.2) this drew fully
+ * at random with no history parameter at all, reasoning that threading a read-only
+ * store load through a code path built to prove it never touches the store wasn't
+ * worth it; live-testing found the real cost of that tradeoff -- a fully-random
+ * draw from even a 3x-depth pool reproduces questions within a couple of rounds by
+ * chance, regardless of pool size, unlike assembleForm/assembleDrill's already-
+ * history-aware draws.
  *
  * @param {object} bank
  * @param {string} categoryId
- * @param {{count?: number, random?: () => number}} [options]
+ * @param {{count?: number, history?: Record<string, {lastSeenAt?: string}>, random?: () => number}} [options]
  * @returns {{questions: object[]}}
  */
-export function assembleCategoryDrill(bank, categoryId, { count = 10, random = Math.random } = {}) {
+export function assembleCategoryDrill(bank, categoryId, { count = 10, history = {}, random = Math.random } = {}) {
   const categoryIds = categoryAndDescendantIds(bank.categories, categoryId);
   const pool = (bank.questions ?? []).filter((q) => !q.retired && categoryIds.has(q.categoryId));
-  const { drawn } = drawForCategory(pool, Math.min(count, pool.length), {}, random);
+  const { drawn } = drawForCategory(pool, Math.min(count, pool.length), history, random);
   return { questions: shuffleQuestionOptions(drawn, random) };
 }
 
