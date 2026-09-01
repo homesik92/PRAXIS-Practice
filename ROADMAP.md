@@ -1041,6 +1041,13 @@ Counts below are targets. **A leaf's box is ticked only once its questions are a
   That is the length/justification tell that reached 94% in one 5101 category before it
   was measured. Healthy by contrast: key spread is 48/50/49/48, `sep` 56% (target ≥50%),
   `tot` 30% (target 25–33%), and zero positional option references survive.
+  **Two items the authoring agents self-flagged, worth a verifier's eye:**
+  `5436-cells-038` (karyotype/nondisjunction) sits close to `5436-cells-019` (gamete
+  outcome after nondisjunction) — deliberately kept distinct, but skim them together;
+  and `5436-earthsci-028` allows "freezing rain or sleet" as one option because the
+  given temperature profile genuinely does not separate them, which is a framing choice
+  a stricter reading might reject. One cross-question numeric collision was already
+  caught and fixed during authoring (`5436-cells-043`'s stem restated `-029`'s answer).
 - ☐ Flip `enabled: true` in `data/manifest.json` once III and IV are populated, and
   confirm `assembleForm` draws a full 135 with zero shortfalls.
 - ☐ Consider whether 5436 needs its own "Study a topic" teaching chapters (Phase 6.10's
