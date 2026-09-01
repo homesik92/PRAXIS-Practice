@@ -20003,7 +20003,7 @@
           "id": "b",
           "content": {
             "format": "text",
-            "value": "explain that the far side receives sunlight during the same monthly cycle as the near side, since the Moon rotates on its own axis at the same rate it orbits Earth, keeping one hemisphere turned toward Earth while every part of the Moon is alternately lit and dark as it orbits"
+            "value": "explain that the far side is lit and dark on the same monthly cycle as the near side, since the Moon's rotation keeps one hemisphere toward Earth without affecting how sunlight reaches either side"
           }
         },
         {
@@ -20168,7 +20168,7 @@
           "id": "d",
           "content": {
             "format": "text",
-            "value": "the Moon itself moves forward in its orbit each day, so Earth must rotate slightly farther than 360 degrees for a location to catch up to the Moon's new position"
+            "value": "the Moon moves forward in its orbit each day, so Earth must rotate slightly more than 360 degrees to catch up"
           }
         }
       ],
@@ -20319,7 +20319,7 @@
           "id": "d",
           "content": {
             "format": "text",
-            "value": "the spots are cooler regions caused by intense magnetic activity that suppresses the flow of hot plasma from below, appearing dark only by contrast with the much hotter surrounding surface"
+            "value": "the spots are cooler regions where intense magnetic activity suppresses heat flow from below, appearing dark only by contrast with the hotter surface around them"
           }
         }
       ],
@@ -20414,7 +20414,7 @@
           "id": "c",
           "content": {
             "format": "text",
-            "value": "Kepler's third law: the square of a planet's orbital period is proportional to the cube of its average distance from the Sun"
+            "value": "Kepler's third law, which compares how orbital periods relate to distance across different planets, not the distance variation within one planet's orbit"
           }
         },
         {
@@ -22990,7 +22990,7 @@
           "id": "b",
           "content": {
             "format": "text",
-            "value": "Explain that because both unaffected parents produced an affected daughter, the pattern is most consistent with autosomal recessive inheritance rather than a dominant pattern, since an expressed dominant allele would be expected to appear in at least one parent"
+            "value": "Explain that because both unaffected parents produced an affected daughter, the pattern is most consistent with autosomal recessive inheritance rather than dominant inheritance"
           }
         },
         {
@@ -26179,7 +26179,7 @@
           "id": "a",
           "content": {
             "format": "text",
-            "value": "Having students trace the topographic ridges that separate the land draining into the river from land draining into neighboring rivers, then shade in the entire enclosed area as the watershed."
+            "value": "Having students trace the topographic ridges bounding the river's drainage area, then shade in the entire enclosed watershed."
           }
         },
         {
@@ -26302,7 +26302,7 @@
           "id": "d",
           "content": {
             "format": "text",
-            "value": "Ocean circulation also includes a deep, density-driven component called thermohaline circulation, in which differences in temperature and salinity change seawater density and help drive large-scale currents, including the Gulf Stream, in addition to wind-driven surface flow."
+            "value": "Ocean circulation also includes thermohaline circulation, a deep, density-driven current system caused by differences in temperature and salinity."
           }
         }
       ],
@@ -26587,7 +26587,7 @@
           "id": "a",
           "content": {
             "format": "text",
-            "value": "Explain that a shield volcano forms from low-viscosity, fluid basaltic lava that flows easily over long distances before solidifying, producing a broad, gently sloping profile very different from the steep, cone-shaped profile of a composite volcano built from thicker, more viscous, gas-rich lava and layers of ash."
+            "value": "Explain that a shield volcano forms from low-viscosity, fluid basaltic lava, producing a broad, gently sloping profile unlike a composite volcano's steep, cone-shaped profile."
           }
         },
         {
@@ -26696,7 +26696,7 @@
           "id": "b",
           "content": {
             "format": "text",
-            "value": "Explain that crust, mantle, and core describe layers based on chemical composition, while lithosphere, asthenosphere, and mesosphere describe layers based on physical, mechanical behavior, such as rigidity, so the two systems classify the same interior using different criteria rather than contradicting each other."
+            "value": "Explain that crust, mantle, and core are compositional layers, while lithosphere, asthenosphere, and mesosphere are mechanical layers — two classification systems for the same interior, not contradictory ones."
           }
         },
         {
@@ -27153,7 +27153,7 @@
           "id": "b",
           "content": {
             "format": "text",
-            "value": "The bat and human forelimbs are homologous, sharing underlying skeletal structure inherited from a common ancestor, but a butterfly wing and a bat wing are analogous, similar in function but built from entirely different structures with no shared ancestry."
+            "value": "The bat and human forelimbs are homologous, sharing skeletal structure from a common ancestor; a butterfly wing and bat wing are analogous, similar in function but with no shared ancestry."
           }
         },
         {
@@ -27216,7 +27216,7 @@
           "id": "d",
           "content": {
             "format": "text",
-            "value": "That fish, chickens, and humans share a common ancestor, and the developmental pathway producing pharyngeal pouches has been retained even where its adult function has changed or been lost."
+            "value": "That fish, chickens, and humans share a common ancestor, and the developmental pathway producing pharyngeal pouches has been retained even as its adult function changed."
           }
         }
       ],
@@ -27778,7 +27778,7 @@
       ],
       "explanation": {
         "format": "text",
-        "value": "Primary succession occurs when a community develops on a surface with no pre-existing soil or organisms, such as bare volcanic rock, typically beginning with hardy pioneer species like lichens that help form soil over time. Secondary succession instead follows a disturbance that leaves soil intact, which does not match a scenario starting from bare rock. Bare rock surfaces are well documented as eventual sites of colonization, so ruling out any possibility of a plant community is incorrect. Punctuated equilibrium describes a pattern of evolutionary change over long timescales, not a description of ecological succession."
+        "value": "Primary succession occurs when a community develops on a surface with no pre-existing soil or organisms, such as bare volcanic rock, typically beginning with hardy pioneer species like lichens that help form soil over time. The claim that this is instead secondary succession recovering from a disturbance that left the soil intact does not fit, since the scenario explicitly states the eruption left no soil and no surviving organisms. Bare rock surfaces are well documented as eventual sites of colonization, so ruling out any possibility of a plant community is incorrect. Punctuated equilibrium describes a pattern of evolutionary change over long timescales, not a description of ecological succession."
       },
       "authored": "2026-08-31"
     },
