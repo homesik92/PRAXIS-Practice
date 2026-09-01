@@ -22880,14 +22880,14 @@
           "id": "a",
           "content": {
             "format": "text",
-            "value": "9 long-winged and dark : 3 long-winged and light : 3 short-winged and dark : 1 short-winged and light"
+            "value": "3 long-winged and dark : 1 short-winged and light"
           }
         },
         {
           "id": "b",
           "content": {
             "format": "text",
-            "value": "3 long-winged and dark : 1 short-winged and light"
+            "value": "9 long-winged and dark : 3 long-winged and light : 3 short-winged and dark : 1 short-winged and light"
           }
         },
         {
@@ -22906,7 +22906,7 @@
         }
       ],
       "correct": [
-        "a"
+        "b"
       ],
       "explanation": {
         "format": "text",
@@ -23629,6 +23629,355 @@
       "explanation": {
         "format": "text",
         "value": "The needed correction is that DNA is transcribed into messenger RNA, and ribosomes read that mRNA copy during translation rather than reading DNA directly, which addresses the student's core misunderstanding of the process. Confirming the student's claim ignores that ribosomes are typically located in the cytoplasm and act on mRNA, not on DNA itself. Describing protein assembly as occurring directly on DNA during replication conflates DNA replication, which copies DNA, with translation, which builds protein from RNA. Limiting RNA's role to transporting finished proteins misdescribes messenger RNA's actual role in carrying the genetic instructions themselves, not finished protein products."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-cells-045",
+      "type": "single",
+      "categoryId": "III-A",
+      "overlays": [],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "Which equation correctly summarizes the overall process of aerobic cellular respiration in animal cells, and in which organelle does most of this process occur?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "6CO2 + 6H2O + light energy -> C6H12O6 + 6O2, occurring mainly in the mitochondrion"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "C6H12O6 -> 2 C2H5OH + 2CO2, occurring mainly in the cytoplasm"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "C6H12O6 + 6O2 -> 6CO2 + 6H2O + ATP, occurring mainly in the mitochondrion"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "C6H12O6 + 6O2 -> 6CO2 + 6H2O + ATP, occurring mainly in the nucleus"
+          }
+        }
+      ],
+      "correct": [
+        "c"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Aerobic respiration breaks glucose down using oxygen to release carbon dioxide, water, and usable ATP energy, and this process occurs mainly in the mitochondria, matching this equation and location. The equation pairing carbon dioxide and water with light energy describes photosynthesis, not respiration, since it shows those simple molecules being built into glucose rather than glucose being broken down, the reverse reaction. The equation showing glucose converted to ethanol and carbon dioxide describes alcoholic fermentation occurring in the cytoplasm, an anaerobic process, not aerobic respiration. The equation with correct reactants and products but placed in the nucleus misidentifies the organelle, since the nucleus stores genetic material and does not carry out aerobic respiration."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-cells-046",
+      "type": "single",
+      "categoryId": "III-A",
+      "overlays": [],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "After sprinting, a runner's muscle cells experience a temporary shortage of oxygen and begin producing lactic acid. Which process is occurring in the muscle cells under these low-oxygen conditions?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "Aerobic respiration, which requires oxygen to break glucose down completely into carbon dioxide and water"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "Lactic acid fermentation, which regenerates NAD+ so that glycolysis can continue without oxygen"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "Photosynthesis, which converts light energy into chemical energy stored in glucose"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "Alcoholic fermentation, which produces ethanol and carbon dioxide as byproducts"
+          }
+        }
+      ],
+      "correct": [
+        "b"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "When oxygen is limited, muscle cells shift to lactic acid fermentation, which regenerates the NAD+ needed to keep glycolysis running and produces lactic acid as a byproduct, matching the scenario described. Aerobic respiration requires oxygen to proceed, which contradicts the low-oxygen condition described for the sprinting muscle cells. Photosynthesis is a process carried out by plant and algal cells using light energy to build glucose, not a process that occurs in animal muscle cells. Alcoholic fermentation occurs in organisms such as yeast and produces ethanol and carbon dioxide rather than lactic acid, so it does not match what is produced in human muscle tissue."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-cells-047",
+      "type": "single",
+      "categoryId": "III-A",
+      "overlays": [],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "Which equation correctly represents the overall process of photosynthesis, and in which organelle does it take place in plant cells?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "C6H12O6 + 6O2 -> 6CO2 + 6H2O + ATP, occurring in the chloroplast"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "6CO2 + 6H2O + light energy -> C6H12O6 + 6O2, occurring in the mitochondrion"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "C6H12O6 -> 2 C2H5OH + 2CO2, occurring in the chloroplast"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "6CO2 + 6H2O + light energy -> C6H12O6 + 6O2, occurring in the chloroplast"
+          }
+        }
+      ],
+      "correct": [
+        "d"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Photosynthesis converts carbon dioxide and water into glucose and oxygen using light energy, and this process takes place within the chloroplast, matching this equation and location. The equation showing glucose and oxygen converted into carbon dioxide, water, and ATP describes aerobic respiration, the reverse process, not photosynthesis. The correct photosynthesis equation paired with the mitochondrion misidentifies the organelle, since the mitochondrion is the site of aerobic respiration, not photosynthesis. The equation showing glucose converted to ethanol and carbon dioxide describes alcoholic fermentation, an unrelated anaerobic process that does not occur in chloroplasts."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-cells-048",
+      "type": "single",
+      "categoryId": "III-A",
+      "overlays": [
+        "sep"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "A student analyzes gas measurements from a sealed, illuminated aquarium containing aquatic plants and fish, and notices that dissolved oxygen levels rise during daylight hours and dissolved carbon dioxide levels rise after the lights are turned off. Which explanation best accounts for this pattern in terms of photosynthesis and cellular respiration?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "During the day, the fish perform photosynthesis alongside the plants, and at night the plants switch over to performing cellular respiration in place of the fish"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "Oxygen and carbon dioxide levels in the tank change randomly and are not connected to any biological process occurring inside it"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "During the day, photosynthesis in the plants exceeds the cellular respiration of all the organisms in the tank, so oxygen accumulates; at night, only respiration continues, so carbon dioxide accumulates instead"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "Cellular respiration occurs only in animals, so the nighttime rise in carbon dioxide must come entirely from gas dissolving out of the water itself"
+          }
+        }
+      ],
+      "correct": [
+        "c"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "The daytime oxygen increase occurs because photosynthesis in the plants is producing oxygen faster than it is being consumed by respiration across the whole tank, while at night, with no light available for photosynthesis, only respiration continues and consumes oxygen while releasing carbon dioxide, matching both halves of the observed pattern. Fish do not perform photosynthesis, and plants do not stop performing respiration at night, so describing the two organisms as swapping processes misrepresents which organisms carry out which process. Dismissing the pattern as random ignores the clear, repeating day-night cycle tied to light availability. Restricting respiration to animals ignores that plant cells also respire continuously, and the data describes a biological gas-exchange pattern rather than gas simply leaving the water on its own."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-cells-049",
+      "type": "single",
+      "categoryId": "III-A",
+      "overlays": [],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "Which pairing correctly matches a class of biological macromolecule with its basic monomer subunit?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "Nucleic acids are built from amino acid monomers joined by peptide bonds"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "Proteins are built from amino acid monomers joined by peptide bonds"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "Carbohydrates are built from fatty acid and glycerol monomers"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "Lipids are built from nucleotide monomers linked in a long chain"
+          }
+        }
+      ],
+      "correct": [
+        "b"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Proteins are polymers built from amino acid monomers linked together by peptide bonds, making this the correctly matched pairing. Nucleic acids are instead built from nucleotide monomers, not amino acids, so that pairing swaps the correct monomer for the wrong macromolecule class. Carbohydrates are built from monosaccharide monomers such as glucose, not from fatty acids and glycerol, which are the components of lipids instead. Lipids are generally not considered true polymers built from repeating nucleotide units at all, since they typically consist of a glycerol backbone attached to fatty acid chains rather than a chain of nucleotides."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-cells-050",
+      "type": "single",
+      "categoryId": "III-A",
+      "overlays": [
+        "tot"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "A student states that 'plants only perform photosynthesis, and only animals perform cellular respiration,' after learning that plants make their own food using sunlight. How should a teacher best correct this misconception?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "Explain that plant cells perform both photosynthesis and cellular respiration, using mitochondria to break down glucose for usable energy just as animal cells do"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "Agree with the student, since plants that photosynthesize have no need to also perform cellular respiration"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "Explain that plants only perform cellular respiration at night, once photosynthesis has completely stopped, and never during daylight hours"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "Explain that only a plant's roots perform cellular respiration, while its leaves perform photosynthesis exclusively"
+          }
+        }
+      ],
+      "correct": [
+        "a"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Plant cells contain mitochondria and continuously carry out cellular respiration to convert glucose into usable energy, in addition to performing photosynthesis in their chloroplasts when light is available, so clarifying that plants do both directly addresses the student's error. Agreeing that photosynthesizing plants have no need for respiration ignores that photosynthesis produces glucose, while respiration is still needed to convert that glucose into a usable energy form. Restricting plant respiration to nighttime only is a common partial misconception, since plant cells respire continuously, even while photosynthesis is also occurring during the day. Restricting respiration to roots ignores that every living plant cell, including those in the leaves, requires mitochondria and performs cellular respiration."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-cells-051",
+      "type": "single",
+      "categoryId": "III-A",
+      "overlays": [
+        "sep"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "A student places identical potato cores into four beakers containing sucrose solutions of increasing concentration, 0%, 10%, 20%, and 30%, and measures the mass of each core before and after 24 hours. The core in the 0% solution gains mass, the core in the 10% solution shows almost no change in mass, and the cores in the 20% and 30% solutions lose increasing amounts of mass. Based on this data, which conclusion about the potato cells' internal solute concentration is best supported?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "The potato cells' internal solute concentration is close to 0%, since that is the solution in which the core gained the most mass"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "The potato cells' internal solute concentration is close to 30%, since that is the solution in which the core lost the most mass"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "The data cannot indicate anything about the potato cells' internal solute concentration, since mass changes in plant tissue occur randomly"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "The potato cells' internal solute concentration is close to 10%, since that is the concentration at which net water movement was smallest, indicating similar solute concentrations inside and outside the cells"
+          }
+        }
+      ],
+      "correct": [
+        "d"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "The solution concentration at which a tissue sample shows the least change in mass is the concentration closest to isotonic with the cells' own internal solute concentration, and here that is the 10% solution, where mass barely changed, supporting that conclusion. Pointing to the 0% solution ignores that this is the concentration causing the greatest net water gain, meaning it is far more dilute than the cells' interior, not equal to it. Pointing to the 30% solution similarly ignores that this concentration caused the greatest net water loss, meaning it is far more concentrated than the cells' interior, not equal to it. Dismissing the data as random ignores the clear, graded trend in mass change across the four increasing sucrose concentrations."
       },
       "authored": "2026-08-31"
     },
@@ -26069,6 +26418,312 @@
       "authored": "2026-08-31"
     },
     {
+      "id": "5436-earthsci-049",
+      "type": "single",
+      "categoryId": "IV-B",
+      "overlays": [
+        "sep"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "A rock sequence shows horizontal sedimentary layers resting directly on top of tilted, eroded layers of much older sedimentary rock, with an irregular, uneven surface separating the two sets of layers. Which feature does this surface represent, and what does it indicate about the geologic history of the location?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "A fault, indicating the two rock sets were displaced past each other by sudden movement along a fracture."
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "A dike, indicating molten rock intruded upward through the older layers and later solidified."
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "An index fossil horizon, indicating both rock sets formed during exactly the same narrow span of geologic time."
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "An unconformity, indicating a gap in the rock record where the older layers were tilted, uplifted, eroded, and later buried again by newer horizontal layers, meaning time is missing from the sequence."
+          }
+        }
+      ],
+      "correct": [
+        "d"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "This pattern describes an angular unconformity: older layers were deposited, then tilted and uplifted, eroded down to an irregular surface, and later buried by new horizontal layers, so the surface represents a gap of missing time in the rock record. A fault would show layers displaced or offset past one another, not an eroded, tilt-then-onlap surface. A dike is an intrusive igneous body that cuts across existing layers, not a bedding-parallel erosional surface between two sets of sedimentary layers. An index fossil horizon is used to correlate rock of similar age, the opposite of what an unconformity, which represents missing time, indicates."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-earthsci-050",
+      "type": "single",
+      "categoryId": "IV-B",
+      "overlays": [
+        "sep"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "A radioactive isotope used to date certain igneous rocks has a half-life of 700 million years. Analysis of a rock sample shows that only one-eighth of the original parent isotope remains, with the rest having decayed to the stable daughter isotope. Approximately how old is the rock?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "700 million years"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "2.1 billion years"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "1.4 billion years"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "5.6 billion years"
+          }
+        }
+      ],
+      "correct": [
+        "b"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Each half-life reduces the parent isotope by half: one-half remains after one half-life, one-quarter after two half-lives, and one-eighth after three half-lives. Three half-lives of 700 million years each totals 2.1 billion years. A single half-life corresponds to one-half remaining, not one-eighth. Two half-lives correspond to one-quarter remaining, not one-eighth. The largest total would require far more half-lives than are consistent with only one-eighth of the parent isotope remaining."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-earthsci-051",
+      "type": "single",
+      "categoryId": "IV-B",
+      "overlays": [
+        "sep"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "A student weighs a mineral sample and measures its volume by water displacement, then divides mass by volume to calculate density. Two unknown mineral samples have the same volume, but one has a noticeably greater mass than the other. Which conclusion about the two samples is best supported by this evidence?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "The heavier sample must have a lower hardness than the lighter sample, since mass and hardness are directly related properties."
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "The heavier sample must have a different streak color than the lighter sample, since mass determines streak color."
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "The heavier sample has a greater density than the lighter sample, since density is mass divided by volume and the two samples share the same volume."
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "The heavier sample must be a metamorphic rock, while the lighter sample must be an igneous rock, since metamorphic rocks are always denser."
+          }
+        }
+      ],
+      "correct": [
+        "c"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "With equal volumes, a greater mass directly means a greater density, since density is simply mass divided by volume, which is the basic reasoning behind using density, or specific gravity, as a mineral identification property. Hardness and streak color are independent physical properties that are not determined by a sample's mass. Classifying a sample as metamorphic or igneous requires evidence about texture and formation history, not just a mass comparison, and metamorphic rocks are not universally denser than igneous rocks."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-earthsci-052",
+      "type": "single",
+      "categoryId": "IV-B",
+      "overlays": [
+        "tot"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "A student is shown a photo of a volcano with a broad, gently sloping profile built from many thin, fast-flowing lava flows, and mistakenly identifies it as a composite volcano because 'all volcanoes are cone-shaped like Mount Fuji.' Which explanation would best correct this misconception?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "Explain that a shield volcano forms from low-viscosity, fluid basaltic lava that flows easily over long distances before solidifying, producing a broad, gently sloping profile very different from the steep, cone-shaped profile of a composite volcano built from thicker, more viscous, gas-rich lava and layers of ash."
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "Explain that all volcanoes eventually erode into the same broad, gently sloping shape over enough geologic time, so shape alone cannot distinguish volcano types."
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "Explain that shield volcanoes only form underwater, so any volcano visible above sea level must be a composite volcano by definition."
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "Explain that composite volcanoes always erupt more frequently than shield volcanoes, which is why composite volcanoes are easier to identify from photographs."
+          }
+        }
+      ],
+      "correct": [
+        "a"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Lava viscosity is the key control on volcano shape: low-viscosity basaltic lava spreads widely into a broad, gently sloping shield volcano, while thicker, more viscous, gas-rich lava builds a steep-sided composite volcano through alternating explosive ash layers and lava flows, which directly explains why the photographed volcano is a shield volcano rather than a composite one. Erosion does not cause all volcanoes to converge toward the same shape over time. Shield volcanoes are not exclusively underwater features. Eruption frequency is not a reliable way to distinguish the two volcano types and is not a fixed rule between them."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-earthsci-053",
+      "type": "single",
+      "categoryId": "IV-B",
+      "overlays": [
+        "sep"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "At a seismograph station, P-waves from a distant earthquake arrive several minutes before the slower S-waves from the same event. A seismologist measures the time gap between the two arrivals. Which use of this arrival-time gap is best supported by the properties of P-waves and S-waves?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "Using the time gap to determine the exact compass direction from the station to the earthquake's epicenter."
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "Using the time gap to determine the earthquake's magnitude directly, since a larger time gap always indicates a stronger earthquake."
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "Using the time gap to estimate the station's distance from the epicenter, since P-waves consistently travel faster than S-waves and the gap between their arrivals grows with the distance traveled."
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "Using the time gap to determine the depth of the earthquake's focus below the surface, since S-waves travel more slowly at greater depths."
+          }
+        }
+      ],
+      "correct": [
+        "c"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Because P-waves consistently travel faster than S-waves and the two waves separate further apart the farther they travel, the arrival-time gap recorded at a single station can be converted into an estimated distance to the epicenter using a travel-time graph; combining distance estimates from at least three stations is what locates the epicenter, since one station's time gap alone gives distance but not direction. Earthquake magnitude is determined from wave amplitude and other measures, not simply from the P-S time gap. Estimating the depth of the focus requires more specialized analysis and is not read directly off a single station's simple arrival-time gap."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-earthsci-054",
+      "type": "single",
+      "categoryId": "IV-B",
+      "overlays": [
+        "tot"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "A student learns that Earth is divided into crust, mantle, and core, and separately learns that Earth is divided into lithosphere, asthenosphere, and mesosphere, then asks whether these are two different, contradictory descriptions of Earth's interior. Which explanation best resolves the student's confusion?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "Explain that the crust-mantle-core system is outdated and has been fully replaced by the lithosphere-asthenosphere-mesosphere system in modern geology."
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "Explain that crust, mantle, and core describe layers based on chemical composition, while lithosphere, asthenosphere, and mesosphere describe layers based on physical, mechanical behavior, such as rigidity, so the two systems classify the same interior using different criteria rather than contradicting each other."
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "Explain that the two systems describe entirely separate parts of Earth, with the composition-based layers existing only in the mantle and the mechanical layers existing only in the core."
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "Explain that lithosphere, asthenosphere, and mesosphere are simply older, historical names for crust, mantle, and core that scientists no longer use."
+          }
+        }
+      ],
+      "correct": [
+        "b"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Earth's interior can be classified two ways at once: by chemical composition, giving crust, mantle, and core, and by mechanical behavior, giving the rigid lithosphere, the ductile, flowing asthenosphere, and the more rigid lower mantle called the mesosphere, so the two schemes describe the same interior using different criteria rather than contradicting or replacing one another. Neither system is outdated, and the mechanical layers are not simply old names for the compositional ones. Both classification schemes apply across overlapping depth ranges rather than being confined to entirely separate parts of Earth."
+      },
+      "authored": "2026-08-31"
+    },
+    {
       "id": "5436-evolution-001",
       "type": "single",
       "categoryId": "III-B",
@@ -28391,6 +29046,411 @@
       "explanation": {
         "format": "text",
         "value": "A vaccine introduces a harmless form of a pathogen's antigens so that the immune system produces memory cells that provide faster, stronger protection if the actual pathogen is encountered later, while an autoimmune disorder involves the immune system mistakenly attacking the body's own healthy cells and tissues; these are fundamentally different processes rather than variations on the same mechanism. Vaccines work by prompting immune memory formation, not by suppressing the immune system's activity. Autoimmune disorders involve misdirected immune activity against the body's own cells, not a failure to respond to pathogens at all. Neither vaccines nor autoimmune disorders are centrally about the immune system attacking the body's normal bacterial residents."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-evolution-047",
+      "type": "single",
+      "categoryId": "III-B",
+      "overlays": [
+        "sep"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "A cladogram groups four vertebrate groups based on shared derived characteristics. Amphibians branch off first, followed by reptiles, then mammals, and finally birds, which share a more recent common branching point with reptiles than reptiles share with mammals. Based on this branching pattern, which statement is best supported?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "Birds share a more recent common ancestor with reptiles than reptiles share with mammals, based on where birds branch off in the diagram"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "Amphibians are the group most closely related to birds, since they are positioned at the base of the cladogram"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "Mammals must have evolved directly from birds, since both groups appear toward the same end of the cladogram"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "The order in which branches are listed on a cladogram reflects each group's total number of living species, not their evolutionary relationships"
+          }
+        }
+      ],
+      "correct": [
+        "a"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "On a cladogram, groups that share a more recent common branching point, or node, are considered more closely related than groups whose shared branching point is farther back; since birds and reptiles share a more recent common node than reptiles share with mammals in this arrangement, birds and reptiles are inferred to be more closely related to each other in this comparison. A group's position at the base of a cladogram reflects an earlier branching point, not a close relationship to groups branching off much later. Cladograms represent inferred evolutionary branching relationships, not one group evolving directly from another shown on the same diagram. The sequence of branches on a cladogram reflects hypothesized relationships based on shared derived traits, not the number of living species in each group."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-evolution-048",
+      "type": "single",
+      "categoryId": "III-B",
+      "overlays": [
+        "sep"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "A phylogenetic tree shows that species P and species Q share a common ancestor node that is more recent than the common ancestor node either species shares with species R. Based on this tree alone, which statement is best supported?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "Species R must be extinct, since it does not share a recent common ancestor node with species P and species Q"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "Species P and species Q are more closely related to each other than either is to species R, since they share a more recent common ancestor"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "The tree indicates that species Q evolved directly from species P after their common ancestor existed"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "Species P and species R are more closely related to each other than either is to species Q"
+          }
+        }
+      ],
+      "correct": [
+        "b"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "On a phylogenetic tree, the group whose members share the most recent common ancestor node are considered the most closely related; since species P and species Q share a more recent common node with each other than either shares with species R, P and Q are inferred to be more closely related to one another than either is to R. Nothing about branching pattern alone indicates that species R is extinct, since a tree can include only living species. A phylogenetic tree represents an inferred pattern of common ancestry and divergence, not one living species evolving directly from another living species shown on the tree. The tree does not indicate that P and R are more closely related, since their shared node with each other is not described as more recent than either species' node with Q."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-evolution-049",
+      "type": "single",
+      "categoryId": "III-B",
+      "overlays": [],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "Which statement correctly distinguishes prokaryotic cells from eukaryotic cells?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "Prokaryotic cells lack a membrane-bound nucleus and most membrane-bound organelles, while eukaryotic cells have both"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "Prokaryotic cells always contain chloroplasts, while eukaryotic cells never do"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "Eukaryotic cells lack DNA entirely, while prokaryotic cells store their DNA in a membrane-bound nucleus"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "Prokaryotic cells are exclusively multicellular, while eukaryotic cells are exclusively single-celled"
+          }
+        }
+      ],
+      "correct": [
+        "a"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Prokaryotic cells lack a membrane-bound nucleus and most other membrane-bound organelles, with their genetic material located in the cytoplasm, while eukaryotic cells have both a membrane-bound nucleus and various membrane-bound organelles. Chloroplasts are found in some eukaryotic cells, such as plant and algal cells, not universally in prokaryotic cells. Eukaryotic cells do contain DNA, housed within a membrane-bound nucleus, so describing them as lacking DNA entirely is incorrect. Both single-celled and multicellular forms exist among eukaryotes, and many prokaryotes are single-celled, so this pairing of cell type with number of cells is inaccurate."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-evolution-050",
+      "type": "single",
+      "categoryId": "III-B",
+      "overlays": [],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "Which set of characteristics best describes members of the fungus kingdom, such as mushrooms and molds?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "They are photosynthetic autotrophs with cell walls made of cellulose, producing their own food from sunlight"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "They lack cell walls entirely and obtain nutrients exclusively by engulfing other organisms whole"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "They are heterotrophs with cell walls made of chitin that typically obtain nutrients by absorbing them after secreting digestive enzymes onto their food source"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "They are single-celled prokaryotes that reproduce exclusively through binary fission"
+          }
+        }
+      ],
+      "correct": [
+        "c"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Fungi are heterotrophs that typically obtain nutrients by secreting digestive enzymes onto organic material and then absorbing the resulting smaller molecules, and their cell walls are made primarily of chitin rather than cellulose. Fungi are not photosynthetic autotrophs and do not have cellulose cell walls, which describes plants instead. Fungal cells have cell walls, so describing them as lacking cell walls entirely is inaccurate, and fungi generally absorb nutrients rather than engulfing whole organisms. Fungi are eukaryotic, and many are multicellular, so describing them as single-celled prokaryotes reproducing by binary fission describes bacteria, not fungi."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-evolution-051",
+      "type": "single",
+      "categoryId": "III-B",
+      "overlays": [
+        "tot"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "A student groups an amoeba, a diatom, and a water mold together simply because all three were traditionally called protists, and concludes that they must share a similarly close evolutionary relationship, comparable to how different species of birds are related to each other. Which response best addresses the flaw in this reasoning?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "The student is correct, since all organisms classified as protists share one recent common ancestor to the exclusion of all other kingdoms"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "Protists are a highly diverse collection of mostly single-celled eukaryotes grouped together largely because they do not fit the defining characteristics of animals, plants, or fungi, rather than because they share one recent common ancestor"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "An amoeba, a diatom, and a water mold cannot be compared at all, since none of them are classified using evolutionary relationships"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "Diatoms and water molds are actually the same species observed at different life stages, which explains their shared classification"
+          }
+        }
+      ],
+      "correct": [
+        "b"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Protists are a highly diverse group of mostly single-celled eukaryotes historically grouped together largely because they do not fit the defining characteristics of animals, plants, or fungi, rather than because they all share one recent common ancestor; as a result, some protists are more closely related to organisms in other kingdoms than they are to other protists. Assuming shared classification as protists implies one recent shared ancestor overstates how unified this group actually is. An amoeba, a diatom, and a water mold can still be compared using evolutionary relationships, even though that comparison reveals them to be less closely related than their shared traditional grouping might suggest. Diatoms and water molds are structurally and biologically distinct organisms, not different life stages of the same species."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-evolution-052",
+      "type": "single",
+      "categoryId": "III-B",
+      "overlays": [
+        "sep"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "A population of prairie dogs numbering in the thousands is reduced to just a few dozen survivors after a severe disease outbreak, with survival largely unrelated to any particular trait. When the population later rebounds in size, researchers find its allele frequencies differ substantially from those of the original population, and certain alleles that had been common before the outbreak are now rare or absent. What best explains this shift in allele frequencies?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "A genetic bottleneck occurred, in which the small number of survivors carried only a random subset of the original population's alleles by chance, not because those alleles were more advantageous"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "Natural selection favored the surviving individuals, since they carried alleles specifically suited to resisting the disease"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "The disease outbreak directly caused mutations in the surviving prairie dogs, producing entirely new alleles not present before"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "Allele frequencies cannot change unless a population's size increases, so the shift must have occurred after the rebound, not during the outbreak"
+          }
+        }
+      ],
+      "correct": [
+        "a"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "A genetic bottleneck occurs when a population's size is sharply and suddenly reduced, so that the surviving individuals carry only a random subset of the original population's alleles by chance rather than because those alleles conferred a survival advantage, which can shift allele frequencies substantially even after the population later recovers in size. If survival during the outbreak was largely unrelated to any particular trait, as described, this argues against natural selection specifically favoring disease-resistance alleles among survivors. A disease outbreak does not directly cause new mutations in survivors; it simply removes some individuals from the population. Allele frequencies can shift due to chance events like a bottleneck regardless of whether population size is currently increasing or decreasing, so change is not restricted to only one direction of population size change."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-evolution-053",
+      "type": "single",
+      "categoryId": "III-B",
+      "overlays": [
+        "tot"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "A teacher wants students to compare artificial selection, such as breeding dogs for particular traits, with natural selection in the wild. Which comparison best captures the key similarity and the key difference between the two processes?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "The two processes are identical in every respect, since both artificial and natural selection are driven entirely by random mutation with no directional influence"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "Artificial selection relies on differential survival and reproduction, exactly like natural selection, but artificial selection cannot change a population's traits over time"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "Both processes work by favoring the reproduction of individuals with particular heritable traits, but in artificial selection humans choose which traits are favored, while in natural selection the environment determines which traits improve survival and reproduction"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "Natural selection acts only on physical traits, while artificial selection acts only on behavioral traits, so the two processes cannot be compared directly"
+          }
+        }
+      ],
+      "correct": [
+        "c"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Both artificial selection and natural selection work by favoring the reproduction of individuals carrying particular heritable traits over generations, but the two differ in what determines which traits are favored: in artificial selection, humans choose the traits, as when breeders select dogs for a specific look or behavior, while in natural selection, environmental pressures determine which traits improve survival and reproduction. Random mutation supplies new variation for both processes, but the selection itself is directional rather than random, so describing both as driven entirely by random mutation misses this. Artificial selection has been used for millennia to produce substantial, lasting changes in domesticated species' traits over generations, so claiming it cannot change a population over time is inaccurate. Both processes can act on physical and on behavioral traits, so restricting each process to only one trait category is inaccurate."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-evolution-054",
+      "type": "single",
+      "categoryId": "III-B",
+      "overlays": [
+        "sep",
+        "tot"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "A teacher presents data showing that a population of alpine butterflies has failed to shift its flight season despite several decades of earlier snowmelt in its mountain habitat, and the population has declined sharply as a result. A student asks why the butterflies simply did not evolve to keep pace with the changing conditions. Which response, grounded in the data, best explains why rapid environmental change can lead to population decline or extinction rather than adaptation?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "Populations can adapt to any rate of environmental change as long as enough time passes, so the butterfly decline must be caused by a factor unrelated to snowmelt timing"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "Evolution allows individual butterflies to adjust their flight season within their own lifetimes when conditions change quickly enough"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "Since the butterflies did not adapt, natural selection cannot have been acting on flight timing in this population at all"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "Adaptation depends on heritable variation in the relevant trait already being present in a population and on selection acting over multiple generations; when environmental change occurs faster than a population can generate or select for suitable variation, decline or extinction can result instead of adaptation"
+          }
+        }
+      ],
+      "correct": [
+        "d"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Adaptation to a new set of conditions depends on heritable variation relevant to that challenge already existing within a population and on selection acting on that variation over multiple generations; when environmental change, such as accelerating snowmelt timing, occurs faster than a population can generate or select for suitable variation, population decline or even extinction can occur instead of successful adaptation. Given enough time, some populations can adapt to gradual change, but this population's continued decline despite decades of change suggests the rate of change may be outpacing its capacity to adapt, so ruling out snowmelt timing entirely is not well supported. Butterflies cannot adjust their flight timing within an individual's own lifetime, since that would describe a change in individual behavior rather than a heritable evolutionary response across generations. The absence of adaptation does not mean selection was not acting on flight timing; it may instead mean suitable heritable variation was insufficient or selection did not act fast enough relative to the pace of environmental change."
       },
       "authored": "2026-08-31"
     }

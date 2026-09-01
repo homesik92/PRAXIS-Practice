@@ -1013,11 +1013,13 @@ Counts below are targets. **A leaf's box is ticked only once its questions are a
 *and* blind-verified** — authored-but-unverified is tracked in the session log, not by a
 ☑, because an unverified answer key is this project's worst failure mode.
 
-- ☐ **III Life Science** (~105): cells and organelles, cell division, respiration and
+- ◐ **III Life Science — 105 authored, NOT yet blind-verified** (III-A cells 51,
+  III-B evolution 54): cells and organelles, cell division, respiration and
   photosynthesis, biomolecules, DNA/RNA and protein synthesis, Mendelian and
   non-Mendelian inheritance; evolution and natural selection, classification and
   cladograms, plant and animal systems, ecology.
-- ☐ **IV Earth and Space Science** (~90): Sun-Earth-Moon system, solar system, stars and
+- ◐ **IV Earth and Space Science — 90 authored, NOT yet blind-verified** (IV-A
+  astronomy 36, IV-B earthsci 54): Sun-Earth-Moon system, solar system, stars and
   cosmology; plate tectonics, minerals and the rock cycle, dating methods, hydrosphere,
   atmosphere, meteorology and climate.
 - ☐ **Gap topics inside the shared half** (~30) — these are *not* covered by the derived
@@ -1028,8 +1030,17 @@ Counts below are targets. **A leaf's box is ticked only once its questions are a
 - ☐ **Category I gap topics** (~20): invasive species and biodiversity loss, ocean
   acidification and sea-level rise, resource distribution and extraction, land-surface
   use, lifecycle analysis, life-science and Earth-science technology applications.
-- ☐ Blind answer-key verification per Phase 7's established pattern, scoped to the newly
-  authored questions only (the derived ones are already verified as part of 5485).
+- ☐ **Blind answer-key verification — the gating step, not yet run.** Scoped to the 195
+  newly authored questions only (the derived 375 were verified as part of 5485). Until
+  this runs, the two boxes above stay ◐: an unverified answer key is this project's worst
+  failure mode, and the last such pass found 18 defects in just 55 questions.
+  **Carry this measurement into it** (taken at merge time, `tools/merge-authored-5436.mjs`
+  now reports it): the correct option is ≥1.6× the mean distractor length in **48 of 195
+  (25%)**, concentrated in **III-B evolution at 22/54 (41%)** — worst cases
+  `5436-earthsci-046` (2.99×), `5436-astronomy-012` (2.28×), `5436-evolution-054` (2.21×).
+  That is the length/justification tell that reached 94% in one 5101 category before it
+  was measured. Healthy by contrast: key spread is 48/50/49/48, `sep` 56% (target ≥50%),
+  `tot` 30% (target 25–33%), and zero positional option references survive.
 - ☐ Flip `enabled: true` in `data/manifest.json` once III and IV are populated, and
   confirm `assembleForm` draws a full 135 with zero shortfalls.
 - ☐ Consider whether 5436 needs its own "Study a topic" teaching chapters (Phase 6.10's
