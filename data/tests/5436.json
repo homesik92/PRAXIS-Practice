@@ -19573,6 +19573,3699 @@
         "value": "For small swings the period of a simple pendulum is two pi times the square root of the length divided by the gravitational field strength, so a longer pendulum takes longer to complete a swing. Note that the mass of the bob appears nowhere in the expression."
       },
       "authored": "2026-08-27"
+    },
+    {
+      "id": "5436-astronomy-001",
+      "type": "single",
+      "categoryId": "IV-A",
+      "overlays": [
+        "sep"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "A student times sunrise and sunset at a fixed location every day for a month and confirms that daylight alternates with darkness roughly once every 24 hours. Which motion of Earth is primarily responsible for this daily alternation between daylight and darkness at a single location?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "Earth's revolution around the Sun"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "Earth's rotation on its axis"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "Earth's axial tilt relative to its orbital plane"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "the Moon's orbit around Earth"
+          }
+        }
+      ],
+      "correct": [
+        "b"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Earth's rotation on its axis, once every 24 hours, moves each location alternately into and out of direct sunlight, producing the day-night cycle. Revolution around the Sun determines the length of a year, not the daily cycle. Axial tilt affects the angle of sunlight and the length of seasons across a year, not which side faces the Sun at a given moment. The Moon's orbit governs the monthly phase cycle and tidal timing, not Earth's day-night alternation."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-astronomy-002",
+      "type": "single",
+      "categoryId": "IV-A",
+      "overlays": [],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "Which of the following is a direct consequence of Earth's revolution around the Sun, rather than its rotation on its axis?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "the 24-hour cycle of day and night"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "the apparent rising of the Sun in the east each morning"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "the existence of different time zones across longitudes"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "the fact that a complete year is about 365.25 days long"
+          }
+        }
+      ],
+      "correct": [
+        "d"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "The length of a year is set by how long Earth takes to complete one full orbit around the Sun, making it a direct consequence of revolution. The day-night cycle and the apparent east-to-west motion of the Sun both come from Earth's rotation on its axis, not its orbit. Time zones exist because different longitudes rotate into and out of sunlight at different clock times, which is also a rotation effect."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-astronomy-003",
+      "type": "single",
+      "categoryId": "IV-A",
+      "overlays": [
+        "tot"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "A student explains that summer is warmer than winter because Earth is closer to the Sun in summer. Which instructional response most directly addresses the misconception in this explanation?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "Have the student compare the Northern and Southern Hemispheres: both are the same distance from the Sun at any given time yet have opposite seasons, which points to axial tilt rather than distance as the cause"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "Confirm the explanation is correct, since Earth's elliptical orbit brings it close enough to the Sun each summer to noticeably raise temperatures"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "Move on without addressing it, since the Northern and Southern Hemispheres experience summer and winter at the same times of year anyway"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "Explain that Earth's axis points toward a different direction in space each season, which is what changes how directly sunlight strikes a hemisphere"
+          }
+        }
+      ],
+      "correct": [
+        "a"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Comparing hemispheres exposes the flaw directly: both are equally far from the Sun at any moment yet experience opposite seasons, so distance cannot be the cause; the real cause is axial tilt changing the angle and duration of sunlight a hemisphere receives. Confirming the distance explanation reinforces the very misconception being addressed. Claiming the hemispheres share the same season at the same time introduces a second, unrelated misconception. Claiming the axis points in a different direction each season misdescribes the mechanism: Earth's axis keeps a nearly fixed orientation in space through the year, and it is Earth's changing position in orbit relative to that fixed tilt that varies the sunlight angle."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-astronomy-004",
+      "type": "single",
+      "categoryId": "IV-A",
+      "overlays": [
+        "sep"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "A student graphs daylight hours across a year for a Northern Hemisphere city. The graph crosses the 12-hour mark while still rising, several weeks after the year's shortest-daylight date. What event does this crossing point represent?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "the summer solstice"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "the winter solstice"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "the spring (vernal) equinox"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "the autumnal equinox"
+          }
+        }
+      ],
+      "correct": [
+        "c"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "An equinox is when day and night are nearly equal in length; since this crossing happens while daylight is still increasing, after the shortest-daylight date, it must be the spring equinox rather than the autumnal equinox, which occurs while daylight is decreasing after the longest-daylight date. Solstices are the dates of maximum or minimum daylight, not the dates when day and night are equal, so neither solstice fits a 12-hour crossing point."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-astronomy-005",
+      "type": "single",
+      "categoryId": "IV-A",
+      "overlays": [
+        "sep"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "The tidal range at a coastal station becomes unusually large for a few days, returns to typical levels, and then becomes unusually large again about two weeks later. What lunar configuration produces each of these unusually large tidal ranges?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "the Moon at perigee, its closest approach to Earth in its elliptical orbit"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "the Sun and Moon aligned with Earth at new moon and full moon, reinforcing each other's gravitational pull"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "the Moon at first and third quarter, when it is farthest from its perigee point"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "a lunar eclipse, when Earth passes directly between the Sun and Moon"
+          }
+        }
+      ],
+      "correct": [
+        "b"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Spring tides occur at new and full moon, when the Sun, Earth, and Moon are roughly aligned, so their gravitational pulls combine, and this alignment recurs about every two weeks in step with the lunar phase cycle, matching the pattern described. Perigee affects tidal strength but follows a different orbital cycle not tied to this two-week rhythm. The quarter moons actually produce weaker neap tides, the opposite of what is described. Lunar eclipses require a much more exact alignment and are far too infrequent to explain a regular biweekly pattern."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-astronomy-006",
+      "type": "single",
+      "categoryId": "IV-A",
+      "overlays": [],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "During which lunar phase can a solar eclipse occur, and why?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "new moon, because the Moon must pass directly between Earth and the Sun for its shadow to fall on Earth"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "full moon, because the Moon must be on the opposite side of Earth from the Sun to cast a shadow"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "first quarter, because half the Moon's surface must be illuminated for the shadow to reach Earth"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "third quarter, because the Moon's shadow is only long enough to reach Earth during this phase"
+          }
+        }
+      ],
+      "correct": [
+        "a"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "A solar eclipse requires the Moon to sit between the Sun and Earth, which only happens at new moon. Full moon places the Moon on the opposite side of Earth from the Sun, the alignment needed for a lunar eclipse, not a solar one. The quarter phases put the Moon at a right angle to the Sun-Earth line, so its shadow cannot reach Earth in either of those configurations regardless of how much of its surface is lit."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-astronomy-007",
+      "type": "single",
+      "categoryId": "IV-A",
+      "overlays": [
+        "sep"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "For Earth's shadow to fall on the Moon, Earth must lie on a line directly between the Sun and the Moon. Based on this geometric requirement, during which lunar phase must a lunar eclipse occur?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "new moon, when the Moon is between the Sun and Earth"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "first quarter, when half of the Moon's near side is lit"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "third quarter, when the opposite half of the Moon's near side is lit"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "full moon, when the Moon is on the opposite side of Earth from the Sun"
+          }
+        }
+      ],
+      "correct": [
+        "d"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Full moon places Earth between the Sun and Moon, satisfying the alignment needed for Earth's shadow to reach the Moon. New moon is instead the alignment for solar eclipses, with the Moon between the Sun and Earth. The quarter phases put the Moon at a right angle to the Sun-Earth line rather than directly opposite the Sun, so Earth's shadow cannot reach the Moon during either of those phases."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-astronomy-008",
+      "type": "single",
+      "categoryId": "IV-A",
+      "overlays": [
+        "sep",
+        "tot"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "Several students believe that the Moon's phases are caused by Earth's shadow falling on the Moon, as in an eclipse. Which classroom demonstration would most directly correct this misconception?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "turning off the classroom lights and shining a single flashlight on a globe to show how Earth's own shadow moves across its surface during the day"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "showing a video of a real lunar eclipse and pausing it at each stage to compare the shadow shapes to photographs of the crescent and gibbous Moon"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "having a student hold a small ball at arm's length under a single distant light source and slowly turn in a circle, observing how the sunlit portion of the ball visible to the student changes shape without any shadow of the student ever reaching the ball"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "displaying a diagram of Earth's orbit and having students calculate the changing Earth-Moon distance at each phase to explain the changing shape"
+          }
+        }
+      ],
+      "correct": [
+        "c"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "The ball-and-light demonstration lets students directly observe that a phase-like changing shape can arise purely from viewing angle relative to a constantly half-lit object, with no shadow involved at all, which cuts against the shadow misconception at its root. Demonstrating Earth's own day-night shadow does not involve the Moon and can reinforce the idea that shadows are the relevant mechanism. Comparing real eclipse footage to ordinary phase photographs risks reinforcing the misconception by visually associating phases with eclipse shadows. Focusing on changing Earth-Moon distance introduces a different, unrelated misconception instead of addressing the shadow idea."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-astronomy-009",
+      "type": "single",
+      "categoryId": "IV-A",
+      "overlays": [
+        "tot"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "A student claims that the far side of the Moon, the side never visible from Earth, is permanently dark and that this has nothing to do with the changing phases seen from Earth. What is the most accurate correction to offer?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "agree that the far side is called the dark side because it stays farther from the Sun throughout the Moon's orbit, so sunlight does not reach it"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "explain that the far side receives sunlight during the same monthly cycle as the near side, since the Moon rotates on its own axis at the same rate it orbits Earth, keeping one hemisphere turned toward Earth while every part of the Moon is alternately lit and dark as it orbits"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "explain that the far side stays permanently lit rather than dark, since it always faces the direction the Moon is traveling in its orbit"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "explain that the term refers to how the far side absorbs more sunlight than it reflects, making it appear darker in photographs"
+          }
+        }
+      ],
+      "correct": [
+        "b"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "The Moon is tidally locked, rotating once per orbit, so the same hemisphere always faces Earth; this is unrelated to lighting, and every part of the Moon's surface is sunlit for roughly half of each roughly 29.5-day lunar day. Claiming the far side is farther from the Sun is incorrect: the difference in Sun distance between the near and far side is negligible compared to the Earth-Sun distance, and sun-facing distance is not what determines this anyway. Claiming the far side stays permanently lit invents a facing-direction lighting rule that does not match how orbital motion and illumination actually work. Attributing the darkness to low reflectivity confuses surface albedo with actual illumination, which are different properties."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-astronomy-010",
+      "type": "single",
+      "categoryId": "IV-A",
+      "overlays": [
+        "sep"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "Charged particles from the Sun travel outward as the solar wind and are channeled by Earth's magnetic field toward the polar regions, where they collide with gases in the upper atmosphere. What visible phenomenon results from these collisions?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "auroras, such as the northern and southern lights"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "a total solar eclipse"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "a meteor shower"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "a lunar halo"
+          }
+        }
+      ],
+      "correct": [
+        "a"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "When solar wind particles collide with atmospheric gases near the poles, the energized atoms and molecules emit light, producing the aurora. A solar eclipse results from the Sun, Moon, and Earth aligning geometrically, not from charged particles. A meteor shower results from debris, often left by a comet, burning up in the atmosphere, which is unrelated to the solar wind. A lunar halo is an optical effect from moonlight refracting through ice crystals, also unrelated to charged particles."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-astronomy-011",
+      "type": "single",
+      "categoryId": "IV-A",
+      "overlays": [],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "A strong burst of solar wind and charged particles reaches Earth and disturbs its magnetic field. Which of the following is a realistic consequence of such a geomagnetic disturbance?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "a measurable shortening of the calendar year"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "a temporary reversal of Earth's rotation direction"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "disruption of satellite electronics and radio communication signals"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "a permanent increase in the Moon's orbital distance from Earth"
+          }
+        }
+      ],
+      "correct": [
+        "c"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Geomagnetic storms driven by solar wind can induce electrical currents that damage or disrupt satellite electronics, GPS accuracy, and radio communication, and can even affect power grids. Shortening the calendar year or reversing Earth's rotation are not physically plausible outcomes of a brief magnetic disturbance. The Moon's gradual recession from Earth is a real, but extremely slow, tidal-friction effect operating on a completely different timescale than a solar wind event, so it is not a realistic short-term consequence of one."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-astronomy-012",
+      "type": "single",
+      "categoryId": "IV-A",
+      "overlays": [
+        "sep"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "A coastal town experiences two high tides and two low tides in about 24 hours and 50 minutes rather than exactly 24 hours. What best accounts for the extra 50 minutes in this cycle?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "Earth's rotation is gradually slowing down due to friction with the atmosphere"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "the Sun's gravitational pull on the oceans varies slightly with the seasons"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "Earth wobbles slightly on its axis over the course of a day"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "the Moon itself moves forward in its orbit each day, so Earth must rotate slightly farther than 360 degrees for a location to catch up to the Moon's new position"
+          }
+        }
+      ],
+      "correct": [
+        "d"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Because the Moon moves eastward in its orbit by roughly 13 degrees each day, a given point on Earth must rotate a bit more than one full turn to realign under the Moon, adding about 50 minutes to the tidal day and shifting the tide schedule later each day. Earth's rotation is indeed slowing over long timescales, but by only milliseconds per century, far too little to explain a 50-minute shift. Seasonal variation in the Sun's pull is a real but much smaller effect and does not produce this daily timing shift. A daily axial wobble large enough to shift tides by 50 minutes does not occur."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-astronomy-013",
+      "type": "single",
+      "categoryId": "IV-A",
+      "overlays": [],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "According to the widely accepted model for how the solar system formed, planets and the Sun originated from what starting material?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "a collision between two fully formed stars that scattered planetary debris outward"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "a rotating cloud of gas and dust that collapsed under its own gravity and flattened into a disk"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "material ejected from the Sun after it had already formed and stabilized"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "rocky fragments captured one at a time from interstellar space over billions of years"
+          }
+        }
+      ],
+      "correct": [
+        "b"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "The nebular model holds that a rotating cloud of gas and dust collapsed under gravity and flattened into a disk, with the Sun forming at the center and the planets forming from the surrounding material. A star-collision origin is not supported for our solar system's formation. Ejection from an already-formed Sun reverses the actual sequence, in which the Sun and planets condensed together from the same disk. A one-at-a-time capture model does not match the evidence that the planets share a common orbital plane and rotation direction, which instead points to a shared origin from a single disk."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-astronomy-014",
+      "type": "single",
+      "categoryId": "IV-A",
+      "overlays": [
+        "sep"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "During a total solar eclipse, observers on Earth can briefly see a faint, pearly-white glow extending outward around the darkened disk of the Sun. Which layer of the Sun's atmosphere is being observed?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "the corona, the outermost, extremely hot but low-density layer of the Sun's atmosphere"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "the photosphere, the visible surface layer normally seen as the bright disk of the Sun"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "the core, where nuclear fusion reactions generate the Sun's energy"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "the radiative zone, where energy slowly works its way outward from the core"
+          }
+        }
+      ],
+      "correct": [
+        "a"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "The corona is normally outshone by the much brighter photosphere and only becomes visible to the naked eye during totality, matching the faint, pearly glow described. The photosphere is the everyday bright disk that gets blocked during totality, so it is not the newly visible glow. The core and radiative zone are interior layers that are never directly visible, even during a total eclipse."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-astronomy-015",
+      "type": "single",
+      "categoryId": "IV-A",
+      "overlays": [
+        "tot"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "A student looking at a photograph of the Sun asks why there are dark spots on its surface, guessing that they must be holes where the Sun's fire has burned out. What is the scientifically accurate explanation to offer?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "the spots are shadows cast onto the Sun's surface by nearby planets passing between the Sun and Earth"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "the spots are regions where nuclear fusion has permanently stopped, leaving cold, burned-out patches"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "the spots are patches of the Sun's surface that have cooled completely and solidified into a solid crust"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "the spots are cooler regions caused by intense magnetic activity that suppresses the flow of hot plasma from below, appearing dark only by contrast with the much hotter surrounding surface"
+          }
+        }
+      ],
+      "correct": [
+        "d"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Sunspots are regions where strong magnetic fields suppress convection, making them roughly a thousand degrees cooler than the surrounding photosphere; they still glow brightly and appear dark only by contrast, not because fusion has stopped or the surface has gone out. The shadow explanation invents a mechanism with no physical basis, since no planet is ever large or close enough to cast a visible shadow on the Sun. Claiming fusion has permanently stopped restates the burned-out misconception in different words. Claiming the surface has solidified is inconsistent with the Sun being composed entirely of plasma and gas, which cannot form a solid crust."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-astronomy-016",
+      "type": "single",
+      "categoryId": "IV-A",
+      "overlays": [
+        "sep"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "In the core of the Sun, hydrogen nuclei fuse together through a series of steps to ultimately form a heavier nucleus, releasing energy in the process. Which element is the primary end product of this fusion process during the Sun's current, main-sequence stage?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "carbon"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "iron"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "helium"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "oxygen"
+          }
+        }
+      ],
+      "correct": [
+        "c"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Main-sequence stars like the present-day Sun fuse hydrogen into helium, which is the dominant process powering the Sun right now. Carbon and oxygen require fusing helium nuclei together, a process that only occurs later, in more evolved stars, not during ordinary hydrogen-burning. Iron forms only in the cores of much more massive stars near the end of their lives, far beyond anything happening in the Sun today."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-astronomy-017",
+      "type": "single",
+      "categoryId": "IV-A",
+      "overlays": [
+        "sep"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "A student plots the distance from a planet to the Sun at many points around one full orbit and finds that this distance is not constant: it is smallest at one point and largest at the opposite point in the orbit. Which of Kepler's laws does this pattern illustrate?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "Kepler's first law: planetary orbits are ellipses with the Sun at one focus"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "Kepler's second law: a line from the Sun to a planet sweeps out equal areas in equal times"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "Kepler's third law: the square of a planet's orbital period is proportional to the cube of its average distance from the Sun"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "Newton's law of universal gravitation: gravitational force decreases with the square of the distance"
+          }
+        }
+      ],
+      "correct": [
+        "a"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "A varying Sun-to-planet distance around a single orbit is the direct signature of an elliptical, non-circular path with the Sun offset toward one focus, which is exactly what Kepler's first law describes. The second law concerns how quickly area is swept out, not the distance variation itself. The third law relates orbital period to average distance across different planets, not the distance variation within one planet's orbit. Newton's law describes how gravitational force falls off with distance, a related but separate idea from the shape of the orbit."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-astronomy-018",
+      "type": "single",
+      "categoryId": "IV-A",
+      "overlays": [
+        "sep"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "According to Kepler's second law, a line from the Sun to a planet sweeps out equal areas in equal time intervals. At which point in a planet's elliptical orbit is its orbital speed greatest?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "at aphelion, the point farthest from the Sun"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "at perihelion, the point closest to the Sun"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "the speed is the same at every point in the orbit"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "at the two points where the planet crosses its orbit's minor axis"
+          }
+        }
+      ],
+      "correct": [
+        "b"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "To sweep out equal areas in equal time, a planet must move fastest when it is closest to the Sun, at perihelion, where the line connecting it to the Sun is shortest, and slowest at aphelion, where that line is longest. Placing the greatest speed at aphelion reverses this relationship. Claiming constant speed throughout contradicts the elliptical, non-uniform motion the second law describes. The minor-axis crossing points are intermediate positions that correspond to neither speed extreme."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-cells-001",
+      "type": "single",
+      "categoryId": "III-A",
+      "overlays": [
+        "sep"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "A student places a plant cell in a solution and observes that small nonpolar molecules move across the cell membrane without any expenditure of cellular energy, moving from a region of higher concentration to a region of lower concentration. Which transport process does this describe?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "Active transport, which uses ATP to move substances against a concentration gradient"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "Simple diffusion, in which molecules move down their concentration gradient"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "Endocytosis, in which the membrane folds inward to engulf external material"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "The sodium-potassium pump, which exchanges ions across the membrane"
+          }
+        }
+      ],
+      "correct": [
+        "b"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "The movement described is passive, requires no ATP, and follows the concentration gradient, which defines simple diffusion. Active transport moves substances against a gradient and requires energy, reflecting the misconception that all membrane crossings need ATP. Engulfment of material by membrane folding describes bulk transport of large particles, not small nonpolar molecules. The sodium-potassium pump is a specific active-transport protein that also requires ATP, so it does not fit a passive, energy-free description."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-cells-002",
+      "type": "single",
+      "categoryId": "III-A",
+      "overlays": [],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "Which of the following best describes active transport across a cell membrane?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "Movement of water through aquaporins toward a region of lower solute concentration"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "Movement of dissolved gases directly through the phospholipid bilayer"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "Movement of large particles into the cell through membrane engulfment"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "Movement of ions against their concentration gradient using energy from ATP"
+          }
+        }
+      ],
+      "correct": [
+        "d"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Active transport is defined by movement against a concentration gradient powered by ATP. Water movement toward lower solute concentration through aquaporins is osmosis, a passive process, reflecting the misconception that any channel-mediated movement must be active. Gas diffusion through the bilayer is passive and needs no channel or energy input. Engulfment of large particles describes endocytosis, a distinct bulk-transport mechanism rather than pump-mediated active transport."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-cells-003",
+      "type": "single",
+      "categoryId": "III-A",
+      "overlays": [
+        "sep"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "A biology class places red blood cells into a hypertonic salt solution and observes the cells shrink and develop a wrinkled surface. Which statement explains this result in terms of water movement?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "Water moved out of the cells because the surrounding solution had a higher solute concentration than the cytoplasm"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "Water moved into the cells because the surrounding solution had a lower solute concentration than the cytoplasm"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "Salt ions moved out of the cells by active transport, causing the cells to lose volume"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "The cell membranes became impermeable to water, trapping solutes inside the cells"
+          }
+        }
+      ],
+      "correct": [
+        "a"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "A hypertonic external solution has a higher solute concentration than the cytoplasm, so water leaves the cell by osmosis, causing shrinkage and a wrinkled surface. Describing water moving in due to a lower external concentration matches a hypotonic solution, the opposite of what is described. Invoking active transport of salt ions misapplies an energy-requiring pump to what is actually a passive water-movement phenomenon. Claiming the membrane became impermeable contradicts the premise that osmosis is occurring at all."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-cells-004",
+      "type": "single",
+      "categoryId": "III-A",
+      "overlays": [
+        "tot"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "A teacher shows students a diagram of a cell organelle with a smooth outer membrane and a highly folded inner membrane, and several students label it as the site of photosynthesis. Which correction should the teacher make, and why?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "The diagram shows a chloroplast, and the inner folds are correctly called grana"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "The diagram shows the endoplasmic reticulum, which folds to increase surface area for protein folding"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "The diagram shows a mitochondrion, and the folded inner membrane, called cristae, increases surface area for aerobic respiration rather than photosynthesis"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "The diagram shows a nucleus, and the folds are actually pores that regulate material movement"
+          }
+        }
+      ],
+      "correct": [
+        "c"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "A smooth outer membrane paired with a folded inner membrane matches the structure of a mitochondrion, whose cristae increase surface area for aerobic respiration; the students' error reflects a common misconception that any folded-membrane organelle must be doing photosynthesis. Chloroplasts do have internal membrane stacks, but these are called grana and arranged differently, so this diagram does not match that structure. The endoplasmic reticulum does not have a smooth outer membrane enclosing a separately folded inner membrane in this way. A nucleus has pores rather than folded internal membranes, so this label does not match the description either."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-cells-005",
+      "type": "single",
+      "categoryId": "III-A",
+      "overlays": [
+        "sep"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "A researcher compares two cell types and finds that one has many ribosomes attached to its endoplasmic reticulum while the other has mostly free ribosomes floating in the cytoplasm. Based on this data, which conclusion is best supported?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "The cell with attached ribosomes mainly produces proteins that stay in its own cytoplasm"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "The cell with attached ribosomes likely produces proteins that will be secreted or inserted into membranes"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "The cell with free ribosomes cannot synthesize any proteins at all"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "The cell with free ribosomes performs more transcription than the other cell type"
+          }
+        }
+      ],
+      "correct": [
+        "b"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Ribosomes bound to rough endoplasmic reticulum typically synthesize proteins destined for secretion, membrane insertion, or packaging within the endomembrane system, so a cell rich in bound ribosomes fits that role. Free ribosomes typically produce proteins used within the cytoplasm, the reverse of what is claimed for attached ribosomes. Free ribosomes still actively synthesize protein, just for different destinations, so claiming no synthesis occurs is incorrect. Ribosome location relates to translation, not transcription, so comparing transcription rates conflates these two separate processes."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-cells-006",
+      "type": "single",
+      "categoryId": "III-A",
+      "overlays": [],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "Which structure within the eukaryotic nucleus is primarily responsible for assembling ribosomal subunits?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "The nucleolus"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "The nuclear envelope"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "The chromatin"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "The nuclear pore complex"
+          }
+        }
+      ],
+      "correct": [
+        "a"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "The nucleolus produces ribosomal RNA and assembles it with proteins into ribosomal subunits. The nuclear envelope is the double membrane boundary of the nucleus and plays no role in ribosome assembly. Chromatin is DNA combined with packaging proteins, storing genetic information rather than building ribosomes. The nuclear pore complex regulates the passage of molecules into and out of the nucleus but does not assemble ribosomal subunits itself."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-cells-007",
+      "type": "single",
+      "categoryId": "III-A",
+      "overlays": [],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "Which sequence correctly orders these levels of biological organization from simplest to most complex: organ, cell, tissue, organ system?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "organ, tissue, cell, organ system"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "organ system, tissue, cell, organ"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "tissue, cell, organ, organ system"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "cell, tissue, organ, organ system"
+          }
+        }
+      ],
+      "correct": [
+        "d"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Cells are the basic unit of life; groups of similar cells form tissues, groups of different tissues form organs, and groups of organs working together form organ systems, giving the correct order. Placing the organ or organ system before the cell or tissue level reverses the hierarchy in each of the other listed sequences. Starting with tissue before cell skips the more fundamental unit that tissues are built from."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-cells-008",
+      "type": "single",
+      "categoryId": "III-A",
+      "overlays": [
+        "tot"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "A student says, \"Muscle is an organ because it's found in many places in the body and does an important job.\" Which response best identifies the flaw in the student's reasoning and gives the correct classification?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "The student is correct, since any structure with an important function in the body qualifies as an organ"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "Muscle should be classified as an organ system, because it includes cardiac, smooth, and skeletal types working together"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "The student is confusing tissue and organ; muscle is a tissue type that combines with other tissue types to form organs such as the heart"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "The student is correct only for skeletal muscle, since it moves the skeleton, but not for smooth or cardiac muscle"
+          }
+        }
+      ],
+      "correct": [
+        "c"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Muscle is one of the four basic tissue types, made of similar cells performing a shared function, while an organ such as the heart combines multiple tissue types working together, so naming the tissue/organ confusion directly addresses the student's error. Agreeing with the student's reasoning affirms the misconception rather than correcting it. Elevating muscle to the organ system level misclassifies it a level too high, since an organ system is a group of organs, not a tissue type. Agreeing for skeletal muscle alone still misses that all muscle types are tissues, not organs, so this only partially addresses the underlying confusion."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-cells-009",
+      "type": "single",
+      "categoryId": "III-A",
+      "overlays": [
+        "sep"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "A neuron has a long, thin axon that can extend more than a meter in some organisms, along with many branched dendrites. Which statement best explains how this structure relates to the neuron's function?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "The long axon increases the surface area available for gas exchange with nearby capillaries"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "The long axon allows electrical impulses to travel efficiently over long distances to distant target cells"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "The branched dendrites allow the neuron to divide and produce new daughter neurons rapidly"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "The long axon stores glycogen reserves for use during periods of high energy demand"
+          }
+        }
+      ],
+      "correct": [
+        "b"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "The axon's length is suited to carrying electrical impulses efficiently over long distances to reach distant target cells, directly connecting structure to function. Gas exchange with capillaries is a function associated with thin-walled vessels and red blood cells, not axon length. Mature neurons generally do not divide to produce new neurons, so this option misapplies a cell-division role to a structure built for signal transmission. Glycogen storage is primarily associated with liver and muscle cells, not axons, so this option misattributes an unrelated storage function."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-cells-010",
+      "type": "single",
+      "categoryId": "III-A",
+      "overlays": [
+        "tot"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "A teacher wants students to understand why epithelial cells lining the small intestine are tightly packed together with microvilli on one surface. A student suggests comparing intestinal epithelium to loosely packed connective tissue cells. Is this comparison pedagogically useful, and why?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "No, because epithelial and connective tissue cells have identical shapes, so the comparison would confuse students"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "No, because microvilli occur only on muscle tissue, not on epithelial tissue"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "Yes, because it shows students that epithelial tissue is defined by tight cell packing that forms a barrier, unlike the more loosely arranged connective tissue built for support"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "Yes, because it proves epithelial cells and connective tissue cells perform the identical absorptive function"
+          }
+        }
+      ],
+      "correct": [
+        "c"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Contrasting tight epithelial packing with looser connective tissue arrangement helps students connect structural packing patterns to functional roles, barrier and absorption versus structural support, making the comparison pedagogically sound. Denying any usefulness on the grounds that the shapes are identical is factually wrong, since epithelial and connective tissues differ in cell density and arrangement. Microvilli are a feature of epithelial cells, not muscle tissue, so that claim is factually incorrect. Claiming the comparison proves identical function overstates the point, since connective tissue is built for support rather than absorption."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-cells-011",
+      "type": "single",
+      "categoryId": "III-A",
+      "overlays": [
+        "sep",
+        "tot"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "A teacher shows the class a microscope image of a single-celled organism that has no visible membrane-bound nucleus, no membrane-bound organelles, and a single circular strand of DNA located in an unbound region of the cytoplasm. One student insists it must be an animal cell because \"it's alive and it's moving around.\" How should the teacher respond?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "Correct the student: the organism is a prokaryote, such as a bacterium, since it lacks a nucleus and membrane-bound organelles found in any eukaryotic cell, including animal cells"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "Agree with the student, since visible movement under the microscope is sufficient evidence to classify a single-celled organism as an animal cell"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "Correct the student: the organism is a eukaryotic protist, since protists are defined by the presence of a visible nucleus in this image"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "Correct the student: the organism is a fungal cell, since fungal cells are also described as lacking any visible internal organelles"
+          }
+        }
+      ],
+      "correct": [
+        "a"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "The absence of a membrane-bound nucleus and organelles, combined with a single circular DNA strand in an unbound region, are the defining features of a prokaryote, so correcting the student toward that classification addresses the misconception that motion alone signals an animal cell. Agreeing with the student based on movement affirms the flawed reasoning and ignores the described cell structure entirely. Labeling the organism a eukaryotic protist contradicts the image, which explicitly shows no visible nucleus. Labeling it a fungal cell is incorrect because fungi are eukaryotes and would show a nucleus and membrane-bound organelles, unlike what is described."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-cells-012",
+      "type": "single",
+      "categoryId": "III-A",
+      "overlays": [],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "Which pair of domains consists exclusively of prokaryotic organisms?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "Eukarya and Bacteria"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "Eukarya and Archaea"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "Bacteria and Archaea"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "Protista and Bacteria"
+          }
+        }
+      ],
+      "correct": [
+        "c"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Bacteria and Archaea are the two domains made up entirely of prokaryotic organisms. Pairing Eukarya with Bacteria incorrectly includes a domain of eukaryotic organisms. Pairing Eukarya with Archaea likewise incorrectly includes the eukaryotic domain. Protista is a kingdom within the domain Eukarya, not a domain itself, so pairing it with Bacteria mixes classification levels as well as including a eukaryotic group."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-cells-013",
+      "type": "single",
+      "categoryId": "III-A",
+      "overlays": [
+        "sep"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "A researcher measures the DNA content of cells in a growing tissue sample and finds that some cells contain twice the normal diploid amount of DNA, while most others contain the normal diploid amount. In which part of the cell cycle are the cells with doubled DNA content most likely located?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "G1 phase, before DNA synthesis begins"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "Prophase of meiosis I, before homologous chromosomes separate"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "G0 phase, in a non-dividing resting state"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "G2 phase or mitosis, after DNA replication but before the cell has divided"
+          }
+        }
+      ],
+      "correct": [
+        "d"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "After S phase, DNA content doubles and stays doubled through G2 and mitosis until cytokinesis restores the normal amount, matching the cells described. G1 phase occurs before replication, when DNA content is still at the normal diploid amount. Meiosis is not the relevant division in an ordinary growing tissue sample, which divides by mitosis, and homolog separation does not by itself explain a doubled DNA measurement. G0 is a non-dividing resting state in which DNA content remains at the normal diploid amount."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-cells-014",
+      "type": "single",
+      "categoryId": "III-A",
+      "overlays": [
+        "tot"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "While grading a lab drawing, a teacher notices a student has drawn a cell in mitotic anaphase with sister chromatids still joined at the centromere, moving together toward one pole as a single unit. What misconception does this drawing reveal, and what correction is needed?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "The drawing correctly shows anaphase, since sister chromatids do move together as a joined unit toward one pole"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "The student misunderstands that anaphase begins only after the centromere splits, allowing sister chromatids to separate and move toward opposite poles independently"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "The student has confused anaphase with telophase, when the nuclear envelope re-forms around each set of chromosomes"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "The student has confused anaphase with metaphase, when chromosomes align along the cell's equator"
+          }
+        }
+      ],
+      "correct": [
+        "b"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "The drawing's core error is showing joined chromatids moving together, when in fact the centromere splits at the start of anaphase and each chromatid, now its own chromosome, moves independently toward opposite poles, so naming that mechanism is the needed correction. Calling the drawing correct affirms the same error rather than fixing it. Renaming the confusion as telophase does not address what the drawing actually shows, since telophase involves nuclear envelope reformation, not joined chromatids moving as a unit. Renaming it as metaphase confusion also misses the point, since metaphase involves alignment at the equator, not movement of joined chromatids toward a pole."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-cells-015",
+      "type": "single",
+      "categoryId": "III-A",
+      "overlays": [
+        "sep"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "A cell biologist tracks chromosome number through a series of divisions and observes that after the first division, each resulting cell contains half the original number of chromosomes, but each chromosome still consists of two sister chromatids. Which division does this describe?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "Meiosis I, which separates homologous chromosome pairs"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "Meiosis II, which separates sister chromatids"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "Mitosis, which produces genetically identical daughter cells"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "Binary fission, which occurs in prokaryotic cells"
+          }
+        }
+      ],
+      "correct": [
+        "a"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Meiosis I reduces the chromosome number by separating homologous pairs, while sister chromatids remain attached until the second division, matching the pattern described. Meiosis II separates sister chromatids rather than reducing chromosome number a second time, so it does not match a first division that halves the number. Mitosis keeps chromosome number constant across the division rather than halving it. Binary fission is a prokaryotic process and does not involve chromatids or homologous pairs in this sense."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-cells-016",
+      "type": "single",
+      "categoryId": "III-A",
+      "overlays": [],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "Which statement correctly distinguishes cytokinesis in animal cells from cytokinesis in plant cells?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "Animal cells form a cell plate that develops into a new cell wall, while plant cells pinch inward at a cleavage furrow"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "Both animal and plant cells divide the cytoplasm using an identical cleavage furrow mechanism"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "Animal cells divide using a cleavage furrow that pinches the membrane inward, while plant cells form a cell plate that develops into a new cell wall"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "Plant cells lack cytokinesis entirely because their rigid cell wall prevents the cytoplasm from dividing"
+          }
+        }
+      ],
+      "correct": [
+        "c"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Animal cells lack a rigid wall and divide by pinching inward at a cleavage furrow, while plant cells build a new cell plate that matures into a dividing cell wall, matching the correct pairing of mechanisms. Reversing the two mechanisms mismatches which cell type uses which strategy. Claiming both cell types use an identical cleavage furrow ignores the plant cell wall, which prevents simple pinching and requires a different mechanism. Claiming plant cells lack cytokinesis entirely is false, since they do divide the cytoplasm, just through cell plate formation rather than pinching."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-cells-017",
+      "type": "single",
+      "categoryId": "III-A",
+      "overlays": [
+        "sep"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "A microbiologist grows a bacterial culture and counts the population every 20 minutes, observing that the number of cells roughly doubles at each interval. Which process best accounts for this pattern of population growth?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "Mitosis followed by cytokinesis, producing two genetically distinct daughter cells"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "Meiosis, producing four haploid cells from one diploid parent cell"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "Fragmentation of the bacterial cell wall into several smaller cells"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "Binary fission, in which a bacterial cell copies its DNA and divides into two genetically identical cells"
+          }
+        }
+      ],
+      "correct": [
+        "d"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Doubling at a fixed time interval matches binary fission, the asexual reproductive process bacteria use to copy their DNA and split into two identical cells. Mitosis is a eukaryotic process, and describing its daughter cells as genetically distinct is also incorrect, since mitosis produces genetically identical cells. Meiosis produces four haploid cells from a diploid parent rather than the simple doubling pattern of clonal bacterial growth. Fragmentation of the cell wall is not a recognized bacterial reproductive mechanism."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-cells-018",
+      "type": "single",
+      "categoryId": "III-A",
+      "overlays": [
+        "tot"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "A student argues that mitosis and meiosis both increase genetic diversity in a population because both processes \"make new cells.\" How should a teacher best respond to this claim?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "Agree with the student, since both processes involve cell division and DNA copying"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "Explain that mitosis produces genetically identical cells, while only meiosis introduces genetic variation through crossing over and independent assortment"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "Agree, but clarify that mitosis increases diversity more than meiosis because it happens more frequently in the body"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "Disagree, and explain that neither mitosis nor meiosis contributes to genetic diversity in any way"
+          }
+        }
+      ],
+      "correct": [
+        "b"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Mitosis produces genetically identical daughter cells, while meiosis introduces variation through crossing over and independent assortment, so distinguishing the two processes directly addresses the student's overgeneralization. Agreeing with the student affirms the flawed reasoning that any cell division increases diversity. Claiming mitosis increases diversity more than meiosis layers on a new error, since mitosis produces identical cells regardless of frequency. Denying that either process contributes to diversity overcorrects by ignoring meiosis's genuine role in generating variation."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-cells-019",
+      "type": "single",
+      "categoryId": "III-A",
+      "overlays": [
+        "sep"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "During meiosis I in a particular egg cell, a pair of homologous chromosomes fails to separate properly, and both chromosomes move to the same pole. Based on this event, which outcome is most likely for the resulting gametes?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "All four resulting gametes will have the normal haploid chromosome number"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "The gametes will be genetically identical to the parent's somatic cells"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "Some gametes will have one extra chromosome and others will be missing that chromosome"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "The error will be corrected automatically during meiosis II, restoring the normal chromosome number"
+          }
+        }
+      ],
+      "correct": [
+        "c"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "When a homologous pair fails to separate in meiosis I, the resulting gametes will unevenly inherit that chromosome, so some end up with an extra copy and others end up missing it entirely. Claiming all gametes retain a normal haploid number ignores that the nondisjunction event has already disrupted the count. Gametes are haploid cells, so describing them as identical to diploid somatic cells confuses two distinct cell types. Meiosis II divides the cells produced by meiosis I but does not detect or correct an already-occurred nondisjunction error from the first division."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-cells-020",
+      "type": "single",
+      "categoryId": "III-A",
+      "overlays": [
+        "sep"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "Researchers treat cells with a chemical that damages DNA and observe that most cells stop dividing at a checkpoint late in G1, before entering S phase, while cells lacking a functional checkpoint protein continue dividing despite the damage. What can be concluded from this comparison?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "The G1 checkpoint normally allows the cell to pause and assess DNA integrity before committing to DNA replication"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "The G1 checkpoint has no role in detecting DNA damage, since some cells continued dividing"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "DNA damage affects cells only during mitosis, not during G1"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "Cells lacking the checkpoint protein are unable to complete DNA replication at all"
+          }
+        }
+      ],
+      "correct": [
+        "a"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "The comparison shows that normal cells pause at the G1 checkpoint when DNA is damaged, while cells lacking the checkpoint protein do not pause, supporting the conclusion that this checkpoint normally screens for damage before allowing entry into S phase. Concluding the checkpoint has no role misreads the data, since its function is confirmed precisely by contrast with the cells lacking it. The scenario describes damage detection occurring in G1, not mitosis, so restricting the effect to mitosis contradicts the description. Cells lacking the checkpoint protein still divide despite the damage, meaning they can still complete replication, just without pausing to check for damage first."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-cells-021",
+      "type": "single",
+      "categoryId": "III-A",
+      "overlays": [],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "Which statement correctly compares the primary biological purpose of mitosis and meiosis?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "Mitosis produces gametes for sexual reproduction, while meiosis produces cells for growth and repair"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "Both mitosis and meiosis produce four daughter cells with half the original chromosome number"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "Mitosis reduces chromosome number by half, while meiosis maintains the original chromosome number"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "Mitosis produces genetically identical cells for growth and repair, while meiosis produces genetically varied haploid cells for sexual reproduction"
+          }
+        }
+      ],
+      "correct": [
+        "d"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Mitosis maintains chromosome number to generate identical cells used for growth and tissue repair, while meiosis reduces chromosome number and introduces variation to produce gametes for sexual reproduction, matching the correct pairing. Reversing which process serves reproduction and which serves growth and repair swaps the two purposes. Describing both processes as producing four daughter cells with half the chromosome number is false for mitosis, which produces two identical diploid cells, not four haploid ones. Reversing the chromosome number effects, crediting mitosis with reduction and meiosis with maintenance, also swaps the two processes' actual outcomes."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-earthsci-001",
+      "type": "single",
+      "categoryId": "IV-B",
+      "overlays": [
+        "sep"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "The fossil reptile Mesosaurus, which could not swim across open ocean, has been found in rock layers on both the eastern coast of South America and the western coast of Africa. Which explanation best accounts for this distribution according to plate tectonic theory?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "The reptile evolved independently and identically on each continent through convergent evolution."
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "Ocean currents carried the reptile's eggs across the Atlantic Ocean over many generations."
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "The two continents were joined when the reptile lived, and later separated as the seafloor between them spread apart."
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "Migrating seabirds carried the reptile's eggs between the continents during nesting season."
+          }
+        }
+      ],
+      "correct": [
+        "c"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Mesosaurus fossils on matching continents now separated by an ocean is one of Wegener's key lines of evidence for continental drift: the simplest explanation is that the landmasses were once joined and later rifted apart by seafloor spreading, carrying the fossil-bearing rock with them. Claiming the species evolved twice by convergent evolution ignores how unlikely it is for two populations to become anatomically identical rather than merely similar. The egg-dispersal explanations assume the reptile or its eggs could survive an ocean crossing despite Mesosaurus being a freshwater or coastal species with no evidence of long-distance ocean travel."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-earthsci-002",
+      "type": "single",
+      "categoryId": "IV-B",
+      "overlays": [
+        "sep"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "At an oceanic trench, the leading edge of an oceanic plate bends downward and sinks into the mantle beneath an overriding plate. Which force is most directly responsible for pulling the rest of that oceanic plate toward the trench?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "Slab pull, in which the cold, dense, descending edge of the plate drags the trailing plate along behind it."
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "Ridge push, in which magma rising at a spreading center shoves the plate away from the ridge."
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "Mantle plume lift, in which a rising column of hot rock lifts the plate from below."
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "Tidal drag, in which the Moon's gravity tugs the plate across the asthenosphere."
+          }
+        }
+      ],
+      "correct": [
+        "a"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Once a cold, dense slab of oceanic lithosphere begins sinking at a trench, its own negative buoyancy pulls the attached plate toward the trench; most models treat slab pull as the dominant driver of plate motion. Ridge push describes a real but generally weaker mechanism acting at spreading centers, not at trenches, so it does not explain motion toward a trench. A mantle plume produces localized volcanism, such as hot-spot chains, but does not pull a whole plate toward a subduction zone. Tidal forces from the Moon are far too weak to move lithospheric plates and play no role in plate tectonics."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-earthsci-003",
+      "type": "single",
+      "categoryId": "IV-B",
+      "overlays": [
+        "tot"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "A student states that earthquakes only occur right at plate boundaries, so any location far from a boundary must be safe from earthquakes. Which piece of evidence would best help correct this misconception?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "A diagram showing that convergent, divergent, and transform boundaries produce earthquakes at different average depths."
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "A table listing the magnitude and depth of earthquakes recorded along the Pacific Ring of Fire."
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "A cross-section showing that seismic waves travel faster through the mantle than through the crust."
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "A map showing that damaging earthquakes have struck the interior of continents, far from any plate boundary, along ancient reactivated faults."
+          }
+        }
+      ],
+      "correct": [
+        "d"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Old fault zones within continental interiors, far from any current plate boundary, can still store and release stress, producing earthquakes; showing the student real intraplate earthquake locations directly contradicts the 'boundaries only' claim with contrary evidence. Comparing depths at different boundary types, listing Ring of Fire earthquakes, or showing how wave speed changes with depth are all accurate earth science content, but none of them addresses the specific misconception that earthquakes cannot happen away from boundaries."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-earthsci-004",
+      "type": "single",
+      "categoryId": "IV-B",
+      "overlays": [
+        "sep"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "Seismographs around the world detect that S-waves from a large earthquake never arrive at stations located more than about 103 degrees of arc from the epicenter, producing a well-defined S-wave shadow zone. What does this pattern indicate about Earth's interior?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "The mantle is entirely molten, causing S-waves to slow gradually with depth."
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "The outer core is liquid, because S-waves cannot travel through a liquid."
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "The inner core is solid, because S-waves suddenly speed up at that boundary."
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "The crust is thicker beneath continents than beneath oceans."
+          }
+        }
+      ],
+      "correct": [
+        "b"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "S-waves cannot travel through a liquid, so a shadow zone starting at roughly 103 degrees from the epicenter is explained by a liquid outer core blocking S-waves from reaching stations on the far side of Earth. Describing the mantle as entirely molten is inconsistent with the fact that S-waves travel through the mantle just fine, only failing at the liquid outer core. The solid inner core is inferred from other seismic evidence, not from the S-wave shadow zone itself. Crustal thickness differences affect local wave timing but have nothing to do with a global shadow zone this large."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-earthsci-005",
+      "type": "single",
+      "categoryId": "IV-B",
+      "overlays": [
+        "sep"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "A chain of volcanic islands grows progressively older moving away from a currently active volcano at one end, even though none of the volcanoes lie along a plate boundary. Which explanation best accounts for this pattern?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "A stationary mantle plume beneath the moving plate periodically melts rock, forming a new volcano as the plate slides over it."
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "The islands all formed at the same time and have simply eroded at different rates."
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "A subducting plate beneath the chain releases magma that migrates slowly along a fault line."
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "Convergent plate motion pushed the older volcanoes away from a divergent boundary over time."
+          }
+        }
+      ],
+      "correct": [
+        "a"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "A hot spot chain like this forms because a mantle plume stays fixed while the plate above it moves, so each volcano is active only while it sits over the plume and becomes progressively older as the plate carries it away. Equal formation age with unequal erosion would not produce a smooth age progression tied to distance from the active end. There is no subduction zone in this scenario, since the chain does not lie along a plate boundary, so a subducting plate cannot be the magma source. Divergent boundaries produce new crust at the boundary itself, not a linear chain of aging volcanoes running away from it through the plate interior."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-earthsci-006",
+      "type": "single",
+      "categoryId": "IV-B",
+      "overlays": [],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "Where a dense oceanic plate converges with a continental plate and sinks beneath it, which pair of features typically results directly from that collision?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "A mid-ocean ridge and an associated rift valley."
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "A transform fault paired with a line of shallow earthquakes."
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "A deep ocean trench and a mountain range with active volcanoes."
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "An abyssal plain paired with a chain of extinct hot-spot islands."
+          }
+        }
+      ],
+      "correct": [
+        "c"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Subduction of an oceanic plate beneath a continental plate produces a deep trench where the plate bends downward and, further inland, a mountain range built up by compression and fed by volcanoes formed as the sinking plate melts. A mid-ocean ridge and rift valley are divergent boundary features, not convergent ones. A transform fault produces mostly horizontal sliding with shallow earthquakes but little volcanism, unlike a convergent margin. An abyssal plain and hot-spot chain can exist independently of any plate boundary and are not produced by this type of collision."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-earthsci-007",
+      "type": "single",
+      "categoryId": "IV-B",
+      "overlays": [
+        "tot"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "A student explains that tectonic plates move simply because they float on top of liquid rock, the way a raft drifts on a pond. Which follow-up question would best challenge this misconception and steer the student toward the actual role of mantle convection in plate motion?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "Can you name the seven largest tectonic plates on Earth?"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "What causes the mantle material beneath the plates to circulate rather than stay still?"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "How thick is oceanic crust compared to continental crust?"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "Which type of plate boundary produces the deepest earthquakes?"
+          }
+        }
+      ],
+      "correct": [
+        "b"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "The 'raft on a pond' idea treats plate motion as passive drifting, when plates are actually dragged and pushed by convection currents and slab pull originating in the mantle; asking what drives the mantle to circulate pushes the student to connect plate motion to an active process rather than passive floating. Asking the student to name plates, compare crustal thickness, or identify earthquake depths are all reasonable earth science questions, but none of them confronts the specific 'floating raft' misconception about what makes plates move."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-earthsci-008",
+      "type": "single",
+      "categoryId": "IV-B",
+      "overlays": [],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "Earth's magnetic field is generated primarily by which process?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "Convection currents within the solid, iron-rich inner core."
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "Radioactive decay of uranium concentrated in the crust."
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "Friction generated where the lithosphere slides over the asthenosphere."
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "Convection currents of molten, electrically conductive iron in the outer core."
+          }
+        }
+      ],
+      "correct": [
+        "d"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Earth's magnetic field is produced by the geodynamo: convecting, electrically conductive molten iron in the liquid outer core generates electric currents and, in turn, the magnetic field. The inner core is solid and does not convect the way a fluid does, so it cannot drive this process. Radioactive decay in the crust releases heat but does not generate an organized magnetic field. Friction between the lithosphere and asthenosphere relates to plate motion, not to the generation of Earth's magnetic field."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-earthsci-009",
+      "type": "single",
+      "categoryId": "IV-B",
+      "overlays": [
+        "sep"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "Magnetic surveys of the seafloor on either side of a mid-ocean ridge reveal symmetric, mirror-image stripes of alternating normal and reversed magnetic polarity. Which process best explains this striped pattern?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "Iron-rich lava erupting at the ridge cools in whatever polarity happens to be locally strongest, creating random, non-repeating stripes."
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "Ocean currents sort magnetic minerals of opposite polarity into parallel bands as they settle onto the seafloor."
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "New seafloor forms continuously at the ridge and records Earth's magnetic polarity at the moment it cooled, so periodic reversals of the field are preserved as symmetric stripes moving away from the ridge."
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "Subducting plates on either side of the ridge drag older magnetized crust back toward the ridge, doubling each stripe."
+          }
+        }
+      ],
+      "correct": [
+        "c"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "As new oceanic crust forms at a spreading ridge, magnetic minerals in the cooling rock align with Earth's magnetic field at that time; because the field periodically reverses, the seafloor records a symmetric pattern of stripes moving outward from the ridge on both sides, which is strong evidence for seafloor spreading. Random local variation would not produce mirror-image symmetry across the ridge. Ocean currents do not sort magnetic minerals by polarity. Mid-ocean ridges are divergent, not convergent, so there is no subducting plate nearby to drag crust back toward the ridge."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-earthsci-010",
+      "type": "single",
+      "categoryId": "IV-B",
+      "overlays": [],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "Two plates slide horizontally past one another along a boundary where little crust is created or destroyed, producing frequent shallow earthquakes but comparatively little volcanic activity. Which type of plate boundary does this describe?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "A transform boundary, where lateral sliding along a fault generates shallow earthquakes without major magma generation."
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "A convergent boundary, where one plate is forced beneath another and melts to feed volcanoes."
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "A divergent boundary, where plates separate and magma rises to form new crust."
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "A hot-spot boundary, where a stationary mantle plume melts through the overriding plate."
+          }
+        }
+      ],
+      "correct": [
+        "a"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "A transform boundary involves plates sliding horizontally past each other; friction along the fault builds and releases stress as shallow earthquakes, while little magma forms since crust is neither created nor destroyed there. A convergent boundary destroys crust through subduction and typically produces volcanoes, unlike the setting described. A divergent boundary creates new crust and is dominated by volcanic and rifting activity, not lateral sliding. Hot spots are not a boundary type at all; they are localized melting features that can occur within a plate's interior."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-earthsci-011",
+      "type": "single",
+      "categoryId": "IV-B",
+      "overlays": [
+        "sep"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "A mineral sample scratches glass, which has a hardness of about 5.5 on the Mohs scale, but the same sample is itself scratched by a steel file, which has a hardness of about 6.5. Based on this evidence, which range best represents the mineral's Mohs hardness?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "Below 3"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "Between 5.5 and 6.5"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "Between 6.5 and 7.5"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "Between 3 and 4"
+          }
+        }
+      ],
+      "correct": [
+        "b"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Because the mineral is hard enough to scratch glass but not hard enough to resist a steel file, its hardness must fall between the hardness of glass and the hardness of steel, placing it between 5.5 and 6.5 on the Mohs scale. A hardness below 3 or between 3 and 4 would be too soft to scratch glass at all. A hardness between 6.5 and 7.5 would mean the mineral was harder than the steel file, which contradicts the sample being scratched by it."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-earthsci-012",
+      "type": "single",
+      "categoryId": "IV-B",
+      "overlays": [
+        "tot"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "A student identifies an unknown mineral only by its outward color, then is surprised that two very differently colored samples both leave the same reddish-brown streak and turn out to both be hematite. Which instructional point would best correct the student's reliance on color alone?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "Explain that luster is always a more reliable identifier than hardness for any mineral sample."
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "Explain that crystal structure determines a mineral's chemical formula more than its color does."
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "Explain that cleavage planes are visible only under magnification and should be ignored by beginners."
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "Explain that surface color can vary with impurities and weathering, while streak, made from powdered mineral, reveals a more consistent property."
+          }
+        }
+      ],
+      "correct": [
+        "d"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Surface color is easily altered by trace impurities, oxidation, or weathering, so two samples of the same mineral can look very different on the outside; streak comes from a thin, consistent powder of the mineral itself and is far less affected by those surface factors, which is exactly why hematite's streak stays reddish-brown regardless of the sample's outward color. Ranking luster above hardness does not address the color-versus-streak confusion at all. Crystal structure and chemical formula are related to identification but do not explain why streak is more dependable than color. Telling students to ignore cleavage removes a useful diagnostic property instead of addressing the actual misconception about color."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-earthsci-013",
+      "type": "single",
+      "categoryId": "IV-B",
+      "overlays": [],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "When struck, one mineral sample consistently breaks along smooth, flat, parallel planes, while a second sample breaks along irregular, curved surfaces. Which pair of terms correctly describes these two breakage patterns?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "Cleavage for the sample with smooth, flat parallel planes; fracture for the sample with irregular, curved surfaces."
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "Fracture for the sample with smooth, flat parallel planes; cleavage for the sample with irregular, curved surfaces."
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "Cleavage for both samples, since all minerals break along planes of weakness in their crystal structure."
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "Fracture for both samples, since breakage patterns depend only on the force applied, not on crystal structure."
+          }
+        }
+      ],
+      "correct": [
+        "a"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Cleavage describes breakage along smooth, flat planes controlled by weaker bonds within the crystal structure, while fracture describes irregular, curved, or jagged breakage where no such planes of weakness exist. Reversing the two terms swaps the definitions incorrectly. Not every mineral shows cleavage, since some, like quartz, reliably fracture instead, so labeling both samples as cleavage is wrong. Breakage pattern is governed by internal crystal structure, not simply by how much force is applied, so attributing both patterns to fracture ignores the role of structure entirely."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-earthsci-014",
+      "type": "single",
+      "categoryId": "IV-B",
+      "overlays": [
+        "tot"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "A student insists that the rock cycle always proceeds in one fixed order: an igneous rock must become a sedimentary rock, which must become a metamorphic rock, which must then melt back into a new igneous rock. Which example would best challenge this misconception?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "Pointing out that igneous rocks form when magma or lava cools and solidifies."
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "Pointing out that sedimentary rocks form through weathering, erosion, deposition, and compaction of sediment."
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "Pointing out that a metamorphic rock can be weathered and eroded directly into sediment without ever melting into magma first."
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "Pointing out that metamorphic rocks form under high heat and pressure without fully melting."
+          }
+        }
+      ],
+      "correct": [
+        "c"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "The rock cycle has no single required path: any rock type exposed at the surface can be weathered and eroded into sediment, so a metamorphic rock going straight to sediment, skipping melting entirely, directly contradicts the idea of one fixed sequence. Simply restating how igneous rocks form, how sedimentary rocks form, or how metamorphic rocks form describes accurate content but does not by itself show the student that the cycle can skip steps or run in more than one order."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-earthsci-015",
+      "type": "single",
+      "categoryId": "IV-B",
+      "overlays": [
+        "sep"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "One igneous rock sample has large, easily visible interlocking crystals, while a second sample of the same magma composition is made almost entirely of very small crystals. Which factor most likely explains the difference in crystal size between the two samples?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "The large-crystal sample cooled quickly at Earth's surface, while the small-crystal sample cooled slowly underground."
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "The large-crystal sample formed from magma with less dissolved gas than the small-crystal sample."
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "The large-crystal sample experienced more weathering after it formed than the small-crystal sample."
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "The large-crystal sample cooled slowly underground, giving crystals more time to grow, while the small-crystal sample cooled quickly at or near the surface."
+          }
+        }
+      ],
+      "correct": [
+        "d"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Slow cooling underground, as in an intrusive igneous body, gives mineral crystals a long time to grow large and interlocking, while rapid cooling at or near the surface, as in an extrusive lava flow, leaves too little time for crystals to grow beyond a small size. Reversing which sample cooled quickly versus slowly gets the relationship backward. Dissolved gas content mainly affects vesicle formation and eruption style, not overall crystal size. Weathering breaks rock down after it forms and does not explain crystal size, which is set during cooling and solidification."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-earthsci-016",
+      "type": "single",
+      "categoryId": "IV-B",
+      "overlays": [
+        "sep"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "A sandstone layer found far inland contains well-rounded, well-sorted grains, ripple marks, and occasional shell fragments. Which depositional environment do these features most strongly suggest?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "A fast-moving mountain stream, where angular, poorly sorted boulders accumulate."
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "A shallow ancient shoreline or shallow marine setting, where wave action rounds and sorts sand grains and marine organisms are present."
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "A glacial deposit, where unsorted rock debris of many sizes is dropped directly by melting ice."
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "A desert dune field, where wind deposits well-sorted sand but marine shell fragments would not be expected."
+          }
+        }
+      ],
+      "correct": [
+        "b"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Well-rounded, well-sorted sand combined with ripple marks and shell fragments together point to a shallow marine or shoreline environment, where wave action continually rounds and sorts grains and marine organisms live and die. A mountain stream would leave angular, poorly sorted, coarse debris rather than well-sorted sand. A glacial deposit is characteristically unsorted, mixing many grain sizes rather than producing uniform sand. A desert dune could explain the rounded, sorted sand and ripple marks but would not account for marine shell fragments, since dune fields are not marine environments."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-earthsci-017",
+      "type": "single",
+      "categoryId": "IV-B",
+      "overlays": [
+        "tot"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "A student claims that metamorphic rocks form when a rock completely melts and then re-solidifies, the same way an igneous rock does. Which fact would best correct this misconception?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "Metamorphic rocks can form from either an igneous or a sedimentary parent rock."
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "Metamorphic rocks often contain minerals arranged in flat, parallel bands called foliation."
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "Metamorphic rocks form when heat and pressure alter a rock's minerals and texture while the rock remains solid throughout."
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "Metamorphic rocks are generally denser and harder than the sedimentary rocks they formed from."
+          }
+        }
+      ],
+      "correct": [
+        "c"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Metamorphism changes a rock's minerals and texture through heat and pressure without the rock ever fully melting; if it melted completely, the result would be classified as igneous, not metamorphic. Noting that the parent rock can be igneous or sedimentary, that foliation can appear, or that the rock becomes denser are all true statements about metamorphic rocks, but none of them directly addresses the student's specific claim that melting is involved."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-earthsci-018",
+      "type": "single",
+      "categoryId": "IV-B",
+      "overlays": [
+        "sep"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "In an undisturbed sequence of horizontal sedimentary rock layers exposed in a canyon wall, a geologist wants to determine which layer is oldest. Which principle should the geologist apply, and what does it predict?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "The principle of superposition, which predicts that the layer at the bottom of the undisturbed sequence is the oldest."
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "The principle of superposition, which predicts that the layer at the top of the undisturbed sequence is the oldest."
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "The principle of original horizontality, which predicts that the thickest layer must be the oldest."
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "The principle of faunal succession, which predicts that the layer containing the most fossils is the oldest."
+          }
+        }
+      ],
+      "correct": [
+        "a"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "The principle of superposition states that in an undisturbed sequence, each layer is younger than the layer beneath it, since sediment is deposited on top of existing layers, making the bottom layer the oldest. Claiming the top layer is oldest reverses the correct relationship. Original horizontality concerns the initial flatness of deposited layers, not their relative ages, and layer thickness is not a reliable age indicator. Faunal succession relates to how fossil assemblages change through time, not to the amount of fossils present in a single layer."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-earthsci-019",
+      "type": "single",
+      "categoryId": "IV-B",
+      "overlays": [
+        "sep"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "A geologist finds the same short-lived, widely distributed fossil species in rock layers on two continents separated by thousands of kilometers. Which use of this fossil is best supported by the principle of fossil succession?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "Using the fossil to determine the exact climate at both locations when the rock formed."
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "Using the fossil to identify the specific depositional environment, such as a river delta, at both locations."
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "Using the fossil to measure the total thickness of rock deposited at both locations."
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "Using the fossil to correlate the age of the two rock layers, since the same short-lived species should have existed at both locations during the same narrow time span."
+          }
+        }
+      ],
+      "correct": [
+        "d"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "A fossil species that existed only briefly but spread over a wide geographic area makes an ideal index fossil for correlating the age of rock layers in distant locations, since finding it in both places implies both layers formed during that same narrow time span. Determining exact climate or the specific depositional environment requires other evidence, such as sediment texture or associated minerals, not merely the presence of an index fossil. Fossil presence also says nothing about how thick the deposited rock is at either location."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-earthsci-020",
+      "type": "single",
+      "categoryId": "IV-B",
+      "overlays": [
+        "sep"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "A radioactive isotope used for dating has a half-life of 1.25 billion years. A rock sample contains parent isotope equal to one-quarter of the original amount, with the remainder having decayed to the stable daughter isotope. Approximately how old is the rock?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "1.25 billion years"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "2.5 billion years"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "3.75 billion years"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "5 billion years"
+          }
+        }
+      ],
+      "correct": [
+        "b"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Each half-life reduces the parent isotope by half: after one half-life, one-half remains; after two half-lives, one-quarter remains. Reaching one-quarter therefore takes two half-lives, or 2 times 1.25 billion years, which is 2.5 billion years. Answering with a single half-life ignores that one-quarter requires two reduction steps, not one. The larger totals would correspond to smaller fractions of parent isotope remaining, such as one-eighth or one-sixteenth, not one-quarter."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-earthsci-021",
+      "type": "single",
+      "categoryId": "IV-B",
+      "overlays": [
+        "tot"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "A student examines a rock cross-section where a vertical igneous dike cuts directly across several horizontal sedimentary layers, and concludes that the dike must be older than the layers because it appears to extend deeper in the diagram. Which principle should guide the student to the correct conclusion?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "The principle of original horizontality, which addresses how sediment layers are deposited."
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "The principle of faunal succession, which addresses how fossil species change over time."
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "The principle of cross-cutting relationships, which states that a feature cutting across existing rock layers must be younger than the layers it cuts through."
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "The principle of uniformitarianism, which addresses whether present-day processes explain past events."
+          }
+        }
+      ],
+      "correct": [
+        "c"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "The dike had to intrude into rock that already existed in order to cut across it, so cross-cutting relationships establish that the dike is younger than the sedimentary layers, regardless of how deep it appears to extend in the diagram. Original horizontality concerns how layers were initially deposited flat, not the relative age of a cutting feature. Faunal succession concerns fossil assemblages, which are not part of this scenario. Uniformitarianism is a general assumption about geologic processes and does not by itself resolve the relative age of the dike and the layers."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-earthsci-022",
+      "type": "single",
+      "categoryId": "IV-B",
+      "overlays": [
+        "sep"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "Radiometric dating of the oldest meteorites and Moon rocks, combined with dating of Earth's oldest surviving minerals, has led scientists to estimate Earth's age at approximately how many years?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "4.6 billion years"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "10,000 years"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "650 million years"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "13.8 billion years"
+          }
+        }
+      ],
+      "correct": [
+        "a"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Radiometric ages from meteorites, Moon rocks, and Earth's oldest minerals converge on approximately 4.6 billion years for the age of Earth and the solar system, since these bodies formed from the same original material at roughly the same time. Ten thousand years reflects a young-Earth claim that is contradicted by extensive radiometric evidence rather than supported by it. Six hundred fifty million years is far too young and understates the age by billions of years. 13.8 billion years is the estimated age of the universe itself, not of Earth, which formed long after the universe began."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-earthsci-023",
+      "type": "single",
+      "categoryId": "IV-B",
+      "overlays": [
+        "sep"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "As fresh water cools toward freezing, its density increases until about 4 degrees Celsius, after which further cooling causes the density to decrease again, so that ice forms at the surface of a lake rather than at the bottom. Which consequence follows most directly from this unusual density behavior?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "Lake water freezes from the bottom up, trapping aquatic organisms in ice near the lake floor."
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "Because ice is denser than liquid water, ice sheets sink and accumulate at the bottom of lakes over winter."
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "Deep lakes never freeze at all, because the densest water always remains at the surface."
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "Ice floats on the surface and insulates the liquid water beneath it, allowing aquatic life to survive winter in the water below the ice."
+          }
+        }
+      ],
+      "correct": [
+        "d"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Because ice is less dense than liquid water near freezing, it floats and forms a layer at the surface that insulates the liquid water below, keeping most of the lake from freezing solid and allowing fish and other organisms to survive underneath. Bottom-up freezing and sinking ice both reverse the actual density relationship, since ice is less dense, not more dense, than the cold water beneath it. Deep lakes can and do freeze at the surface; the unusual density behavior explains why they freeze from the top rather than explaining why they would never freeze."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-earthsci-024",
+      "type": "single",
+      "categoryId": "IV-B",
+      "overlays": [
+        "sep"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "Coastal cities often experience milder summers and winters than inland cities at the same latitude. Which property of water most directly explains this moderating effect on coastal climate?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "Water's high surface tension, which limits evaporation from the ocean surface."
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "Water's high specific heat capacity, which allows large bodies of water to absorb or release substantial heat with only a small temperature change."
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "Water's ability to dissolve a wide variety of ionic compounds."
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "Water's transparency, which allows sunlight to penetrate to greater depths than in air."
+          }
+        }
+      ],
+      "correct": [
+        "b"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Water can absorb or release a large amount of heat while changing temperature only slightly, so nearby oceans warm up more slowly in summer and cool down more slowly in winter than land does, moderating the temperature swings of nearby coastal areas. Surface tension affects droplet shape and capillary action, not the ocean's role in storing heat. Water's solvent properties explain seawater's salinity, not its thermal moderating effect. Transparency to sunlight influences where light energy is absorbed in the water column but is not the property responsible for coastal climate moderation."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-evolution-001",
+      "type": "single",
+      "categoryId": "III-B",
+      "overlays": [
+        "tot"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "A population of beetles varies in shell color from light tan to dark brown. Over many generations living on dark volcanic soil, the population becomes predominantly dark brown. Which statement correctly describes how this change occurred?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "Individual beetles gradually darkened their shells during their lifetimes in response to the dark soil, and passed this trait to their offspring."
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "Dark-brown beetles were on average better camouflaged from predators, survived and reproduced more often, so dark alleles became more common in the population."
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "Each beetle sensed the need to blend into the dark soil and actively adjusted its own coloration to improve its chances of survival."
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "The population evolved because every individual beetle needed to become darker in order for the species to survive on the dark soil."
+          }
+        }
+      ],
+      "correct": [
+        "b"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Natural selection acts on populations, not individuals: beetles cannot change their own coloration during their lifetime, so the Lamarckian idea of an acquired trait being passed on — the choice in which individual beetles darken their own shells during their lifetime — and the idea of a beetle sensing the need to blend in and adjusting itself both misplace the mechanism. The population's allele frequencies shift because darker individuals differentially survive and reproduce. The claim that every individual had to change is a separate misconception: population-level change does not require every member to change, only a shift in the proportions of a heritable trait."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-evolution-002",
+      "type": "single",
+      "categoryId": "III-B",
+      "overlays": [
+        "sep"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "Researchers tracked wing length in a songbird population before and after a series of unusually cold, harsh winters. Before the harsh winters, the average wing length was 8.2 cm; ten generations later it had increased to 8.9 cm, and longer-winged birds were shown to have higher winter survival rates. Which conclusion is best supported by this data?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "The harsh winters directly caused each bird's wings to grow longer, and this longer-wing trait was then passed to offspring."
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "Wing length is not a heritable trait, so the shift must be explained by changes in diet rather than survival."
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "The songbird population is now a separate species, since its average wing length has permanently changed."
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "Selection favored longer-winged individuals during harsh winters, shifting the population's average wing length over generations."
+          }
+        }
+      ],
+      "correct": [
+        "d"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "The survival-rate data link a trait, wing length, to differential survival across generations, which is the signature of natural selection acting within a population. A single shifted trait does not by itself establish a new species, since speciation requires reproductive isolation, not just a change in a trait's average value. The choice in which harsh winters directly lengthen each bird’s wings restates acquired-characteristics thinking, where the environment directly reshapes an individual's body and that change is inherited, which is not how heritable traits work. The claim that wing length is not heritable is contradicted by the data itself, since a sustained, directional, multigenerational shift linked to survival is exactly the pattern expected of selection on a heritable trait."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-evolution-003",
+      "type": "single",
+      "categoryId": "III-B",
+      "overlays": [],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "In evolutionary biology, an organism's reproductive fitness is best defined as which of the following?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "The relative number of viable, fertile offspring an individual contributes to the next generation compared with other individuals in the population."
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "The overall physical strength and speed an organism has relative to other members of its species."
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "The total number of offspring an organism produces during its lifetime, regardless of whether those offspring survive."
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "The degree to which an organism's body structure is well suited to its physical environment."
+          }
+        }
+      ],
+      "correct": [
+        "a"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Fitness in evolutionary biology measures reproductive success, specifically surviving, fertile offspring, relative to other individuals in the population. It is not a measure of raw physical prowess, which confuses the everyday sense of 'fit' with the technical one. It is also not simply a raw offspring count, since offspring that fail to survive or reproduce do not contribute to the next generation's gene pool. Structural suitability to the environment describes adaptation, which can contribute to fitness but is not itself the definition of fitness."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-evolution-004",
+      "type": "single",
+      "categoryId": "III-B",
+      "overlays": [
+        "sep"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "A single population of squirrels lives across a mountain range. A canyon forms, splitting the population into two groups that can no longer interbreed. Over thousands of years, each group accumulates different genetic changes. Which model best represents how this process could lead to the formation of two separate species?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "Gene flow between the two groups continues at the same rate as before, allowing the population to remain a single interbreeding species indefinitely."
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "Both groups experience identical mutations and selective pressures, so they should remain genetically identical despite the canyon."
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "Reproductive isolation prevents gene flow between the groups, so each population evolves independently until genetic differences make interbreeding no longer possible."
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "The canyon itself directly causes mutations in both squirrel populations that make them immediately unable to interbreed."
+          }
+        }
+      ],
+      "correct": [
+        "c"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "This is the standard model of allopatric speciation: a geographic barrier halts gene flow, and the two now-isolated populations diverge independently through mutation, drift, and differing local selection pressures until they become reproductively incompatible. Continued gene flow at the pre-canyon rate would prevent divergence rather than allow it. Assuming identical mutations and selective pressures on both sides ignores that separated habitats typically differ in resources and conditions. A canyon is a physical barrier to movement, not a mutagen, so it does not directly alter DNA, as the choice calling the canyon a cause of mutations claims; its role is preventing interbreeding, not inducing genetic change."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-evolution-005",
+      "type": "single",
+      "categoryId": "III-B",
+      "overlays": [
+        "sep"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "Two closely related frog species live in the same pond. Species X breeds only at dusk, while Species Y breeds only after midnight. Researchers find no genetic evidence of recent interbreeding between them. Which type of reproductive isolation best explains this pattern?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "Postzygotic isolation, because hybrid offspring of the two species would be sterile."
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "Prezygotic isolation, because the difference in breeding time prevents mating from occurring at all."
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "Geographic isolation, because the two species live in physically separate habitats."
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "Genetic drift, because random changes in small populations have made the two species incompatible."
+          }
+        }
+      ],
+      "correct": [
+        "b"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "A difference in mating time is a prezygotic isolating mechanism: it prevents mating, and therefore fertilization, from ever taking place. Postzygotic isolation would instead involve hybrid offspring that form but fail to survive or reproduce normally, which is not what the data describe. Since both species share the same pond, geographic isolation does not apply here. Genetic drift is a process that changes allele frequencies through random chance; it is a mechanism of evolutionary change, not a reproductive barrier in itself."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-evolution-006",
+      "type": "single",
+      "categoryId": "III-B",
+      "overlays": [
+        "sep"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "A species of moth has long relied on cryptic coloration that matches the bark of a particular tree species for protection from birds. A fungal blight kills off most of that tree species across the moth's range within a few decades. Based on principles of natural selection, what is the most likely consequence for the moth population?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "Selection pressure will shift, favoring moths whose coloration happens to match the remaining trees or backgrounds, or the population may decline sharply if no such variation exists."
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "The moths will consciously alter their coloration within a single generation to match whatever trees remain."
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "The moth population will be unaffected, since coloration is not related to which trees are present."
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "The moths will migrate to a new region and their coloration will reverse to its ancestral form immediately upon arrival."
+          }
+        }
+      ],
+      "correct": [
+        "a"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "When an environment changes, the fitness value of an existing trait can change with it. Whether the population survives depends on whether heritable variation already exists that happens to suit the new conditions, since selection can only act on variation that is present, not variation the population needs. If no such variation exists, decline is a realistic outcome, which makes the shift in selection pressure the best-supported inference. Moths cannot consciously change their own coloration, so the claim that the moths consciously alter their coloration repeats a common misunderstanding of how selection works. The moth's coloration is precisely the trait tied to camouflage against the affected trees, so the claim that coloration is unrelated to survival contradicts the scenario. There is no basis for assuming migration would produce an instantaneous reversal of a heritable trait, which the migration-and-reversal claim implies."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-evolution-007",
+      "type": "single",
+      "categoryId": "III-B",
+      "overlays": [
+        "sep"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "In a well-studied fossil sequence, researchers find a series of strata showing organisms with skeletal features intermediate between an ancient fish lineage and early four-limbed land vertebrates, including fin bones with joint-like structures resembling early limbs. What does this fossil sequence best provide evidence for?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "That fish and land vertebrates evolved completely independently from unrelated ancestors."
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "That an individual fish transformed into a land vertebrate within its own lifetime."
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "That the fossil record is too incomplete to draw any conclusions about vertebrate evolution."
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "That land vertebrates descended from fish-like ancestors through a gradual accumulation of intermediate traits over time."
+          }
+        }
+      ],
+      "correct": [
+        "d"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "A sequence of transitional fossils across successive strata, showing intermediate anatomy, is strong evidence for gradual, ancestor-descendant change over time, which is exactly what supports common ancestry between fish and land vertebrates. This directly contradicts the idea of completely independent, unrelated origins. Fossils document change across populations and generations, not transformation of a single individual within its own lifetime. Pointing to general incompleteness of the fossil record does not apply here, since this particular sequence is described as well resolved and clearly transitional."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-evolution-008",
+      "type": "single",
+      "categoryId": "III-B",
+      "overlays": [
+        "sep"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "A biologist compares a particular protein's amino acid sequence across four species. Species W and X differ at only 2 of 120 amino acid positions, while Species W and Z differ at 45 of 120 positions. Based on this molecular data alone, what is the most reasonable conclusion?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "Species W and Z must be nearly identical in outward appearance, since protein sequence data always predicts physical similarity precisely."
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "The amino acid differences were most likely caused by the two species interbreeding with unrelated organisms."
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "Species W and X share a more recent common ancestor than Species W and Z, since fewer sequence differences suggest a shorter evolutionary divergence time."
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "Species W and Z cannot be related at all, because a sequence difference greater than 10 percent rules out common ancestry."
+          }
+        }
+      ],
+      "correct": [
+        "c"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Fewer differences in a shared protein's sequence generally indicate less time has passed since two lineages diverged from a common ancestor, which is the logic behind using molecular data as a kind of clock for evolutionary relationships. Sequence similarity does not guarantee close resemblance in outward appearance, since appearance depends on many genes and on development, not one shared protein. Sequence divergence arises from the independent accumulation of mutations over time in separated lineages, not from interbreeding with unrelated organisms. There is no fixed percentage cutoff above which common ancestry is ruled out; substantially diverged sequences can still trace back to a shared, more distant ancestor."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-evolution-009",
+      "type": "single",
+      "categoryId": "III-B",
+      "overlays": [
+        "tot"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "A student examines the forelimbs of a human, a whale, and a bat and notices they all contain the same basic set of bones arranged in a similar pattern, despite being used for grasping, swimming, and flying respectively. The student then claims that a butterfly's wing and a bat's wing must also share this same kind of relationship, since both structures are used for flight. Which statement best addresses the flaw in the student's reasoning?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "The student is correct, since any two structures that serve the same function must have evolved from the same ancestral structure."
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "The bat and human forelimbs are homologous, sharing underlying skeletal structure inherited from a common ancestor, but a butterfly wing and a bat wing are analogous, similar in function but built from entirely different structures with no shared ancestry."
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "Neither comparison shows a meaningful evolutionary relationship, since wings and forelimbs are too different in appearance to compare at all."
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "Both comparisons are equally invalid, since homology can only be determined by observing living organisms directly rather than by comparing their structures."
+          }
+        }
+      ],
+      "correct": [
+        "b"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "The key distinction the student is missing is between homologous structures, which share underlying anatomy inherited from a common ancestor, such as the forelimb bone pattern across mammals, and analogous structures, which achieve a similar function through entirely unrelated anatomy, such as insect wings compared with bat wings. Assuming that shared function implies shared ancestry is exactly the error in the student's claim about the butterfly and bat. Dismissing both comparisons ignores the well-documented homology among mammal forelimbs. Homology is routinely inferred from comparative anatomy and the fossil record, not only from direct observation of currently living organisms."
+      },
+      "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-evolution-010",
+      "type": "single",
+      "categoryId": "III-B",
+      "overlays": [],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "Comparative embryology shows that the embryos of fish, chickens, and humans all develop pharyngeal pouches early in development, even though only fish retain functional gills as adults. What does this shared embryonic feature provide evidence for?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "That human embryos briefly become fish before continuing their development toward a human form."
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "That pharyngeal pouches serve identical functions in all three groups of organisms as adults."
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "That chickens and humans are more closely related to fish than they are to each other."
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "That fish, chickens, and humans share a common ancestor, and the developmental pathway producing pharyngeal pouches has been retained even where its adult function has changed or been lost."
+          }
+        }
+      ],
+      "correct": [
+        "d"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Shared embryonic structures across otherwise very different adult body plans point to a developmental pathway retained from a common ancestor, even when that structure's ultimate fate differs, becoming gills in fish or contributing to other structures such as parts of the jaw and ear in tetrapods. This is not evidence that human embryos pass through a fish stage, an outdated idea about embryos replaying their evolutionary history. The pouches do not perform identical adult functions across these groups. The shared feature reflects common ancestry linking all three lineages together, not a special relationship between two of them that excludes the third."
+      },
+      "authored": "2026-08-31"
     }
   ]
 }

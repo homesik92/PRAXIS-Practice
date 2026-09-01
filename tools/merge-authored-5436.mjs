@@ -51,6 +51,7 @@ if (files.length === 0) {
 }
 
 const problems = [];
+const skipped = [];
 const collected = [];
 const seenIds = new Set();
 const perFile = [];
@@ -61,13 +62,15 @@ for (const file of files) {
   try {
     parsed = JSON.parse(fs.readFileSync(full, "utf8"));
   } catch (e) {
-    // An agent interrupted mid-write leaves truncated JSON. Report and skip the file
-    // rather than aborting -- the other leaves are still mergeable.
-    problems.push(`${file}: invalid JSON (${e.message}) -- skipped, re-run the agent`);
+    // An agent interrupted mid-write leaves truncated JSON. This is a WARNING, not a
+    // blocking problem: the whole point of one file per leaf is that a dead agent
+    // costs its own leaf and nothing else. Blocking here would make one truncated
+    // file hold three finished leaves hostage.
+    skipped.push(`${file}: invalid JSON (${e.message.slice(0, 60)}) -- re-run this leaf's agent`);
     continue;
   }
   if (!Array.isArray(parsed)) {
-    problems.push(`${file}: expected a top-level JSON array of questions -- skipped`);
+    skipped.push(`${file}: expected a top-level JSON array of questions -- re-run this leaf's agent`);
     continue;
   }
 
@@ -118,6 +121,11 @@ for (const file of files) {
     collected.push(q);
   }
   perFile.push({ file, count: parsed.length, leaf: parsed[0]?.categoryId ?? "?" });
+}
+
+if (skipped.length) {
+  console.warn(`\n${skipped.length} file(s) skipped (other leaves still merge):`);
+  for (const w of skipped) console.warn("  ! " + w);
 }
 
 if (problems.length) {
