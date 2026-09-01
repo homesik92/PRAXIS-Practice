@@ -52,6 +52,7 @@ if (files.length === 0) {
 
 const problems = [];
 const skipped = [];
+const tells = [];
 const collected = [];
 const seenIds = new Set();
 const perFile = [];
@@ -117,10 +118,31 @@ for (const file of files) {
     const letterRef = expl.match(/\b(option|choice)s?\s+[a-d]\b|\bthe (first|second|third|fourth|last) (option|choice|answer)\b/i);
     if (letterRef) bad(`explanation references an option by position ("${letterRef[0]}") -- options are shuffled`);
 
+    // Length/justification tell: a correct option conspicuously longer than its
+    // distractors lets a test-savvy student pick it without knowing the science. A
+    // WARNING, not a blocker -- short numeric options make the ratio noisy, so this
+    // needs a human read rather than a hard gate. (5101's bank hit 94% in one
+    // category before this was measured.)
+    if (Array.isArray(opts) && opts.length === 4 && Array.isArray(q?.correct)) {
+      const correct = opts.find((o) => o?.id === q.correct[0]);
+      const others = opts.filter((o) => o?.id !== q.correct[0]);
+      if (correct?.content?.value && others.length === 3) {
+        const mean = others.reduce((s, o) => s + (o?.content?.value?.length ?? 0), 0) / 3;
+        const ratio = correct.content.value.length / mean;
+        if (mean > 40 && ratio >= 1.6) tells.push(`${q.id}: correct option is ${ratio.toFixed(2)}x the mean distractor length`);
+      }
+    }
+
     // Collected regardless; any problem above aborts the whole run before writing.
     collected.push(q);
   }
   perFile.push({ file, count: parsed.length, leaf: parsed[0]?.categoryId ?? "?" });
+}
+
+if (tells.length) {
+  console.warn(`\n${tells.length} length-tell warning(s) -- correct option markedly longer than its distractors:`);
+  for (const t of tells) console.warn("  ~ " + t);
+  console.warn("  These do not block the merge. Route them to the blind-verification pass.");
 }
 
 if (skipped.length) {
