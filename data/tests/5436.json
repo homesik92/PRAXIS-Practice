@@ -21144,7 +21144,7 @@
       ],
       "explanation": {
         "format": "text",
-        "value": "The cosmic microwave background is the redshifted, cooled remnant of the intense radiation that filled the early universe, and its near-uniform arrival from all directions matches the prediction that the early universe was hot, dense, and expanding outward in all directions from the Big Bang. A single star, however large, would produce radiation from one direction rather than uniformly from the whole sky. Scattered sunlight would depend on dust distribution and the Sun's position, not appear as a uniform background at this specific microwave temperature. Ordinary starlight is concentrated at visible and infrared wavelengths tied to stellar surface temperatures, not spread into a uniform, much colder microwave background."
+        "value": "The cosmic microwave background is the redshifted, cooled remnant of the intense radiation that filled the early universe, and its near-uniform arrival from all directions matches the prediction that the early universe was hot, dense, and has been expanding ever since, with no particular center — which is also why the leftover radiation arrives from every direction almost equally. A single star, however large, would produce radiation from one direction rather than uniformly from the whole sky. Scattered sunlight would depend on dust distribution and the Sun's position, not appear as a uniform background at this specific microwave temperature. Ordinary starlight is concentrated at visible and infrared wavelengths tied to stellar surface temperatures, not spread into a uniform, much colder microwave background."
       },
       "authored": "2026-08-31"
     },
@@ -23116,7 +23116,7 @@
       ],
       "explanation": {
         "format": "text",
-        "value": "Codominance and incomplete dominance both produce a heterozygous phenotype that differs from either homozygous parent, but they differ in how that phenotype appears: codominant roan coats show both parental colors fully expressed side by side as patches, while incompletely dominant pink flowers show a single, evenly blended intermediate color, so pointing out this distinction directly addresses the student's overgeneralization. Agreeing that the mechanisms are identical ignores that key visual and genetic difference between patchwork expression and blending. Describing roan coat color as simple dominance with a masked recessive allele misdescribes codominance, in which neither allele is masked at all. Claiming the two phenomena always produce identical 1:2:1 ratios is true only for the genotypic ratio of a heterozygote cross, but it wrongly implies the phenotypes themselves look the same, which they do not."
+        "value": "Codominance and incomplete dominance both produce a heterozygous phenotype that differs from either homozygous parent, but they differ in how that phenotype appears: codominant roan coats show both parental colors fully expressed side by side as patches, while incompletely dominant pink flowers show a single, evenly blended intermediate color, so pointing out this distinction directly addresses the student's overgeneralization. Agreeing that the mechanisms are identical ignores that key visual and genetic difference between patchwork expression and blending. Describing roan coat color as simple dominance with a masked recessive allele misdescribes codominance, in which neither allele is masked at all. Claiming the two phenomena always produce identical 1:2:1 ratios also misapplies the situation described, since the cross in this example is between two homozygous parents (producing uniformly heterozygous roan offspring), not a cross between two heterozygotes — so no 1:2:1 ratio is even at issue here."
       },
       "authored": "2026-08-31"
     },
@@ -29059,7 +29059,7 @@
       "retired": false,
       "stem": {
         "format": "text",
-        "value": "A cladogram groups four vertebrate groups based on shared derived characteristics. Amphibians branch off first, followed by reptiles, then mammals, and finally birds, which share a more recent common branching point with reptiles than reptiles share with mammals. Based on this branching pattern, which statement is best supported?"
+        "value": "A cladogram groups four vertebrate groups based on shared derived characteristics. Amphibians branch off first. The remaining lineage then splits into two branches: one leads to mammals, and the other leads first to reptiles, then to birds, so birds share a more recent common branching point with reptiles than reptiles share with mammals. Based on this branching pattern, which statement is best supported?"
       },
       "options": [
         {

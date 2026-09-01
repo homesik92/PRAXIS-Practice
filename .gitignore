@@ -17,3 +17,6 @@ __pycache__/
 
 # In-flight authoring output (durable across sessions; merged into banks, never committed raw)
 .authoring/
+
+# Blind-verification payloads and findings (derived; regenerate any time)
+.verification/
