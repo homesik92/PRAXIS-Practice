@@ -1,4 +1,4 @@
-# Decision Index
+# Decision Index — PRAXIS-Practice
 
 Maps each subsystem/topic to its currently-authoritative decision chain in
 `DECISIONS.md`. Update this in the same change as any log append. Consult this first;

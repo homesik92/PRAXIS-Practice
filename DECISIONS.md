@@ -1,4 +1,4 @@
-# Decision Log
+# Decision Log — PRAXIS-Practice
 
 Append-only. See conventions in `.claude/skills/dev-workflow/SKILL.md` ("The decision
 log"). IDs: `D-n` for design decisions, `N-n` for implementation notes. Never rewrite a
