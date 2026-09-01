@@ -22,11 +22,11 @@
     {
       "code": "5436",
       "file": "tests/5436.json",
-      "enabled": false,
+      "enabled": true,
       "name": "General Science",
       "timeLimitMinutes": 150,
       "formLength": 135,
-      "bankSize": 570
+      "bankSize": 622
     },
     {
       "code": "5485",

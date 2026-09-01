@@ -23982,6 +23982,508 @@
       "authored": "2026-08-31"
     },
     {
+      "id": "5436-chemgaps-001",
+      "type": "single",
+      "categoryId": "II-B",
+      "overlays": [
+        "sep"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "The endothermic equilibrium PCl5(g) ⇌ PCl3(g) + Cl2(g) (ΔH > 0) is established in a sealed container at fixed volume. The container is then heated and allowed to re-equilibrate. What happens to the amount of PCl5 present?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "It increases, because raising temperature always favors the reactant side"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "It decreases, because heating favors the endothermic direction, which is the forward reaction"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "It stays the same, because temperature does not affect equilibria that involve only gases"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "It decreases briefly, then equilibrium restores the original PCl5 concentration"
+          }
+        }
+      ],
+      "correct": [
+        "b"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "In an endothermic reaction, heat is effectively consumed by the forward reaction, so raising the temperature shifts the equilibrium toward the products and lowers the amount of PCl5 remaining. Whether heating favors products or reactants depends on the sign of the reaction's enthalpy change rather than a fixed rule, and gas-phase equilibria do shift with temperature because heat changes the forward and reverse rates unequally. The lower PCl5 concentration at the new equilibrium is a lasting shift, not a temporary dip that reverses itself."
+      },
+      "authored": "2026-09-01"
+    },
+    {
+      "id": "5436-chemgaps-002",
+      "type": "single",
+      "categoryId": "II-B",
+      "overlays": [
+        "sep"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "In an industrial synthesis of ammonia, N2(g) + 3 H2(g) ⇌ 2 NH3(g), engineers continuously liquefy and remove NH3 from the reaction vessel as it forms, while the supply of N2 and H2 is held constant. What effect does continually removing NH3 have on the reaction?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "It drives the equilibrium to favor the reactants, lowering the overall yield"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "It has no effect, because equilibrium depends only on temperature and pressure"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "It stops the reaction entirely once the NH3 concentration reaches zero"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "It drives the equilibrium to keep forming more NH3, improving the overall yield"
+          }
+        }
+      ],
+      "correct": [
+        "d"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Removing a product lowers its concentration below the equilibrium value, so the system responds by favoring the forward reaction to replace some of what was withdrawn, which raises the overall yield of ammonia over time. Concentration changes are a valid stress on equilibrium alongside temperature and pressure, and the reaction does not stop — nitrogen and hydrogen keep reacting to form more ammonia even as it is continuously withdrawn."
+      },
+      "authored": "2026-09-01"
+    },
+    {
+      "id": "5436-chemgaps-003",
+      "type": "single",
+      "categoryId": "II-B",
+      "overlays": [
+        "sep"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "A nonvolatile solute is dissolved in water. Compared to pure water at the same atmospheric pressure, at what temperature does the resulting solution boil, and why?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "Higher, because dissolved particles lower the solution's vapor pressure at any given temperature"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "Lower, because dissolved particles raise the solution's vapor pressure at any given temperature"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "The same, because boiling point is set only by atmospheric pressure"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "Higher, because the dissolved solute reacts with water and releases heat"
+          }
+        }
+      ],
+      "correct": [
+        "a"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "A nonvolatile solute lowers the solvent's vapor pressure at every temperature, so the solution must be heated to a higher temperature before its vapor pressure reaches atmospheric pressure and boiling begins — this is boiling point elevation. Dissolved particles do not raise vapor pressure, and while atmospheric pressure sets the boiling point of a pure liquid, dissolved solute shifts that point further still without any chemical reaction between solute and solvent being required."
+      },
+      "authored": "2026-09-01"
+    },
+    {
+      "id": "5436-chemgaps-004",
+      "type": "single",
+      "categoryId": "II-B",
+      "overlays": [],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "A beaker of pure water and a beaker of water with dissolved sugar sit side by side in a sealed chamber at the same temperature. Which beaker has the lower equilibrium vapor pressure, and why?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "The sugar solution, because sugar reacts chemically with the water molecules"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "The pure water, because dissolved particles increase the water's surface area"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "The sugar solution, because solute particles at the surface reduce solvent evaporation"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "Neither one, because vapor pressure depends only on temperature, not solute"
+          }
+        }
+      ],
+      "correct": [
+        "c"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Solute particles at the surface of the solution take up space that solvent molecules would otherwise occupy, so fewer solvent molecules escape into the vapor phase per unit time and the solution's vapor pressure is lower than that of the pure solvent. This physical crowding effect does not require a chemical reaction, dissolved particles do not increase surface area, and vapor pressure lowering is itself evidence that solute composition, not just temperature, affects vapor pressure."
+      },
+      "authored": "2026-09-01"
+    },
+    {
+      "id": "5436-chemgaps-005",
+      "type": "single",
+      "categoryId": "II-B",
+      "overlays": [
+        "sep"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "A U-shaped tube is divided by a membrane that lets water molecules cross but blocks solute molecules. Pure water is placed on one side and a concentrated sugar solution on the other, starting at equal fluid heights. What happens over time?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "Sugar molecules move toward the pure water until concentrations equalize on both sides"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "Water moves toward the sugar solution until osmotic pressure balances the net flow"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "Water moves toward the pure water side, lowering the level on the solution side"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "No net movement occurs, because the membrane blocks all molecules from crossing"
+          }
+        }
+      ],
+      "correct": [
+        "b"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Water moves by osmosis from the region of lower solute concentration toward the region of higher solute concentration, raising the fluid level on the sugar side until the resulting pressure difference, the osmotic pressure, is enough to stop further net flow. The membrane is permeable to water but not to solute, so sugar cannot cross to equalize concentration that way, water does not move toward the already more dilute side, and osmosis is exactly the net movement this kind of membrane permits."
+      },
+      "authored": "2026-09-01"
+    },
+    {
+      "id": "5436-chemgaps-006",
+      "type": "single",
+      "categoryId": "II-B",
+      "overlays": [],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "Which pair of factors determines the size of a colligative property, such as boiling point elevation or osmotic pressure?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "The chemical identity of the solute and its molecular color"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "The molar mass of the solute and its melting point"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "The reactivity of the solute and the polarity of its bonds"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "The total number of dissolved particles and the amount of solvent"
+          }
+        }
+      ],
+      "correct": [
+        "d"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Colligative properties depend on the concentration of dissolved particles — how many particles are present relative to the amount of solvent — regardless of what those particles are chemically. Chemical identity, color, the melting point of the pure solute, reactivity, and bond polarity may matter for other properties of a substance, but none of them determines the size of a colligative effect."
+      },
+      "authored": "2026-09-01"
+    },
+    {
+      "id": "5436-chemgaps-007",
+      "type": "single",
+      "categoryId": "II-B",
+      "overlays": [
+        "sep"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "A student shines a laser pointer through three unlabeled samples: salt water, milk, and muddy water that has been left to stand overnight. In the salt water the beam is invisible; in the milk it is clearly visible as a glowing path; in the settled muddy water it is again invisible. Which classification best fits the milk?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "A colloid, because its particles are large enough to scatter light but not settle"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "A true solution, because its particles are small enough that light passes through unscattered"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "A suspension, because its particles are large enough to settle out of the mixture over time"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "A pure substance, because a visible light path indicates a single chemical compound"
+          }
+        }
+      ],
+      "correct": [
+        "a"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Milk's visible beam is the Tyndall effect, produced when dispersed particles are large enough to scatter light, which happens in colloids but not in true solutions where the dissolved particles are far smaller than the wavelength of light. The muddy water's invisible beam after standing fits a suspension, whose larger particles scatter light while dispersed but settle out given time — which milk does not do. A visible light path says nothing about whether a sample is a single compound."
+      },
+      "authored": "2026-09-01"
+    },
+    {
+      "id": "5436-chemgaps-008",
+      "type": "single",
+      "categoryId": "II-B",
+      "overlays": [
+        "sep"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "Three mixtures are prepared: sugar dissolved in water, fine clay particles stirred into water, and a stable oil-in-water emulsion. The clay-and-water mixture is left undisturbed overnight. Which outcome would show that the clay mixture is a suspension rather than a colloid?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "The mixture remains uniformly cloudy with no visible separation"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "The mixture scatters a laser beam shone through the container"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "The clay particles settle to the bottom, leaving clearer water above"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "The mixture cannot be separated using ordinary filter paper"
+          }
+        }
+      ],
+      "correct": [
+        "c"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Suspension particles are large enough to settle out of the liquid under gravity, so visible settling with clearer liquid left above is the identifying sign of a suspension. Colloids also stay uniformly cloudy and scatter a laser beam without settling, so neither of those outcomes is unique to a suspension. Ordinary filter paper actually does catch suspension particles, so being unable to separate the mixture that way points to a colloid instead."
+      },
+      "authored": "2026-09-01"
+    },
+    {
+      "id": "5436-chemgaps-009",
+      "type": "single",
+      "categoryId": "II-B",
+      "overlays": [],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "Fog is a colloid formed by tiny liquid water droplets dispersed through air. Which of the following is also correctly classified as a colloid?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "Sugar water, in which sugar molecules are dispersed through water"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "Whipped cream, in which tiny gas bubbles are dispersed through a liquid"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "Filtered apple juice, in which no visible particles remain suspended"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "Air, in which nitrogen and oxygen molecules are mixed uniformly"
+          }
+        }
+      ],
+      "correct": [
+        "b"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Whipped cream disperses gas bubbles through a liquid at a scale that scatters light and stays suspended without settling or dissolving, which is what makes it a colloid — specifically a foam, in the usual naming scheme for colloid types. Sugar water is a true solution because sugar dissolves at the molecular level rather than remaining a separate dispersed phase. Filtered apple juice with no suspended particles behaves as a solution, and a gas mixture like air is a true solution of one gas in another rather than a dispersion of one phase through a different one."
+      },
+      "authored": "2026-09-01"
+    },
+    {
+      "id": "5436-chemgaps-010",
+      "type": "single",
+      "categoryId": "II-B",
+      "overlays": [],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "Under a microscope, the dispersed particles in a colloid can be seen moving in continuous, random, erratic paths even though the sample is not being stirred. What causes this observed motion?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "Weak gravitational attraction pulling the dispersed particles toward one another"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "Electric currents generated by the charged surface of the container"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "Slow chemical reactions between the dispersed particles and the medium"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "Collisions between the dispersed particles and the fast-moving molecules of the dispersion medium"
+          }
+        }
+      ],
+      "correct": [
+        "d"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "This continuous, random jostling is Brownian motion, caused by dispersed colloidal particles being struck unevenly and constantly by the much smaller, fast-moving molecules of the surrounding medium. This ongoing motion is part of what keeps colloidal particles from settling out under gravity, so gravitational attraction between particles is not the cause, and no electric current or chemical reaction is needed to produce it."
+      },
+      "authored": "2026-09-01"
+    },
+    {
       "id": "5436-earthsci-001",
       "type": "single",
       "categoryId": "IV-B",
@@ -29453,6 +29955,2078 @@
         "value": "Adaptation to a new set of conditions depends on heritable variation relevant to that challenge already existing within a population and on selection acting on that variation over multiple generations; when environmental change, such as accelerating snowmelt timing, occurs faster than a population can generate or select for suitable variation, population decline or even extinction can occur instead of successful adaptation. Given enough time, some populations can adapt to gradual change, but this population's continued decline despite decades of change suggests the rate of change may be outpacing its capacity to adapt, so ruling out snowmelt timing entirely is not well supported. Butterflies cannot adjust their flight timing within an individual's own lifetime, since that would describe a change in individual behavior rather than a heritable evolutionary response across generations. The absence of adaptation does not mean selection was not acting on flight timing; it may instead mean suitable heritable variation was insufficient or selection did not act fast enough relative to the pace of environmental change."
       },
       "authored": "2026-08-31"
+    },
+    {
+      "id": "5436-matterenergy-001",
+      "type": "single",
+      "categoryId": "II-A",
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "Which statement correctly describes what the second law of thermodynamics predicts about an isolated system?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "The total entropy of the system stays exactly constant no matter what process occurs inside it."
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "The total entropy of the system tends to increase as the system moves toward equilibrium."
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "The total energy of the system decreases over time as processes inside it proceed."
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "The total entropy of the system decreases as the system settles into a more ordered arrangement."
+          }
+        }
+      ],
+      "correct": [
+        "b"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "The second law states that spontaneous processes in an isolated system drive its total entropy upward as it moves toward equilibrium; only an idealized, perfectly reversible process would leave entropy unchanged, and no real process decreases it. Claiming entropy stays exactly constant regardless of the process ignores that real, spontaneous change is exactly what raises it. Describing the system's energy as decreasing confuses entropy with energy: an isolated system exchanges nothing with its surroundings, so its total energy is conserved, not depleted. Describing entropy as decreasing toward a more ordered state gets the direction backward — that is precisely the outcome the second law rules out for a spontaneous process."
+      },
+      "authored": "2026-09-01"
+    },
+    {
+      "id": "5436-matterenergy-002",
+      "type": "single",
+      "categoryId": "II-A",
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "An ice cube sitting on a kitchen counter melts into liquid water as heat flows into it from the warmer surrounding air. From the standpoint of the second law of thermodynamics, this melting is best described as"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "non-spontaneous, because the second law forbids any decrease in the order of a system."
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "spontaneous, because entropy decreases whenever a system absorbs energy from warmer surroundings."
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "non-spontaneous, because melting requires an input of energy from the surroundings."
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "spontaneous, because the transition to a less-ordered liquid state increases the entropy of the ice-water system."
+          }
+        }
+      ],
+      "correct": [
+        "d"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Melting converts a more ordered solid into a less ordered liquid, which is an increase in entropy, and a process that increases entropy proceeds on its own once nothing prevents it — here, once warmer air is available to supply heat. Saying the second law forbids any decrease in order overstates what the law governs; it constrains total entropy, and in any case order is decreasing here, not increasing, so this option also misreads the scenario. Saying entropy decreases when a system absorbs heat gets the direction backward: absorbing heat and gaining molecular freedom of motion raises entropy, it does not lower it. Needing an input of energy does not make a process non-spontaneous — many spontaneous processes, including this one, proceed precisely because energy is available to flow in from surroundings that are warmer than the system."
+      },
+      "authored": "2026-09-01"
+    },
+    {
+      "id": "5436-matterenergy-003",
+      "type": "single",
+      "categoryId": "II-A",
+      "overlays": [
+        "sep"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "A rigid container is divided in half by a removable partition. One side holds a sample of gas; the other side is a vacuum. Once the partition is removed, the gas spreads out to fill the entire container and never spontaneously returns to occupying only its original half. This behavior is best explained by which of the following?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "The spread-out arrangement is far more probable, since it corresponds to vastly more possible microscopic arrangements of the gas molecules."
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "The vacuum exerts an attractive pulling force on the gas molecules, drawing them steadily across the container."
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "Gas molecules repel each other strongly enough that they push one another into the empty half of the container."
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "The pressure inside the vacuum is higher than the pressure of the gas, so molecules flow toward that higher pressure."
+          }
+        }
+      ],
+      "correct": [
+        "a"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Entropy reflects how many microscopic arrangements are consistent with a given macroscopic state; spreading the gas through the whole container is consistent with vastly more such arrangements than confining it to one half, so it is overwhelmingly the more probable outcome, and the reverse essentially never happens on its own. A vacuum contains no matter and so cannot exert any force on anything. Repulsion between gas molecules is not the driving mechanism here — the same spontaneous spreading occurs for gases whose molecules barely interact at all, so the explanation has to rest on probability rather than intermolecular force. A vacuum has no pressure at all, let alone a higher one; molecules move from higher to lower pressure, not toward higher pressure."
+      },
+      "authored": "2026-09-01"
+    },
+    {
+      "id": "5436-matterenergy-004",
+      "type": "single",
+      "categoryId": "II-A",
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "A ball rolls down a hill and comes to rest at the bottom as friction converts its kinetic energy into a small amount of heat that spreads into the ball, the ground, and the surrounding air. Which statement best explains why the ball does not spontaneously reverse this process and roll back up the hill on its own?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "The law of conservation of energy alone rules out any process running in reverse once it has occurred, regardless of entropy."
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "Friction is a non-conservative force, so the kinetic energy it removes from the ball is destroyed rather than merely converted to another form."
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "That reversal would require dispersed heat to spontaneously reorganize into motion, lowering total entropy — something spontaneous processes never do."
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "The ball lacks the momentum it would need to overcome the gravitational potential energy required to climb back to the top of the hill."
+          }
+        }
+      ],
+      "correct": [
+        "c"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Rolling down disperses the ball's organized kinetic energy into disorganized heat spread through the ball, ground, and air, which raises total entropy; reversing the process would require that dispersed heat to spontaneously reconcentrate into the ball's organized motion, which would lower total entropy and does not happen on its own. Conservation of energy governs how much energy exists, not which direction a process can run — energy is conserved in both the forward and the (never-observed) reverse version of this process, so it cannot be what rules the reverse out. Energy is never destroyed, only converted to a less useful, more dispersed form such as heat; describing it as destroyed misstates a basic conservation principle. The energy budget for the reverse process is not actually a problem — the heat produced contains, in principle, enough energy to send the ball back up — so a shortage of momentum is not what prevents the reversal."
+      },
+      "authored": "2026-09-01"
+    },
+    {
+      "id": "5436-matterenergy-005",
+      "type": "single",
+      "categoryId": "II-A",
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "Which pair below consists entirely of intensive properties — properties whose value does not depend on how much of a substance is present?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "Mass and volume"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "Volume and total thermal energy"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "Density and boiling point"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "Mass and total thermal energy"
+          }
+        }
+      ],
+      "correct": [
+        "c"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Density and boiling point are properties of the substance itself: a small chip of a material and a large block of the same material have the same density and boil at the same temperature, so both properties are intensive. Mass and volume each scale directly with how much material is present, so a pairing of the two is entirely extensive rather than intensive. Volume and total thermal energy both grow as more of the substance is added, making that pairing extensive as well. Mass and total thermal energy are likewise both extensive, for the same reason — each one simply adds up as more material is included."
+      },
+      "authored": "2026-09-01"
+    },
+    {
+      "id": "5436-matterenergy-006",
+      "type": "single",
+      "categoryId": "II-A",
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "A 100 mL sample of an unknown liquid is poured evenly into two separate beakers, 50 mL in each. Which property of the liquid is the same in each beaker as it was in the original 100 mL sample?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "Density"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "Mass"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "Volume"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "The number of molecules present"
+          }
+        }
+      ],
+      "correct": [
+        "a"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Density is an intensive property — a ratio of mass to volume that characterizes the liquid itself — so splitting the sample changes only how much liquid is in each beaker, not its density. Mass is extensive, so each 50 mL beaker holds only half the mass of the original sample. Volume is extensive as well, and each beaker holds only half the original volume by construction. The number of molecules present is likewise extensive, scaling directly with the amount of liquid, so each beaker contains only about half of the original count."
+      },
+      "authored": "2026-09-01"
+    },
+    {
+      "id": "5436-matterenergy-007",
+      "type": "single",
+      "categoryId": "II-A",
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "A beaker holding 200 g of water at 80°C is poured into a beaker holding 200 g of water at 20°C, and the two portions mix completely. Once mixed, the resulting mass is 400 g, but the resulting temperature is roughly 50°C rather than 100°C. This illustrates the difference between"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "an intensive property, mass, which adds directly when samples combine, and an extensive property, temperature, which does not simply add."
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "two extensive properties that both fail to add directly when samples of different temperature combine."
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "two intensive properties that both add directly regardless of the temperatures of the samples combined."
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "an extensive property, mass, which adds directly when samples combine, and an intensive property, temperature, which does not simply add."
+          }
+        }
+      ],
+      "correct": [
+        "d"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Mass is extensive, so the combined mass is simply the sum of the two parts: 200 g plus 200 g gives 400 g. Temperature is intensive, so combining the samples does not add the two temperatures together; instead it settles to a value shaped by both the masses and starting temperatures involved, which here lands near the midpoint because the two masses were equal. Reversing which property is called intensive and which is called extensive misidentifies both: mass is the one that added directly, and temperature is the one that did not. Calling both properties extensive is contradicted by the mass calculation itself, where the amounts did add directly as an extensive property should. Calling both properties intensive is contradicted by the same calculation, since 400 g is exactly the sum of 200 g and 200 g rather than some value between them."
+      },
+      "authored": "2026-09-01"
+    },
+    {
+      "id": "5436-matterenergy-008",
+      "type": "single",
+      "categoryId": "II-A",
+      "overlays": [
+        "sep"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "A geology student wants to identify an unknown mineral sample by comparing a measured property against reference values in a table. Which property is most useful for this purpose, and why?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "Mass, because it is an intensive property and gives the same value regardless of how large or small the piece of mineral tested is."
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "Density, because it is an intensive property and gives the same value regardless of how large or small the piece of mineral tested is."
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "Volume, because it is an extensive property and increases in proportion to the size of the piece of mineral tested."
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "Density, because it is an extensive property and increases in proportion to the size of the piece of mineral tested."
+          }
+        }
+      ],
+      "correct": [
+        "b"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Density is intensive, so a small chip and a large chunk of the same mineral both give the same measured value, which is exactly what makes it possible to match a single measurement against a reference table regardless of the size of the piece tested. Mass is not intensive — it is extensive and scales with the size of the piece, so a measured mass would rarely match a reference value unless the tested piece happened to be exactly the reference size, making it unreliable for identification. Volume is correctly described as extensive here, but that is precisely why it is a poor choice for identification: an extensive measurement changes with the size of the piece tested rather than characterizing the mineral itself. Density does not increase with the size of the sample; it is intensive rather than extensive, and that stability with sample size is exactly why it is useful for identification in the first place."
+      },
+      "authored": "2026-09-01"
+    },
+    {
+      "id": "5436-physgaps-001",
+      "type": "single",
+      "categoryId": "II-C",
+      "overlays": [],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "A rarefied gas of a single element is heated until it glows, and its light is passed through a prism. The resulting spectrum consists of a small number of bright, distinct colored lines against an otherwise dark background, rather than a continuous rainbow. What produces this pattern of discrete lines?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "The prism itself bends different wavelengths by different amounts, which splits any light source into a small number of separate lines."
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "Electrons in the gas's atoms drop from higher to lower energy levels, and each transition releases a photon of one specific wavelength."
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "The gas atoms vibrate mechanically, and each atom's vibration rate produces one line, with different atoms vibrating at different rates."
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "The gas scatters the light it emits unevenly, so only a few wavelengths happen to travel toward the prism and the observer."
+          }
+        }
+      ],
+      "correct": [
+        "b"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "An atom's electrons can only occupy a specific, quantized set of energy levels. When an electron falls from a higher level to a lower one, it emits a photon whose energy, and therefore wavelength, exactly matches the gap between those two levels. Because each element has its own particular set of levels, it produces its own particular set of bright lines rather than a continuous spread of colors. A prism disperses whatever light enters it, but dispersion by itself does not explain why only a few wavelengths are present to disperse; mechanical vibration is not what determines an atom's emitted wavelengths; and uneven scattering would not produce sharp lines at reproducible, element-specific wavelengths."
+      },
+      "authored": "2026-09-01"
+    },
+    {
+      "id": "5436-physgaps-002",
+      "type": "single",
+      "categoryId": "II-C",
+      "overlays": [
+        "sep"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "Sunlight originates in the Sun's hot interior and passes outward through cooler gas in the Sun's own atmosphere before reaching a telescope on Earth. When this light is spread into a spectrum, astronomers see a continuous rainbow crossed by narrow dark lines at specific wavelengths. What causes those dark lines?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "Cooler atoms in the Sun's atmosphere absorb photons at wavelengths matching their own electron energy-level gaps, removing that light from the outgoing beam."
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "The telescope's optics block a few narrow wavelength bands before the light reaches the detector, regardless of what the light source is."
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "Interstellar dust between the Sun and Earth absorbs light unpredictably, dimming a scattering of random wavelengths across the spectrum."
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "The Sun's hot interior simply never produces those particular wavelengths of light in the first place."
+          }
+        }
+      ],
+      "correct": [
+        "a"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "A hot, dense source like the Sun's interior radiates a continuous spectrum across essentially all wavelengths. As that light passes through the cooler, less dense gas of the Sun's own atmosphere, atoms there absorb photons at exactly the wavelengths matching their electron energy-level gaps, the same wavelengths they would emit if heated in isolation, which removes those wavelengths and leaves narrow dark lines. This lets astronomers identify which elements are present. Telescope optics are built to pass light broadly rather than block specific element-matched wavelengths; interstellar dust dims light gradually and unevenly rather than at sharp, reproducible wavelengths; and a hot interior's continuous radiation does not skip particular wavelengths on its own."
+      },
+      "authored": "2026-09-01"
+    },
+    {
+      "id": "5436-physgaps-003",
+      "type": "single",
+      "categoryId": "II-C",
+      "overlays": [],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "Because each element has its own unique set of possible electron energy levels, why can a star's spectrum be used to identify which elements are present in it?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "Every element absorbs and emits the full range of visible wavelengths equally, so the total brightness of the spectrum reveals which elements are present."
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "Heavier elements always produce spectra with more lines than lighter elements, so simply counting the lines reveals which element is present."
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "All elements share the very same set of spectral lines, but the brightness of each individual line differs from one element to another."
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "Each element absorbs and emits light only at the specific wavelengths matching its own energy-level gaps, so its lines act like a fingerprint no other element shares."
+          }
+        }
+      ],
+      "correct": [
+        "d"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Because the arrangement of electron energy levels differs from element to element, the specific wavelengths at which an element absorbs or emits light differ too, producing a pattern unique to that element that can be matched against laboratory reference spectra. If every element absorbed and emitted all wavelengths equally, spectra would carry no identifying information at all. Line count does not track atomic mass in any simple, reliable way. And elements do not share one common set of line positions; it is the positions of the lines, not merely their brightness, that differ between elements."
+      },
+      "authored": "2026-09-01"
+    },
+    {
+      "id": "5436-physgaps-004",
+      "type": "single",
+      "categoryId": "II-C",
+      "overlays": [
+        "sep"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "A wrench handle extends 0.25 m from the center of a bolt. A worker applies a 60 N force perpendicular to the handle, at its very end. What torque does this force produce about the bolt?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "60.25 N·m"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "240 N·m"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "15 N·m"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "0.0042 N·m"
+          }
+        }
+      ],
+      "correct": [
+        "c"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Torque equals the applied force multiplied by the perpendicular lever-arm distance from the pivot: 60 N × 0.25 m = 15 N·m. Adding the two values instead of multiplying them gives 60.25, which is not a meaningful torque. Dividing the force by the lever-arm distance the wrong way gives 240, and inverting that division gives 0.0042; neither operation matches the defining relationship between force, lever arm, and torque."
+      },
+      "authored": "2026-09-01"
+    },
+    {
+      "id": "5436-physgaps-005",
+      "type": "single",
+      "categoryId": "II-C",
+      "overlays": [
+        "sep"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "A seesaw pivots at its exact center. A 300 N child sits 1.5 m from the pivot on one side. How far from the pivot, on the other side, must a 450 N child sit for the seesaw to be in rotational equilibrium?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "2.25 m"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "1.0 m"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "1.5 m"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "3.0 m"
+          }
+        }
+      ],
+      "correct": [
+        "b"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Rotational equilibrium requires the two torques about the pivot to be equal and opposite: 300 N × 1.5 m = 450 N × d, so d = 450 N·m ÷ 450 N = 1.0 m. The heavier child must sit closer to the pivot, not farther from it, so seating both children at the same 1.5 m or moving the heavier child out to 3.0 m would leave a net torque and make the seesaw rotate. Swapping which weight is used as the numerator when solving for d gives 2.25 m, the wrong ratio."
+      },
+      "authored": "2026-09-01"
+    },
+    {
+      "id": "5436-physgaps-006",
+      "type": "single",
+      "categoryId": "II-C",
+      "overlays": [],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "Which statement correctly describes how torque, the rotational analog of force, differs from an ordinary linear force?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "Torque depends on the size of the applied force and its perpendicular distance from the pivot, unlike a plain force, which needs no pivot."
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "Torque and force are identical quantities; \"torque\" is simply the name used whenever a force happens to act on something round or spinning."
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "Torque depends only on the distance from the pivot to where a force is applied and does not depend at all on how large that force is."
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "Torque depends only on the size of the applied force and does not depend at all on where on the object that force is applied."
+          }
+        }
+      ],
+      "correct": [
+        "a"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Torque is the product of a force's magnitude and its perpendicular lever-arm distance from a chosen pivot, which is why pushing near a door's hinge takes far more force to open it than pushing near the handle even though the force itself could be identical either way. Treating torque and force as interchangeable ignores that a pivot and a distance are essential to torque but irrelevant to a plain force. Torque cannot depend on distance alone, since a zero force produces zero torque regardless of distance, and it cannot depend on force alone, since the same force applied right at the pivot produces no torque at all."
+      },
+      "authored": "2026-09-01"
+    },
+    {
+      "id": "5436-physgaps-007",
+      "type": "single",
+      "categoryId": "II-C",
+      "overlays": [
+        "sep"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "A capacitor with a capacitance of 4.0 microfarads is connected across a 9.0 V battery until it is fully charged. How much charge does the capacitor store?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "2.25 microcoulombs"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "13 microcoulombs"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "0.44 microcoulombs"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "36 microcoulombs"
+          }
+        }
+      ],
+      "correct": [
+        "d"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Stored charge equals capacitance multiplied by voltage: 4.0 microfarads × 9.0 V = 36 microcoulombs. Adding the two values instead of multiplying them gives 13, which is not a meaningful charge. Dividing voltage by capacitance the wrong way gives 2.25, and dividing capacitance by voltage gives about 0.44; neither operation matches the defining relationship among charge, capacitance, and voltage."
+      },
+      "authored": "2026-09-01"
+    },
+    {
+      "id": "5436-physgaps-008",
+      "type": "single",
+      "categoryId": "II-C",
+      "overlays": [],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "A capacitor consists of two parallel metal plates separated by a thin insulating gap. When the capacitor is connected to a battery, how does it store electrical energy?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "Charge flows continuously straight through the insulating gap from one plate to the other for as long as the battery stays connected."
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "The battery deposits identical positive charge on both plates, and the two plates repel each other, storing energy in that repulsion."
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "The battery pushes equal and opposite charge onto the two plates, and the separated charges create an electric field across the insulating gap between them."
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "The insulating gap conducts a small steady current between the plates that heats them, and that heat is the capacitor's stored energy."
+          }
+        }
+      ],
+      "correct": [
+        "c"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "The insulating gap between the plates blocks charge from crossing directly, so the battery instead drives current through the external circuit, building up positive charge on one plate and an equal negative charge on the other. That separation of opposite charges sets up an electric field in the gap, and the energy of that field is the energy the capacitor stores. Because the gap is insulating, no steady current, and therefore no resistive heating, occurs between the plates; and the two plates end up with opposite charge, not identical charge, which is precisely what allows an attractive field to form between them rather than a repulsive one."
+      },
+      "authored": "2026-09-01"
+    },
+    {
+      "id": "5436-physgaps-009",
+      "type": "single",
+      "categoryId": "II-C",
+      "overlays": [
+        "sep"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "A capacitor with a fixed capacitance is charged first by a 3.0 V battery and then, in a separate trial, by a 6.0 V battery. Compared with the charge it stores at 3.0 V, how much charge does the same capacitor store at 6.0 V?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "The same amount of charge"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "Twice as much charge"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "Four times as much charge"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "Half as much charge"
+          }
+        }
+      ],
+      "correct": [
+        "b"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Stored charge equals capacitance multiplied by voltage, and since capacitance stays fixed here, charge is directly proportional to voltage: doubling the voltage doubles the stored charge. Charge is not independent of voltage for a given capacitor, so it cannot stay the same when voltage changes. A fourfold increase describes how the energy stored in a capacitor scales with voltage, since that quantity depends on voltage squared, but charge itself scales only in direct proportion to voltage, not its square. Half as much charge would result from halving the voltage, not doubling it."
+      },
+      "authored": "2026-09-01"
+    },
+    {
+      "id": "5436-physgaps-010",
+      "type": "single",
+      "categoryId": "II-C",
+      "overlays": [],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "A distant galaxy is moving away from Earth. Compared with the wavelengths its light would have if the galaxy were at rest relative to Earth, how does the light Earth actually receives from it appear?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "Shifted toward longer wavelengths, toward the red end of the spectrum."
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "Shifted toward shorter wavelengths, toward the blue end of the spectrum."
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "Unchanged in wavelength, though it does appear noticeably dimmer than expected."
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "Spread out evenly across all wavelengths, which erases the galaxy's spectral lines."
+          }
+        }
+      ],
+      "correct": [
+        "a"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "When a light source recedes from an observer, each successive wave crest is emitted slightly farther away than the last, which stretches the wavelength the observer measures, a redshift, lengthening the wavelength and lowering the frequency. A shift toward shorter, bluer wavelengths is what happens when a source approaches rather than recedes, the opposite situation. Simple distance does dim a source's apparent brightness, but that intensity effect is separate from, and does not by itself explain, any change in wavelength. And a Doppler shift moves spectral lines to new wavelengths; it does not smear or erase them."
+      },
+      "authored": "2026-09-01"
+    },
+    {
+      "id": "5436-physgaps-011",
+      "type": "single",
+      "categoryId": "II-C",
+      "overlays": [
+        "tot"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "Astronomers can tell whether a star or galaxy is moving toward or away from Earth by measuring a shift in the wavelength of its light caused by that relative motion. Which everyday phenomenon is the closest conceptual analog of this effect?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "A flashlight beam looks dimmer the farther it is held from the wall it is shining on."
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "A swimming pool looks shallower than it really is when viewed from above the water's surface."
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "A rainbow forms when sunlight passes through countless water droplets suspended in the air."
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "The pitch of an ambulance siren sounds higher as the ambulance approaches and lower as it drives away."
+          }
+        }
+      ],
+      "correct": [
+        "d"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "A siren's pitch rises as the source approaches and falls as it recedes because relative motion between a wave source and an observer shifts the wave's measured frequency and wavelength — the same underlying mechanism that shifts the wavelength of light from a moving star or galaxy, whether the wave involved is sound or light. A flashlight dimming with distance is an intensity effect from spreading light over a larger area, unrelated to relative motion or wavelength. An apparently shallow pool is caused by refraction as light bends between water and air, not by motion. And a rainbow results from sunlight being dispersed and reflected inside droplets, which is also unrelated to source motion."
+      },
+      "authored": "2026-09-01"
+    },
+    {
+      "id": "5436-physgaps-012",
+      "type": "single",
+      "categoryId": "II-C",
+      "overlays": [
+        "sep"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "An astronomer compares the wavelengths of known absorption lines in a star's spectrum with their standard laboratory wavelengths and finds every one of those lines shifted toward shorter wavelengths by the same fraction. What does this observation most directly indicate about the star?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "The star is much hotter than the Sun."
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "The star is composed of elements not found on Earth."
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "The star is moving toward Earth."
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "The star is much more massive than the Sun."
+          }
+        }
+      ],
+      "correct": [
+        "c"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "A uniform fractional shift toward shorter wavelengths across every line, a blueshift, is the signature of the Doppler effect produced by relative motion, in this case motion toward the observer; the source's own physical properties are not what is changing, only the wavelengths measured because of that motion. A hotter star changes how bright it is at different wavelengths but does not shift every individual line by one common fraction. Matching the lines to known laboratory wavelengths of familiar elements is itself evidence that the star is built from ordinary, recognizable elements, not unfamiliar ones. And mass on its own does not produce this kind of uniform shift across an entire spectrum."
+      },
+      "authored": "2026-09-01"
+    },
+    {
+      "id": "5436-sts-001",
+      "type": "single",
+      "categoryId": "I-B",
+      "overlays": [],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "A fish species introduced to a lake for recreational angling reproduces rapidly, outcompetes native fish for food and spawning sites, and causes several native fish populations to decline. Which term best describes this introduced fish?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "Keystone species"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "Indicator species"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "Invasive species"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "Endemic species"
+          }
+        }
+      ],
+      "correct": [
+        "c"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "A species that is introduced outside its native range and causes ecological or economic harm, such as outcompeting native species for resources, is defined as invasive. A keystone species has an outsized effect on its ecosystem's structure but is not defined by causing harm through introduction. An indicator species reveals something about environmental conditions through its presence or health, which is not what the scenario describes. An endemic species is native and often restricted to one specific area, the opposite of a species that was introduced from elsewhere."
+      },
+      "authored": "2026-09-01"
+    },
+    {
+      "id": "5436-sts-002",
+      "type": "single",
+      "categoryId": "I-B",
+      "overlays": [],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "In its native range, a species is kept at low population density by several specialized predators and parasites. After the species is introduced to a new region that lacks those predators and parasites, its population grows rapidly. Which concept best explains this pattern?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "A warmer climate in the new region increases its reproductive rate"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "Fewer competing species in the new region reduces competition for resources"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "Escape from the native predators and parasites that once regulated its numbers"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "The new region offers a broader variety of available food sources"
+          }
+        }
+      ],
+      "correct": [
+        "c"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "The scenario describes the species' population control being tied specifically to predators and parasites present in its native range; once those natural enemies are absent, the check on its population is removed and numbers rise unchecked. Climate, competitor numbers, and food variety may all affect population growth in general, but none of them is what the scenario identifies as the factor that previously limited this species, so none explains the described pattern as directly."
+      },
+      "authored": "2026-09-01"
+    },
+    {
+      "id": "5436-sts-003",
+      "type": "single",
+      "categoryId": "I-B",
+      "overlays": [],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "Resource agencies rank the stages of invasive species management by cost and effectiveness. Which stage is generally considered the most cost-effective point at which to act?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "Long-term control of a population that has spread throughout a region"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "Large-scale eradication after a species has become well established"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "Preventing a species from being introduced into a new region in the first place"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "Rapid chemical treatment immediately after a new population is first detected"
+          }
+        }
+      ],
+      "correct": [
+        "c"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Preventing introduction, through measures such as inspecting cargo, cleaning boats, or restricting the trade of high-risk species, avoids the cost of the problem altogether and is consistently the cheapest and most effective stage to act on. Rapid response after detection is the next most cost-effective stage, but the population must already exist to detect it. Large-scale eradication of an established population and long-term control of a widespread population are both far more expensive and less likely to fully succeed, since the population has already had time to grow and spread."
+      },
+      "authored": "2026-09-01"
+    },
+    {
+      "id": "5436-sts-004",
+      "type": "single",
+      "categoryId": "I-B",
+      "overlays": [],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "Invasive predators such as rats and snakes have caused disproportionately severe extinctions among native bird species on oceanic islands. Which factor best explains why island species are especially vulnerable to introduced predators?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "Island ecosystems support fewer total species than mainland ecosystems do"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "Island species often evolved without exposure to similar predators and lack effective defenses"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "Island climates are generally less stable than mainland climates"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "Island populations have lower genetic diversity than mainland populations"
+          }
+        }
+      ],
+      "correct": [
+        "b"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Species that evolve in isolation on islands, without predators of a given type present, often lose costly defenses such as strong flight or predator-avoidance behavior, since those traits were not favored by natural selection there. When a predator is later introduced, the native species have no evolved defense against it. Lower total species counts, less stable climates, and lower genetic diversity are all real features of some island ecosystems, but none of them is the specific mechanism that makes island prey defenseless against a newly introduced predator."
+      },
+      "authored": "2026-09-01"
+    },
+    {
+      "id": "5436-sts-005",
+      "type": "single",
+      "categoryId": "I-B",
+      "overlays": [],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "Rising atmospheric carbon dioxide is causing ocean water to become more acidic. Which process directly explains this drop in ocean pH?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "Dissolved carbon dioxide reacts with seawater to form carbonic acid, which releases hydrogen ions"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "Warmer surface water dissolves more carbon dioxide gas than colder water does"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "Increased ultraviolet radiation breaks down dissolved carbonate ions in seawater"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "Runoff carrying industrial acids drains directly into the ocean from coastal cities"
+          }
+        }
+      ],
+      "correct": [
+        "a"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Carbon dioxide dissolving in seawater reacts with water to form carbonic acid, which then dissociates and releases hydrogen ions, lowering pH; this reaction is the principal driver of ocean acidification. Warmer water actually holds less dissolved gas than colder water, the opposite of what that explanation claims happens as the ocean warms. Ultraviolet breakdown of carbonate ions and direct acid runoff are not the mechanism responsible for the global, ocean-wide pH decline that has been measured."
+      },
+      "authored": "2026-09-01"
+    },
+    {
+      "id": "5436-sts-006",
+      "type": "single",
+      "categoryId": "I-B",
+      "overlays": [],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "Which group of marine organisms is most directly threatened by ocean acidification because of the way they build their body structures?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "Reef-building corals and shelled mollusks"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "Jellyfish and other gelatinous zooplankton"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "Sharks and other cartilaginous fish"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "Seagrasses and other marine flowering plants"
+          }
+        }
+      ],
+      "correct": [
+        "a"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Corals and shelled mollusks build calcium carbonate skeletons and shells; as ocean pH falls, carbonate ions become less available and existing carbonate structures can dissolve more readily, making shell and skeleton building more difficult and energy-costly. Jellyfish have soft, gelatinous bodies with no calcium carbonate structure, sharks have cartilage skeletons rather than calcified bone, and seagrasses are flowering plants that do not build calcified structures, so none of these groups is threatened through this particular mechanism."
+      },
+      "authored": "2026-09-01"
+    },
+    {
+      "id": "5436-sts-007",
+      "type": "single",
+      "categoryId": "I-B",
+      "overlays": [],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "Two types of ice are melting due to warming global temperatures: floating sea ice in the Arctic Ocean, and land-based glaciers on Greenland. Which statement correctly compares their effects on global sea level?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "Sea ice contributes more to sea-level rise than land glaciers do, because it covers a larger surface area"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "Land glaciers contribute to sea-level rise while sea ice contributes very little, because floating ice already displaces its own volume of water"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "Sea ice and land glaciers contribute equally to sea-level rise, because both add fresh water to the ocean"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "Neither type of ice affects sea level when it melts, since only thermal expansion of seawater does"
+          }
+        }
+      ],
+      "correct": [
+        "b"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Floating sea ice already displaces a volume of water equal to its own mass, so its melting adds almost no net volume to the ocean, much as ice melting in a full glass of water does not overflow it. Land-based glaciers and ice sheets sit on land rather than in the ocean, so water from their melting is new input to the ocean and does raise sea level. The two ice types therefore do not contribute equally, sea ice is not the larger contributor, and land ice melt is a real contributor alongside thermal expansion rather than the only one being thermal expansion."
+      },
+      "authored": "2026-09-01"
+    },
+    {
+      "id": "5436-sts-008",
+      "type": "single",
+      "categoryId": "I-B",
+      "overlays": [],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "Ocean acidification and global sea-level rise are both linked to increasing atmospheric carbon dioxide, but through different direct mechanisms. Which statement correctly distinguishes how carbon dioxide drives each?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "Carbon dioxide dissolves directly into seawater to lower its pH, while its warming effect drives the thermal expansion and ice melt that raise sea level"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "Carbon dioxide melts polar ice directly through infrared absorption, while acidification results from that melted ice diluting seawater"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "Carbon dioxide raises sea level by dissolving into seawater and increasing its volume, while acidification results from warmer water reacting with rock"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "Carbon dioxide affects sea level only through acidification, because acidified water expands more than neutral water when heated"
+          }
+        }
+      ],
+      "correct": [
+        "a"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Carbon dioxide drives acidification through a direct chemical pathway, dissolving into seawater and forming an acid, while it drives sea-level rise through an indirect physical pathway, trapping heat that warms both the atmosphere and the ocean, which then expands the ocean's volume and melts land-based ice. The other options reverse or invent mechanisms: dissolved carbon dioxide does not itself add meaningful volume to the ocean, ice melt is not what causes acidification, and sea-level rise is driven by warming, not only by chemical acidification."
+      },
+      "authored": "2026-09-01"
+    },
+    {
+      "id": "5436-sts-009",
+      "type": "single",
+      "categoryId": "I-B",
+      "overlays": [],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "Petroleum reserves are concentrated in a relatively small number of geologic regions rather than distributed evenly across the globe. Which explanation accounts for this pattern?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "Petroleum forms only where organic-rich sediments were buried and altered under specific heat and pressure over geologic time"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "Petroleum companies choose to operate only in a small number of politically stable countries"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "Global petroleum quantities are fixed, so extraction is restricted to protect long-term supply"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "Petroleum deposits form randomly and their distribution has no relationship to geologic history"
+          }
+        }
+      ],
+      "correct": [
+        "a"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Petroleum forms only where the right combination of organic-rich source rock, burial depth, temperature, and pressure occurred over millions of years, conditions met in some sedimentary basins and not others, so reserves naturally cluster in those regions. Company operating decisions and extraction policy may influence where petroleum is produced today, but they do not explain where it formed in the first place, and the geologic formation process is the opposite of a random, historyless distribution."
+      },
+      "authored": "2026-09-01"
+    },
+    {
+      "id": "5436-sts-010",
+      "type": "single",
+      "categoryId": "I-B",
+      "overlays": [],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "For the same mineral deposit, surface (open-pit or strip) mining typically extracts a higher percentage of the resource at lower cost than underground mining does. Which of the following is the primary environmental tradeoff of this advantage?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "Surface mining disturbs a much larger area of land and habitat than underground mining does"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "Surface mining requires far more energy per ton of ore extracted than underground mining does"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "Surface mining produces highly radioactive waste that underground mining does not produce"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "Surface mining releases the mineral in a less pure form than underground mining does"
+          }
+        }
+      ],
+      "correct": [
+        "a"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Reaching a deposit from the surface means removing the vegetation, soil, and rock above it across a wide footprint, which disturbs far more surface land and habitat than tunneling underground to the same deposit. Energy use per ton, radioactivity of waste, and mineral purity depend mainly on the specific deposit and processing method rather than on whether extraction happens from the surface or underground, so none of those is the tradeoff generally associated with the surface method."
+      },
+      "authored": "2026-09-01"
+    },
+    {
+      "id": "5436-sts-011",
+      "type": "single",
+      "categoryId": "I-B",
+      "overlays": [],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "A mineral required for battery manufacturing is extracted primarily in a small number of low-income countries, while most of the finished batteries are manufactured and used in high-income countries. Which issue does this pattern most directly raise?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "A mismatch between where a resource's extraction costs occur and where its economic benefits are realized"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "A shortage of the mineral itself, since extraction cannot keep pace with global demand"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "A purely technical challenge of transporting raw ore efficiently across long distances"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "An unrelated coincidence, since extraction and manufacturing locations are typically chosen independently"
+          }
+        }
+      ],
+      "correct": [
+        "a"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "When the environmental and social costs of extraction fall mainly on the country where mining occurs, while the economic and technological benefits accrue mainly to the countries that manufacture and use the finished product, the geographic separation of costs and benefits itself becomes a central equity issue in resource distribution debates. The scenario does not describe a mineral shortage or a transportation logistics problem, and the concentration of mining and manufacturing in different places is generally driven by geology, labor cost, and industrial capacity rather than being an unrelated coincidence."
+      },
+      "authored": "2026-09-01"
+    },
+    {
+      "id": "5436-sts-012",
+      "type": "single",
+      "categoryId": "I-B",
+      "overlays": [],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "Cities are often several degrees warmer than surrounding rural areas, an effect known as the urban heat island. Which factor is the primary cause of this temperature difference?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "Dark pavement and buildings absorb and re-radiate more solar energy than vegetated surfaces do"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "Cities receive more direct sunlight per day than surrounding rural areas do"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "Vehicle exhaust in cities traps outgoing heat in a way rural air does not"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "Tall buildings block wind from reaching rural areas, letting them cool more slowly"
+          }
+        }
+      ],
+      "correct": [
+        "a"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Pavement, roofing, and building materials in cities typically have lower reflectivity and higher heat capacity than soil and plant cover, so they absorb more incoming solar energy during the day and release it as heat afterward, raising local air temperature. Cities do not receive more sunlight than nearby rural land under the same regional weather, vehicle exhaust affects air quality more directly than it traps local heat, and blocking wind from reaching rural areas would affect rural cooling, not explain why the city itself is warmer."
+      },
+      "authored": "2026-09-01"
+    },
+    {
+      "id": "5436-sts-013",
+      "type": "single",
+      "categoryId": "I-B",
+      "overlays": [],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "Converting native grassland to intensive row-crop agriculture increases food production but is also associated with which environmental tradeoff?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "Increased soil erosion and habitat loss as continuous plant cover is replaced by seasonal crops"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "Increased local biodiversity because farmland supports more species than grassland did"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "Decreased fertilizer use, since crops require fewer nutrients than native grasses"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "Reduced runoff, because tilled soil absorbs rainfall more effectively than grassland does"
+          }
+        }
+      ],
+      "correct": [
+        "a"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Native grassland keeps soil covered by living roots year-round, while row crops leave soil bare for part of the year and are periodically tilled, both of which make soil more vulnerable to erosion and remove habitat that supported grassland species. Row-crop farmland generally supports fewer species than diverse native grassland rather than more, crops typically require added fertilizer rather than less than native grasses need, and tilled, less-vegetated soil generally absorbs rainfall less effectively than intact grassland, producing more runoff rather than less."
+      },
+      "authored": "2026-09-01"
+    },
+    {
+      "id": "5436-sts-014",
+      "type": "single",
+      "categoryId": "I-B",
+      "overlays": [],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "Removing forest cover from a watershed typically increases surface runoff and soil erosion during rainstorms. Which explanation best accounts for this effect?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "Tree roots that once held soil in place and slowed water movement are no longer present"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "Deforested land receives significantly more total rainfall than forested land does"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "Removing trees increases the mineral content of soil, making it wash away more easily"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "Forested land naturally has a steeper slope, so runoff was unaffected by the trees"
+          }
+        }
+      ],
+      "correct": [
+        "a"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Tree roots bind soil particles together and their canopy and litter layer slow the rate at which rainwater reaches and moves across the ground; removing that root structure and cover leaves soil looser and lets water run off faster, carrying more sediment with it. Deforestation does not change how much rain a region receives, changing mineral content is not the mechanism that causes erosion, and slope is a preexisting feature of the land rather than something the trees' presence would have prevented from mattering."
+      },
+      "authored": "2026-09-01"
+    },
+    {
+      "id": "5436-sts-015",
+      "type": "single",
+      "categoryId": "I-B",
+      "overlays": [],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "For the same number of new housing units, low-density suburban development consumes substantially more land than compact, higher-density development does. Which is the most direct environmental consequence of this difference?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "Low-density development converts more surrounding natural or agricultural land per household to human use"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "Low-density development produces more household waste per person than high-density development does"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "Low-density development requires more water treatment per household than high-density development does"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "Low-density development increases indoor air pollution compared to high-density development"
+          }
+        }
+      ],
+      "correct": [
+        "a"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Spreading the same number of housing units over more land directly means more previously natural or agricultural land is converted to roads, lawns, and buildings, which is the defining land-use consequence of low-density development. Waste generation, water treatment needs, and indoor air quality are driven mainly by household size, plumbing, and building practices rather than by lot size or development density, so none of them follows as directly from consuming more land per household."
+      },
+      "authored": "2026-09-01"
+    },
+    {
+      "id": "5436-sts-016",
+      "type": "single",
+      "categoryId": "I-B",
+      "overlays": [],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "A complete cradle-to-grave life-cycle analysis of a manufactured product accounts for the environmental impact of which set of stages?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "Only the energy used during the product's manufacturing process"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "Only the impact created while the consumer is actively using the product"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "Raw material extraction, manufacturing, use, and final disposal or recycling"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "Only the transportation impact of shipping the finished product to consumers"
+          }
+        }
+      ],
+      "correct": [
+        "c"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "A cradle-to-grave life-cycle analysis is defined by tracking impact across the full sequence of stages a product passes through, from extracting its raw materials, through manufacturing and active use, to its eventual disposal or recycling. Limiting the analysis to only manufacturing, only the use phase, or only transportation captures a single stage rather than the full life cycle, which can understate or misrepresent a product's total environmental footprint."
+      },
+      "authored": "2026-09-01"
+    },
+    {
+      "id": "5436-sts-017",
+      "type": "single",
+      "categoryId": "I-B",
+      "overlays": [
+        "sep"
+      ],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "A report finds that manufacturing one reusable cotton tote bag requires more energy than manufacturing one single-use plastic bag, and concludes from this that plastic bags are the more environmentally friendly choice. Which criticism most directly applies life-cycle thinking to this conclusion?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "The comparison should account for how many times each bag is reused and each bag's impact at disposal"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "The comparison is invalid because cotton and plastic cannot be measured in the same energy units"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "The comparison should instead be based only on which bag is cheaper for the consumer to buy"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "The comparison is invalid because manufacturing energy is not a genuine environmental impact"
+          }
+        }
+      ],
+      "correct": [
+        "a"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Comparing only the manufacturing energy of a single bag of each type ignores that a reusable bag is typically used many times while a single-use bag is used once and then discarded, and it also leaves out what happens to each bag at the end of its life; a full life-cycle comparison spreads manufacturing impact across all uses and adds disposal impact for both bags. Energy is a common, comparable unit regardless of material, purchase price is an economic factor rather than an environmental one, and manufacturing energy is a legitimate part of a product's environmental impact rather than something to dismiss."
+      },
+      "authored": "2026-09-01"
+    },
+    {
+      "id": "5436-sts-018",
+      "type": "single",
+      "categoryId": "I-B",
+      "overlays": [],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "An analyst calculating the full life-cycle carbon footprint of an electric vehicle must include emissions from the electricity used to charge it, not just emissions from manufacturing the vehicle. Which reason best explains why this use-phase emission source varies so much between regions?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "Battery capacity is set differently by each region's government regulations"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "The mix of fuels used to generate electricity, such as coal, natural gas, or renewables, differs by region"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "Electric vehicles draw a fixed, standardized amount of power regardless of where they are charged"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "Regional electricity prices, rather than fuel sources, determine the carbon footprint of charging"
+          }
+        }
+      ],
+      "correct": [
+        "b"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "The carbon emitted per unit of electricity depends on how that electricity was generated; a region that relies heavily on coal produces far more emissions per unit than a region relying on hydropower, wind, or solar, so the same vehicle charged in different regions can have very different use-phase footprints. Battery capacity is a property of the vehicle itself rather than of the region, vehicles do not draw a fixed amount of power independent of local grid conditions, and electricity price reflects market and policy factors rather than the fuel mix that actually determines emissions."
+      },
+      "authored": "2026-09-01"
+    },
+    {
+      "id": "5436-sts-019",
+      "type": "single",
+      "categoryId": "I-B",
+      "overlays": [],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "Scientists monitor large-scale deforestation and changes in vegetation health across entire continents using satellite instruments that detect reflected and emitted electromagnetic radiation from Earth's surface. Which technology does this describe?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "Remote sensing"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "Gel electrophoresis"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "Polymerase chain reaction"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "Radiocarbon dating"
+          }
+        }
+      ],
+      "correct": [
+        "a"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Remote sensing uses satellite or aircraft-based instruments to detect radiation reflected or emitted from Earth's surface, allowing scientists to monitor vegetation, land cover, and other large-scale surface features without visiting each site directly. Gel electrophoresis separates molecules such as DNA fragments by size, polymerase chain reaction copies specific DNA sequences in a laboratory, and radiocarbon dating estimates the age of once-living material from radioactive decay; none of these laboratory techniques involves detecting radiation from Earth's surface at continental scale."
+      },
+      "authored": "2026-09-01"
+    },
+    {
+      "id": "5436-sts-020",
+      "type": "single",
+      "categoryId": "I-B",
+      "overlays": [],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "After an oil spill, responders introduce naturally occurring bacteria that metabolize hydrocarbons to help break down the spilled oil in place. Which term best describes this technique?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "Bioremediation"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "Biomagnification"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "Bioaccumulation"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "Genetic engineering"
+          }
+        }
+      ],
+      "correct": [
+        "a"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Bioremediation is the use of living organisms, often bacteria or fungi, to break down or remove pollutants from a contaminated environment, which matches introducing hydrocarbon-metabolizing bacteria to degrade spilled oil. Biomagnification describes a contaminant's concentration increasing at higher levels of a food chain, and bioaccumulation describes a contaminant building up within a single organism over time; neither describes actively degrading a pollutant. Genetic engineering means directly altering an organism's DNA, which is not indicated here since the bacteria described are naturally occurring."
+      },
+      "authored": "2026-09-01"
+    },
+    {
+      "id": "5436-sts-021",
+      "type": "single",
+      "categoryId": "I-B",
+      "overlays": [],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "Water quality monitors count the number and diversity of stonefly and mayfly larvae present in a stream, since these species are highly sensitive to low dissolved oxygen and pollution. Which term best describes this monitoring approach?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "Using bioindicator species to assess environmental conditions"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "Conducting a controlled laboratory experiment"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "Performing genetic sequencing of stream organisms"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "Measuring stream turbidity with an electronic sensor"
+          }
+        }
+      ],
+      "correct": [
+        "a"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "Species whose presence, absence, or abundance reflects specific environmental conditions, such as pollution-sensitive stonefly and mayfly larvae reflecting water quality, are called bioindicators, and monitoring them is a recognized way of assessing environmental conditions without direct chemical instruments. The scenario describes field observation of an existing stream population rather than a controlled laboratory experiment, does not involve reading the organisms' DNA, and does not describe an electronic turbidity sensor, so none of the other options matches the described approach."
+      },
+      "authored": "2026-09-01"
+    },
+    {
+      "id": "5436-sts-022",
+      "type": "single",
+      "categoryId": "I-B",
+      "overlays": [],
+      "retired": false,
+      "stem": {
+        "format": "text",
+        "value": "A photovoltaic solar panel and a solar water heater both use sunlight but generate different outputs. Which statement correctly distinguishes how each converts solar energy?"
+      },
+      "options": [
+        {
+          "id": "a",
+          "content": {
+            "format": "text",
+            "value": "A photovoltaic panel converts light directly into electric current using a semiconductor, while a water heater collects solar energy as heat"
+          }
+        },
+        {
+          "id": "b",
+          "content": {
+            "format": "text",
+            "value": "A photovoltaic panel collects solar energy as heat, while a water heater converts light directly into electric current"
+          }
+        },
+        {
+          "id": "c",
+          "content": {
+            "format": "text",
+            "value": "Both technologies convert sunlight into electricity, but a water heater does so at a higher efficiency"
+          }
+        },
+        {
+          "id": "d",
+          "content": {
+            "format": "text",
+            "value": "Both technologies collect solar energy as heat, but a photovoltaic panel stores that heat for longer"
+          }
+        }
+      ],
+      "correct": [
+        "a"
+      ],
+      "explanation": {
+        "format": "text",
+        "value": "A photovoltaic panel uses a semiconductor material that absorbs photons and releases electrons, producing electric current directly, while a solar water heater simply absorbs sunlight as heat and transfers that heat to water, with no electricity generation involved. Reversing which device produces heat and which produces electricity describes neither device correctly, a solar water heater does not generate electricity at all, and photovoltaic panels do not operate by collecting or storing heat."
+      },
+      "authored": "2026-09-01"
     }
   ]
 }
