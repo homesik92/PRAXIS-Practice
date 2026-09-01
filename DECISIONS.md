@@ -1,4 +1,4 @@
-# Decision Log
+# Decision Log — PRAXIS-Practice
 
 Append-only. See conventions in `.claude/skills/dev-workflow/SKILL.md` ("The decision
 log"). IDs: `D-n` for design decisions, `N-n` for implementation notes. Never rewrite a
@@ -1095,3 +1095,94 @@ manifest's duplicated display metadata "cannot drift"; this applies it to conten
 whether 5485's existing questions could be leveraged; chose copy-with-CI-check over the
 shared-pool and plain-copy alternatives, and chose to carry all 375 rather than trim to
 the 3× target, via AskUserQuestion.
+
+*Later updated by: [N-9](#n-9-blueprintmds-gap-topic-list-was-a-topic-heading-diff-not-a-question-content-audit) — the "equilibrium and Le Châtelier" gap named above turned out to already be covered by derived content; the gap list here was a BLUEPRINT.md topic-heading diff, not a content audit.*
+
+### N-7: `.authoring/*.json` holds the merge script's full source of truth — remediating a question in the bank without also updating its authoring file is a silent future regression
+
+**Context.** Phase 7.4's Life/Earth leaves (cells, evolution, astronomy, earthsci) went
+through code-review-style remediation (round 1 correctness fixes, round 2 give-away and
+length-tell trims — see ROADMAP.md's Phase 7.4 entry) applied directly to
+`data/tests/5436.json`. `tools/merge-authored-5436.mjs`'s own doc comment says native
+questions are "replaced wholesale by whatever `.authoring/` currently holds" on every
+run — which means the `.authoring/*.json` files, not the bank, are the actual source of
+truth the merge script trusts. Nobody had re-run the merge since that remediation until
+this session's gap-topic authoring pass did.
+
+**What happened.** Running `node tools/merge-authored-5436.mjs --dry-run` for the new
+gap-topic leaves surfaced 30 length-tell warnings, not the 21 ROADMAP.md documented as
+the accepted post-remediation residual. `5436-earthsci-046` — named in ROADMAP.md as the
+worst pre-fix outlier at 2.99× — showed the *same* 2.99× ratio again. Comparing
+`data/tests/5436.json` (the remediated bank) against `.authoring/earthsci.json` (the
+stale authoring source) confirmed it: option `d`'s trimmed 146-character text in the bank
+was still the original 275-character version in `.authoring/`. Running the merge as-is
+would have silently reverted every round-1 and round-2 fix back to its pre-remediation
+state the moment a new leaf was merged alongside it.
+
+**Fix applied.** Before merging the new gap-topic leaves, the four existing
+`.authoring/*.json` files were regenerated from the current (already-remediated)
+`data/tests/5436.json`'s native questions, grouped by category leaf. The dry-run then
+correctly showed 21 warnings, matching ROADMAP.md's documented residual.
+
+**Consequence — a standing rule for this bank going forward.** Any fix applied directly
+to a native 5436 question in `data/tests/5436.json` (a code-review finding, a live-test
+catch, a later correction) must also be applied to (or re-synced from) the matching
+`.authoring/*.json` file, or the next authoring/merge pass for *any* leaf will silently
+undo it. `tools/merge-authored-5436.mjs` could instead diff against the bank and warn on
+drift before overwriting — not built here, since no further authoring passes are
+currently planned; worth doing before the next one is.
+
+### N-8: 5436 never got a `REFERENCE_PANEL_KINDS` entry in `run.html`, even though D-36 gave it a `referencePanel` field from day one
+
+**Context.** D-36 made 5436's `referencePanel` field point at the shared
+`reference/5485-periodic.json` (via the array-`testCode` mechanism D-36 also
+introduced), on the reasoning that 5436 and 5485 should share one periodic-table panel
+rather than duplicate it. `run.html`'s `ensureReferencePanelLoaded`, however, keys which
+renderer runs off a hardcoded `REFERENCE_PANEL_KINDS` object by `bank.code` — and only
+`"5165"` and `"5485"` were ever added to it. The object's own comment claimed a bank with
+a `referencePanel` field always had a matching entry and called the mismatch branch
+"not reachable today" — which was true only because 5436 was `enabled: false` and had
+never been opened via `run.html` in a browser.
+
+**Found.** This session's live-test of Phase 7.4's close-out (flipping 5436 to
+`enabled: true`) hit `console.error('No reference panel renderer registered for
+bank.code "5436"')` on the very first `run.html` load — a real, shipped-for-months gap,
+just never exercised.
+
+**Fix.** Added a `"5436"` entry to `REFERENCE_PANEL_KINDS`, identical to `"5485"`'s
+(same `renderElementsAndConstants` renderer, same labels — they render the same shared
+file). Corrected the now-false "not reachable today" comment to point at this as the
+concrete case that proved it reachable.
+
+**Why this belongs in the log, not just the commit:** the "not reachable today" comment
+is exactly the kind of claim that goes stale silently — it was accurate when written and
+wrong by the time D-36 shipped, with nothing to catch the gap except a live load that
+happened not to occur for months. Recorded so a future "add test code X" change knows
+`REFERENCE_PANEL_KINDS` is a second place (besides the bank's own `referencePanel`
+field) that needs updating, and doesn't trust that comment's claim without checking.
+
+### N-9: BLUEPRINT.md's gap-topic list was a topic-heading diff, not a question-content audit
+
+**Context.** D-36 and ROADMAP.md's Phase 7.4 both listed "chemical equilibrium and Le
+Châtelier (5485 has no equilibrium topic at all)" and colligative properties among the
+topics 5436's derived-from-5485 content doesn't cover, sourced from comparing
+BLUEPRINT.md's "5436 vs 5485" topic headings — not from reading the actual derived
+question set.
+
+**Found.** The authoring agent assigned II-B's gap topics (equilibrium, colligative
+properties, colloids) checked the live bank before writing anything, per this project's
+own copy-collision-avoidance practice, and found `5436-reactions-035` through `-038`
+(derived from `5485-reactions-035..038`) already covering equilibrium/Le Châtelier shifts
+under temperature, pressure, and concentration changes, and `5436-solutions-021..023`
+already covering freezing-point depression — despite BLUEPRINT.md apparently not naming
+"equilibrium" as one of 5485's topic headings. 5485's *reactions* and *solutions*
+categories evidently cover this content under a different heading than BLUEPRINT.md's
+extraction used.
+
+**Consequence.** The agent wrote fewer equilibrium questions than originally scoped (2,
+not 3–4) on angles the existing four don't touch, and zero new freezing-point questions,
+redirecting the freed count to colligative properties broadly and colloids — the one
+topic in that trio confirmed to be a genuine gap. No content gap remains unaddressed;
+this note exists so a future session trusts BLUEPRINT.md's topic-heading diff as a
+*starting point* for "what's missing," not as a substitute for checking the actual
+derived question set before authoring against a named gap.

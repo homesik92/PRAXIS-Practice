@@ -619,6 +619,11 @@
         heading: "Periodic table and physical constants reference",
         render: renderElementsAndConstants,
       },
+      "5436": {
+        toggleLabel: "Periodic table & constants",
+        heading: "Periodic table and physical constants reference",
+        render: renderElementsAndConstants,
+      },
     };
 
     let referencePanelLoaded = false;
@@ -630,9 +635,9 @@
         // Deliberately does NOT set referencePanelLoaded here (code review
         // finding, Phase 5.3): nothing was actually loaded, so a future call for
         // the same bank should log this again rather than silently no-op forever
-        // -- not reachable today (every bank with a referencePanel field has a
-        // matching REFERENCE_PANEL_KINDS entry), but the cheap, correct behavior
-        // if a future bank's code is ever added to one without the other.
+        // -- the cheap, correct behavior if a future bank's code is ever added to
+        // one without the other (this is how the 5436 gap was first caught: its
+        // referencePanel field predated its REFERENCE_PANEL_KINDS entry).
         console.error(`No reference panel renderer registered for bank.code "${bank.code}"`);
         return;
       }

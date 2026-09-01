@@ -14,3 +14,9 @@ node_modules/
 # Python bytecode from tools/*.py
 __pycache__/
 *.pyc
+
+# In-flight authoring output (durable across sessions; merged into banks, never committed raw)
+.authoring/
+
+# Blind-verification payloads and findings (derived; regenerate any time)
+.verification/
