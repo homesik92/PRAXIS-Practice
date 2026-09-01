@@ -1035,11 +1035,16 @@ Counts below are targets. **A leaf's box is ticked only once its questions are a
   this runs, the two boxes above stay ◐: an unverified answer key is this project's worst
   failure mode, and the last such pass found 18 defects in just 55 questions.
   **Carry this measurement into it** (taken at merge time, `tools/merge-authored-5436.mjs`
-  now reports it): the correct option is ≥1.6× the mean distractor length in **48 of 195
-  (25%)**, concentrated in **III-B evolution at 22/54 (41%)** — worst cases
-  `5436-earthsci-046` (2.99×), `5436-astronomy-012` (2.28×), `5436-evolution-054` (2.21×).
-  That is the length/justification tell that reached 94% in one 5101 category before it
-  was measured. Healthy by contrast: key spread is 48/50/49/48, `sep` 56% (target ≥50%),
+  now reports it): the correct option is ≥1.6× the mean distractor length in **30 of 195
+  (15%)** — **IV-B earthsci 15/54 (28%)**, IV-A astronomy 6/36 (17%), III-A cells 5/51
+  (10%), III-B evolution 4/54 (7%). Worst cases `5436-earthsci-046` (2.99×),
+  `5436-astronomy-012` (2.28×), `5436-evolution-010` (2.07×). That is the
+  length/justification tell that reached 94% in one 5101 category before it was measured;
+  **IV-B is now the leaf that most warrants a rewrite pass.** (An earlier reading of 25%
+  overall / 41% in III-B was taken before that leaf's authoring agent finished: it
+  self-audited, found the same defect in 27 of its own items, and rewrote them, taking
+  III-B from the worst leaf to the best. Evolution's four survivors are all among the ten
+  recovered from the dead agent's build script, which never got that pass.) Healthy by contrast: key spread is 48/50/49/48, `sep` 56% (target ≥50%),
   `tot` 30% (target 25–33%), and zero positional option references survive.
   **Two items the authoring agents self-flagged, worth a verifier's eye:**
   `5436-cells-038` (karyotype/nondisjunction) sits close to `5436-cells-019` (gamete

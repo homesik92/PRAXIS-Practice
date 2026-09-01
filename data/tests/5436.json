@@ -23540,28 +23540,28 @@
       "retired": false,
       "stem": {
         "format": "text",
-        "value": "A teacher presents students with a cross between two pea plants that are each heterozygous for a recessive trait and explains that any single offspring has a 25% probability of showing the recessive phenotype. A student then predicts that 'in a group of four seeds, exactly one seed will always show the recessive trait, no matter what.' How should the teacher respond to this prediction?"
+        "value": "A teacher presents students with a cross between two pea plants that are each heterozygous for a recessive trait and explains that any single offspring has a one-in-four probability of showing the recessive phenotype. A student then predicts that 'in a group of four seeds, exactly one seed will always show the recessive trait, no matter what.' How should the teacher respond to this prediction?"
       },
       "options": [
         {
           "id": "a",
           "content": {
             "format": "text",
-            "value": "Agree with the student, since a 25% probability guarantees that exactly one offspring out of every four will show the recessive trait"
+            "value": "Agree with the student, since a one-in-four probability guarantees that exactly one offspring out of every four will show the recessive trait"
           }
         },
         {
           "id": "b",
           "content": {
             "format": "text",
-            "value": "Explain that the 25% probability applies independently to each offspring, so an actual group of four is not guaranteed to contain exactly one recessive individual, even though that ratio is expected on average across many offspring"
+            "value": "Explain that the one-in-four probability applies independently to each offspring, so an actual group of four is not guaranteed to contain exactly one recessive individual, even though that ratio is expected on average across many offspring"
           }
         },
         {
           "id": "c",
           "content": {
             "format": "text",
-            "value": "Explain that the student's prediction is wrong because the true probability of the recessive trait appearing in this cross is actually 50%, not 25%"
+            "value": "Explain that the student's prediction is wrong because the true probability of the recessive trait appearing in this cross is actually one in two, not one in four"
           }
         },
         {
@@ -23577,7 +23577,7 @@
       ],
       "explanation": {
         "format": "text",
-        "value": "Probability describes an independent, average expectation for each individual offspring, so while roughly one in four offspring is expected to show the recessive trait across many trials, any specific small group of four is not guaranteed to match that ratio exactly, which is the key idea the teacher should convey. Agreeing that four offspring must always include exactly one recessive individual treats a long-run average as a guaranteed outcome for a small sample, a common probability misconception. Changing the stated probability to 50% is simply incorrect, since a cross between two heterozygotes for a single recessive trait produces a 25% chance of the recessive phenotype, not 50%. Claiming probability applies only to human genetics is false, since the same probability rules apply to inheritance patterns across all sexually reproducing organisms, plants included."
+        "value": "Probability describes an independent, average expectation for each individual offspring, so while roughly one in four offspring is expected to show the recessive trait across many trials, any specific small group of four is not guaranteed to match that ratio exactly, which is the key idea the teacher should convey. Agreeing that four offspring must always include exactly one recessive individual treats a long-run average as a guaranteed outcome for a small sample, a common probability misconception. Changing the stated probability to one in two is simply incorrect, since a cross between two heterozygotes for a single recessive trait produces a one-in-four chance of the recessive phenotype, not one in two. Claiming probability applies only to human genetics is false, since the same probability rules apply to inheritance patterns across all sexually reproducing organisms, plants included."
       },
       "authored": "2026-08-31"
     },
@@ -27316,7 +27316,7 @@
           "id": "d",
           "content": {
             "format": "text",
-            "value": "Commensalism, because the barnacle benefits from the relationship while the crabs' survival and reproduction were unaffected"
+            "value": "Commensalism, since the barnacle benefits while the crab is unaffected"
           }
         }
       ],
@@ -27344,7 +27344,7 @@
           "id": "a",
           "content": {
             "format": "text",
-            "value": "Intraspecific competition, since individuals of the same species are competing with one another for a limited resource, mates"
+            "value": "Intraspecific competition, since individuals of the same species compete for a limited resource"
           }
         },
         {
@@ -27358,7 +27358,7 @@
           "id": "c",
           "content": {
             "format": "text",
-            "value": "Interspecific predation, since one individual is attacking another"
+            "value": "Interspecific predation, since a predator individual is hunting another for food"
           }
         },
         {
@@ -27409,7 +27409,7 @@
           "id": "c",
           "content": {
             "format": "text",
-            "value": "Worker bees are closely related to the queen and to one another, so by helping relatives reproduce they help pass on shared alleles indirectly, which is how helping behavior can still be favored by selection"
+            "value": "Worker bees are closely related to the queen, so helping her reproduce still spreads their shared alleles"
           }
         },
         {
@@ -27569,7 +27569,7 @@
           "id": "d",
           "content": {
             "format": "text",
-            "value": "The population shifted from exponential growth, unconstrained by limiting factors, to logistic growth, which levels off as the population approaches the environment's carrying capacity"
+            "value": "The population shifted from exponential growth to logistic growth, leveling off near the environment's carrying capacity"
           }
         }
       ],
@@ -27613,7 +27613,7 @@
           "id": "c",
           "content": {
             "format": "text",
-            "value": "Only about 10 percent of the energy stored at one trophic level is typically transferred to the next, with the rest lost as metabolic heat and used for the organisms' own life processes"
+            "value": "Only about 10 percent of energy at one trophic level transfers to the next; the rest is lost as heat"
           }
         },
         {
@@ -27706,7 +27706,7 @@
           "id": "b",
           "content": {
             "format": "text",
-            "value": "Greater species diversity means a wider range of traits and functions are present, so if a disease or pest affects one species, others can persist and maintain the ecosystem's overall functioning"
+            "value": "Greater species diversity means more traits and functions are present, so if one species is affected, others can maintain ecosystem functioning"
           }
         },
         {
@@ -27813,7 +27813,7 @@
           "id": "c",
           "content": {
             "format": "text",
-            "value": "Because soil, seeds, and roots survived the fire, this is secondary succession, which typically proceeds faster than primary succession, which must start with soil formation from bare rock"
+            "value": "This is secondary succession, since soil, seeds, and roots survived, and secondary succession proceeds faster than primary succession from bare rock"
           }
         },
         {
@@ -27964,7 +27964,7 @@
           "id": "c",
           "content": {
             "format": "text",
-            "value": "During the day, photosynthesis by the plants consumes more carbon dioxide than respiration releases, while at night, with no photosynthesis occurring, respiration causes carbon dioxide to accumulate; over the longer term these processes roughly balance"
+            "value": "During the day, photosynthesis consumes more carbon dioxide than respiration releases; at night, with no photosynthesis, respiration causes it to accumulate"
           }
         },
         {
@@ -28022,7 +28022,7 @@
           "id": "d",
           "content": {
             "format": "text",
-            "value": "Sea otters function as a keystone species, since their predation on urchins has an effect on community structure that is disproportionate to the otters' own abundance"
+            "value": "Sea otters function as a keystone species, since their predation on urchins disproportionately shapes the community's structure"
           }
         }
       ],
@@ -28059,7 +28059,7 @@
           "id": "b",
           "content": {
             "format": "text",
-            "value": "In its new region, the plant may lack the natural predators, herbivores, and diseases that kept its population in check at home, allowing it to spread largely unchecked and outcompete native species"
+            "value": "In its new region, the plant may lack the natural predators and diseases that limited it at home, letting it spread unchecked"
           }
         },
         {
@@ -28104,7 +28104,7 @@
           "id": "a",
           "content": {
             "format": "text",
-            "value": "Rising temperatures appear to be shifting the butterfly's emergence more than the plant's flowering time, so caterpillars may hatch before their food plant is available; comparing caterpillar survival rates in years with larger versus smaller timing gaps would test this"
+            "value": "Temperatures appear to be shifting butterfly emergence more than plant flowering time, risking a mismatch; comparing caterpillar survival across years with different gap sizes would test this"
           }
         },
         {
@@ -28313,7 +28313,7 @@
           "id": "b",
           "content": {
             "format": "text",
-            "value": "Guard cells respond to light by changing shape to open the stomata, allowing carbon dioxide in for photosynthesis but also allowing more water vapor to escape; in darkness, with photosynthesis not occurring, the stomata close and reduce water loss"
+            "value": "Guard cells open the stomata in light to admit carbon dioxide for photosynthesis, which also lets water vapor escape; in darkness they close and reduce water loss"
           }
         },
         {
@@ -28369,7 +28369,7 @@
           "id": "c",
           "content": {
             "format": "text",
-            "value": "Xylem transports water and dissolved minerals from the roots upward through the plant, while phloem transports sugars produced by photosynthesis to other parts of the plant"
+            "value": "Xylem transports water and dissolved minerals upward from the roots, while phloem transports sugars from photosynthesis to other plant parts"
           }
         },
         {
@@ -28427,7 +28427,7 @@
           "id": "d",
           "content": {
             "format": "text",
-            "value": "Cuttings are genetically identical to the parent plant, so a population propagated only by cuttings has little genetic variation, while seeds from sexual reproduction combine genetic material from two parents and can include variants suited to changing conditions"
+            "value": "Cuttings are genetically identical to the parent, giving little variation, while seeds from sexual reproduction combine two parents' genes and can include variants suited to change"
           }
         }
       ],
@@ -28464,7 +28464,7 @@
           "id": "b",
           "content": {
             "format": "text",
-            "value": "Both strategies reduce competition between parent and offspring for light, water, and nutrients by moving seeds away from the parent plant"
+            "value": "Both strategies reduce competition between parent and offspring for light, water, and nutrients"
           }
         },
         {
@@ -28508,7 +28508,7 @@
           "id": "a",
           "content": {
             "format": "text",
-            "value": "At high light intensity, another factor, such as the fixed carbon dioxide concentration, becomes the limiting factor on the rate of photosynthesis rather than light"
+            "value": "At high light intensity, another factor, such as the fixed carbon dioxide concentration, becomes limiting instead of light"
           }
         },
         {
@@ -28581,7 +28581,7 @@
           "id": "d",
           "content": {
             "format": "text",
-            "value": "The plant hormone auxin accumulates on the shaded side of the stem, stimulating those cells to elongate more than the cells on the illuminated side, which causes the stem to curve toward the light"
+            "value": "The hormone auxin accumulates on the shaded side, causing those cells to elongate more than cells on the lit side, curving the stem toward light"
           }
         }
       ],
@@ -28625,7 +28625,7 @@
           "id": "c",
           "content": {
             "format": "text",
-            "value": "Place germinating seeds in a clear growth chamber in several different orientations, positioned so that root growth direction can be observed relative to gravity while other variables such as light and moisture are held constant"
+            "value": "Place germinating seeds in several different orientations in a clear chamber, observing root growth direction relative to gravity while light and moisture are held constant"
           }
         },
         {
@@ -28776,7 +28776,7 @@
           "id": "c",
           "content": {
             "format": "text",
-            "value": "Childbirth is regulated by a positive feedback loop, in which stronger contractions cause more oxytocin release, which causes even stronger contractions, intensifying the response until birth occurs and the stimulus for the loop ends"
+            "value": "Childbirth is regulated by a positive feedback loop, in which stronger contractions release more oxytocin, causing even stronger contractions until birth occurs"
           }
         },
         {
@@ -28832,7 +28832,7 @@
           "id": "d",
           "content": {
             "format": "text",
-            "value": "Each gas diffuses passively from an area of higher concentration to an area of lower concentration, and oxygen concentration is higher in alveolar air than in blood while carbon dioxide concentration is higher in blood than in alveolar air"
+            "value": "Each gas diffuses toward lower concentration: oxygen is higher in alveolar air than blood, carbon dioxide higher in blood than alveolar air"
           }
         }
       ],
@@ -28869,7 +28869,7 @@
           "id": "b",
           "content": {
             "format": "text",
-            "value": "A spinal reflex arc, in which a motor response is triggered at the spinal cord level, allowing a rapid protective response before the brain fully processes the sensory information"
+            "value": "A spinal reflex arc, in which a motor response is triggered at the spinal cord, allowing a rapid protective response before the brain fully processes pain"
           }
         },
         {
@@ -29015,7 +29015,7 @@
           "id": "a",
           "content": {
             "format": "text",
-            "value": "The student is correct, since both vaccines and autoimmune disorders work by suppressing the immune system's overall activity"
+            "value": "The student is correct, since both vaccines and autoimmune disorders work by suppressing the immune system's overall response to threats"
           }
         },
         {
@@ -29029,14 +29029,14 @@
           "id": "c",
           "content": {
             "format": "text",
-            "value": "A vaccine exposes the immune system to a harmless form of a pathogen's antigens, prompting it to produce memory cells for future protection, whereas an autoimmune disorder occurs when the immune system mistakenly attacks the body's own healthy cells"
+            "value": "A vaccine exposes the immune system to harmless antigens to build memory cells for future protection, while an autoimmune disorder involves attacking the body's own healthy cells"
           }
         },
         {
           "id": "d",
           "content": {
             "format": "text",
-            "value": "Vaccines and autoimmune disorders both involve the immune system attacking beneficial bacteria that normally live in the body"
+            "value": "Vaccines and autoimmune disorders both involve the immune system mistakenly attacking beneficial bacteria that normally live within the body"
           }
         }
       ],
@@ -29229,7 +29229,7 @@
           "id": "c",
           "content": {
             "format": "text",
-            "value": "They are heterotrophs with cell walls made of chitin that typically obtain nutrients by absorbing them after secreting digestive enzymes onto their food source"
+            "value": "They are heterotrophs with chitin cell walls that typically absorb nutrients after secreting digestive enzymes onto their food"
           }
         },
         {
@@ -29273,7 +29273,7 @@
           "id": "b",
           "content": {
             "format": "text",
-            "value": "Protists are a highly diverse collection of mostly single-celled eukaryotes grouped together largely because they do not fit the defining characteristics of animals, plants, or fungi, rather than because they share one recent common ancestor"
+            "value": "Protists are a diverse group of mostly single-celled eukaryotes grouped together mainly because they lack the traits of animals, plants, or fungi, not because of one shared ancestor"
           }
         },
         {
@@ -29317,7 +29317,7 @@
           "id": "a",
           "content": {
             "format": "text",
-            "value": "A genetic bottleneck occurred, in which the small number of survivors carried only a random subset of the original population's alleles by chance, not because those alleles were more advantageous"
+            "value": "A genetic bottleneck occurred: the surviving few carried only a random subset of the original alleles by chance, not because those alleles were more advantageous"
           }
         },
         {
@@ -29382,7 +29382,7 @@
           "id": "c",
           "content": {
             "format": "text",
-            "value": "Both processes work by favoring the reproduction of individuals with particular heritable traits, but in artificial selection humans choose which traits are favored, while in natural selection the environment determines which traits improve survival and reproduction"
+            "value": "Both processes favor reproduction of individuals with particular heritable traits, but humans choose the favored traits in artificial selection, while the environment determines them in natural selection"
           }
         },
         {
@@ -29441,7 +29441,7 @@
           "id": "d",
           "content": {
             "format": "text",
-            "value": "Adaptation depends on heritable variation in the relevant trait already being present in a population and on selection acting over multiple generations; when environmental change occurs faster than a population can generate or select for suitable variation, decline or extinction can result instead of adaptation"
+            "value": "Adaptation depends on heritable variation already present in a population and on selection acting over generations; when change outpaces a population's capacity to generate or select for suitable variation, decline or extinction can follow"
           }
         }
       ],
