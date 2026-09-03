@@ -1,0 +1,1315 @@
+{
+  "schemaVersion": 1,
+  "testCode": "5485",
+  "sections": [
+    {
+      "id": "atomic-concept-structure-and-decay",
+      "categoryId": "II-A",
+      "heading": "Concept overview",
+      "entries": [
+        {
+          "id": "atomic-concept-atomic-structure",
+          "label": "Atomic structure: protons, neutrons, electrons, and isotopes",
+          "content": {
+            "format": "text",
+            "value": "An atom is built from three particles. Protons and neutrons sit in a tiny, dense nucleus and account for essentially all of the atom's mass; electrons occupy the much larger volume of space around the nucleus and account for essentially none of it. The atomic number, Z, is the number of protons, and it is what identifies the element — every carbon atom in the universe has exactly 6 protons, and any atom with 6 protons is carbon, no matter how many neutrons or electrons it has. The mass number, A, is the total count of protons plus neutrons (nucleons) in a particular nucleus, so A minus Z gives the neutron count. A neutral atom has electrons equal in number to protons; an ion is an atom that has gained or lost electrons, which changes its charge but not its identity, since Z never changes when electrons move. Isotopes are atoms of the same element (same Z) with different numbers of neutrons, and therefore different A — carbon-12, carbon-13, and carbon-14 are all carbon, differing only in mass. Isotope notation writes A as a superscript and Z as a subscript to the left of the element symbol, or simply as the element name followed by the mass number, as in \"carbon-14\"."
+          }
+        },
+        {
+          "id": "atomic-concept-decay-types",
+          "label": "Types of radioactive decay and how each changes the nucleus",
+          "content": {
+            "format": "text",
+            "value": "A nucleus that is unstable — too large, or with the wrong ratio of neutrons to protons — sheds energy and particles until it reaches a stable configuration, and it does this in one of a few characteristic ways. Alpha decay ejects an alpha particle, which is a helium-4 nucleus (2 protons and 2 neutrons bound together). This lowers the mass number by 4 and the atomic number by 2, so the resulting daughter nuclide is a different element, two places earlier on the periodic table. Beta-minus decay converts a neutron in the nucleus into a proton, an electron, and an antineutrino; the electron (the beta particle) is ejected, so the mass number is unchanged, but the atomic number increases by 1 — the daughter is one element later on the periodic table. Beta-plus (positron) decay does the reverse at the particle level: a proton converts into a neutron, a positron, and a neutrino, so the atomic number decreases by 1 while the mass number again stays the same. Gamma decay is different in kind from the other two: it emits a high-energy photon from a nucleus that is left in an excited (higher-energy) state after an earlier alpha or beta emission, and since a photon carries no protons or neutrons, gamma decay changes neither Z nor A — it only lets the nucleus shed excess energy and settle into its ground state. Alpha particles are the most massive and most ionizing but the least penetrating (stopped by paper or skin); beta particles are lighter, more penetrating (stopped by a few millimeters of metal or plastic); gamma rays carry no mass or charge at all and are the most penetrating, requiring thick lead or concrete for shielding."
+          }
+        },
+        {
+          "id": "atomic-concept-half-life",
+          "label": "Half-life and exponential decay",
+          "content": {
+            "format": "text",
+            "value": "Radioactive decay is a random process at the level of a single nucleus — there is no way to predict when one particular atom will decay — but across a large sample of identical nuclei, a fixed fraction decays in any given time interval, and that regularity is what makes half-life a useful, precise number. The half-life of an isotope is the time it takes for half of the radioactive nuclei in a sample to decay, and it is a fixed property of the isotope: it does not depend on the sample's size, temperature, pressure, or chemical form. The defining trap of this topic is that half-life decay is exponential, not linear: the same fraction (one half) is lost in each successive half-life interval, but because that fraction is applied to a shrinking amount, the absolute quantity lost keeps getting smaller. If a sample starts at 100 grams, the first half-life removes 50 grams (leaving 50), but the second half-life removes only 25 grams (leaving 25), not another 50. The general relationship is N = N₀ × (1/2)^(t / t½), where N₀ is the starting quantity, N is the quantity remaining after elapsed time t, and t½ is the half-life. The exponent t / t½ is simply the number of half-lives that have elapsed, and it does not need to be a whole number — the formula works for a sample that has aged 1.5 or 2.3 half-lives just as well as for one that has aged exactly 3."
+          }
+        },
+        {
+          "id": "atomic-concept-balancing-equations",
+          "label": "Balancing nuclear equations",
+          "content": {
+            "format": "text",
+            "value": "A nuclear equation is balanced by conserving two separate totals across the arrow: the sum of the mass numbers (the A's) on the left must equal the sum of the mass numbers on the right, and the sum of the atomic numbers (the Z's) on the left must equal the sum of the atomic numbers on the right. This is different from balancing a chemical equation, where individual elements are conserved — here it is nucleon count and charge that are conserved, and the identity of the elements involved is a consequence of that bookkeeping, not an input to it. An alpha particle is written as a helium-4 nucleus, contributing A = 4 and Z = 2; a beta-minus (electron) particle contributes A = 0 and Z = -1; a beta-plus (positron) contributes A = 0 and Z = +1; a gamma photon contributes A = 0 and Z = 0. To balance an equation with an unknown daughter product, add up the known A's and Z's on one side, match the totals on the other side, solve for the unknown nuclide's A and Z, and then use the resulting Z to look up which element that is on the periodic table — the mass number alone never tells you the element, only the atomic number does."
+          }
+        },
+        {
+          "id": "atomic-concept-fission-fusion",
+          "label": "Nuclear fission and nuclear fusion",
+          "content": {
+            "format": "text",
+            "value": "Fission and fusion both release energy from the nucleus, but they do it by moving nucleons in opposite directions. Fission splits one large, heavy nucleus (typically uranium-235 or plutonium-239) into two smaller nuclei, releasing additional neutrons and a large amount of energy in the process; in a reactor, a neutron striking a fissile nucleus triggers the split, and the neutrons released by that split can go on to trigger further fissions in neighboring nuclei, producing a chain reaction. A reactor sustains this at a controlled, steady rate using a moderator (commonly water) to slow the fast neutrons down to speeds more likely to cause further fission, and control rods made of a strongly neutron-absorbing material (such as boron or cadmium) that are inserted or withdrawn to absorb some of the free neutrons and hold the reaction rate steady rather than letting it run away. Fusion goes the other direction, combining two light nuclei (in stars, mostly hydrogen) into one heavier nucleus, again releasing energy. Fusion is what powers the Sun and other stars: at the enormous temperatures and pressures in a stellar core, hydrogen nuclei are moving fast enough, and packed closely enough, to overcome the strong electrostatic repulsion between their positive charges and get close enough for the strong nuclear force to bind them together. Both processes release energy because they move nuclei toward iron-56, the nucleus with the highest binding energy per nucleon — splitting something heavier than iron or fusing something lighter than iron both release energy, which is why fission works for uranium and fusion works for hydrogen but neither process releases net energy the other way around."
+          }
+        }
+      ]
+    },
+    {
+      "id": "atomic-worked-example-tc99m-dose",
+      "categoryId": "II-A",
+      "heading": "Worked example: how much of a medical radioisotope dose remains?",
+      "entries": [
+        {
+          "id": "atomic-worked-example-scenario",
+          "label": "Scenario",
+          "content": {
+            "format": "text",
+            "value": "A hospital's radiopharmacy prepares 20.0 mg of technetium-99m, a radioisotope widely used in medical imaging, which has a half-life of 6 hours. Because of a scheduling delay, the prepared dose sits in storage for 30 hours before a technician is ready to use it. How much technetium-99m remains at that point, and what fraction of the original amount is that?"
+          }
+        },
+        {
+          "id": "atomic-worked-example-step-1",
+          "label": "Step 1 — identify the given values and the formula",
+          "content": {
+            "format": "text",
+            "value": "The starting quantity is N₀ = 20.0 mg. The half-life is t½ = 6 hours. The elapsed time is t = 30 hours. The relationship to use is N = N₀ × (1/2)^(t / t½), where N is the quantity remaining after time t. The exponent t / t½ is the number of half-lives that have elapsed, so the first real task is to convert 30 hours into a number of half-lives rather than plugging hours directly into the formula."
+          }
+        },
+        {
+          "id": "atomic-worked-example-step-2",
+          "label": "Step 2 — find the number of half-lives elapsed",
+          "content": {
+            "format": "text",
+            "value": "Number of half-lives = t / t½ = 30 hours / 6 hours per half-life = 5. So 30 hours is exactly 5 half-lives of technetium-99m — a clean whole number in this case, which will make the arithmetic easy to check by repeated halving as well as by the formula."
+          }
+        },
+        {
+          "id": "atomic-worked-example-step-3",
+          "label": "Step 3 — compute the remaining quantity",
+          "content": {
+            "format": "text",
+            "value": "Using the formula: N = 20.0 mg × (1/2)^5 = 20.0 mg × (1/32) = 0.625 mg. As a check, halve the sample five times, once per 6-hour interval: 20.0 mg at t = 0 → 10.0 mg at t = 6 h → 5.00 mg at t = 12 h → 2.50 mg at t = 18 h → 1.25 mg at t = 24 h → 0.625 mg at t = 30 h. Both methods agree: 0.625 mg of technetium-99m remains after 30 hours."
+          }
+        },
+        {
+          "id": "atomic-worked-example-conclusion",
+          "label": "Conclusion",
+          "content": {
+            "format": "text",
+            "value": "The remaining fraction is 0.625 mg / 20.0 mg = 1/32 = 0.03125, or about 3.1% of the original dose — equivalently, about 96.9% of the technetium-99m has decayed by the time the delayed dose is used. This is also why medical imaging isotopes like technetium-99m are deliberately chosen to have short half-lives on the order of hours rather than years: a short half-life means the isotope decays away quickly after the scan, minimizing the patient's total radiation exposure, but it also means a delay of even one day can waste most of a prepared dose, which is exactly the operational problem this scenario illustrates."
+          }
+        }
+      ]
+    },
+    {
+      "id": "atomic-common-mistakes-decay-and-half-life",
+      "categoryId": "II-A",
+      "heading": "Common mistakes",
+      "entries": [
+        {
+          "id": "atomic-common-mistakes-linear-vs-exponential",
+          "label": "Treating half-life decay as linear instead of exponential",
+          "content": {
+            "format": "text",
+            "value": "The single most common error on this topic is subtracting a fixed percentage per half-life instead of halving what remains. If half of a sample decays in one half-life, it is tempting to reason that the whole sample must be gone after two half-lives (50% + 50% = 100%), but that is linear thinking applied to an exponential process. The correct reasoning re-applies the same 50% reduction to whatever is left: after one half-life, 50% remains; after two, half of that 50% remains, or 25%; after three, half of 25%, or 12.5%; and so on. A sample never mathematically reaches exactly zero through this process — it only approaches zero, halving forever. A fast sanity check for any \"remaining amount\" problem: after n half-lives, the remaining fraction is (1/2)ⁿ, so 1 half-life leaves 1/2, 2 leaves 1/4, 3 leaves 1/8, 4 leaves 1/16, and 5 leaves 1/32 — never a value found by simple subtraction."
+          }
+        },
+        {
+          "id": "atomic-common-mistakes-decay-type-effects",
+          "label": "Mixing up how alpha, beta, and gamma decay change the nucleus",
+          "content": {
+            "format": "text",
+            "value": "Each decay type changes the mass number and atomic number in a specific, memorizable way, and mixing them up is a frequent source of wrong answers. Alpha decay changes both: mass number drops by 4 and atomic number drops by 2, because a whole helium-4 nucleus (2 protons, 2 neutrons) leaves. A common error is forgetting the atomic-number change and thinking alpha decay only reduces mass while leaving the element the same — but losing 2 protons always means becoming a different element, two places earlier on the periodic table. Beta-minus decay changes only the atomic number, increasing it by 1, while the mass number stays exactly the same, because a neutron converts into a proton (the newly created electron is ejected, not retained in the nucleus) — the error to watch for is assuming any beta emission changes the mass number, when a nucleon is transformed, not lost. Gamma decay changes neither number at all; it is easy to mistakenly credit gamma emission with changing the element, but a photon carries away energy only, never protons or neutrons, so the nuclide's identity is unchanged before and after."
+          }
+        },
+        {
+          "id": "atomic-common-mistakes-balancing-errors",
+          "label": "Conserving mass number but forgetting atomic number (or the reverse)",
+          "content": {
+            "format": "text",
+            "value": "A nuclear equation has two separate conservation checks, and a common mistake is doing only one of them — usually getting the mass numbers to add up correctly while leaving the atomic numbers unbalanced, or vice versa. For example, writing an alpha decay so that the daughter's mass number correctly drops by 4 but its atomic number is left unchanged (rather than dropping by 2) produces an equation that looks balanced at a glance but assigns the daughter nuclide to the wrong element entirely, since it is the atomic number, not the mass number, that determines which element a nuclide is. The reliable habit is to write out and check both totals explicitly every time: add every mass number on the left, add every mass number on the right, and confirm they match; separately add every atomic number on the left and on the right and confirm those match too. Only after both totals check out should the unknown nuclide's atomic number be used to identify the element from the periodic table — never infer the element from the mass number, and never assume an equation is correct just because one of the two totals happens to work out."
+          }
+        },
+        {
+          "id": "atomic-common-mistakes-fission-vs-fusion",
+          "label": "Confusing fission with fusion, or their real-world conditions",
+          "content": {
+            "format": "text",
+            "value": "Fission and fusion are opposite processes — fission splits a heavy nucleus apart, fusion joins light nuclei together — and it is a frequent error to swap which one describes the Sun versus which one describes a nuclear power plant on Earth. Stars, including the Sun, are powered by fusion, not fission: hydrogen nuclei fuse into helium under the star's extreme core temperature and pressure. Commercial nuclear power plants, by contrast, generate electricity through controlled fission of uranium or plutonium — there is currently no commercial fusion power plant supplying electricity to a grid, since sustaining and containing fusion conditions on Earth remains a major unsolved engineering challenge, even though the physics is well understood. A second common error is assuming that combining or splitting any two nuclei always releases energy regardless of which elements are involved; energy release depends on where the nuclei sit relative to iron-56, the most tightly bound nucleus — fusing elements lighter than iron releases energy (as in stars), and splitting elements heavier than iron releases energy (as in a reactor), but fusing very heavy elements or splitting very light ones would require energy input rather than releasing it."
+          }
+        }
+      ]
+    },
+    {
+      "id": "bonding-concept-overview",
+      "categoryId": "III-A",
+      "heading": "Concept overview",
+      "entries": [
+        {
+          "id": "bonding-concept-periodic-trends",
+          "label": "Periodic table organization and periodic trends",
+          "content": {
+            "format": "text",
+            "value": "The periodic table is organized by atomic number, and its shape encodes electron configuration. A period (row) corresponds to the principal energy level currently being filled, so moving across a period adds electrons to the same outer shell. A group (column) collects elements that end their electron configuration the same way, so elements in a group share a valence-electron count and, with it, similar chemical behavior — group 1 atoms all have one valence electron and form 1+ ions, group 17 atoms all have seven and form 1− ions. Metals occupy the left and center of the table, nonmetals the upper right, and a staircase of metalloids runs along the boundary between them; the noble gases in group 18 have a full outer shell and are chemically inert. Three trends follow from one underlying cause — how strongly the nucleus pulls on the outermost electrons, which is called effective nuclear charge. Atomic radius shrinks moving left to right across a period, because each added proton pulls the same outer shell in tighter, and it grows moving down a group, because each row adds a whole new shell farther from the nucleus. Ionization energy — the energy needed to remove the outermost electron — runs the opposite direction: it rises left to right (electrons held tighter are harder to remove) and falls top to bottom (electrons farther from the nucleus, and shielded by more inner shells, are easier to remove). Electronegativity — an atom's pull on electrons it is sharing in a bond — follows the same left-to-right, bottom-to-top increase as ionization energy, peaking at fluorine in the upper right (noble gases are excluded, since they do not normally form bonds). A useful shortcut: the single most electronegative element sits at the top right of the reactive part of the table, and the least electronegative reactive elements sit at the bottom left, so electronegativity increases diagonally toward fluorine."
+          }
+        },
+        {
+          "id": "bonding-concept-bond-types",
+          "label": "Ionic, covalent, and metallic bonding",
+          "content": {
+            "format": "text",
+            "value": "A chemical bond forms because atoms lower their overall energy by rearranging valence electrons, and the way they rearrange them defines the bond type. Ionic bonding transfers one or more electrons from a metal (low electronegativity, low ionization energy, easily gives up electrons) to a nonmetal (high electronegativity, readily accepts electrons), producing a positive cation and a negative anion that attract each other electrostatically; the result is a rigid lattice, not a discrete pair of atoms, which is why ionic compounds have high melting points and conduct electricity only when the ions are free to move, as in a melt or an aqueous solution. Covalent bonding shares a pair of electrons between two nonmetal atoms rather than transferring them outright; when the two atoms are identical or very close in electronegativity the sharing is even (nonpolar covalent), and when one atom pulls harder on the shared pair the bond is polar covalent, with a partial negative charge on the more electronegative atom and a partial positive charge on the other. Metallic bonding occurs between metal atoms, whose valence electrons delocalize into a shared \"sea\" surrounding a lattice of positive metal cores; because those electrons are not tied to any one atom, metals conduct electricity and heat well and can be bent or hammered into new shapes (malleable and ductile) without breaking, unlike a brittle ionic crystal. Electronegativity difference between the two bonded atoms is the standard predictive tool: a difference above roughly 1.7 to 2.0 (Pauling scale) is treated as ionic, a difference from about 0.4 up to that cutoff is polar covalent, and a difference below about 0.4 is nonpolar covalent. That number is a heuristic, not a law, so it should always be checked against which kinds of elements are actually bonding — see the common-mistakes section below."
+          }
+        },
+        {
+          "id": "bonding-concept-lewis-structures",
+          "label": "Drawing Lewis dot structures",
+          "content": {
+            "format": "text",
+            "value": "A Lewis structure shows every valence electron in a molecule or ion as either a bonding pair (drawn as a line between two atoms) or a lone pair (drawn as two dots on one atom), so that every atom (other than hydrogen) ends up surrounded by eight electrons — the octet rule. The procedure has four steps. First, count total valence electrons: add the group number of every atom present, and for a polyatomic ion, add one electron for each unit of negative charge or subtract one for each unit of positive charge. Second, choose a skeleton: the least electronegative nonhydrogen atom is usually placed in the center (it can share electrons in more directions), hydrogen is always terminal (it can hold only one bond), and a single bond — one shared pair — connects the central atom to each surrounding atom. Third, complete octets on the outer atoms first by adding lone pairs, then place any electrons left over on the central atom. Fourth, if the central atom still has fewer than eight electrons around it, convert one or more of an outer atom's lone pairs into a second (or third) shared pair with the central atom, forming a double or triple bond, until the central atom also reaches an octet. Two exceptions to memorize: hydrogen is satisfied with two electrons, not eight, and elements in period 3 or below (such as sulfur or phosphorus) can hold more than eight electrons around them (an expanded octet) because they have accessible d-orbitals — sulfur in sulfur hexafluoride is a standard example, with six bonding pairs and no lone pairs."
+          }
+        },
+        {
+          "id": "bonding-concept-vsepr",
+          "label": "VSEPR theory and molecular geometry",
+          "content": {
+            "format": "text",
+            "value": "Valence Shell Electron Pair Repulsion (VSEPR) theory predicts a molecule's three-dimensional shape from one simple idea: the electron domains around a central atom — each bonding pair (single, double, or triple bond all count as one domain) and each lone pair — repel each other and spread out as far apart as geometry allows. Counting the domains around the central atom gives the electron-domain geometry: two domains arrange linearly (180°), three arrange trigonal planar (120°), four arrange tetrahedral (109.5°), five arrange trigonal bipyramidal, and six arrange octahedral (90°). The molecular geometry — the shape described by the positions of the atoms alone, ignoring lone pairs — matches the electron-domain geometry only when every domain is a bonding pair. When one or more domains are lone pairs, the atoms occupy only some of the positions and the molecular geometry gets a different name even though the electron domains are still spread out the parent way: four domains with one lone pair gives a trigonal pyramidal molecule (ammonia, NH₃), and four domains with two lone pairs gives a bent molecule (water, H₂O), even though both start from a tetrahedral electron-domain arrangement. Lone pairs also occupy more space than bonding pairs, because they are held by only one nucleus instead of being pulled taut between two, so they compress the bond angles between the remaining bonding pairs slightly below the ideal value — water's measured bond angle is about 104.5°, not the full 109.5° of a perfect tetrahedron."
+          }
+        },
+        {
+          "id": "bonding-concept-mole-molar-mass",
+          "label": "The mole concept and molar mass",
+          "content": {
+            "format": "text",
+            "value": "The mole is chemistry's counting unit, defined as exactly the number of particles in Avogadro's number, 6.022 × 10²³, and it exists to bridge two size scales: atomic mass units, in which individual atoms and molecules are conveniently weighed, and grams, the scale of a laboratory balance. Molar mass is the mass of one mole of a substance, expressed in grams per mole, and it is numerically equal to the atomic mass (for an element) or formula mass (for a compound) read off the periodic table in atomic mass units — the periodic table's listed atomic mass already tells you both numbers at once. For a compound, molar mass is found by multiplying each element's atomic mass by how many atoms of that element appear in the formula (its subscript) and summing the results; a subscript outside a set of parentheses, as in calcium hydroxide, Ca(OH)₂, multiplies every atom inside the parentheses, so that formula contains one calcium, two oxygens, and two hydrogens. Once molar mass is known, it converts freely between mass and moles: moles equal mass in grams divided by molar mass, and mass in grams equals moles multiplied by molar mass. Moles in turn convert to a particle count by multiplying by Avogadro's number, so mass, moles, and number of particles form a chain that can be crossed in either direction as long as molar mass and Avogadro's number are the links."
+          }
+        }
+      ]
+    },
+    {
+      "id": "bonding-worked-example-mgcl2",
+      "categoryId": "III-A",
+      "heading": "Worked example: bond type and mass for a magnesium chloride sample",
+      "entries": [
+        {
+          "id": "bonding-worked-example-scenario",
+          "label": "Scenario",
+          "content": {
+            "format": "text",
+            "value": "A middle-school science teacher is preparing a demonstration solution and needs it to contain 0.150 mole of chloride ion (Cl⁻) once magnesium chloride is dissolved in water. Before weighing anything out, the teacher wants to (1) justify, from first principles, that magnesium and chlorine form an ionic compound rather than a covalent one, (2) confirm the correct chemical formula from the ions' charges, (3) find the compound's molar mass, and (4) use the required amount of chloride ion to calculate exactly how many grams of the solid compound to weigh out."
+          }
+        },
+        {
+          "id": "bonding-worked-example-step-1",
+          "label": "Step 1 — Predict the bond type from electronegativity difference",
+          "content": {
+            "format": "text",
+            "value": "Magnesium (Mg) has an electronegativity of about 1.31 on the Pauling scale; chlorine (Cl) has an electronegativity of about 3.16. The difference is 3.16 − 1.31 = 1.85. That difference is well above the roughly 1.7–2.0 cutoff used to predict ionic bonding, and it is reinforced by the identity of the atoms themselves: magnesium is a metal from group 2 with a low ionization energy, so it readily gives up electrons, while chlorine is a reactive nonmetal from group 17 with a high electronegativity, so it readily accepts them. Both the electronegativity gap and the metal-plus-nonmetal pairing point the same direction, so magnesium and chlorine are predicted to bond ionically, transferring electrons rather than sharing them."
+          }
+        },
+        {
+          "id": "bonding-worked-example-step-2",
+          "label": "Step 2 — Determine the correct formula from ionic charges",
+          "content": {
+            "format": "text",
+            "value": "Magnesium is in group 2, so a neutral Mg atom has 2 valence electrons; it reaches a stable noble-gas configuration by losing both, forming Mg²⁺. Chlorine is in group 17, so a neutral Cl atom has 7 valence electrons; it reaches a stable configuration by gaining just 1 more, forming Cl⁻. A neutral compound requires the total positive charge to equal the total negative charge. One Mg²⁺ ion contributes +2, and each Cl⁻ ion contributes −1, so two chloride ions are needed to balance one magnesium ion: (+2) + 2 × (−1) = 0. The formula is therefore MgCl₂, with a 1-to-2 ratio of magnesium to chlorine — not a 1-to-1 ratio, which would leave a net +1 charge unbalanced."
+          }
+        },
+        {
+          "id": "bonding-worked-example-step-3",
+          "label": "Step 3 — Calculate the molar mass of MgCl₂",
+          "content": {
+            "format": "text",
+            "value": "Molar mass is the sum of each element's atomic mass, multiplied by its subscript in the formula. From the periodic table, magnesium's atomic mass is 24.31 g/mol and chlorine's is 35.45 g/mol. MgCl₂ contains one magnesium atom and two chlorine atoms, so: molar mass = (1 × 24.31 g/mol) + (2 × 35.45 g/mol) = 24.31 g/mol + 70.90 g/mol = 95.21 g/mol. One mole of magnesium chloride has a mass of 95.21 grams."
+          }
+        },
+        {
+          "id": "bonding-worked-example-step-4",
+          "label": "Step 4 — Convert the required moles of chloride ion to moles of compound",
+          "content": {
+            "format": "text",
+            "value": "The teacher needs 0.150 mole of Cl⁻ ion, but the quantity to weigh out is measured in moles of the compound MgCl₂, not moles of the ion alone. Because each formula unit of MgCl₂ releases two Cl⁻ ions when it dissolves, moles of Cl⁻ are always twice moles of MgCl₂. Solving for moles of compound: moles of MgCl₂ = (moles of Cl⁻) ÷ 2 = 0.150 mol ÷ 2 = 0.0750 mol. So 0.0750 mole of solid MgCl₂ will supply exactly 0.150 mole of chloride ion once it dissolves."
+          }
+        },
+        {
+          "id": "bonding-worked-example-step-5",
+          "label": "Step 5 — Convert moles of compound to a mass in grams",
+          "content": {
+            "format": "text",
+            "value": "With molar mass and the required moles both known, mass = moles × molar mass. Mass = 0.0750 mol × 95.21 g/mol. Multiplying: 0.0750 × 95.21 = 0.0750 × 95 + 0.0750 × 0.21 = 7.125 + 0.01575 = 7.14075 g. Rounded to three significant figures — matching the three significant figures in the given 0.150 mol — the teacher should weigh out 7.14 grams of MgCl₂."
+          }
+        },
+        {
+          "id": "bonding-worked-example-conclusion",
+          "label": "Conclusion",
+          "content": {
+            "format": "text",
+            "value": "Every stage of the problem feeds the next: the electronegativity difference (1.85) and the metal/nonmetal pairing establish that the bond is ionic, the balance of ionic charges (Mg²⁺ with two Cl⁻) fixes the formula as MgCl₂, the periodic table's atomic masses fix the molar mass at 95.21 g/mol, the 2-to-1 ratio of chloride ions to formula units converts the target of 0.150 mol Cl⁻ into 0.0750 mol MgCl₂, and multiplying by molar mass converts that mole quantity into a weighable mass of 7.14 g. The general pattern worth carrying into any similar item — a target amount of one ion, atom, or fragment inside a compound, translated into a mass of the whole compound to measure out — is to convert to moles of the whole formula unit first, using the subscript as the conversion factor, and only then multiply by molar mass; multiplying the ion's moles directly by the compound's molar mass, skipping that conversion, is the single most common way this kind of problem goes wrong."
+          }
+        }
+      ]
+    },
+    {
+      "id": "bonding-common-mistakes",
+      "categoryId": "III-A",
+      "heading": "Common mistakes",
+      "entries": [
+        {
+          "id": "bonding-common-mistakes-mass-vs-number",
+          "label": "Mistake: using atomic number instead of atomic mass, or dropping a subscript",
+          "content": {
+            "format": "text",
+            "value": "The periodic table lists two different numbers for every element, and confusing them is the single most common arithmetic slip in this category. Atomic number (the small whole number, usually above the element symbol) is the count of protons and identifies the element; it has nothing to do with mass and must never be plugged into a molar-mass calculation. Atomic mass (the decimal number, usually below the symbol) is the quantity that belongs in a molar-mass sum. A closely related error is forgetting that a formula's subscript multiplies every atom of that element, and, for a subscript outside parentheses, every atom inside them — treating Ca(OH)₂ as containing one oxygen and one hydrogen instead of two of each is a frequent miscount, and it silently understates the molar mass by the mass of one O and one H. When a computed molar mass looks suspiciously close to the mass of a single atom rather than a full formula unit, that is usually the tell that a subscript was dropped."
+          }
+        },
+        {
+          "id": "bonding-common-mistakes-en-threshold",
+          "label": "Mistake: applying the electronegativity-difference threshold blindly",
+          "content": {
+            "format": "text",
+            "value": "The electronegativity-difference cutoffs for ionic, polar covalent, and nonpolar covalent bonding are a useful estimate, not an exact law, and treating the number as the whole answer produces wrong predictions at the edges. Two atoms of the same metal, or two different metals, bond metallically no matter what electronegativity difference a table produces, because metallic bonding is defined by delocalized electrons among metal atoms, not by a numeric gap; the electronegativity-difference rule was built for metal-nonmetal or nonmetal-nonmetal pairs and does not apply when both atoms are metals. A second frequent error is forgetting that the numeric cutoffs are approximate and treating a compound right at the boundary — hydrogen fluoride, for instance, has an electronegativity difference near the ionic/polar-covalent line yet behaves as a polar covalent molecule — as automatically ionic just because the subtracted number looks large; the identity of the atoms (are both nonmetals, so electrons are being shared at all) should always be checked alongside the number, not skipped in favor of it."
+          }
+        },
+        {
+          "id": "bonding-common-mistakes-lewis-electron-count",
+          "label": "Mistake: miscounting valence electrons or stopping before every atom has an octet",
+          "content": {
+            "format": "text",
+            "value": "A Lewis structure is only as correct as its starting electron count, and the most common failure is getting that count wrong before a single bond is drawn — forgetting to add or subtract electrons for a polyatomic ion's charge is especially frequent, since a 2− ion such as the carbonate ion needs two extra electrons added to the sum of the atoms' group numbers, and a cation needs electrons subtracted. A second common failure is stopping after drawing only single bonds: if placing lone pairs on every outer atom and any leftover electrons on the central atom still leaves the central atom short of eight electrons, one or more outer atoms must convert a lone pair into a second or third shared pair to form a double or triple bond — carbon dioxide's central carbon is not satisfied by two single bonds to oxygen, and needs two double bonds instead. Finally, remember the two standing exceptions before flagging a structure as wrong: hydrogen is complete with two electrons rather than eight, and period-3-or-lower central atoms (such as phosphorus or sulfur) may legitimately exceed an octet, so a structure that looks \"over-full\" around one of those atoms is not automatically an error."
+          }
+        },
+        {
+          "id": "bonding-common-mistakes-vsepr-geometry-vs-shape",
+          "label": "Mistake: reporting the electron-domain geometry as the molecular geometry",
+          "content": {
+            "format": "text",
+            "value": "Electron-domain geometry describes how all the electron domains (bonding pairs and lone pairs alike) are arranged around the central atom; molecular geometry describes only where the atoms end up, and the two names diverge as soon as a lone pair is present. The recurring error is reading off the electron-domain arrangement and reporting it as the molecule's shape — calling water \"tetrahedral\" because it has four electron domains, when the two lone pairs are invisible in the actual atomic arrangement and the molecule is properly described as bent. The fix is to always count domains first to get the electron-domain geometry, and then separately ask how many of those domains are lone pairs before naming the molecular geometry: four domains with zero lone pairs is tetrahedral (methane), with one lone pair is trigonal pyramidal (ammonia), and with two lone pairs is bent (water) — same starting domain count, three different molecular shapes. A second, smaller version of this mistake is forgetting that lone pairs compress the angles between the remaining bonding pairs, so predicting an exact 109.5° bond angle for a molecule that actually has one or more lone pairs on its central atom will be measurably too large."
+          }
+        }
+      ]
+    },
+    {
+      "id": "emwaves-concept-overview",
+      "categoryId": "IV-B",
+      "heading": "Concept overview",
+      "entries": [
+        {
+          "id": "emwaves-concept-ohms-law",
+          "label": "Ohm's law and circuit quantities",
+          "content": {
+            "format": "text",
+            "value": "Ohm's law ties together the three quantities that describe a simple electric circuit: voltage V (measured in volts), current I (measured in amperes), and resistance R (measured in ohms), related by V = I × R. Voltage is the electrical potential difference that pushes charge through a circuit — think of it as the \"push\" supplied by a battery or other source. Current is the rate at which charge flows past a point, and resistance is whatever in the circuit opposes that flow, converting some electrical energy into heat (and, in a bulb, light) along the way. The same relationship can be rearranged to solve for whichever quantity a question asks for: I = V ÷ R when current is unknown, and R = V ÷ I when resistance is unknown. A second useful relationship, electrical power, is P = I × V (watts), which connects a device's power rating back to these same circuit quantities. Before combining resistors into a circuit, make sure each of these individual quantities and its unit is second nature, because the series and parallel rules below build directly on it."
+          }
+        },
+        {
+          "id": "emwaves-concept-series-circuits",
+          "label": "Series circuits",
+          "content": {
+            "format": "text",
+            "value": "In a series circuit, all of the components are connected end to end along a single path, so there is only one route for charge to take. Because there is nowhere else for the charge to go, the current I is the same at every point in a series circuit — the current through the battery, through the first resistor, and through the last resistor are all identical. Resistances in series simply add: R total = R1 + R2 + R3 + …, and the total is always larger than any individual resistor in the chain, because each additional resistor gives the current one more obstacle to get past. Voltage behaves the opposite way: the source voltage is divided among the components, with each resistor's individual voltage drop given by Ohm's law applied to that resistor alone (V = I × R, using the one shared current), and the drops across every component in the loop add up to the total source voltage. This is also why one burned-out bulb in a series string of lights turns the whole string off: breaking the single path removes the only route the current had."
+          }
+        },
+        {
+          "id": "emwaves-concept-parallel-circuits",
+          "label": "Parallel circuits",
+          "content": {
+            "format": "text",
+            "value": "In a parallel circuit, components are connected across the same two points, so each one has its own independent path from the source and its own path back. Because every branch reconnects to the same two points, the voltage across each parallel branch is identical and equal to the source voltage — this is the mirror image of the series rule, where current, not voltage, was the shared quantity. Current, on the other hand, splits among the branches: the current through each branch is set by that branch's own resistance (I = V ÷ R, using the one shared voltage), and the branch currents add up to the total current leaving the source. The equivalent resistance of resistors in parallel follows 1/R total = 1/R1 + 1/R2 + 1/R3 + …, and the result is always smaller than the smallest individual branch resistance, because adding a parallel branch gives the charge an additional path and therefore lowers the overall opposition to flow. This is why adding another appliance to a household outlet, which is wired in parallel, does not dim the others — each device sees the full outlet voltage regardless of what else is plugged in."
+          }
+        },
+        {
+          "id": "emwaves-concept-magnetism-induction",
+          "label": "Magnetism and electromagnetic induction",
+          "content": {
+            "format": "text",
+            "value": "Every magnet has a north pole and a south pole, and the region around it where its influence can be detected is its magnetic field, conventionally drawn as field lines that emerge from the north pole, loop around, and re-enter at the south pole; like poles repel and unlike poles attract. A moving electric charge, and therefore an electric current, also creates a magnetic field — a straight current-carrying wire produces a field that circles the wire, and coiling that wire into a loop concentrates and aligns those circling fields to produce a field much like a bar magnet's, called an electromagnet; wrapping the coil around an iron core strengthens the effect further because the iron's own magnetic domains align with the coil's field. The reverse effect, electromagnetic induction, is what makes generators and transformers work: a changing magnetic field passing through a loop of wire induces a voltage — and, in a closed circuit, a current — in that loop. The key word is changing: a stationary magnet sitting inside a stationary coil induces nothing at all, no matter how strong its field is. Only a change in the magnetic flux through the coil, produced by moving the magnet, moving the coil, or varying the current in a nearby coil, induces a current — which is the principle behind a generator, where mechanical motion rotates a coil within a magnetic field to produce a continually changing flux."
+          }
+        },
+        {
+          "id": "emwaves-concept-wave-properties",
+          "label": "Wave properties and wave speed",
+          "content": {
+            "format": "text",
+            "value": "A wave carries energy from one place to another without carrying matter along with it, and every periodic wave can be described using the same handful of properties. Wavelength (λ) is the distance covered by one complete cycle of the wave — crest to next crest, or trough to next trough — usually measured in meters. Frequency (f) is the number of complete cycles that pass a fixed point per second, measured in hertz (Hz), and amplitude is the maximum displacement of the wave from its undisturbed rest position, which corresponds to how much energy the wave carries rather than to its pitch or color. These quantities are tied together by the wave speed equation, v = f × λ: for a wave moving at a fixed speed, frequency and wavelength are inversely related, so a higher frequency means a proportionally shorter wavelength. Waves also come in two basic types distinguished by how the medium moves relative to the direction the wave travels: in a transverse wave, such as a wave on a string, the medium oscillates perpendicular to the direction of travel, producing crests and troughs, while in a longitudinal wave, such as sound moving through air, the medium oscillates parallel to the direction of travel, producing alternating compressions and rarefactions."
+          }
+        }
+      ]
+    },
+    {
+      "id": "emwaves-worked-example-mixed-circuit",
+      "categoryId": "IV-B",
+      "heading": "Worked example: a mixed series-parallel circuit",
+      "entries": [
+        {
+          "id": "emwaves-worked-example-scenario",
+          "label": "Scenario",
+          "content": {
+            "format": "text",
+            "value": "A 24 V battery is connected to a circuit built from three resistors. A 2 Ω resistor (R1) is wired directly in series with the battery. After R1, the circuit splits into two branches connected in parallel with each other: a 6 Ω resistor (R2) and a 3 Ω resistor (R3), which reconnect into a single wire that returns to the battery. Find the circuit's total equivalent resistance, the total current supplied by the battery, the voltage drop across R1, and the current through each of R2 and R3."
+          }
+        },
+        {
+          "id": "emwaves-worked-example-step-1",
+          "label": "Step 1 — combine the parallel branch",
+          "content": {
+            "format": "text",
+            "value": "Before the whole circuit can be treated as one equivalent resistance, the parallel section has to be collapsed into a single value, because R1 is in series with the combination of R2 and R3, not with each of them separately. For resistors in parallel, 1/R parallel = 1/R2 + 1/R3 = 1/6 + 1/3. Writing both fractions over a common denominator of 6 gives 1/6 + 2/6 = 3/6 = 1/2, so R parallel = 2 Ω. As a quick sanity check, 2 Ω is smaller than either branch resistor, 6 Ω or 3 Ω, which is exactly what the parallel rule predicts."
+          }
+        },
+        {
+          "id": "emwaves-worked-example-step-2",
+          "label": "Step 2 — find the total equivalent resistance",
+          "content": {
+            "format": "text",
+            "value": "With the parallel pair replaced by its single 2 Ω equivalent, the circuit is now just R1 in series with that 2 Ω equivalent: R total = R1 + R parallel = 2 Ω + 2 Ω = 4 Ω. That is the resistance the battery effectively \"sees\" for the whole circuit."
+          }
+        },
+        {
+          "id": "emwaves-worked-example-step-3",
+          "label": "Step 3 — find the total current from the battery",
+          "content": {
+            "format": "text",
+            "value": "Applying Ohm's law to the whole circuit, using the full 24 V source and the 4 Ω total resistance: I total = V ÷ R total = 24 V ÷ 4 Ω = 6 A. This is the current that leaves the battery and flows through R1, since R1 sits on the single path before the circuit splits into two branches."
+          }
+        },
+        {
+          "id": "emwaves-worked-example-step-4",
+          "label": "Step 4 — find the voltage across R1 and across the parallel section",
+          "content": {
+            "format": "text",
+            "value": "R1 carries the full 6 A found in Step 3, so its voltage drop is V(R1) = I total × R1 = 6 A × 2 Ω = 12 V. Because the two voltage drops in this series arrangement — R1's drop and the parallel section's drop — must add up to the battery's 24 V, the parallel section's voltage drop is 24 V − 12 V = 12 V. As a check, the same value follows directly from Ohm's law applied to the parallel equivalent: V(parallel) = I total × R parallel = 6 A × 2 Ω = 12 V, which matches."
+          }
+        },
+        {
+          "id": "emwaves-worked-example-step-5",
+          "label": "Step 5 — find the current through R2 and through R3",
+          "content": {
+            "format": "text",
+            "value": "Both R2 and R3 sit across the same two points, so both see the full 12 V found in Step 4 — the defining feature of a parallel connection. Applying Ohm's law to each branch separately: I(R2) = V ÷ R2 = 12 V ÷ 6 Ω = 2 A, and I(R3) = V ÷ R3 = 12 V ÷ 3 Ω = 4 A. As a check, the two branch currents should add back up to the 6 A total current found in Step 3: 2 A + 4 A = 6 A, which confirms the arithmetic."
+          }
+        },
+        {
+          "id": "emwaves-worked-example-conclusion",
+          "label": "Answer",
+          "content": {
+            "format": "text",
+            "value": "Total equivalent resistance: 4 Ω. Total current from the battery: 6 A. Voltage drop across R1: 12 V. Current through R2: 2 A. Current through R3: 4 A. Every intermediate result was checked against an independent relationship — the parallel resistance against \"smaller than either branch,\" the voltage split against the battery's total, and the branch currents against the total current — which is a habit worth carrying into any multi-step circuit problem: each step gives a second way to catch an arithmetic slip before it reaches the final answer."
+          }
+        }
+      ]
+    },
+    {
+      "id": "emwaves-common-mistakes",
+      "categoryId": "IV-B",
+      "heading": "Common mistakes",
+      "entries": [
+        {
+          "id": "emwaves-common-mistakes-resistance-formulas",
+          "label": "Mistake: swapping the series and parallel resistance formulas",
+          "content": {
+            "format": "text",
+            "value": "The single most common circuit-analysis error is swapping the two combination formulas: adding resistors that are actually in parallel, or taking reciprocals of resistors that are actually in series. Resistances in series simply add (R total = R1 + R2 + …) and the result is always larger than any individual resistor. Resistances in parallel combine by reciprocals (1/R total = 1/R1 + 1/R2 + …) and the result is always smaller than the smallest individual resistor. That second fact is the fastest way to catch the error: if a \"parallel\" answer choice is larger than either original resistor, it cannot be right, no matter how the arithmetic was done. For exactly two resistors in parallel, the shortcut R total = (R1 × R2) ÷ (R1 + R2) — \"product over sum\" — gives the same answer as the reciprocal method without an extra fraction step, but it only works for two resistors at a time."
+          }
+        },
+        {
+          "id": "emwaves-common-mistakes-constant-quantity",
+          "label": "Mistake: mixing up which quantity stays constant",
+          "content": {
+            "format": "text",
+            "value": "Test-takers frequently mix up which quantity stays the same and which one splits, because the two circuit types are mirror images of each other. In series, current is the same everywhere along the single path, and voltage is what divides among the components. In parallel, voltage is the same across every branch, since each branch connects the same two points, and current is what divides among the branches. A fast way to keep them straight: series has one path, so there is only one current to share among all the components as voltage drops; parallel has multiple paths, so there is only one voltage that every branch independently sees, and the available current divides according to each branch's own resistance."
+          }
+        },
+        {
+          "id": "emwaves-common-mistakes-frequency-wavelength",
+          "label": "Mistake: mishandling frequency and wavelength in v = f × λ",
+          "content": {
+            "format": "text",
+            "value": "Because the wave speed equation v = f × λ links frequency and wavelength together, it is easy to plug values into the wrong place — most often, multiplying when the problem calls for division, or dividing speed by frequency when speed and wavelength are known and frequency is what's missing. The fix is to keep the relationship's shape firmly in mind: at a fixed wave speed, frequency and wavelength move in opposite directions, so doubling one must halve the other. A quick unit check also catches most slips: frequency in hertz (cycles per second) times wavelength in meters gives meters per second, which is a speed — if an answer's units do not come out that way, the wrong operation was used. It is worth remembering that visible light, sound, and every other wave family obey exactly this same relationship, even though the numeric values involved, such as the speed of light versus the speed of sound, differ enormously."
+          }
+        },
+        {
+          "id": "emwaves-common-mistakes-induction-and-wave-motion",
+          "label": "Mistake: mistaking a static field for a changing one, and confusing wave-particle motion",
+          "content": {
+            "format": "text",
+            "value": "Two related misconceptions are worth naming together, because both involve mistaking a static condition for a dynamic one. First, electromagnetic induction requires a changing magnetic flux, not merely the presence of a magnetic field — a stationary magnet resting inside a stationary coil induces no current at all, however strong the magnet is, and a common wrong answer on this topic assumes any nearby magnetic field automatically produces current. Second, candidates often confuse how the medium itself moves in a transverse wave versus a longitudinal wave: in a transverse wave, individual particles of the medium move perpendicular to the direction the wave travels, while in a longitudinal wave, the particles move back and forth parallel to the direction of travel, compressing and expanding the medium rather than rising and falling. In neither wave type does the medium itself travel from source to observer — only the disturbance, and the energy it carries, propagates outward while each particle oscillates about a fixed average position."
+          }
+        }
+      ]
+    },
+    {
+      "id": "energy-concept-overview",
+      "categoryId": "II-B",
+      "heading": "Concept overview",
+      "entries": [
+        {
+          "id": "energy-concept-forms-and-conservation",
+          "label": "Forms of energy and conservation of energy",
+          "content": {
+            "format": "text",
+            "value": "Energy shows up in a handful of recognizable forms — kinetic (motion), gravitational potential (position in a field), elastic potential (a stretched or compressed spring), chemical potential (stored in bonds, released or absorbed as bonds break and form), thermal (the disordered kinetic energy of a substance's particles), electrical, and radiant (light and other electromagnetic waves). The law of conservation of energy says the total energy of an isolated system never changes; energy only converts from one form to another or transfers from one object to another, and none is created or destroyed. A dropped ball converts gravitational potential energy to kinetic energy on the way down and, on impact, to thermal energy and sound; a battery converts stored chemical energy to electrical energy, and a bulb converts most of that electrical energy to light and the rest to unwanted thermal energy. \"Energy loss\" in a real system almost always means a conversion to thermal energy that spreads into the surroundings rather than a violation of the conservation law — friction, air resistance, and electrical resistance are the usual culprits. For test purposes, treat any system described as closed or isolated as one where you can set total energy before equal to total energy after, even as the mix of forms changes."
+          }
+        },
+        {
+          "id": "energy-concept-temperature-vs-heat",
+          "label": "Temperature versus heat versus thermal energy",
+          "content": {
+            "format": "text",
+            "value": "These three words get used interchangeably in casual speech, and untangling them is one of the most heavily tested ideas in this category. Temperature is a measure of the average kinetic energy of the particles in a sample — it does not depend on how much of the substance you have. Thermal energy (sometimes called internal energy) is the total kinetic and potential energy of all the particles in a sample, and it does depend on amount: a swimming pool at 25 degrees Celsius has far more thermal energy than a teaspoon of water at the same 25 degrees Celsius, even though their temperatures — and therefore their average particle kinetic energy — are identical. Heat is neither of those; heat is energy in transit, specifically the energy that flows from a higher-temperature object to a lower-temperature object because of that temperature difference. Once the transfer stops, it is no longer meaningful to call the energy in either object \"heat\" — an object does not \"contain\" heat, it contains thermal energy, and it \"gives off\" or \"absorbs\" heat only while a temperature difference is actively driving a transfer. Keeping these three nouns — temperature, thermal energy, heat — mapped to average, total, and in-transit will resolve most tricky wording on this topic."
+          }
+        },
+        {
+          "id": "energy-concept-specific-heat",
+          "label": "Specific heat capacity and q = m × c × ΔT",
+          "content": {
+            "format": "text",
+            "value": "Specific heat capacity (c) is the amount of heat needed to raise the temperature of one gram (or one kilogram, depending on the unit system) of a substance by one degree Celsius. It is a property of the material, not of any particular sample of it — water's specific heat is about 4.18 joules per gram per degree Celsius regardless of whether you have one gram or one kilogram of it, and metals typically have much smaller specific heats than water (aluminum is about 0.90 J/(g·°C), roughly a fifth of water's). A high specific heat means the substance resists temperature change: it takes a large amount of energy to heat it up a little, and it releases a large amount of energy while cooling down a little, which is exactly why coastal climates are milder than inland climates at the same latitude — large bodies of water buffer temperature swings. The relationship connecting heat, mass, specific heat, and temperature change is q = m × c × ΔT, where q is the heat transferred (joules), m is the mass, c is the specific heat, and ΔT is the temperature change (final minus initial). This equation only applies within a single phase — it describes warming or cooling liquid water, for instance, but not the process of turning liquid water into steam at a constant 100 degrees Celsius."
+          }
+        },
+        {
+          "id": "energy-concept-phase-change-latent-heat",
+          "label": "Phase changes and latent heat",
+          "content": {
+            "format": "text",
+            "value": "When a substance is at the temperature where it changes phase (its melting point or boiling point), added or removed heat does not change its temperature — a thermometer in a beaker of ice and water sitting at 0 degrees Celsius will read 0 degrees Celsius continuously while the ice melts, even as a burner keeps adding energy underneath. That energy is going into breaking (melting, boiling) or forming (freezing, condensing) the intermolecular bonds that hold the substance in its more-ordered phase, rather than into speeding up particle motion, so the temperature plateaus on a heating or cooling curve during the entire phase change and only resumes rising or falling once the phase change is complete. The energy required is called latent heat, and it is calculated with a different equation than sensible heating: q = m × L, where L is the latent heat of fusion (for melting/freezing) or latent heat of vaporization (for boiling/condensing), and there is no ΔT term because temperature is not changing. Latent heat of vaporization is typically much larger than latent heat of fusion for the same substance — water's is about 2260 J/g for vaporization versus about 334 J/g for fusion — which is why steam at 100 degrees Celsius carries far more energy, and causes far worse burns, than the same mass of boiling-hot liquid water at the same temperature."
+          }
+        },
+        {
+          "id": "energy-concept-thermal-equilibrium-and-transfer",
+          "label": "Thermal equilibrium and the three heat-transfer mechanisms",
+          "content": {
+            "format": "text",
+            "value": "Two objects placed in contact exchange heat until they reach thermal equilibrium — the point at which both are at the same temperature and net heat flow between them stops (individual particles still exchange energy at the boundary, but the flow in each direction balances out). Heat always flows spontaneously from higher to lower temperature, never the reverse, without external work being done on the system. Heat moves by three distinct mechanisms, and exam items often hinge on picking the right one for a described situation. Conduction is transfer through direct particle-to-particle contact, most efficient in solids where particles are packed closely and vibrate against their neighbors — a metal spoon heating up in a hot pot. Convection is transfer through the bulk movement of a fluid (liquid or gas): a heated fluid becomes less dense, rises, and is replaced by cooler, denser fluid, setting up a circulating current — this is how a pot of soup heats throughout, and how a radiator warms a room. Radiation is transfer by electromagnetic waves and is the only mechanism that requires no medium at all, which is how the sun's energy crosses the vacuum of space to reach Earth. Most real situations involve more than one mechanism at once — a campfire warms nearby skin mainly by radiation while also heating the surrounding air by convection."
+          }
+        }
+      ]
+    },
+    {
+      "id": "energy-worked-example-calorimetry",
+      "categoryId": "II-B",
+      "heading": "Worked example: finding the equilibrium temperature of a metal-water mixture",
+      "entries": [
+        {
+          "id": "energy-worked-example-scenario",
+          "label": "Scenario",
+          "content": {
+            "format": "text",
+            "value": "A 200 g block of aluminum is heated to 100.0 degrees Celsius and then dropped into 300 g of water sitting at 20.0 degrees Celsius inside an insulated (perfectly heat-isolated) container. The specific heat of aluminum is 0.90 J/(g·°C) and the specific heat of water is 4.18 J/(g·°C). Assuming no heat escapes to the container or the surrounding air, find the final equilibrium temperature of the aluminum-water system."
+          }
+        },
+        {
+          "id": "energy-worked-example-step-1",
+          "label": "Step 1 — Set up the governing relationship",
+          "content": {
+            "format": "text",
+            "value": "Because the container is insulated, the only place heat can go is from the hotter object (the aluminum, starting at 100.0 °C) into the cooler object (the water, starting at 20.0 °C). Energy conservation means the heat lost by the aluminum as it cools must exactly equal the heat gained by the water as it warms: heat lost by aluminum = heat gained by water. Writing q = m × c × ΔT for each side, with T_f standing for the shared final temperature both substances reach: m_Al × c_Al × (T_initial,Al − T_f) = m_water × c_water × (T_f − T_initial,water). Each ΔT is written so it comes out positive — the aluminum's drop in temperature on the left, the water's rise in temperature on the right — which keeps both sides representing a positive quantity of heat."
+          }
+        },
+        {
+          "id": "energy-worked-example-step-2",
+          "label": "Step 2 — Substitute the known values",
+          "content": {
+            "format": "text",
+            "value": "Plugging in the numbers: 200 g × 0.90 J/(g·°C) × (100.0 °C − T_f) = 300 g × 4.18 J/(g·°C) × (T_f − 20.0 °C). First, multiply mass by specific heat on each side to simplify the coefficients: 200 × 0.90 = 180 J/°C on the left, and 300 × 4.18 = 1254 J/°C on the right. The equation is now: 180 × (100.0 − T_f) = 1254 × (T_f − 20.0), where 180 and 1254 are each object's total heat capacity in joules per degree Celsius — the amount of heat that object exchanges per degree it changes."
+          }
+        },
+        {
+          "id": "energy-worked-example-step-3",
+          "label": "Step 3 — Distribute and solve for T_f",
+          "content": {
+            "format": "text",
+            "value": "Distribute both sides: 180 × 100.0 − 180 × T_f = 1254 × T_f − 1254 × 20.0, which gives 18,000 − 180 T_f = 1254 T_f − 25,080. Collect the T_f terms on one side and the constants on the other by adding 180 T_f and 25,080 to both sides: 18,000 + 25,080 = 1254 T_f + 180 T_f, which is 43,080 = 1434 T_f. Divide both sides by 1434: T_f = 43,080 ÷ 1434 = 30.04 °C. Rounded to three significant figures, the equilibrium temperature is 30.0 °C."
+          }
+        },
+        {
+          "id": "energy-worked-example-step-4",
+          "label": "Step 4 — Sanity-check the answer",
+          "content": {
+            "format": "text",
+            "value": "Two quick checks confirm this is reasonable before moving on. First, T_f must land between the two starting temperatures (20.0 °C and 100.0 °C) — 30.0 °C does. Second, because the water's total heat capacity (1254 J/°C) is roughly seven times larger than the aluminum's (180 J/°C), the water should dominate the outcome and pull the final temperature much closer to its own starting point of 20.0 °C than to the aluminum's 100.0 °C — and 30.0 °C, only 10 degrees above water's start but 70 degrees below aluminum's start, matches that expectation. As a final numeric check, plug T_f = 30.04 °C back into each side separately: the aluminum loses 180 × (100.0 − 30.04) = 180 × 69.96 ≈ 12,593 J, and the water gains 1254 × (30.04 − 20.0) = 1254 × 10.04 ≈ 12,590 J — equal within rounding, confirming the heat lost by the aluminum matches the heat gained by the water."
+          }
+        },
+        {
+          "id": "energy-worked-example-answer",
+          "label": "Answer",
+          "content": {
+            "format": "text",
+            "value": "The aluminum-water system reaches thermal equilibrium at approximately 30.0 degrees Celsius."
+          }
+        }
+      ]
+    },
+    {
+      "id": "energy-common-mistakes",
+      "categoryId": "II-B",
+      "heading": "Common mistakes",
+      "entries": [
+        {
+          "id": "energy-common-mistakes-temperature-vs-thermal-energy",
+          "label": "Mistake: treating temperature as if it were the amount of thermal energy",
+          "content": {
+            "format": "text",
+            "value": "A very common trap is assuming that two samples at the same temperature must hold the same amount of energy, or that the sample with the higher temperature always holds more total energy. Temperature depends only on average particle kinetic energy, not on how much substance is present, so a large sample at a modest temperature can easily hold more total thermal energy than a small sample at a much higher temperature — a bathtub of lukewarm water has far more thermal energy than a lit match, even though the match is hotter. Whenever a question describes two objects of different mass or asks which one \"has more energy,\" check whether it is asking about temperature (average) or thermal energy (total, which depends on mass and specific heat too) before answering."
+          }
+        },
+        {
+          "id": "energy-common-mistakes-skipping-latent-heat",
+          "label": "Mistake: applying q = mcΔT straight through a phase change",
+          "content": {
+            "format": "text",
+            "value": "When a problem asks for the total heat needed to take a substance from, say, solid below its melting point to liquid above its melting point, it is tempting to use one q = mcΔT calculation across the whole temperature span. That skips the plateau: the heat needed to actually melt the substance (q = mL, using the latent heat of fusion) at the constant melting-point temperature does not appear anywhere in a single mcΔT calculation, and specific heat is different in each phase besides. The correct approach treats a multi-stage heating (or cooling) process as separate legs — heat the solid to its melting point with q = mcΔT using the solid's specific heat, melt it at constant temperature with q = mL, then heat the resulting liquid to the target temperature with q = mcΔT using the liquid's specific heat — and adds the three (or more) quantities of heat together. Forgetting a leg, or forgetting that temperature does not move during the melting or boiling leg, is the single most common error in multi-step heating-curve problems."
+          }
+        },
+        {
+          "id": "energy-common-mistakes-sign-and-setup-errors",
+          "label": "Mistake: sign and setup errors in heat-exchange (mixing) problems",
+          "content": {
+            "format": "text",
+            "value": "In a two-substance mixing problem, the heat lost by the hotter object and the heat gained by the cooler object must come out equal in magnitude — losing track of which ΔT should be positive is what causes wrong answers here. A safe way to avoid sign trouble is to always write each ΔT as (higher value − lower value) so both sides of the heat-lost-equals-heat-gained equation come out positive, exactly as in the worked example above, rather than trying to carry negative signs through m × c × (T_final − T_initial) for the cooling object. After solving, always confirm the resulting equilibrium temperature falls between the two starting temperatures — an answer outside that range is a guaranteed sign or algebra error, not a valid physical outcome."
+          }
+        },
+        {
+          "id": "energy-common-mistakes-units-and-idealization",
+          "label": "Mistake: unit mismatches and forgetting the insulated-system assumption",
+          "content": {
+            "format": "text",
+            "value": "Two smaller but frequent slips round out this list. First, unit consistency: mass must be in the same unit the specific heat's value is defined for (grams with J/(g·°C), or kilograms with J/(kg·°C)) and mixing grams into a kilogram-based specific heat — or vice versa — throws the answer off by a factor of 1000. Note also that because ΔT is a difference, converting both temperatures to Kelvin before subtracting is unnecessary busywork that changes nothing: a one-degree change is the same size in Celsius and in Kelvin, so ΔT in Celsius and ΔT in Kelvin are numerically identical. Second, calorimetry problems on this exam almost always specify (or imply) an idealized, perfectly insulated system so that q_lost = q_gained holds exactly; real calorimeters lose some heat to the container and surrounding air, which is why real experimental measurements of specific heat tend to run slightly off from published reference values. Recognize the phrase \"insulated container\" or \"no heat lost to the surroundings\" as the signal that the simple equal-and-opposite heat equation applies without any additional correction term."
+          }
+        }
+      ]
+    },
+    {
+      "id": "mechanics-concept-overview",
+      "categoryId": "IV-A",
+      "heading": "Concept overview: kinematics, Newton's laws, energy, momentum, and circular motion",
+      "entries": [
+        {
+          "id": "mechanics-concept-kinematics",
+          "label": "Position, velocity, acceleration, and the kinematics toolkit",
+          "content": {
+            "format": "text",
+            "value": "Position, velocity, and acceleration describe motion in increasing order of change: velocity is the rate of change of position (how fast and in what direction something moves), and acceleration is the rate of change of velocity (how fast and in what direction the velocity itself is changing). All three are vectors in general, but on this exam most kinematics problems are one-dimensional, so a sign (+ or -) stands in for direction: pick a positive direction once at the start of a problem and stay consistent, because a negative velocity means motion in the chosen negative direction, not slowing down, and a negative acceleration means the velocity is changing in the negative direction, which speeds an object up if it is already moving in that direction rather than always slowing it down. For motion with constant acceleration, four equations tie position, velocity, acceleration, and time together: v = v0 + at; d = v0t + (1/2)at^2; v^2 = v0^2 + 2ad; and d = ((v0 + v)/2)t, the last of which uses the fact that average velocity under constant acceleration is just the average of the initial and final velocities. Free fall is the single most common special case: near Earth's surface, ignoring air resistance, every object accelerates downward at g ≈ 9.8 m/s^2 regardless of its mass, so the same four equations apply with a = -g (or +g, depending on which direction was chosen as positive) plugged in directly."
+          }
+        },
+        {
+          "id": "mechanics-concept-newtons-laws",
+          "label": "Newton's three laws and force diagrams",
+          "content": {
+            "format": "text",
+            "value": "Newton's first law (inertia) says an object's velocity does not change unless a net external force acts on it: an object at rest stays at rest, and an object moving at constant velocity keeps moving at that same speed and direction on its own, with zero net force required. Newton's second law quantifies what happens when the net force is not zero: net force equals mass times acceleration, Fnet = ma, so acceleration points in the same direction as the net force and is proportional to it and inversely proportional to mass. Newton's third law says forces come in pairs: whenever object A exerts a force on object B, object B exerts an equal and opposite force back on object A, and because these two forces act on two different objects, they never cancel each other out for either object individually. A force diagram (free-body diagram) isolates one object and draws every external force acting on it — weight (mg, always straight down), the normal force (perpendicular to the contact surface, pushing the object away from it), applied forces, tension, and friction (opposing relative sliding, parallel to the surface) — as arrows sized roughly by magnitude. Once every force is drawn, the net force in each direction is the vector sum of the forces in that direction, and Fnet = ma is applied separately along each independent axis, most commonly horizontal and vertical."
+          }
+        },
+        {
+          "id": "mechanics-concept-work-energy",
+          "label": "Work and energy",
+          "content": {
+            "format": "text",
+            "value": "Work is done on an object when a force acts on it through a displacement, and for a constant force it equals W = Fd cos(theta), where theta is the angle between the force and the displacement — a force perpendicular to the motion, such as the normal force on a horizontally sliding object, does zero work no matter how large it is. Kinetic energy is the energy of motion, KE = (1/2)mv^2, and gravitational potential energy near Earth's surface is PE = mgh, measured relative to some chosen reference height. The work-energy theorem connects the two: the net work done on an object equals its change in kinetic energy, Wnet = deltaKE = KEfinal - KEinitial, which lets a final speed be found from forces and distance without working through the kinematics equations, or the reverse. In a system with no friction or other non-conservative forces, total mechanical energy (KE + PE) is conserved — energy converts between kinetic and potential but the sum stays constant, which is the basis for problems like an object sliding down a frictionless ramp or swinging on a pendulum. When friction or another non-conservative force is present, mechanical energy is not conserved; the work done against friction is the amount by which KE + PE decreases, and that lost mechanical energy is converted to heat."
+          }
+        },
+        {
+          "id": "mechanics-concept-momentum-collisions",
+          "label": "Momentum and collisions",
+          "content": {
+            "format": "text",
+            "value": "Momentum is p = mv, a vector that points in the same direction as velocity, and for an isolated system (no net external force) total momentum is conserved — the vector sum of every object's momentum before an interaction equals the vector sum after, even though individual objects' momenta can change enormously. This is the tool of choice for collisions and explosions, where the forces objects exert on each other during the brief contact are internal to the system and equal and opposite by Newton's third law, so they cancel in the total. Collisions are classified by what happens to kinetic energy. In a perfectly elastic collision, both momentum and total kinetic energy are conserved — objects bounce off each other, and if both masses and one set of velocities are known, momentum conservation gives one equation and kinetic energy conservation gives a second, enough to solve for two unknown final velocities. In a perfectly inelastic collision, the objects stick together and move with one common final velocity afterward; momentum is still conserved, but kinetic energy is not — some is converted to heat, sound, and deformation. Most real collisions fall somewhere in between: momentum conservation always applies to an isolated system, but kinetic energy conservation is a special property only elastic collisions have, so it should never be assumed unless a problem states the collision is elastic."
+          }
+        },
+        {
+          "id": "mechanics-concept-circular-motion",
+          "label": "Circular motion and centripetal force",
+          "content": {
+            "format": "text",
+            "value": "An object moving at constant speed around a circular path is still accelerating, because its velocity's direction is continuously changing even though its magnitude (speed) is not. That acceleration, called centripetal acceleration, always points from the object toward the center of the circle, perpendicular to the velocity at every instant, and has magnitude ac = v^2/r, where r is the radius of the circular path. By Newton's second law, sustaining this acceleration requires a net force pointed toward the center as well — the centripetal force, Fc = mac = mv^2/r. Centripetal force is not a new, separate kind of force the way gravity or friction are; it is simply the name given to whichever combination of the real forces already acting — tension in a string, gravity, friction between tires and road, the normal force from a curved track — happens to supply the center-directed net force in a given situation. A common exam setup is a car rounding a flat curve, where friction between the tires and the road supplies the centripetal force, or a ball on a string swung in a horizontal circle, where the horizontal component of the string's tension supplies it. If the required centripetal force exceeds what the available force can provide — friction, for instance, has a maximum value before the tires slip — the object cannot maintain the circular path and moves in a straighter line instead."
+          }
+        }
+      ]
+    },
+    {
+      "id": "mechanics-worked-example-box-friction",
+      "categoryId": "IV-A",
+      "heading": "Worked example: pushing a box across a rough floor",
+      "entries": [
+        {
+          "id": "mechanics-worked-example-scenario",
+          "label": "Scenario",
+          "content": {
+            "format": "text",
+            "value": "A 12 kg box, initially at rest on a horizontal floor, is pushed with a constant horizontal applied force of 50 N. The coefficient of kinetic friction between the box and the floor is 0.25. Using g = 9.8 m/s^2, find (a) the box's acceleration while the force is applied, (b) its speed after 4.0 seconds, and (c) how far it travels in that time."
+          }
+        },
+        {
+          "id": "mechanics-worked-example-step-1",
+          "label": "Step 1 — draw the free-body diagram and identify the forces",
+          "content": {
+            "format": "text",
+            "value": "Four forces act on the box: its weight (mg, straight down), the normal force from the floor (N, straight up), the applied push (Fapplied = 50 N, horizontal, in the direction of motion), and kinetic friction (f, horizontal, opposing the box's motion since it is sliding once it starts to move — friction acts backward, opposite the applied force). Because the box moves horizontally and does not accelerate vertically, the vertical forces must balance even though the horizontal forces do not: N = mg. This vertical balance is what gives the normal force, which in turn is what the friction force depends on."
+          }
+        },
+        {
+          "id": "mechanics-worked-example-step-2",
+          "label": "Step 2 — find the normal force and the friction force",
+          "content": {
+            "format": "text",
+            "value": "N = mg = 12 kg × 9.8 m/s^2 = 117.6 N. Kinetic friction opposing the motion is f = μk N = 0.25 × 117.6 N = 29.4 N."
+          }
+        },
+        {
+          "id": "mechanics-worked-example-step-3",
+          "label": "Step 3 — apply Newton's second law to find the acceleration",
+          "content": {
+            "format": "text",
+            "value": "Along the horizontal direction, the net force is the applied push minus the opposing friction force: Fnet = Fapplied - f = 50 N - 29.4 N = 20.6 N, directed in the direction of the push. By Newton's second law, a = Fnet / m = 20.6 N / 12 kg = 1.71667 m/s^2, which rounds to about 1.7 m/s^2. The unrounded value, 1.71667 m/s^2, is carried into the next two steps so rounding error does not creep into the later answers."
+          }
+        },
+        {
+          "id": "mechanics-worked-example-step-4",
+          "label": "Step 4 — use kinematics to find the velocity after 4.0 seconds",
+          "content": {
+            "format": "text",
+            "value": "The box starts from rest (v0 = 0) and accelerates at a constant 1.71667 m/s^2 for t = 4.0 s. Using v = v0 + at: v = 0 + (1.71667 m/s^2)(4.0 s) = 6.86667 m/s, which rounds to about 6.9 m/s."
+          }
+        },
+        {
+          "id": "mechanics-worked-example-step-5",
+          "label": "Step 5 — use kinematics to find the distance traveled",
+          "content": {
+            "format": "text",
+            "value": "Using d = v0t + (1/2)at^2 with v0 = 0: d = (1/2)(1.71667 m/s^2)(4.0 s)^2 = (1/2)(1.71667 m/s^2)(16 s^2) = 13.7333 m, which rounds to about 13.7 m. As a check, the same distance follows from the average-velocity form d = ((v0 + v)/2)t = ((0 + 6.86667 m/s)/2)(4.0 s) = (3.43333 m/s)(4.0 s) = 13.7333 m — an exact match, confirming the arithmetic in Steps 3 through 5 is consistent."
+          }
+        },
+        {
+          "id": "mechanics-worked-example-conclusion",
+          "label": "Conclusion",
+          "content": {
+            "format": "text",
+            "value": "The box accelerates at about 1.7 m/s^2, reaches a speed of about 6.9 m/s after 4.0 seconds, and travels about 13.7 m in that time. The two ideas that make the problem tractable are the same two ideas the whole Mechanics category tests: first find the net force from a correct free-body diagram and Newton's second law, then hand the resulting constant acceleration to the kinematics equations to answer questions about speed and distance."
+          }
+        }
+      ]
+    },
+    {
+      "id": "mechanics-common-mistakes",
+      "categoryId": "IV-A",
+      "heading": "Common mistakes",
+      "entries": [
+        {
+          "id": "mechanics-common-mistakes-constant-velocity",
+          "label": "Assuming a force is needed to keep something moving",
+          "content": {
+            "format": "text",
+            "value": "A deeply intuitive but wrong idea is that a moving object needs a continuing force to keep moving, and that it will naturally slow down and stop once the force is removed. Newton's first law says the opposite: an object moving at constant velocity in a straight line stays that way with zero net force acting on it. Objects in everyday life do seem to slow down when nothing is visibly pushing them, but that is because of an unbalanced force test-takers often forget to draw — friction or air resistance — not because motion itself requires upkeep. When a problem states that an object moves at constant velocity, including constant speed in a straight line, the correct first move is to conclude the net force on it is zero, and then use that fact to solve for an unknown force, such as the exact friction force needed to balance an applied push. Do not confuse \"constant velocity\" with \"no forces act\" — multiple forces can act on an object and still sum to zero."
+          }
+        },
+        {
+          "id": "mechanics-common-mistakes-mass-weight",
+          "label": "Confusing mass with weight",
+          "content": {
+            "format": "text",
+            "value": "Mass and weight are often used interchangeably in casual speech, but they are different physical quantities, and this exam expects the distinction. Mass (measured in kilograms) is the amount of matter in an object and a measure of its resistance to acceleration, or inertia; it does not depend on location. Weight (measured in newtons) is the force of gravity on that mass, w = mg, and it does depend on location, since g varies from planet to planet and even slightly across Earth's surface. An object's mass is the same on the Moon as on Earth, but its weight on the Moon is only about one-sixth of its weight on Earth because the Moon's g is about one-sixth of Earth's. A related error is plugging a weight into the wrong side of F = ma without converting: mass belongs in Newton's second law, and if a problem gives weight instead of mass, divide by g first (m = w/g) before using F = ma. Also watch for a problem that gives weight directly where a normal force is needed — in that case N often equals w already, and multiplying by g a second time is a common and easy-to-miss error."
+          }
+        },
+        {
+          "id": "mechanics-common-mistakes-sign-errors",
+          "label": "Sign and direction errors in one-dimensional kinematics",
+          "content": {
+            "format": "text",
+            "value": "Because one-dimensional kinematics represents direction with a plus or minus sign rather than an arrow, sign errors are one of the most common sources of wrong answers even when the underlying physics is understood correctly. The fix is procedural: choose a positive direction before writing down a single number, and apply it consistently to every quantity in the problem — position, velocity, and acceleration alike. A classic trap is an object thrown straight up: if up is chosen positive, velocity starts positive and decreases, because the acceleration due to gravity is negative (-9.8 m/s^2) the entire time, both on the way up and on the way down; velocity reaches zero at the top and becomes negative on the way down, while the acceleration itself never changes sign or magnitude. A second trap is displacement versus distance traveled: if a hiker walks 40 m east and then 30 m west, the total distance traveled is 70 m, but the displacement (final position minus initial position) is only 10 m east, and a question asking for one is not asking for the other. Always reread the question to see whether it wants a signed vector quantity (displacement, velocity, acceleration) or an unsigned scalar (distance, speed)."
+          }
+        },
+        {
+          "id": "mechanics-common-mistakes-momentum-vs-energy",
+          "label": "Treating momentum conservation and kinetic-energy conservation as interchangeable",
+          "content": {
+            "format": "text",
+            "value": "Momentum is conserved in every collision within an isolated system, elastic or not, but kinetic energy is only conserved in a perfectly elastic collision, and treating the two as interchangeable is one of the most common errors in this category. In a perfectly inelastic collision, where two objects stick together, momentum conservation still gives the correct combined final velocity, but plugging that same scenario into a kinetic-energy-conservation equation gives a wrong answer, because kinetic energy is lost to heat, sound, and deformation during the collision. A second common error is treating momentum as a scalar and simply adding masses times speeds without regard to direction; momentum is a vector, so two objects moving toward each other must have their momenta assigned opposite signs, or opposite-signed components, before being added, and a head-on collision between equal masses moving at equal and opposite speeds sums to zero total momentum, not double the momentum of one object. Finally, remember that Newton's third law is why momentum is conserved in a collision even though large forces act during it: the force each object exerts on the other is equal, opposite, and internal to the two-object system, so it cancels out of the total-momentum bookkeeping regardless of how complicated the collision itself is."
+          }
+        }
+      ]
+    },
+    {
+      "id": "nature-concept-overview",
+      "categoryId": "I-A",
+      "heading": "Concept overview",
+      "entries": [
+        {
+          "id": "nature-concept-scientific-method-iterative",
+          "label": "The scientific method as a cycle, not a checklist",
+          "content": {
+            "format": "text",
+            "value": "Textbooks often draw the scientific method as a straight line — observe, question, hypothesize, experiment, conclude — but working scientists move through it as a loop, and often jump steps or double back. A puzzling observation prompts a question; a hypothesis proposes a testable, tentative explanation; a controlled experiment or a systematic set of observations puts that hypothesis at risk of being wrong; the results either hold up or force a revision of the hypothesis, the question, or even the original observation. What makes an investigation scientific is not that it followed a fixed sequence of numbered steps, but that at every stage a claim was left open to being overturned by evidence. A result that contradicts the hypothesis is not a failed experiment — it is exactly how the method is supposed to work, and it usually generates the next round of questions rather than ending the inquiry. Expect Praxis items to describe an investigation out of textbook order, skip a step, or loop back to revise a hypothesis after unexpected data, and to reward recognizing that this is still good science rather than a broken procedure."
+          }
+        },
+        {
+          "id": "nature-concept-hypothesis-theory-law",
+          "label": "Hypothesis, theory, and law are different kinds of claim, not different confidence levels",
+          "content": {
+            "format": "text",
+            "value": "These three words name different jobs a scientific claim can do, not three rungs on a ladder of certainty. A hypothesis is a specific, testable, tentative explanation for a particular observation — narrow in scope and often discarded or revised after one round of testing. A scientific theory is a broad, well-substantiated explanatory framework that accounts for a large body of observations, makes predictions, and has survived repeated, varied attempts to disprove it; cell theory, atomic theory, and the theory of plate tectonics are examples. A scientific law is typically a concise statement, often mathematical, that describes a consistent pattern in how something behaves under given conditions — Boyle's law relating pressure and volume, or Newton's law of universal gravitation — without necessarily explaining why the pattern holds. Laws describe what happens; theories explain why. A theory does not graduate into a law after accumulating enough supporting evidence, because the two are not stops on the same track: a law can be as well established as any theory in science and still just describe a pattern, while a theory can be extremely well supported and still be an explanation rather than a description. Both hypotheses and theories can be revised or replaced by better evidence; a law can too, though laws that hold across an enormous range of conditions are revised less often."
+          }
+        },
+        {
+          "id": "nature-concept-experimental-design",
+          "label": "Variables, controls, and replication in experimental design",
+          "content": {
+            "format": "text",
+            "value": "A controlled experiment isolates the effect of one factor by deliberately changing only that factor and holding everything else steady. The independent variable is the one the experimenter deliberately changes across trials; the dependent variable is the one measured, because its value depends on what the independent variable did. Controlled variables (sometimes called constants) are every other factor that could plausibly affect the outcome and must be kept the same across all trials, since a factor that is allowed to vary alongside the independent variable becomes a confound — a rival explanation for the result that the experiment can no longer rule out. A control group (or control trial) receives no treatment, or a standard/baseline treatment, and provides the comparison point against which the treated groups are judged; without one, there is no way to know whether an observed change would have happened anyway. A single trial, even a well-designed one, could reflect a fluke of measurement error, an unnoticed confound, or ordinary random variation in the system being studied. Replication — repeating the experiment, whether by the same researcher running multiple trials or by independent researchers repeating the whole study — is what turns a single result into a trustworthy one; a pattern that reappears across many trials and many investigators is far more convincing than any single measurement, however careful."
+          }
+        },
+        {
+          "id": "nature-concept-peer-review-consensus",
+          "label": "Peer review and how scientific consensus forms",
+          "content": {
+            "format": "text",
+            "value": "Before a study is published in a scientific journal, it is typically sent to other scientists working in the same field, who scrutinize the methods, check whether the data support the stated conclusions, look for confounds or statistical errors, and recommend revision, rejection, or acceptance. Peer review does not certify that a result is true — reviewers cannot rerun the experiment themselves — but it filters out much weak methodology and undisclosed conflicts of interest before a claim reaches the wider scientific community, and it is a strong signal (though not a guarantee) of quality. Scientific consensus is the convergence of the great majority of qualified researchers in a field on a conclusion, and it is earned gradually, through many independent studies, using different methods and different research groups, that keep reaching compatible results. Consensus is not a vote or an appeal to authority; it reflects the accumulated weight of evidence, and it remains open to revision if substantial new evidence points elsewhere — genuine scientific consensus has changed before, such as the shift from a static to an expanding universe, and each such shift was driven by new evidence outcompeting the old explanation, not by argument alone. A single unreviewed study, a press release, or one dissenting scientist does not overturn a well-established consensus; a body of new, replicated, peer-reviewed evidence can."
+          }
+        },
+        {
+          "id": "nature-concept-limits-of-science",
+          "label": "What science can and cannot establish: falsifiability and correlation versus causation",
+          "content": {
+            "format": "text",
+            "value": "For a claim to be scientific, it must be falsifiable: there must be some conceivable observation or measurement that, if it came out a certain way, would count as evidence against the claim. \"This medicine helps some people and hurts others, in ways too subtle to ever measure\" cannot be tested and sits outside science, not because it is necessarily false, but because no possible result could count against it. This is also why science speaks in terms of evidence supporting or failing to support a claim, and almost never in terms of absolute proof — a hypothesis that has survived a thousand tests could in principle fail on the thousand-and-first, so confidence grows with accumulated, varied, replicated evidence rather than arriving all at once. A second limit shows up constantly in data interpretation: correlation is not causation. Two variables can rise and fall together for at least three reasons besides one causing the other — the first might cause the second, the second might cause the first, a third factor might cause both (a confound), or the association might be coincidental. Establishing that A causes B generally requires a controlled experiment in which A is deliberately manipulated while other variables are held constant, or, when experiments are impossible or unethical, a carefully designed set of observational studies that rule out plausible confounds one by one. Science is also limited to questions that can be investigated empirically; it cannot settle matters of personal values, aesthetic judgment, or claims with no testable consequence, though it can often clarify what is and is not at stake in such a claim."
+          }
+        }
+      ]
+    },
+    {
+      "id": "nature-worked-example",
+      "categoryId": "I-A",
+      "heading": "Worked example: critiquing and repairing an experimental design",
+      "entries": [
+        {
+          "id": "nature-worked-example-scenario",
+          "label": "Scenario",
+          "content": {
+            "format": "text",
+            "value": "A student wants to find out whether the color of a container's outer surface affects how quickly water inside it warms up under a heat lamp, reasoning that darker surfaces absorb more radiant energy. To test this, she places 200 mL of water in a black-painted metal can and 100 mL of water in a plain silver metal can, sets the black can six inches from a heat lamp and the silver can twelve inches away, turns on the lamp, and after ten minutes records that the black can's water is 14°C warmer than when she started while the silver can's water is 4°C warmer. She concludes that black surfaces absorb heat much faster than silver surfaces and writes this up as a confirmed finding. The task is to identify what is wrong with this design and to redesign the investigation so its result would actually support or refute the hypothesis."
+          }
+        },
+        {
+          "id": "nature-worked-example-step-1",
+          "label": "Step 1 — State the hypothesis and confirm it is falsifiable",
+          "content": {
+            "format": "text",
+            "value": "Before touching the setup, state the hypothesis precisely: a darker outer surface increases the rate at which a container's contents absorb radiant energy and warm up, compared to a lighter surface, under the same lamp exposure. This is falsifiable — if the black can warmed no faster than the silver can, or warmed more slowly, that result would count against the hypothesis — so the investigation is a legitimate scientific question. Note what the hypothesis is actually about: the effect of surface color specifically. Anything else that differs between the two setups is not being tested and, if left uncontrolled, will contaminate the answer to the question actually being asked."
+          }
+        },
+        {
+          "id": "nature-worked-example-step-2",
+          "label": "Step 2 — Identify the variables as designed",
+          "content": {
+            "format": "text",
+            "value": "The independent variable the student intends to test is the can's surface color (black versus silver). The dependent variable is the temperature change of the water, measured after a fixed exposure time. Everything else involved in the setup — the volume of water, the distance from the lamp, the material and shape of the can, the starting temperature of the water, the exposure time — should be a controlled variable, held identical between the two conditions, because a change in any of them could by itself cause a temperature difference that has nothing to do with color. Listing these out is what exposes the problem: the student changed the water volume (200 mL versus 100 mL) and the lamp distance (six inches versus twelve inches) at the same time she changed the color, so three things differ between her two cans, not one."
+          }
+        },
+        {
+          "id": "nature-worked-example-step-3",
+          "label": "Step 3 — Diagnose why the design cannot support the conclusion",
+          "content": {
+            "format": "text",
+            "value": "Two of the uncontrolled differences work against the black can's own hypothesis, which makes the result even harder to interpret. A smaller volume of water (100 mL in the silver can, versus 200 mL in the black can) has less mass to heat and, other things equal, would be expected to show a larger temperature rise for the same energy input, not a smaller one — yet the silver can warmed less. The silver can was also placed twice as far from the lamp, and radiant intensity falls off sharply with distance, so it received much less energy to begin with, independent of its color entirely. With volume, distance, and color all differing at once, the 14°C-versus-4°C gap cannot be attributed to color specifically — it could be entirely explained by the black can's shorter distance from the lamp and the silver can's smaller volume, with color contributing nothing measurable at all. This is a confound, not a subtle statistical issue: at least two rival explanations fit the data just as well as the hypothesis does, and the design supplies no way to rule either of them out. A second, independent problem is that each condition was run only once — even if the confounds above were fixed, a single trial per color could still reflect an unnoticed draft, an uneven paint job, or ordinary measurement error rather than a real, repeatable effect of color."
+          }
+        },
+        {
+          "id": "nature-worked-example-step-4",
+          "label": "Step 4 — Redesign: isolate the variable, add a control, and replicate",
+          "content": {
+            "format": "text",
+            "value": "A corrected design uses two cans that are identical in every respect except the property under study — same material, same size and shape, same volume of water at the same starting temperature — with one painted black and one left its original silver, or better, both cans identical in material and shape but one painted matte black and the other painted matte white, so that the surfaces differ only in color and not in reflectivity due to the bare metal's own finish. Both cans sit the same fixed distance from the same lamp, are exposed for the same measured time, and start from water at the same measured temperature. A third can, wrapped in foil or otherwise given a clearly different, easily distinguished treatment, could serve as an explicit baseline, or the silver/uncolored can can itself serve as the comparison point against which the darker can's result is judged. Rather than one run of each, the student should run each color several times — say five trials of black and five of white, water re-measured and cans allowed to return to room temperature between runs — and report the average temperature change with the spread of the individual trials, not a single number from a single run. If every black trial shows a distinctly larger temperature rise than every white trial, and the pattern reappears across repeated runs rather than showing up once, and ideally also reappears when a classmate repeats the setup independently, that pattern is much stronger evidence for the hypothesis than the original single comparison ever could be."
+          }
+        },
+        {
+          "id": "nature-worked-example-step-5",
+          "label": "Step 5 — Interpret the results within their actual limits",
+          "content": {
+            "format": "text",
+            "value": "Suppose the redesigned experiment is run and the black can consistently warms more than the white can across all five replicated trials, with a clear and consistent gap each time. The appropriate conclusion is that, under these specific conditions — this water volume, this lamp intensity, this exposure time, this pair of surface finishes — a darker surface color is associated with a faster temperature rise, which supports the causal hypothesis that surface color affects the rate of radiant heat absorption, because color was the only variable allowed to differ. It would be an overreach to claim the experiment has proven the hypothesis for all conditions, all colors, or all materials, since only two colors and one set of conditions were tested; a stronger investigation would test several colors and vary conditions like lamp intensity to see whether the pattern holds generally. It would also be premature to call this settled science after one student's redone experiment, however well controlled — a single study, even a well-controlled one, becomes reliable science through peer review of the method and, ideally, independent replication by other investigators, not by the strength of one result standing alone."
+          }
+        },
+        {
+          "id": "nature-worked-example-conclusion",
+          "label": "Conclusion",
+          "content": {
+            "format": "text",
+            "value": "The original design failed not because the underlying idea was unreasonable, but because it let three things vary at once (color, volume, and distance) and drew a firm conclusion from a single, unreplicated comparison. Repairing it required three separate moves: isolating the independent variable by controlling every other factor, adding a genuine point of comparison so the treated condition has something to be judged against, and replicating the measurement enough times to distinguish a real pattern from one-off noise. The general habit worth carrying into any Praxis item on this category is to name the independent variable, the dependent variable, and every variable that needs to be held constant before judging whether an experiment's conclusion is actually supported by its design — and to remember that even a clean, well-controlled result supports a claim rather than proving it outright."
+          }
+        }
+      ]
+    },
+    {
+      "id": "nature-common-mistakes",
+      "categoryId": "I-A",
+      "heading": "Common mistakes",
+      "entries": [
+        {
+          "id": "nature-common-mistakes-theory-becomes-law",
+          "label": "Mistake: thinking a theory graduates into a law with enough evidence",
+          "content": {
+            "format": "text",
+            "value": "The most persistent misconception on this topic is that hypothesis, theory, and law form a hierarchy of increasing certainty, so that a theory eventually \"gets promoted\" to a law once it has accumulated enough supporting evidence. They are not ranked stages of the same process — they are different kinds of statement doing different jobs. A law is typically a compact description of a consistent pattern, often expressed mathematically, that says what happens under given conditions. A theory is a broad explanatory framework, built from many lines of evidence, that says why the pattern happens and connects it to other phenomena. A theory does not become a law by accumulating more support, because accumulating more support does not turn an explanation into a description; the theory of evolution by natural selection, for instance, is extremely well supported and will never become \"the law of evolution,\" because explaining why populations change over time is a different job than stating a fixed numerical pattern. If an item asks what happens to a well-supported theory over time, the accurate answer is that it remains a theory and continues to be tested, refined, and applied — not that it is promoted to a different category of claim."
+          }
+        },
+        {
+          "id": "nature-common-mistakes-rigid-linear-method",
+          "label": "Mistake: treating the scientific method as one fixed, linear sequence of steps",
+          "content": {
+            "format": "text",
+            "value": "Candidates sometimes expect a scenario to march through a memorized list — observation, question, hypothesis, experiment, conclusion — in that exact order, and mark any deviation as a flaw in the science. Real investigations frequently start mid-cycle (an accidental observation during an unrelated experiment), skip a step (borrowing an already-established hypothesis from prior work rather than proposing a new one), or double back (an odd result sends the researcher back to revise the original question, not just the hypothesis). None of that makes the work unscientific. What should be evaluated is whether claims were tested against evidence and left genuinely open to revision, not whether the write-up matches a textbook flowchart. A related version of this mistake is treating a hypothesis that turned out to be wrong as evidence of a failed investigation; a well-designed experiment that clearly refutes a hypothesis has succeeded at its job, since ruling out an explanation is real scientific progress."
+          }
+        },
+        {
+          "id": "nature-common-mistakes-correlation-causation",
+          "label": "Mistake: reading a correlation in data as proof of causation",
+          "content": {
+            "format": "text",
+            "value": "When a passage presents two quantities that rise and fall together — an observational dataset rather than a controlled experiment — a common error is to conclude directly that one causes the other. Before accepting a causal claim from correlational data, consider the alternatives: the relationship could run the other direction, a third factor could be driving both variables at once (a classic confound), or the pattern could be coincidental, especially over a short data range. A test item that describes an observational study (no manipulated independent variable, no control group) and then asks what can be concluded is testing exactly this distinction — the safe conclusion is that the two variables are associated, not that one causes the other, unless the study design (a genuine controlled experiment, or an observational study that has carefully ruled out the obvious confounds) actually supports the stronger claim."
+          }
+        },
+        {
+          "id": "nature-common-mistakes-variables-and-controls",
+          "label": "Mistake: mislabeling variables, or accepting a design with more than one uncontrolled factor",
+          "content": {
+            "format": "text",
+            "value": "Two related errors show up on experimental-design items. The first is swapping the independent and dependent variables — the independent variable is what the experimenter deliberately sets or changes across trials, and the dependent variable is what is measured as an outcome, so in an investigation of how fertilizer concentration affects plant height, concentration is independent and height is dependent, not the reverse. The second, more consequential error is skimming a described procedure for one obvious control problem and stopping, missing that a second variable was also left free to differ between conditions. Whenever a scenario compares two groups or two setups, check every factor that differs between them, not just the one the passage foregrounds; if two or more factors differ at once, the result cannot be attributed to any single one of them, and the correct answer to \"what is wrong with this investigation\" is usually the specific uncontrolled factor the passage buried in a side detail, such as measuring at different times of day or using containers of different sizes, not merely the factor the passage names as the intended variable."
+          }
+        }
+      ]
+    },
+    {
+      "id": "reactions-concept-overview",
+      "categoryId": "III-B",
+      "heading": "Concept overview",
+      "entries": [
+        {
+          "id": "reactions-concept-balancing",
+          "label": "Balancing equations: conservation of mass and atoms",
+          "content": {
+            "format": "text",
+            "value": "A chemical equation is balanced when the same number of atoms of each element appears on both sides, because atoms are neither created nor destroyed in an ordinary chemical reaction — the law of conservation of mass. Balancing works by adjusting coefficients (the whole numbers placed in front of a formula) rather than subscripts: changing a subscript rewrites the substance itself, so changing water H2O to H2O2 does not balance an equation, it silently swaps in hydrogen peroxide, a different compound entirely. A reliable order is to balance elements that appear in only one compound on each side first, save elements that appear alone (uncombined, such as O2 or H2) for last, and count polyatomic ions such as sulfate or nitrate as a single unit when they survive the reaction unchanged rather than balancing the individual atoms inside them. After placing coefficients, recount every atom on both sides as a check — a coefficient that fixes one element can easily unbalance another that was already correct. A balanced equation also fixes the mole ratios between every pair of substances in the reaction, which is the fact that makes stoichiometry possible: the coefficients are not just a bookkeeping requirement, they are the recipe."
+          }
+        },
+        {
+          "id": "reactions-concept-reaction-types",
+          "label": "Recognizing the major reaction types",
+          "content": {
+            "format": "text",
+            "value": "Most reactions seen in an introductory course fit one of a handful of recognizable patterns, and identifying the pattern is largely a matter of counting reactants and products and watching what recombines. Synthesis (combination) reactions join two or more simpler substances into one product: A + B -> AB. Decomposition reactions run the pattern in reverse, with a single compound breaking into two or more simpler substances: AB -> A + B. Single-replacement (single-displacement) reactions have one free element trade places with an element inside a compound: A + BC -> AC + B — a more reactive metal displacing a less reactive one from solution is the classic example. Double-replacement (double-displacement) reactions have two compounds swap partners with no free element involved at all: AB + CD -> AD + CB, which is the pattern behind most precipitate-forming and acid-base neutralization reactions in aqueous solution. Combustion reactions have a fuel — commonly a hydrocarbon — react with oxygen gas; complete combustion of a hydrocarbon yields carbon dioxide and water as products. These categories are not mutually exclusive labels handed down from on high — they are just names for common shapes, and a reaction is classified by matching its balanced equation to the shape it fits, not by any single reactant or product in isolation."
+          }
+        },
+        {
+          "id": "reactions-concept-stoichiometry",
+          "label": "Stoichiometry: mole ratios, limiting reagent, and yield",
+          "content": {
+            "format": "text",
+            "value": "Stoichiometry is the arithmetic of a balanced equation: once an equation is balanced, its coefficients give the exact mole ratio in which reactants combine and products form, and that ratio is the conversion factor for every calculation. The general path is mass -> moles (divide by molar mass) -> mole ratio from the balanced equation (multiply by the ratio of coefficients) -> moles of the substance wanted -> mass, if needed (multiply by molar mass) — mass can never be carried across the arrow directly, because the mole ratio only holds between moles, not between grams. When two reactants are supplied in amounts that do not exactly match the equation's ratio, one of them runs out first; that one is the limiting reagent, and it alone determines how much product can form, while the other reactant is left over in excess once the reaction stops. Theoretical yield is the amount of product the limiting reagent's moles predict on paper; actual yield is what a real experiment recovers, which is essentially always less because of side reactions, incomplete reactions, or product lost during collection and purification. Percent yield, actual yield divided by theoretical yield times 100%, measures how close the real result came to the calculation — and by definition it should not exceed 100% for a correctly identified product, so a percent yield above 100% is a signal to check the theoretical-yield calculation or the purity of the recovered product rather than a sign of a great result."
+          }
+        },
+        {
+          "id": "reactions-concept-reaction-rates",
+          "label": "What speeds up or slows down a reaction",
+          "content": {
+            "format": "text",
+            "value": "Collision theory explains reaction rate with a simple requirement: reacting particles must collide with enough energy to overcome the activation energy barrier, and with the correct orientation, or the collision simply bounces apart unreacted. Four factors change how often that requirement is met. Raising concentration (or, for gases, pressure) packs more particles into the same volume, so collisions happen more often and the rate rises. Raising temperature does two things at once — particles move faster, so they collide more often, and a larger share of those collisions now carries enough energy to clear the activation barrier — which is why reaction rate is far more sensitive to temperature than to concentration. Increasing the surface area of a solid reactant, such as by crushing a lump into powder, exposes more particles at the boundary where collisions with the other reactant can actually happen, without changing how much of the solid is present. A catalyst speeds up a reaction by providing an alternative reaction pathway with a lower activation energy; it is consumed in one step and regenerated in a later step, so it is not used up overall and does not appear in the balanced equation, and it speeds up the forward and reverse directions equally rather than changing which products ultimately form."
+          }
+        },
+        {
+          "id": "reactions-concept-periodic-trends",
+          "label": "Periodic-table trends behind reactivity",
+          "content": {
+            "format": "text",
+            "value": "An atom's reactivity comes down to how easily it can gain, lose, or share electrons to reach a stable outer shell, and that tendency tracks position on the periodic table. Alkali metals (group 1) each have a single loosely held electron in their outermost shell, shielded from the nucleus by all the filled shells beneath it, so that electron is easily lost — reactivity among the alkali metals actually increases moving down the group, because each added shell places the outermost electron farther from the nucleus and more weakly held, which is why cesium reacts far more violently with water than lithium does. Halogens (group 17) sit one electron short of a full outer shell, so they react readily by gaining or sharing an electron, and here reactivity decreases moving down the group as the outer shell sits farther from the nucleus and attracts an additional electron less strongly. Noble gases (group 18) already have a complete outer shell and so have essentially no tendency to gain, lose, or share electrons, which is why they are chemically inert under most ordinary conditions. Across a period (left to right), elements generally become less metallic and more nonmetallic as the number of outer-shell electrons increases toward a full shell, and electronegativity and ionization energy both generally rise left to right within a period and fall going down a group — the same shielding-and-distance logic that explains the alkali-metal and halogen trends above."
+          }
+        }
+      ]
+    },
+    {
+      "id": "reactions-worked-example-limiting-reagent",
+      "categoryId": "III-B",
+      "heading": "Worked example: limiting reagent in the formation of aluminum oxide",
+      "entries": [
+        {
+          "id": "reactions-worked-example-scenario",
+          "label": "Scenario",
+          "content": {
+            "format": "text",
+            "value": "A demonstration seals 54.0 grams of powdered aluminum and 40.0 grams of oxygen gas in a reaction vessel and ignites the mixture, driving the reaction to completion. Aluminum and oxygen combine to form aluminum oxide. The task is to identify which reactant is used up first, calculate the mass of aluminum oxide produced, and find how much of the other reactant is left over. Use molar masses of 27.0 g/mol for aluminum and 16.0 g/mol for oxygen atoms (so O2 is 32.0 g/mol)."
+          }
+        },
+        {
+          "id": "reactions-worked-example-step-1",
+          "label": "Step 1 — write and balance the equation",
+          "content": {
+            "format": "text",
+            "value": "The unbalanced skeleton is Al + O2 -> Al2O3. Aluminum appears once on each side but as 1 atom on the left and 2 inside Al2O3 on the right, so start there: place a coefficient of 2 in front of Al2O3, giving Al + O2 -> 2 Al2O3, then a coefficient of 4 in front of Al to match the 4 aluminum atoms now on the right: 4 Al + O2 -> 2 Al2O3. Oxygen now reads 2 atoms on the left (one O2) against 6 atoms on the right (2 x 3 in Al2O3), so place a coefficient of 3 in front of O2: 4 Al + 3 O2 -> 2 Al2O3. Check every atom: aluminum, 4 on the left and 2 x 2 = 4 on the right; oxygen, 3 x 2 = 6 on the left and 2 x 3 = 6 on the right. Both balance, so the equation 4 Al(s) + 3 O2(g) -> 2 Al2O3(s) is the balanced form the rest of the problem uses."
+          }
+        },
+        {
+          "id": "reactions-worked-example-step-2",
+          "label": "Step 2 — convert each given mass to moles",
+          "content": {
+            "format": "text",
+            "value": "Aluminum: 54.0 g ÷ 27.0 g/mol = 2.00 mol Al. Oxygen gas: 40.0 g ÷ 32.0 g/mol = 1.25 mol O2. These two mole amounts, not the original gram amounts, are what the balanced equation's coefficients can be compared against."
+          }
+        },
+        {
+          "id": "reactions-worked-example-step-3",
+          "label": "Step 3 — identify the limiting reagent by comparing moles, not mass",
+          "content": {
+            "format": "text",
+            "value": "The balanced equation requires Al and O2 in a 4:3 mole ratio. Test how much O2 the available 2.00 mol Al would need: 2.00 mol Al x (3 mol O2 / 4 mol Al) = 1.50 mol O2 required — but only 1.25 mol O2 is actually available, which is not enough, so oxygen will run out first. Confirm from the other direction: the available 1.25 mol O2 would need 1.25 mol O2 x (4 mol Al / 3 mol O2) = 1.667 mol Al — and 2.00 mol Al is available, more than enough. Both directions agree: O2 is the limiting reagent, and Al is in excess."
+          }
+        },
+        {
+          "id": "reactions-worked-example-step-4",
+          "label": "Step 4 — calculate the mass of aluminum oxide produced",
+          "content": {
+            "format": "text",
+            "value": "Work from the limiting reagent only. The balanced equation's O2-to-Al2O3 ratio is 3:2, so moles of Al2O3 = 1.25 mol O2 x (2 mol Al2O3 / 3 mol O2) = 2.50/3 mol = 0.833 mol Al2O3. The molar mass of Al2O3 is 2(27.0) + 3(16.0) = 54.0 + 48.0 = 102.0 g/mol. Mass of Al2O3 = 0.833 mol x 102.0 g/mol = 85.0 g. The reaction produces 85.0 grams of aluminum oxide."
+          }
+        },
+        {
+          "id": "reactions-worked-example-step-5",
+          "label": "Step 5 — find the leftover excess reactant and check the answer",
+          "content": {
+            "format": "text",
+            "value": "From Step 3, only 1.667 mol of the 2.00 mol Al available actually reacts (the amount matched to the 1.25 mol O2), leaving 2.00 - 1.667 = 0.333 mol Al unreacted, which is 0.333 mol x 27.0 g/mol = 9.00 g of leftover aluminum metal. As a check on the whole calculation, conservation of mass says the mass of reactants consumed must equal the mass of product formed: mass of Al consumed (1.667 mol x 27.0 g/mol = 45.0 g) plus mass of O2 consumed (all 40.0 g, since O2 is the limiting reagent) equals 45.0 + 40.0 = 85.0 g — exactly the 85.0 g of Al2O3 calculated in Step 4, confirming the arithmetic is internally consistent. Final answer: oxygen gas is the limiting reagent, the reaction produces 85.0 g of Al2O3, and 9.00 g of aluminum is left over unreacted."
+          }
+        }
+      ]
+    },
+    {
+      "id": "reactions-common-mistakes",
+      "categoryId": "III-B",
+      "heading": "Common mistakes",
+      "entries": [
+        {
+          "id": "reactions-common-mistakes-unbalanced-math",
+          "label": "Mistake: doing mole-ratio math before the equation is balanced",
+          "content": {
+            "format": "text",
+            "value": "Every stoichiometry calculation depends on the coefficients of a balanced equation to supply the mole ratio between substances — an unbalanced equation has no correct ratio to read off, so any mole-to-mole conversion performed against it is wrong regardless of how carefully the rest of the arithmetic is done. The habit to build is mechanical: balance first, recheck the balance by recounting atoms on both sides, and only then start converting grams to moles. A closely related slip is balancing by changing a subscript instead of a coefficient — subscripts identify what the substance is, so changing one turns the equation into a description of a different, unintended compound rather than a balanced version of the original one."
+          }
+        },
+        {
+          "id": "reactions-common-mistakes-limiting-reagent-by-mass",
+          "label": "Mistake: picking the limiting reagent by comparing grams instead of moles",
+          "content": {
+            "format": "text",
+            "value": "The reactant present in the smaller mass is not automatically the limiting reagent, because the mole ratio the equation requires is rarely 1:1 and different substances have very different molar masses. In the worked example above, 40.0 g of O2 is a smaller number than 54.0 g of Al, but the correct method is not to compare those masses directly — it is to convert both to moles first and then compare the moles available against the moles required by the balanced equation's ratio (or equivalently, divide each reactant's available moles by its own coefficient and see which gives the smaller result). Skipping the mole conversion and reasoning from grams alone will occasionally give the right answer by coincidence and will otherwise give a confidently wrong one."
+          }
+        },
+        {
+          "id": "reactions-common-mistakes-misclassifying-reaction-type",
+          "label": "Mistake: misclassifying the reaction type",
+          "content": {
+            "format": "text",
+            "value": "Two confusions recur when sorting reactions into synthesis, decomposition, single-replacement, double-replacement, and combustion. First, combustion is sometimes mislabeled as synthesis because a hydrocarbon and oxygen appear to 'combine' — but combustion is defined by its characteristic reactants (a fuel plus O2) and products (CO2 and H2O for a complete hydrocarbon combustion), not merely by the fact that something is combining, and it is conventionally kept in its own category rather than folded into synthesis. Second, single-replacement and double-replacement are told apart by counting free elements: single-replacement always has exactly one free element switching places with an element bound in a compound, while double-replacement has two compounds trading partners with no free element on either side. A reaction between an acid and a base that produces water and a salt is a double-replacement (neutralization) even though it 'feels' like a combination reaction, because both starting materials are compounds and no free element appears anywhere in the equation."
+          }
+        },
+        {
+          "id": "reactions-common-mistakes-catalyst-and-rate-misconceptions",
+          "label": "Mistake: misunderstanding what a catalyst -- or any rate factor -- actually changes",
+          "content": {
+            "format": "text",
+            "value": "A frequent misconception is that a catalyst increases how much product a reaction can make, or that it gets used up in the process. Neither is true: a catalyst lowers the activation energy of the pathway, which speeds up how quickly the reaction reaches its final state, but it does not change the balanced equation, the mole ratios, or the theoretical yield calculated from the limiting reagent — and because it is regenerated at the end of the mechanism, it does not appear as a reactant consumed in the overall equation. A second common error treats every rate-increasing factor as interchangeable with 'more reactant' — raising temperature and adding a catalyst both speed up how fast a reaction proceeds, but only changing the actual starting amount of a reactant changes how much product is available to form. When a question asks what happens to reaction rate versus what happens to yield or the identity of the limiting reagent, treat those as two separate questions with two separate answers."
+          }
+        }
+      ]
+    },
+    {
+      "id": "solutions-concept-overview",
+      "categoryId": "III-C",
+      "heading": "Concept overview: solutions and acid-base chemistry",
+      "entries": [
+        {
+          "id": "solutions-concept-molarity-and-concentration-units",
+          "label": "Concentration: molarity, molality, and mass percent",
+          "content": {
+            "format": "text",
+            "value": "Concentration answers \"how much solute per how much solvent or solution,\" and this category tests three ways of expressing that ratio, each with a different denominator. Molarity (M) is moles of solute divided by liters of total solution — not liters of solvent — so preparing a molar solution means dissolving the solute and then adding solvent until the combined volume reaches the target, rather than adding a fixed volume of solvent to the solute. Because it is defined on solution volume, molarity shifts very slightly with temperature: liquids expand when warmed, so the same number of moles occupies more volume and the molarity drops a little, even though nothing was added or removed. Molality (m) sidesteps that problem by using mass of solvent (in kilograms) in the denominator instead of solution volume, so it does not change with temperature at all — this is exactly why molality, not molarity, is the concentration unit used in colligative-property calculations such as freezing-point depression and boiling-point elevation. Mass percent expresses concentration as (mass of solute divided by mass of the total solution) times 100, a unit that needs no density conversion at all and is common on consumer labels (a \"3% solution\" of something). The three units answer the same underlying question but are not interchangeable without additional information — converting between molarity and molality or mass percent generally requires the solution's density, since molarity depends on volume and the other two do not."
+          }
+        },
+        {
+          "id": "solutions-concept-dilution-formula",
+          "label": "Dilution: M1V1 = M2V2",
+          "content": {
+            "format": "text",
+            "value": "Diluting a solution means adding more solvent without adding or removing any solute, so the number of moles of solute present is exactly the same before and after — only the volume it is spread through changes, and the concentration falls in proportion. Since moles equal molarity times volume (moles = M x V), and that product stays fixed through a dilution, the relationship M1V1 = M2V2 follows directly: M1 and V1 describe the concentrated (stock) solution before dilution, and M2 and V2 describe the same solution after water has been added, where V2 is the total final volume of the diluted solution, not the volume of water added on top of V1. Any one of the four quantities can be solved for once the other three are known, and the volume units on both sides just need to match each other (both in mL or both in L) — they do not need to be converted to liters first, since the units cancel out symmetrically. This formula applies specifically to dilution: adding pure solvent to one solution. It does not apply directly to mixing two different solutions of the same solute at two different concentrations, which instead requires adding the moles from each solution and dividing by the combined final volume."
+          }
+        },
+        {
+          "id": "solutions-concept-solubility-factors",
+          "label": "Solubility and the factors that affect it",
+          "content": {
+            "format": "text",
+            "value": "Solubility is the maximum amount of a solute that will dissolve in a given amount of solvent at a given temperature; a solution holding that maximum is saturated, one holding less is unsaturated, and one holding more than the equilibrium maximum (achieved by cooling a hot saturated solution slowly and undisturbed) is supersaturated and unstable, ready to crystallize out its excess the moment it is disturbed or seeded. Temperature affects solid and gas solutes in opposite directions for most common cases: most ionic and molecular solids become more soluble as water warms, because dissolving most solids absorbs energy and added heat helps drive the process, while dissolved gases become less soluble as water warms, because a gas escaping into the surrounding air is entropically favored and higher molecular motion at higher temperature makes it easier for gas particles to break free of the liquid. Pressure has little effect on solid or liquid solubility but strongly affects gas solubility: raising the partial pressure of a gas above a liquid pushes more of that gas into solution, which is why a sealed, pressurized soda bottle holds far more dissolved carbon dioxide than the same liquid open to the atmosphere, and why the fizzing starts the instant the cap breaks the seal and the pressure drops. Polarity governs which substances dissolve in which solvents at all, summarized as \"like dissolves like\": polar and ionic solutes dissolve well in polar solvents such as water, whose partially charged molecules can surround and stabilize charged or polar solute particles, while nonpolar solutes dissolve well only in nonpolar solvents, since neither substance can offer the other the intermolecular attraction needed to pull it apart."
+          }
+        },
+        {
+          "id": "solutions-concept-colligative-properties",
+          "label": "Colligative properties: what dissolved particles do to a solvent",
+          "content": {
+            "format": "text",
+            "value": "A colligative property is a physical property of a solution that depends on how many solute particles are dissolved, not on what those particles are chemically. This is why one mole of any nonvolatile molecular solute (glucose, for instance, which stays intact in water) shifts a colligative property by a fixed amount, while one mole of an ionic compound that dissociates into multiple ions shifts it by roughly that amount multiplied by the number of ions each formula unit produces — sodium chloride produces about twice the particles per mole that glucose does, magnesium chloride about three times. The reason dissolved particles change these properties at all is that they physically get in the way at the solvent's surface, lowering the fraction of surface positions occupied by solvent molecules and therefore lowering the solvent's vapor pressure at any given temperature. A lower vapor pressure means the solution has to be heated to a higher temperature before its vapor pressure catches up to atmospheric pressure and boiling can begin, which is boiling-point elevation — dissolving a nonvolatile solute in a solvent raises the solvent's boiling point above what pure solvent would show. The same lowered vapor pressure is also the underlying reason a solute lowers the solvent's freezing point (freezing-point depression): solute particles disrupt the regular spacing the solvent's molecules need to lock into a crystal lattice, so the liquid has to be cooled further before freezing can start. Both shifts grow with molality and with the number of particles per formula unit, and both are exploited the same practical way — antifreeze in a car radiator both raises the coolant's boiling point and lowers its freezing point using the same dissolved-particle mechanism, at the same time, in the same liquid."
+          }
+        },
+        {
+          "id": "solutions-concept-ph-and-acid-base-strength",
+          "label": "The pH scale, acid-base strength, and neutralization",
+          "content": {
+            "format": "text",
+            "value": "pH is defined as the negative base-ten logarithm of the hydrogen ion concentration: pH = -log[H+]. Because it is a logarithmic scale, each single whole-number step in pH represents a tenfold change in [H+], not a fixed additive change — a solution of pH 3 has ten times the hydrogen ion concentration of a solution of pH 4 and one hundred times that of a solution of pH 5, and the direction runs opposite to intuition for anyone used to \"higher number means more\": a lower pH means a higher [H+] and a more acidic solution, while a higher pH means a lower [H+] and a more basic (alkaline) solution, with pH 7 marking neutral at 25 degrees Celsius. Acid or base strength is a separate question from concentration, and describes how completely the substance ionizes in water rather than how much of it is dissolved. Strong acids (hydrochloric, nitric, sulfuric, hydrobromic, hydroiodic, and perchloric acid are the standard list) and strong bases (the group 1 hydroxides, plus calcium, strontium, and barium hydroxide) are assumed to ionize essentially completely in water, so the concentration of H+ or OH- they produce can be read directly from the labeled molarity of the acid or base. Weak acids and bases (acetic acid and carbonic acid among acids, ammonia among bases) ionize only partially, settling into an equilibrium in which most of the original molecules remain intact, so a weak acid at a given molarity produces far less H+ than a strong acid at that same molarity — strength and concentration can vary independently, and a dilute strong acid and a concentrated weak acid can end up surprisingly close in actual acidity. Neutralization is the reaction of an acid with a base to produce water and a salt (the acid's anion paired with the base's cation), and titration is the standard technique for using a neutralization reaction to determine an unknown concentration: a solution of known, precisely measured concentration (the titrant) is added gradually to a measured volume of the unknown solution, usually with an indicator or a pH meter marking the equivalence point where moles of acid and moles of base (adjusted for the reaction's mole ratio) exactly balance, and the unknown concentration is then calculated from the volume of titrant that was required."
+          }
+        }
+      ]
+    },
+    {
+      "id": "solutions-worked-example-diluted-strong-acid",
+      "categoryId": "III-C",
+      "heading": "Worked example: from mass of acid to a diluted solution's pH",
+      "entries": [
+        {
+          "id": "solutions-worked-example-scenario",
+          "label": "Scenario",
+          "content": {
+            "format": "text",
+            "value": "A teacher prepares a stock solution of hydrochloric acid by dissolving 0.365 g of hydrogen chloride gas (molar mass 36.5 g/mol) in enough water to make exactly 500. mL of solution. She then withdraws a 50.0 mL portion of that stock solution and adds water until the total volume of the resulting diluted solution reaches exactly 250. mL. Hydrochloric acid is a strong acid and can be treated as ionizing completely in water. Find the pH of the original stock solution and the pH of the diluted solution."
+          }
+        },
+        {
+          "id": "solutions-worked-example-step-1",
+          "label": "Step 1 — Convert the mass of HCl to moles",
+          "content": {
+            "format": "text",
+            "value": "Moles = mass divided by molar mass. Moles of HCl = 0.365 g / 36.5 g/mol = 0.0100 mol. This is the fixed amount of acid the stock solution contains — dividing the given mass by the given molar mass leaves the decimal point after 365/365, so the calculation reduces to 0.0100 mol exactly."
+          }
+        },
+        {
+          "id": "solutions-worked-example-step-2",
+          "label": "Step 2 — Convert moles to the stock solution's molarity",
+          "content": {
+            "format": "text",
+            "value": "Molarity = moles of solute / liters of solution. The stock solution's total volume is 500. mL, which is 0.500 L. Molarity = 0.0100 mol / 0.500 L = 0.0200 M. This is the concentration of the stock HCl solution, labeled M1 for the dilution step that comes later."
+          }
+        },
+        {
+          "id": "solutions-worked-example-step-3",
+          "label": "Step 3 — Find [H+] and the pH of the stock solution",
+          "content": {
+            "format": "text",
+            "value": "Because HCl is a strong acid and ionizes essentially completely (HCl -> H+ + Cl-), every mole of HCl that went into solution produces one mole of H+, so [H+] = 0.0200 M = 2.00 x 10^-2 M. Applying pH = -log[H+]: log(2.00 x 10^-2) = log(2.00) + log(10^-2) = 0.301 + (-2) = -1.699. Taking the negative of that value gives pH = 1.699, which rounds to 1.70. This is the pH of the original stock solution, before any dilution."
+          }
+        },
+        {
+          "id": "solutions-worked-example-step-4",
+          "label": "Step 4 — Apply the dilution formula to the 50.0 mL portion",
+          "content": {
+            "format": "text",
+            "value": "The 50.0 mL portion withdrawn from the stock is diluted with water until the total volume is 250. mL, so M1 = 0.0200 M, V1 = 50.0 mL, and V2 = 250. mL (the final total volume, not the volume of water added). Using M1V1 = M2V2: M2 = (M1 x V1) / V2 = (0.0200 M x 50.0 mL) / 250. mL = 1.00 / 250. = 0.00400 M. The diluted solution's molarity is 0.00400 M, or 4.00 x 10^-3 M — one-fifth of the stock concentration, matching the fivefold increase in volume from 50.0 mL to 250. mL."
+          }
+        },
+        {
+          "id": "solutions-worked-example-step-5",
+          "label": "Step 5 — Find the new [H+] and the diluted solution's pH",
+          "content": {
+            "format": "text",
+            "value": "HCl is still a strong acid after dilution, so [H+] in the diluted solution equals its molarity: [H+] = 4.00 x 10^-3 M. Applying pH = -log[H+]: log(4.00 x 10^-3) = log(4.00) + log(10^-3) = 0.602 + (-3) = -2.398. Taking the negative gives pH = 2.398, which rounds to 2.40. (At this concentration, water's own tiny self-ionized [H+] of about 10^-7 M is negligible next to 4.00 x 10^-3 M, so treating [H+] as coming entirely from the HCl is a safe approximation.) The diluted solution has a pH of 2.40, compared with 1.70 for the stock solution."
+          }
+        },
+        {
+          "id": "solutions-worked-example-conclusion",
+          "label": "Conclusion — why the pH rose by 0.70, not by a factor of 5",
+          "content": {
+            "format": "text",
+            "value": "The final answers are pH = 1.70 for the stock solution and pH = 2.40 for the diluted solution. Notice what the fivefold dilution actually did to the pH: it did not divide the pH by 5, and it did not produce some other large jump — it raised the pH by only 0.70 units (2.40 - 1.70 = 0.70). That is exactly what the logarithmic relationship predicts: diluting a solution by a factor of 5 divides [H+] by 5, and log(5) = 0.699, which rounds to the same 0.70-unit rise seen here. A useful mental check for any pH-and-dilution problem is this shortcut itself — diluting by a factor of 10 always raises a strong acid's pH by very close to 1.0 full unit, diluting by a factor of 2 raises it by about 0.3 units (log 2 = 0.301), and diluting by a factor of 5 raises it by about 0.7 units, regardless of what the starting concentration happened to be."
+          }
+        }
+      ]
+    },
+    {
+      "id": "solutions-common-mistakes",
+      "categoryId": "III-C",
+      "heading": "Common mistakes",
+      "entries": [
+        {
+          "id": "solutions-common-mistakes-linear-ph",
+          "label": "Treating the pH scale as if it were linear",
+          "content": {
+            "format": "text",
+            "value": "The single most common error in this category is subtracting or comparing pH values as if pH were a direct measure of concentration rather than its logarithm. A test-taker who sees pH drop from 5 to 3 and concludes the hydrogen ion concentration \"doubled\" or \"went up by 2\" has missed the entire point of the scale: a drop of 2 pH units is a hundredfold increase in [H+] (10^2), not a factor of 2, because each single pH unit is itself a tenfold change. The fix is to convert to concentration before comparing magnitudes — [H+] = 10^(-pH) — and to remember the direction as well as the size of the change: pH and [H+] move opposite each other, so a lower pH number always means a more acidic, more concentrated-in-H+ solution, never a weaker one."
+          }
+        },
+        {
+          "id": "solutions-common-mistakes-molarity-vs-molality-vs-percent",
+          "label": "Confusing molarity, molality, and mass percent",
+          "content": {
+            "format": "text",
+            "value": "These three units are easy to blur because they all describe \"how much solute,\" but each uses a different quantity in the denominator, and using the wrong one gives an answer that is not just imprecise but a different unit's number entirely: molarity divides by liters of total solution, molality divides by kilograms of solvent only, and mass percent divides by the total mass of the solution (solute plus solvent). A frequent version of this mistake is computing molarity using the volume of solvent that was poured in rather than the final volume of the completed solution — the two are not the same, since dissolving a solute and topping off with more solvent to reach a target volume is the standard way molar solutions are actually prepared. Reading which denominator a problem specifies, and matching the unit asked for in the answer (M, m, or %) to the unit actually calculated, avoids the error."
+          }
+        },
+        {
+          "id": "solutions-common-mistakes-dilution-formula-misuse",
+          "label": "Misapplying the dilution formula",
+          "content": {
+            "format": "text",
+            "value": "M1V1 = M2V2 fails in two specific, recurring ways. First, V2 must be the total final volume of the diluted solution, not the volume of water added on top of V1 — a problem that says \"500. mL of water is added to 100. mL of stock solution\" gives a final volume of 600. mL, not 500. mL, and plugging in 500. mL as V2 is a common and costly misread. Second, the formula only describes diluting one solution with pure solvent; it cannot be used directly to find the concentration that results from mixing two different solutions of the same solute, because that situation adds moles from two sources rather than holding total moles fixed. Mixing problems instead require adding (M1V1) and (M2V2) together to get total moles, then dividing by the combined final volume — treating a mixing problem as a simple dilution silently drops one of the two contributions."
+          }
+        },
+        {
+          "id": "solutions-common-mistakes-strength-vs-concentration",
+          "label": "Confusing acid or base strength with concentration",
+          "content": {
+            "format": "text",
+            "value": "\"Strong\" and \"concentrated\" describe two different things and test items are written specifically to catch the substitution of one for the other. Strength describes how completely a substance ionizes in water and is a fixed chemical property of the substance itself — hydrochloric acid is a strong acid whether it is prepared at 6 M or diluted down to 0.0001 M. Concentration describes how much of the substance, strong or weak, is dissolved per unit of solution, and it is a property of a particular prepared sample, not of the chemical. A dilute solution of a strong acid can therefore have a lower [H+], and a higher pH, than a sufficiently concentrated solution of a weak acid, even though the strong acid ionizes a far larger fraction of what is dissolved. Whenever a scenario compares two acids or two bases, check separately whether the question is really asking about strength (how completely each ionizes) or about concentration (how much was dissolved) before deciding which one is \"more acidic\" or \"more basic.\""
+          }
+        }
+      ]
+    },
+    {
+      "id": "stse-concept-overview",
+      "categoryId": "I-B",
+      "heading": "Concept overview",
+      "entries": [
+        {
+          "id": "stse-concept-design-process-vs-scientific-method",
+          "label": "The engineering design process, and how its goal differs from science",
+          "content": {
+            "format": "text",
+            "value": "The engineering design process is a cyclical approach to solving a practical problem within limits, usually summarized as: define the problem (state the need, and separate criteria from constraints), generate and evaluate candidate solutions (research, brainstorm without judging feasibility yet, then weigh the options against the criteria and constraints), build a prototype, test it, and use the results to redesign — repeating the cycle until a solution adequately satisfies the constraints or time and resources run out. Its goal is a workable solution, and \"good enough to meet the stated requirements\" is a legitimate stopping point. The scientific method is a different cycle aimed at a different goal: observe a phenomenon, form a testable hypothesis about how the natural world behaves, run a controlled test that isolates one variable, and revise the hypothesis based on the evidence. Its goal is an accurate explanation or a model with predictive power, and a hypothesis is never simply \"good enough\" — it stays provisional and open to further testing no matter how well it has held up. The two are linked in practice (engineers apply validated scientific principles, and scientific instruments are themselves engineered products), but on this exam the marker to watch for is the goal word: \"explain why a natural phenomenon happens\" points to science, while \"build something that solves a problem inside a budget, timeline, or material limit\" points to engineering. A related marker: engineering's \"test\" step checks whether a solution meets its criteria and constraints, not whether an explanatory hypothesis about nature is true."
+          }
+        },
+        {
+          "id": "stse-concept-criteria-constraints-tradeoffs",
+          "label": "Criteria, constraints, and design tradeoffs",
+          "content": {
+            "format": "text",
+            "value": "A constraint is a fixed limit a design must not cross — a budget cap, a maximum size, a required safety standard, a material that must be used, a deadline. A design that violates any constraint fails outright, no matter how well it performs otherwise. A criterion is a measurable quality to be optimized along a continuum — lower cost, less weight, higher efficiency, longer life — where more (or less) is better but no fixed line marks pass or fail. Because criteria usually pull against one another (lighter frames tend to be less durable, cheaper materials tend to perform worse, faster construction tends to cost more), no realistic design maximizes every criterion at once, and evaluating candidate solutions means judging how well each one balances the whole set of criteria rather than which one wins on any single measure. A common tool for this is a simple decision matrix: list the criteria, assign each one a weight reflecting its importance, score each candidate design on each criterion, and compare the weighted totals — the exercise forces the tradeoffs into the open instead of leaving them to gut feeling."
+          }
+        },
+        {
+          "id": "stse-concept-cost-benefit-risk-benefit",
+          "label": "Cost-benefit analysis versus risk-benefit analysis",
+          "content": {
+            "format": "text",
+            "value": "Cost-benefit analysis compares the total resources a choice consumes against the total value it returns, ideally over the item's full lifecycle rather than just its purchase price — upfront capital, ongoing operating and maintenance costs, and eventual decommissioning or disposal costs, set against monetary savings, performance gains, or avoided future costs. A simple version test-takers should be able to compute is the payback period: upfront cost divided by the recurring savings per period tells you how long a more expensive option takes to pay for itself. Risk-benefit analysis is a related but distinct comparison: instead of weighing dollars against dollars, it weighs the probability of a harmful outcome times its severity against the benefit gained by accepting that risk. Risk is harder to reduce to a single number than cost, because it also involves factors that resist being monetized cleanly — whether the harm is reversible, whether the risk is taken voluntarily or imposed on people who receive none of the benefit, and how the risk and the benefit are distributed across a population. A technology can be an easy win on cost-benefit grounds while remaining a genuinely contested question on risk-benefit grounds, and a complete analysis keeps the two comparisons separate rather than collapsing them into one verdict."
+          }
+        },
+        {
+          "id": "stse-concept-energy-technology-tradeoffs",
+          "label": "Environmental and societal tradeoffs of energy technologies",
+          "content": {
+            "format": "text",
+            "value": "Fossil fuels (coal, petroleum, natural gas) offer high energy density and are dispatchable — output can be ramped up or down on demand — and the infrastructure to extract, transport, and burn them already exists almost everywhere. Their costs are a finite, nonrenewable resource base; combustion releases carbon dioxide, a driver of climate change; and, depending on the fuel and controls in place, combustion can also release sulfur dioxide and nitrogen oxides (precursors of acid precipitation) and fine particulates linked to respiratory illness, on top of land and water impacts from extraction. Renewable sources are replenished on a human timescale, but \"renewable\" is not a synonym for \"impact-free.\" Solar and wind produce electricity with near-zero direct operating emissions, yet both require land area and mined materials for panels, turbines, and batteries, and both are intermittent, so meeting demand around the clock requires storage or a backup source. Hydroelectric power is reliable and dispatchable but requires damming a river, which floods upstream land and disrupts fish migration and downstream sediment flow. Biomass is renewable in the sense that the fuel regrows, but burning it still releases carbon dioxide at the smokestack. Nuclear fission is not classified as renewable, since it consumes a finite supply of mined uranium, but it delivers dispatchable, near-zero-carbon baseload power because a very small mass of fuel releases an enormous amount of energy; its tradeoffs are a high upfront capital cost and long construction timeline, radioactive waste that must be stored securely for a very long time, and a low-probability, high-consequence accident risk. The pattern to take from all of this: every energy technology carries some environmental or societal cost, and comparing them honestly means comparing the whole lifecycle — fuel source, construction, operation, and waste or decommissioning — not just what does or does not come out of a smokestack."
+          }
+        },
+        {
+          "id": "stse-concept-sts-interactions-risk-perception",
+          "label": "How science, technology, and society shape one another",
+          "content": {
+            "format": "text",
+            "value": "Science and technology are often pictured as a one-way pipeline — science discovers a principle, technology applies it — but the relationship runs in both directions. Technology also enables new science: a more powerful telescope, particle accelerator, or computer opens questions that were previously impossible to ask, let alone answer. And society shapes both ends of that exchange: public need, market demand, and policy decide which research gets funded and which technologies get developed, while scientific findings in turn inform technology policy, such as when climate research shapes emissions regulations or health research shapes safety standards. A separate but related idea is the well-documented gap between calculated risk and perceived risk. People consistently rate a hazard as more dangerous than the statistics support when it is unfamiliar, involuntary, catastrophic, or hard to control — a plane crash or a reactor accident — and rate a hazard as less dangerous than the statistics support when it is familiar, voluntary, and chronic — driving a car, or breathing air polluted by ordinary fossil-fuel combustion. This dread-and-familiarity effect is not irrational noise to be dismissed; it reflects real differences people care about, such as whether they chose the exposure and whether one rare event could be catastrophic rather than a small harm spread across many events. But it does mean public debate about a technology's risk often does not track the technology's calculated risk-benefit profile, and untangling the two — reporting the statistical comparison honestly while still taking the public's concerns seriously — is itself part of managing science and technology in a society."
+          }
+        }
+      ]
+    },
+    {
+      "id": "stse-worked-example-power-plant-replacement",
+      "categoryId": "I-B",
+      "heading": "Worked example: choosing a replacement for an aging power plant",
+      "entries": [
+        {
+          "id": "stse-worked-example-scenario",
+          "label": "Scenario",
+          "content": {
+            "format": "text",
+            "value": "A midsize town's coal-fired power plant, its only major source of electricity, is scheduled for retirement in five years. The town council forms a citizen advisory committee to recommend a replacement and hands it three figures: the plant must reliably supply the town's peak demand of about 120 megawatts, including winter evenings when solar generation is unavailable; the town has authorized a capital budget of up to $250 million; the replacement must be operational, or substantially under construction, within the five-year window before the coal plant shuts down; and the town's existing climate action plan requires at least a 60 percent cut in the utility's carbon emissions compared with the coal plant's current output. The utility's engineering staff present three candidate technologies: a new natural-gas combined-cycle plant, a solar array paired with battery storage, and a partnership to build a small modular nuclear reactor. The committee's task is to work through the tradeoffs and recommend a path forward."
+          }
+        },
+        {
+          "id": "stse-worked-example-step-1",
+          "label": "Step 1 — Define the problem, and separate criteria from constraints",
+          "content": {
+            "format": "text",
+            "value": "Before comparing anything, the committee sorts the council's figures into constraints (hard limits a candidate must satisfy or it is disqualified) and criteria (qualities to optimize once a candidate has cleared the constraints). The constraints are: reliably supply at least 120 MW at peak, including winter evening hours; stay within the $250 million capital budget; be operational or substantially under construction within five years; and cut emissions by at least 60 percent relative to the current coal plant. The criteria to weigh among whichever candidates survive the constraints are: minimize lifecycle cost per megawatt-hour, minimize environmental impact beyond carbon (land use, water use, waste), maximize reliability, and maximize public acceptance. This separation matters because a candidate that scores wonderfully on the criteria but fails a single constraint is not a compromise choice — it is disqualified, and the committee's first job is to check constraints before it ever starts weighing anything."
+          }
+        },
+        {
+          "id": "stse-worked-example-step-2",
+          "label": "Step 2 — Screen the candidates against the constraints",
+          "content": {
+            "format": "text",
+            "value": "The gas plant clears the budget, the reliability requirement, and the five-year timeline comfortably, since gas turbines are relatively fast to permit and build. But burning natural gas instead of coal roughly halves emissions per megawatt-hour rather than eliminating them, so a gas plant on its own is unlikely to clear the 60-percent-reduction constraint — it provisionally fails a constraint rather than merely scoring lower on a criterion. The solar-plus-battery option clears the emissions constraint easily, since its operating emissions are close to zero, and it can be built within five years. But sized to stand entirely alone, it cannot guarantee 120 MW on a winter evening with no sun and depleted batteries without an enormous — and far more expensive — battery bank, so as a sole, complete solution it strains the reliability constraint and likely the budget constraint together. The nuclear option clears the reliability and emissions constraints about as well as any candidate on the list, since fission is dispatchable, near-zero-carbon baseload power. But realistic licensing and construction timelines for a new reactor, even a small modular design, typically run longer than five years, and the capital cost for a plant sized to serve one town alone is likely to approach or exceed the $250 million cap. As a sole, near-term solution it fails the timeline constraint. No single candidate clears every constraint on its own — a realistic outcome for a well-specified engineering problem, and a sign that the next steps need to compare partial and combined solutions, not just the three original options in isolation."
+          }
+        },
+        {
+          "id": "stse-worked-example-step-3",
+          "label": "Step 3 — Run the cost-benefit comparison",
+          "content": {
+            "format": "text",
+            "value": "The committee then compares lifecycle cost rather than sticker price. The gas plant has the lowest upfront capital cost but exposes the town to decades of fuel-price volatility and, if the emissions constraint is later enforced through a carbon fee or penalty, a real cost that a purchase-price comparison would miss entirely. The solar-and-battery option has a higher upfront capital cost but close to zero fuel cost and falling maintenance costs as the equipment ages, so its lifecycle cost curve is front-loaded rather than spread out. The nuclear option has by far the highest upfront capital cost of the three, but once built its fuel and operating cost per megawatt-hour over a plant life of sixty or more years is very low — its economics only look favorable on a horizon far longer than the five-year decision the committee is actually making. The lesson the committee draws is that \"lowest cost\" and \"best cost-benefit\" are not the same comparison: the gas plant wins on upfront price, but factoring in fuel-price risk and the emissions constraint's likely future cost changes the picture, and the nuclear option's poor near-term cost-benefit profile is really a mismatch between its 60-year payoff horizon and the town's five-year decision window rather than evidence it is a bad technology outright."
+          }
+        },
+        {
+          "id": "stse-worked-example-step-4",
+          "label": "Step 4 — Run the risk-benefit comparison, and confront how the public perceives it",
+          "content": {
+            "format": "text",
+            "value": "The committee holds a public input session and collects a survey of residents' concerns. The single most frequently cited fear, by a wide margin, is a reactor meltdown from the nuclear option — this dominates the discussion even though nuclear power is only one of three options on the table and the plant would not open for years. A calculated risk-benefit comparison tells a different story: modern reactor designs include passive safety systems that shut the reactor down without operator action or external power, regulatory oversight is extensive, and historically, measured per unit of energy actually generated, nuclear power's cumulative fatality rate — landmark accidents included — has been lower than the fossil-fuel sector's cumulative toll from routine combustion-related air pollution. The gas plant's risks — methane leakage, combustion byproducts, and decades of fuel-price exposure — are chronic and familiar rather than dramatic, and they draw almost no public comment despite plausibly being the largest realistic risk among the three options. This is the science-technology-society interaction in concrete form: a catastrophic, unfamiliar, involuntary hazard is weighed far more heavily in public debate than a common, familiar, cumulative one, independent of what the statistics say. The committee's job is not to dismiss the public's concern as simply wrong, since factors such as an accident's potential irreversibility are legitimate parts of a risk-benefit analysis, but to report the calculated comparison honestly alongside the public's stated concerns rather than letting the loudest fear silently substitute for the analysis."
+          }
+        },
+        {
+          "id": "stse-worked-example-step-5",
+          "label": "Step 5 — Revise the design into a phased, testable plan",
+          "content": {
+            "format": "text",
+            "value": "Because no single candidate cleanly clears every constraint within five years, the committee applies the engineering design process's own iterate step at the scale of a power grid rather than a benchtop model — but first checks the same two constraints against any combined option that it checked against each option alone in Step 2, since a blended solution is not exempt from the requirements just because no single piece of it is. Phase 1, to be complete within the five-year window: build a solar-and-battery installation sized to cover as much of the daytime and summer peak load as is reliably achievable, paired with a natural-gas plant. On reliability, that gas plant cannot be sized only to the average shortfall — it has to be capable of covering close to the full 120 MW on the worst realistic case, an extended stretch of low sun with the batteries already depleted, since the reliability constraint has to hold on the hardest days, not the typical ones; what keeps this plan smaller and cheaper than a gas-alone solution is not a lower peak capacity but that the gas plant runs at that capacity only during the shortfall hours instead of continuously, which is what holds down both its capital cost and its annual emissions compared with a full-time gas plant. On emissions, the committee doesn't just assert the blended mix is lower-emitting — it checks the same 60-percent target from Step 2 against the blended mix's estimated annual output, mostly zero-carbon solar hours plus a limited number of gas-covered hours, before treating Phase 1 as compliant, the same discipline Step 2 applied to each option alone. Phase 2, beyond five years and contingent on what Phase 1's data shows and on financing coming together: pursue the nuclear partnership as a baseload replacement for the interim gas capacity, now sized using actual demand data rather than upfront projections. This treats the five-year decision as a prototype to be tested and revised rather than a single irreversible choice, which is exactly what the design process recommends when the first round of evaluation does not produce one solution that clears every requirement."
+          }
+        },
+        {
+          "id": "stse-worked-example-conclusion",
+          "label": "Conclusion",
+          "content": {
+            "format": "text",
+            "value": "No candidate wins cleanly on every axis, which is the realistic outcome of a properly constrained engineering problem rather than a sign the committee failed to find the \"right answer.\" Resolving it required four separate moves: sorting the council's requirements into constraints that disqualify and criteria that get weighed, running a genuine lifecycle cost-benefit comparison instead of comparing purchase prices, running a calculated risk-benefit comparison and reporting it honestly alongside — rather than instead of — the public's perceived risk, and treating the recommendation as a phased, revisable plan rather than a single final commitment. The general lesson to carry into the exam: a well-built engineering-design or technology-policy question rarely has one dominant correct option sitting in isolation. The strongest answer identifies which requirements are hard constraints, names the tradeoff being made among the criteria, and shows the cost-benefit and risk-benefit reasoning explicitly rather than simply asserting a conclusion."
+          }
+        }
+      ]
+    },
+    {
+      "id": "stse-common-mistakes",
+      "categoryId": "I-B",
+      "heading": "Common mistakes",
+      "entries": [
+        {
+          "id": "stse-common-mistakes-design-vs-scientific-method",
+          "label": "Mistake: treating the engineering design process as if it shared science's goal",
+          "content": {
+            "format": "text",
+            "value": "A frequent error is describing the design process's testing step as though it were testing a hypothesis about nature, or assuming both processes are aiming at the same kind of answer. They are not: the scientific method's goal is an accurate explanation of a natural phenomenon, and a hypothesis stays provisional no matter how well it has held up, while the design process's goal is a working solution, and a design that meets its stated criteria and constraints is a legitimate, final stopping point — \"good enough within the requirements\" is success, not a compromise. Watch item wording carefully for which stage of the design process a description matches: brainstorming without judging feasibility yet is the divergent part of generating and evaluating candidate solutions, not the testing or evaluation stage, and confusing the two is a common wrong-answer trap."
+          }
+        },
+        {
+          "id": "stse-common-mistakes-risk-vs-cost-benefit",
+          "label": "Mistake: conflating risk-benefit with cost-benefit, and perceived risk with calculated risk",
+          "content": {
+            "format": "text",
+            "value": "Cost-benefit analysis compares resources spent against value returned; risk-benefit analysis compares the probability and severity of harm against the benefit gained, and includes factors — voluntariness, reversibility, who bears the risk versus who gets the benefit — that resist being reduced to a dollar figure. Treating these as the same comparison, or treating the public's strongest gut reaction as if it were the calculated risk figure, is a common error. Remember the pattern: a rare, dramatic, involuntary hazard is consistently overweighted in public debate relative to its statistical risk, while a common, familiar, voluntary hazard is consistently underweighted — so when an item asks what consideration is missing from a public debate about a technology's danger, the answer is usually the comparison to a more familiar but statistically larger risk, not a claim that the public's concern is baseless."
+          }
+        },
+        {
+          "id": "stse-common-mistakes-renewable-not-impact-free",
+          "label": "Mistake: assuming renewable means impact-free, or that nonrenewable means environmentally worse",
+          "content": {
+            "format": "text",
+            "value": "\"Renewable\" describes a resource replenished on a human timescale; it says nothing about whether producing energy from that resource has zero environmental or societal cost. A hydroelectric dam is renewable and dispatchable but floods land and disrupts river ecosystems and fish migration; wind and solar are renewable and low-carbon in operation but require land, mined materials, and manufacturing, and are intermittent, so they need storage or backup to be reliable; biomass is renewable but still releases carbon dioxide when it burns. The mirror-image error is assuming a nonrenewable source is automatically worse across the board: nuclear fission is not renewable, since it consumes a finite supply of mined uranium, but it is a near-zero-carbon, dispatchable baseload source, which is why it does not fit neatly on a simple renewable-versus-fossil spectrum. Evaluate every energy technology on its full lifecycle — fuel source, construction, operation, and waste or decommissioning — rather than assuming its category name settles the question."
+          }
+        },
+        {
+          "id": "stse-common-mistakes-technology-as-applied-science",
+          "label": "Mistake: picturing science and technology as a one-way pipeline",
+          "content": {
+            "format": "text",
+            "value": "Candidates often describe technology as simply downstream of science — science discovers a principle, technology applies it — and miss that the relationship runs both directions and that society steers both ends of it. Technology regularly enables new science: a more sensitive instrument or a more powerful computer opens questions that were previously impossible to investigate at all, so the causal arrow runs from technology back to science just as often as the reverse. Societal need and public policy also actively direct which research and which technologies get pursued in the first place, rather than science and technology developing in a vacuum that society merely receives. When an item asks for an example of societal need shaping the direction of research, the correct choice names a real causal push running from social demand or policy back toward science or engineering effort — not an ordinary example of a scientific discovery later being turned into a product, which runs the pipeline's usual direction rather than illustrating the feedback."
+          }
+        }
+      ]
+    }
+  ]
+}
