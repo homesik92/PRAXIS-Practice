@@ -5,6 +5,7 @@
   "timeLimitMinutes": 150,
   "formLength": 125,
   "referencePanel": "reference/5485-periodic.json",
+  "teachingContent": "teaching/5485.json",
   "categories": [
     {
       "id": "I",

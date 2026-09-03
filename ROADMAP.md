@@ -59,7 +59,7 @@ site with no server.
 | 6.7 | Restore progress ("upload progress") | ☑ |
 | 6.8 | S2 redesign (test-menu hub) | ☑ |
 | 6.9 | Topic teaching pages ("Study a topic") — Mathematics | ☑ |
-| 6.10 | Topic teaching pages — remaining three subjects | ◐ |
+| 6.10 | Topic teaching pages — remaining three subjects | ☑ |
 | 6.11 | Landing page visual refresh | ☑ |
 | 7 | Content authoring (parallel track) | ☑ |
 | 7.1 | History-aware draw for Practice a topic / Category test | ☑ |
@@ -1600,16 +1600,60 @@ task — high effort, one subject per session, each with its own plan gate.
   real typeset math (division symbols, subscripts, superscripts — confirmed
   visually, not just DOM-checked); 5485/5101 categories still correctly show
   "No lesson has been written... yet" pending 6.10.2/6.10.3.
-- ☐ **6.10.2 Physical Science (5485) — 9 chapters.** I-A Nature of Science ·
-  I-B Science, Engineering, Technology, Society, and the Environment · II-A
-  Atomic and Nuclear Structure and Processes · II-B Relationships Between
-  Energy and Matter · III-A Chemical Composition, Bonding, and Structure ·
-  III-B Chemical Reactions and Periodicity · III-C Solutions and Acid-Base
-  Chemistry · IV-A Mechanics · IV-B Electricity, Magnetism, and Waves.
-  Note: worked examples here are calculation-heavy (stoichiometry, calorimetry,
-  half-life, kinematics, circuits) — the independent verification pass matters
-  most on this subject, and `mathml` content is available for formula display,
-  already proven by 5165's chapters.
+- ☑ **6.10.2 Physical Science (5485) — 9 chapters, done.** I-A Nature of
+  Science · I-B Science, Engineering, Technology, Society, and the
+  Environment · II-A Atomic and Nuclear Structure and Processes · II-B
+  Relationships Between Energy and Matter · III-A Chemical Composition,
+  Bonding, and Structure · III-B Chemical Reactions and Periodicity ·
+  III-C Solutions and Acid-Base Chemistry · IV-A Mechanics · IV-B
+  Electricity, Magnetism, and Waves. Worked examples here are
+  calculation-heavy (half-life decay, calorimetry, molar-mass/mole
+  arithmetic, limiting-reagent stoichiometry, dilution/pH, kinematics,
+  circuit analysis) — every authoring prompt carried an explicit arithmetic
+  warning given this project's standing rule that a wrong number teaches the
+  wrong fact. Authored via 9 parallel per-category subagents (high effort),
+  same 3-section shape as prior chapters; zero id collisions on merge into
+  `data/teaching/5485.json` (27 sections, 140 entries). **Hit this project's
+  known session-limit landmine mid-run** — 3 of 9 authoring agents (III-C,
+  IV-A, IV-B) reported "failed" with a rate-limit error, but all three had
+  actually already written their complete, valid output files before the
+  interrupt; the failure was in a post-write step, not the write itself.
+  Confirmed by JSON-validating and structurally checking all 9 files before
+  merging rather than trusting the failure status — all 9 were intact, no
+  re-authoring needed.
+  **Independent verification, 5 subagents (one per category pair, IV-B
+  solo since 9 is odd), each re-deriving every worked example's arithmetic
+  from scratch before comparing** — this bank's highest-risk content given
+  how calculation-heavy it is. Found and fixed 3 real defects: I-A's
+  experimental-design worked example self-contradicted which of its two
+  cans had the smaller water volume (stated correctly once, then
+  misattributed to the wrong can two sentences later) — fixed to attribute
+  correctly; I-B's engineering-tradeoff worked example asserted its final
+  phased recommendation satisfied the reliability and emissions constraints
+  established in Step 1 without re-checking them, in tension with the
+  worked example's own stated discipline of "check constraints before
+  weighing anything" — tightened to explicitly re-verify both constraints
+  against the blended solution rather than assert compliance; III-B's
+  common-mistakes labels were missing this site's established `"Mistake:
+  ..."` prefix (present in every other chapter, including this bank's own
+  III-A) — fixed all 4 labels for consistency. All 9 chapters' worked-example
+  numbers otherwise matched independent re-derivation exactly, including
+  three full mass/energy-balance cross-checks the verifiers ran beyond what
+  the text itself claimed (III-B's aluminum-oxidation stoichiometry, II-B's
+  calorimetry, II-A's half-life decay). Two soft findings were reviewed and
+  left as-is, matching this project's precedent for judgment calls that
+  don't rise to a real defect: III-C's colligative-properties worked
+  example uses the canonical glucose-vs-NaCl teaching example, which
+  parallels an existing quiz question's framing without reproducing its
+  stem/options/numbers; IV-B's worked example reuses one existing question's
+  6Ω/3Ω→2Ω parallel-resistance sub-result as an intermediate step within a
+  larger original circuit. `node tools/verify.mjs` clean throughout;
+  324/324 tests green (unchanged — data-only). Live-tested in the browser:
+  `teach.html?code=5485` for categories I-A and I-B render the corrected
+  content with zero console errors, including a direct text check
+  confirming the I-A self-contradiction fix rendered correctly.
+  **Phase 6.10 is now fully closed** — all four subjects (5165, 5652, 5101,
+  5485) have complete, independently-verified "Study a topic" chapters.
 - ☑ **6.10.3 Business Education (5101) — 8 chapters, done.** I Accounting and
   Finance · II Communication and Career Development · III Economics ·
   IV Entrepreneurship · V Information Technology · VI Law and International
@@ -1831,6 +1875,7 @@ both halves need to be independently done first.
 
 | Date | Session | Outcome |
 | --- | --- | --- |
+| 2026-09-03 | Phase 6.10.2 — Physical Science (5485) teaching chapters authored, verified (9 chapters, 27 sections, 3 real defects fixed) — **Phase 6.10 fully closed** | Same process as 6.10.1/6.10.3: 9 parallel per-category authoring agents (I-A through IV-B, id-prefixed to match each category's existing question-bank slug), every prompt carrying an explicit arithmetic-accuracy warning since this bank's worked examples are calculation-heavy (half-life, calorimetry, stoichiometry, dilution/pH, kinematics, circuits). **Hit this project's known session-limit landmine mid-run**: 3 of 9 authoring agents (III-C, IV-A, IV-B) reported "failed" on a rate-limit error, but all three had already written complete, valid files before the interrupt — confirmed by JSON-validating and structurally checking all 9 files before merging rather than trusting the reported status; no re-authoring needed. Merged into `data/teaching/5485.json` (27 sections, 140 entries, zero id collisions), `teachingContent` wired into `data/tests/5485.json`. **Independent verification, 5 subagents (one per category pair, IV-B solo since 9 is odd), each re-deriving every worked example's arithmetic from scratch** — this bank's highest-risk content. Found and fixed 3 real defects: I-A's experimental-design worked example self-contradicted which of its two test cans had the smaller water volume (stated correctly once, misattributed to the wrong can two sentences later); I-B's engineering-tradeoff worked example asserted its final recommendation met two hard constraints without re-checking them, undercutting the worked example's own "check constraints before weighing anything" discipline — tightened to explicitly re-verify both; III-B's common-mistakes labels were missing this site's established `"Mistake: ..."` prefix (present in every other chapter) — fixed all 4. All other worked-example numbers matched independent re-derivation exactly, including three mass/energy-balance cross-checks verifiers ran beyond what the text itself claimed. Two soft findings (a canonical glucose/NaCl colligative-properties example paralleling an existing question's framing; a reused 6Ω/3Ω→2Ω sub-result embedded in a larger original circuit) were reviewed and left as judgment calls, not defects. `node tools/verify.mjs` clean, 324/324 tests green (data-only). Live-tested `teach.html?code=5485` for categories I-A and I-B post-fix, including a direct text check confirming the I-A fix rendered correctly — zero console errors. **All four subjects now have complete, independently-verified teaching chapters — Phase 6.10 closes.** Lands as [PR #100](https://github.com/homesik92/PRAXIS-Practice/pull/100). |
 | 2026-09-03 | Phase 6.10.3 — Business Education (5101) teaching chapters authored, verified (8 chapters, 24 sections, 2 real defects fixed) | Following the same process 6.10.1 (5652) used: 8 parallel per-category authoring agents (I-VIII, each writing its own `.authoring/teach-5101-<slug>.json`, id-prefixed to match that category's existing question-bank slug), merged into `data/teaching/5101.json` with a manual id-collision check (24 sections, 123 entries, zero collisions) since this project has no dedicated teaching-content merge tool (unlike `merge-authored-5436.mjs` for questions). `teachingContent` field wired into `data/tests/5101.json`. **Independent verification, 4 subagents (one per category pair I+II, III+IV, V+VI, VII+VIII), each re-deriving every worked example from scratch before comparing** — same discipline as question-bank verification, applied to prose/reasoning content instead of an answer key. Found and fixed 2 real defects (both in II's job-application worked example: a résumé claimed to be "chronological" while explicitly reordered by relevance, contradicting the chapter's own definition — fixed to a genuine combination résumé; a competitive cover letter misclassified as "routine" instead of persuasive per the chapter's own message-type taxonomy — fixed to a persuasive/indirect structure) plus 1 more (VII: a segmentation basis mislabeled "usage occasion" instead of "benefits sought," contradicting the chapter's own definitions stated twice elsewhere in the same chapter). VI's FCPA framing — flagged by its own author as the legally trickiest content in the whole session — held up under independent legal scrutiny with only an optional, out-of-scope FYI (CISG vs. UCC) noted, not fixed. `node tools/verify.mjs` clean, 324/324 tests green (unchanged, data-only change). Live-tested `teach.html?code=5101` for categories II and VII in the browser post-fix: corrected content renders, zero console errors. Lands as [PR #99](https://github.com/homesik92/PRAXIS-Practice/pull/99). |
 | 2026-09-01 | PR #97 merged; NAS re-synced | [PR #97](https://github.com/homesik92/PRAXIS-Practice/pull/97) (the prior row) merged to `main` on explicit go-ahead; GitHub Pages' own deploy workflow picked it up automatically (session owner reported only 4 subjects showing — traced to their browser's own cache, resolved by a hard refresh, not a deploy problem; confirmed server-side via a cache-busted fetch throughout). The NAS copy at `http://10.0.0.37:8080/` does **not** auto-update from a GitHub merge (Phase 8.1/8.2's manual `tar`-over-SSH remains the only path there) and was still serving the pre-merge 570-question bank — re-synced with the same `tar -cf - index.html results.html run.html teach.html test.html css js data \| ssh -i ~/.ssh/praxis_nas_ed25519 -p 24 praxis-deploy@10.0.0.37 'tar -xf - -C /volume1/praxis-practice'` pattern (deploy key already provisioned from Phase 8.1; `dashboard.html` correctly absent from both sides — removed from the repo in 6.8.2 PR A and already cleaned off the NAS per that phase's note). Verified via a fresh SSH read of the NAS's own `manifest.json` (`5436: enabled=true, bankSize=622`) and a live browser load of `http://10.0.0.37:8080/` showing all 5 subjects with zero console errors — both NAS and GitHub Pages now match `main`. |
 | 2026-09-01 | Phase 7.4 — 5436 gap topics authored, blind-verified, bank enabled (52 questions, 0 key discrepancies) — **phase closed** | Finished what the prior 2026-09-01 row (below) left open: the ~50 gap-topic questions and the `enabled: true` flip. 4 parallel authoring agents, one per leaf (I-B STS/environment 22, II-A matter/energy 8, II-B chemistry 10, II-C physics 12), writing to new `.authoring/*.json` files against the specific BLUEPRINT.md topics the derived-from-5485 content didn't cover. **Landmine, hit for the first time this session and the most consequential one yet:** `tools/merge-authored-5436.mjs` overwrites native questions *wholesale* from `.authoring/*.json` on every run, but the prior session's round-1/round-2 remediation had been applied directly to `data/tests/5436.json`, never mirrored back to `.authoring/{cells,evolution,astronomy,earthsci}.json`. A routine `--dry-run` before merging surfaced 30 length-tell warnings instead of the documented 21, traced to `5436-earthsci-046` still holding its pre-fix 275-character option in `.authoring/` versus the trimmed 146-character one in the bank — running the merge as planned would have silently reverted every fix from the prior session. Fixed by re-syncing all four pre-existing `.authoring/*.json` files from the current bank before merging the new leaves; logged as **N-7**, a standing rule that any direct bank fix must be mirrored back or re-synced before the next authoring pass. Also caught mid-authoring: the II-B agent found `5436-reactions-035..038` and `5436-solutions-021..023` (both derived from 5485) already covering equilibrium/Le Châtelier and freezing-point depression, despite the prior session's own documented gap list saying 5485 had no equilibrium content at all — BLUEPRINT.md's topic-heading diff had missed content filed under a different heading; the agent adjusted its own count down rather than authoring duplicates (**N-9**, with a trailer appended to D-36). **Blind verification**, same two-phase protocol as before, 4 more independent agents: **0/52 key discrepancies.** Found and fixed two real length tells (`5436-matterenergy-003`, `5436-physgaps-006`, both correct options ~40% longer than distractors, rebalanced without changing meaning) and one real cross-question leak (`5436-physgaps-011`'s stem stated the general Doppler direction-mapping plainly enough to hand over both `-010` and `-012`, reworded to keep the analogy without the giveaway) — fixed directly rather than deferred, per this project's "fix known tech debt now" rule. The report-filename Write-tool block (documented in the prior row) recurred for 3 of 4 new verification agents; one found its own workaround filename. `verify.mjs` clean, 324/324 tests green. Bank is now 622 (375 derived + 247 native); `assembleForm` draws 135/135 with zero shortfalls. Flipped `enabled: true` in `data/manifest.json` and **live-tested for the first time this bank had ever been opened in a browser** — caught a real, previously-invisible bug: `run.html`'s `REFERENCE_PANEL_KINDS` had no `"5436"` entry despite D-36 giving 5436 a `referencePanel` field on day one, so the periodic-table/constants toggle silently failed to appear (console error only, no visible page symptom). Fixed by adding a `"5436"` entry identical to `"5485"`'s; logged as **N-8**. Re-verified live: S2's category list, a full "Practice a topic" run through new I-B content with correct/incorrect scoring, and the complete 135-question form assembly, all with zero console errors. ROADMAP.md and DECISIONS.md/DECISIONS-INDEX.md updated in the same session; left open, deliberately: whether 5436 needs its own "Study a topic" teaching chapters (Phase 6.10 covers only 5485/5101 today) — a separate scope question from finishing the bank. |
