@@ -4,6 +4,7 @@
   "name": "Business Education",
   "timeLimitMinutes": 120,
   "formLength": 120,
+  "teachingContent": "teaching/5101.json",
   "categories": [
     {
       "id": "I",
