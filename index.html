@@ -17,20 +17,25 @@
           endorsed by ETS.</p>
       </div>
 
-      <!-- "Go Navy, Beat Army!", deliberately unlabelled: a personal accent
-           from the session owner (a Naval Academy alum) for other alumni to
-           spot, not a claim of any institutional affiliation — it's the
-           generic rivalry cheer rendered as plain text in two colors, not any
-           school's logo or wordmark artwork, the same care the ETS disclaimer
-           beside it takes. Decorative only, so it is aria-hidden: naming it
+      <!-- "Go Navy, Beat Army!", a personal accent from the session owner (a
+           Naval Academy alum) for other alumni to spot, not a claim of any
+           institutional affiliation — it's the generic rivalry cheer rendered
+           as plain text in two colors, not any school's logo or wordmark
+           artwork, the same care the ETS disclaimer beside it takes. "Go Navy"
+           stays purely decorative and aria-hidden, same as before: naming it
            would announce the easter egg to screen-reader users that sighted
            users have to find, and it carries no information needed to use the
-           page. -->
+           page. "Beat Army!" is also a real link to the USNA Alumni
+           Association, so unlike "Go Navy" it is left in the accessibility
+           tree — its own visible text serves as the link's accessible name,
+           and it is focusable/announced like any other link rather than
+           hidden. -->
       <div class="hub-signature">
-        <svg viewBox="0 0 180 74" xmlns="http://www.w3.org/2000/svg" class="hub-signature-mark"
-             role="presentation" aria-hidden="true" focusable="false">
-          <text x="4" y="28">Go Navy</text>
-          <text x="26" y="60">Beat Army!</text>
+        <svg viewBox="0 0 180 74" xmlns="http://www.w3.org/2000/svg" class="hub-signature-mark">
+          <text x="4" y="28" aria-hidden="true">Go Navy</text>
+          <a href="http://www.usna.com">
+            <text x="26" y="60">Beat Army!</text>
+          </a>
         </svg>
       </div>
     </header>
