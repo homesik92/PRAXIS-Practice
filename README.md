@@ -19,7 +19,8 @@ touching the site's code.
 
 **Design stage complete.** See [ROADMAP.md](ROADMAP.md) for the current phase and the
 coding plan, [BLUEPRINT.md](BLUEPRINT.md) for the extracted test facts,
-[SCHEMA.md](SCHEMA.md) for the data model, and [REVIEW.md](REVIEW.md) for the
+[SCHEMA.md](SCHEMA.md) for the data model, [ADDING-A-SUBJECT.md](ADDING-A-SUBJECT.md)
+for how a new exam subject gets added end to end, and [REVIEW.md](REVIEW.md) for the
 adversarial review that shaped it. No application code yet.
 
 ## Every question here is original

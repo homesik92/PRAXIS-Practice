@@ -19,6 +19,17 @@ branch → PR → merge loop. The session owner's NAS is the **production deploy
 target for the final version only** — it is not where day-to-day work happens, and it
 is not a substitute for the GitHub remote.
 
+## Adding a new subject
+
+[ADDING-A-SUBJECT.md](ADDING-A-SUBJECT.md) is the end-to-end procedure — blueprint
+extraction, bank structure, category tree, authoring standards (including the answer-key
+distribution check), the optional reference-panel and teaching layers, the manifest
+entry, the verification gate, and the downstream iOS integration. Read it before adding
+a subject rather than reverse-engineering the shape from an existing bank.
+
+The headline: **a subject is data, not code.** One that needs no calculator and no
+reference panel requires zero code changes.
+
 ## The one rule that no tool can enforce: original questions only
 
 The `Knowledge-Guides/` PDFs are ETS's copyrighted study companions. Take the
