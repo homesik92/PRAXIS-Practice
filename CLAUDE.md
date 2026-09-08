@@ -38,11 +38,18 @@ repo. The full rule is in `.claude/skills/dev-workflow/SKILL.md`.
 ## Downstream native apps
 
 This repo is the multi-subject master — it's the source of truth for every Praxis
-exam's content and shared engine code. Each subject also has a thin native iOS
-wrapper app in its own repo (`PRAXIS-iOS-Math` for 5165 today; more `PRAXIS-iOS-<subject>`
-repos as new subjects ship here), each bundling a manual copy of `test.html`,
-`results.html`, `css/base.css`, and `js/*` — see D-30. Nothing propagates a change
-here to those repos automatically. **Flag it in the PR description** whenever a PR
+exam's content and shared engine code. Each subject also ships as a thin native iOS
+wrapper app. Those apps all live in **one** downstream repo (`PRAXIS-iOS-Math` today,
+to be renamed `PRAXIS-iOS`), as one Xcode target per subject over a shared Swift
+shell — see D-30 → **D-37**. Each target bundles a manual copy of `test.html`,
+`results.html`, `css/base.css`, and `js/*`, plus its own subject data. Nothing
+propagates a change here to that repo automatically.
+
+Worth knowing when a change here looks like it needs a downstream tweak: the
+downstream repo's own rule is that it never edits the contents of a file this repo
+owns. So if a wrapper app needs a *presentation* difference — single-subject
+layout, say — the change belongs **here**, as a data-driven mode, not as a local
+edit that forks the file forever. **Flag it in the PR description** whenever a PR
 touches any of those files, so a downstream sync isn't missed — this has already
 happened for real once (issue #66's fix sat unsynced in PRAXIS-iOS-Math for a full
 session before being noticed).
