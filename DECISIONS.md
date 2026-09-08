@@ -1186,3 +1186,33 @@ topic in that trio confirmed to be a genuine gap. No content gap remains unaddre
 this note exists so a future session trusts BLUEPRINT.md's topic-heading diff as a
 *starting point* for "what's missing," not as a substitute for checking the actual
 derived question set before authoring against a named gap.
+
+### N-10: `flex-basis` follows the main axis — a row layout's width basis silently became a height
+
+**Context.** `.start-test-option` (S2's Start cards) lays out as a row on a normal
+viewport — description text on the left, action button on the right — with
+`justify-content: space-between` pushing the button to the card's right edge and
+`.start-test-text { flex: 1 1 14rem }` giving the text column a sensible starting
+width. A `@media (max-width: 26rem)` block flips the card to `flex-direction: column`
+so the button stacks under the text on a phone.
+
+**Found.** Neither of the two row-specific properties was overridden when the axis
+flipped, and both mean something entirely different in a column. `flex-basis` always
+follows the *main* axis, so `14rem` stopped being a width and became a **224px
+height** on the text block; `space-between` then distributed the leftover space
+*vertically*, stranding the button at the bottom of the card. Measured on the live
+GitHub Pages site at a 375px viewport before the fix: all five Start cards exactly
+314px tall with text blocks exactly 224px tall — identical regardless of how much
+text each card actually held, which is the tell that the height was imposed rather
+than derived. Total Start section 1570px; after the fix 791px, with cards varying
+151–169px by real content.
+
+**Consequence.** The narrow-viewport block now also sets `justify-content:
+flex-start` and `.start-test-text { flex: 0 0 auto }`. The general lesson, and the
+reason this is worth a note rather than a silent fix: **any media query that changes
+`flex-direction` must re-examine every `flex-basis`, `justify-content`, and
+`align-items` value inherited from the base rule** — they are all axis-relative, and
+the compiler cannot warn about a value that is still perfectly valid but now means
+something else. Reported by the session owner from real device use, not caught by any
+gate: `tools/verify.mjs` validates content, not layout, and there is no visual
+regression check.

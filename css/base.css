@@ -667,6 +667,19 @@ details.backup summary svg {
   .start-test-option {
     flex-direction: column;
     align-items: stretch;
+    /* The base rule's `space-between` is meant for the wide layout, where it pushes
+       the button to the card's right edge. Once the card stacks, "between" becomes
+       vertical and would push the button to the bottom of the card instead, so the
+       stacked card packs from the top and lets `gap` do the spacing. */
+    justify-content: flex-start;
+  }
+  .start-test-text {
+    /* `flex: 1 1 14rem` on the base rule is a *width* basis for the row layout.
+       flex-basis follows the main axis, so in this column layout that same 14rem
+       silently became a 224px minimum *height* -- every card was forced to 314px
+       tall no matter how short its text, with the button stranded at the bottom
+       (measured on the live site at 375px before this fix). Size to content here. */
+    flex: 0 0 auto;
   }
   .category-test-controls select {
     max-width: none;
