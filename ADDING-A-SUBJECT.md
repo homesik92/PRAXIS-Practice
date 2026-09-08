@@ -15,6 +15,24 @@ codebase (`run.html`) contains any hardcoded subject code at all.
 
 ---
 
+## The starting point
+
+This procedure assumes one specific trigger, because it is how every subject has been
+added and how the next one will be:
+
+> The session owner drops the new exam's ETS *Study Companion* PDF into
+> `Knowledge-Guides/`, points at it, and asks for that subject to be added.
+
+Everything you need for steps 1–3 comes out of that one file. Everything in steps 4–9
+is authoring and integration work that follows from it.
+
+`Knowledge-Guides/` is **gitignored and stays that way** — the PDFs are ETS's
+copyrighted publications and must never reach GitHub, on a public repo least of all.
+Confirm with `git status` that the new PDF is not showing as untracked before you
+commit anything.
+
+---
+
 ## 0. Two rules that outrank everything else here
 
 **Original questions only.** The `Knowledge-Guides/` PDFs are ETS's copyrighted study
@@ -34,21 +52,59 @@ re-solves the question without looking at the recorded answer.
 
 ## 1. Extract the blueprint
 
-Read the subject's ETS study companion for structural facts only:
+### 1a. Confirm the PDF is readable first
 
 ```bash
-python3 tools/pdf-text.py "Knowledge-Guides/5436-General Science.pdf" --pages 3-18
+python3 tools/pdf-text.py "Knowledge-Guides/<new-file>.pdf" --pages 1-4
 ```
 
-⚠ Stop before the sample-question sections. Making the PDFs readable makes the
-copyright rule easier to break by accident, not harder.
+`tools/pdf-text.py` is dependency-free and handles PDF 1.5+ compressed object streams,
+which the newer companions use — without that they parse as zero pages.
 
-Record in [BLUEPRINT.md](BLUEPRINT.md): test code, official name, `timeLimitMinutes`,
-`formLength` (real exam question count), and the content categories with their published
-counts and percentages. **Check that the category counts sum exactly to the stated
-total** before going further — every later invariant depends on it.
+**It refuses encrypted PDFs with an explicit error rather than returning blank pages.**
+`5165-Mathematics.pdf` is encrypted; the other five are not. If the new one is
+encrypted, stop and tell the session owner — do not fabricate blueprint numbers or
+infer them from a sibling subject. Ask them for the figures directly, or for an
+unencrypted copy. (Note `Knowledge-Guides/` also contains `5165-Mathematics word.pdf`,
+which is how that gap was worked around once.)
 
-Note: `5165-Mathematics.pdf` is encrypted and `pdf-text.py` refuses it by design.
+### 1b. Read only the structural sections
+
+Find "Test at a Glance" and "Content Topics." Extract:
+
+- test code and official name
+- `timeLimitMinutes` and `formLength` (the real exam's question count)
+- content categories with their published counts and percentages
+
+⚠ **Stop before the sample-question sections.** Making the PDFs readable makes the
+copyright rule easier to break by accident, not harder. Extracted prose must never be
+pasted into a bank, a doc, or a question.
+
+### 1c. Check the arithmetic, then confirm before authoring
+
+**Category counts must sum exactly to the stated total.** Every later invariant depends
+on this, and `tools/verify.mjs` will reject the bank if it doesn't hold.
+
+Then **report the extracted blueprint back to the session owner and get it confirmed
+before authoring a single question.** Roughly 3× `formLength` questions get written
+against these numbers — a transcription error found afterwards can invalidate hundreds
+of them, and the category `id` values chosen here are permanent.
+
+Record the confirmed facts in [BLUEPRINT.md](BLUEPRINT.md), noting that ETS revises
+study companions periodically and these figures should be re-checked against the current
+edition before the bank is called complete.
+
+### 1d. Check for anything the schema can't express yet
+
+Most exams are all single-answer multiple choice, which is all v1 authors
+(`"type": "single"`). If the new subject's companion describes **numeric-entry,
+multi-select, drag-and-drop, or audio/video stimulus** questions, that is a **code
+change, not a data change** — the schema anticipated it (`type`, and `correct` as an
+array) but the runner does not implement it. Flag it at the planning stage as a design
+fork for the session owner rather than discovering it mid-authoring.
+
+Same for a reference tool the exam supplies that this project has no renderer for
+(see §5) and for on-screen calculators beyond 5165's.
 
 ---
 
@@ -323,6 +379,10 @@ propagates downstream automatically, and it has silently drifted for real more t
 
 ## 10. Checklist
 
+- [ ] PDF parses (not encrypted); confirmed it is **not** showing as untracked in git
+- [ ] Blueprint facts extracted, arithmetic checked, and **confirmed with the session
+      owner before authoring**
+- [ ] Checked for question types or tools the runner doesn't implement (a code change)
 - [ ] Blueprint facts recorded in `BLUEPRINT.md`; category counts sum to the exam total
 - [ ] Bank file created; category ids final (they are permanent)
 - [ ] Questions authored to ~3× exam length, all original
