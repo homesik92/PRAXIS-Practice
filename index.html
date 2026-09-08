@@ -11,8 +11,13 @@
     <header class="hub-masthead">
       <div class="hub-masthead-text">
         <h1 class="hub-wordmark">PRAXIS <span class="hub-wordmark-thin">Practice</span></h1>
+        <!-- The subject count is filled in from the manifest once it loads (a
+             hardcoded "four" here was still on the live site after the fifth
+             subject shipped). The static text below is the correct count at
+             time of writing, so the sentence still reads correctly if the
+             script never runs. -->
         <p class="hub-tagline">Full-length practice tests, topic drills, and spaced review
-          for four Praxis Subject Assessments.</p>
+          for <span id="hub-tagline-subjects">five Praxis Subject Assessments</span>.</p>
         <p class="hub-disclaimer">Unofficial practice material. Not affiliated with or
           endorsed by ETS.</p>
       </div>
@@ -403,6 +408,19 @@
         }
 
         if (resume) resumeSlot.appendChild(buildResume(resume.entry, resume.attempt));
+
+        // Keep the masthead sentence honest as subjects are added. Spelled out
+        // rather than a digit, since this is prose; falls back to the numeral
+        // past ten, which this project will not reach any time soon.
+        const NUMBER_WORDS = ["zero", "one", "two", "three", "four", "five",
+                              "six", "seven", "eight", "nine", "ten"];
+        const taglineEl = document.getElementById("hub-tagline-subjects");
+        if (taglineEl && entries.length > 0) {
+          const n = entries.length;
+          const word = NUMBER_WORDS[n] ?? String(n);
+          taglineEl.textContent =
+            `${word} Praxis Subject Assessment${n === 1 ? "" : "s"}`;
+        }
 
         const subjectWord = entries.length === 1 ? "subject" : "subjects";
         const parts = [
