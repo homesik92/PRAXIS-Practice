@@ -26,6 +26,18 @@ added and how the next one will be:
 Everything you need for steps 1–3 comes out of that one file. Everything in steps 4–9
 is authoring and integration work that follows from it.
 
+**Two settled assumptions**, stated by the session owner 2026-09-08, that this whole
+procedure rests on:
+
+- Every new subject is a **standard Praxis Subject Assessment** — same publisher, same
+  study-companion format, same "Test at a Glance" / "Content Topics" structure.
+- Every question is **single-select multiple choice** (`"type": "single"`, a
+  one-element `correct` array).
+
+That is why adding a subject is data work: the runner, scorer, and progress store
+already handle exactly this shape, and nothing about a new subject asks them to do
+anything they don't already do.
+
 `Knowledge-Guides/` is **gitignored and stays that way** — the PDFs are ETS's
 copyrighted publications and must never reach GitHub, on a public repo least of all.
 Confirm with `git status` that the new PDF is not showing as untracked before you
@@ -94,17 +106,14 @@ Record the confirmed facts in [BLUEPRINT.md](BLUEPRINT.md), noting that ETS revi
 study companions periodically and these figures should be re-checked against the current
 edition before the bank is called complete.
 
-### 1d. Check for anything the schema can't express yet
+### 1d. Sanity-check the assumptions
 
-Most exams are all single-answer multiple choice, which is all v1 authors
-(`"type": "single"`). If the new subject's companion describes **numeric-entry,
-multi-select, drag-and-drop, or audio/video stimulus** questions, that is a **code
-change, not a data change** — the schema anticipated it (`type`, and `correct` as an
-array) but the runner does not implement it. Flag it at the planning stage as a design
-fork for the session owner rather than discovering it mid-authoring.
-
-Same for a reference tool the exam supplies that this project has no renderer for
-(see §5) and for on-screen calculators beyond 5165's.
+The two assumptions above are expected to hold, so this is a glance, not an
+investigation. But if a companion does describe something outside them — numeric entry,
+multi-select, drag-and-drop, audio or video stimulus, or a reference tool this project
+has no renderer for — **stop and raise it at the plan gate.** That would be a code
+change rather than a data change, and it is far cheaper to catch here than after a few
+hundred questions have been authored against the wrong premise.
 
 ---
 
@@ -382,7 +391,8 @@ propagates downstream automatically, and it has silently drifted for real more t
 - [ ] PDF parses (not encrypted); confirmed it is **not** showing as untracked in git
 - [ ] Blueprint facts extracted, arithmetic checked, and **confirmed with the session
       owner before authoring**
-- [ ] Checked for question types or tools the runner doesn't implement (a code change)
+- [ ] Glanced at the companion to confirm it's standard single-select (expected; raise
+      it at the plan gate if not)
 - [ ] Blueprint facts recorded in `BLUEPRINT.md`; category counts sum to the exam total
 - [ ] Bank file created; category ids final (they are permanent)
 - [ ] Questions authored to ~3× exam length, all original
