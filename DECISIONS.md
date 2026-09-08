@@ -1261,3 +1261,51 @@ rule still applies. Only the destination count changed, from "every wrapper repo
   ([their issue #17](https://github.com/homesik92/PRAXIS-iOS-Math/issues/17));
   references here should be updated when that happens. GitHub redirects the old URL,
   so nothing breaks in the meantime.
+
+*Later updated by: **D-38**, the same day. The downstream side went one step further
+— not one target per subject but a single target shipping all five subjects, four
+unlocked by in-app purchase. The consequence for this repo is a simplification, not
+a complication: the wrapper bundles the **full** manifest and data payload rather
+than a trimmed single-subject one.*
+
+
+### D-38: Amends D-37 — the downstream wrapper is one app holding all five subjects
+
+**Date:** 2026-09-08
+
+**Decision:** D-37 recorded that the native wrapper apps consolidated into one repo
+with one Xcode target per subject. The downstream side has gone further the same day
+([PRAXIS-iOS-Math D-19](https://github.com/homesik92/PRAXIS-iOS-Math/blob/main/DECISIONS.md),
+amending its own D-18): there is now **one target and one app**, holding all five
+subjects, with Mathematics free and the other four unlocked by non-consumable in-app
+purchase. The driver is App Store Review Guideline 4.3(a), which treats multiple
+bundle identifiers of the same binary as spam and names in-app purchase as the
+remedy; the full reasoning lives downstream.
+
+**Why it matters here — it simplifies this repo's obligations rather than adding to
+them:**
+
+- **The wrapper now bundles the full `data/` payload and the complete
+  `manifest.json`**, not a trimmed single-test one. The downstream repo previously
+  maintained its own hand-trimmed manifest, which had already drifted (its `bankSize`
+  sat stale at 198 against a 253-question bank until 2026-09-08). That divergence is
+  retired: the manifest it ships is now a straight copy of this repo's.
+- **Every file this repo owns is now copied verbatim downstream, with no exceptions.**
+  Under D-30/D-37 there was exactly one deliberately-divergent file; there are now
+  none. That makes the sync fully mechanical and, once automated
+  ([their issue #21](https://github.com/homesik92/PRAXIS-iOS-Math/issues/21)),
+  checkable by a machine rather than by eye.
+- **The planned "single-subject mode" work in this repo is cancelled.** A
+  data-driven mode for rendering the site with exactly one enabled test was scoped and
+  approved on 2026-09-08 to serve single-subject wrapper apps. There are no
+  single-subject wrappers any more, so the premise is gone. Nothing was built.
+
+**What does *not* change:** the flagging obligation from D-30 stands unchanged — a PR
+here touching `test.html`, `results.html`, `run.html`, `teach.html`, `index.html`,
+`css/base.css`, or `js/*` still needs a downstream-sync note in its description.
+
+**One thing to be aware of when authoring here:** the downstream app now shows the
+multi-subject hub, and four of its five subjects are paid. Content quality and
+completeness gaps are no longer only a site-quality question — an uneven subject is
+something a person paid for. `data/teaching/5436.json` not existing (issue #106) is
+the live example.
