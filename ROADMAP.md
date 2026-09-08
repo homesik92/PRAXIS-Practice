@@ -68,7 +68,7 @@ site with no server.
 | 7.4 | 5436 General Science — author Life Science, Earth & Space, gap topics | ☑ |
 | 8 | Launch (NAS) — v1, Mathematics only | ◐ |
 | 9 | Multi-subject entry (S1 redesign) | ☑ |
-| 10 | Final testing & acceptance (all four subjects) | ☐ |
+| 10 | Final testing & acceptance (all five subjects) | ☐ |
 
 ## Phases (post-design)
 
@@ -1834,7 +1834,12 @@ Mathematics-only foundation. Likely mockup-first, same precedent as 6.6/6.8.
   progress signal, matching real store data; a subject with zero attempts
   reads clearly as not-yet-started, not as an error or omission.
 
-### Phase 10 — Final testing & acceptance (all four subjects)
+### Phase 10 — Final testing & acceptance (all five subjects)
+
+> **Note on counts.** This project was scoped for four subjects; 5436 General
+> Science was added later (D-36), making five. Forward-looking acceptance
+> criteria below say *five*. References to "four subjects" in earlier,
+> completed phases are historical and left as written.
 
 Closes the project. Gated on Phase 7's resumed authoring (5101/5485/5652
 reaching the same 3×-depth, answer-key-verified standard as 5165), Phase 9, and
@@ -1845,36 +1850,69 @@ Mathematics-only build, and Mathematics' chapters have been complete since 6.9.2
 
 - ☐ **10.1 Multi-subject regression pass.** Re-verify Phase 6.2/6.7's export/
   restore (`exportStoreAsJson`/`importStoreFromJson`) against a store holding
-  real attempts across all four subjects, not just one — the store itself is
+  real attempts across all five subjects, not just one — the store itself is
   already global (D-6/§2.8's schema was never per-test), so this is expected
   to need no code change, only confirmation once real multi-subject data
   exists to test against.
-  *Accepts:* a downloaded backup, re-uploaded, restores all four subjects'
+  *Accepts:* a downloaded backup, re-uploaded, restores all five subjects'
   history correctly.
 - ☐ **10.2 Final live acceptance.** The session owner's own full pass across
-  all four subjects on the live NAS deployment, plus ad hoc functional/
+  all five subjects on the live NAS deployment, plus ad hoc functional/
   graphic fixes as found — same discipline as 8.3, at full scope.
-  *Accepts:* session owner explicitly confirms the complete four-subject app
+  *Accepts:* session owner explicitly confirms the complete five-subject app
   is accepted as production-ready.
 
-### After Phase 10: spinning off `PRAXIS-iOS-<subject>` repos
+### After Phase 10: the native app and the App Store
 
 Not a phase of this project — recorded here because Phase 10.2's completion
-is the trigger for cross-project work in
-[[project-praxis-ios-math]]. Session owner's sequencing decision
-(2026-08-22, see D-30): finish PRAXIS-iOS-Math and get it fully
-user-accepted as a standalone app *first* (in that project, independent of
-this one), so it's a proven, settled template — only after that, and only
-after this project's Phase 10.2 closes (all four subjects authored and
-accepted here), do new `PRAXIS-iOS-<subject>` repos get spun off per
-subject by copying PRAXIS-iOS-Math (D-12's recipe). Authoring the other
-three subjects (Phase 7, resumed) does not by itself trigger any iOS work —
-both halves need to be independently done first.
+gates cross-project work in
+[PRAXIS-iOS-Math](https://github.com/homesik92/PRAXIS-iOS-Math).
+
+**This section previously described spinning off one `PRAXIS-iOS-<subject>`
+repo per subject by copying a template (D-12's recipe). That is obsolete.**
+The structure changed three times on 2026-09-08 — D-30 → D-37 → **D-38** —
+and landed on a single iOS app holding all five subjects, with Mathematics
+free and the other four unlocked by in-app purchase. Nothing is copied per
+subject any more.
+
+**Release sequencing, agreed with the session owner 2026-09-08:**
+
+1. **Name/trademark consult — start now, in parallel.** This is *not* App
+   Store work and should not wait for it. "PRAXIS Practice" is already this
+   site's wordmark, this repo's public name, and its Pages URL; the
+   downstream app's bundle identifier is built on it too. `LEGAL.md` (in the
+   iOS repo) advises against using "Praxis" as a product *brand* as opposed
+   to a descriptive reference, and its own revisit trigger — "any public
+   announcement or marketing beyond personal use" — is arguably already met
+   by this public site. A change here reaches the masthead, both repo names,
+   the icon, and the bundle id, and gets more expensive the longer it waits.
+   Nothing blocks booking it.
+   → [PRAXIS-iOS-Math#20](https://github.com/homesik92/PRAXIS-iOS-Math/issues/20)
+2. **This project to production-ready.** Phase 10, plus the content quality
+   work that four *paid* subjects now make non-optional: 5165's answer-key
+   distribution (#93 — 79% keyed "a", and it is the **free** app that sells
+   the others), 5436's missing teaching chapters (#106), branch protection
+   (#107).
+3. **The iOS app to production-ready.** Its own gate — the shared native
+   shell, since one shell now serves every subject and every paying user —
+   then the StoreKit integration and native subject picker. Note the
+   purchase code is *architecture*, not App Store work: the whole
+   purchase/restore flow is testable locally with an Xcode StoreKit
+   configuration file, with no App Store Connect record required.
+4. **App Store work last.** App Store Connect app record, IAP product
+   records, listing copy, screenshots, keywords, pricing, submission. One
+   practical caveat: the paid-apps agreement, banking and tax forms involve
+   verification that can take days, so they are worth starting before
+   submission day even though they belong in this final stage.
+
+Authoring the remaining subjects does not by itself trigger any iOS work —
+both halves still need to be independently done first.
 
 ## Session log
 
 | Date | Session | Outcome |
 | --- | --- | --- |
+| 2026-09-08 | ROADMAP corrected for five subjects; release sequencing recorded | Housekeeping pass after the day's three structural decisions, plus two genuine staleness bugs found in the process. **Counts:** Phase 10 and the phase-overview row still said "all four subjects" — the project was scoped for four and 5436 was added later (D-36), making five, so its forward-looking acceptance criteria were understating the work. Corrected, with an explicit note that "four" in earlier *completed* phases is historical and deliberately left as written. **The "After Phase 10" section was fully obsolete**: it still described spinning off one `PRAXIS-iOS-<subject>` repo per subject by copying a template (D-12's recipe), a structure superseded three times the same day (D-30 → D-37 → D-38), and it carried a stray `[[project-praxis-ios-math]]` wiki-link leaked from session-memory syntax into this public repo — the second such leak found today, the first being in the iOS repo's own ROADMAP. Rewritten as the agreed release sequencing: **name/trademark consult first and in parallel** (it is branding already shipped on this public site, not App Store work, and it reaches the masthead, both repo names, the icon and the bundle id — so it gets more expensive the longer it waits), then this project to production-ready, then the iOS app, then App Store work last. Recorded two classification corrections the session owner's original sequencing had folded into "App Store work": the naming decision (branding, already live) and the StoreKit code (architecture — the full purchase/restore flow is testable locally with an Xcode StoreKit configuration file, no App Store Connect record needed). Also noted that the paid-apps agreement and banking/tax verification can take days and shouldn't be discovered on submission day. Docs only. |
 | 2026-09-08 | Live bug — masthead tagline undercounted the site's own subjects | Found while reasoning through D-38's consequences, not by any gate: `index.html`'s masthead said "for **four** Praxis Subject Assessments" while `data/manifest.json` has enabled **five** (5101, 5165, 5436, 5485, 5652). The site has been understating itself on GitHub Pages and the NAS since 5436 shipped. The adjacent `#hub-summary` line was already dynamic and correctly read "5 subjects", so the page was contradicting itself a few hundred pixels apart. Root cause is simply that the tagline was prose written once and never revisited; `tools/verify.mjs` validates content and cross-checks manifest scalars against banks, but has no view of hardcoded copy. Fixed by making the count render from the manifest like every other number on the page, spelled as a word since it sits in a sentence, with the correct current text left in the markup as a static fallback so the sentence still reads properly if the script never runs. Verified on the live site after deploy. |
 | 2026-09-08 | D-38 — downstream wrapper becomes one app holding all five subjects (amends D-37) | Second downstream structural change the same day, and recorded here for the same reason D-37 was: D-30 is what a session in this repo reads. The wrapper is no longer one target per subject but **one target, one app**, all five subjects, Mathematics free and the other four unlocked by non-consumable in-app purchase — driven by App Store Review Guideline 4.3(a), which treats multiple bundle identifiers of the same binary as spam and names IAP as the remedy (reasoning written up downstream, not duplicated here). **The effect on this repo is simplification, not complication.** The wrapper previously maintained one deliberately-divergent file — a hand-trimmed single-test `manifest.json` — whose `bankSize` had already drifted stale at 198 against a 253-question bank. That divergence is retired: the wrapper now copies every file this repo owns verbatim, with no exceptions, which makes the sync fully mechanical and checkable by a machine rather than by eye once automated. **Consequence: the single-subject-mode work scoped and approved here earlier the same day is cancelled** — a data-driven mode for rendering the site with exactly one enabled test existed to serve single-subject wrapper apps, and there are none. Nothing had been built. Also worth carrying forward when authoring: four of the wrapper's five subjects are now paid, so a content gap is something a person bought rather than a rough edge on a free site — 5436 having no teaching chapters (issue #106) is the live example. D-30's flagging obligation is unchanged. Docs only. |
 | 2026-09-08 | D-37 — downstream wrapper apps consolidated into one repo (amends D-30) | Session owner's architecture call, made downstream and recorded here because D-30 is what a session in this repo actually reads. Every subject's native iOS wrapper now lives in one repo as an Xcode target over a shared Swift shell, rather than in its own `PRAXIS-iOS-<subject>` repo (their D-18 supersedes their D-12; the driving evidence — four native-shell defects across two files that would have become sixteen hand-ported fixes at four subjects — is written up there rather than duplicated here). **Nothing about this repo's obligations changes**: same engine files, same manual sync, same flag-it-in-the-PR-description rule from D-30; only the destination count changed, from every wrapper repo to the wrapper repo, which makes the sync cheaper to honor as subjects are added. The boundary worth holding from this side is recorded in D-37 and CLAUDE.md: the downstream repo never edits the contents of a file this repo owns, so a wrapper's *presentation* difference (single-subject landing layout being the live example) belongs here as a data-driven mode rather than as a downstream edit that would fork a shared file permanently. Docs only — no code touched. |
