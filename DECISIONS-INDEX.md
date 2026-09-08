@@ -42,3 +42,4 @@ read the full log only when a topic isn't indexed yet.
 | One question appearing on two tests (`derivedFrom`) | **D-36** → SCHEMA.md §2.12 → `tools/derive-5436.mjs`, `validateDerivedQuestions` |
 | Reference-panel content shared between tests (array `testCode`) | **D-36** → SCHEMA.md §2.12 → **N-8** (5436 was missing its `run.html` `REFERENCE_PANEL_KINDS` entry; found live-testing Phase 7.4's close-out, fixed) |
 | 5436 native-content authoring tooling (`.authoring/*.json`, blind verification, merge) | ROADMAP.md Phase 7.4 → **N-7** (`.authoring/*.json` is the merge script's actual source of truth — a bank fix not mirrored back there is silently reverted by the next merge) |
+| S2 Start-card layout on narrow viewports | **N-10** (`flex-basis`/`justify-content` are axis-relative — a row layout's 14rem width basis became a 224px height when a media query flipped the card to a column; re-check every inherited flex value when changing `flex-direction`) |
