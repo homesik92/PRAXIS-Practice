@@ -816,6 +816,11 @@ that risk is invisible to whoever's working here next.
 wrapper repos may need a manual re-sync — so it's visible at review time rather than
 discovered later. See `CLAUDE.md`'s new "Downstream native apps" note.
 
+*Later updated by: **D-37**. The downstream side reversed its structure — every
+subject app now lives in one repo as an Xcode target rather than in its own
+`PRAXIS-iOS-<subject>` repo. The flagging obligation this entry establishes is
+unchanged; only the number of destinations changed, from many repos to one.*
+
 **Attribution:** Session owner's call, made explicit when asked directly how the
 projects should relate going forward, after PRAXIS-iOS-Math D-12 settled the
 separate-repo structure from the wrapper-app side.
@@ -1216,3 +1221,43 @@ the compiler cannot warn about a value that is still perfectly valid but now mea
 something else. Reported by the session owner from real device use, not caught by any
 gate: `tools/verify.mjs` validates content, not layout, and there is no visual
 regression check.
+
+
+### D-37: Amends D-30 — the wrapper apps consolidated into one repo, one target per subject
+
+**Date:** 2026-09-08
+
+**Decision:** D-30 recorded, from this repo's side, that each subject's native iOS
+wrapper lives in its own `PRAXIS-iOS-<subject>` repo. The downstream side has
+reversed that
+([PRAXIS-iOS-Math D-18](https://github.com/homesik92/PRAXIS-iOS-Math/blob/main/DECISIONS.md),
+superseding its own D-12): every subject is now an Xcode target inside a single
+repo, sharing one native Swift shell. This entry records the same change from this
+repo's side, since D-30 is what a session here reads.
+
+**Why (as it matters *here*).** The reversal was driven by native-shell defects
+needing N hand-ported fixes — that reasoning belongs downstream and is written up
+there. What matters from this side is narrower and worth stating plainly: **nothing
+about this repo's obligations changes.** The engine files a PR here can invalidate
+are the same files, the sync is still manual, and the flag-it-in-the-PR-description
+rule still applies. Only the destination count changed, from "every wrapper repo" to
+"the wrapper repo."
+
+**What it means:**
+
+- `CLAUDE.md`'s "Downstream native apps" section now names one downstream repo
+  rather than a growing family of them.
+- A downstream sync is now a single operation rather than one per subject, which
+  makes the manual-sync obligation cheaper to honor as subjects are added — a
+  second-order benefit this repo gets for free.
+- **The boundary worth respecting from this side:** the downstream repo's own rule
+  is that it never edits the contents of a file this repo owns. So when a wrapper
+  app needs a *presentation* difference — a single-subject landing layout being the
+  live example — the right home for that change is here, as a mode driven by data
+  (e.g. a manifest carrying exactly one enabled test), not a local edit downstream
+  that forks a shared file permanently. Keeping that line intact is what keeps
+  "iOS draws from PRAXIS-Practice" a copy rather than a merge.
+- The downstream repo will be renamed from `PRAXIS-iOS-Math` to `PRAXIS-iOS`
+  ([their issue #17](https://github.com/homesik92/PRAXIS-iOS-Math/issues/17));
+  references here should be updated when that happens. GitHub redirects the old URL,
+  so nothing breaks in the meantime.
