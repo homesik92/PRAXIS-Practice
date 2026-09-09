@@ -1382,6 +1382,23 @@ outright, and a spurious `Praxis£` became `Praxis`. Strictly additive — no co
 rather than a dead end, and §1a carries the three-step recipe. The stale
 `5165-Mathematics word.pdf` pointer is gone.
 
+**Three defects the code review then found in that parser**, all fixed in the same PR
+with regression tests that fail against the first commit. (a) The `bfrange`
+increment-form pattern — three hex operands in a row — also matched *inside* a
+destination array of three or more elements, so `<50><52>[<0058><0059><005A>]`
+additionally wrote `0x58 -> "Z"` and `0x59 -> "["`; because that pass ran second, the
+bogus mappings overwrote correct ones. (b) An odd-length hex operand raised `ValueError`
+out of the whole extraction run, contradicting this module's behaviour everywhere else.
+(c) A single-byte destination padded on the right, decoding `<41>` as U+4100 rather than
+`"A"`.
+
+**The lesson worth keeping** is about (a). The original self-test exercised the array
+form with exactly *two* destinations, which is the one width at which the bug cannot
+fire — the test proved the fix rather than the bug, which is a red flag this project's
+own methodology names. A test written alongside a fix should be checked against the
+*unfixed* code before it is trusted; all four new guards here were confirmed to fail
+against the previous commit before being kept.
+
 ### N-12: ADDING-A-SUBJECT.md documented a manifest entry that fails the verification gate
 
 **Context.** §6 ("Register it") showed the manifest entry as
