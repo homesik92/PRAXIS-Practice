@@ -181,16 +181,31 @@ def glyph_to_char(name):
 
 
 HEX_STR = rb"<([0-9A-Fa-f]+)>"
+# <lo> <hi> [<d0> <d1> ...] -- one destination per code in the range.
+BFRANGE_ARRAY = HEX_STR + rb"\s*" + HEX_STR + rb"\s*\[(.*?)\]"
+# <lo> <hi> <dstStart> -- destinations increment across the range.
+BFRANGE_INCR = HEX_STR + rb"\s*" + HEX_STR + rb"\s*" + HEX_STR
+
+
+def _hex_bytes(hex_digits):
+    """A CMap hex operand as bytes, left-padded to whole UTF-16BE code units.
+
+    Malformed operands do occur in the wild. Padding on the *left* reads `<41>` and
+    `<041>` both as U+0041, where padding on the right would silently land them in a
+    CJK block (`<41>` -> U+4100) and an odd digit count would raise out of the whole
+    extraction run.
+    """
+    text = hex_digits.decode("latin-1")
+    if len(text) % 4:
+        text = "0" * (4 - len(text) % 4) + text
+    return bytes.fromhex(text)
 
 
 def _utf16_be(hex_digits):
     """A ToUnicode destination -- UTF-16BE hex, sometimes a multi-character run."""
-    raw = bytes.fromhex(hex_digits.decode("latin-1"))
-    if len(raw) % 2:
-        raw += b"\x00"
     try:
-        return raw.decode("utf-16-be")
-    except UnicodeDecodeError:
+        return _hex_bytes(hex_digits).decode("utf-16-be")
+    except (ValueError, UnicodeDecodeError):
         return ""
 
 
@@ -209,17 +224,16 @@ def parse_tounicode(cmap):
             table[int(src, 16)] = _utf16_be(dst)
 
     for block in re.findall(rb"beginbfrange(.*?)endbfrange", cmap, re.S):
-        # <lo> <hi> [<d0> <d1> ...] -- one destination per code in the range.
-        for lo, _hi, arr in re.findall(
-            HEX_STR + rb"\s*" + HEX_STR + rb"\s*\[(.*?)\]", block, re.S
-        ):
+        for lo, _hi, arr in re.findall(BFRANGE_ARRAY, block, re.S):
             for offset, dst in enumerate(re.findall(HEX_STR, arr)):
                 table[int(lo, 16) + offset] = _utf16_be(dst)
-        # <lo> <hi> <dstStart> -- destinations increment across the range.
-        for lo, hi, dst in re.findall(
-            HEX_STR + rb"\s*" + HEX_STR + rb"\s*" + HEX_STR, block
-        ):
-            base = bytes.fromhex(dst.decode("latin-1"))
+        # Strip the array entries before scanning for the increment form. Three hex
+        # operands in a row also match *inside* a destination array of three or more
+        # elements, and since this pass runs second it would write those bogus
+        # mappings over good ones -- `<50><52>[<0058><0059><005A>]` would otherwise
+        # also yield 0x58 -> "Z" and 0x59 -> "[".
+        for lo, hi, dst in re.findall(BFRANGE_INCR, re.sub(BFRANGE_ARRAY, b"", block, flags=re.S)):
+            base = _hex_bytes(dst)
             if len(base) < 2:
                 continue
             prefix, start = base[:-2], int.from_bytes(base[-2:], "big")
@@ -497,6 +511,25 @@ def self_test():
           (table.get(0x50), table.get(0x51)) == ("X", "Y"), repr(table))
     check("a ToUnicode CMap with no sections yields no table",
           parse_tounicode(b"begincmap\nendcmap") == {})
+
+    # Regression guards, each of which failed before the fix it names.
+    # A three-element destination array: the increment form's three-hex-operand
+    # pattern also matched inside the brackets, writing 0x58/0x59 over good entries.
+    wide = parse_tounicode(b"1 beginbfrange\n<50><52>[<0058><0059><005A>]\nendbfrange\n")
+    check("a bfrange destination array does not leak into the increment form",
+          wide == {0x50: "X", 0x51: "Y", 0x52: "Z"}, repr(wide))
+    # An odd-length operand used to raise ValueError out of the whole run.
+    check("an odd-length hex operand does not raise",
+          parse_tounicode(b"1 beginbfchar\n<41><041>\nendbfchar\n") == {0x41: "A"})
+    # A single-byte destination used to pad right, landing in a CJK block.
+    check("a single-byte destination pads left, not right",
+          parse_tounicode(b"1 beginbfchar\n<41><41>\nendbfchar\n") == {0x41: "A"})
+    # Both bfrange forms in one block still resolve independently.
+    mixed = parse_tounicode(
+        b"2 beginbfrange\n<20><22>[<0041><0042><0043>]\n<30><32><0061>\nendbfrange\n")
+    check("array and increment bfrange forms coexist in one block",
+          mixed == {0x20: "A", 0x21: "B", 0x22: "C", 0x30: "a", 0x31: "b", 0x32: "c"},
+          repr(mixed))
     check("uniXXXX glyph names map to characters", glyph_to_char("uni00B0") == "°")
     check("inflate tolerates undecodable bytes", inflate(b"not-really-zlib") == b"")
     check("an /Encrypt trailer entry is detected",
