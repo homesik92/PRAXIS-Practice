@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "code": "5581",
+  "name": "Social Studies",
+  "timeLimitMinutes": 150,
+  "formLength": 140,
+  "categories": [
+    {
+      "id": "I",
+      "label": "United States History",
+      "weight": { "count": 40, "percent": 29 },
+      "children": [
+        { "id": "I-A", "label": "United States History to 1877", "weight": null },
+        { "id": "I-B", "label": "United States History from 1877 to the Present", "weight": null }
+      ]
+    },
+    {
+      "id": "II",
+      "label": "World History",
+      "weight": { "count": 31, "percent": 22 },
+      "children": [
+        { "id": "II-A", "label": "World History to 1750 C.E.", "weight": null },
+        { "id": "II-B", "label": "World History from 1750 C.E. to the Present", "weight": null }
+      ]
+    },
+    {
+      "id": "III",
+      "label": "Geography",
+      "weight": { "count": 19, "percent": 13 },
+      "children": [
+        { "id": "III-A", "label": "Geographic Literacy and Human Environment Interaction", "weight": null },
+        { "id": "III-B", "label": "Human Geography", "weight": null }
+      ]
+    },
+    {
+      "id": "IV",
+      "label": "Civics",
+      "weight": { "count": 32, "percent": 23 },
+      "children": [
+        { "id": "IV-A", "label": "Fundamental Principles and Practice of Government", "weight": null },
+        { "id": "IV-B", "label": "United States Government", "weight": null },
+        { "id": "IV-C", "label": "Participation and Citizenship", "weight": null }
+      ]
+    },
+    {
+      "id": "V",
+      "label": "Economics",
+      "weight": { "count": 18, "percent": 13 },
+      "children": [
+        { "id": "V-A", "label": "Microeconomics", "weight": null },
+        { "id": "V-B", "label": "Macroeconomics", "weight": null }
+      ]
+    }
+  ],
+  "overlays": [
+    { "id": "sss", "label": "Social Studies Skills", "targetShare": 0.125 }
+  ],
+  "questions": []
+}

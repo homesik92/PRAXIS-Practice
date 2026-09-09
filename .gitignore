@@ -5,7 +5,10 @@
 
 # ETS study companions — third-party copyrighted PDFs, reference only.
 # See "The ETS copyright rule" in .claude/skills/dev-workflow/SKILL.md.
+# "Unused Knowledge-Guides/" holds companions for subjects not yet in scope; it is
+# the same copyrighted material and must never reach GitHub either.
 Knowledge-Guides/
+Unused Knowledge-Guides/
 
 # Build output (if the project ever gains a build step)
 dist/

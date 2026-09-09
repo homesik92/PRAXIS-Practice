@@ -74,11 +74,21 @@ python3 tools/pdf-text.py "Knowledge-Guides/<new-file>.pdf" --pages 1-4
 which the newer companions use — without that they parse as zero pages.
 
 **It refuses encrypted PDFs with an explicit error rather than returning blank pages.**
-`5165-Mathematics.pdf` is encrypted; the other five are not. If the new one is
-encrypted, stop and tell the session owner — do not fabricate blueprint numbers or
-infer them from a sibling subject. Ask them for the figures directly, or for an
-unencrypted copy. (Note `Knowledge-Guides/` also contains `5165-Mathematics word.pdf`,
-which is how that gap was worked around once.)
+`5165-Mathematics.pdf` and `5581-Social Studies.pdf` are both encrypted; the others are
+not. Encryption is a detour, not a dead end — the recipe:
+
+1. **Ask the session owner to re-save it.** Open the PDF in Preview →
+   **File → Export as PDF…** → save alongside the original. That writes an unencrypted
+   copy. This is theirs to run, not yours.
+2. **Re-run the extractor on the copy.** It will now parse.
+3. **Expect the text to look like `%&'()!*+,-./0+/` at first.** That is not corruption
+   — it is a subset font whose codes are arbitrary. The re-save typically drops the
+   `/Differences` arrays while keeping the `/ToUnicode` CMaps, and `pdf-text.py` reads
+   both, so it decodes ("Study Companion", in that example). If a future file resists
+   even this, say so plainly rather than guessing at numbers.
+
+**Never fabricate blueprint numbers or infer them from a sibling subject.** If no
+readable copy can be produced, ask the session owner for the figures directly.
 
 ### 1b. Read only the structural sections
 
@@ -228,8 +238,13 @@ engineering step in this document.
 }
 ```
 
-- **`id` is permanent and namespaced by test code** (`<code>-NNNN`). It keys question
-  history and the spaced-repetition schedule. Never reuse or renumber one.
+- **`id` is permanent and namespaced by test code.** It keys question history and the
+  spaced-repetition schedule. Never reuse or renumber one. Two shapes are in use and
+  the verifier accepts either, requiring only the `<code>-` prefix: a topic slug plus a
+  counter (`5101-acct-001`), used by four of the six banks, and a flat counter
+  (`5165-0001`), used by 5165 alone. **Prefer the topic-slug form for a new subject** —
+  it makes a bank browsable by eye and keeps per-category authoring batches independent,
+  so two batches cannot collide over the next free number.
 - **`correct` is an array even for single-answer questions**, so multi-select can arrive
   later without rewriting every existing question or stored answer.
 - **`retired: true` replaces deletion.** A flawed question found after people have
@@ -305,13 +320,28 @@ quantitative subject needs a code change until
 ## 6. Register it
 
 ```json
-{ "code": "5436", "file": "tests/5436.json", "enabled": true }
+{
+  "code": "5436",
+  "file": "tests/5436.json",
+  "enabled": true,
+  "name": "General Science",
+  "timeLimitMinutes": 150,
+  "formLength": 135,
+  "bankSize": 622
+}
 ```
 
-That is the entire integration into the web app. Display name, timings, and counts live
-in the bank file so there is one authority, not two that can disagree. There is **no
-allow-list of test codes anywhere** — the hub, runner, scoring, spaced repetition,
-results, and progress store all discover subjects from the manifest.
+All seven fields are **required** — omitting the last four produces four verifier
+errors (`name missing`, `timeLimitMinutes must be a number`, and so on).
+
+The display metadata is deliberately duplicated from the bank file so the hub can
+render the subject picker from one small fetch instead of pulling every bank just to
+read four scalars. `validateManifestAgreement` in `tools/verify.mjs` cross-checks the
+copy against the bank on every run, which is what makes the duplication safe — but it
+also means **`bankSize` must be updated whenever questions are added**, or the gate
+fails. That is the entire integration into the web app: there is **no allow-list of test
+codes anywhere** — the hub, runner, scoring, spaced repetition, results, and progress
+store all discover subjects from the manifest.
 
 Set `"enabled": false` to author a bank without exposing it publicly yet.
 
