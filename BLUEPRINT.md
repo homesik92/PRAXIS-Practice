@@ -1,7 +1,9 @@
 # Test Blueprints
 
 Structural facts for the six in-scope Praxis Subject Assessments, extracted from ETS's
-published *Study Companion* for each test.
+published *Study Companion* for each test. A separate section at the end covers the three
+**Core Academic Skills** tests, which were researched 2026-09-10 but are **not in scope**
+— see the warning there before treating them as addable.
 
 **What this file is.** Test codes, time limits, question counts, content-category names,
 and their published weightings — facts about how each exam is built. Category counts
@@ -236,6 +238,91 @@ Python or Java. Not aligned to any single curriculum; consistent with the K-12 C
 Framework (2016), CSTA standards (2017), and ISTE Computational Thinking Competencies.
 
 ---
+
+---
+
+## Core Academic Skills for Educators — researched, **not in scope**
+
+Extracted 2026-09-10 while investigating whether Core is the higher-volume market. It
+probably is: Core is commonly required to *enter* a teacher-preparation programme, so
+nearly every candidate takes it regardless of subject, and it is the one product with a
+genuine funnel into the Subject Assessments (a Core-taker later needs a subject test).
+
+⚠ **But Core is not a data-only addition, and that is the headline finding.** Every
+subject added so far has fit the settled single-select assumption. **All three Core tests
+break it**, in different ways. Adding Core is an engine project, not a bank drop — see
+the capability table below and the tracking issue.
+
+### 5713 — Core Academic Skills for Educators: Reading
+
+**85 minutes · 56 questions.** Format: *selected-response questions based on reading
+passages and statements.* No calculator.
+
+| # | Content category | Qs | % | Subcategories |
+| --- | --- | --- | --- | --- |
+| I | Key Ideas and Details | **17–22** | 35% | Main idea and primary purpose; Supporting ideas; Inferences |
+| II | Craft, Structure, and Language Skills | **14–19** | 30% | Attitude and tone; Organization and structure; Meanings of words; Fact or opinion |
+| III | Integration of Knowledge and Ideas | **17–22** | 35% | Diverse media and formats; Evaluation of arguments; Analysis and comparison of texts |
+
+Counts are published as **ranges**, not fixed numbers; percentages sum to 100.
+
+### 5723 — Core Academic Skills for Educators: Writing
+
+**100 minutes**, split into a 40-minute selected-response section and **two 30-minute
+essay sections**. **40 selected-response questions and two essay questions.** Format:
+usage, sentence correction, revision-in-context and research skills, plus two essay
+topics as the basis for writing samples.
+
+| # | Content category | Qs | % | Subcategories |
+| --- | --- | --- | --- | --- |
+| I | Text Types, Purposes, and Production | **6–12 SR + 2 essays** | 60% | Writing Arguments; Writing Informative/Explanatory Texts; Revision |
+| II | Language and Research Skills for Writing | **28–34 SR** | 40% | Language Skills; Research Skills |
+
+ETS notes that essay points are reported separately from selected-response points.
+
+### 5733 — Core Academic Skills for Educators: Mathematics
+
+**90 minutes · 56 questions.** Format: selected-response **select one answer choice**;
+selected-response **select one *or more* answer choices**; **numeric-entry questions**.
+**An on-screen four-function calculator is provided.**
+
+| # | Content category | Qs | % |
+| --- | --- | --- | --- |
+| I | Number and Quantity | 20 | 36% |
+| II | Data Interpretation and Representation, Statistics, and Probability | 18 | 32% |
+| III | Algebra and Geometry | 18 | 32% |
+
+Counts sum exactly to 56 and percentages to 100 — the only Core test that publishes fixed
+numbers. Subcategories: I has nine (integers/decimals/fractions, ratios and proportions,
+percent, constant rates, place value, properties of whole numbers, counterexamples,
+real-life problems, units and conversion); II has seven (data representations, central
+tendency and spread, inference from a random sample, linear relationships in scatterplots,
+linear models for prediction, correlation versus causation, simple probability); III has
+two (Algebra, Geometry).
+
+### What Core would require that this engine does not have
+
+| Capability | 5713 | 5723 | 5733 | Today |
+| --- | --- | --- | --- | --- |
+| Single-select | ✓ | ✓ | ✓ | ✅ implemented |
+| **Multi-select** | | | ✓ | ❌ `isCorrect` hard-codes `type === "single"` and returns **false** otherwise — such a question scores wrong however it is answered |
+| **Numeric entry** | | | ✓ | ❌ no input widget, no answer normalisation, no tolerance rules |
+| **Essays** | | ✓ (2) | | ❌ not auto-scoreable at all |
+| **Shared reading passages** | ✓ | ✓ (revision-in-context) | | ❌ the schema has one `stem` per question and no stimulus shared across a question group |
+| **Four-function calculator** | | | ✓ | ⚠ calculator is hard-coded to 5165 (#111), and that one is scientific (D-14) |
+| **Range-based category counts** | ✓ | ✓ | | ❌ `tools/verify.mjs` requires weight-bearing counts to sum *exactly* to `formLength` |
+
+Authoring load on top of that engineering, at the usual 3× form length: roughly 168 + 120
++ 168 ≈ **456 questions**, comparable to adding one Subject Assessment — except that
+5723's two essays have no scoring story at all, which is an open product question rather
+than an engineering one.
+
+**Source note.** 5713 shipped encrypted and was read after a Preview re-save (the recipe
+in `ADDING-A-SUBJECT.md` §1a); 5723 and 5733 parsed directly. Only "Test at a Glance" and
+"Content Topics" were read — every companion carries a generic "Understanding Question
+Types" section that mentions essays and constructed response whether or not that test uses
+them, so the **Test at a Glance format line is the authoritative one** and is what the
+table above is built from.
 
 ## Findings for the design sessions
 
