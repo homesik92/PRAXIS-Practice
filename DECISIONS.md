@@ -1621,3 +1621,59 @@ low-visibility beside the app name and icon; and Apple supports app transfer bet
 accounts if a product ever becomes its own legal entity. The genuine question there is
 accounting and liability — which entity receives the revenue — not branding, and that is
 the session owner's to answer outside this repo.
+
+
+### N-15: 5165's answer key redistributed by category-balanced rotation, not the plain hash rotation the issue proposed
+
+**Context.** Issue #93: 198 of 5165's 253 questions were authored before PR #92 and
+carried a badly skewed key — **92.4% "a", 5.1% "b", 2.5% "c", and no "d" at all**. The
+issue proposed rotating each question's option contents and its key together using a
+SHA-256 hash of the question id, and warned off two approaches already tried and
+rejected on 5485: `i % 4` (produced a perfect `a,b,c,d` cycle — judged worse than the
+original) and a djb2 hash (correlated across sequential ids, producing a visible
+10-long cycle).
+
+**Both of the issue's technical premises were checked rather than assumed, and both
+held.** A `json.dumps` round-trip does not preserve the bank's formatting — the file
+uses compact one-line option objects, and re-serialising grows it from 245KB to 322KB
+while touching every line — so the edit was done on raw text. And the file proved
+perfectly regular: all 1012 option lines and all 253 `correct` lines matched a single
+pattern, making a line-based transform exact.
+
+**Where this departed from the issue.** A plain SHA-256 rotation was implemented first
+and fixed the global skew (92.4% → 22/25/22/31), with excellent sequential behaviour —
+adjacent-pair key matches at 25.4% against a 25% chance baseline, longest run 5. But it
+left the *categories* lumpy: it put **10 of I-A's 21 questions on "d" (48%)**. Category
+is precisely the slice issue #93 used to tabulate the original defect, so leaving a
+category at 48% would have reproduced a smaller version of the same wart.
+
+The rotation is therefore **planned per category** instead: within each content
+category, the post-cutoff questions' keys are counted as fixed, then that category's
+target questions are walked *in SHA-256 order* and each is assigned whichever letter is
+currently least used, ties broken by a hash of `(id, letter)`. The rotation needed to
+put the correct content on that letter follows arithmetically.
+
+This is even *and* unpredictable, which is the combination `i % 4` failed: uniformity
+was never the problem with the modulo approach — its visible **cycle** was. Result:
+every category between 23.1% and 28.6% (worst spread 4.8 points), whole bank
+25.3/25.3/24.5/24.9, adjacent-pair matches 21.8% against a 25% chance baseline, longest
+run 4.
+
+**Verification, since no linter can check this.** The transform asserts per question
+that the option *content set* is unchanged, that option ids stay in order, that every
+non-target question is byte-identical, that stem/explanation/category/type/authored/
+retired are untouched, and — the load-bearing one — **that the key still resolves to the
+same option content it did before**. 750 lines changed against 750 added, exactly
+150 rotated questions × (4 options + 1 key), with zero changed lines outside those two
+patterns. Two questions were then checked by hand against the mathematics.
+
+**The timing was the real constraint, and it is worth stating for the next bank.**
+Saved answers record option *ids* (`chosen: ["a"]`) and `js/runner.js`'s `isCorrect`
+recomputes against the *current* bank, caching nothing on the attempt. So rotating a
+shipped bank's keys **silently re-scores every attempt already in a person's browser**
+and skews the spaced-repetition state derived from it. This was safe only because it
+happened before the app had users. `ADDING-A-SUBJECT.md` §4 now says so, and the same
+section's claim that the skew let a test-taker "score 79% without knowing any
+mathematics" was corrected in the same PR — `shuffleQuestionOptions` randomises option
+order on every form-assembly path, so no student ever saw a predictable key. The
+exposure was always the readable public bank file, not the runtime.
