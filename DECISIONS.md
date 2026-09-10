@@ -1677,3 +1677,86 @@ section's claim that the skew let a test-taker "score 79% without knowing any
 mathematics" was corrected in the same PR — `shuffleQuestionOptions` randomises option
 order on every form-assembly path, so no student ever saw a predictable key. The
 exposure was always the readable public bank file, not the runtime.
+
+
+### D-42: Pricing — each app is free to download with a single one-time unlock
+
+**Context.** D-19 assumed in-app purchase because *one* app had to gate four paid subjects
+behind a free Mathematics one. D-41 replaced that with three apps, which reopens the
+question. The session owner's original reasoning was that Mathematics is the most common
+test a new teacher needs, so giving it away would put the app in the most hands and sell
+the others.
+
+**Decision — session owner's call, 2026-09-10: every app is free to download, with one
+non-consumable in-app purchase unlocking it.** Teaching chapters and a short diagnostic
+free; full-length timed tests and the complete question bank behind the unlock. Indicative
+price $9.99–$14.99, one-time. **Not a subscription.**
+
+**Why the original free-Mathematics-app model was set aside.** Its funnel does not exist.
+The three apps serve **disjoint buyers** — that is the whole basis of D-41's split. Someone
+sitting 5165 Mathematics: Content Knowledge is becoming a mathematics teacher and will
+never need 5581 Social Studies. A free app therefore has no second purchase to lead to.
+The free tier still matters enormously, but *within* each app, where it is the only way an
+unknown app earns installs and reviews at all.
+
+**Why this is also the simpler build**, contrary to the concern that prompted the
+question. The original plan needed four products plus an entitlement matrix plus
+per-subject gating in the picker. Three apps with one unlock each need a single product id,
+`Transaction.currentEntitlements`, one Buy button and one Restore button — written once and
+shared. **D-41's split removed the complexity that made IAP look expensive.**
+
+**Why not a subscription.** The session owner's characterisation is the deciding fact: this
+is a short-lifecycle product. A candidate prepares for one test, passes, and never returns.
+A subscription against that shape produces forgotten renewals, refund requests and
+one-star reviews. A one-time unlock matches the honest shape of the need.
+
+**Consequence for acquisition, recorded because it constrains everything downstream.**
+Lifetime value is a single purchase — roughly $10 net after Apple's cut, with no repeat
+business. That is the entire per-customer budget, forever, which effectively rules out paid
+acquisition: search ads converting at 5–15% of installs put the cost per *buyer* above the
+revenue per buyer. The leverage is therefore ASO (only name, subtitle and keywords are
+indexed — not the description), the **individual test codes as keywords**, teacher-preparation
+programmes, and reviews. Recorded in `APP-STORE-ROADMAP.md` phase E.
+
+*Apple's Small Business Program (15% rather than 30% commission below $1M/year) applies and
+should be enrolled in — it is most of the margin at this price point.*
+
+### N-16: Praxis Core is the volume market, but it breaks the single-select assumption three ways
+
+**Context.** D-42's discussion turned on the claim that Mathematics is "the most common test
+new teachers need." That conflated two different exams: **5165 Mathematics: Content
+Knowledge** is a subject-licensure test for people who will teach mathematics, whereas the
+**Core Academic Skills for Educators** tests (5713 Reading, 5723 Writing, 5733 Mathematics)
+are basic-skills tests commonly required to *enter* a teacher-preparation programme, taken
+by nearly every candidate. Of nine Praxis apps found on the App Store, at least three were
+Core-specific — market signal that Core carries the volume. Core is also the one product
+with a genuine funnel into the Subject Assessments, since a Core-taker later needs a subject
+test; the Subject Assessments do not funnel into each other, which is exactly why D-41 split
+them by disjoint audience.
+
+**So Core was scoped rather than assumed.** All three study companions were obtained and
+read (5713 needed the Preview re-save from `ADDING-A-SUBJECT.md` §1a; the other two parsed
+directly). Blueprints are recorded in `BLUEPRINT.md`.
+
+**Found: Core is the most expensive subject family in the catalogue, not the cheapest.**
+5581 was the genuinely zero-code case. Core is the opposite — **all three tests fall outside
+the settled single-select assumption**, and in three different directions: 5733 has
+**multi-select and numeric entry** plus a **four-function** calculator (5165's is scientific,
+D-14, and the calculator is hard-coded to that test anyway, #111); 5723 has **two essays**,
+which this engine cannot score at all; and 5713 is built on **shared reading passages**,
+where the schema has one `stem` per question and no concept of a stimulus spanning a
+question group. On top of that, 5713 and 5723 publish category counts as **ranges**, which
+`tools/verify.mjs` rejects — it requires weight-bearing counts to sum exactly to
+`formLength`.
+
+**Consequence.** Core is parked as a deliberate v2 decision rather than a detour: it is
+tracked with the full capability gap analysis, and the STEM app ships first on the schedule
+already agreed. The essay question (omit 5723, drill only its 40 selected-response items, or
+ship prompts with self-assessment and no scoring) is left open and recorded rather than
+decided now.
+
+**The transferable lesson** is that `ADDING-A-SUBJECT.md`'s "a subject is data, not code"
+headline holds for **Praxis Subject Assessments**, which is the family it was written about.
+It does not generalise to every Praxis test, and §1d's instruction to check the format line
+and stop at the plan gate is what caught this — one paragraph of a study companion, read
+before any authoring, in place of several sessions spent discovering it.

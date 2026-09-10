@@ -24,6 +24,7 @@ Update this table as each app moves. Phase letters refer to the sections below.
 | --- | --- | --- | --- | --- |
 | **STEM** | 5165, 5436, 5485, 5652 | A | ☐ not started | Ships first (D-41). Nearly the current build already |
 | **Humanities** | 5581 + future English/history | — | ☐ not started | 5581's bank is scaffold-only and paused |
+| *(Core — 5713/5723/5733)* | *not in scope* | — | ⛔ parked | **Not a data-only addition** — see N-16 and BLUEPRINT.md before scheduling |
 | **Administrative** | 5101 + future admin/librarian | — | ☐ not started | 5101 moves here from the current build |
 
 **Ship the STEM app and get it approved before submitting the second** (D-41). If Apple
@@ -84,7 +85,10 @@ Once per Apple Developer account, not per app. **Start early** — verification 
 take days and are a common cause of a submission-day stall.
 
 - ☐ **C.1 Apple Developer Program membership** active ($99/yr). One account publishes
-  unlimited apps.
+  unlimited apps — a second account is deliberately *not* being bought (**N-14**).
+- ☐ **C.1a Apple Small Business Program enrolled** — 15% commission instead of 30% below
+  $1M/year. At D-42's price point this is most of the margin, and enrolment is not
+  automatic.
 - ☐ **C.2 Account type and seller name confirmed.** Individual accounts display the
   person's legal name publicly; Organization accounts display the legal entity (and need
   a D-U-N-S number). Check what customers will actually see.
@@ -99,7 +103,10 @@ take days and are a common cause of a submission-day stall.
   name, never from "Praxis". *(The current `com.homesik92.PraxisMath` fails on both
   counts — it encodes the superseded Math-only structure and leans on the mark.)*
 - ☐ **D.2 App record created** with primary language, category (Education) and name.
-- ☐ **D.3 In-app purchase products registered**, if the app sells subjects individually.
+- ☐ **D.3 In-app purchase product registered.** Under **D-42** each app is free to
+  download with **one** non-consumable unlock (teaching chapters and a short diagnostic
+  free; full timed tests and the complete bank paid), indicatively $9.99–$14.99. One
+  product per app, not one per subject.
   Product ids are also permanent. Not needed to *develop* the purchase flow — a local
   `.storekit` configuration file exercises purchase, restore and entitlement updates
   with no App Store Connect record at all.
@@ -111,6 +118,15 @@ take days and are a common cause of a submission-day stall.
 - ☐ **E.3 Keywords** (100 chars, hidden). **Only name, subtitle and keywords are indexed
   for search — the description is not.** Include the individual test codes (5165, 5436,
   …): a candidate searching a specific code is high-intent and almost unopposed.
+
+  ⚠ **ASO is not one channel among several here, it is the channel.** Under **D-42**
+  lifetime value is a single one-time unlock — roughly $10 net of Apple's cut, with no
+  repeat business — so paid acquisition converting at 5–15% of installs costs more per
+  buyer than a buyer is worth. What is left: these three indexed fields, the test codes,
+  teacher-preparation programmes (one lecturer recommending it to a cohort outweighs any
+  ad), and reviews. **Ask for the review at the right moment** — right after a full
+  practice test is completed with a good score, not on launch — because a
+  short-lifecycle app loses the user shortly afterwards.
 - ☐ **E.4 Description**, opening with what the app is and which exam it prepares for.
 - ☐ **E.5 Screenshots** at every required device size, for every app.
 - ☐ **E.6 App icon**, 1024×1024, no transparency, no rounded corners.
