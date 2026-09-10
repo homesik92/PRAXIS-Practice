@@ -1,6 +1,6 @@
 # Test Blueprints
 
-Structural facts for the four in-scope Praxis Subject Assessments, extracted from ETS's
+Structural facts for the six in-scope Praxis Subject Assessments, extracted from ETS's
 published *Study Companion* for each test.
 
 **What this file is.** Test codes, time limits, question counts, content-category names,
@@ -12,7 +12,7 @@ extended prose appears here or anywhere in this repository. See "The ETS copyrig
 in `.claude/skills/dev-workflow/SKILL.md`. Praxis® is a registered trademark of ETS;
 this project is unaffiliated with and not endorsed by ETS.
 
-**Source.** The four PDFs in `Knowledge-Guides/` (gitignored). ETS revises study
+**Source.** The PDFs in `Knowledge-Guides/` (gitignored). ETS revises study
 companions periodically and these figures should be re-checked against the current
 edition before any bank is called complete.
 
@@ -26,9 +26,10 @@ edition before any bank is called complete.
 | 5165 | Mathematics | 180 min | 66 | 2.7 min/q | Selected-response (**select one _or more_**), **numeric entry**, and other types |
 | 5436 | General Science | 150 min | 135 | 1.1 min/q | Selected-response (**select one _or more_**) and other types |
 | 5485 | Physical Science | 150 min | 125 | 1.2 min/q | Selected-response |
+| 5581 | Social Studies | 150 min | 140 | 1.1 min/q | Selected-response |
 | 5652 | Computer Science | 180 min | 100 | 1.8 min/q | Selected-response (**select one _or more_**) |
 
-All five are computer-delivered, and all five state that some questions may not count
+All six are computer-delivered, and all six state that some questions may not count
 toward the score (unscored pretest items). This project does not model unscored items —
 every question in a bank counts.
 
@@ -37,8 +38,8 @@ found that Colorado lists **5436 General Science** as its science test while mos
 high schools use **5485 Physical Science**. See "5436 vs 5485" below — the two overlap
 heavily but are not interchangeable.
 
-**⚠ Only 5485 is described by ETS as plain selected-response.** The other three
-explicitly include numeric entry, multi-select, or both. See "Open format question"
+**⚠ Only 5485 and 5581 are described by ETS as plain selected-response.** The other
+four explicitly include numeric entry, multi-select, or both. See "Open format question"
 below — this is a design fork, not a detail.
 
 ---
@@ -169,6 +170,43 @@ items become memorization tests. Two cross-cutting overlays sit on top of the co
 categories: **half or more** of questions integrate a Science and Engineering Practice,
 and **one-quarter to one-third** apply content to a Task of Teaching Science. Aligned to
 the NGSS framework (DCIs and SEPs).
+
+## 5581 — Social Studies
+
+**150 minutes · 140 questions · 1.1 min/question**
+
+| # | Content category | Qs | % | Subcategories |
+| --- | --- | --- | --- | --- |
+| I | United States History | 40 | 29% | to 1877; 1877 to the present |
+| II | World History | 31 | 22% | to 1750 C.E.; 1750 C.E. to the present |
+| III | Geography | 19 | 13% | Geographic Literacy and Human Environment Interaction; Human Geography |
+| IV | Civics | 32 | 23% | Fundamental Principles and Practice of Government; United States Government; Participation and Citizenship |
+| V | Economics | 18 | 13% | Microeconomics; Macroeconomics |
+
+Weights publish at the top level only, so the eleven subcategories carry `"weight": null`
+and exist as study filters rather than as form-assembly quotas.
+
+Notes: **no calculator and no reference panel** — this is the first subject added that
+needs neither, making it the zero-code case `ADDING-A-SUBJECT.md` describes. ETS states
+the format as plain selected-response, with no numeric entry and no multi-select, so it
+sits inside the project's settled single-select assumption without qualification. One
+cross-cutting overlay: ETS names **four Social Studies Skills practices** and states that
+approximately **10–15%** of questions integrate one of them, modelled as a single overlay
+(`sss`) with `targetShare: 0.125`, following the same one-overlay-per-axis convention as
+5165's Task of Teaching Mathematics. The four practices, as axes an item can exercise:
+perspective-taking about historical and contemporary figures; causes and effects of
+movements, actions, events, and processes; how individuals, groups, and institutions
+achieve results, resolve conflicts, and effect change; and acquiring and using evidence
+to analyse, conclude, and question. Aligned to the NCSS National Standards for Social
+Studies Teachers and National Curriculum Standards, informed by the C3 Framework (2013),
+the National Standards for History (1996), the National Geography Standards (2012), and
+the Voluntary National Content Standards in Economics (2010). ETS notes the exam uses
+B.C.E./C.E. designations, which the bank follows.
+
+Some items on the real exam are built on stimulus material — passages, maps, charts,
+graphs, tables, cartoons, diagrams, photographs. The bank's questions are text-only,
+so stimulus-dependent skills are exercised through described scenarios rather than
+rendered figures.
 
 ## 5652 — Computer Science
 

@@ -30,15 +30,25 @@ What it handles
 * `FlateDecode` content streams.
 * Real page order, by walking the page tree from the catalog rather than trusting
   object numbering.
-* Per-font `/Differences` encodings, which is what keeps subset-embedded fonts from
-  coming out as mojibake.
+* Per-font `/Differences` encodings **and `/ToUnicode` CMaps**, which is what keeps
+  subset-embedded fonts from coming out as mojibake. A viewer's re-save typically
+  keeps the CMap while dropping `/Differences`, so both paths are needed -- see
+  "Encrypted companions" below.
 
-What it does not handle: **encrypted PDFs** -- `Knowledge-Guides/5165-Mathematics.pdf`
-is one, and the other four study companions are not -- scanned/image-only pages (there
-is no OCR here), and exotic filters (LZW, JBIG2, CCITT). Encryption is detected and
-reported as an error rather than returned as a document full of blank pages. Layout
-fidelity is approximate: it recovers reading order well enough to read a blueprint
-table, not to reproduce a page.
+What it does not handle: **encrypted PDFs**, scanned/image-only pages (there is no OCR
+here), and exotic filters (LZW, JBIG2, CCITT). Encryption is detected and reported as
+an error rather than returned as a document full of blank pages. Layout fidelity is
+approximate: it recovers reading order well enough to read a blueprint table, not to
+reproduce a page.
+
+Encrypted companions
+--------------------
+Some study companions ship encrypted -- `5165-Mathematics.pdf` and
+`5581-Social Studies.pdf` both are. The way through is to open the file in Preview and
+`File > Export as PDF...`, which writes an unencrypted copy. That copy usually loses
+its `/Differences` arrays but keeps its `/ToUnicode` CMaps, so text comes out as a
+subset-font substitution cipher (`%&'()!*+,-./0+/` for "Study Companion") unless the
+CMaps are read. That is why `parse_tounicode` exists.
 
 Usage
 -----
@@ -149,7 +159,7 @@ def page_order(objects):
     return order
 
 
-# --- font /Differences encoding -----------------------------------------------------
+# --- font encodings: /Differences and /ToUnicode -------------------------------------
 
 GLYPH_NAMES = {
     "space": " ", "hyphen": "-", "period": ".", "comma": ",", "colon": ":",
@@ -170,8 +180,80 @@ def glyph_to_char(name):
     return name if len(name) == 1 else ""
 
 
+HEX_STR = rb"<([0-9A-Fa-f]+)>"
+# <lo> <hi> [<d0> <d1> ...] -- one destination per code in the range.
+BFRANGE_ARRAY = HEX_STR + rb"\s*" + HEX_STR + rb"\s*\[(.*?)\]"
+# <lo> <hi> <dstStart> -- destinations increment across the range.
+BFRANGE_INCR = HEX_STR + rb"\s*" + HEX_STR + rb"\s*" + HEX_STR
+
+
+def _hex_bytes(hex_digits):
+    """A CMap hex operand as bytes, left-padded to whole UTF-16BE code units.
+
+    Malformed operands do occur in the wild. Padding on the *left* reads `<41>` and
+    `<041>` both as U+0041, where padding on the right would silently land them in a
+    CJK block (`<41>` -> U+4100) and an odd digit count would raise out of the whole
+    extraction run.
+    """
+    text = hex_digits.decode("latin-1")
+    if len(text) % 4:
+        text = "0" * (4 - len(text) % 4) + text
+    return bytes.fromhex(text)
+
+
+def _utf16_be(hex_digits):
+    """A ToUnicode destination -- UTF-16BE hex, sometimes a multi-character run."""
+    try:
+        return _hex_bytes(hex_digits).decode("utf-16-be")
+    except (ValueError, UnicodeDecodeError):
+        return ""
+
+
+def parse_tounicode(cmap):
+    """{char code -> text} from a ToUnicode CMap's bfchar and bfrange sections.
+
+    Subset-embedded fonts number their glyphs from 0x21 in order of first use, so the
+    codes in the content stream mean nothing without this table -- "Study Companion"
+    arrives as "%&'()!*+,-./0+/". A re-saved PDF often keeps the CMap while dropping
+    the /Differences array, which is why this runs as a fallback rather than instead.
+    """
+    table = {}
+
+    for block in re.findall(rb"beginbfchar(.*?)endbfchar", cmap, re.S):
+        for src, dst in re.findall(HEX_STR + rb"\s*" + HEX_STR, block):
+            table[int(src, 16)] = _utf16_be(dst)
+
+    for block in re.findall(rb"beginbfrange(.*?)endbfrange", cmap, re.S):
+        for lo, _hi, arr in re.findall(BFRANGE_ARRAY, block, re.S):
+            for offset, dst in enumerate(re.findall(HEX_STR, arr)):
+                table[int(lo, 16) + offset] = _utf16_be(dst)
+        # Strip the array entries before scanning for the increment form. Three hex
+        # operands in a row also match *inside* a destination array of three or more
+        # elements, and since this pass runs second it would write those bogus
+        # mappings over good ones -- `<50><52>[<0058><0059><005A>]` would otherwise
+        # also yield 0x58 -> "Z" and 0x59 -> "[".
+        for lo, hi, dst in re.findall(BFRANGE_INCR, re.sub(BFRANGE_ARRAY, b"", block, flags=re.S)):
+            base = _hex_bytes(dst)
+            if len(base) < 2:
+                continue
+            prefix, start = base[:-2], int.from_bytes(base[-2:], "big")
+            for offset in range(int(hi, 16) - int(lo, 16) + 1):
+                code_point = (start + offset).to_bytes(2, "big")
+                table[int(lo, 16) + offset] = (prefix + code_point).decode(
+                    "utf-16-be", "ignore"
+                )
+
+    return table
+
+
 def font_maps(page_body, objects):
-    """Per-font {char code -> character} tables, for fonts declaring /Differences."""
+    """Per-font {char code -> character} tables.
+
+    Prefers a font's /Differences array and falls back to its /ToUnicode CMap. Both
+    exist to defeat the same problem -- subset fonts whose codes are arbitrary -- but
+    a PDF re-saved by a viewer (the standard way round an encrypted companion) tends
+    to carry only the CMap, so handling just /Differences leaves it unreadable.
+    """
     blob = page_body
     ref = re.search(rb"/Resources\s+(\d+)\s+0\s+R", page_body)
     if ref:
@@ -187,16 +269,21 @@ def font_maps(page_body, objects):
         enc_ref = re.search(rb"/Encoding\s+(\d+)\s+0\s+R", font_body)
         enc_body = objects.get(int(enc_ref.group(1)), b"") if enc_ref else font_body
         diff = re.search(rb"/Differences\s*\[(.*?)\]", enc_body, re.S)
-        if not diff:
-            continue
-        table, code = {}, 0
-        for number, glyph in re.findall(rb"(\d+)|/([^\s/\]]+)", diff.group(1)):
-            if number:
-                code = int(number)
-            else:
-                table[code] = glyph_to_char(glyph.decode("latin-1"))
-                code += 1
-        maps[name.decode("latin-1")] = table
+        table = {}
+        if diff:
+            code = 0
+            for number, glyph in re.findall(rb"(\d+)|/([^\s/\]]+)", diff.group(1)):
+                if number:
+                    code = int(number)
+                else:
+                    table[code] = glyph_to_char(glyph.decode("latin-1"))
+                    code += 1
+        if not table:
+            tou = re.search(rb"/ToUnicode\s+(\d+)\s+0\s+R", font_body)
+            if tou:
+                table = parse_tounicode(stream_payload(objects.get(int(tou.group(1)), b"")))
+        if table:
+            maps[name.decode("latin-1")] = table
     return maps
 
 
@@ -407,6 +494,42 @@ def self_test():
     check("literal-string octal escapes decode", decode_literal(rb"A\101B") == "AAB")
     check("literal-string escapes decode", decode_literal(rb"a\(b\)c") == "a(b)c")
     check("glyph names map to characters", glyph_to_char("emdash") == "—")
+
+    # ToUnicode CMaps: the three destination forms a subset font actually emits.
+    cmap = (
+        b"1 begincodespacerange\n<00><FF>\nendcodespacerange\n"
+        b"1 beginbfchar\n<41><0041>\nendbfchar\n"
+        b"2 beginbfrange\n<21><21><0020>\n<26><27><0074>\nendbfrange\n"
+        b"1 beginbfrange\n<50><51>[<0058><0059>]\nendbfrange\n"
+    )
+    table = parse_tounicode(cmap)
+    check("ToUnicode bfchar maps a single code", table.get(0x41) == "A", repr(table))
+    check("ToUnicode bfrange maps a one-code range", table.get(0x21) == " ", repr(table))
+    check("ToUnicode bfrange increments across a range",
+          (table.get(0x26), table.get(0x27)) == ("t", "u"), repr(table))
+    check("ToUnicode bfrange array form maps each code",
+          (table.get(0x50), table.get(0x51)) == ("X", "Y"), repr(table))
+    check("a ToUnicode CMap with no sections yields no table",
+          parse_tounicode(b"begincmap\nendcmap") == {})
+
+    # Regression guards, each of which failed before the fix it names.
+    # A three-element destination array: the increment form's three-hex-operand
+    # pattern also matched inside the brackets, writing 0x58/0x59 over good entries.
+    wide = parse_tounicode(b"1 beginbfrange\n<50><52>[<0058><0059><005A>]\nendbfrange\n")
+    check("a bfrange destination array does not leak into the increment form",
+          wide == {0x50: "X", 0x51: "Y", 0x52: "Z"}, repr(wide))
+    # An odd-length operand used to raise ValueError out of the whole run.
+    check("an odd-length hex operand does not raise",
+          parse_tounicode(b"1 beginbfchar\n<41><041>\nendbfchar\n") == {0x41: "A"})
+    # A single-byte destination used to pad right, landing in a CJK block.
+    check("a single-byte destination pads left, not right",
+          parse_tounicode(b"1 beginbfchar\n<41><41>\nendbfchar\n") == {0x41: "A"})
+    # Both bfrange forms in one block still resolve independently.
+    mixed = parse_tounicode(
+        b"2 beginbfrange\n<20><22>[<0041><0042><0043>]\n<30><32><0061>\nendbfrange\n")
+    check("array and increment bfrange forms coexist in one block",
+          mixed == {0x20: "A", 0x21: "B", 0x22: "C", 0x30: "a", 0x31: "b", 0x32: "c"},
+          repr(mixed))
     check("uniXXXX glyph names map to characters", glyph_to_char("uni00B0") == "°")
     check("inflate tolerates undecodable bytes", inflate(b"not-really-zlib") == b"")
     check("an /Encrypt trailer entry is detected",

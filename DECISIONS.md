@@ -1309,3 +1309,117 @@ multi-subject hub, and four of its five subjects are paid. Content quality and
 completeness gaps are no longer only a site-quality question — an uneven subject is
 something a person paid for. `data/teaching/5436.json` not existing (issue #106) is
 the live example.
+
+
+### D-39: Adding 5581 Social Studies — the structure lands and is reviewed before the questions are written
+
+**Context.** The session owner dropped `5581-Social Studies.pdf` into `Knowledge-Guides/`
+and asked for the subject to be added, which is exactly the trigger ADDING-A-SUBJECT.md
+was written for. The blueprint extracted cleanly: 150 minutes, 140 questions, plain
+selected-response, five content categories (United States History 40/29%, World History
+31/22%, Geography 19/13%, Civics 32/23%, Economics 18/13%) whose counts sum exactly to
+140 and whose percentages sum to 100, with eleven subcategories publishing no weights of
+their own. No calculator and no reference panel, making this the **first subject that is
+a genuine zero-code addition** — the case ADDING-A-SUBJECT.md predicts but that no
+previous subject had actually exercised.
+
+**Decision — session owner's call.** The bank ships as a **scaffold first**: full
+category tree, the overlay, a manifest entry with `"enabled": false`, and an empty
+`questions` array, with the ~420 questions (3× `formLength`) authored afterwards in
+dedicated per-category sessions.
+
+**Why.** Category `id` values are permanent — they are the join key for question history
+in a person's saved progress, so renaming one silently orphans their study record. The
+authoring load is roughly 420 original questions with independently-verified answer keys,
+which is several sessions' work at this project's quality bar. Sequencing the permanent,
+cheap-to-review structure ahead of the expensive, irreversible content means a mistake in
+the tree costs one edit rather than hundreds of re-keyed questions. `"enabled": false`
+keeps the subject off the hub until it has content, so an empty bank is never something a
+visitor can start.
+
+**Two shape decisions inside that.**
+
+- **The four "Social Studies Skills" practices are modelled as one overlay** (`sss`,
+  `targetShare: 0.125`), not as four. ETS names four practices and states that
+  approximately 10–15% of questions integrate one of them. This follows the established
+  one-overlay-per-*axis* convention: 5485 and 5436 model "Science and Engineering
+  Practice" as a single overlay despite it having many constituent practices, and 5165
+  models "Task of Teaching Mathematics" the same way. The four practices are recorded in
+  BLUEPRINT.md so an author knows what qualifies without needing the PDF.
+- **The eleven subcategories carry `"weight": null`.** ETS publishes weights at the top
+  level only, and SCHEMA.md's rule is that weights are authoritative at the deepest level
+  that publishes them; unweighted subcategories exist as study filters.
+
+**Deferred, deliberately.** Teaching chapters (`data/teaching/5581.json`) are not written
+— the same visible Start-menu gap 5436 has under issue #106. Filed rather than banked.
+
+### N-11: `pdf-text.py` read `/Differences` but not `/ToUnicode`, so a re-saved encrypted companion decoded as a substitution cipher
+
+**Context.** `5581-Social Studies.pdf` is encrypted, like `5165-Mathematics.pdf`.
+ADDING-A-SUBJECT.md §1a treated that as a hard stop — "ask the session owner for the
+figures directly, or for an unencrypted copy" — and pointed at a
+`5165-Mathematics word.pdf` workaround file that **is no longer in the folder**.
+
+**Found.** The session owner's Preview `File > Export as PDF...` re-save parsed fine at 50
+pages, but every page came out as `%&'()!*+,-./0+/`. That was not corruption: it is
+"Study Companion" through a subset font whose glyph codes are assigned from `0x21` in
+order of first use. The re-save had dropped the fonts' `/Differences` arrays while keeping
+their 15 `/ToUnicode` CMaps — and `font_maps()` read only `/Differences`, so it returned
+no table and the raw codes passed through as latin-1.
+
+**Fix.** `parse_tounicode()` now reads a CMap's `bfchar` and both `bfrange` destination
+forms, and `font_maps()` falls back to it when a font has no usable `/Differences`. Five
+self-test cases cover the three destination forms and the empty-CMap case.
+
+**Consequence beyond 5581.** The fallback also fires on fonts in the four companions that
+already parsed, because those fonts had no `/Differences` either and were silently losing
+their non-ASCII punctuation. Diffing the extractor's output before and after across pages
+1–25 of each: `bachelors` became `bachelor's`, `Le Chatelier's principle` gained its
+apostrophe, em-dashes and curly quotation marks appeared where characters had been dropped
+outright, and a spurious `Praxis£` became `Praxis`. Strictly additive — no content lost.
+
+**Consequence for the procedure.** An encrypted companion is now a documented detour
+rather than a dead end, and §1a carries the three-step recipe. The stale
+`5165-Mathematics word.pdf` pointer is gone.
+
+**Three defects the code review then found in that parser**, all fixed in the same PR
+with regression tests that fail against the first commit. (a) The `bfrange`
+increment-form pattern — three hex operands in a row — also matched *inside* a
+destination array of three or more elements, so `<50><52>[<0058><0059><005A>]`
+additionally wrote `0x58 -> "Z"` and `0x59 -> "["`; because that pass ran second, the
+bogus mappings overwrote correct ones. (b) An odd-length hex operand raised `ValueError`
+out of the whole extraction run, contradicting this module's behaviour everywhere else.
+(c) A single-byte destination padded on the right, decoding `<41>` as U+4100 rather than
+`"A"`.
+
+**The lesson worth keeping** is about (a). The original self-test exercised the array
+form with exactly *two* destinations, which is the one width at which the bug cannot
+fire — the test proved the fix rather than the bug, which is a red flag this project's
+own methodology names. A test written alongside a fix should be checked against the
+*unfixed* code before it is trusted; all four new guards here were confirmed to fail
+against the previous commit before being kept.
+
+### N-12: ADDING-A-SUBJECT.md documented a manifest entry that fails the verification gate
+
+**Context.** §6 ("Register it") showed the manifest entry as
+`{ "code", "file", "enabled" }` and stated that "display name, timings, and counts live in
+the bank file so there is one authority, not two that can disagree."
+
+**Found.** That is the opposite of what `tools/verify.mjs` does. `validateManifest`
+requires `name`, `timeLimitMinutes`, `formLength`, and `bankSize` on every entry, and
+`validateManifestAgreement` cross-checks all four against the bank file. Building the 5581
+entry exactly as documented and running the validator produces four errors (`name
+missing`, `timeLimitMinutes must be a number`, `formLength must be a number`, `bankSize
+must be a number`). The duplication is deliberate — it lets S1 render the subject picker
+from one small fetch instead of pulling every bank to read four scalars — and the
+cross-check is what makes it safe.
+
+**Consequence.** §6 now shows all seven fields, says they are required, explains why the
+duplication exists, and flags that `bankSize` must be updated whenever questions are added
+or the gate fails. Two smaller drifts fixed in the same pass: §4 documented `<code>-NNNN`
+as the question-id shape when four of the six banks use a topic slug (`5101-acct-001`) and
+only 5165 uses the flat counter, so the slug form is now recommended and the reason given;
+and §1a's encrypted-PDF claim is corrected per N-11. The general lesson is that a
+procedure document describing a *checkable* contract should be checked against the checker
+— this one was written from the bank files' authority model rather than from the
+validator's, and the two had diverged.

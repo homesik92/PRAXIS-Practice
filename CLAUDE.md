@@ -106,8 +106,12 @@ python3 tools/pdf-text.py --self-test
 ```
 
 It handles PDF 1.5+ compressed object streams, which the newer companions use — without
-that they parse as zero pages. It **refuses encrypted PDFs with an error** rather than
-returning blank pages; `5165-Mathematics.pdf` is encrypted, the other four are not.
+that they parse as zero pages, and both `/Differences` encodings and `/ToUnicode` CMaps,
+without which subset-embedded fonts come out as a substitution cipher. It **refuses
+encrypted PDFs with an error** rather than returning blank pages; `5165-Mathematics.pdf`
+and `5581-Social Studies.pdf` are encrypted, the other four are not. The way past that is
+a Preview **File → Export as PDF…** re-save by the session owner — see
+[ADDING-A-SUBJECT.md](ADDING-A-SUBJECT.md) §1a for the full recipe.
 
 ⚠ **Blueprint only.** Use it to read "Test at a Glance" and "Content Topics," and stop
 before the sample-question sections. Making the PDFs readable makes the copyright rule
