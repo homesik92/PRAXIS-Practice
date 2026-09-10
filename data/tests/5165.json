@@ -33,12 +33,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "Solve for x: 3x + 7 = 22." },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "3" } },
-        { "id": "b", "content": { "format": "text", "value": "5" } },
-        { "id": "c", "content": { "format": "text", "value": "7" } },
-        { "id": "d", "content": { "format": "text", "value": "15" } }
+        { "id": "a", "content": { "format": "text", "value": "7" } },
+        { "id": "b", "content": { "format": "text", "value": "15" } },
+        { "id": "c", "content": { "format": "text", "value": "3" } },
+        { "id": "d", "content": { "format": "text", "value": "5" } }
       ],
-      "correct": ["b"],
+      "correct": ["d"],
       "explanation": { "format": "text", "value": "Subtracting 7 from both sides gives 3x = 15. Dividing both sides by 3 gives x = 5." },
       "authored": "2026-08-16"
     },
@@ -49,12 +49,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "What is the value of 2^3 × 2^4?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "24" } },
-        { "id": "b", "content": { "format": "text", "value": "128" } },
-        { "id": "c", "content": { "format": "text", "value": "4096" } },
-        { "id": "d", "content": { "format": "text", "value": "2" } }
+        { "id": "a", "content": { "format": "text", "value": "128" } },
+        { "id": "b", "content": { "format": "text", "value": "4096" } },
+        { "id": "c", "content": { "format": "text", "value": "2" } },
+        { "id": "d", "content": { "format": "text", "value": "24" } }
       ],
-      "correct": ["b"],
+      "correct": ["a"],
       "explanation": { "format": "text", "value": "When multiplying powers with the same base, add the exponents: 2^3 × 2^4 = 2^(3+4) = 2^7 = 128." },
       "authored": "2026-08-16"
     },
@@ -65,12 +65,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "If f(x) = x^2 − 4x + 3, what is f(5)?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "3" } },
-        { "id": "b", "content": { "format": "text", "value": "8" } },
-        { "id": "c", "content": { "format": "text", "value": "28" } },
-        { "id": "d", "content": { "format": "text", "value": "−2" } }
+        { "id": "a", "content": { "format": "text", "value": "28" } },
+        { "id": "b", "content": { "format": "text", "value": "−2" } },
+        { "id": "c", "content": { "format": "text", "value": "3" } },
+        { "id": "d", "content": { "format": "text", "value": "8" } }
       ],
-      "correct": ["b"],
+      "correct": ["d"],
       "explanation": { "format": "text", "value": "f(5) = 5^2 − 4(5) + 3 = 25 − 20 + 3 = 8." },
       "authored": "2026-08-16"
     },
@@ -81,12 +81,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "A rectangle has a length of 8 cm and a width of 5 cm. What is its area, in square centimeters?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "13" } },
-        { "id": "b", "content": { "format": "text", "value": "26" } },
-        { "id": "c", "content": { "format": "text", "value": "40" } },
-        { "id": "d", "content": { "format": "text", "value": "45" } }
+        { "id": "a", "content": { "format": "text", "value": "26" } },
+        { "id": "b", "content": { "format": "text", "value": "40" } },
+        { "id": "c", "content": { "format": "text", "value": "45" } },
+        { "id": "d", "content": { "format": "text", "value": "13" } }
       ],
-      "correct": ["c"],
+      "correct": ["b"],
       "explanation": { "format": "text", "value": "The area of a rectangle is length × width: 8 × 5 = 40 square centimeters." },
       "authored": "2026-08-16"
     },
@@ -97,12 +97,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "A fair six-sided die is rolled once. What is the probability of rolling a number greater than 4?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "1/6" } },
-        { "id": "b", "content": { "format": "text", "value": "1/3" } },
-        { "id": "c", "content": { "format": "text", "value": "1/2" } },
-        { "id": "d", "content": { "format": "text", "value": "2/3" } }
+        { "id": "a", "content": { "format": "text", "value": "2/3" } },
+        { "id": "b", "content": { "format": "text", "value": "1/6" } },
+        { "id": "c", "content": { "format": "text", "value": "1/3" } },
+        { "id": "d", "content": { "format": "text", "value": "1/2" } }
       ],
-      "correct": ["b"],
+      "correct": ["c"],
       "explanation": { "format": "text", "value": "The outcomes greater than 4 are 5 and 6 — two out of six equally likely outcomes, so the probability is 2/6 = 1/3." },
       "authored": "2026-08-16"
     },
@@ -113,12 +113,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "Which of the following numbers is irrational?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "4/9" } },
-        { "id": "b", "content": { "format": "text", "value": "0.25" } },
-        { "id": "c", "content": { "format": "text", "value": "√2" } },
-        { "id": "d", "content": { "format": "text", "value": "−7" } }
+        { "id": "a", "content": { "format": "text", "value": "0.25" } },
+        { "id": "b", "content": { "format": "text", "value": "√2" } },
+        { "id": "c", "content": { "format": "text", "value": "−7" } },
+        { "id": "d", "content": { "format": "text", "value": "4/9" } }
       ],
-      "correct": ["c"],
+      "correct": ["b"],
       "explanation": { "format": "text", "value": "√2 cannot be written as a ratio of integers and its decimal expansion never terminates or repeats, so it is irrational. The other three are all rational: 4/9 and 0.25 are ratios of integers, and −7 is an integer." },
       "authored": "2026-08-18"
     },
@@ -145,12 +145,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "Write 0.000452 in scientific notation." },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "4.52 × 10⁻⁴" } },
-        { "id": "b", "content": { "format": "text", "value": "4.52 × 10⁴" } },
-        { "id": "c", "content": { "format": "text", "value": "4.52 × 10⁻³" } },
-        { "id": "d", "content": { "format": "text", "value": "45.2 × 10⁻⁵" } }
+        { "id": "a", "content": { "format": "text", "value": "4.52 × 10⁴" } },
+        { "id": "b", "content": { "format": "text", "value": "4.52 × 10⁻³" } },
+        { "id": "c", "content": { "format": "text", "value": "45.2 × 10⁻⁵" } },
+        { "id": "d", "content": { "format": "text", "value": "4.52 × 10⁻⁴" } }
       ],
-      "correct": ["a"],
+      "correct": ["d"],
       "explanation": { "format": "text", "value": "Moving the decimal point 4 places to the right, from 0.000452 to 4.52, means the exponent on 10 is −4: 4.52 × 10⁻⁴." },
       "authored": "2026-08-18"
     },
@@ -162,12 +162,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "A teacher wants to show that 15 cups of flour to 9 cups of sugar represents the same ratio as 5 cups of flour to 3 cups of sugar. Which of the following is the best justification?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "Both ratios simplify to 5:3 when each term is divided by their greatest common factor." } },
-        { "id": "b", "content": { "format": "text", "value": "Both ratios have the same sum of terms." } },
-        { "id": "c", "content": { "format": "text", "value": "Both ratios list the same two numbers in reverse order." } },
-        { "id": "d", "content": { "format": "text", "value": "Both ratios have a difference of 6 between terms." } }
+        { "id": "a", "content": { "format": "text", "value": "Both ratios have the same sum of terms." } },
+        { "id": "b", "content": { "format": "text", "value": "Both ratios list the same two numbers in reverse order." } },
+        { "id": "c", "content": { "format": "text", "value": "Both ratios have a difference of 6 between terms." } },
+        { "id": "d", "content": { "format": "text", "value": "Both ratios simplify to 5:3 when each term is divided by their greatest common factor." } }
       ],
-      "correct": ["a"],
+      "correct": ["d"],
       "explanation": { "format": "text", "value": "15 and 9 share a greatest common factor of 3: 15 ÷ 3 = 5 and 9 ÷ 3 = 3, giving the same simplified ratio, 5:3. Equal simplified ratios, not equal sums or differences, is what makes two ratios equivalent." },
       "authored": "2026-08-18"
     },
@@ -194,12 +194,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "Simplify (3 + 2i) + (1 − 5i)." },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "4 − 3i" } },
-        { "id": "b", "content": { "format": "text", "value": "4 + 3i" } },
-        { "id": "c", "content": { "format": "text", "value": "2 − 3i" } },
-        { "id": "d", "content": { "format": "text", "value": "4 − 7i" } }
+        { "id": "a", "content": { "format": "text", "value": "4 + 3i" } },
+        { "id": "b", "content": { "format": "text", "value": "2 − 3i" } },
+        { "id": "c", "content": { "format": "text", "value": "4 − 7i" } },
+        { "id": "d", "content": { "format": "text", "value": "4 − 3i" } }
       ],
-      "correct": ["a"],
+      "correct": ["d"],
       "explanation": { "format": "text", "value": "Add real parts and imaginary parts separately: (3 + 1) + (2 − 5)i = 4 − 3i." },
       "authored": "2026-08-18"
     },
@@ -210,12 +210,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "Simplify i² × i³." },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "i" } },
-        { "id": "b", "content": { "format": "text", "value": "−i" } },
-        { "id": "c", "content": { "format": "text", "value": "1" } },
-        { "id": "d", "content": { "format": "text", "value": "−1" } }
+        { "id": "a", "content": { "format": "text", "value": "1" } },
+        { "id": "b", "content": { "format": "text", "value": "−1" } },
+        { "id": "c", "content": { "format": "text", "value": "i" } },
+        { "id": "d", "content": { "format": "text", "value": "−i" } }
       ],
-      "correct": ["a"],
+      "correct": ["c"],
       "explanation": { "format": "text", "value": "i² = −1 and i³ = −i, so i² × i³ = (−1)(−i) = i." },
       "authored": "2026-08-18"
     },
@@ -226,12 +226,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "In the arithmetic sequence 4, 9, 14, 19, ..., what is the 10th term?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "44" } },
-        { "id": "b", "content": { "format": "text", "value": "49" } },
-        { "id": "c", "content": { "format": "text", "value": "54" } },
-        { "id": "d", "content": { "format": "text", "value": "45" } }
+        { "id": "a", "content": { "format": "text", "value": "45" } },
+        { "id": "b", "content": { "format": "text", "value": "44" } },
+        { "id": "c", "content": { "format": "text", "value": "49" } },
+        { "id": "d", "content": { "format": "text", "value": "54" } }
       ],
-      "correct": ["b"],
+      "correct": ["c"],
       "explanation": { "format": "text", "value": "The common difference is 5, so the 10th term is 4 + 9 × 5 = 4 + 45 = 49." },
       "authored": "2026-08-18"
     },
@@ -258,12 +258,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "What is the greatest common factor of 48 and 60?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "6" } },
-        { "id": "b", "content": { "format": "text", "value": "12" } },
-        { "id": "c", "content": { "format": "text", "value": "24" } },
-        { "id": "d", "content": { "format": "text", "value": "4" } }
+        { "id": "a", "content": { "format": "text", "value": "12" } },
+        { "id": "b", "content": { "format": "text", "value": "24" } },
+        { "id": "c", "content": { "format": "text", "value": "4" } },
+        { "id": "d", "content": { "format": "text", "value": "6" } }
       ],
-      "correct": ["b"],
+      "correct": ["a"],
       "explanation": { "format": "text", "value": "48 = 2⁴ × 3 and 60 = 2² × 3 × 5. The shared factors are 2² × 3 = 12." },
       "authored": "2026-08-18"
     },
@@ -274,12 +274,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "What is the least common multiple of 8 and 12?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "24" } },
-        { "id": "b", "content": { "format": "text", "value": "48" } },
-        { "id": "c", "content": { "format": "text", "value": "4" } },
-        { "id": "d", "content": { "format": "text", "value": "96" } }
+        { "id": "a", "content": { "format": "text", "value": "4" } },
+        { "id": "b", "content": { "format": "text", "value": "96" } },
+        { "id": "c", "content": { "format": "text", "value": "24" } },
+        { "id": "d", "content": { "format": "text", "value": "48" } }
       ],
-      "correct": ["a"],
+      "correct": ["c"],
       "explanation": { "format": "text", "value": "8 = 2³ and 12 = 2² × 3. The least common multiple takes the highest power of each prime: 2³ × 3 = 24." },
       "authored": "2026-08-18"
     },
@@ -290,12 +290,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "40 is what percent of 160?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "25%" } },
-        { "id": "b", "content": { "format": "text", "value": "40%" } },
-        { "id": "c", "content": { "format": "text", "value": "16%" } },
-        { "id": "d", "content": { "format": "text", "value": "64%" } }
+        { "id": "a", "content": { "format": "text", "value": "64%" } },
+        { "id": "b", "content": { "format": "text", "value": "25%" } },
+        { "id": "c", "content": { "format": "text", "value": "40%" } },
+        { "id": "d", "content": { "format": "text", "value": "16%" } }
       ],
-      "correct": ["a"],
+      "correct": ["b"],
       "explanation": { "format": "text", "value": "40 ÷ 160 = 0.25 = 25%." },
       "authored": "2026-08-18"
     },
@@ -307,12 +307,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "A student says a price that increases from $80 to $92 has increased by 12%, reasoning that $92 − $80 = $12, and 12 is close to 12%. Which of the following best explains the flaw in the student's reasoning?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "Percent increase is the dollar change divided by the original amount, not the dollar change treated directly as a percent." } },
-        { "id": "b", "content": { "format": "text", "value": "The student's answer is correct because the dollar change is $12." } },
-        { "id": "c", "content": { "format": "text", "value": "Percent increase should be based on the new amount, not the original amount." } },
-        { "id": "d", "content": { "format": "text", "value": "Percent increase cannot be found without a calculator." } }
+        { "id": "a", "content": { "format": "text", "value": "Percent increase should be based on the new amount, not the original amount." } },
+        { "id": "b", "content": { "format": "text", "value": "Percent increase cannot be found without a calculator." } },
+        { "id": "c", "content": { "format": "text", "value": "Percent increase is the dollar change divided by the original amount, not the dollar change treated directly as a percent." } },
+        { "id": "d", "content": { "format": "text", "value": "The student's answer is correct because the dollar change is $12." } }
       ],
-      "correct": ["a"],
+      "correct": ["c"],
       "explanation": { "format": "text", "value": "The dollar change ($12) must be divided by the original amount ($80) to get the percent increase: 12 ÷ 80 = 0.15 = 15%. Treating the dollar change itself as a percent, as the student did, only coincidentally resembles the real answer." },
       "authored": "2026-08-18"
     },
@@ -323,12 +323,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "Convert 2.5 hours to minutes." },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "120" } },
-        { "id": "b", "content": { "format": "text", "value": "125" } },
-        { "id": "c", "content": { "format": "text", "value": "150" } },
-        { "id": "d", "content": { "format": "text", "value": "175" } }
+        { "id": "a", "content": { "format": "text", "value": "175" } },
+        { "id": "b", "content": { "format": "text", "value": "120" } },
+        { "id": "c", "content": { "format": "text", "value": "125" } },
+        { "id": "d", "content": { "format": "text", "value": "150" } }
       ],
-      "correct": ["c"],
+      "correct": ["d"],
       "explanation": { "format": "text", "value": "2.5 × 60 = 150 minutes." },
       "authored": "2026-08-18"
     },
@@ -355,12 +355,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "Which of the following numbers is prime?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "51" } },
-        { "id": "b", "content": { "format": "text", "value": "57" } },
-        { "id": "c", "content": { "format": "text", "value": "61" } },
-        { "id": "d", "content": { "format": "text", "value": "63" } }
+        { "id": "a", "content": { "format": "text", "value": "57" } },
+        { "id": "b", "content": { "format": "text", "value": "61" } },
+        { "id": "c", "content": { "format": "text", "value": "63" } },
+        { "id": "d", "content": { "format": "text", "value": "51" } }
       ],
-      "correct": ["c"],
+      "correct": ["b"],
       "explanation": { "format": "text", "value": "51 = 3 × 17, 57 = 3 × 19, and 63 = 7 × 9 are all composite. 61 has no divisors other than 1 and itself, so it is prime." },
       "authored": "2026-08-18"
     },
@@ -372,12 +372,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "A student evaluates 6 + 4 × (5 − 2)² ÷ 3 by working strictly left to right and gets 42. A classmate applies the standard order of operations instead. What is the classmate's result?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "18" } },
-        { "id": "b", "content": { "format": "text", "value": "30" } },
-        { "id": "c", "content": { "format": "text", "value": "54" } },
-        { "id": "d", "content": { "format": "text", "value": "42" } }
+        { "id": "a", "content": { "format": "text", "value": "54" } },
+        { "id": "b", "content": { "format": "text", "value": "42" } },
+        { "id": "c", "content": { "format": "text", "value": "18" } },
+        { "id": "d", "content": { "format": "text", "value": "30" } }
       ],
-      "correct": ["a"],
+      "correct": ["c"],
       "explanation": { "format": "text", "value": "Parentheses first: (5 − 2) = 3. Then the exponent: 3² = 9. Then multiplication and division left to right: 4 × 9 = 36, and 36 ÷ 3 = 12. Finally addition: 6 + 12 = 18." },
       "authored": "2026-08-18"
     },
@@ -388,12 +388,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "Which of the following numbers is rational?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "π" } },
-        { "id": "b", "content": { "format": "text", "value": "√3" } },
-        { "id": "c", "content": { "format": "text", "value": "0.6666..." } },
-        { "id": "d", "content": { "format": "text", "value": "√7" } }
+        { "id": "a", "content": { "format": "text", "value": "√7" } },
+        { "id": "b", "content": { "format": "text", "value": "π" } },
+        { "id": "c", "content": { "format": "text", "value": "√3" } },
+        { "id": "d", "content": { "format": "text", "value": "0.6666..." } }
       ],
-      "correct": ["c"],
+      "correct": ["d"],
       "explanation": { "format": "text", "value": "A repeating decimal is always expressible as a ratio of integers — 0.6666... = 2/3 — so it is rational. π, √3, and √7 are all irrational." },
       "authored": "2026-08-18"
     },
@@ -422,12 +422,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "A teacher wants to give students an example showing that a repeating decimal can always be written as a fraction. Which example best demonstrates this?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "Show that 0.5 = 1/2." } },
-        { "id": "b", "content": { "format": "text", "value": "Show that 0.3333... = 1/3." } },
-        { "id": "c", "content": { "format": "text", "value": "Show that π ≈ 3.14159." } },
-        { "id": "d", "content": { "format": "text", "value": "Show that √4 = 2." } }
+        { "id": "a", "content": { "format": "text", "value": "Show that 0.3333... = 1/3." } },
+        { "id": "b", "content": { "format": "text", "value": "Show that π ≈ 3.14159." } },
+        { "id": "c", "content": { "format": "text", "value": "Show that √4 = 2." } },
+        { "id": "d", "content": { "format": "text", "value": "Show that 0.5 = 1/2." } }
       ],
-      "correct": ["b"],
+      "correct": ["a"],
       "explanation": { "format": "text", "value": "0.3333... is a repeating decimal and 1/3 is its fraction form, directly illustrating the claim. 0.5 terminates rather than repeats, π is irrational and has no exact fraction form, and √4 = 2 doesn't involve a decimal at all." },
       "authored": "2026-08-18"
     },
@@ -438,12 +438,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "Find dy/dx if y = x⁴." },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "4x³" } },
-        { "id": "b", "content": { "format": "text", "value": "x³" } },
-        { "id": "c", "content": { "format": "text", "value": "4x⁴" } },
-        { "id": "d", "content": { "format": "text", "value": "x⁵" } }
+        { "id": "a", "content": { "format": "text", "value": "x³" } },
+        { "id": "b", "content": { "format": "text", "value": "4x⁴" } },
+        { "id": "c", "content": { "format": "text", "value": "x⁵" } },
+        { "id": "d", "content": { "format": "text", "value": "4x³" } }
       ],
-      "correct": ["a"],
+      "correct": ["d"],
       "explanation": { "format": "text", "value": "The power rule gives d/dx[xⁿ] = n·xⁿ⁻¹, so d/dx[x⁴] = 4x³." },
       "authored": "2026-08-18"
     },
@@ -454,12 +454,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "Find dy/dx if y = 5x³." },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "15x²" } },
-        { "id": "b", "content": { "format": "text", "value": "5x²" } },
-        { "id": "c", "content": { "format": "text", "value": "15x³" } },
-        { "id": "d", "content": { "format": "text", "value": "3x²" } }
+        { "id": "a", "content": { "format": "text", "value": "3x²" } },
+        { "id": "b", "content": { "format": "text", "value": "15x²" } },
+        { "id": "c", "content": { "format": "text", "value": "5x²" } },
+        { "id": "d", "content": { "format": "text", "value": "15x³" } }
       ],
-      "correct": ["a"],
+      "correct": ["b"],
       "explanation": { "format": "text", "value": "The constant multiple and power rules give d/dx[5x³] = 5 · 3x² = 15x²." },
       "authored": "2026-08-18"
     },
@@ -471,12 +471,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "A student believes that to differentiate a product of two functions, you simply multiply their individual derivatives together. Applying this incorrect method to f(x) = x² sin x, the student computes 2x cos x. Which of the following gives the correct derivative, using the product rule?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "2x sin x + x² cos x" } },
-        { "id": "b", "content": { "format": "text", "value": "2x cos x" } },
-        { "id": "c", "content": { "format": "text", "value": "x² cos x" } },
-        { "id": "d", "content": { "format": "text", "value": "2x sin x − x² cos x" } }
+        { "id": "a", "content": { "format": "text", "value": "x² cos x" } },
+        { "id": "b", "content": { "format": "text", "value": "2x sin x − x² cos x" } },
+        { "id": "c", "content": { "format": "text", "value": "2x sin x + x² cos x" } },
+        { "id": "d", "content": { "format": "text", "value": "2x cos x" } }
       ],
-      "correct": ["a"],
+      "correct": ["c"],
       "explanation": { "format": "text", "value": "The product rule is (fg)′ = f′g + fg′, not f′ · g′. With f = x² and g = sin x: f′g + fg′ = 2x sin x + x² cos x." },
       "authored": "2026-08-18"
     },
@@ -487,12 +487,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "Find dy/dx if y = x² + 3x." },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "2x + 3" } },
-        { "id": "b", "content": { "format": "text", "value": "2x" } },
-        { "id": "c", "content": { "format": "text", "value": "x + 3" } },
-        { "id": "d", "content": { "format": "text", "value": "x² + 3" } }
+        { "id": "a", "content": { "format": "text", "value": "x² + 3" } },
+        { "id": "b", "content": { "format": "text", "value": "2x + 3" } },
+        { "id": "c", "content": { "format": "text", "value": "2x" } },
+        { "id": "d", "content": { "format": "text", "value": "x + 3" } }
       ],
-      "correct": ["a"],
+      "correct": ["b"],
       "explanation": { "format": "text", "value": "Differentiate term by term: d/dx[x²] = 2x and d/dx[3x] = 3, so dy/dx = 2x + 3." },
       "authored": "2026-08-18"
     },
@@ -503,12 +503,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "Find dy/dx if y = sin x." },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "cos x" } },
-        { "id": "b", "content": { "format": "text", "value": "−cos x" } },
-        { "id": "c", "content": { "format": "text", "value": "−sin x" } },
-        { "id": "d", "content": { "format": "text", "value": "sin x" } }
+        { "id": "a", "content": { "format": "text", "value": "−sin x" } },
+        { "id": "b", "content": { "format": "text", "value": "sin x" } },
+        { "id": "c", "content": { "format": "text", "value": "cos x" } },
+        { "id": "d", "content": { "format": "text", "value": "−cos x" } }
       ],
-      "correct": ["a"],
+      "correct": ["c"],
       "explanation": { "format": "text", "value": "The derivative of sin x is cos x." },
       "authored": "2026-08-18"
     },
@@ -535,12 +535,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "Find dy/dx if y = ln x." },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "1/x" } },
-        { "id": "b", "content": { "format": "text", "value": "ln x" } },
-        { "id": "c", "content": { "format": "text", "value": "x" } },
-        { "id": "d", "content": { "format": "text", "value": "1/x²" } }
+        { "id": "a", "content": { "format": "text", "value": "1/x²" } },
+        { "id": "b", "content": { "format": "text", "value": "1/x" } },
+        { "id": "c", "content": { "format": "text", "value": "ln x" } },
+        { "id": "d", "content": { "format": "text", "value": "x" } }
       ],
-      "correct": ["a"],
+      "correct": ["b"],
       "explanation": { "format": "text", "value": "The derivative of ln x is 1/x." },
       "authored": "2026-08-18"
     },
@@ -551,12 +551,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "Find dy/dx if y = (2x + 1)³." },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "6(2x + 1)²" } },
-        { "id": "b", "content": { "format": "text", "value": "3(2x + 1)²" } },
-        { "id": "c", "content": { "format": "text", "value": "(2x + 1)²" } },
-        { "id": "d", "content": { "format": "text", "value": "6(2x + 1)³" } }
+        { "id": "a", "content": { "format": "text", "value": "(2x + 1)²" } },
+        { "id": "b", "content": { "format": "text", "value": "6(2x + 1)³" } },
+        { "id": "c", "content": { "format": "text", "value": "6(2x + 1)²" } },
+        { "id": "d", "content": { "format": "text", "value": "3(2x + 1)²" } }
       ],
-      "correct": ["a"],
+      "correct": ["c"],
       "explanation": { "format": "text", "value": "By the chain rule, d/dx[(2x + 1)³] = 3(2x + 1)² · d/dx[2x + 1] = 3(2x + 1)² · 2 = 6(2x + 1)²." },
       "authored": "2026-08-18"
     },
@@ -568,12 +568,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "A student claims the derivative of any constant function equals the constant itself, citing d/dx[7] = 7 as an example. Which of the following corrects the student's misunderstanding?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "The derivative of any constant is 0, since a constant function's graph has zero slope everywhere." } },
-        { "id": "b", "content": { "format": "text", "value": "The student's claim and example are both correct." } },
-        { "id": "c", "content": { "format": "text", "value": "The derivative of a constant depends on the sign of the constant." } },
-        { "id": "d", "content": { "format": "text", "value": "The derivative of a constant equals its reciprocal." } }
+        { "id": "a", "content": { "format": "text", "value": "The derivative of a constant depends on the sign of the constant." } },
+        { "id": "b", "content": { "format": "text", "value": "The derivative of a constant equals its reciprocal." } },
+        { "id": "c", "content": { "format": "text", "value": "The derivative of any constant is 0, since a constant function's graph has zero slope everywhere." } },
+        { "id": "d", "content": { "format": "text", "value": "The student's claim and example are both correct." } }
       ],
-      "correct": ["a"],
+      "correct": ["c"],
       "explanation": { "format": "text", "value": "A constant function y = c is a horizontal line, whose slope — and therefore whose derivative — is always 0, regardless of the value of c." },
       "authored": "2026-08-18"
     },
@@ -584,12 +584,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "Find dy/dx if y = x / (x + 1)." },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "1 / (x + 1)²" } },
-        { "id": "b", "content": { "format": "text", "value": "1 / (x + 1)" } },
-        { "id": "c", "content": { "format": "text", "value": "x / (x + 1)²" } },
-        { "id": "d", "content": { "format": "text", "value": "−1 / (x + 1)²" } }
+        { "id": "a", "content": { "format": "text", "value": "1 / (x + 1)" } },
+        { "id": "b", "content": { "format": "text", "value": "x / (x + 1)²" } },
+        { "id": "c", "content": { "format": "text", "value": "−1 / (x + 1)²" } },
+        { "id": "d", "content": { "format": "text", "value": "1 / (x + 1)²" } }
       ],
-      "correct": ["a"],
+      "correct": ["d"],
       "explanation": { "format": "text", "value": "By the quotient rule with u = x, v = x + 1: (u′v − uv′)/v² = [(1)(x + 1) − x(1)] / (x + 1)² = 1 / (x + 1)²." },
       "authored": "2026-08-18"
     },
@@ -601,12 +601,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "A teacher wants an example illustrating that the slope of the tangent line to a curve at a point equals the derivative evaluated at that point. Which of the following is the best example?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "Show that the tangent line to y = x² at x = 3 has slope 6, matching dy/dx = 2x evaluated at x = 3." } },
-        { "id": "b", "content": { "format": "text", "value": "Show that the tangent line to y = x² at x = 3 has slope 9, matching the y-value at that point." } },
-        { "id": "c", "content": { "format": "text", "value": "Show that the area under y = x² from 0 to 3 is 9." } },
-        { "id": "d", "content": { "format": "text", "value": "Show that y = x² has a minimum at x = 0." } }
+        { "id": "a", "content": { "format": "text", "value": "Show that the tangent line to y = x² at x = 3 has slope 9, matching the y-value at that point." } },
+        { "id": "b", "content": { "format": "text", "value": "Show that the area under y = x² from 0 to 3 is 9." } },
+        { "id": "c", "content": { "format": "text", "value": "Show that y = x² has a minimum at x = 0." } },
+        { "id": "d", "content": { "format": "text", "value": "Show that the tangent line to y = x² at x = 3 has slope 6, matching dy/dx = 2x evaluated at x = 3." } }
       ],
-      "correct": ["a"],
+      "correct": ["d"],
       "explanation": { "format": "text", "value": "dy/dx = 2x, so at x = 3 the derivative is 6 — the correct example directly connects the derivative's value to the tangent line's slope at the same point. Options b, c, and d each describe a real fact about y = x² but none of them demonstrates the slope–derivative connection." },
       "authored": "2026-08-18"
     },
@@ -617,12 +617,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "Find the critical point of f(x) = x² − 4x + 1." },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "x = 2" } },
-        { "id": "b", "content": { "format": "text", "value": "x = 4" } },
-        { "id": "c", "content": { "format": "text", "value": "x = −2" } },
-        { "id": "d", "content": { "format": "text", "value": "x = 0" } }
+        { "id": "a", "content": { "format": "text", "value": "x = −2" } },
+        { "id": "b", "content": { "format": "text", "value": "x = 0" } },
+        { "id": "c", "content": { "format": "text", "value": "x = 2" } },
+        { "id": "d", "content": { "format": "text", "value": "x = 4" } }
       ],
-      "correct": ["a"],
+      "correct": ["c"],
       "explanation": { "format": "text", "value": "f′(x) = 2x − 4. Setting f′(x) = 0 gives x = 2, the function's only critical point." },
       "authored": "2026-08-18"
     },
@@ -633,12 +633,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "What is the maximum value of f(x) = −x² + 6x − 5?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "4" } },
-        { "id": "b", "content": { "format": "text", "value": "3" } },
-        { "id": "c", "content": { "format": "text", "value": "9" } },
-        { "id": "d", "content": { "format": "text", "value": "−5" } }
+        { "id": "a", "content": { "format": "text", "value": "−5" } },
+        { "id": "b", "content": { "format": "text", "value": "4" } },
+        { "id": "c", "content": { "format": "text", "value": "3" } },
+        { "id": "d", "content": { "format": "text", "value": "9" } }
       ],
-      "correct": ["a"],
+      "correct": ["b"],
       "explanation": { "format": "text", "value": "f′(x) = −2x + 6 = 0 gives x = 3, and since the leading coefficient is negative this is a maximum. f(3) = −9 + 18 − 5 = 4." },
       "authored": "2026-08-18"
     },
@@ -649,12 +649,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "Evaluate ∫x³ dx." },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "x⁴/4 + C" } },
-        { "id": "b", "content": { "format": "text", "value": "x⁴ + C" } },
-        { "id": "c", "content": { "format": "text", "value": "4x⁴ + C" } },
-        { "id": "d", "content": { "format": "text", "value": "x²/2 + C" } }
+        { "id": "a", "content": { "format": "text", "value": "x⁴ + C" } },
+        { "id": "b", "content": { "format": "text", "value": "4x⁴ + C" } },
+        { "id": "c", "content": { "format": "text", "value": "x²/2 + C" } },
+        { "id": "d", "content": { "format": "text", "value": "x⁴/4 + C" } }
       ],
-      "correct": ["a"],
+      "correct": ["d"],
       "explanation": { "format": "text", "value": "The power rule for integration raises the exponent by 1 and divides by the new exponent: ∫x³ dx = x⁴/4 + C." },
       "authored": "2026-08-18"
     },
@@ -681,12 +681,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "Evaluate ∫5 dx." },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "5x + C" } },
-        { "id": "b", "content": { "format": "text", "value": "5 + C" } },
-        { "id": "c", "content": { "format": "text", "value": "x + C" } },
-        { "id": "d", "content": { "format": "text", "value": "5x² + C" } }
+        { "id": "a", "content": { "format": "text", "value": "5 + C" } },
+        { "id": "b", "content": { "format": "text", "value": "x + C" } },
+        { "id": "c", "content": { "format": "text", "value": "5x² + C" } },
+        { "id": "d", "content": { "format": "text", "value": "5x + C" } }
       ],
-      "correct": ["a"],
+      "correct": ["d"],
       "explanation": { "format": "text", "value": "The antiderivative of a constant c is cx + C: ∫5 dx = 5x + C." },
       "authored": "2026-08-18"
     },
@@ -713,12 +713,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "A particle's position is given by s(t) = t³ − 3t. What is its velocity at t = 2?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "9" } },
-        { "id": "b", "content": { "format": "text", "value": "12" } },
-        { "id": "c", "content": { "format": "text", "value": "6" } },
-        { "id": "d", "content": { "format": "text", "value": "3" } }
+        { "id": "a", "content": { "format": "text", "value": "6" } },
+        { "id": "b", "content": { "format": "text", "value": "3" } },
+        { "id": "c", "content": { "format": "text", "value": "9" } },
+        { "id": "d", "content": { "format": "text", "value": "12" } }
       ],
-      "correct": ["a"],
+      "correct": ["c"],
       "explanation": { "format": "text", "value": "Velocity is the derivative of position: s′(t) = 3t² − 3. At t = 2, s′(2) = 3(4) − 3 = 9." },
       "authored": "2026-08-18"
     },
@@ -730,12 +730,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "A student evaluates lim(x→2) (x² − 4)/(x − 2) by substituting x = 2 directly, gets 0/0, and concludes the limit does not exist. Which of the following identifies the flaw in this reasoning?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "The expression can be factored and simplified to x + 2 before substituting, giving a limit of 4; the 0/0 form only means the expression needs simplification first." } },
-        { "id": "b", "content": { "format": "text", "value": "The student is correct that the limit does not exist." } },
-        { "id": "c", "content": { "format": "text", "value": "The limit can only be found using a graphing calculator." } },
-        { "id": "d", "content": { "format": "text", "value": "0/0 always equals 1, so the limit is 1." } }
+        { "id": "a", "content": { "format": "text", "value": "The student is correct that the limit does not exist." } },
+        { "id": "b", "content": { "format": "text", "value": "The limit can only be found using a graphing calculator." } },
+        { "id": "c", "content": { "format": "text", "value": "0/0 always equals 1, so the limit is 1." } },
+        { "id": "d", "content": { "format": "text", "value": "The expression can be factored and simplified to x + 2 before substituting, giving a limit of 4; the 0/0 form only means the expression needs simplification first." } }
       ],
-      "correct": ["a"],
+      "correct": ["d"],
       "explanation": { "format": "text", "value": "(x² − 4)/(x − 2) = (x − 2)(x + 2)/(x − 2) = x + 2 for x ≠ 2. Taking the limit of the simplified form gives 2 + 2 = 4. A 0/0 result from direct substitution is a signal to simplify, not proof the limit fails to exist." },
       "authored": "2026-08-18"
     },
@@ -779,12 +779,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "Solve for x: 4x − 9 = 2x + 7." },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "8" } },
-        { "id": "b", "content": { "format": "text", "value": "−8" } },
-        { "id": "c", "content": { "format": "text", "value": "1" } },
-        { "id": "d", "content": { "format": "text", "value": "16" } }
+        { "id": "a", "content": { "format": "text", "value": "1" } },
+        { "id": "b", "content": { "format": "text", "value": "16" } },
+        { "id": "c", "content": { "format": "text", "value": "8" } },
+        { "id": "d", "content": { "format": "text", "value": "−8" } }
       ],
-      "correct": ["a"],
+      "correct": ["c"],
       "explanation": { "format": "text", "value": "Subtracting 2x from both sides gives 2x − 9 = 7. Adding 9 to both sides gives 2x = 16, so x = 8." },
       "authored": "2026-08-18"
     },
@@ -795,12 +795,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "Solve for x: 3x + 5 > 20." },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "x > 5" } },
-        { "id": "b", "content": { "format": "text", "value": "x < 5" } },
-        { "id": "c", "content": { "format": "text", "value": "x > 15" } },
-        { "id": "d", "content": { "format": "text", "value": "x > 25/3" } }
+        { "id": "a", "content": { "format": "text", "value": "x > 15" } },
+        { "id": "b", "content": { "format": "text", "value": "x > 25/3" } },
+        { "id": "c", "content": { "format": "text", "value": "x > 5" } },
+        { "id": "d", "content": { "format": "text", "value": "x < 5" } }
       ],
-      "correct": ["a"],
+      "correct": ["c"],
       "explanation": { "format": "text", "value": "Subtracting 5 from both sides gives 3x > 15. Dividing both sides by 3 gives x > 5." },
       "authored": "2026-08-18"
     },
@@ -811,12 +811,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "What is the solution to the system x + y = 10 and x − y = 2?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "(6, 4)" } },
-        { "id": "b", "content": { "format": "text", "value": "(4, 6)" } },
-        { "id": "c", "content": { "format": "text", "value": "(5, 5)" } },
-        { "id": "d", "content": { "format": "text", "value": "(8, 2)" } }
+        { "id": "a", "content": { "format": "text", "value": "(5, 5)" } },
+        { "id": "b", "content": { "format": "text", "value": "(8, 2)" } },
+        { "id": "c", "content": { "format": "text", "value": "(6, 4)" } },
+        { "id": "d", "content": { "format": "text", "value": "(4, 6)" } }
       ],
-      "correct": ["a"],
+      "correct": ["c"],
       "explanation": { "format": "text", "value": "Adding the two equations eliminates y: 2x = 12, so x = 6. Substituting back gives y = 4. Both equations check: 6 + 4 = 10 and 6 − 4 = 2." },
       "authored": "2026-08-18"
     },
@@ -827,12 +827,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "Factor x² − 5x + 6." },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "(x − 2)(x − 3)" } },
-        { "id": "b", "content": { "format": "text", "value": "(x − 1)(x − 6)" } },
-        { "id": "c", "content": { "format": "text", "value": "(x + 2)(x + 3)" } },
-        { "id": "d", "content": { "format": "text", "value": "(x − 6)(x + 1)" } }
+        { "id": "a", "content": { "format": "text", "value": "(x + 2)(x + 3)" } },
+        { "id": "b", "content": { "format": "text", "value": "(x − 6)(x + 1)" } },
+        { "id": "c", "content": { "format": "text", "value": "(x − 2)(x − 3)" } },
+        { "id": "d", "content": { "format": "text", "value": "(x − 1)(x − 6)" } }
       ],
-      "correct": ["a"],
+      "correct": ["c"],
       "explanation": { "format": "text", "value": "Two numbers that multiply to 6 and add to −5 are −2 and −3, so x² − 5x + 6 = (x − 2)(x − 3)." },
       "authored": "2026-08-18"
     },
@@ -860,12 +860,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "A teacher wants to demonstrate why completing the square works, using x² + 6x + 5, rather than just presenting the final vertex form. Which of the following best shows the reasoning?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "Add and subtract (6/2)² = 9 to form a perfect square: x² + 6x + 9 − 9 + 5 = (x + 3)² − 4." } },
-        { "id": "b", "content": { "format": "text", "value": "State that the vertex form is (x + 3)² − 4 without showing any intermediate steps." } },
-        { "id": "c", "content": { "format": "text", "value": "Use the quadratic formula instead, since completing the square is unnecessary." } },
-        { "id": "d", "content": { "format": "text", "value": "Divide every term by 2 to simplify the expression first." } }
+        { "id": "a", "content": { "format": "text", "value": "Divide every term by 2 to simplify the expression first." } },
+        { "id": "b", "content": { "format": "text", "value": "Add and subtract (6/2)² = 9 to form a perfect square: x² + 6x + 9 − 9 + 5 = (x + 3)² − 4." } },
+        { "id": "c", "content": { "format": "text", "value": "State that the vertex form is (x + 3)² − 4 without showing any intermediate steps." } },
+        { "id": "d", "content": { "format": "text", "value": "Use the quadratic formula instead, since completing the square is unnecessary." } }
       ],
-      "correct": ["a"],
+      "correct": ["b"],
       "explanation": { "format": "text", "value": "Completing the square works by adding and subtracting the square of half the linear coefficient, which creates a perfect-square trinomial while keeping the expression equivalent. Showing that step, not just the final answer, is what demonstrates why the method works." },
       "authored": "2026-08-18"
     },
@@ -876,12 +876,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "Expand (x + 3)(x − 4)." },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "x² − x − 12" } },
-        { "id": "b", "content": { "format": "text", "value": "x² + x − 12" } },
-        { "id": "c", "content": { "format": "text", "value": "x² − 7x − 12" } },
-        { "id": "d", "content": { "format": "text", "value": "x² − x + 12" } }
+        { "id": "a", "content": { "format": "text", "value": "x² − x + 12" } },
+        { "id": "b", "content": { "format": "text", "value": "x² − x − 12" } },
+        { "id": "c", "content": { "format": "text", "value": "x² + x − 12" } },
+        { "id": "d", "content": { "format": "text", "value": "x² − 7x − 12" } }
       ],
-      "correct": ["a"],
+      "correct": ["b"],
       "explanation": { "format": "text", "value": "(x + 3)(x − 4) = x² − 4x + 3x − 12 = x² − x − 12." },
       "authored": "2026-08-18"
     },
@@ -892,12 +892,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "Factor x² − 16." },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "(x − 4)(x + 4)" } },
-        { "id": "b", "content": { "format": "text", "value": "(x − 8)(x + 2)" } },
-        { "id": "c", "content": { "format": "text", "value": "(x − 16)(x + 1)" } },
-        { "id": "d", "content": { "format": "text", "value": "(x − 4)²" } }
+        { "id": "a", "content": { "format": "text", "value": "(x − 8)(x + 2)" } },
+        { "id": "b", "content": { "format": "text", "value": "(x − 16)(x + 1)" } },
+        { "id": "c", "content": { "format": "text", "value": "(x − 4)²" } },
+        { "id": "d", "content": { "format": "text", "value": "(x − 4)(x + 4)" } }
       ],
-      "correct": ["a"],
+      "correct": ["d"],
       "explanation": { "format": "text", "value": "x² − 16 is a difference of squares: x² − 4² = (x − 4)(x + 4)." },
       "authored": "2026-08-18"
     },
@@ -909,12 +909,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "A student solves 3/x = 12/20 by cross-multiplying incorrectly as 3 × 12 = x × 20, getting x = 1.8, instead of the correct cross-multiplication 3 × 20 = 12 × x. Which of the following identifies the student's error?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "The student cross-multiplied the wrong pairs — it should be (numerator of the first fraction) × (denominator of the second) set equal to (denominator of the first) × (numerator of the second)." } },
-        { "id": "b", "content": { "format": "text", "value": "The student's answer of 1.8 is correct." } },
-        { "id": "c", "content": { "format": "text", "value": "Cross-multiplication does not apply to this equation." } },
-        { "id": "d", "content": { "format": "text", "value": "The student should have added the two fractions instead." } }
+        { "id": "a", "content": { "format": "text", "value": "Cross-multiplication does not apply to this equation." } },
+        { "id": "b", "content": { "format": "text", "value": "The student should have added the two fractions instead." } },
+        { "id": "c", "content": { "format": "text", "value": "The student cross-multiplied the wrong pairs — it should be (numerator of the first fraction) × (denominator of the second) set equal to (denominator of the first) × (numerator of the second)." } },
+        { "id": "d", "content": { "format": "text", "value": "The student's answer of 1.8 is correct." } }
       ],
-      "correct": ["a"],
+      "correct": ["c"],
       "explanation": { "format": "text", "value": "Cross-multiplying 3/x = 12/20 correctly gives 3 × 20 = 12 × x, so 60 = 12x and x = 5. The student multiplied the two numerators together instead of a numerator with the opposite denominator." },
       "authored": "2026-08-18"
     },
@@ -973,12 +973,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "Factor 6x² + 9x." },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "3x(2x + 3)" } },
-        { "id": "b", "content": { "format": "text", "value": "3(2x² + 3x)" } },
-        { "id": "c", "content": { "format": "text", "value": "x(6x + 9)" } },
-        { "id": "d", "content": { "format": "text", "value": "3x(2x + 9)" } }
+        { "id": "a", "content": { "format": "text", "value": "x(6x + 9)" } },
+        { "id": "b", "content": { "format": "text", "value": "3x(2x + 9)" } },
+        { "id": "c", "content": { "format": "text", "value": "3x(2x + 3)" } },
+        { "id": "d", "content": { "format": "text", "value": "3(2x² + 3x)" } }
       ],
-      "correct": ["a"],
+      "correct": ["c"],
       "explanation": { "format": "text", "value": "The greatest common factor of 6x² and 9x is 3x: 6x² + 9x = 3x(2x + 3)." },
       "authored": "2026-08-18"
     },
@@ -989,12 +989,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "Solve |x − 3| < 5." },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "−2 < x < 8" } },
-        { "id": "b", "content": { "format": "text", "value": "x < 8 only" } },
-        { "id": "c", "content": { "format": "text", "value": "x > −2 only" } },
-        { "id": "d", "content": { "format": "text", "value": "−8 < x < 2" } }
+        { "id": "a", "content": { "format": "text", "value": "−8 < x < 2" } },
+        { "id": "b", "content": { "format": "text", "value": "−2 < x < 8" } },
+        { "id": "c", "content": { "format": "text", "value": "x < 8 only" } },
+        { "id": "d", "content": { "format": "text", "value": "x > −2 only" } }
       ],
-      "correct": ["a"],
+      "correct": ["b"],
       "explanation": { "format": "text", "value": "|x − 3| < 5 means −5 < x − 3 < 5. Adding 3 across all three parts gives −2 < x < 8." },
       "authored": "2026-08-18"
     },
@@ -1005,12 +1005,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "A ball is thrown upward so its height is h(t) = −16t² + 64t. At what time does the ball hit the ground, other than t = 0?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "t = 4" } },
-        { "id": "b", "content": { "format": "text", "value": "t = 2" } },
-        { "id": "c", "content": { "format": "text", "value": "t = 8" } },
-        { "id": "d", "content": { "format": "text", "value": "t = 16" } }
+        { "id": "a", "content": { "format": "text", "value": "t = 2" } },
+        { "id": "b", "content": { "format": "text", "value": "t = 8" } },
+        { "id": "c", "content": { "format": "text", "value": "t = 16" } },
+        { "id": "d", "content": { "format": "text", "value": "t = 4" } }
       ],
-      "correct": ["a"],
+      "correct": ["d"],
       "explanation": { "format": "text", "value": "Setting h(t) = 0 gives −16t² + 64t = 0, or −16t(t − 4) = 0. This gives t = 0 or t = 4; the ball hits the ground again at t = 4." },
       "authored": "2026-08-18"
     },
@@ -1022,12 +1022,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "A student simplifies (x² − 9)/(x + 3) by canceling the x² term with the x in the denominator, getting x − 9/3 = x − 3 — arriving at a correct final answer through an invalid method. Which of the following explains why the method is flawed, even though the answer happens to be right?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "Only common factors of the entire numerator and denominator may be canceled, not individual terms within a sum or difference — the numerator must first be factored as (x − 3)(x + 3) before the (x + 3) factor validly cancels." } },
-        { "id": "b", "content": { "format": "text", "value": "The method is valid and works in general." } },
-        { "id": "c", "content": { "format": "text", "value": "The final answer must be wrong if the method is wrong." } },
-        { "id": "d", "content": { "format": "text", "value": "Canceling terms only works when the denominator has more than one term." } }
+        { "id": "a", "content": { "format": "text", "value": "Canceling terms only works when the denominator has more than one term." } },
+        { "id": "b", "content": { "format": "text", "value": "Only common factors of the entire numerator and denominator may be canceled, not individual terms within a sum or difference — the numerator must first be factored as (x − 3)(x + 3) before the (x + 3) factor validly cancels." } },
+        { "id": "c", "content": { "format": "text", "value": "The method is valid and works in general." } },
+        { "id": "d", "content": { "format": "text", "value": "The final answer must be wrong if the method is wrong." } }
       ],
-      "correct": ["a"],
+      "correct": ["b"],
       "explanation": { "format": "text", "value": "(x² − 9)/(x + 3) must first be factored to (x − 3)(x + 3)/(x + 3), and only then does the common factor (x + 3) cancel validly, leaving x − 3. Canceling individual terms across a sum, as the student did, is not a valid algebraic operation even when it produces a correct answer by coincidence." },
       "authored": "2026-08-18"
     },
@@ -1038,12 +1038,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "Which system of equations has no solution?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "y = 2x + 1 and y = 2x − 4" } },
-        { "id": "b", "content": { "format": "text", "value": "y = 2x + 1 and y = x + 1" } },
-        { "id": "c", "content": { "format": "text", "value": "y = 2x + 1 and y = 2x + 1" } },
-        { "id": "d", "content": { "format": "text", "value": "y = x and y = −x" } }
+        { "id": "a", "content": { "format": "text", "value": "y = x and y = −x" } },
+        { "id": "b", "content": { "format": "text", "value": "y = 2x + 1 and y = 2x − 4" } },
+        { "id": "c", "content": { "format": "text", "value": "y = 2x + 1 and y = x + 1" } },
+        { "id": "d", "content": { "format": "text", "value": "y = 2x + 1 and y = 2x + 1" } }
       ],
-      "correct": ["a"],
+      "correct": ["b"],
       "explanation": { "format": "text", "value": "Both lines in option a have slope 2 but different y-intercepts, so they are parallel and never intersect — no solution. The other pairs each have a single intersection point, or (option c) are the same line with infinitely many." },
       "authored": "2026-08-18"
     },
@@ -1054,12 +1054,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "A population of 200 bacteria doubles every hour. Which equation models the population P after t hours?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "P = 200 · 2ᵗ" } },
-        { "id": "b", "content": { "format": "text", "value": "P = 200 + 2t" } },
-        { "id": "c", "content": { "format": "text", "value": "P = 200 · t²" } },
-        { "id": "d", "content": { "format": "text", "value": "P = 2 · 200ᵗ" } }
+        { "id": "a", "content": { "format": "text", "value": "P = 200 + 2t" } },
+        { "id": "b", "content": { "format": "text", "value": "P = 200 · t²" } },
+        { "id": "c", "content": { "format": "text", "value": "P = 2 · 200ᵗ" } },
+        { "id": "d", "content": { "format": "text", "value": "P = 200 · 2ᵗ" } }
       ],
-      "correct": ["a"],
+      "correct": ["d"],
       "explanation": { "format": "text", "value": "Doubling repeatedly is exponential growth with base 2: starting from 200, after t doublings the population is 200 · 2ᵗ." },
       "authored": "2026-08-18"
     },
@@ -1071,12 +1071,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "A student solves 4x − 9 = 2x + 7 correctly, but on a similar problem subtracts a term from only one side of the equation and gets a wrong answer. Which principle, if consistently applied, would prevent this kind of error?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "Whatever operation is performed on one side of an equation must also be performed on the other side, to keep the equation balanced." } },
-        { "id": "b", "content": { "format": "text", "value": "Always isolate x before performing any other step." } },
-        { "id": "c", "content": { "format": "text", "value": "Subtraction should always be performed before addition." } },
-        { "id": "d", "content": { "format": "text", "value": "Equations with x on both sides cannot be solved." } }
+        { "id": "a", "content": { "format": "text", "value": "Always isolate x before performing any other step." } },
+        { "id": "b", "content": { "format": "text", "value": "Subtraction should always be performed before addition." } },
+        { "id": "c", "content": { "format": "text", "value": "Equations with x on both sides cannot be solved." } },
+        { "id": "d", "content": { "format": "text", "value": "Whatever operation is performed on one side of an equation must also be performed on the other side, to keep the equation balanced." } }
       ],
-      "correct": ["a"],
+      "correct": ["d"],
       "explanation": { "format": "text", "value": "An equation states two expressions are equal; performing an operation on only one side breaks that equality. Applying the same operation to both sides is what keeps the equation true at every step." },
       "authored": "2026-08-18"
     },
@@ -1104,12 +1104,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "What is the discriminant of 2x² − 4x + 5 = 0?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "−24" } },
-        { "id": "b", "content": { "format": "text", "value": "24" } },
-        { "id": "c", "content": { "format": "text", "value": "16" } },
-        { "id": "d", "content": { "format": "text", "value": "−16" } }
+        { "id": "a", "content": { "format": "text", "value": "−16" } },
+        { "id": "b", "content": { "format": "text", "value": "−24" } },
+        { "id": "c", "content": { "format": "text", "value": "24" } },
+        { "id": "d", "content": { "format": "text", "value": "16" } }
       ],
-      "correct": ["a"],
+      "correct": ["b"],
       "explanation": { "format": "text", "value": "The discriminant is b² − 4ac = (−4)² − 4(2)(5) = 16 − 40 = −24." },
       "authored": "2026-08-18"
     },
@@ -1120,12 +1120,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "Use the quadratic formula to solve 2x² + 3x − 2 = 0." },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "x = 1/2 or x = −2" } },
-        { "id": "b", "content": { "format": "text", "value": "x = 2 or x = −1/2" } },
-        { "id": "c", "content": { "format": "text", "value": "x = 1 or x = −4" } },
-        { "id": "d", "content": { "format": "text", "value": "x = −1/2 or x = −2" } }
+        { "id": "a", "content": { "format": "text", "value": "x = 1 or x = −4" } },
+        { "id": "b", "content": { "format": "text", "value": "x = −1/2 or x = −2" } },
+        { "id": "c", "content": { "format": "text", "value": "x = 1/2 or x = −2" } },
+        { "id": "d", "content": { "format": "text", "value": "x = 2 or x = −1/2" } }
       ],
-      "correct": ["a"],
+      "correct": ["c"],
       "explanation": { "format": "text", "value": "With a = 2, b = 3, c = −2: the discriminant is 9 + 16 = 25, and x = (−3 ± 5)/4, giving x = 1/2 or x = −2." },
       "authored": "2026-08-18"
     },
@@ -1136,12 +1136,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "Solve √(x + 3) = 5." },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "22" } },
-        { "id": "b", "content": { "format": "text", "value": "28" } },
-        { "id": "c", "content": { "format": "text", "value": "8" } },
-        { "id": "d", "content": { "format": "text", "value": "2" } }
+        { "id": "a", "content": { "format": "text", "value": "28" } },
+        { "id": "b", "content": { "format": "text", "value": "8" } },
+        { "id": "c", "content": { "format": "text", "value": "2" } },
+        { "id": "d", "content": { "format": "text", "value": "22" } }
       ],
-      "correct": ["a"],
+      "correct": ["d"],
       "explanation": { "format": "text", "value": "Squaring both sides gives x + 3 = 25, so x = 22. Checking: √(22 + 3) = √25 = 5." },
       "authored": "2026-08-18"
     },
@@ -1152,12 +1152,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "Solve √(2x − 1) = x − 2." },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "x = 5 only" } },
-        { "id": "b", "content": { "format": "text", "value": "x = 1 or x = 5" } },
-        { "id": "c", "content": { "format": "text", "value": "x = 1 only" } },
-        { "id": "d", "content": { "format": "text", "value": "x = −1" } }
+        { "id": "a", "content": { "format": "text", "value": "x = 1 only" } },
+        { "id": "b", "content": { "format": "text", "value": "x = −1" } },
+        { "id": "c", "content": { "format": "text", "value": "x = 5 only" } },
+        { "id": "d", "content": { "format": "text", "value": "x = 1 or x = 5" } }
       ],
-      "correct": ["a"],
+      "correct": ["c"],
       "explanation": { "format": "text", "value": "Squaring gives 2x − 1 = (x − 2)², which simplifies to x² − 6x + 5 = 0, or (x − 1)(x − 5) = 0, so x = 1 or x = 5. Checking x = 1 in the original equation gives √1 = 1 on the left but −1 on the right — extraneous. Only x = 5 checks: √9 = 3 = 5 − 2." },
       "authored": "2026-08-18"
     },
@@ -1168,12 +1168,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "Solve −3 < 2x + 1 < 7." },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "−2 < x < 3" } },
-        { "id": "b", "content": { "format": "text", "value": "−4 < x < 6" } },
-        { "id": "c", "content": { "format": "text", "value": "−2 < x < 6" } },
-        { "id": "d", "content": { "format": "text", "value": "−1 < x < 3" } }
+        { "id": "a", "content": { "format": "text", "value": "−1 < x < 3" } },
+        { "id": "b", "content": { "format": "text", "value": "−2 < x < 3" } },
+        { "id": "c", "content": { "format": "text", "value": "−4 < x < 6" } },
+        { "id": "d", "content": { "format": "text", "value": "−2 < x < 6" } }
       ],
-      "correct": ["a"],
+      "correct": ["b"],
       "explanation": { "format": "text", "value": "Subtracting 1 from all three parts gives −4 < 2x < 6. Dividing all three parts by 2 gives −2 < x < 3." },
       "authored": "2026-08-18"
     },
@@ -1184,12 +1184,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "y varies directly with x. If y = 15 when x = 3, what is y when x = 8?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "40" } },
-        { "id": "b", "content": { "format": "text", "value": "24" } },
-        { "id": "c", "content": { "format": "text", "value": "45" } },
-        { "id": "d", "content": { "format": "text", "value": "5" } }
+        { "id": "a", "content": { "format": "text", "value": "24" } },
+        { "id": "b", "content": { "format": "text", "value": "45" } },
+        { "id": "c", "content": { "format": "text", "value": "5" } },
+        { "id": "d", "content": { "format": "text", "value": "40" } }
       ],
-      "correct": ["a"],
+      "correct": ["d"],
       "explanation": { "format": "text", "value": "y = kx, so 15 = 3k gives k = 5. Then y = 5 × 8 = 40." },
       "authored": "2026-08-18"
     },
@@ -1200,12 +1200,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "y varies inversely with x. If y = 4 when x = 6, what is y when x = 8?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "3" } },
-        { "id": "b", "content": { "format": "text", "value": "4.5" } },
-        { "id": "c", "content": { "format": "text", "value": "32" } },
-        { "id": "d", "content": { "format": "text", "value": "2" } }
+        { "id": "a", "content": { "format": "text", "value": "4.5" } },
+        { "id": "b", "content": { "format": "text", "value": "32" } },
+        { "id": "c", "content": { "format": "text", "value": "2" } },
+        { "id": "d", "content": { "format": "text", "value": "3" } }
       ],
-      "correct": ["a"],
+      "correct": ["d"],
       "explanation": { "format": "text", "value": "y = k/x, so 4 = k/6 gives k = 24. Then y = 24/8 = 3." },
       "authored": "2026-08-18"
     },
@@ -1233,12 +1233,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "Pipe A fills a pool in 6 hours; Pipe B fills the same pool in 3 hours. Working together, how long will it take to fill the pool?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "2 hours" } },
-        { "id": "b", "content": { "format": "text", "value": "4.5 hours" } },
-        { "id": "c", "content": { "format": "text", "value": "3 hours" } },
-        { "id": "d", "content": { "format": "text", "value": "9 hours" } }
+        { "id": "a", "content": { "format": "text", "value": "9 hours" } },
+        { "id": "b", "content": { "format": "text", "value": "2 hours" } },
+        { "id": "c", "content": { "format": "text", "value": "4.5 hours" } },
+        { "id": "d", "content": { "format": "text", "value": "3 hours" } }
       ],
-      "correct": ["a"],
+      "correct": ["b"],
       "explanation": { "format": "text", "value": "Pipe A's rate is 1/6 pool per hour and Pipe B's is 1/3 = 2/6. Combined, their rate is 3/6 = 1/2 pool per hour, so filling one pool takes 2 hours." },
       "authored": "2026-08-18"
     },
@@ -1249,12 +1249,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "How many liters of a 40% acid solution must be mixed with 10 liters of a 10% acid solution to get a 25% acid solution?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "10" } },
-        { "id": "b", "content": { "format": "text", "value": "5" } },
-        { "id": "c", "content": { "format": "text", "value": "15" } },
-        { "id": "d", "content": { "format": "text", "value": "20" } }
+        { "id": "a", "content": { "format": "text", "value": "20" } },
+        { "id": "b", "content": { "format": "text", "value": "10" } },
+        { "id": "c", "content": { "format": "text", "value": "5" } },
+        { "id": "d", "content": { "format": "text", "value": "15" } }
       ],
-      "correct": ["a"],
+      "correct": ["b"],
       "explanation": { "format": "text", "value": "Let x be the liters of 40% solution: 0.4x + 0.1(10) = 0.25(x + 10). This gives 0.4x + 1 = 0.25x + 2.5, so 0.15x = 1.5 and x = 10." },
       "authored": "2026-08-18"
     },
@@ -1265,12 +1265,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "Divide x² + 5x + 6 by x + 2." },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "x + 3" } },
-        { "id": "b", "content": { "format": "text", "value": "x + 2" } },
-        { "id": "c", "content": { "format": "text", "value": "x + 5" } },
-        { "id": "d", "content": { "format": "text", "value": "x − 3" } }
+        { "id": "a", "content": { "format": "text", "value": "x − 3" } },
+        { "id": "b", "content": { "format": "text", "value": "x + 3" } },
+        { "id": "c", "content": { "format": "text", "value": "x + 2" } },
+        { "id": "d", "content": { "format": "text", "value": "x + 5" } }
       ],
-      "correct": ["a"],
+      "correct": ["b"],
       "explanation": { "format": "text", "value": "x² + 5x + 6 factors as (x + 2)(x + 3), so dividing by (x + 2) leaves x + 3." },
       "authored": "2026-08-18"
     },
@@ -1281,12 +1281,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "Write (x − 2)² + 3 in standard form." },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "x² − 4x + 7" } },
-        { "id": "b", "content": { "format": "text", "value": "x² + 4x + 7" } },
-        { "id": "c", "content": { "format": "text", "value": "x² − 4x + 3" } },
-        { "id": "d", "content": { "format": "text", "value": "x² − 2x + 7" } }
+        { "id": "a", "content": { "format": "text", "value": "x² + 4x + 7" } },
+        { "id": "b", "content": { "format": "text", "value": "x² − 4x + 3" } },
+        { "id": "c", "content": { "format": "text", "value": "x² − 2x + 7" } },
+        { "id": "d", "content": { "format": "text", "value": "x² − 4x + 7" } }
       ],
-      "correct": ["a"],
+      "correct": ["d"],
       "explanation": { "format": "text", "value": "(x − 2)² + 3 = x² − 4x + 4 + 3 = x² − 4x + 7." },
       "authored": "2026-08-18"
     },
@@ -1297,12 +1297,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "Solve |3x + 1| = 10." },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "x = 3 or x = −11/3" } },
-        { "id": "b", "content": { "format": "text", "value": "x = 3 or x = 11/3" } },
-        { "id": "c", "content": { "format": "text", "value": "x = −3 or x = 11/3" } },
-        { "id": "d", "content": { "format": "text", "value": "x = 3 only" } }
+        { "id": "a", "content": { "format": "text", "value": "x = −3 or x = 11/3" } },
+        { "id": "b", "content": { "format": "text", "value": "x = 3 only" } },
+        { "id": "c", "content": { "format": "text", "value": "x = 3 or x = −11/3" } },
+        { "id": "d", "content": { "format": "text", "value": "x = 3 or x = 11/3" } }
       ],
-      "correct": ["a"],
+      "correct": ["c"],
       "explanation": { "format": "text", "value": "3x + 1 = 10 gives x = 3; 3x + 1 = −10 gives x = −11/3." },
       "authored": "2026-08-18"
     },
@@ -1314,12 +1314,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "A teacher wants to check a student's proposed factoring of x² − 7x + 12 without expanding it, using the fact that the sum of the roots equals −b/a. The student claims the roots are 3 and 5. What does this shortcut reveal?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "−b/a = 7, but 3 + 5 = 8, so the student's proposed roots are incorrect." } },
-        { "id": "b", "content": { "format": "text", "value": "3 + 5 = 8 matches −b/a = 7, so the roots are correct." } },
-        { "id": "c", "content": { "format": "text", "value": "The shortcut cannot be used unless the equation is factored first." } },
-        { "id": "d", "content": { "format": "text", "value": "The sum of the roots is always equal to c." } }
+        { "id": "a", "content": { "format": "text", "value": "The shortcut cannot be used unless the equation is factored first." } },
+        { "id": "b", "content": { "format": "text", "value": "The sum of the roots is always equal to c." } },
+        { "id": "c", "content": { "format": "text", "value": "−b/a = 7, but 3 + 5 = 8, so the student's proposed roots are incorrect." } },
+        { "id": "d", "content": { "format": "text", "value": "3 + 5 = 8 matches −b/a = 7, so the roots are correct." } }
       ],
-      "correct": ["a"],
+      "correct": ["c"],
       "explanation": { "format": "text", "value": "For x² − 7x + 12 = 0, −b/a = 7. The actual roots are 3 and 4 (which do sum to 7); the student's proposed 3 and 5 sum to 8, so the sum-of-roots check immediately reveals the proposed factoring is wrong, without needing to expand it." },
       "authored": "2026-08-18"
     },
@@ -1396,12 +1396,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "If f(x) = 2x² − 3x + 1, what is f(3)?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "10" } },
-        { "id": "b", "content": { "format": "text", "value": "16" } },
-        { "id": "c", "content": { "format": "text", "value": "7" } },
-        { "id": "d", "content": { "format": "text", "value": "4" } }
+        { "id": "a", "content": { "format": "text", "value": "7" } },
+        { "id": "b", "content": { "format": "text", "value": "4" } },
+        { "id": "c", "content": { "format": "text", "value": "10" } },
+        { "id": "d", "content": { "format": "text", "value": "16" } }
       ],
-      "correct": ["a"],
+      "correct": ["c"],
       "explanation": { "format": "text", "value": "f(3) = 2(3)² − 3(3) + 1 = 18 − 9 + 1 = 10." },
       "authored": "2026-08-18"
     },
@@ -1428,12 +1428,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "What is the domain of f(x) = √(x − 3)?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "x ≥ 3" } },
-        { "id": "b", "content": { "format": "text", "value": "x > 3" } },
-        { "id": "c", "content": { "format": "text", "value": "x ≤ 3" } },
-        { "id": "d", "content": { "format": "text", "value": "All real numbers" } }
+        { "id": "a", "content": { "format": "text", "value": "x > 3" } },
+        { "id": "b", "content": { "format": "text", "value": "x ≤ 3" } },
+        { "id": "c", "content": { "format": "text", "value": "All real numbers" } },
+        { "id": "d", "content": { "format": "text", "value": "x ≥ 3" } }
       ],
-      "correct": ["a"],
+      "correct": ["d"],
       "explanation": { "format": "text", "value": "The expression under a square root must be nonnegative: x − 3 ≥ 0, so x ≥ 3." },
       "authored": "2026-08-18"
     },
@@ -1460,12 +1460,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "If f(x) = 2x + 1 and g(x) = x², what is f(g(2))?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "9" } },
-        { "id": "b", "content": { "format": "text", "value": "17" } },
-        { "id": "c", "content": { "format": "text", "value": "5" } },
-        { "id": "d", "content": { "format": "text", "value": "8" } }
+        { "id": "a", "content": { "format": "text", "value": "5" } },
+        { "id": "b", "content": { "format": "text", "value": "8" } },
+        { "id": "c", "content": { "format": "text", "value": "9" } },
+        { "id": "d", "content": { "format": "text", "value": "17" } }
       ],
-      "correct": ["a"],
+      "correct": ["c"],
       "explanation": { "format": "text", "value": "First evaluate the inner function: g(2) = 2² = 4. Then f(4) = 2(4) + 1 = 9." },
       "authored": "2026-08-18"
     },
@@ -1493,12 +1493,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "If f(x) = 3x − 2, what is f⁻¹(x)?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "(x + 2)/3" } },
-        { "id": "b", "content": { "format": "text", "value": "(x − 2)/3" } },
-        { "id": "c", "content": { "format": "text", "value": "3x + 2" } },
-        { "id": "d", "content": { "format": "text", "value": "(x + 3)/2" } }
+        { "id": "a", "content": { "format": "text", "value": "(x − 2)/3" } },
+        { "id": "b", "content": { "format": "text", "value": "3x + 2" } },
+        { "id": "c", "content": { "format": "text", "value": "(x + 3)/2" } },
+        { "id": "d", "content": { "format": "text", "value": "(x + 2)/3" } }
       ],
-      "correct": ["a"],
+      "correct": ["d"],
       "explanation": { "format": "text", "value": "Set y = 3x − 2, swap x and y to get x = 3y − 2, then solve for y: y = (x + 2)/3." },
       "authored": "2026-08-18"
     },
@@ -1509,12 +1509,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "The graph of g(x) = f(x) − 3 is the graph of f(x) shifted:" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "down 3 units" } },
-        { "id": "b", "content": { "format": "text", "value": "up 3 units" } },
-        { "id": "c", "content": { "format": "text", "value": "left 3 units" } },
-        { "id": "d", "content": { "format": "text", "value": "right 3 units" } }
+        { "id": "a", "content": { "format": "text", "value": "left 3 units" } },
+        { "id": "b", "content": { "format": "text", "value": "right 3 units" } },
+        { "id": "c", "content": { "format": "text", "value": "down 3 units" } },
+        { "id": "d", "content": { "format": "text", "value": "up 3 units" } }
       ],
-      "correct": ["a"],
+      "correct": ["c"],
       "explanation": { "format": "text", "value": "Subtracting a constant outside the function shifts every output value down by that constant, moving the graph down 3 units." },
       "authored": "2026-08-18"
     },
@@ -1526,12 +1526,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "A student believes that g(x) = f(x − 5) shifts the graph of f LEFT by 5 units, reasoning that subtracting 5 should move things in the negative direction. Which of the following corrects this misconception?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "Subtracting inside the function argument shifts the graph RIGHT — f(x − 5) shifts f(x) right by 5 units, since the input needed to reach a given output is now 5 more than before." } },
-        { "id": "b", "content": { "format": "text", "value": "The student's reasoning is correct; f(x − 5) shifts f(x) left by 5 units." } },
-        { "id": "c", "content": { "format": "text", "value": "f(x − 5) shifts the graph down by 5 units, not sideways." } },
-        { "id": "d", "content": { "format": "text", "value": "The direction of the shift depends on whether f is increasing or decreasing." } }
+        { "id": "a", "content": { "format": "text", "value": "The student's reasoning is correct; f(x − 5) shifts f(x) left by 5 units." } },
+        { "id": "b", "content": { "format": "text", "value": "f(x − 5) shifts the graph down by 5 units, not sideways." } },
+        { "id": "c", "content": { "format": "text", "value": "The direction of the shift depends on whether f is increasing or decreasing." } },
+        { "id": "d", "content": { "format": "text", "value": "Subtracting inside the function argument shifts the graph RIGHT — f(x − 5) shifts f(x) right by 5 units, since the input needed to reach a given output is now 5 more than before." } }
       ],
-      "correct": ["a"],
+      "correct": ["d"],
       "explanation": { "format": "text", "value": "For g(x) = f(x − 5) to output the same value f originally gave at some input a, x must satisfy x − 5 = a, i.e. x = a + 5 — a larger x than before, which is a shift to the right, the opposite of the student's intuition." },
       "authored": "2026-08-18"
     },
@@ -1559,12 +1559,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "Is f(x) = x² an even, odd, or neither function?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "Even" } },
-        { "id": "b", "content": { "format": "text", "value": "Odd" } },
-        { "id": "c", "content": { "format": "text", "value": "Neither" } },
-        { "id": "d", "content": { "format": "text", "value": "Both even and odd" } }
+        { "id": "a", "content": { "format": "text", "value": "Neither" } },
+        { "id": "b", "content": { "format": "text", "value": "Both even and odd" } },
+        { "id": "c", "content": { "format": "text", "value": "Even" } },
+        { "id": "d", "content": { "format": "text", "value": "Odd" } }
       ],
-      "correct": ["a"],
+      "correct": ["c"],
       "explanation": { "format": "text", "value": "f(−x) = (−x)² = x² = f(x) for every x, which is exactly the definition of an even function." },
       "authored": "2026-08-18"
     },
@@ -1576,12 +1576,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "A student claims that f(x) = x³ is an even function, reasoning that it involves a single variable raised to a power, the same way f(x) = x² does. Which of the following corrects this reasoning?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "A function is even only if f(−x) = f(x) for all x; here f(−x) = (−x)³ = −x³ = −f(x), which makes f(x) = x³ odd, not even — having a single-variable power doesn't by itself determine evenness." } },
-        { "id": "b", "content": { "format": "text", "value": "The student is correct; both x² and x³ are even." } },
-        { "id": "c", "content": { "format": "text", "value": "f(x) = x³ is neither even nor odd." } },
-        { "id": "d", "content": { "format": "text", "value": "Evenness depends only on whether the exponent is a whole number." } }
+        { "id": "a", "content": { "format": "text", "value": "The student is correct; both x² and x³ are even." } },
+        { "id": "b", "content": { "format": "text", "value": "f(x) = x³ is neither even nor odd." } },
+        { "id": "c", "content": { "format": "text", "value": "Evenness depends only on whether the exponent is a whole number." } },
+        { "id": "d", "content": { "format": "text", "value": "A function is even only if f(−x) = f(x) for all x; here f(−x) = (−x)³ = −x³ = −f(x), which makes f(x) = x³ odd, not even — having a single-variable power doesn't by itself determine evenness." } }
       ],
-      "correct": ["a"],
+      "correct": ["d"],
       "explanation": { "format": "text", "value": "Whether a power function is even or odd depends specifically on whether the exponent is even or odd — x² (even exponent) is an even function, while x³ (odd exponent) is an odd function, not because of the presence of a single variable." },
       "authored": "2026-08-18"
     },
@@ -1592,12 +1592,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "Which of the following functions is one-to-one?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "f(x) = x³" } },
-        { "id": "b", "content": { "format": "text", "value": "f(x) = x²" } },
-        { "id": "c", "content": { "format": "text", "value": "f(x) = |x|" } },
-        { "id": "d", "content": { "format": "text", "value": "f(x) = x² − 4" } }
+        { "id": "a", "content": { "format": "text", "value": "f(x) = x²" } },
+        { "id": "b", "content": { "format": "text", "value": "f(x) = |x|" } },
+        { "id": "c", "content": { "format": "text", "value": "f(x) = x² − 4" } },
+        { "id": "d", "content": { "format": "text", "value": "f(x) = x³" } }
       ],
-      "correct": ["a"],
+      "correct": ["d"],
       "explanation": { "format": "text", "value": "f(x) = x³ is strictly increasing and passes the horizontal line test, so each output corresponds to exactly one input. The other three are not one-to-one — for example, f(1) = f(−1) in each of them." },
       "authored": "2026-08-18"
     },
@@ -1608,12 +1608,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "If f(x) = x + 2 and g(x) = x² − 1, what is (f + g)(x)?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "x² + x + 1" } },
-        { "id": "b", "content": { "format": "text", "value": "x² + x + 3" } },
-        { "id": "c", "content": { "format": "text", "value": "x² − x + 1" } },
-        { "id": "d", "content": { "format": "text", "value": "x² + 2x + 1" } }
+        { "id": "a", "content": { "format": "text", "value": "x² + x + 3" } },
+        { "id": "b", "content": { "format": "text", "value": "x² − x + 1" } },
+        { "id": "c", "content": { "format": "text", "value": "x² + 2x + 1" } },
+        { "id": "d", "content": { "format": "text", "value": "x² + x + 1" } }
       ],
-      "correct": ["a"],
+      "correct": ["d"],
       "explanation": { "format": "text", "value": "(f + g)(x) = f(x) + g(x) = (x + 2) + (x² − 1) = x² + x + 1." },
       "authored": "2026-08-18"
     },
@@ -1624,12 +1624,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "If f(x) = x + 1 and g(x) = x − 1, what is (f · g)(x)?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "x² − 1" } },
-        { "id": "b", "content": { "format": "text", "value": "x² + 1" } },
-        { "id": "c", "content": { "format": "text", "value": "x² − 2x + 1" } },
-        { "id": "d", "content": { "format": "text", "value": "2x" } }
+        { "id": "a", "content": { "format": "text", "value": "x² + 1" } },
+        { "id": "b", "content": { "format": "text", "value": "x² − 2x + 1" } },
+        { "id": "c", "content": { "format": "text", "value": "2x" } },
+        { "id": "d", "content": { "format": "text", "value": "x² − 1" } }
       ],
-      "correct": ["a"],
+      "correct": ["d"],
       "explanation": { "format": "text", "value": "(f · g)(x) = (x + 1)(x − 1) = x² − 1." },
       "authored": "2026-08-18"
     },
@@ -1640,12 +1640,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "What are the zeros of f(x) = x² − 5x + 6?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "x = 2 and x = 3" } },
-        { "id": "b", "content": { "format": "text", "value": "x = −2 and x = −3" } },
-        { "id": "c", "content": { "format": "text", "value": "x = 1 and x = 6" } },
-        { "id": "d", "content": { "format": "text", "value": "x = 6 only" } }
+        { "id": "a", "content": { "format": "text", "value": "x = 1 and x = 6" } },
+        { "id": "b", "content": { "format": "text", "value": "x = 6 only" } },
+        { "id": "c", "content": { "format": "text", "value": "x = 2 and x = 3" } },
+        { "id": "d", "content": { "format": "text", "value": "x = −2 and x = −3" } }
       ],
-      "correct": ["a"],
+      "correct": ["c"],
       "explanation": { "format": "text", "value": "f(x) factors as (x − 2)(x − 3), so f(x) = 0 when x = 2 or x = 3." },
       "authored": "2026-08-18"
     },
@@ -1656,12 +1656,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "On what interval is f(x) = x² increasing?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "(0, ∞)" } },
-        { "id": "b", "content": { "format": "text", "value": "(−∞, 0)" } },
-        { "id": "c", "content": { "format": "text", "value": "All real numbers" } },
-        { "id": "d", "content": { "format": "text", "value": "(−∞, ∞)" } }
+        { "id": "a", "content": { "format": "text", "value": "(−∞, 0)" } },
+        { "id": "b", "content": { "format": "text", "value": "All real numbers" } },
+        { "id": "c", "content": { "format": "text", "value": "(−∞, ∞)" } },
+        { "id": "d", "content": { "format": "text", "value": "(0, ∞)" } }
       ],
-      "correct": ["a"],
+      "correct": ["d"],
       "explanation": { "format": "text", "value": "f(x) = x² decreases for x < 0 and increases for x > 0, since the parabola opens upward with its vertex at the origin. It is increasing on (0, ∞)." },
       "authored": "2026-08-18"
     },
@@ -1672,12 +1672,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "Which type of function is f(x) = 3(2)ˣ?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "Exponential" } },
-        { "id": "b", "content": { "format": "text", "value": "Linear" } },
-        { "id": "c", "content": { "format": "text", "value": "Quadratic" } },
-        { "id": "d", "content": { "format": "text", "value": "Logarithmic" } }
+        { "id": "a", "content": { "format": "text", "value": "Logarithmic" } },
+        { "id": "b", "content": { "format": "text", "value": "Exponential" } },
+        { "id": "c", "content": { "format": "text", "value": "Linear" } },
+        { "id": "d", "content": { "format": "text", "value": "Quadratic" } }
       ],
-      "correct": ["a"],
+      "correct": ["b"],
       "explanation": { "format": "text", "value": "The independent variable x appears as an exponent, which is the defining feature of an exponential function." },
       "authored": "2026-08-18"
     },
@@ -1688,12 +1688,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "What is the average rate of change of f(x) = x² from x = 1 to x = 4?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "5" } },
-        { "id": "b", "content": { "format": "text", "value": "15" } },
-        { "id": "c", "content": { "format": "text", "value": "3" } },
-        { "id": "d", "content": { "format": "text", "value": "17" } }
+        { "id": "a", "content": { "format": "text", "value": "17" } },
+        { "id": "b", "content": { "format": "text", "value": "5" } },
+        { "id": "c", "content": { "format": "text", "value": "15" } },
+        { "id": "d", "content": { "format": "text", "value": "3" } }
       ],
-      "correct": ["a"],
+      "correct": ["b"],
       "explanation": { "format": "text", "value": "Average rate of change is [f(4) − f(1)] / (4 − 1) = (16 − 1)/3 = 15/3 = 5." },
       "authored": "2026-08-18"
     },
@@ -1705,12 +1705,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "A teacher wants an example demonstrating why a set of ordered pairs is NOT a function. Which of the following is the best example?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "{(1, 2), (1, 3), (2, 4)} — because the input 1 is paired with two different outputs, 2 and 3." } },
-        { "id": "b", "content": { "format": "text", "value": "{(1, 2), (2, 3), (3, 4)} — because each input has a unique output." } },
-        { "id": "c", "content": { "format": "text", "value": "{(1, 2), (2, 2), (3, 2)} — because every output is the same." } },
-        { "id": "d", "content": { "format": "text", "value": "{(0, 0)} — because it contains only one pair." } }
+        { "id": "a", "content": { "format": "text", "value": "{(1, 2), (2, 2), (3, 2)} — because every output is the same." } },
+        { "id": "b", "content": { "format": "text", "value": "{(0, 0)} — because it contains only one pair." } },
+        { "id": "c", "content": { "format": "text", "value": "{(1, 2), (1, 3), (2, 4)} — because the input 1 is paired with two different outputs, 2 and 3." } },
+        { "id": "d", "content": { "format": "text", "value": "{(1, 2), (2, 3), (3, 4)} — because each input has a unique output." } }
       ],
-      "correct": ["a"],
+      "correct": ["c"],
       "explanation": { "format": "text", "value": "A relation fails to be a function exactly when some input maps to more than one output. In option a, the input 1 maps to both 2 and 3, violating that requirement. Options b, c, and d are all valid functions — repeated outputs (c) or a single pair (d) do not disqualify a relation from being a function." },
       "authored": "2026-08-18"
     },
@@ -1721,12 +1721,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "Evaluate log₂ 8." },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "3" } },
-        { "id": "b", "content": { "format": "text", "value": "4" } },
-        { "id": "c", "content": { "format": "text", "value": "2" } },
-        { "id": "d", "content": { "format": "text", "value": "8" } }
+        { "id": "a", "content": { "format": "text", "value": "8" } },
+        { "id": "b", "content": { "format": "text", "value": "3" } },
+        { "id": "c", "content": { "format": "text", "value": "4" } },
+        { "id": "d", "content": { "format": "text", "value": "2" } }
       ],
-      "correct": ["a"],
+      "correct": ["b"],
       "explanation": { "format": "text", "value": "log₂ 8 asks: 2 to what power gives 8? Since 2³ = 8, log₂ 8 = 3." },
       "authored": "2026-08-18"
     },
@@ -1737,12 +1737,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "Evaluate log(100), using base 10." },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "2" } },
-        { "id": "b", "content": { "format": "text", "value": "10" } },
-        { "id": "c", "content": { "format": "text", "value": "100" } },
-        { "id": "d", "content": { "format": "text", "value": "1" } }
+        { "id": "a", "content": { "format": "text", "value": "10" } },
+        { "id": "b", "content": { "format": "text", "value": "100" } },
+        { "id": "c", "content": { "format": "text", "value": "1" } },
+        { "id": "d", "content": { "format": "text", "value": "2" } }
       ],
-      "correct": ["a"],
+      "correct": ["d"],
       "explanation": { "format": "text", "value": "10² = 100, so log(100) = 2." },
       "authored": "2026-08-18"
     },
@@ -1769,12 +1769,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "The graph of g(x) = f(−x) is the graph of f(x):" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "reflected over the y-axis" } },
-        { "id": "b", "content": { "format": "text", "value": "reflected over the x-axis" } },
-        { "id": "c", "content": { "format": "text", "value": "shifted left" } },
-        { "id": "d", "content": { "format": "text", "value": "shifted right" } }
+        { "id": "a", "content": { "format": "text", "value": "shifted left" } },
+        { "id": "b", "content": { "format": "text", "value": "shifted right" } },
+        { "id": "c", "content": { "format": "text", "value": "reflected over the y-axis" } },
+        { "id": "d", "content": { "format": "text", "value": "reflected over the x-axis" } }
       ],
-      "correct": ["a"],
+      "correct": ["c"],
       "explanation": { "format": "text", "value": "Negating the input flips every point (x, y) to (−x, y), which is a reflection over the y-axis." },
       "authored": "2026-08-18"
     },
@@ -1786,12 +1786,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "A student mixes up f(−x) and −f(x), believing both transformations produce the same graph. Using f(x) = x² + 1, which of the following shows they are different by evaluating both at x = 2?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "f(−2) = 5 and −f(2) = −5 — the two transformations give different results." } },
-        { "id": "b", "content": { "format": "text", "value": "Both equal 5." } },
-        { "id": "c", "content": { "format": "text", "value": "Both equal −5." } },
-        { "id": "d", "content": { "format": "text", "value": "f(−x) and −f(x) are always identical for any function." } }
+        { "id": "a", "content": { "format": "text", "value": "f(−x) and −f(x) are always identical for any function." } },
+        { "id": "b", "content": { "format": "text", "value": "f(−2) = 5 and −f(2) = −5 — the two transformations give different results." } },
+        { "id": "c", "content": { "format": "text", "value": "Both equal 5." } },
+        { "id": "d", "content": { "format": "text", "value": "Both equal −5." } }
       ],
-      "correct": ["a"],
+      "correct": ["b"],
       "explanation": { "format": "text", "value": "f(−x) at x = 2 means f(−2) = (−2)² + 1 = 5, reflecting the input. −f(x) at x = 2 means −f(2) = −(2² + 1) = −5, reflecting the output. The two only coincide for functions with special symmetry, not in general." },
       "authored": "2026-08-18"
     },
@@ -1802,12 +1802,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "What is the vertex of f(x) = 2(x − 1)² + 5?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "(1, 5)" } },
-        { "id": "b", "content": { "format": "text", "value": "(−1, 5)" } },
-        { "id": "c", "content": { "format": "text", "value": "(1, −5)" } },
-        { "id": "d", "content": { "format": "text", "value": "(5, 1)" } }
+        { "id": "a", "content": { "format": "text", "value": "(5, 1)" } },
+        { "id": "b", "content": { "format": "text", "value": "(1, 5)" } },
+        { "id": "c", "content": { "format": "text", "value": "(−1, 5)" } },
+        { "id": "d", "content": { "format": "text", "value": "(1, −5)" } }
       ],
-      "correct": ["a"],
+      "correct": ["b"],
       "explanation": { "format": "text", "value": "In vertex form a(x − h)² + k, the vertex is (h, k). Here h = 1 and k = 5, so the vertex is (1, 5)." },
       "authored": "2026-08-18"
     },
@@ -1819,12 +1819,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "A student finds the axis of symmetry of f(x) = x² − 6x + 8 to be x = −3, using x = b/2a instead of the correct formula. What is the actual axis of symmetry, and what was the error?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "x = 3; the correct formula is x = −b/2a, and the student dropped the negative sign." } },
-        { "id": "b", "content": { "format": "text", "value": "x = −3 is correct as the student computed it." } },
-        { "id": "c", "content": { "format": "text", "value": "The axis of symmetry cannot be found without factoring first." } },
-        { "id": "d", "content": { "format": "text", "value": "x = 6, using x = b/a." } }
+        { "id": "a", "content": { "format": "text", "value": "x = 6, using x = b/a." } },
+        { "id": "b", "content": { "format": "text", "value": "x = 3; the correct formula is x = −b/2a, and the student dropped the negative sign." } },
+        { "id": "c", "content": { "format": "text", "value": "x = −3 is correct as the student computed it." } },
+        { "id": "d", "content": { "format": "text", "value": "The axis of symmetry cannot be found without factoring first." } }
       ],
-      "correct": ["a"],
+      "correct": ["b"],
       "explanation": { "format": "text", "value": "With a = 1 and b = −6, the axis of symmetry is x = −b/(2a) = −(−6)/2 = 3. Omitting the negative sign in the formula gives the wrong sign on the final answer." },
       "authored": "2026-08-18"
     },
@@ -1835,12 +1835,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "What is the y-intercept of f(x) = 2x² − 3x + 4?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "(0, 4)" } },
-        { "id": "b", "content": { "format": "text", "value": "(4, 0)" } },
-        { "id": "c", "content": { "format": "text", "value": "(0, −3)" } },
-        { "id": "d", "content": { "format": "text", "value": "(0, 2)" } }
+        { "id": "a", "content": { "format": "text", "value": "(0, 2)" } },
+        { "id": "b", "content": { "format": "text", "value": "(0, 4)" } },
+        { "id": "c", "content": { "format": "text", "value": "(4, 0)" } },
+        { "id": "d", "content": { "format": "text", "value": "(0, −3)" } }
       ],
-      "correct": ["a"],
+      "correct": ["b"],
       "explanation": { "format": "text", "value": "The y-intercept occurs at x = 0: f(0) = 2(0)² − 3(0) + 4 = 4, giving the point (0, 4)." },
       "authored": "2026-08-18"
     },
@@ -1851,12 +1851,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "What is the vertical asymptote of f(x) = 1/(x + 3)?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "x = −3" } },
-        { "id": "b", "content": { "format": "text", "value": "x = 3" } },
-        { "id": "c", "content": { "format": "text", "value": "x = 0" } },
-        { "id": "d", "content": { "format": "text", "value": "y = 0" } }
+        { "id": "a", "content": { "format": "text", "value": "x = 0" } },
+        { "id": "b", "content": { "format": "text", "value": "y = 0" } },
+        { "id": "c", "content": { "format": "text", "value": "x = −3" } },
+        { "id": "d", "content": { "format": "text", "value": "x = 3" } }
       ],
-      "correct": ["a"],
+      "correct": ["c"],
       "explanation": { "format": "text", "value": "The denominator x + 3 equals 0 at x = −3, where the function is undefined and the graph has a vertical asymptote." },
       "authored": "2026-08-18"
     },
@@ -1867,12 +1867,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "What is the horizontal asymptote of f(x) = (2x + 1)/(x − 4) as x → ∞?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "y = 2" } },
-        { "id": "b", "content": { "format": "text", "value": "y = 4" } },
-        { "id": "c", "content": { "format": "text", "value": "y = 0" } },
-        { "id": "d", "content": { "format": "text", "value": "y = −4" } }
+        { "id": "a", "content": { "format": "text", "value": "y = 4" } },
+        { "id": "b", "content": { "format": "text", "value": "y = 0" } },
+        { "id": "c", "content": { "format": "text", "value": "y = −4" } },
+        { "id": "d", "content": { "format": "text", "value": "y = 2" } }
       ],
-      "correct": ["a"],
+      "correct": ["d"],
       "explanation": { "format": "text", "value": "When the numerator and denominator have the same degree, the horizontal asymptote is the ratio of the leading coefficients: 2/1 = 2." },
       "authored": "2026-08-18"
     },
@@ -1883,12 +1883,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "Which function models exponential decay?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "f(x) = 100(0.5)ˣ" } },
-        { "id": "b", "content": { "format": "text", "value": "f(x) = 100(2)ˣ" } },
-        { "id": "c", "content": { "format": "text", "value": "f(x) = 100 + 0.5x" } },
-        { "id": "d", "content": { "format": "text", "value": "f(x) = 100√x" } }
+        { "id": "a", "content": { "format": "text", "value": "f(x) = 100(2)ˣ" } },
+        { "id": "b", "content": { "format": "text", "value": "f(x) = 100 + 0.5x" } },
+        { "id": "c", "content": { "format": "text", "value": "f(x) = 100√x" } },
+        { "id": "d", "content": { "format": "text", "value": "f(x) = 100(0.5)ˣ" } }
       ],
-      "correct": ["a"],
+      "correct": ["d"],
       "explanation": { "format": "text", "value": "Exponential decay has the form a·bˣ with a base b between 0 and 1, so the function's value shrinks as x increases. 100(0.5)ˣ has base 0.5." },
       "authored": "2026-08-18"
     },
@@ -1915,12 +1915,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "A function whose graph is symmetric about the origin is which type of function?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "Odd" } },
-        { "id": "b", "content": { "format": "text", "value": "Even" } },
-        { "id": "c", "content": { "format": "text", "value": "Neither" } },
-        { "id": "d", "content": { "format": "text", "value": "Linear only" } }
+        { "id": "a", "content": { "format": "text", "value": "Neither" } },
+        { "id": "b", "content": { "format": "text", "value": "Linear only" } },
+        { "id": "c", "content": { "format": "text", "value": "Odd" } },
+        { "id": "d", "content": { "format": "text", "value": "Even" } }
       ],
-      "correct": ["a"],
+      "correct": ["c"],
       "explanation": { "format": "text", "value": "Symmetry about the origin — where rotating the graph 180° about the origin maps it onto itself — is exactly the geometric meaning of f(−x) = −f(x), which defines an odd function." },
       "authored": "2026-08-18"
     },
@@ -1932,12 +1932,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "A teacher wants to illustrate why f(x) = 1/(x + 3) is undefined at x = −3 using the idea of an asymptote. Which explanation best connects the algebra to the graph?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "Since the denominator equals 0 at x = −3, the function is undefined there, and the graph approaches a vertical asymptote at x = −3 rather than crossing it." } },
-        { "id": "b", "content": { "format": "text", "value": "The function equals 0 at x = −3." } },
-        { "id": "c", "content": { "format": "text", "value": "The graph has a horizontal asymptote at x = −3." } },
-        { "id": "d", "content": { "format": "text", "value": "x = −3 is simply excluded with no visible effect on the graph." } }
+        { "id": "a", "content": { "format": "text", "value": "The function equals 0 at x = −3." } },
+        { "id": "b", "content": { "format": "text", "value": "The graph has a horizontal asymptote at x = −3." } },
+        { "id": "c", "content": { "format": "text", "value": "x = −3 is simply excluded with no visible effect on the graph." } },
+        { "id": "d", "content": { "format": "text", "value": "Since the denominator equals 0 at x = −3, the function is undefined there, and the graph approaches a vertical asymptote at x = −3 rather than crossing it." } }
       ],
-      "correct": ["a"],
+      "correct": ["d"],
       "explanation": { "format": "text", "value": "A rational function's vertical asymptotes occur exactly where the denominator is zero (and the numerator isn't also zero there) — the graph gets arbitrarily close to that vertical line without ever touching it, which is the visual meaning behind the algebraic fact that the function is undefined there." },
       "authored": "2026-08-18"
     },
@@ -1965,12 +1965,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "What is the vertex of f(x) = |x − 4| + 2?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "(4, 2)" } },
-        { "id": "b", "content": { "format": "text", "value": "(−4, 2)" } },
-        { "id": "c", "content": { "format": "text", "value": "(4, −2)" } },
-        { "id": "d", "content": { "format": "text", "value": "(2, 4)" } }
+        { "id": "a", "content": { "format": "text", "value": "(4, −2)" } },
+        { "id": "b", "content": { "format": "text", "value": "(2, 4)" } },
+        { "id": "c", "content": { "format": "text", "value": "(4, 2)" } },
+        { "id": "d", "content": { "format": "text", "value": "(−4, 2)" } }
       ],
-      "correct": ["a"],
+      "correct": ["c"],
       "explanation": { "format": "text", "value": "For |x − h| + k, the vertex is (h, k). Here h = 4 and k = 2, so the vertex is (4, 2)." },
       "authored": "2026-08-18"
     },
@@ -1981,12 +1981,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "A rectangular garden has a perimeter of 40 feet and width w. Express the garden's area A as a function of w." },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "A(w) = 20w − w²" } },
-        { "id": "b", "content": { "format": "text", "value": "A(w) = w² − 20w" } },
-        { "id": "c", "content": { "format": "text", "value": "A(w) = 20 − w²" } },
-        { "id": "d", "content": { "format": "text", "value": "A(w) = 40w − w²" } }
+        { "id": "a", "content": { "format": "text", "value": "A(w) = 20 − w²" } },
+        { "id": "b", "content": { "format": "text", "value": "A(w) = 40w − w²" } },
+        { "id": "c", "content": { "format": "text", "value": "A(w) = 20w − w²" } },
+        { "id": "d", "content": { "format": "text", "value": "A(w) = w² − 20w" } }
       ],
-      "correct": ["a"],
+      "correct": ["c"],
       "explanation": { "format": "text", "value": "Perimeter 2(l + w) = 40 gives l + w = 20, so l = 20 − w. Area = l · w = (20 − w)w = 20w − w²." },
       "authored": "2026-08-18"
     },
@@ -2013,12 +2013,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "A triangle has a base of 10 cm and a height of 6 cm. What is its area?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "30 cm²" } },
-        { "id": "b", "content": { "format": "text", "value": "60 cm²" } },
-        { "id": "c", "content": { "format": "text", "value": "16 cm²" } },
-        { "id": "d", "content": { "format": "text", "value": "20 cm²" } }
+        { "id": "a", "content": { "format": "text", "value": "16 cm²" } },
+        { "id": "b", "content": { "format": "text", "value": "20 cm²" } },
+        { "id": "c", "content": { "format": "text", "value": "30 cm²" } },
+        { "id": "d", "content": { "format": "text", "value": "60 cm²" } }
       ],
-      "correct": ["a"],
+      "correct": ["c"],
       "explanation": { "format": "text", "value": "The area of a triangle is ½ × base × height: ½ × 10 × 6 = 30 cm²." },
       "authored": "2026-08-18"
     },
@@ -2029,12 +2029,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "A trapezoid has parallel bases of 6 cm and 10 cm and a height of 4 cm. What is its area?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "32 cm²" } },
-        { "id": "b", "content": { "format": "text", "value": "64 cm²" } },
-        { "id": "c", "content": { "format": "text", "value": "40 cm²" } },
-        { "id": "d", "content": { "format": "text", "value": "24 cm²" } }
+        { "id": "a", "content": { "format": "text", "value": "64 cm²" } },
+        { "id": "b", "content": { "format": "text", "value": "40 cm²" } },
+        { "id": "c", "content": { "format": "text", "value": "24 cm²" } },
+        { "id": "d", "content": { "format": "text", "value": "32 cm²" } }
       ],
-      "correct": ["a"],
+      "correct": ["d"],
       "explanation": { "format": "text", "value": "The area of a trapezoid is ½(b₁ + b₂)h = ½(6 + 10)(4) = ½(16)(4) = 32 cm²." },
       "authored": "2026-08-18"
     },
@@ -2045,12 +2045,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "What is the circumference of a circle with radius 5 cm?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "10π cm" } },
-        { "id": "b", "content": { "format": "text", "value": "5π cm" } },
-        { "id": "c", "content": { "format": "text", "value": "25π cm" } },
-        { "id": "d", "content": { "format": "text", "value": "20π cm" } }
+        { "id": "a", "content": { "format": "text", "value": "25π cm" } },
+        { "id": "b", "content": { "format": "text", "value": "20π cm" } },
+        { "id": "c", "content": { "format": "text", "value": "10π cm" } },
+        { "id": "d", "content": { "format": "text", "value": "5π cm" } }
       ],
-      "correct": ["a"],
+      "correct": ["c"],
       "explanation": { "format": "text", "value": "Circumference is C = 2πr = 2π(5) = 10π cm." },
       "authored": "2026-08-18"
     },
@@ -2061,12 +2061,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "What is the area of a circle with radius 4 cm?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "16π cm²" } },
-        { "id": "b", "content": { "format": "text", "value": "8π cm²" } },
-        { "id": "c", "content": { "format": "text", "value": "4π cm²" } },
-        { "id": "d", "content": { "format": "text", "value": "32π cm²" } }
+        { "id": "a", "content": { "format": "text", "value": "4π cm²" } },
+        { "id": "b", "content": { "format": "text", "value": "32π cm²" } },
+        { "id": "c", "content": { "format": "text", "value": "16π cm²" } },
+        { "id": "d", "content": { "format": "text", "value": "8π cm²" } }
       ],
-      "correct": ["a"],
+      "correct": ["c"],
       "explanation": { "format": "text", "value": "Area is A = πr² = π(4²) = 16π cm²." },
       "authored": "2026-08-18"
     },
@@ -2077,12 +2077,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "What is the volume of a rectangular prism with length 5, width 3, and height 4?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "60" } },
-        { "id": "b", "content": { "format": "text", "value": "12" } },
-        { "id": "c", "content": { "format": "text", "value": "35" } },
-        { "id": "d", "content": { "format": "text", "value": "47" } }
+        { "id": "a", "content": { "format": "text", "value": "47" } },
+        { "id": "b", "content": { "format": "text", "value": "60" } },
+        { "id": "c", "content": { "format": "text", "value": "12" } },
+        { "id": "d", "content": { "format": "text", "value": "35" } }
       ],
-      "correct": ["a"],
+      "correct": ["b"],
       "explanation": { "format": "text", "value": "Volume of a rectangular prism is length × width × height: 5 × 3 × 4 = 60." },
       "authored": "2026-08-18"
     },
@@ -2142,12 +2142,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "A student computes the hypotenuse of a right triangle with legs 6 and 8 by adding the legs directly, getting 14, instead of using the Pythagorean theorem. What is the correct hypotenuse, and what's the flaw in the student's method?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "The hypotenuse is 10, found using c = √(a² + b²) = √(36 + 64) = √100 = 10; adding the legs directly ignores that the relationship between the sides is not linear." } },
-        { "id": "b", "content": { "format": "text", "value": "14 is the correct hypotenuse." } },
-        { "id": "c", "content": { "format": "text", "value": "The Pythagorean theorem only applies to isosceles right triangles." } },
-        { "id": "d", "content": { "format": "text", "value": "The hypotenuse equals the average of the two legs." } }
+        { "id": "a", "content": { "format": "text", "value": "The hypotenuse equals the average of the two legs." } },
+        { "id": "b", "content": { "format": "text", "value": "The hypotenuse is 10, found using c = √(a² + b²) = √(36 + 64) = √100 = 10; adding the legs directly ignores that the relationship between the sides is not linear." } },
+        { "id": "c", "content": { "format": "text", "value": "14 is the correct hypotenuse." } },
+        { "id": "d", "content": { "format": "text", "value": "The Pythagorean theorem only applies to isosceles right triangles." } }
       ],
-      "correct": ["a"],
+      "correct": ["b"],
       "explanation": { "format": "text", "value": "The Pythagorean theorem relates the squares of the legs to the square of the hypotenuse, not the legs themselves — a² + b² = c², giving c = √(36 + 64) = √100 = 10." },
       "authored": "2026-08-18"
     },
@@ -2158,12 +2158,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "A right triangle has a hypotenuse of 13 and one leg of 5. What is the length of the other leg?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "12" } },
-        { "id": "b", "content": { "format": "text", "value": "8" } },
-        { "id": "c", "content": { "format": "text", "value": "18" } },
-        { "id": "d", "content": { "format": "text", "value": "144" } }
+        { "id": "a", "content": { "format": "text", "value": "144" } },
+        { "id": "b", "content": { "format": "text", "value": "12" } },
+        { "id": "c", "content": { "format": "text", "value": "8" } },
+        { "id": "d", "content": { "format": "text", "value": "18" } }
       ],
-      "correct": ["a"],
+      "correct": ["b"],
       "explanation": { "format": "text", "value": "By the Pythagorean theorem, the missing leg is √(13² − 5²) = √(169 − 25) = √144 = 12." },
       "authored": "2026-08-18"
     },
@@ -2174,12 +2174,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "What is the distance between the points (1, 2) and (4, 6)?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "5" } },
-        { "id": "b", "content": { "format": "text", "value": "7" } },
-        { "id": "c", "content": { "format": "text", "value": "25" } },
-        { "id": "d", "content": { "format": "text", "value": "√7" } }
+        { "id": "a", "content": { "format": "text", "value": "7" } },
+        { "id": "b", "content": { "format": "text", "value": "25" } },
+        { "id": "c", "content": { "format": "text", "value": "√7" } },
+        { "id": "d", "content": { "format": "text", "value": "5" } }
       ],
-      "correct": ["a"],
+      "correct": ["d"],
       "explanation": { "format": "text", "value": "Distance = √[(4 − 1)² + (6 − 2)²] = √(9 + 16) = √25 = 5." },
       "authored": "2026-08-18"
     },
@@ -2206,12 +2206,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "An angle measures 35°. What is the measure of its complement?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "55°" } },
-        { "id": "b", "content": { "format": "text", "value": "145°" } },
-        { "id": "c", "content": { "format": "text", "value": "65°" } },
-        { "id": "d", "content": { "format": "text", "value": "35°" } }
+        { "id": "a", "content": { "format": "text", "value": "35°" } },
+        { "id": "b", "content": { "format": "text", "value": "55°" } },
+        { "id": "c", "content": { "format": "text", "value": "145°" } },
+        { "id": "d", "content": { "format": "text", "value": "65°" } }
       ],
-      "correct": ["a"],
+      "correct": ["b"],
       "explanation": { "format": "text", "value": "Complementary angles sum to 90°: 90 − 35 = 55°." },
       "authored": "2026-08-18"
     },
@@ -2222,12 +2222,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "An angle measures 110°. What is the measure of its supplement?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "70°" } },
-        { "id": "b", "content": { "format": "text", "value": "80°" } },
-        { "id": "c", "content": { "format": "text", "value": "290°" } },
-        { "id": "d", "content": { "format": "text", "value": "55°" } }
+        { "id": "a", "content": { "format": "text", "value": "55°" } },
+        { "id": "b", "content": { "format": "text", "value": "70°" } },
+        { "id": "c", "content": { "format": "text", "value": "80°" } },
+        { "id": "d", "content": { "format": "text", "value": "290°" } }
       ],
-      "correct": ["a"],
+      "correct": ["b"],
       "explanation": { "format": "text", "value": "Supplementary angles sum to 180°: 180 − 110 = 70°." },
       "authored": "2026-08-18"
     },
@@ -2239,12 +2239,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "A teacher wants an example that shows vertical angles are always congruent, not just true for one specific measurement. Which of the following best demonstrates the general case?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "Show algebraically that if two intersecting lines form adjacent angles x and 180° − x, the angle vertical to x also measures x, for any value of x — not tied to one specific number." } },
-        { "id": "b", "content": { "format": "text", "value": "Show one specific pair of vertical angles, both measuring 40°, and state that the rule follows from this single example." } },
-        { "id": "c", "content": { "format": "text", "value": "Show that vertical angles are always right angles." } },
-        { "id": "d", "content": { "format": "text", "value": "Show that vertical angles are always supplementary to each other." } }
+        { "id": "a", "content": { "format": "text", "value": "Show that vertical angles are always supplementary to each other." } },
+        { "id": "b", "content": { "format": "text", "value": "Show algebraically that if two intersecting lines form adjacent angles x and 180° − x, the angle vertical to x also measures x, for any value of x — not tied to one specific number." } },
+        { "id": "c", "content": { "format": "text", "value": "Show one specific pair of vertical angles, both measuring 40°, and state that the rule follows from this single example." } },
+        { "id": "d", "content": { "format": "text", "value": "Show that vertical angles are always right angles." } }
       ],
-      "correct": ["a"],
+      "correct": ["b"],
       "explanation": { "format": "text", "value": "A single numerical example can suggest a pattern but doesn't prove it holds in general. An algebraic argument using a variable angle x demonstrates that vertical angles are congruent for every possible angle measure, not just the one demonstrated." },
       "authored": "2026-08-18"
     },
@@ -2256,12 +2256,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "Triangle ABC is similar to triangle DEF, with AB = 6, DE = 9, and BC = 8. A student sets up the proportion EF/BC = AB/DE instead of EF/BC = DE/AB, getting EF = 8 × (6/9) ≈ 5.33. Which of the following identifies the error and gives the correct value of EF?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "Corresponding sides must be matched consistently; since DE corresponds to AB, the scale factor is DE/AB = 9/6 = 1.5, giving EF = 8 × 1.5 = 12 — the student inverted the ratio." } },
-        { "id": "b", "content": { "format": "text", "value": "The student's answer of approximately 5.33 is correct." } },
-        { "id": "c", "content": { "format": "text", "value": "Similar triangles cannot be solved using proportions." } },
-        { "id": "d", "content": { "format": "text", "value": "The scale factor between similar triangles must always be less than 1." } }
+        { "id": "a", "content": { "format": "text", "value": "The student's answer of approximately 5.33 is correct." } },
+        { "id": "b", "content": { "format": "text", "value": "Similar triangles cannot be solved using proportions." } },
+        { "id": "c", "content": { "format": "text", "value": "The scale factor between similar triangles must always be less than 1." } },
+        { "id": "d", "content": { "format": "text", "value": "Corresponding sides must be matched consistently; since DE corresponds to AB, the scale factor is DE/AB = 9/6 = 1.5, giving EF = 8 × 1.5 = 12 — the student inverted the ratio." } }
       ],
-      "correct": ["a"],
+      "correct": ["d"],
       "explanation": { "format": "text", "value": "Since triangle DEF is the image of triangle ABC scaled up (DE = 9 > AB = 6), every side of DEF should be larger than its corresponding side in ABC by the same factor, 9/6 = 1.5. EF = BC × 1.5 = 8 × 1.5 = 12." },
       "authored": "2026-08-18"
     },
@@ -2272,12 +2272,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "What is the slope of the line through (2, 3) and (5, 9)?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "2" } },
-        { "id": "b", "content": { "format": "text", "value": "3" } },
-        { "id": "c", "content": { "format": "text", "value": "1/2" } },
-        { "id": "d", "content": { "format": "text", "value": "6" } }
+        { "id": "a", "content": { "format": "text", "value": "1/2" } },
+        { "id": "b", "content": { "format": "text", "value": "6" } },
+        { "id": "c", "content": { "format": "text", "value": "2" } },
+        { "id": "d", "content": { "format": "text", "value": "3" } }
       ],
-      "correct": ["a"],
+      "correct": ["c"],
       "explanation": { "format": "text", "value": "Slope = (9 − 3)/(5 − 2) = 6/3 = 2." },
       "authored": "2026-08-18"
     },
@@ -2338,12 +2338,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "A circle has radius 6. What is the arc length of a 60° central angle?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "2π" } },
-        { "id": "b", "content": { "format": "text", "value": "6π" } },
-        { "id": "c", "content": { "format": "text", "value": "π" } },
-        { "id": "d", "content": { "format": "text", "value": "12π" } }
+        { "id": "a", "content": { "format": "text", "value": "π" } },
+        { "id": "b", "content": { "format": "text", "value": "12π" } },
+        { "id": "c", "content": { "format": "text", "value": "2π" } },
+        { "id": "d", "content": { "format": "text", "value": "6π" } }
       ],
-      "correct": ["a"],
+      "correct": ["c"],
       "explanation": { "format": "text", "value": "Arc length is (angle/360) × circumference = (60/360) × 2π(6) = (1/6)(12π) = 2π." },
       "authored": "2026-08-18"
     },
@@ -2354,12 +2354,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "A circle has radius 4. What is the area of a sector with a 90° central angle?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "4π" } },
-        { "id": "b", "content": { "format": "text", "value": "16π" } },
-        { "id": "c", "content": { "format": "text", "value": "π" } },
-        { "id": "d", "content": { "format": "text", "value": "8π" } }
+        { "id": "a", "content": { "format": "text", "value": "16π" } },
+        { "id": "b", "content": { "format": "text", "value": "π" } },
+        { "id": "c", "content": { "format": "text", "value": "8π" } },
+        { "id": "d", "content": { "format": "text", "value": "4π" } }
       ],
-      "correct": ["a"],
+      "correct": ["d"],
       "explanation": { "format": "text", "value": "Sector area is (angle/360) × πr² = (90/360) × π(16) = (1/4)(16π) = 4π." },
       "authored": "2026-08-18"
     },
@@ -2371,12 +2371,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "A student believes an inscribed angle always equals the central angle that intercepts the same arc, since both 'point to' the same arc. Using a central angle of 80°, which of the following corrects this?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "An inscribed angle is always HALF the central angle intercepting the same arc — here the inscribed angle is 40°, not 80°." } },
-        { "id": "b", "content": { "format": "text", "value": "The student is correct; both angles equal 80°." } },
-        { "id": "c", "content": { "format": "text", "value": "The inscribed angle is always double the central angle." } },
-        { "id": "d", "content": { "format": "text", "value": "The relationship between the two angles depends on the circle's radius." } }
+        { "id": "a", "content": { "format": "text", "value": "The student is correct; both angles equal 80°." } },
+        { "id": "b", "content": { "format": "text", "value": "The inscribed angle is always double the central angle." } },
+        { "id": "c", "content": { "format": "text", "value": "The relationship between the two angles depends on the circle's radius." } },
+        { "id": "d", "content": { "format": "text", "value": "An inscribed angle is always HALF the central angle intercepting the same arc — here the inscribed angle is 40°, not 80°." } }
       ],
-      "correct": ["a"],
+      "correct": ["d"],
       "explanation": { "format": "text", "value": "The inscribed angle theorem states an inscribed angle is always half the measure of the central angle subtending the same arc, regardless of the circle's size: 80°/2 = 40°." },
       "authored": "2026-08-18"
     },
@@ -2387,12 +2387,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "What is the sum of the interior angles of a hexagon (6 sides)?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "720°" } },
-        { "id": "b", "content": { "format": "text", "value": "540°" } },
-        { "id": "c", "content": { "format": "text", "value": "900°" } },
-        { "id": "d", "content": { "format": "text", "value": "360°" } }
+        { "id": "a", "content": { "format": "text", "value": "360°" } },
+        { "id": "b", "content": { "format": "text", "value": "720°" } },
+        { "id": "c", "content": { "format": "text", "value": "540°" } },
+        { "id": "d", "content": { "format": "text", "value": "900°" } }
       ],
-      "correct": ["a"],
+      "correct": ["b"],
       "explanation": { "format": "text", "value": "The interior angle sum of an n-sided polygon is (n − 2) × 180°: (6 − 2) × 180° = 720°." },
       "authored": "2026-08-18"
     },
@@ -2403,12 +2403,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "What is the measure of each interior angle of a regular pentagon?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "108°" } },
-        { "id": "b", "content": { "format": "text", "value": "90°" } },
-        { "id": "c", "content": { "format": "text", "value": "120°" } },
-        { "id": "d", "content": { "format": "text", "value": "72°" } }
+        { "id": "a", "content": { "format": "text", "value": "90°" } },
+        { "id": "b", "content": { "format": "text", "value": "120°" } },
+        { "id": "c", "content": { "format": "text", "value": "72°" } },
+        { "id": "d", "content": { "format": "text", "value": "108°" } }
       ],
-      "correct": ["a"],
+      "correct": ["d"],
       "explanation": { "format": "text", "value": "The interior angle sum is (5 − 2) × 180° = 540°. Dividing equally among the 5 congruent angles: 540°/5 = 108°." },
       "authored": "2026-08-18"
     },
@@ -2420,12 +2420,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "A student claims any three positive lengths can form a triangle, and tries to build one with sides 2, 3, and 6. Which of the following explains why this fails, using the triangle inequality?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "The sum of the two shorter sides (2 + 3 = 5) must exceed the longest side, but 5 is less than 6, so no triangle can be formed with these lengths." } },
-        { "id": "b", "content": { "format": "text", "value": "A triangle can be formed with any three positive lengths." } },
-        { "id": "c", "content": { "format": "text", "value": "The triangle inequality only applies to right triangles." } },
-        { "id": "d", "content": { "format": "text", "value": "The three sides must all be equal for a valid triangle." } }
+        { "id": "a", "content": { "format": "text", "value": "The three sides must all be equal for a valid triangle." } },
+        { "id": "b", "content": { "format": "text", "value": "The sum of the two shorter sides (2 + 3 = 5) must exceed the longest side, but 5 is less than 6, so no triangle can be formed with these lengths." } },
+        { "id": "c", "content": { "format": "text", "value": "A triangle can be formed with any three positive lengths." } },
+        { "id": "d", "content": { "format": "text", "value": "The triangle inequality only applies to right triangles." } }
       ],
-      "correct": ["a"],
+      "correct": ["b"],
       "explanation": { "format": "text", "value": "The triangle inequality theorem requires the sum of any two sides to exceed the third. With sides 2, 3, and 6, the two shorter sides sum to only 5, which is less than 6 — the two short sides would fail to reach each other." },
       "authored": "2026-08-18"
     },
@@ -2437,12 +2437,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "A student believes that three equal angles (AAA) prove two triangles are congruent, the same way SSS does. Which of the following corrects this misconception?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "AAA proves triangles are SIMILAR (same shape, proportional sides) but not necessarily congruent (same size) — a small triangle and a large triangle can share all the same angles without being the same size." } },
-        { "id": "b", "content": { "format": "text", "value": "AAA is a valid congruence criterion, equivalent to SSS." } },
-        { "id": "c", "content": { "format": "text", "value": "AAA only applies to right triangles." } },
-        { "id": "d", "content": { "format": "text", "value": "Similar triangles are always congruent." } }
+        { "id": "a", "content": { "format": "text", "value": "Similar triangles are always congruent." } },
+        { "id": "b", "content": { "format": "text", "value": "AAA proves triangles are SIMILAR (same shape, proportional sides) but not necessarily congruent (same size) — a small triangle and a large triangle can share all the same angles without being the same size." } },
+        { "id": "c", "content": { "format": "text", "value": "AAA is a valid congruence criterion, equivalent to SSS." } },
+        { "id": "d", "content": { "format": "text", "value": "AAA only applies to right triangles." } }
       ],
-      "correct": ["a"],
+      "correct": ["b"],
       "explanation": { "format": "text", "value": "Matching angles alone fixes a triangle's shape but says nothing about its size — any triangle can be scaled up or down while keeping all three angles the same. Congruence requires a criterion that also fixes size, like SSS, SAS, or ASA." },
       "authored": "2026-08-18"
     },
@@ -2453,12 +2453,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "In a 45-45-90 right triangle, each leg measures 5. What is the length of the hypotenuse?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "5√2" } },
-        { "id": "b", "content": { "format": "text", "value": "10" } },
-        { "id": "c", "content": { "format": "text", "value": "5√3" } },
-        { "id": "d", "content": { "format": "text", "value": "25" } }
+        { "id": "a", "content": { "format": "text", "value": "5√3" } },
+        { "id": "b", "content": { "format": "text", "value": "25" } },
+        { "id": "c", "content": { "format": "text", "value": "5√2" } },
+        { "id": "d", "content": { "format": "text", "value": "10" } }
       ],
-      "correct": ["a"],
+      "correct": ["c"],
       "explanation": { "format": "text", "value": "In a 45-45-90 triangle, the hypotenuse equals a leg times √2: 5√2." },
       "authored": "2026-08-18"
     },
@@ -2469,12 +2469,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "In a 30-60-90 right triangle, the side opposite the 30° angle measures 4. What is the length of the side opposite the 60° angle?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "4√3" } },
-        { "id": "b", "content": { "format": "text", "value": "8" } },
-        { "id": "c", "content": { "format": "text", "value": "4√2" } },
-        { "id": "d", "content": { "format": "text", "value": "2√3" } }
+        { "id": "a", "content": { "format": "text", "value": "8" } },
+        { "id": "b", "content": { "format": "text", "value": "4√2" } },
+        { "id": "c", "content": { "format": "text", "value": "2√3" } },
+        { "id": "d", "content": { "format": "text", "value": "4√3" } }
       ],
-      "correct": ["a"],
+      "correct": ["d"],
       "explanation": { "format": "text", "value": "In a 30-60-90 triangle, the sides are in ratio x : x√3 : 2x for the sides opposite 30°, 60°, and 90°. With x = 4, the side opposite 60° is 4√3." },
       "authored": "2026-08-18"
     },
@@ -2485,12 +2485,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "A rectangle has vertices at (0, 0), (6, 0), (6, 4), and (0, 4). What is its perimeter?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "20" } },
-        { "id": "b", "content": { "format": "text", "value": "24" } },
-        { "id": "c", "content": { "format": "text", "value": "10" } },
-        { "id": "d", "content": { "format": "text", "value": "48" } }
+        { "id": "a", "content": { "format": "text", "value": "10" } },
+        { "id": "b", "content": { "format": "text", "value": "48" } },
+        { "id": "c", "content": { "format": "text", "value": "20" } },
+        { "id": "d", "content": { "format": "text", "value": "24" } }
       ],
-      "correct": ["a"],
+      "correct": ["c"],
       "explanation": { "format": "text", "value": "The rectangle has length 6 and width 4, so its perimeter is 2(6 + 4) = 20." },
       "authored": "2026-08-18"
     },
@@ -2502,12 +2502,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "A student believes that doubling the side lengths of a figure also doubles its area, reasoning that 'everything got twice as big.' Using a scale factor of 2, which of the following corrects this?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "Area scales with the SQUARE of the linear scale factor, not the factor itself — a scale factor of 2 quadruples the area (2² = 4), since area involves two dimensions being scaled." } },
-        { "id": "b", "content": { "format": "text", "value": "The student is correct; area also doubles." } },
-        { "id": "c", "content": { "format": "text", "value": "Area always stays the same regardless of scale factor." } },
-        { "id": "d", "content": { "format": "text", "value": "Area scales with the cube of the scale factor." } }
+        { "id": "a", "content": { "format": "text", "value": "Area always stays the same regardless of scale factor." } },
+        { "id": "b", "content": { "format": "text", "value": "Area scales with the cube of the scale factor." } },
+        { "id": "c", "content": { "format": "text", "value": "Area scales with the SQUARE of the linear scale factor, not the factor itself — a scale factor of 2 quadruples the area (2² = 4), since area involves two dimensions being scaled." } },
+        { "id": "d", "content": { "format": "text", "value": "The student is correct; area also doubles." } }
       ],
-      "correct": ["a"],
+      "correct": ["c"],
       "explanation": { "format": "text", "value": "Every linear dimension scales by the factor, but area is a product of two linear dimensions, so it scales by the factor squared. A 1×1 square becomes 2×2 under a scale factor of 2, and its area goes from 1 to 4 — quadrupling, not doubling." },
       "authored": "2026-08-18"
     },
@@ -2534,12 +2534,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "Two parallel lines are cut by a transversal. If one angle measures 65°, what is the measure of its corresponding angle?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "65°" } },
-        { "id": "b", "content": { "format": "text", "value": "115°" } },
-        { "id": "c", "content": { "format": "text", "value": "25°" } },
-        { "id": "d", "content": { "format": "text", "value": "180°" } }
+        { "id": "a", "content": { "format": "text", "value": "115°" } },
+        { "id": "b", "content": { "format": "text", "value": "25°" } },
+        { "id": "c", "content": { "format": "text", "value": "180°" } },
+        { "id": "d", "content": { "format": "text", "value": "65°" } }
       ],
-      "correct": ["a"],
+      "correct": ["d"],
       "explanation": { "format": "text", "value": "When two parallel lines are cut by a transversal, corresponding angles are congruent, so the corresponding angle also measures 65°." },
       "authored": "2026-08-18"
     },
@@ -2566,12 +2566,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "Triangle ABC has vertex A at (2, 3). If the triangle is translated 4 units right and 2 units down, what are the new coordinates of A?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "(6, 1)" } },
-        { "id": "b", "content": { "format": "text", "value": "(6, 5)" } },
-        { "id": "c", "content": { "format": "text", "value": "(−2, 1)" } },
-        { "id": "d", "content": { "format": "text", "value": "(2, 5)" } }
+        { "id": "a", "content": { "format": "text", "value": "(6, 5)" } },
+        { "id": "b", "content": { "format": "text", "value": "(−2, 1)" } },
+        { "id": "c", "content": { "format": "text", "value": "(2, 5)" } },
+        { "id": "d", "content": { "format": "text", "value": "(6, 1)" } }
       ],
-      "correct": ["a"],
+      "correct": ["d"],
       "explanation": { "format": "text", "value": "Translating right adds to the x-coordinate and translating down subtracts from the y-coordinate: (2 + 4, 3 − 2) = (6, 1)." },
       "authored": "2026-08-18"
     },
@@ -2583,12 +2583,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "A student reflects the point (3, −5) over the x-axis by negating the x-coordinate instead of the y-coordinate, getting (−3, −5). Which of the following corrects this error?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "Reflecting over the x-axis negates the y-coordinate, not the x-coordinate — the correct reflection is (3, 5). Negating the x-coordinate instead reflects over the y-axis." } },
-        { "id": "b", "content": { "format": "text", "value": "The student's answer, (−3, −5), is correct." } },
-        { "id": "c", "content": { "format": "text", "value": "Reflecting over the x-axis negates both coordinates." } },
-        { "id": "d", "content": { "format": "text", "value": "Reflection over the x-axis leaves both coordinates unchanged." } }
+        { "id": "a", "content": { "format": "text", "value": "Reflecting over the x-axis negates both coordinates." } },
+        { "id": "b", "content": { "format": "text", "value": "Reflection over the x-axis leaves both coordinates unchanged." } },
+        { "id": "c", "content": { "format": "text", "value": "Reflecting over the x-axis negates the y-coordinate, not the x-coordinate — the correct reflection is (3, 5). Negating the x-coordinate instead reflects over the y-axis." } },
+        { "id": "d", "content": { "format": "text", "value": "The student's answer, (−3, −5), is correct." } }
       ],
-      "correct": ["a"],
+      "correct": ["c"],
       "explanation": { "format": "text", "value": "A reflection over the x-axis keeps each point's horizontal position the same and flips its vertical position: (x, y) → (x, −y). Applied to (3, −5), this gives (3, 5)." },
       "authored": "2026-08-18"
     },
@@ -2615,12 +2615,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "A figure consists of a 6-by-4 rectangle with a 2-by-2 square removed from one corner. What is the area of the remaining figure?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "20" } },
-        { "id": "b", "content": { "format": "text", "value": "24" } },
-        { "id": "c", "content": { "format": "text", "value": "16" } },
-        { "id": "d", "content": { "format": "text", "value": "28" } }
+        { "id": "a", "content": { "format": "text", "value": "24" } },
+        { "id": "b", "content": { "format": "text", "value": "16" } },
+        { "id": "c", "content": { "format": "text", "value": "28" } },
+        { "id": "d", "content": { "format": "text", "value": "20" } }
       ],
-      "correct": ["a"],
+      "correct": ["d"],
       "explanation": { "format": "text", "value": "The rectangle's area is 6 × 4 = 24. Removing the 2 × 2 = 4 square leaves 24 − 4 = 20." },
       "authored": "2026-08-18"
     },
@@ -2631,12 +2631,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "What is the mean of the dataset {4, 8, 6, 10, 7}?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "7" } },
-        { "id": "b", "content": { "format": "text", "value": "8" } },
-        { "id": "c", "content": { "format": "text", "value": "6" } },
-        { "id": "d", "content": { "format": "text", "value": "35" } }
+        { "id": "a", "content": { "format": "text", "value": "6" } },
+        { "id": "b", "content": { "format": "text", "value": "35" } },
+        { "id": "c", "content": { "format": "text", "value": "7" } },
+        { "id": "d", "content": { "format": "text", "value": "8" } }
       ],
-      "correct": ["a"],
+      "correct": ["c"],
       "explanation": { "format": "text", "value": "The mean is the sum divided by the count: (4 + 8 + 6 + 10 + 7) / 5 = 35 / 5 = 7." },
       "authored": "2026-08-18"
     },
@@ -2712,12 +2712,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "A student believes that two datasets with the same mean must also have the same standard deviation. Using {5, 5, 5, 5} and {2, 5, 5, 8} — both with mean 5 — which of the following corrects this?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "Standard deviation measures spread around the mean, independent of the mean's value — {5,5,5,5} has zero spread (SD = 0) while {2,5,5,8} has nonzero spread despite sharing the same mean." } },
-        { "id": "b", "content": { "format": "text", "value": "Both datasets must have the same standard deviation since they share a mean." } },
-        { "id": "c", "content": { "format": "text", "value": "Standard deviation is only defined when all the values in a dataset are different." } },
-        { "id": "d", "content": { "format": "text", "value": "Standard deviation equals the mean whenever the data doesn't vary." } }
+        { "id": "a", "content": { "format": "text", "value": "Standard deviation equals the mean whenever the data doesn't vary." } },
+        { "id": "b", "content": { "format": "text", "value": "Standard deviation measures spread around the mean, independent of the mean's value — {5,5,5,5} has zero spread (SD = 0) while {2,5,5,8} has nonzero spread despite sharing the same mean." } },
+        { "id": "c", "content": { "format": "text", "value": "Both datasets must have the same standard deviation since they share a mean." } },
+        { "id": "d", "content": { "format": "text", "value": "Standard deviation is only defined when all the values in a dataset are different." } }
       ],
-      "correct": ["a"],
+      "correct": ["b"],
       "explanation": { "format": "text", "value": "The mean describes a dataset's center, while standard deviation describes how spread out the values are around that center — two entirely different properties. A constant dataset has zero spread regardless of its mean; a varying dataset with the same mean does not." },
       "authored": "2026-08-18"
     },
@@ -2728,12 +2728,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "A bag has 3 red marbles and 5 blue marbles. What is the probability of drawing a red marble?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "3/8" } },
-        { "id": "b", "content": { "format": "text", "value": "5/8" } },
-        { "id": "c", "content": { "format": "text", "value": "3/5" } },
-        { "id": "d", "content": { "format": "text", "value": "1/2" } }
+        { "id": "a", "content": { "format": "text", "value": "3/5" } },
+        { "id": "b", "content": { "format": "text", "value": "1/2" } },
+        { "id": "c", "content": { "format": "text", "value": "3/8" } },
+        { "id": "d", "content": { "format": "text", "value": "5/8" } }
       ],
-      "correct": ["a"],
+      "correct": ["c"],
       "explanation": { "format": "text", "value": "There are 3 red marbles out of 3 + 5 = 8 total, giving a probability of 3/8." },
       "authored": "2026-08-18"
     },
@@ -2744,12 +2744,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "The probability of rain tomorrow is 0.3. What is the probability it does NOT rain?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "0.7" } },
-        { "id": "b", "content": { "format": "text", "value": "0.3" } },
-        { "id": "c", "content": { "format": "text", "value": "1.3" } },
-        { "id": "d", "content": { "format": "text", "value": "0" } }
+        { "id": "a", "content": { "format": "text", "value": "0" } },
+        { "id": "b", "content": { "format": "text", "value": "0.7" } },
+        { "id": "c", "content": { "format": "text", "value": "0.3" } },
+        { "id": "d", "content": { "format": "text", "value": "1.3" } }
       ],
-      "correct": ["a"],
+      "correct": ["b"],
       "explanation": { "format": "text", "value": "An event and its complement have probabilities that sum to 1: 1 − 0.3 = 0.7." },
       "authored": "2026-08-18"
     },
@@ -2761,12 +2761,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "A student computes the probability of flipping heads AND rolling a 4 by adding the probabilities, 1/2 + 1/6 = 2/3, instead of multiplying. Which of the following corrects this error?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "For independent events, P(A and B) = P(A) × P(B), not P(A) + P(B); the correct probability is 1/2 × 1/6 = 1/12. Addition is used for 'or,' not 'and.'" } },
-        { "id": "b", "content": { "format": "text", "value": "The student's answer of 2/3 is correct." } },
-        { "id": "c", "content": { "format": "text", "value": "Addition and multiplication give the same result for independent events." } },
-        { "id": "d", "content": { "format": "text", "value": "P(A and B) is always greater than either individual probability." } }
+        { "id": "a", "content": { "format": "text", "value": "The student's answer of 2/3 is correct." } },
+        { "id": "b", "content": { "format": "text", "value": "Addition and multiplication give the same result for independent events." } },
+        { "id": "c", "content": { "format": "text", "value": "P(A and B) is always greater than either individual probability." } },
+        { "id": "d", "content": { "format": "text", "value": "For independent events, P(A and B) = P(A) × P(B), not P(A) + P(B); the correct probability is 1/2 × 1/6 = 1/12. Addition is used for 'or,' not 'and.'" } }
       ],
-      "correct": ["a"],
+      "correct": ["d"],
       "explanation": { "format": "text", "value": "'And' with independent events means multiplying their probabilities together, since both must happen: P(heads) × P(rolling a 4) = 1/2 × 1/6 = 1/12. Adding the two probabilities, as the student did, doesn't correspond to any meaningful event here and even exceeds what a correct 'and' probability could be." },
       "authored": "2026-08-18"
     },
@@ -2794,12 +2794,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "A student computes the probability of drawing two red marbles without replacement from a bag of 4 red and 6 blue marbles as 4/10 × 4/10 = 4/25, treating the two draws as independent. Which of the following corrects this?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "After the first red marble is removed without replacement, only 9 marbles remain, 3 of them red, so the second draw's probability changes to 3/9 — the correct probability is 4/10 × 3/9 = 2/15." } },
-        { "id": "b", "content": { "format": "text", "value": "The student's answer of 4/25 is correct, since both marbles are red." } },
-        { "id": "c", "content": { "format": "text", "value": "Drawing without replacement doesn't affect probability at all." } },
-        { "id": "d", "content": { "format": "text", "value": "The two draws' probabilities should be added, not multiplied." } }
+        { "id": "a", "content": { "format": "text", "value": "The student's answer of 4/25 is correct, since both marbles are red." } },
+        { "id": "b", "content": { "format": "text", "value": "Drawing without replacement doesn't affect probability at all." } },
+        { "id": "c", "content": { "format": "text", "value": "The two draws' probabilities should be added, not multiplied." } },
+        { "id": "d", "content": { "format": "text", "value": "After the first red marble is removed without replacement, only 9 marbles remain, 3 of them red, so the second draw's probability changes to 3/9 — the correct probability is 4/10 × 3/9 = 2/15." } }
       ],
-      "correct": ["a"],
+      "correct": ["d"],
       "explanation": { "format": "text", "value": "Without replacement, the pool of marbles changes after the first draw, so the second draw's probability must be computed from the remaining 9 marbles (3 of them red), not from the original 10. Reusing 4/10 for the second draw incorrectly treats the draws as independent." },
       "authored": "2026-08-18"
     },
@@ -2810,12 +2810,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "How many ways can 4 distinct books be arranged on a shelf?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "24" } },
-        { "id": "b", "content": { "format": "text", "value": "16" } },
-        { "id": "c", "content": { "format": "text", "value": "12" } },
-        { "id": "d", "content": { "format": "text", "value": "4" } }
+        { "id": "a", "content": { "format": "text", "value": "4" } },
+        { "id": "b", "content": { "format": "text", "value": "24" } },
+        { "id": "c", "content": { "format": "text", "value": "16" } },
+        { "id": "d", "content": { "format": "text", "value": "12" } }
       ],
-      "correct": ["a"],
+      "correct": ["b"],
       "explanation": { "format": "text", "value": "The number of arrangements of 4 distinct items is 4! = 4 × 3 × 2 × 1 = 24." },
       "authored": "2026-08-18"
     },
@@ -2826,12 +2826,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "How many ways can a committee of 3 be chosen from a group of 6 people?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "20" } },
-        { "id": "b", "content": { "format": "text", "value": "18" } },
-        { "id": "c", "content": { "format": "text", "value": "120" } },
-        { "id": "d", "content": { "format": "text", "value": "15" } }
+        { "id": "a", "content": { "format": "text", "value": "18" } },
+        { "id": "b", "content": { "format": "text", "value": "120" } },
+        { "id": "c", "content": { "format": "text", "value": "15" } },
+        { "id": "d", "content": { "format": "text", "value": "20" } }
       ],
-      "correct": ["a"],
+      "correct": ["d"],
       "explanation": { "format": "text", "value": "The number of ways to choose 3 from 6, where order doesn't matter, is C(6,3) = 6!/(3!3!) = 720/36 = 20." },
       "authored": "2026-08-18"
     },
@@ -2858,12 +2858,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "What is the interquartile range (IQR) of the dataset {2, 4, 5, 7, 9, 12, 15}?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "8" } },
-        { "id": "b", "content": { "format": "text", "value": "11" } },
-        { "id": "c", "content": { "format": "text", "value": "4" } },
-        { "id": "d", "content": { "format": "text", "value": "12" } }
+        { "id": "a", "content": { "format": "text", "value": "11" } },
+        { "id": "b", "content": { "format": "text", "value": "4" } },
+        { "id": "c", "content": { "format": "text", "value": "12" } },
+        { "id": "d", "content": { "format": "text", "value": "8" } }
       ],
-      "correct": ["a"],
+      "correct": ["d"],
       "explanation": { "format": "text", "value": "The lower half {2, 4, 5} has median (Q1) 4, and the upper half {9, 12, 15} has median (Q3) 12. IQR = Q3 − Q1 = 12 − 4 = 8." },
       "authored": "2026-08-18"
     },
@@ -2875,12 +2875,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "A student finds the number of students playing soccer or basketball by adding 18 + 12 = 30, in a class where 18 play soccer, 12 play basketball, and 6 play both, out of 30 total students. Which of the following identifies the flaw and gives the correct number playing neither sport?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "6 students play neither; the correct count playing at least one sport is 18 + 12 − 6 = 24 (subtracting the double-counted overlap), leaving 30 − 24 = 6 playing neither." } },
-        { "id": "b", "content": { "format": "text", "value": "0 students play neither, since 18 + 12 = 30 already accounts for everyone." } },
-        { "id": "c", "content": { "format": "text", "value": "The overlap of 6 should be added again, not subtracted." } },
-        { "id": "d", "content": { "format": "text", "value": "The two sports' counts cannot be combined at all." } }
+        { "id": "a", "content": { "format": "text", "value": "The overlap of 6 should be added again, not subtracted." } },
+        { "id": "b", "content": { "format": "text", "value": "The two sports' counts cannot be combined at all." } },
+        { "id": "c", "content": { "format": "text", "value": "6 students play neither; the correct count playing at least one sport is 18 + 12 − 6 = 24 (subtracting the double-counted overlap), leaving 30 − 24 = 6 playing neither." } },
+        { "id": "d", "content": { "format": "text", "value": "0 students play neither, since 18 + 12 = 30 already accounts for everyone." } }
       ],
-      "correct": ["a"],
+      "correct": ["c"],
       "explanation": { "format": "text", "value": "The 6 students who play both sports get counted once in the 18 and again in the 12, so simply adding double-counts them. Subtracting the overlap once gives the correct count of students playing at least one sport." },
       "authored": "2026-08-18"
     },
@@ -2892,12 +2892,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "A study finds a strong positive correlation between ice cream sales and drowning incidents. A student concludes that ice cream sales cause drownings. Which of the following best explains the flaw in this reasoning?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "Correlation does not imply causation — both variables are likely driven by a third factor, such as hot weather increasing both ice cream sales and swimming (and therefore drowning risk), rather than one causing the other." } },
-        { "id": "b", "content": { "format": "text", "value": "The student's conclusion is correct, since the correlation is strong." } },
-        { "id": "c", "content": { "format": "text", "value": "A strong correlation always indicates the first variable causes the second." } },
-        { "id": "d", "content": { "format": "text", "value": "Correlation and causation mean the same thing." } }
+        { "id": "a", "content": { "format": "text", "value": "The student's conclusion is correct, since the correlation is strong." } },
+        { "id": "b", "content": { "format": "text", "value": "A strong correlation always indicates the first variable causes the second." } },
+        { "id": "c", "content": { "format": "text", "value": "Correlation and causation mean the same thing." } },
+        { "id": "d", "content": { "format": "text", "value": "Correlation does not imply causation — both variables are likely driven by a third factor, such as hot weather increasing both ice cream sales and swimming (and therefore drowning risk), rather than one causing the other." } }
       ],
-      "correct": ["a"],
+      "correct": ["d"],
       "explanation": { "format": "text", "value": "A correlation only shows that two variables tend to move together — it says nothing about which, if either, causes the other. A hidden third variable (here, hot weather) commonly explains an observed correlation without either variable causing the other." },
       "authored": "2026-08-18"
     },
@@ -2908,12 +2908,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "A scatter plot's line of best fit is y = 2x + 5, where x is hours studied and y is test score. What does the slope of 2 represent?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "An increase of about 2 points in test score for each additional hour studied." } },
-        { "id": "b", "content": { "format": "text", "value": "An increase of about 5 points in test score for each additional hour studied." } },
-        { "id": "c", "content": { "format": "text", "value": "A starting test score of 2 points before any studying." } },
-        { "id": "d", "content": { "format": "text", "value": "A decrease of 2 points in test score for each additional hour studied." } }
+        { "id": "a", "content": { "format": "text", "value": "A starting test score of 2 points before any studying." } },
+        { "id": "b", "content": { "format": "text", "value": "A decrease of 2 points in test score for each additional hour studied." } },
+        { "id": "c", "content": { "format": "text", "value": "An increase of about 2 points in test score for each additional hour studied." } },
+        { "id": "d", "content": { "format": "text", "value": "An increase of about 5 points in test score for each additional hour studied." } }
       ],
-      "correct": ["a"],
+      "correct": ["c"],
       "explanation": { "format": "text", "value": "In y = mx + b, the slope m gives the change in y per unit increase in x. Here, each additional hour studied is associated with about a 2-point increase in test score." },
       "authored": "2026-08-18"
     },
@@ -2924,12 +2924,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "In a normal distribution, approximately what percentage of data falls within one standard deviation of the mean?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "68%" } },
-        { "id": "b", "content": { "format": "text", "value": "95%" } },
-        { "id": "c", "content": { "format": "text", "value": "99.7%" } },
-        { "id": "d", "content": { "format": "text", "value": "50%" } }
+        { "id": "a", "content": { "format": "text", "value": "50%" } },
+        { "id": "b", "content": { "format": "text", "value": "68%" } },
+        { "id": "c", "content": { "format": "text", "value": "95%" } },
+        { "id": "d", "content": { "format": "text", "value": "99.7%" } }
       ],
-      "correct": ["a"],
+      "correct": ["b"],
       "explanation": { "format": "text", "value": "The empirical rule states that approximately 68% of data in a normal distribution falls within one standard deviation of the mean." },
       "authored": "2026-08-18"
     },
@@ -2940,12 +2940,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "A researcher surveys every 10th person who enters a store. This is an example of which sampling method?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "Systematic sampling" } },
-        { "id": "b", "content": { "format": "text", "value": "Random sampling" } },
-        { "id": "c", "content": { "format": "text", "value": "Stratified sampling" } },
-        { "id": "d", "content": { "format": "text", "value": "Convenience sampling" } }
+        { "id": "a", "content": { "format": "text", "value": "Stratified sampling" } },
+        { "id": "b", "content": { "format": "text", "value": "Convenience sampling" } },
+        { "id": "c", "content": { "format": "text", "value": "Systematic sampling" } },
+        { "id": "d", "content": { "format": "text", "value": "Random sampling" } }
       ],
-      "correct": ["a"],
+      "correct": ["c"],
       "explanation": { "format": "text", "value": "Systematic sampling selects members at a fixed interval (here, every 10th person) from an ordered list or sequence." },
       "authored": "2026-08-18"
     },
@@ -2956,12 +2956,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "A box plot shows minimum 2, Q1 5, median 8, Q3 12, and maximum 20. What is the interquartile range?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "7" } },
-        { "id": "b", "content": { "format": "text", "value": "18" } },
-        { "id": "c", "content": { "format": "text", "value": "10" } },
-        { "id": "d", "content": { "format": "text", "value": "4" } }
+        { "id": "a", "content": { "format": "text", "value": "18" } },
+        { "id": "b", "content": { "format": "text", "value": "10" } },
+        { "id": "c", "content": { "format": "text", "value": "4" } },
+        { "id": "d", "content": { "format": "text", "value": "7" } }
       ],
-      "correct": ["a"],
+      "correct": ["d"],
       "explanation": { "format": "text", "value": "IQR = Q3 − Q1 = 12 − 5 = 7." },
       "authored": "2026-08-18"
     },
@@ -2972,12 +2972,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "A test has a mean of 75 and standard deviation of 5. What is the z-score for a test score of 85?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "2" } },
-        { "id": "b", "content": { "format": "text", "value": "10" } },
-        { "id": "c", "content": { "format": "text", "value": "1.5" } },
-        { "id": "d", "content": { "format": "text", "value": "0.5" } }
+        { "id": "a", "content": { "format": "text", "value": "0.5" } },
+        { "id": "b", "content": { "format": "text", "value": "2" } },
+        { "id": "c", "content": { "format": "text", "value": "10" } },
+        { "id": "d", "content": { "format": "text", "value": "1.5" } }
       ],
-      "correct": ["a"],
+      "correct": ["b"],
       "explanation": { "format": "text", "value": "A z-score is (value − mean) / standard deviation: (85 − 75) / 5 = 10/5 = 2." },
       "authored": "2026-08-18"
     },
@@ -2989,12 +2989,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "In a class, 60% of students play sports and 40% play sports AND are on honor roll. A student computes the probability of being on honor roll given that a student plays sports by dividing P(sports) by P(honor roll and sports), getting 0.6/0.4 = 1.5 — an impossible probability greater than 1. Which of the following corrects the setup?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "Conditional probability is P(A|B) = P(A and B)/P(B), not the reverse — the correct computation is P(honor|sports) = 0.4/0.6 ≈ 0.667." } },
-        { "id": "b", "content": { "format": "text", "value": "The student's answer of 1.5 is correct, since conditional probabilities can exceed 1." } },
-        { "id": "c", "content": { "format": "text", "value": "Conditional probability doesn't require division at all." } },
-        { "id": "d", "content": { "format": "text", "value": "The two given probabilities should be multiplied instead of divided." } }
+        { "id": "a", "content": { "format": "text", "value": "The student's answer of 1.5 is correct, since conditional probabilities can exceed 1." } },
+        { "id": "b", "content": { "format": "text", "value": "Conditional probability doesn't require division at all." } },
+        { "id": "c", "content": { "format": "text", "value": "The two given probabilities should be multiplied instead of divided." } },
+        { "id": "d", "content": { "format": "text", "value": "Conditional probability is P(A|B) = P(A and B)/P(B), not the reverse — the correct computation is P(honor|sports) = 0.4/0.6 ≈ 0.667." } }
       ],
-      "correct": ["a"],
+      "correct": ["d"],
       "explanation": { "format": "text", "value": "The conditional probability formula divides the joint probability by the probability of the condition, P(A and B)/P(B) — dividing in the wrong order, as the student did, can produce a nonsensical result greater than 1, which is itself a signal the setup is backwards." },
       "authored": "2026-08-18"
     },
@@ -3021,12 +3021,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "A student scores 80 on a test worth 30% of the grade and 90 on a test worth 70% of the grade. What is the weighted average?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "87" } },
-        { "id": "b", "content": { "format": "text", "value": "85" } },
-        { "id": "c", "content": { "format": "text", "value": "90" } },
-        { "id": "d", "content": { "format": "text", "value": "86" } }
+        { "id": "a", "content": { "format": "text", "value": "90" } },
+        { "id": "b", "content": { "format": "text", "value": "86" } },
+        { "id": "c", "content": { "format": "text", "value": "87" } },
+        { "id": "d", "content": { "format": "text", "value": "85" } }
       ],
-      "correct": ["a"],
+      "correct": ["c"],
       "explanation": { "format": "text", "value": "Weighted average: 0.3(80) + 0.7(90) = 24 + 63 = 87." },
       "authored": "2026-08-18"
     },
@@ -3054,12 +3054,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "A restaurant offers 3 appetizers, 4 entrees, and 2 desserts. How many different 3-course meals are possible?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "24" } },
-        { "id": "b", "content": { "format": "text", "value": "9" } },
-        { "id": "c", "content": { "format": "text", "value": "12" } },
-        { "id": "d", "content": { "format": "text", "value": "48" } }
+        { "id": "a", "content": { "format": "text", "value": "9" } },
+        { "id": "b", "content": { "format": "text", "value": "12" } },
+        { "id": "c", "content": { "format": "text", "value": "48" } },
+        { "id": "d", "content": { "format": "text", "value": "24" } }
       ],
-      "correct": ["a"],
+      "correct": ["d"],
       "explanation": { "format": "text", "value": "By the fundamental counting principle, multiply the number of choices at each stage: 3 × 4 × 2 = 24." },
       "authored": "2026-08-18"
     },
@@ -3070,12 +3070,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "The probability of an event is 3/5. What are the odds in favor of the event?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "3:2" } },
-        { "id": "b", "content": { "format": "text", "value": "3:5" } },
-        { "id": "c", "content": { "format": "text", "value": "5:3" } },
-        { "id": "d", "content": { "format": "text", "value": "2:3" } }
+        { "id": "a", "content": { "format": "text", "value": "2:3" } },
+        { "id": "b", "content": { "format": "text", "value": "3:2" } },
+        { "id": "c", "content": { "format": "text", "value": "3:5" } },
+        { "id": "d", "content": { "format": "text", "value": "5:3" } }
       ],
-      "correct": ["a"],
+      "correct": ["b"],
       "explanation": { "format": "text", "value": "Odds in favor compare favorable to unfavorable outcomes, not favorable to total. With probability 3/5, there are 3 favorable and 5 − 3 = 2 unfavorable outcomes out of 5, giving odds 3:2." },
       "authored": "2026-08-18"
     },
@@ -3086,12 +3086,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "A fair coin is flipped 3 times. What is the probability of getting exactly 2 heads?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "3/8" } },
-        { "id": "b", "content": { "format": "text", "value": "1/8" } },
-        { "id": "c", "content": { "format": "text", "value": "1/2" } },
-        { "id": "d", "content": { "format": "text", "value": "3/4" } }
+        { "id": "a", "content": { "format": "text", "value": "1/2" } },
+        { "id": "b", "content": { "format": "text", "value": "3/4" } },
+        { "id": "c", "content": { "format": "text", "value": "3/8" } },
+        { "id": "d", "content": { "format": "text", "value": "1/8" } }
       ],
-      "correct": ["a"],
+      "correct": ["c"],
       "explanation": { "format": "text", "value": "There are C(3,2) = 3 ways to choose which 2 of the 3 flips are heads, each with probability (1/2)³ = 1/8: 3 × 1/8 = 3/8." },
       "authored": "2026-08-18"
     },
@@ -3102,12 +3102,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "A die is rolled and a coin is flipped. How many outcomes are in the sample space?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "12" } },
-        { "id": "b", "content": { "format": "text", "value": "8" } },
-        { "id": "c", "content": { "format": "text", "value": "6" } },
-        { "id": "d", "content": { "format": "text", "value": "36" } }
+        { "id": "a", "content": { "format": "text", "value": "36" } },
+        { "id": "b", "content": { "format": "text", "value": "12" } },
+        { "id": "c", "content": { "format": "text", "value": "8" } },
+        { "id": "d", "content": { "format": "text", "value": "6" } }
       ],
-      "correct": ["a"],
+      "correct": ["b"],
       "explanation": { "format": "text", "value": "The die has 6 outcomes and the coin has 2, so the combined sample space has 6 × 2 = 12 outcomes." },
       "authored": "2026-08-18"
     },
@@ -3119,12 +3119,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "A teacher wants to demonstrate why the median is often preferred over the mean for datasets with extreme outliers, using {2, 3, 4, 5, 100}. Which of the following best makes this point?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "The mean of {2,3,4,5,100} is 22.8, pulled far above nearly every value by the outlier 100, while the median is 4, closely reflecting where most of the data actually falls — showing the median resists extreme values better than the mean." } },
-        { "id": "b", "content": { "format": "text", "value": "The mean and median are always equal, so it doesn't matter which is reported." } },
-        { "id": "c", "content": { "format": "text", "value": "The outlier should simply be deleted before computing either measure." } },
-        { "id": "d", "content": { "format": "text", "value": "The median is always larger than the mean whenever an outlier is present." } }
+        { "id": "a", "content": { "format": "text", "value": "The median is always larger than the mean whenever an outlier is present." } },
+        { "id": "b", "content": { "format": "text", "value": "The mean of {2,3,4,5,100} is 22.8, pulled far above nearly every value by the outlier 100, while the median is 4, closely reflecting where most of the data actually falls — showing the median resists extreme values better than the mean." } },
+        { "id": "c", "content": { "format": "text", "value": "The mean and median are always equal, so it doesn't matter which is reported." } },
+        { "id": "d", "content": { "format": "text", "value": "The outlier should simply be deleted before computing either measure." } }
       ],
-      "correct": ["a"],
+      "correct": ["b"],
       "explanation": { "format": "text", "value": "The mean incorporates every value's exact size, so one extreme value can shift it dramatically — here from a dataset that's mostly small single-digit numbers to a mean over 22. The median only depends on which value is in the middle position, so it isn't pulled by extreme values the same way." },
       "authored": "2026-08-18"
     },
@@ -3152,12 +3152,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "A student believes that after flipping 5 heads in a row, a fair coin is now 'due' for tails, making tails more likely on the next flip. Which of the following corrects this misconception, known as the gambler's fallacy?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "Each coin flip is independent of previous flips — the probability of heads or tails on the next flip remains 0.5 regardless of the streak; the law of large numbers describes long-run proportions over many flips, not a correction on the very next one." } },
-        { "id": "b", "content": { "format": "text", "value": "The student is correct; tails becomes more likely after a streak of heads." } },
-        { "id": "c", "content": { "format": "text", "value": "After 5 heads, the coin is guaranteed to land tails next." } },
-        { "id": "d", "content": { "format": "text", "value": "The probability of tails increases with each consecutive head in the streak." } }
+        { "id": "a", "content": { "format": "text", "value": "The student is correct; tails becomes more likely after a streak of heads." } },
+        { "id": "b", "content": { "format": "text", "value": "After 5 heads, the coin is guaranteed to land tails next." } },
+        { "id": "c", "content": { "format": "text", "value": "The probability of tails increases with each consecutive head in the streak." } },
+        { "id": "d", "content": { "format": "text", "value": "Each coin flip is independent of previous flips — the probability of heads or tails on the next flip remains 0.5 regardless of the streak; the law of large numbers describes long-run proportions over many flips, not a correction on the very next one." } }
       ],
-      "correct": ["a"],
+      "correct": ["d"],
       "explanation": { "format": "text", "value": "A fair coin has no memory of previous flips — each flip is an independent event with probability 0.5 for each outcome. Long streaks do get diluted over a very large number of future flips (the law of large numbers), but that says nothing about the very next flip specifically." },
       "authored": "2026-08-18"
     },
@@ -3168,12 +3168,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "A survey of 100 people found 40 own a dog, 35 own a cat, and 15 own both. How many people own a dog but NOT a cat?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "25" } },
-        { "id": "b", "content": { "format": "text", "value": "40" } },
-        { "id": "c", "content": { "format": "text", "value": "15" } },
-        { "id": "d", "content": { "format": "text", "value": "55" } }
+        { "id": "a", "content": { "format": "text", "value": "15" } },
+        { "id": "b", "content": { "format": "text", "value": "55" } },
+        { "id": "c", "content": { "format": "text", "value": "25" } },
+        { "id": "d", "content": { "format": "text", "value": "40" } }
       ],
-      "correct": ["a"],
+      "correct": ["c"],
       "explanation": { "format": "text", "value": "Of the 40 dog owners, 15 also own a cat, so 40 − 15 = 25 own a dog but not a cat." },
       "authored": "2026-08-18"
     },
@@ -3184,12 +3184,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "A researcher wants to know the average height of all adults in a country but measures only 500 randomly selected adults. The 500 adults are an example of a:" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "Sample" } },
-        { "id": "b", "content": { "format": "text", "value": "Population" } },
-        { "id": "c", "content": { "format": "text", "value": "Parameter" } },
-        { "id": "d", "content": { "format": "text", "value": "Census" } }
+        { "id": "a", "content": { "format": "text", "value": "Census" } },
+        { "id": "b", "content": { "format": "text", "value": "Sample" } },
+        { "id": "c", "content": { "format": "text", "value": "Population" } },
+        { "id": "d", "content": { "format": "text", "value": "Parameter" } }
       ],
-      "correct": ["a"],
+      "correct": ["b"],
       "explanation": { "format": "text", "value": "A sample is a subset of a population selected for study. The 500 measured adults are a sample drawn from the full population of all adults in the country." },
       "authored": "2026-08-18"
     },
@@ -3217,12 +3217,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "Given that a dataset has a standard deviation of 4, a student states that its variance must also be 4, treating the two terms as interchangeable. Which of the following corrects this?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "Variance is the SQUARE of the standard deviation, not the same value — with a standard deviation of 4, the variance is 4² = 16." } },
-        { "id": "b", "content": { "format": "text", "value": "The student is correct; variance and standard deviation are always equal." } },
-        { "id": "c", "content": { "format": "text", "value": "Variance is always half of the standard deviation." } },
-        { "id": "d", "content": { "format": "text", "value": "Variance can only be computed directly from raw data, never from a given standard deviation." } }
+        { "id": "a", "content": { "format": "text", "value": "Variance can only be computed directly from raw data, never from a given standard deviation." } },
+        { "id": "b", "content": { "format": "text", "value": "Variance is the SQUARE of the standard deviation, not the same value — with a standard deviation of 4, the variance is 4² = 16." } },
+        { "id": "c", "content": { "format": "text", "value": "The student is correct; variance and standard deviation are always equal." } },
+        { "id": "d", "content": { "format": "text", "value": "Variance is always half of the standard deviation." } }
       ],
-      "correct": ["a"],
+      "correct": ["b"],
       "explanation": { "format": "text", "value": "Standard deviation is defined as the square root of the variance, so variance = (standard deviation)². Given SD = 4, variance = 16, not 4." },
       "authored": "2026-08-18"
     },
@@ -3233,12 +3233,12 @@
       "retired": false,
       "stem": { "format": "text", "value": "A probability distribution has four outcomes with probabilities 0.2, 0.3, x, and 0.1. What must x equal for this to be a valid probability distribution?" },
       "options": [
-        { "id": "a", "content": { "format": "text", "value": "0.4" } },
-        { "id": "b", "content": { "format": "text", "value": "0.6" } },
-        { "id": "c", "content": { "format": "text", "value": "1" } },
-        { "id": "d", "content": { "format": "text", "value": "0.5" } }
+        { "id": "a", "content": { "format": "text", "value": "0.6" } },
+        { "id": "b", "content": { "format": "text", "value": "1" } },
+        { "id": "c", "content": { "format": "text", "value": "0.5" } },
+        { "id": "d", "content": { "format": "text", "value": "0.4" } }
       ],
-      "correct": ["a"],
+      "correct": ["d"],
       "explanation": { "format": "text", "value": "All probabilities in a valid distribution must sum to 1: 0.2 + 0.3 + x + 0.1 = 1, so x = 1 − 0.6 = 0.4." },
       "authored": "2026-08-18"
     },

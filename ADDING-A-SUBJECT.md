@@ -269,13 +269,26 @@ print({k: f"{v} ({100*v/n:.0f}%)" for k, v in sorted(c.items())})
 PY
 ```
 
-This is not pedantry. 5165's original 198 questions were **79% keyed "a"** with 4% "d"
-— a test-taker who noticed could score 79% without knowing any mathematics, on the app
-whose whole job is to demonstrate that the content is good. See
-[issue #93](https://github.com/homesik92/PRAXIS-Practice/issues/93). Fixing it after the
-fact is far more expensive than distributing keys while drafting, because each change
-means reordering options *and* re-reading the explanation to confirm it still refers to
-the right choice.
+This is not pedantry. 5165's original 198 questions were **92% keyed "a"** with **no
+"d" at all** ([issue #93](https://github.com/homesik92/PRAXIS-Practice/issues/93),
+fixed 2026-09-10).
+
+**Be precise about why it matters, because this file previously overstated it.** It
+claimed a test-taker who noticed could have scored 79% without knowing any mathematics.
+That was wrong: `shuffleQuestionOptions` (`js/schema.js`) is called from *every*
+form-assembly path, so stored option order is randomised before anything reaches a
+screen and no student has ever seen a predictable key. The real exposure is that the
+bank file is **100% predictable in raw form** — this repo is public, banks are readable,
+and a stored-order view (a print layout, an export, a review render that bypasses
+assembly) would turn a latent problem into a live one.
+
+Fixing it afterwards is far more expensive than distributing keys while drafting, and
+the cost is not only the reordering. **Rotating a shipped bank's keys silently rewrites
+existing study history**: saved answers record option *ids* (`chosen: ["a"]`) and
+correctness is recomputed against the current bank, so every attempt already in a
+person's browser re-scores, and the spaced-repetition state derived from it skews with
+it. #93 was safe to fix only because it happened before the app had users. After
+release, this stops being a cheap fix at all.
 
 ---
 
