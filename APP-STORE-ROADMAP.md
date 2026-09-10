@@ -24,10 +24,10 @@ Update this table as each app moves. Phase letters refer to the sections below.
 | --- | --- | --- | --- | --- |
 | **STEM** | 5165, 5436, 5485, 5652 | A | ☐ not started | Ships first (D-41). Nearly the current build already |
 | **Humanities** | 5581 + future English/history | — | ☐ not started | 5581's bank is scaffold-only and paused |
-| *(Core — 5713/5723/5733)* | *not in scope* | — | ⛔ parked | **Not a data-only addition** — see N-16 and BLUEPRINT.md before scheduling |
+| **Core** | 5713, 5723, 5733 | — | ⛔ parked | Fourth track and fourth app (**D-43**). **Not a data-only addition** — see N-16 and BLUEPRINT.md before scheduling |
 | **Administrative** | 5101 + future admin/librarian | — | ☐ not started | 5101 moves here from the current build |
 
-**Ship the STEM app and get it approved before submitting the second** (D-41). If Apple
+**Ship the STEM app and get it approved before submitting the second** (D-41). Four tracks exist in total — STEM, Humanities, Administrative and Core (**D-43**) — but Core is parked and its engine work is unscheduled. If Apple
 raises Guideline 4.3(a) against a second, near-identical binary, that is far cheaper to
 discover with one app already live than with three in review.
 

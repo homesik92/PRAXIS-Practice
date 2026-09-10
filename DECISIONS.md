@@ -1760,3 +1760,43 @@ headline holds for **Praxis Subject Assessments**, which is the family it was wr
 It does not generalise to every Praxis test, and §1d's instruction to check the format line
 and stop at the plan gate is what caught this — one paragraph of a study companion, read
 before any authoring, in place of several sessions spent discovering it.
+
+
+### D-43: Amends D-41 — Core becomes a fourth track and its own app
+
+**Context.** D-41 split the downstream wrapper into three apps by subject area (STEM,
+Humanities, Administrative). N-16 then scoped Praxis Core (5713 Reading, 5723 Writing,
+5733 Mathematics) and found it is the likely volume market and the only product with a
+genuine funnel *into* the Subject Assessments — but also the most expensive family in the
+catalogue, breaking the settled single-select assumption in three directions.
+
+**Decision — session owner's call, 2026-09-10: Core is a fourth track and a fourth app**,
+alongside STEM, Humanities and Administrative.
+
+**Why it is a separate app rather than folded into one of the three.** Core's audience is
+the one that is genuinely *different in kind*: candidates sitting Core are typically
+pre-programme, have not yet chosen or declared a teaching subject, and are being assessed
+on basic reading, writing and mathematics rather than on any subject's content. Folding
+Core into the STEM app would put a basic-skills mathematics test beside a
+mathematics-content licensure test for future mathematics teachers — adjacent in name and
+unrelated in purpose. The same disjoint-audience reasoning that produced D-41's split
+applies with more force here, not less.
+
+It also keeps the funnel legible: Core is the app a candidate meets *first*, and the one
+that can credibly point at the others, which is the sequential relationship the Subject
+Assessments do not have with each other (D-42).
+
+**What this does not change.** Core stays **parked**. Nothing about the engine gaps in
+N-16 is affected by giving it a track name, the STEM app still ships and must be approved
+first (D-41), and the decision of whether to build Core at all is still deferred until the
+STEM app has real revenue and review data. This entry records the *shape* Core would take,
+so that the track vocabulary is complete and issue #121's `track` field is specified once
+rather than twice.
+
+**Consequence for #121.** The `track` field gains a fourth value, `"core"`. No subject
+carries it today — 5713/5723/5733 have no banks — so the field's implementation is
+unchanged in substance; only the documented set of valid values grows. Recording it now
+avoids a second schema-touching change later for a value that was already foreseeable.
+
+**Amends** D-41. D-42's pricing model applies unchanged to a Core app: free to download
+with a single non-consumable unlock.
