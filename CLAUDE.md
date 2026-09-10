@@ -49,15 +49,18 @@ repo. The full rule is in `.claude/skills/dev-workflow/SKILL.md`.
 ## Downstream native apps
 
 This repo is the multi-subject master — it's the source of truth for every Praxis
-exam's content and shared engine code. Every subject also ships inside a **single** native iOS
-app, in one downstream repo (`PRAXIS-iOS-Math` today, to be renamed `PRAXIS-iOS`) —
-see D-30 → D-37 → **D-38**. That app bundles a manual copy of every file this repo
+exam's content and shared engine code. Subjects ship inside native iOS apps built from
+one downstream repo (`PRAXIS-iOS-Math` today, to be renamed `PRAXIS-iOS`) — see
+D-30 → D-37 → D-38 → **D-41**, which splits the wrapper into **three** apps by subject
+area (STEM, Humanities, Administrative) rather than one holding everything. The STEM app
+ships and must be *approved* before the second is submitted. Release work itself is
+tracked in [APP-STORE-ROADMAP.md](APP-STORE-ROADMAP.md), not in `ROADMAP.md`. That app bundles a manual copy of every file this repo
 owns: `test.html`, `results.html`, `run.html`, `teach.html`, `index.html`,
 `css/base.css`, `js/*`, and the whole `data/` payload including `manifest.json`
 unmodified. Nothing propagates a change here to that repo automatically.
 
-Four of its five subjects are **paid**, so a content gap there is something a person
-bought, not just a rough edge on a free site.
+Most subjects are **paid**, so a content gap there is something a person bought, not
+just a rough edge on a free site.
 
 Worth knowing when a change here looks like it needs a downstream tweak: the
 downstream repo's own rule is that it never edits the contents of a file this repo

@@ -1535,3 +1535,89 @@ id derived from it, are settled in `session-11` before any such record is create
 *This project's own content rule is unchanged and is the one that would be genuinely
 expensive to get wrong: every question is written from the underlying skill, never adapted
 from ETS's study companions. No tool can check it.*
+
+
+### D-41: Amends D-38 — three apps split by subject area, STEM first, with an approval gate between them
+
+**Context.** D-38 consolidated the downstream wrappers into a single app holding every
+subject, four unlocked by in-app purchase. Its driver was App Store Guideline **4.3(a)**:
+multiple bundle ids of substantially the same binary read as spam, and Apple names IAP as
+the remedy. That reasoning killed a plan of *five apps, one per subject*.
+
+**Decision — session owner's call, 2026-09-10: three apps, split by subject area.**
+
+| App | Subjects |
+|---|---|
+| **STEM** | 5165 Mathematics, 5436 General Science, 5485 Physical Science, 5652 Computer Science |
+| **Humanities** | 5581 Social Studies, plus future English / history subjects |
+| **Administrative** | 5101 Business Education, plus future administrator / school-management / librarian subjects |
+
+**Why this is not simply a reversal.** The plan D-38 rejected was one app per *subject* —
+five near-identical binaries differing only in which bank they bundled, which is squarely
+what 4.3(a) describes. A split by subject *area* is a different proposition: each app is a
+substantial multi-subject product aimed at a **disjoint buyer**. A mathematics candidate
+and an aspiring principal are not the same customer and would never buy the other app, so
+three focused listings serve discoverability in a way one blended listing cannot.
+
+**Why it is still a knowing risk.** It remains three bundle ids running the same engine
+over different content, which is the same *shape* 4.3(a) objects to even if the content
+differentiation is far stronger. Nothing here makes the risk zero.
+
+**The hedge, and the part that must not be skipped:** the **STEM app ships and is
+approved before the second is submitted.** If Apple raises 4.3(a), that is discovered
+with one app live and one bundle id spent, rather than three apps in review with three
+sets of metadata, screenshots and IAP records already built. Recorded in
+`APP-STORE-ROADMAP.md` as phase K.4 so it survives as a gate rather than an intention.
+
+**Two consequences.**
+
+- **5101 Business Education leaves the current build** when the Administrative app
+  exists. It is the one live subject that is neither STEM nor humanities, and it sits in
+  the STEM app today only because the STEM app is what currently exists.
+- **D-38's "bundle `manifest.json` verbatim" rule is preserved, not broken.** Three apps
+  each need a *subset* of subjects, and the obvious implementation — a hand-trimmed
+  manifest per app — is exactly the divergence D-38 retired, and exactly what let the
+  downstream manifest drift before. Instead each manifest entry gains a data-driven
+  **`track`** field (`"stem"` / `"humanities"` / `"admin"`), and each app filters by its
+  own track at runtime. The manifest stays byte-identical everywhere, and assigning a
+  subject to an app becomes a one-line data change — consistent with this project's
+  standing principle that a subject is data, not code. Implementation filed as its own
+  issue; it touches `data/manifest.json`'s shape, `SCHEMA.md` and `tools/verify.mjs`, so
+  it is a schema-tier change under Gate 4 rather than a merge-on-green one.
+
+**Amends** D-38 (this repo) and D-19 (PRAXIS-iOS-Math). D-38's core boundary is
+untouched: the iOS repo still never edits the contents of a file this repo owns, and
+purchase state still never enters the web layer.
+
+### N-14: An App Store name screen is not a trademark clearance search — and it caught two collisions
+
+**Context.** With D-40 having set aside the attorney consult, name selection rests on
+self-service checks. Two candidate product names were screened on 2026-09-10 using
+Apple's public search API, which needs no account:
+
+```
+curl -s "https://itunes.apple.com/search?term=<name>&entity=software&country=us&limit=30"
+```
+
+**Found.** **"First Bell"**, already chosen, is an existing App Store app *in the
+Education category* (`com.sramaswamy.School-Schedule`) — a school bell-schedule tool. App
+Store names must be unique, so the bare name was unavailable, and a same-category prior
+user weakens any later trademark claim. **"Chalkline"**, recommended in the same session,
+collided with **two** Education apps. Both were caught before either reached an
+identifier. Of the alternatives screened, **TeachReady** showed no collision anywhere and
+**Lectern**'s only collision was a productivity app in an unrelated category.
+
+**The distinction worth keeping.** This screen finds *app names*. It does not find
+registered marks, and a name can be clear on the App Store while infringing a live
+registration — which is precisely the trap D-40 documents, where an abandoned mark was
+mistaken for an empty field. **A USPTO search in the relevant classes (9 and 41 here) is
+a separate step**, self-service at <https://www.uspto.gov/trademarks/search>, and is
+recorded as its own checklist item in `APP-STORE-ROADMAP.md` phase A rather than folded
+into the App Store screen.
+
+**Also settled in the same pass:** a second Apple Developer account is not being bought.
+One account publishes unlimited apps including all three under D-41; the seller name is
+low-visibility beside the app name and icon; and Apple supports app transfer between
+accounts if a product ever becomes its own legal entity. The genuine question there is
+accounting and liability — which entity receives the revenue — not branding, and that is
+the session owner's to answer outside this repo.

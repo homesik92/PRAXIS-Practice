@@ -1864,54 +1864,45 @@ Mathematics-only build, and Mathematics' chapters have been complete since 6.9.2
 
 ### After Phase 10: the native app and the App Store
 
-Not a phase of this project — recorded here because Phase 10.2's completion
-gates cross-project work in
-[PRAXIS-iOS-Math](https://github.com/homesik92/PRAXIS-iOS-Math).
+**The App Store release process now lives in its own document:
+[APP-STORE-ROADMAP.md](APP-STORE-ROADMAP.md).** It was split out on 2026-09-10 so
+release work can be tracked separately from development, and so the sequence can be
+reused for each of the three apps rather than rewritten (**D-41**). Everything from
+"the software works" to "approved and on the store" is there — identity and trademark,
+Apple account setup, the App Store Connect record and its permanent bundle id, metadata,
+TestFlight, submission, rejection handling, release.
 
-**This section previously described spinning off one `PRAXIS-iOS-<subject>`
-repo per subject by copying a template (D-12's recipe). That is obsolete.**
-The structure changed three times on 2026-09-08 — D-30 → D-37 → **D-38** —
-and landed on a single iOS app holding all five subjects, with Mathematics
-free and the other four unlocked by in-app purchase. Nothing is copied per
-subject any more.
+This section keeps only what belongs to *this* project: what has to be true here before
+any of that starts.
 
-**Release sequencing, agreed with the session owner 2026-09-08:**
+**Three apps, not one** (**D-41**, amending D-38): STEM (5165, 5436, 5485, 5652),
+Humanities (5581 and future English/history), Administrative (5101 and future
+admin/librarian subjects). The STEM app ships first and must be **approved** before the
+second is submitted. Note that 5101 Business Education moves out of the current build
+when the Administrative app exists.
 
-1. **Name/trademark consult — start now, in parallel.** This is *not* App
-   Store work and should not wait for it. "PRAXIS Practice" is already this
-   site's wordmark, this repo's public name, and its Pages URL; the
-   downstream app's bundle identifier is built on it too. `LEGAL.md` (in the
-   iOS repo) advises against using "Praxis" as a product *brand* as opposed
-   to a descriptive reference, and its own revisit trigger — "any public
-   announcement or marketing beyond personal use" — is arguably already met
-   by this public site. A change here reaches the masthead, both repo names,
-   the icon, and the bundle id, and gets more expensive the longer it waits.
-   Nothing blocks booking it.
-   → [PRAXIS-iOS-Math#20](https://github.com/homesik92/PRAXIS-iOS-Math/issues/20)
-2. **This project to production-ready.** Phase 10, plus the content quality
-   work that four *paid* subjects now make non-optional: 5165's answer-key
-   distribution (#93 — 79% keyed "a", and it is the **free** app that sells
-   the others), and 5436's missing teaching chapters (#106). Branch
-   protection (#107) is **done** — enabled 2026-09-10, see N-13.
-3. **The iOS app to production-ready.** Its own gate — the shared native
-   shell, since one shell now serves every subject and every paying user —
-   then the StoreKit integration and native subject picker. Note the
-   purchase code is *architecture*, not App Store work: the whole
-   purchase/restore flow is testable locally with an Xcode StoreKit
-   configuration file, with no App Store Connect record required.
-4. **App Store work last.** App Store Connect app record, IAP product
-   records, listing copy, screenshots, keywords, pricing, submission. One
-   practical caveat: the paid-apps agreement, banking and tax forms involve
-   verification that can take days, so they are worth starting before
-   submission day even though they belong in this final stage.
+**Release sequencing:**
 
-Authoring the remaining subjects does not by itself trigger any iOS work —
-both halves still need to be independently done first.
+1. **This project to production-ready.** Phase 10, plus the content-quality work that
+   paid subjects make non-optional: 5165's answer-key distribution (#93) and 5436's
+   missing teaching chapters (#106). Branch protection (#107) is **done** — enabled
+   2026-09-10, see N-13. Tracked as sessions 01–04 of the schedule triaged 2026-09-10.
+2. **The iOS app to production-ready.** The shared native shell, the bundled payload,
+   then StoreKit and the native subject picker. The purchase code is *architecture*, not
+   App Store work — the whole purchase/restore flow is testable locally against an Xcode
+   StoreKit configuration file with no App Store Connect record.
+3. **App Store work last**, per [APP-STORE-ROADMAP.md](APP-STORE-ROADMAP.md) — with the
+   exception it calls out: the paid-apps agreement, banking and tax verification take
+   days and are worth starting well before submission day.
+
+Authoring the remaining subjects does not by itself trigger any iOS work — both halves
+still need to be independently done first.
 
 ## Session log
 
 | Date | Session | Outcome |
 | --- | --- | --- |
+| 2026-09-10 | App Store roadmap split out; three-app structure decided (D-41) | Session owner's direction on five points. **`APP-STORE-ROADMAP.md` created** as a reusable per-app template (identity/trademark → Apple account → the irreversible App Store Connect record → metadata → TestFlight → submission → rejection handling → release → post-launch), with a per-app status table, so apps two and three inherit the sequence rather than copying it; this file's App Store content is replaced by a pointer. Includes the trademark checklist at the session owner's request. **D-41 amends D-38: three apps, not one** — STEM (5165/5436/5485/5652), Humanities (5581 + future), Administrative (5101 + future). D-38's consolidation was driven by Guideline 4.3(a); a split by subject *area* into substantial multi-subject apps aimed at disjoint buyers is more defensible than the five-apps-one-per-subject plan 4.3(a) killed, but it is the same shape, so **the STEM app ships and is approved before the second is submitted** — a rejection then costs one app, not three. Two consequences recorded: 5101 Business Education leaves the current build, and D-38's "bundle `manifest.json` verbatim" rule is preserved by adding a data-driven `track` field rather than per-app trimmed manifests (issue filed). **Naming:** "First Bell" was chosen and then withdrawn — an App Store screen via Apple's public search API found an existing **Education**-category app of that exact name, and "Chalkline" taken by two more; TeachReady and Lectern screen clean and the name is still open. Recorded that an App Store screen is *not* a USPTO clearance search, which matters more since D-40 skipped the consult. Advised against a second Apple Developer account (one account publishes unlimited apps; app transfer exists if First Bell ever becomes its own entity; the real question is accounting, not branding). |
 | 2026-09-10 | Triage for the App Store push; legal posture recorded (D-40) | Session owner set the direction: make this app solid, bring the iOS app up to speed, submit to the App Store — with **5581 Social Studies content paused** as a separate future effort (it stays `"enabled": false`, so it is invisible on the site and will stay invisible in the app even once that bundles the full manifest). A triage session read all 25 open issues across both repos in full and produced an approved 12-session schedule, applied as labels `session-01`…`session-11` plus `backlog`/`paused`, with a guidance comment on every one of the 22 scheduled or backlogged issues — those comments are the plan, and approving the schedule satisfied Gate 1 for the sessions it spawns. **Six findings changed the plan, three of which would have caused real damage.** #93's fix rotates option contents while ids stay `a`-`d`, and since `chosen` stores ids and `js/runner.js:25` recomputes correctness against the *current* bank, it silently re-scores every existing 5165 attempt and skews the SRS state derived from it — scheduled first, because the affected population is one browser today and every paying customer later. #93's severity is also widely overstated: `shuffleQuestionOptions` runs at all four assembly sites, so no student ever saw a predictable key (raw-JSON exposure on a public repo, not a runtime exploit) and `ADDING-A-SUBJECT.md` §4 says otherwise. PRAXIS-iOS-Math#16's body describes superseded D-18 despite a D-19 title, so building it as written would create five permanent bundle ids — the exact 4.3(a) risk D-19 exists to avoid. Also: #87 reasons from a D-30 premise D-38 inverted, part of iOS#14 is a one-word upstream `http`→`https` fix, and #111 deletes the map #103 is a hole in. iOS drift measured exactly by git blob hash — 16 of 19 bundled files in sync, `index.html` and `css/base.css` stale, `manifest.json` trimmed to 5165 only; `base.css` is missing N-10's fix, **a bug originally reported from that very app**. **D-40** records the legal posture: the attorney consult `LEGAL.md` calls for is deliberately skipped (session owner's call, concern raised first), and the trademark question is settled by verification rather than inference — PRAXIS is ETS's **LIVE** Reg. 4,479,538, renewed 21 May 2024, in classes 9/16/35/41/42, where **Class 9 is downloadable practice tests and study guides**, this project's exact category. The lapsed law-firm mark found in the session owner's own research is irrelevant because trademarks are per-class. Guidance is unchanged — descriptive reference yes, brand use no — but now cited. |
 | 2026-09-10 | Branch protection enabled on `main`; merge-on-green goes live (N-13) | Closes [#107](https://github.com/homesik92/PRAXIS-Practice/issues/107), open since 2026-09-08 and blocking a Gate 4 tier that had been inert since it was written. Applied by the session owner (repository settings are theirs under Gate 5); this session diagnosed the configuration and handed over the command. **Two traps found while scoping it, either of which would have made the rule worse than useless.** `main` reports four checks but only `verify` runs on a pull request — `build`, `deploy` and `report-build-status` are GitHub Pages' deployment workflow, push-only — so requiring any of those would have stuck every PR on "Expected — waiting for status to be reported" forever; verified against PR #114's check list. And GitHub forbids approving one's own PR, so on a single-maintainer repo any non-zero approval requirement blocks every merge outright: the rule requires a PR with **zero** required approvals, which blocks direct pushes without demanding a reviewer who does not exist. Final configuration: required check `verify` pinned to the GitHub Actions app, strict (branches must be up to date), PR required with 0 approvals, `enforce_admins: true` (**session owner's call** — the admin is the only committer, so excluding them would have left the gate advisory for the one person it governs), force pushes and deletions blocked, conversation resolution required. **Merge-on-green is now active for the first time**: non-deep changes in interactive sessions merge on green without a separate go-ahead, while deep, dependency, and schema/progress-data changes keep the pause. A `git push --dry-run` probe reported the push would succeed — recorded in N-13 as an **asymmetric, inconclusive** test rather than a pass, since GitHub does not run pre-receive protection for dry runs; the API read-back is what confirmed the rule, and this PR is the first to pass through it end to end. Also deleted five merged remote branches, each checked for unique content first — four were ancestors of `main`, and `update-dev-workflow` was a squash-merge whose tip still matched its `headRefOid` at merge time and whose only touched file was byte-identical to `main`. `origin` is now `main` alone. |
 | 2026-09-09 | 5581 Social Studies added as a scaffold; `pdf-text.py` gains `/ToUnicode` support (D-39, N-11, N-12) | First run of `ADDING-A-SUBJECT.md` as written, which found three defects in the procedure itself. **The PDF was encrypted**, which §1a called a hard stop pointing at a `5165-Mathematics word.pdf` workaround file that no longer exists. A Preview `File > Export as PDF...` re-save by the session owner parsed at 50 pages but decoded as `%&'()!*+,-./0+/` — a subset font whose codes start at `0x21`, with the re-save having dropped `/Differences` while keeping 15 `/ToUnicode` CMaps that `font_maps()` did not read (**N-11**). Added `parse_tounicode()` covering `bfchar` and both `bfrange` destination forms, plus five self-tests; diffing extractor output before/after on pages 1-25 of the four already-readable companions showed it is strictly additive there too — `bachelors` → `bachelor's`, `Le Chatelier's principle` regained its apostrophe, em-dashes and curly quotes recovered, spurious `Praxis£` → `Praxis`. **§6 documented a manifest entry that fails the gate** (**N-12**): it showed `{code, file, enabled}` and claimed counts live only in the bank, but `validateManifest` requires `name`/`timeLimitMinutes`/`formLength`/`bankSize` and `validateManifestAgreement` cross-checks them — built as documented, it produces four errors, confirmed by running the validator against it. §4's question-id shape was also the minority convention (four of six banks use topic slugs, only 5165 uses the flat counter). All three fixed in the same PR. **Blueprint** (confirmed with the session owner before anything was authored, per §1c): 150 min, 140 questions, plain selected-response, US History 40/29%, World History 31/22%, Geography 19/13%, Civics 32/23%, Economics 18/13% — counts sum to 140, percents to 100 — eleven unweighted subcategories, and a four-practice Social Studies Skills axis at ~10-15% modelled as one overlay (`sss`, `targetShare` 0.125). **No calculator, no reference panel: the first genuinely zero-code subject**, which is the case the guide predicted but no prior subject had exercised. Session owner's call (**D-39**) was scaffold-first — permanent category tree, overlay, and an `"enabled": false` manifest entry land and get reviewed before ~420 questions are authored against them, since category ids are the permanent join key for saved progress. Bank ships with `questions: []`. Also gitignored `Unused Knowledge-Guides/`, 12 further ETS PDFs that were untracked and one `git add .` from a public repo. Gate green: 21 `pdf-text.py` self-tests, 0 verifier errors, 68/68 verifier unit tests. **Not done:** no questions authored, no teaching chapters, subject not enabled — all filed as issues. |
