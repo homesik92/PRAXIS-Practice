@@ -5,6 +5,7 @@
   "timeLimitMinutes": 150,
   "formLength": 135,
   "referencePanel": "reference/5485-periodic.json",
+  "teachingContent": "teaching/5436.json",
   "overlays": [
     {
       "id": "sep",

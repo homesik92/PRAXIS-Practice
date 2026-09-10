@@ -1,0 +1,751 @@
+{
+  "schemaVersion": 1,
+  "testCode": "5436",
+  "sections": [
+    {
+      "id": "nature-concept-overview",
+      "categoryId": "I-A",
+      "heading": "Concept overview",
+      "entries": [
+        {
+          "id": "nature-concept-inquiry-is-a-cycle",
+          "label": "Scientific inquiry is a cycle, and it looks different in different sciences",
+          "content": {
+            "format": "text",
+            "value": "The five-step scientific method taught as a straight line — observe, question, hypothesize, experiment, conclude — describes one route through inquiry, not the only one. Real investigations loop: a result raises a better question, a failed measurement sends you back to redesign, an unexpected pattern reframes the original hypothesis. General Science spans fields that gather evidence in genuinely different ways, and the test expects you to recognize all of them as science. A chemist can randomly assign samples to treatments and control every other condition. An ecologist studying a forest, a geologist reading rock strata, and an astronomer observing a distant star cannot manipulate anything at all — they rely on systematic observation, natural experiments, and comparison across many cases. Observational science is not weaker science; it is the appropriate method when the system cannot be put in a beaker. What unites all of it is that claims are checked against evidence that others could gather independently."
+          }
+        },
+        {
+          "id": "nature-concept-hypothesis-theory-law",
+          "label": "Hypothesis, theory, and law are different kinds of claim, not levels of confidence",
+          "content": {
+            "format": "text",
+            "value": "These three words name different jobs, not three rungs on a ladder of certainty. A hypothesis is a specific, testable, tentative explanation for a particular observation — narrow, and framed so evidence could contradict it. A theory is a broad, well-substantiated explanation of a whole class of phenomena, supported by many independent lines of evidence and used to explain and predict; plate tectonics, evolution by natural selection, and the germ theory of disease are theories, and calling them theories is a statement about their explanatory scope, not a hedge about their reliability. A law is a description — usually a concise statement or equation — of a regularity that holds under stated conditions; it says what happens, not why. Newton's law of universal gravitation describes how masses attract; it does not explain the mechanism. A theory does not become a law with more evidence, and a law is not a theory that graduated. They answer different questions."
+          }
+        },
+        {
+          "id": "nature-concept-variables-controls-replication",
+          "label": "Variables, controls, replication, and sample size",
+          "content": {
+            "format": "text",
+            "value": "A controlled experiment isolates one factor by changing only that factor and holding everything else steady. The independent variable is the one the investigator deliberately changes; the dependent variable is the one measured in response; controlled variables are everything held constant so they cannot offer an alternative explanation. A control group receives no treatment — or a placebo — and provides the baseline the treatment group is compared against. Replication matters twice over, and the two senses are often confused: repeating trials within one study reduces the influence of random variation, while independent replication by other investigators is what turns a single result into an accepted one. Sample size matters because small samples swing wildly by chance; a difference between two plants proves very little, while the same difference across fifty is harder to attribute to luck. When a design lets two things vary at once, the study is confounded and cannot attribute its result to either."
+          }
+        },
+        {
+          "id": "nature-concept-evidence-peer-review",
+          "label": "How evidence becomes accepted: peer review, consensus, and revision",
+          "content": {
+            "format": "text",
+            "value": "Before a study is published, it is typically reviewed by other scientists in the same field, who scrutinize the methods, the analysis, and whether the conclusion is actually supported by the data. Peer review filters out clear errors; it does not certify a result as true, and reviewed work is sometimes later overturned. Acceptance comes from convergence — many independent groups, often using different methods, arriving at compatible results. This is why a single dramatic study rarely changes scientific consensus, and why consensus, once established across many lines of evidence, is not overturned by one contradicting paper either. Scientific knowledge is durable but revisable: it is held with confidence proportional to the evidence, and revised when the evidence genuinely demands it. Revision is the system working, not failing."
+          }
+        },
+        {
+          "id": "nature-concept-limits-falsifiability-correlation",
+          "label": "The limits of science: falsifiability, and correlation versus causation",
+          "content": {
+            "format": "text",
+            "value": "For a claim to be scientific, it must be falsifiable — there must be some conceivable observation that, if it came out a certain way, would count against it. A claim compatible with every possible outcome is not being tested by evidence, however confidently it is asserted. This marks the boundary of what science can settle: questions of value, meaning, morality, and aesthetics are not answerable by measurement, and a science test asking what science can establish is asking about that boundary. The second limit is inferential. Two quantities that rise and fall together are correlated, and correlation alone supports three explanations: the first causes the second, the second causes the first, or some third factor drives both. Only a controlled experiment, or a carefully reasoned natural experiment ruling out the alternatives, licenses a causal claim. Observational data can establish a strong, replicated association and still leave causation open."
+          }
+        }
+      ]
+    },
+    {
+      "id": "nature-worked-example",
+      "categoryId": "I-A",
+      "heading": "Worked example: diagnosing and repairing a flawed investigation",
+      "entries": [
+        {
+          "id": "nature-worked-example-scenario",
+          "label": "Scenario",
+          "content": {
+            "format": "text",
+            "value": "A student wants to know whether adding compost to soil increases plant growth. She fills one pot with compost-enriched soil and one with plain potting soil, plants a bean seed in each, and puts the compost pot on a sunny windowsill and the plain pot on a shelf across the room. She waters the compost pot whenever the soil looks dry and the plain pot every Friday. After three weeks the compost plant is 18 cm tall and the plain plant is 11 cm. She concludes that compost increases plant growth."
+          }
+        },
+        {
+          "id": "nature-worked-example-step-1",
+          "label": "Step 1 — State the hypothesis and check that it is falsifiable",
+          "content": {
+            "format": "text",
+            "value": "First, restate the claim precisely: adding compost to potting soil increases the height a bean seedling reaches in three weeks. This is falsifiable — if the compost plant had grown the same amount or less, the hypothesis would have been contradicted. That is worth confirming before anything else, because a hypothesis that no possible result could contradict is not testable and no amount of experimental care would rescue it. Note also what the hypothesis does not claim: it says nothing about why compost would help, and the investigation is not designed to distinguish added nutrients from improved water retention."
+          }
+        },
+        {
+          "id": "nature-worked-example-step-2",
+          "label": "Step 2 — Identify the variables as the design actually implements them",
+          "content": {
+            "format": "text",
+            "value": "The intended independent variable is soil type: compost-enriched versus plain. The dependent variable is height after three weeks, which is a reasonable and measurable proxy for growth. The controlled variables should be everything else — light, water, temperature, pot size, seed variety, planting depth. Reading the procedure against that list is where the design falls apart: light differs (windowsill versus interior shelf), and water differs both in amount and in schedule (as-needed versus weekly). Neither was held constant, so neither is actually controlled."
+          }
+        },
+        {
+          "id": "nature-worked-example-step-3",
+          "label": "Step 3 — Diagnose why the conclusion is not supported",
+          "content": {
+            "format": "text",
+            "value": "The study is confounded: three factors changed together, so the 7 cm difference cannot be attributed to any one of them. Worse, both uncontrolled factors favor the compost pot — more light and more responsive watering would each be expected to increase growth on their own. The observed difference is therefore exactly what you would predict whether or not compost does anything at all, which means the result cannot distinguish between the hypothesis and its denial. There is also no replication: with one plant per condition, a single unusually vigorous seed would produce this result by chance. And there is no control in the strict sense — the plain-soil pot differs from the compost pot in several ways, so it is not a baseline."
+          }
+        },
+        {
+          "id": "nature-worked-example-step-4",
+          "label": "Step 4 — Redesign: isolate the variable, replicate, and randomize",
+          "content": {
+            "format": "text",
+            "value": "A corrected design uses many pots rather than two — ten per condition is a reasonable classroom scale — all identical in size, filled to the same depth, planted with seeds from the same packet at the same depth on the same day. Every pot sits under the same light conditions and receives the same measured volume of water on the same schedule. The only difference between the two groups is the soil. Assigning seeds to pots at random guards against unconsciously putting the plumpest seeds in the group you expect to win. Measuring every plant with the same ruler at the same time of day, and recording all values rather than only the tallest, keeps the measurement itself from introducing bias."
+          }
+        },
+        {
+          "id": "nature-worked-example-step-5",
+          "label": "Step 5 — Interpret the result within its actual limits",
+          "content": {
+            "format": "text",
+            "value": "Suppose the redesigned study runs and the compost group averages 17 cm against the plain group's 12 cm, with the ranges barely overlapping. That supports the hypothesis: under these conditions, for this bean variety, compost-enriched soil produced greater three-week height. What it does not establish is the mechanism — the study cannot say whether the effect came from nutrients, water retention, soil structure, or microorganisms, because compost changes all of those at once. Nor does it license extrapolation to other species, other soils, longer timescales, or field conditions. Stating a conclusion at the scope the evidence actually covers is part of the skill being tested."
+          }
+        },
+        {
+          "id": "nature-worked-example-conclusion",
+          "label": "Conclusion",
+          "content": {
+            "format": "text",
+            "value": "The original investigation failed not because the idea was unreasonable but because it let three things vary together, used a sample of one, and drew a causal conclusion the design could not support. The repair was not more equipment or a longer trial; it was holding the other factors constant, increasing the number of trials, assigning randomly, and then stating a conclusion no broader than the evidence. On the test, experimental-design items usually turn on exactly this: spotting the uncontrolled factor, and recognizing that a difference which several factors could equally explain does not support any one of them."
+          }
+        }
+      ]
+    },
+    {
+      "id": "nature-common-mistakes",
+      "categoryId": "I-A",
+      "heading": "Common mistakes",
+      "entries": [
+        {
+          "id": "nature-common-mistakes-theory-graduates",
+          "label": "Mistake: thinking a theory becomes a law once it is proven enough",
+          "content": {
+            "format": "text",
+            "value": "The most persistent misconception here is that hypothesis, theory, and law form a hierarchy of increasing certainty, so a theory that accumulates enough support is promoted to a law. They are different kinds of claim doing different jobs. A law describes a regularity — often mathematically, and usually within stated conditions — while a theory explains a broad class of phenomena and generates predictions about it. Neither converts into the other. A related error is treating \"just a theory\" as a concession of doubt; in scientific usage the word marks explanatory breadth backed by many independent lines of evidence, which is close to the opposite of what the colloquial phrase implies."
+          }
+        },
+        {
+          "id": "nature-common-mistakes-observational-not-science",
+          "label": "Mistake: assuming that if it isn't a controlled experiment, it isn't really science",
+          "content": {
+            "format": "text",
+            "value": "General Science covers fields where manipulation is impossible: you cannot assign galaxies to treatment groups, rerun the formation of a mountain range, or randomize which continent a species evolved on. Candidates sometimes mark observational and comparative studies down as inferior, or expect every valid investigation to have a control group. The correct standard is whether the method suits the question and whether alternative explanations have been systematically addressed — not whether a variable was manipulated. Astronomy, geology, paleontology, and much of ecology and epidemiology are rigorous precisely because they have developed ways to rule out alternatives without a laboratory."
+          }
+        },
+        {
+          "id": "nature-common-mistakes-correlation-causation",
+          "label": "Mistake: reading a correlation as proof of a cause",
+          "content": {
+            "format": "text",
+            "value": "When a passage presents two quantities that move together — an observational dataset rather than a controlled experiment — the tempting inference is that one causes the other. Three explanations remain live: the first causes the second, the second causes the first, or an unmeasured third factor drives both. Distractors on these items often state the causal claim in confident language, which makes it read like the strongest answer; the correct choice is usually the more cautious one naming an association, or the one identifying a plausible confounding variable. Strength of correlation does not help: a very tight correlation is just as compatible with a shared cause as a weak one."
+          }
+        },
+        {
+          "id": "nature-common-mistakes-variables-and-sample",
+          "label": "Mistake: mislabeling variables, or accepting a design with one plant per group",
+          "content": {
+            "format": "text",
+            "value": "Two related errors recur. The first is swapping independent and dependent variables — the independent variable is what the investigator changes, the dependent variable is what gets measured in response — and mislabeling as \"controlled\" a factor that the procedure allowed to vary. Read the procedure, not the intention: a variable is only controlled if the described method actually holds it constant. The second is accepting a conclusion drawn from a sample of one or two. A single organism, trial, or measurement cannot separate a real effect from ordinary variation, and an item describing an otherwise tidy design with n = 1 is usually testing whether you notice."
+          }
+        }
+      ]
+    },
+    {
+      "id": "stse-concept-overview",
+      "categoryId": "I-B",
+      "heading": "Concept overview",
+      "entries": [
+        {
+          "id": "stse-concept-design-process",
+          "label": "The engineering design process, and how its goal differs from science's",
+          "content": {
+            "format": "text",
+            "value": "The engineering design process is a cycle for solving a practical problem within limits: define the problem and its requirements, research and generate possible solutions, select one and build a prototype, test it against the requirements, then refine and retest. Like scientific inquiry it loops, and like inquiry it depends on evidence. But the goals differ, and test items often turn on that difference. Science asks what is true about the natural world and succeeds by producing an explanation that survives testing. Engineering asks what will work well enough under real constraints and succeeds by producing a solution that meets its requirements. A scientific test tries to falsify a claim; an engineering test tries to find the failure points of a design so they can be fixed. This is why an engineering problem rarely has one right answer — several designs may satisfy the requirements while trading off differently, and choosing among them involves values, not only measurements."
+          }
+        },
+        {
+          "id": "stse-concept-criteria-constraints",
+          "label": "Criteria, constraints, and tradeoffs",
+          "content": {
+            "format": "text",
+            "value": "A constraint is a hard limit a design must not cross: a budget ceiling, a maximum mass, a legal safety standard, a deadline, a material that must or must not be used. A criterion is a desirable quality used to rank designs that already satisfy every constraint — durability, efficiency, ease of maintenance, environmental impact. The practical order is to screen against constraints first, disqualifying anything that violates one, then compare survivors against criteria. Confusing the two is a common error, because a design that scores brilliantly on every criterion is still disqualified if it breaks a constraint. Tradeoffs arise because criteria usually pull against one another: making a structure stronger typically makes it heavier and costlier, and making a process faster often makes it less efficient. A design decision is therefore a judgment about which criteria matter most for this situation, and reasonable people weighing them differently can defensibly choose differently."
+          }
+        },
+        {
+          "id": "stse-concept-cost-benefit-risk-benefit",
+          "label": "Cost-benefit and risk-benefit analysis are different tools",
+          "content": {
+            "format": "text",
+            "value": "Cost-benefit analysis compares the resources a choice consumes against the value it returns, ideally across the full lifecycle rather than at purchase — installation, operation, maintenance, and disposal or cleanup. A choice with a low sticker price and high running costs can lose to a costlier one that runs cheaply for decades. Risk-benefit analysis compares the probability and severity of possible harm against the expected benefit, and it deals in uncertainty rather than accounting: a low-probability, high-consequence risk is judged differently from a frequent minor one. The two answer different questions and should not be substituted for one another. Both are also distinct from how risk is *perceived*: people systematically judge unfamiliar, involuntary, catastrophic, or dreaded risks as larger than statistically comparable familiar and voluntary ones. Perceived risk is a real factor in whether a technically sound proposal is adopted, and treating public concern as simple ignorance is both inaccurate and ineffective."
+          }
+        },
+        {
+          "id": "stse-concept-resources-and-impacts",
+          "label": "Renewable and nonrenewable resources, and the impacts of using them",
+          "content": {
+            "format": "text",
+            "value": "A renewable resource is replenished on a human timescale — solar and wind flows, sustainably harvested timber, groundwater recharged faster than it is drawn. A nonrenewable resource is not: fossil fuels, mineral ores, and aquifers drawn down faster than they refill. The label describes replenishment rate only. It does not mean a renewable resource is impact-free — hydroelectric dams alter river ecosystems and displace communities, biofuel crops compete with food production for land and water, and wind and solar installations require mined materials and land. Nor does it mean a resource cannot be exhausted: a renewable resource harvested faster than it regenerates behaves like a nonrenewable one, which is what overfishing and aquifer depletion are. Assessing an energy or materials choice means looking at extraction, processing, use, and disposal together, because impacts concentrated at one stage are easy to miss when only another stage is examined."
+          }
+        },
+        {
+          "id": "stse-concept-science-technology-society",
+          "label": "How science, technology, and society shape one another",
+          "content": {
+            "format": "text",
+            "value": "Science and technology are commonly pictured as a one-way pipeline: science discovers a principle, technology applies it. The relationship runs both ways and always has. New instruments make new science possible — the microscope opened cell biology, radio telescopes opened cosmology, and rapid sequencing reshaped genetics — so technological capability often precedes and enables discovery rather than following it. Society shapes both, by deciding what gets funded, what gets regulated, and what gets adopted; and both reshape society, in ways that are rarely distributed evenly. Benefits and harms of a technology frequently fall on different groups, which is why questions about a technology are not settled by establishing that it works. Scientific evidence can establish what a technology does and how likely each outcome is; it cannot by itself determine whether a society should accept those tradeoffs, which is a decision about values."
+          }
+        }
+      ]
+    },
+    {
+      "id": "stse-worked-example",
+      "categoryId": "I-B",
+      "heading": "Worked example: choosing how to restore a polluted lake",
+      "entries": [
+        {
+          "id": "stse-worked-example-scenario",
+          "label": "Scenario",
+          "content": {
+            "format": "text",
+            "value": "A lake at the center of a small town has been suffering summer algal blooms for several years. The blooms turn the water green, and when the algae die and decompose, dissolved oxygen falls far enough to kill fish. Testing traces most of the excess phosphorus to fertilizer runoff from farmland upstream, with a smaller share from lawn fertilizer and aging septic systems in town. The town council has $500,000, wants measurable improvement within three years, and cannot compel farmers outside the town limits to change their practices. Three proposals are on the table: dredge the phosphorus-rich sediment from the lake bottom; apply an alum treatment that binds phosphorus and settles it out; or fund planted buffer strips along the streams that feed the lake, plus a rebate program for septic repairs and low-phosphorus lawn care."
+          }
+        },
+        {
+          "id": "stse-worked-example-step-1",
+          "label": "Step 1 — Define the problem, and sort constraints from criteria",
+          "content": {
+            "format": "text",
+            "value": "The problem is not \"algae\" — algae are the symptom. Stated usefully, it is that excess phosphorus entering and cycling within the lake drives blooms that deplete oxygen and kill fish. Sorting the council's figures: the constraints are the $500,000 budget, the three-year horizon for measurable improvement, and the absence of authority over upstream farms. The criteria — used to rank whatever clears those limits — are durability of the improvement, ongoing cost after installation, ecological side effects, and public acceptability. Sorting these first matters because it determines what the analysis is even allowed to consider."
+          }
+        },
+        {
+          "id": "stse-worked-example-step-2",
+          "label": "Step 2 — Screen the candidates against the constraints",
+          "content": {
+            "format": "text",
+            "value": "Dredging directly removes the phosphorus already stored in sediment and would show results quickly, but full-lake dredging for a lake this size runs well past the budget, and disposing of the dredged material adds cost. It fails the budget constraint outright. Alum treatment is affordable and acts within a single season, clearing both the budget and the timeline. Buffer strips and the rebate program are affordable and address the source, but planted buffers take several growing seasons to become effective and depend on voluntary uptake — so their measurable improvement inside three years is uncertain, and the constraint on authority means the largest phosphorus source stays partly outside reach. Note that no candidate clears everything cleanly, which is the normal outcome of a genuinely constrained problem rather than a sign the analysis went wrong."
+          }
+        },
+        {
+          "id": "stse-worked-example-step-3",
+          "label": "Step 3 — Compare on lifecycle cost, not sticker price",
+          "content": {
+            "format": "text",
+            "value": "Alum is the cheapest to start and the most expensive to sustain: it treats phosphorus already in the lake but does nothing about what keeps arriving, so the treatment has to be repeated every few years indefinitely. Over twenty years its repeated applications can exceed the buffer program's total cost. The buffer-and-rebate approach is the reverse — higher effort up front, then low ongoing cost, because a mature planted buffer largely maintains itself and a repaired septic system stays repaired. This is the lifecycle point in concrete form: ranking by initial price alone reverses the ordering that twenty years of operation produces."
+          }
+        },
+        {
+          "id": "stse-worked-example-step-4",
+          "label": "Step 4 — Compare on risk, and take perceived risk seriously",
+          "content": {
+            "format": "text",
+            "value": "Alum's risks are real but bounded and well documented: applied at the wrong dose it can shift water pH far enough to harm aquatic life, which makes correct application and monitoring essential. The buffer program's main risk is not ecological but social — it may simply not achieve enough voluntary participation to matter. At the public meeting, residents raise strong objections to \"dumping chemicals in our lake,\" while the same residents express no concern about lawn fertilizer, which is a larger phosphorus source. That asymmetry is predictable rather than irrational: the alum treatment is unfamiliar, involuntary, and done to the lake by an authority, while fertilizer use is familiar and chosen. Dismissing the objection as ignorance would likely stall the project regardless of the chemistry."
+          }
+        },
+        {
+          "id": "stse-worked-example-step-5",
+          "label": "Step 5 — Iterate into a combined, testable plan",
+          "content": {
+            "format": "text",
+            "value": "Because no candidate clears every constraint alone, the council applies the design process's iterate step rather than forcing a single choice. It funds a one-time alum treatment to produce visible improvement inside the three-year window, and simultaneously funds buffer strips and septic rebates to reduce the incoming load so the alum does not have to be repeated indefinitely. It commits to monitoring phosphorus concentration, dissolved oxygen, and bloom frequency, with the results published — which both tests the design against its requirements and addresses the trust problem surfaced at the meeting. Voluntary upstream participation is pursued through cost-sharing rather than mandate, since mandate is outside the town's authority."
+          }
+        },
+        {
+          "id": "stse-worked-example-conclusion",
+          "label": "Conclusion",
+          "content": {
+            "format": "text",
+            "value": "The chosen plan is not the cheapest, the fastest, or the most popular option; it is the one that satisfies the hard constraints while trading off the criteria defensibly, and that builds in measurement so the design can be corrected. Three transferable moves did the work: separating symptom from cause when defining the problem, screening on constraints before ranking on criteria, and comparing lifecycle cost rather than sticker price. The fourth — treating public risk perception as a design constraint rather than an obstacle — is the one candidates most often overlook, and it is frequently what an item about technology and society is actually testing."
+          }
+        }
+      ]
+    },
+    {
+      "id": "stse-common-mistakes",
+      "categoryId": "I-B",
+      "heading": "Common mistakes",
+      "entries": [
+        {
+          "id": "stse-common-mistakes-design-vs-science",
+          "label": "Mistake: treating engineering design as though it shared science's goal",
+          "content": {
+            "format": "text",
+            "value": "A frequent error is describing an engineering test as though it were testing a hypothesis about nature, or assuming the design process aims at truth. Engineering testing asks whether a design meets its requirements and where it fails, so that it can be improved; the useful outcome of a prototype test is often the discovery of a weakness. A related error is expecting an engineering problem to have one correct solution. Several designs may satisfy every constraint while trading off criteria differently, and selecting among them involves value judgments about which criteria matter most — which is why items in this area usually ask for the *best supported* choice given stated priorities, not the objectively right one."
+          }
+        },
+        {
+          "id": "stse-common-mistakes-constraint-vs-criterion",
+          "label": "Mistake: confusing constraints with criteria, and cost-benefit with risk-benefit",
+          "content": {
+            "format": "text",
+            "value": "Constraints are pass/fail limits; criteria rank the designs that already passed. A proposal that excels on every criterion is still disqualified by a single violated constraint, and items often include exactly that distractor — the technically superior option that busts the budget or the deadline. Separately, cost-benefit and risk-benefit answer different questions: resources spent against value returned, versus probability and severity of harm against expected benefit. An answer choice that responds to a risk question with a cost argument, or the reverse, is a common and easily missed distractor."
+          }
+        },
+        {
+          "id": "stse-common-mistakes-renewable-impact-free",
+          "label": "Mistake: assuming renewable means impact-free, or that a renewable resource cannot run out",
+          "content": {
+            "format": "text",
+            "value": "\"Renewable\" describes only how quickly a resource replenishes. It says nothing about whether producing or using it causes environmental harm — hydroelectric dams alter river ecosystems, biofuels compete with food crops for land and water, and every generating technology requires mined materials and land. It also does not guarantee availability: harvested faster than it regenerates, a renewable resource depletes like a nonrenewable one, which is precisely what overfishing and aquifer drawdown are. The reverse error is assuming nonrenewable always means environmentally worse in every respect, which skips the lifecycle comparison the question is usually asking for."
+          }
+        },
+        {
+          "id": "stse-common-mistakes-evidence-settles-values",
+          "label": "Mistake: expecting scientific evidence to settle a question about values",
+          "content": {
+            "format": "text",
+            "value": "Candidates sometimes choose the answer asserting that better data would resolve a controversy about whether a technology should be adopted. Evidence can establish what a technology does, how well it works, and how likely each outcome is. It cannot determine how a society should weigh a benefit to one group against a harm to another, or how much risk is acceptable — those are value judgments informed by evidence, not derived from it. The related error is treating public opposition as a failure of scientific literacy, when it often reflects a different weighting of the same facts, or concerns about who bears the risk and who receives the benefit."
+          }
+        }
+      ]
+    },
+    {
+      "id": "matter-energy-concept-overview",
+      "categoryId": "II-A",
+      "heading": "Concept overview",
+      "entries": [
+        {
+          "id": "matter-energy-concept-atomic-structure",
+          "label": "Atomic structure, isotopes, and ions",
+          "content": {
+            "format": "text",
+            "value": "An atom has three particles. Protons and neutrons occupy a tiny, dense nucleus and carry essentially all the mass; electrons occupy the far larger space around it and carry almost none. The atomic number Z is the proton count, and it defines the element — every carbon atom has exactly 6 protons, and any atom with 6 protons is carbon. The mass number A is protons plus neutrons. Isotopes are atoms of the same element with different neutron counts: carbon-12 and carbon-14 both have 6 protons, so both are carbon and behave nearly identically chemically, but carbon-14 has two extra neutrons and is unstable. Ions differ in electrons, not protons: losing electrons gives a positive charge, gaining them a negative one, and the element is unchanged either way. Keeping these three straight matters because changing neutrons makes an isotope, changing electrons makes an ion, and only changing protons makes a different element."
+          }
+        },
+        {
+          "id": "matter-energy-concept-nuclear-change",
+          "label": "Radioactive decay, half-life, fission, and fusion",
+          "content": {
+            "format": "text",
+            "value": "An unstable nucleus sheds energy by emitting radiation. Alpha decay releases a helium nucleus, dropping mass number by 4 and atomic number by 2. Beta decay converts a neutron into a proton and emits an electron, leaving mass number unchanged while atomic number rises by 1. Gamma emission releases energy alone and changes neither number. Because alpha and beta decay change the proton count, they transform the atom into a different element — the one genuinely elemental change in all of chemistry and physics. Half-life is the time for half of a sample to decay, and it is exponential, not linear: after one half-life half remains, after two a quarter, after three an eighth, and the amount never reaches exactly zero. Fission splits a heavy nucleus into lighter ones and drives nuclear power plants; fusion joins light nuclei into heavier ones, powers stars, and requires enormous temperature and pressure to overcome the repulsion between positive nuclei."
+          }
+        },
+        {
+          "id": "matter-energy-concept-forms-and-conservation",
+          "label": "Forms of energy and the conservation principle",
+          "content": {
+            "format": "text",
+            "value": "Energy appears in many forms — kinetic, gravitational potential, elastic potential, chemical, thermal, electrical, nuclear, and radiant — and problems in this area almost always turn on tracking conversions between them. The conservation principle says energy is neither created nor destroyed in an ordinary process; the total before equals the total after. What makes this useful is also what makes it easy to misapply: energy that seems to vanish has usually become thermal energy through friction or air resistance, spread out and hard to recover, but not gone. A ball bouncing lower each time has not lost energy from the universe; it has transferred some to the floor, the air, and its own warming. \"Energy was lost\" on a test almost always means \"converted to thermal energy and dispersed,\" and an answer choice claiming energy was destroyed is essentially always wrong."
+          }
+        },
+        {
+          "id": "matter-energy-concept-heat-temperature",
+          "label": "Temperature, heat, and thermal energy are three different things",
+          "content": {
+            "format": "text",
+            "value": "Temperature measures the average kinetic energy of the particles in a sample — how fast they are moving on average, independent of how many there are. Thermal energy is the total kinetic energy of all the particles, so it depends on quantity as well as temperature. Heat is energy in transit from a warmer object to a cooler one; an object does not contain heat, it contains thermal energy, and heat is what flows. This is why a bathtub of warm water holds far more thermal energy than a spark at a much higher temperature, and why the spark cannot warm the tub. Heat flows from higher to lower temperature until the two reach thermal equilibrium at a common temperature. Specific heat capacity is how much energy a substance needs per unit mass to change temperature by one degree, and water's unusually high value is why coastal climates are milder than inland ones and why water is used as a coolant."
+          }
+        },
+        {
+          "id": "matter-energy-concept-phase-and-transfer",
+          "label": "Phase changes and the three ways heat moves",
+          "content": {
+            "format": "text",
+            "value": "Adding energy to a substance either raises its temperature or drives a phase change, never both at once. During melting or boiling the temperature holds steady while the added energy goes into breaking the attractions between particles — which is why a pot of boiling water stays at its boiling point no matter how high the burner is turned, and why a heating curve has flat sections. Phase changes that absorb energy (melting, evaporation, sublimation) cool their surroundings, which is how sweating works; those that release it (freezing, condensation) warm the surroundings. Heat moves three ways: conduction, by direct particle collision through a material, best in metals; convection, by the bulk movement of a heated fluid that has become less dense and risen, which drives weather, ocean currents, and mantle motion; and radiation, by electromagnetic waves needing no medium at all, which is how energy reaches Earth from the Sun."
+          }
+        }
+      ]
+    },
+    {
+      "id": "matter-energy-worked-example",
+      "categoryId": "II-A",
+      "heading": "Worked example: reading a heating curve for ice becoming steam",
+      "entries": [
+        {
+          "id": "matter-energy-worked-scenario",
+          "label": "Scenario",
+          "content": {
+            "format": "text",
+            "value": "A 200 g block of ice starts at −20 °C. It is heated at a steady rate until it has entirely become steam at 120 °C. A graph of temperature against time shows two flat stretches separated by sloped ones. The question asks which stage absorbs the most energy, and why the temperature stops rising during the flat stretches even though heating continues."
+          }
+        },
+        {
+          "id": "matter-energy-worked-step-1",
+          "label": "Step 1 — Identify what each part of the curve represents",
+          "content": {
+            "format": "text",
+            "value": "The curve has five stages. Sloped stretches are temperature changes within a single phase: ice warming from −20 °C to 0 °C, then liquid water warming from 0 °C to 100 °C, then steam warming from 100 °C to 120 °C. The two flat stretches are phase changes at constant temperature: melting at 0 °C and boiling at 100 °C. Recognizing which stage is which is the whole first move, because temperature change and phase change are governed by different relationships and cannot be handled with the same reasoning."
+          }
+        },
+        {
+          "id": "matter-energy-worked-step-2",
+          "label": "Step 2 — Explain why temperature holds constant during a phase change",
+          "content": {
+            "format": "text",
+            "value": "During melting, energy continues to enter the sample, so the conservation principle says it must go somewhere. It goes into breaking the attractions holding water molecules in the rigid lattice of ice, not into speeding them up. Since temperature measures average kinetic energy, and the average kinetic energy is not changing, the thermometer does not move. The same happens at boiling, where energy separates molecules from the liquid entirely. The flat stretch is not a pause in heating; it is heating doing a different job. This is the single most tested idea on heating curves."
+          }
+        },
+        {
+          "id": "matter-energy-worked-step-3",
+          "label": "Step 3 — Compare the sloped stages using specific heat",
+          "content": {
+            "format": "text",
+            "value": "For the sloped stages, energy required depends on mass, the substance's specific heat capacity, and the temperature change. Water's specific heat is roughly twice that of ice and steam, and the liquid stage also spans the largest temperature range — 100 degrees, against 20 for each of the others. Both factors push the same way, so among the three sloped stages, warming the liquid takes considerably more energy than warming the ice or the steam. Notice the reasoning does not need arithmetic: identifying which factors are larger settles the comparison, and most test items in this area are built to be answered exactly that way."
+          }
+        },
+        {
+          "id": "matter-energy-worked-step-4",
+          "label": "Step 4 — Compare the phase changes, and find the largest stage",
+          "content": {
+            "format": "text",
+            "value": "Phase changes are energy-expensive because separating particles entirely costs far more than speeding them up a little. Boiling is the more expensive of the two by a wide margin — vaporization requires roughly six to seven times the energy of melting for the same mass of water, because melting only loosens the lattice while boiling pulls molecules completely free of one another. So the boiling stretch absorbs the most energy of all five stages, and it is also the longest flat section on a constant-rate heating graph. That link is worth internalizing: at a steady heating rate, time on the graph is proportional to energy absorbed, so the widest stage is the most energy-hungry one."
+          }
+        },
+        {
+          "id": "matter-energy-worked-step-5",
+          "label": "Step 5 — Sanity-check the answer against everyday experience",
+          "content": {
+            "format": "text",
+            "value": "The result should feel familiar. A pot of water reaches boiling in a few minutes but takes far longer to boil dry, which is the vaporization stage dominating. Ice water stays near 0 °C until the last ice melts, which is the melting plateau. Steam causes worse burns than boiling water at the same temperature, because condensing on skin releases all the vaporization energy back. Checking a computed or reasoned answer against an everyday observation catches sign errors and misidentified stages quickly, and costs almost nothing."
+          }
+        },
+        {
+          "id": "matter-energy-worked-conclusion",
+          "label": "Conclusion",
+          "content": {
+            "format": "text",
+            "value": "Boiling absorbs the most energy; the temperature holds constant during the flat stretches because the incoming energy separates particles instead of speeding them up. The transferable method is to split the curve into within-phase and phase-change stages first, reason about temperature change using mass, specific heat and temperature range, and treat phase changes as separately and substantially more expensive. Most heating-curve items can be answered by that qualitative comparison alone, without computing a single value."
+          }
+        }
+      ]
+    },
+    {
+      "id": "matter-energy-common-mistakes",
+      "categoryId": "II-A",
+      "heading": "Common mistakes",
+      "entries": [
+        {
+          "id": "matter-energy-mistake-temperature-is-energy",
+          "label": "Mistake: treating temperature as the amount of thermal energy",
+          "content": {
+            "format": "text",
+            "value": "Temperature is the average kinetic energy per particle; thermal energy is the total across all particles. A bathtub at 40 °C holds far more thermal energy than a cup at 90 °C, because it contains vastly more particles, and heat will still flow from the cup to the tub if they touch — because heat flows on temperature difference, not on total energy. Items exploit this by pairing a small hot object with a large cool one and asking which has more thermal energy, or which way heat flows. They are different questions with different answers, and answering the one you were not asked is the usual failure."
+          }
+        },
+        {
+          "id": "matter-energy-mistake-half-life-linear",
+          "label": "Mistake: treating half-life as linear decay",
+          "content": {
+            "format": "text",
+            "value": "If a sample halves in ten years, a common error is concluding it is gone in twenty. Each half-life removes half of what remains, not half of the original: after twenty years a quarter remains, after thirty an eighth. The quantity approaches zero without ever reaching it. A related error is thinking half-life depends on how much you start with, or that it can be changed by temperature, pressure, or chemical state — it cannot; half-life is a fixed property of the isotope, which is exactly what makes radiometric dating possible."
+          }
+        },
+        {
+          "id": "matter-energy-mistake-decay-bookkeeping",
+          "label": "Mistake: losing track of what each decay type changes",
+          "content": {
+            "format": "text",
+            "value": "Alpha decay drops mass number by 4 and atomic number by 2; beta decay leaves mass number unchanged and raises atomic number by 1; gamma emission changes neither. The frequent slip is conserving one number while forgetting the other, which produces an impossible product. The reliable check is that mass number and charge must each balance across the equation. Also worth fixing firmly: alpha and beta decay change the proton count and therefore produce a *different element*, while gamma emission does not — an answer choice claiming gamma emission transmutes an element is always wrong."
+          }
+        },
+        {
+          "id": "matter-energy-mistake-phase-change-heating",
+          "label": "Mistake: assuming continued heating always raises temperature",
+          "content": {
+            "format": "text",
+            "value": "During a phase change, added energy breaks attractions between particles rather than increasing their average speed, so temperature holds constant while heating continues. Candidates often reject the flat sections of a heating curve as an error, or claim the substance has stopped absorbing energy. It is absorbing energy at the same rate — the energy is doing different work. The mirror error is assuming a substance at its melting point must be melting; a substance can sit at 0 °C as solid ice, as liquid water, or as a mixture, and which one depends on how much energy has been added, not on temperature alone."
+          }
+        }
+      ]
+    },
+    {
+      "id": "chemistry-concept-overview",
+      "categoryId": "II-B",
+      "heading": "Concept overview",
+      "entries": [
+        {
+          "id": "chemistry-concept-periodic-table",
+          "label": "Reading the periodic table: organization and trends",
+          "content": {
+            "format": "text",
+            "value": "The table is arranged by increasing atomic number, and its layout encodes behavior. A column (group) collects elements with the same number of valence electrons, which is why members of a group react similarly — alkali metals in group 1 all lose one electron readily, halogens in group 17 all gain one, and noble gases in group 18 have full valence shells and barely react at all. A row (period) fills the same shell across, so moving right adds protons that pull the electrons in more tightly. Three trends follow and cover most of what is asked. Atomic radius decreases left to right across a period and increases down a group. Ionization energy — the energy to remove an electron — does the reverse, rising to the right and falling down a group. Electronegativity, the pull an atom exerts on shared electrons, also rises to the right and falls down a group. Metals sit on the left and lose electrons; nonmetals sit on the right and gain them; metalloids sit along the staircase between."
+          }
+        },
+        {
+          "id": "chemistry-concept-bonding",
+          "label": "Ionic, covalent, and metallic bonding",
+          "content": {
+            "format": "text",
+            "value": "Bonding is about what atoms do with valence electrons to reach a stable arrangement. An ionic bond forms when electrons transfer, typically from a metal to a nonmetal, producing oppositely charged ions held together by electrostatic attraction; ionic compounds form rigid lattices, melt at high temperatures, are brittle, and conduct electricity when dissolved or molten but not as solids. A covalent bond forms when nonmetals share electrons; molecular substances tend toward lower melting points and generally do not conduct. Sharing is often unequal — when the two atoms differ appreciably in electronegativity the bond is polar covalent, with partial charges but no full transfer. A metallic bond has metal atoms contributing valence electrons to a shared, mobile pool, which explains conduction, malleability, and luster in one stroke. Predicting bond type from position on the table — metal plus nonmetal, nonmetal plus nonmetal, metal plus metal — answers a large share of bonding questions."
+          }
+        },
+        {
+          "id": "chemistry-concept-reactions-and-balancing",
+          "label": "Chemical equations, conservation of mass, and reaction types",
+          "content": {
+            "format": "text",
+            "value": "A chemical equation must be balanced because atoms are neither created nor destroyed: every element must appear in equal numbers on both sides, which is conservation of mass written in chemical notation. Balancing adjusts coefficients — the numbers in front of formulas — and never subscripts, since changing a subscript changes the substance itself. The common reaction types are worth recognizing on sight: synthesis, where two or more reactants combine into one product; decomposition, the reverse; single replacement, where one element displaces another from a compound; double replacement, where two compounds exchange partners, often producing a precipitate; and combustion, where a fuel reacts with oxygen to release energy, typically yielding carbon dioxide and water from a hydrocarbon. Classification questions are usually answered by pattern-matching the shape of the equation rather than by any calculation."
+          }
+        },
+        {
+          "id": "chemistry-concept-moles-and-stoichiometry",
+          "label": "The mole and what a balanced equation lets you predict",
+          "content": {
+            "format": "text",
+            "value": "A mole is a counting unit — Avogadro's number of particles — that bridges the atomic scale to the laboratory scale. Molar mass, the mass of one mole in grams, is read off the periodic table and summed across a formula, and it converts between grams and moles in both directions. The reason this matters is that a balanced equation states ratios in *moles*, not grams: coefficients tell you how many moles of each substance participate. So a quantitative prediction follows a fixed path — convert the given mass to moles, apply the mole ratio from the balanced equation, convert back to whatever unit the question wants. When two reactant quantities are given, one usually runs out first; that one is the limiting reagent, it determines how much product forms, and it must be identified by comparing moles available against the ratio required, never by comparing masses."
+          }
+        },
+        {
+          "id": "chemistry-concept-solutions-and-ph",
+          "label": "Solutions, concentration, and the pH scale",
+          "content": {
+            "format": "text",
+            "value": "A solution is a solute dissolved uniformly in a solvent. Concentration is most often expressed as molarity — moles of solute per liter of solution — and diluting a solution adds solvent without changing the amount of solute, which is why the moles before equal the moles after and the familiar dilution relationship works. Solubility generally rises with temperature for solids in water but *falls* for gases, which is why a warm carbonated drink goes flat and why warm river water holds less dissolved oxygen for fish. Acids release hydrogen ions in solution and bases release hydroxide ions or accept hydrogen ions; the pH scale runs from strongly acidic near 0 through neutral at 7 to strongly basic near 14. Critically, the scale is logarithmic: each whole step is a tenfold change in hydrogen-ion concentration, so pH 3 is ten times more acidic than pH 4 and a hundred times more than pH 5. Strength and concentration are separate ideas — strength is how completely a substance ionizes, concentration is how much of it is present, and a dilute strong acid can have a higher pH than a concentrated weak one."
+          }
+        }
+      ]
+    },
+    {
+      "id": "chemistry-worked-example",
+      "categoryId": "II-B",
+      "heading": "Worked example: predicting and checking a precipitation reaction",
+      "entries": [
+        {
+          "id": "chemistry-worked-scenario",
+          "label": "Scenario",
+          "content": {
+            "format": "text",
+            "value": "A student mixes a clear solution of silver nitrate with a clear solution of sodium chloride and observes a white solid forming and settling out. The question asks what type of reaction occurred, what the solid is, why the total mass of the sealed container is unchanged, and what would happen to the amount of solid if the silver nitrate solution were diluted with water before mixing."
+          }
+        },
+        {
+          "id": "chemistry-worked-step-1",
+          "label": "Step 1 — Classify the reaction from its shape",
+          "content": {
+            "format": "text",
+            "value": "Two compounds in solution have produced a solid. Both reactants are ionic compounds, each supplying a positive and a negative ion, and the products result from the pairs exchanging partners — silver with chloride, sodium with nitrate. That exchange pattern is the signature of a double replacement reaction, and when one product is insoluble and drops out of solution it is specifically a precipitation reaction. No calculation is needed to classify it; recognizing the exchange pattern is the whole step."
+          }
+        },
+        {
+          "id": "chemistry-worked-step-2",
+          "label": "Step 2 — Identify which product is the precipitate",
+          "content": {
+            "format": "text",
+            "value": "The two candidate products are silver chloride and sodium chloride's partner, sodium nitrate. General solubility patterns settle it: nearly all nitrate compounds are soluble, and nearly all sodium compounds are soluble, so sodium nitrate stays dissolved and invisible. Most chlorides are soluble too, but silver is one of the standard exceptions — silver chloride is insoluble. So the white solid is silver chloride, and the sodium and nitrate ions remain in solution as spectator ions, present throughout and chemically unchanged."
+          }
+        },
+        {
+          "id": "chemistry-worked-step-3",
+          "label": "Step 3 — Explain the unchanged mass",
+          "content": {
+            "format": "text",
+            "value": "In a sealed container, total mass before and after is identical because a chemical reaction rearranges atoms without creating or destroying them — conservation of mass. Every silver, chloride, sodium, nitrogen and oxygen atom present at the start is still present at the end, differently arranged. The visible change from two clear liquids to a cloudy mixture with a settled solid is a rearrangement, not a gain. A useful contrast: if the container were open and a reaction produced a gas, the mass would appear to drop, which is not a violation but an escape — and items in this area often test exactly that distinction."
+          }
+        },
+        {
+          "id": "chemistry-worked-step-4",
+          "label": "Step 4 — Reason about dilution",
+          "content": {
+            "format": "text",
+            "value": "Diluting the silver nitrate before mixing adds water but does not remove any silver ions, so the *number of moles* of silver is unchanged. Since the amount of precipitate is set by how many moles of silver and chloride can pair up — and by whichever runs out first — the mass of silver chloride formed is the same. What changes is concentration, so the precipitate forms more slowly and in a larger volume of liquid, and the mixture may look less dramatically cloudy at first. Separating \"how much\" from \"how concentrated\" is the point of the step, and it is the distinction that dilution questions almost always hinge on."
+          }
+        },
+        {
+          "id": "chemistry-worked-step-5",
+          "label": "Step 5 — Check the reasoning for consistency",
+          "content": {
+            "format": "text",
+            "value": "Three checks. The balanced equation must have equal atoms of each element on both sides, confirming the classification is at least chemically possible. The solubility reasoning should be reversible: if sodium nitrate had been the insoluble one, the observation would have been different, so the prediction is doing real work rather than being fitted after the fact. And the dilution answer should survive an extreme case — diluting to a thousand times the volume still contains every original silver ion, so it must still eventually produce the same mass of precipitate, which confirms the moles-not-concentration reasoning."
+          }
+        },
+        {
+          "id": "chemistry-worked-conclusion",
+          "label": "Conclusion",
+          "content": {
+            "format": "text",
+            "value": "A double replacement precipitation reaction produced silver chloride; mass is conserved because atoms are only rearranged; dilution leaves the mass of precipitate unchanged because it changes concentration, not moles. The transferable moves are classifying by the shape of the equation, using broad solubility patterns rather than memorized tables, and separating amount from concentration whenever a question involves adding water."
+          }
+        }
+      ]
+    },
+    {
+      "id": "chemistry-common-mistakes",
+      "categoryId": "II-B",
+      "heading": "Common mistakes",
+      "entries": [
+        {
+          "id": "chemistry-mistake-balancing-subscripts",
+          "label": "Mistake: balancing an equation by changing subscripts",
+          "content": {
+            "format": "text",
+            "value": "Balancing adjusts coefficients in front of formulas, never the subscripts inside them. Changing a subscript changes the identity of the substance — turning water into hydrogen peroxide, for instance — so an equation \"balanced\" that way describes a different reaction from the one asked about. A second, related error is doing mole-ratio arithmetic before the equation is balanced: the coefficients *are* the ratio, so any quantitative prediction made from an unbalanced equation is built on the wrong numbers no matter how carefully the rest is executed. Balance first, always."
+          }
+        },
+        {
+          "id": "chemistry-mistake-grams-not-moles",
+          "label": "Mistake: comparing grams when the question is about moles",
+          "content": {
+            "format": "text",
+            "value": "A balanced equation states ratios in moles, so quantities must be converted to moles before the ratio is applied. The most common version of this error is picking the limiting reagent by seeing which reactant has the smaller mass. Mass says nothing directly about particle count — a gram of hydrogen contains vastly more molecules than a gram of bromine — so the reactant present in smaller mass is frequently *not* the limiting one. Convert to moles, divide by the coefficients, and compare; the smaller result identifies the limiting reagent."
+          }
+        },
+        {
+          "id": "chemistry-mistake-ph-linear",
+          "label": "Mistake: treating the pH scale as linear, or confusing strength with concentration",
+          "content": {
+            "format": "text",
+            "value": "pH is logarithmic: each unit is a factor of ten in hydrogen-ion concentration, so pH 2 is not \"twice as acidic\" as pH 4 but a hundred times. Items exploit this with answer choices phrased as small multiples. The second error is treating acid strength and concentration as the same thing. Strength describes how completely an acid ionizes in water; concentration describes how much is dissolved. A dilute solution of a strong acid can be less acidic than a concentrated solution of a weak one, so an answer choice that assumes \"strong\" means \"more acidic\" regardless of amount is unreliable."
+          }
+        },
+        {
+          "id": "chemistry-mistake-conservation-open-system",
+          "label": "Mistake: thinking mass is lost when a gas escapes",
+          "content": {
+            "format": "text",
+            "value": "When a reaction in an open container produces a gas, the measured mass drops, and candidates sometimes conclude that mass was destroyed or that conservation applies only to closed systems. Conservation always holds; the gas simply left the container and took its mass with it. Repeat the reaction sealed and the mass is unchanged. The mirror error appears with reactions that *gain* apparent mass, such as a metal rusting in air, which is often read as mass being created when it is oxygen from the atmosphere joining the solid. Whenever an item reports a mass change, the first question is whether anything entered or left the system."
+          }
+        }
+      ]
+    },
+    {
+      "id": "physics-concept-overview",
+      "categoryId": "II-C",
+      "heading": "Concept overview",
+      "entries": [
+        {
+          "id": "physics-concept-motion",
+          "label": "Describing motion: distance, displacement, speed, velocity, acceleration",
+          "content": {
+            "format": "text",
+            "value": "Distance is total path length travelled; displacement is the straight-line change in position, with direction. A runner completing one lap covers a substantial distance but has zero displacement. Speed is distance over time; velocity is displacement over time and therefore has direction too. Acceleration is the rate at which velocity changes, and the key point candidates most often miss is that it includes any change in *direction*, not only in speed. A car rounding a curve at a steady speedometer reading is accelerating, because its velocity is changing direction. Reading graphs matters as much as the definitions: on a position-time graph the slope is velocity, and a horizontal line means at rest; on a velocity-time graph the slope is acceleration, a horizontal line means constant velocity, and the area under the curve gives displacement. Many items are answered by reading a graph correctly rather than by computing anything."
+          }
+        },
+        {
+          "id": "physics-concept-forces",
+          "label": "Newton's three laws and how forces combine",
+          "content": {
+            "format": "text",
+            "value": "Newton's first law says an object keeps doing what it is doing — at rest, or moving in a straight line at constant speed — unless a net force acts. This is the law that contradicts everyday intuition, because on Earth friction is nearly always acting, which makes it look as though motion requires continuous force. The second law says net force equals mass times acceleration: a larger net force produces more acceleration, and the same force produces less acceleration on a larger mass. The third law says forces come in pairs, equal in size and opposite in direction, acting on *different* objects — which is why they never cancel each other out. The word that carries most of the weight is net: forces add as vectors, so an object with several forces acting can have zero net force and no acceleration. Balanced forces mean constant velocity, which includes but is not limited to being at rest."
+          }
+        },
+        {
+          "id": "physics-concept-work-energy-momentum",
+          "label": "Work, energy, power, and momentum",
+          "content": {
+            "format": "text",
+            "value": "Work is done when a force moves an object along the direction of the force; a force applied with no resulting motion does no work in the physics sense, however tiring it is. Energy is the capacity to do work, and mechanical problems mostly track conversion between kinetic energy, which depends on mass and the square of speed, and gravitational potential energy, which depends on mass and height. Because speed is squared, doubling a car's speed quadruples its kinetic energy — which is why stopping distance grows so sharply with speed. Power is the rate of doing work, so a more powerful machine does the same work in less time rather than doing more work. Momentum is mass times velocity, and it is conserved in collisions: the total before equals the total after, whether the objects bounce apart or stick together. Kinetic energy is conserved only in elastic collisions; in inelastic ones some becomes thermal energy and deformation, which is precisely what a crumple zone is designed to do."
+          }
+        },
+        {
+          "id": "physics-concept-electricity",
+          "label": "Current, voltage, resistance, and circuits",
+          "content": {
+            "format": "text",
+            "value": "Current is the rate of charge flow, voltage is the electrical push driving it, and resistance opposes it; Ohm's law ties them together, so for a fixed voltage more resistance means less current. In a series circuit there is a single path, so the same current passes through every component and the voltage divides among them; adding components increases total resistance, and a break anywhere stops everything — the reason old-style holiday lights all failed together. In a parallel circuit each component sits on its own branch across the same voltage, so every branch receives the full voltage while the current divides; adding branches *decreases* total resistance because there are more routes for charge, and a break in one branch leaves the others working, which is why household wiring is parallel. Deciding series versus parallel first, then asking which quantity stays constant, resolves most circuit questions before any arithmetic."
+          }
+        },
+        {
+          "id": "physics-concept-waves-magnetism",
+          "label": "Waves, sound, light, and magnetism",
+          "content": {
+            "format": "text",
+            "value": "A wave transfers energy without transporting matter — the medium oscillates in place while the disturbance moves through it, which is why a floating object bobs rather than travelling with a water wave. Transverse waves oscillate perpendicular to their direction of travel, like light and waves on a string; longitudinal waves oscillate along it, like sound. Wavelength, frequency and wave speed are linked: for a given medium, higher frequency means shorter wavelength. Frequency determines pitch for sound and colour for visible light, while amplitude determines loudness and brightness. The electromagnetic spectrum runs from radio waves through visible light to gamma rays in order of increasing frequency and decreasing wavelength, and electromagnetic waves need no medium — which is why light crosses space and sound cannot. Magnetism and electricity are two aspects of one phenomenon: a moving charge creates a magnetic field, and a *changing* magnetic field induces a current, which is the principle behind generators, transformers, and electric motors."
+          }
+        }
+      ]
+    },
+    {
+      "id": "physics-worked-example",
+      "categoryId": "II-C",
+      "heading": "Worked example: a sled on a slope, from forces to energy",
+      "entries": [
+        {
+          "id": "physics-worked-scenario",
+          "label": "Scenario",
+          "content": {
+            "format": "text",
+            "value": "A child on a sled starts at rest at the top of a snowy hill, slides to the bottom, and then coasts across a flat, rougher patch of ground before stopping. The questions are: what makes the sled speed up on the hill, why it eventually stops on the flat, where the energy went, and how the stopping distance would change if the child started twice as fast at the bottom."
+          }
+        },
+        {
+          "id": "physics-worked-step-1",
+          "label": "Step 1 — Identify the forces and find the net force on the slope",
+          "content": {
+            "format": "text",
+            "value": "Three forces act on the slope: gravity pulling straight down, the normal force from the snow pushing perpendicular to the surface, and friction acting along the surface opposing the motion. On a slope, part of gravity acts along the surface, downhill, and that component is what drives the sled. Since the downhill component of gravity exceeds friction on smooth snow, the net force points downhill, and by Newton's second law the sled accelerates in that direction. Note what the question does *not* require: no force is needed to keep the sled moving, only to change its motion. That distinction is the first law, and it is the single most tested idea in mechanics."
+          }
+        },
+        {
+          "id": "physics-worked-step-2",
+          "label": "Step 2 — Track the energy conversion down the hill",
+          "content": {
+            "format": "text",
+            "value": "At the top, at rest, the sled has gravitational potential energy from its height and no kinetic energy. As it descends, height decreases and speed increases, so potential converts to kinetic. If the slope were frictionless the conversion would be complete and the kinetic energy at the bottom would equal the potential energy at the top. It is not frictionless, so some energy becomes thermal energy in the snow and runners, and the sled arrives slightly slower than the ideal case. Energy is conserved throughout — nothing was lost, some simply took a form that cannot be recovered as motion."
+          }
+        },
+        {
+          "id": "physics-worked-step-3",
+          "label": "Step 3 — Explain why it stops on the flat",
+          "content": {
+            "format": "text",
+            "value": "On level ground there is no downhill component of gravity, so the only horizontal force is friction, acting backwards. The net force therefore opposes the motion, producing an acceleration that reduces speed until the sled stops. It is worth being explicit that the sled does not stop because it \"runs out of force\" — it never had a forward force on the flat. It stops because a backward force acted on it. Framing it as running out of force is the intuition Newton's first law exists to correct, and distractors are often written to reward it."
+          }
+        },
+        {
+          "id": "physics-worked-step-4",
+          "label": "Step 4 — Say where the energy ended up",
+          "content": {
+            "format": "text",
+            "value": "All the kinetic energy the sled had at the bottom of the hill is converted by friction into thermal energy in the ground, the runners and the air, plus a small amount into sound. The sled ends at rest with no kinetic energy and no height, so its mechanical energy is zero — but the total energy of the system is unchanged. The rough patch stops it faster than smooth snow would because a larger friction force does the same total work over a shorter distance. \"The energy was lost to friction\" is acceptable shorthand only if it is understood as converted and dispersed, never destroyed."
+          }
+        },
+        {
+          "id": "physics-worked-step-5",
+          "label": "Step 5 — Reason about doubling the starting speed",
+          "content": {
+            "format": "text",
+            "value": "Kinetic energy depends on the *square* of speed, so doubling the speed at the bottom gives four times the kinetic energy. Friction removes energy at a steady rate per metre travelled, so stopping requires four times the distance, not twice. This is the same relationship behind car stopping distances and why speed limits matter more than they intuitively seem to. The reasoning is qualitative and needs no numbers — identifying that the quantity depends on speed squared settles the answer, which is how most items of this kind are designed to be solved."
+          }
+        },
+        {
+          "id": "physics-worked-conclusion",
+          "label": "Conclusion",
+          "content": {
+            "format": "text",
+            "value": "The sled accelerates because gravity's downhill component exceeds friction; it stops because friction acts alone on the flat; the energy became thermal energy; and doubling the speed quadruples the stopping distance. The transferable method is to identify all forces and find the net force first, then follow the energy from one form to another, and finally check whether any quantity in the question depends on a squared term — because that is usually where the intended difficulty sits."
+          }
+        }
+      ]
+    },
+    {
+      "id": "physics-common-mistakes",
+      "categoryId": "II-C",
+      "heading": "Common mistakes",
+      "entries": [
+        {
+          "id": "physics-mistake-force-to-keep-moving",
+          "label": "Mistake: assuming a force is needed to keep something moving",
+          "content": {
+            "format": "text",
+            "value": "Everyday experience suggests motion requires continuous push, because friction is nearly always present to remove energy. Newton's first law says otherwise: with zero net force an object continues at constant velocity indefinitely. Items test this with objects coasting, sliding, or moving through space, and the distractor is almost always the choice invoking a forward force that has stopped acting. A closely related error is assuming that constant velocity means no forces at all — it means the forces are *balanced*, which is a different claim, and a sky-diver at terminal velocity is the standard example of substantial forces summing to zero."
+          }
+        },
+        {
+          "id": "physics-mistake-mass-weight",
+          "label": "Mistake: confusing mass with weight, and third-law pairs with balanced forces",
+          "content": {
+            "format": "text",
+            "value": "Mass is the amount of matter and does not change with location; weight is the gravitational force on that mass and does change — an astronaut's mass is identical on the Moon while their weight is about a sixth. Separately, Newton's third-law pairs act on *different objects* and therefore can never cancel: the Earth pulls on a book and the book pulls on the Earth, but the forces balancing on the book are gravity and the table's normal force, which are not a third-law pair. Items asking which forces are an action-reaction pair are usually testing exactly this, and the tell is whether the two forces act on the same object."
+          }
+        },
+        {
+          "id": "physics-mistake-series-parallel",
+          "label": "Mistake: swapping what stays constant in series and parallel circuits",
+          "content": {
+            "format": "text",
+            "value": "In series the current is the same everywhere and the voltage divides; in parallel the voltage is the same across every branch and the current divides. Reversing these produces confident wrong answers throughout a circuit question. The other frequent slip is direction of total resistance: adding components in series increases total resistance, but adding branches in parallel *decreases* it, because charge gains additional routes. A quick sanity check is that total resistance in a parallel circuit is always smaller than the smallest individual branch — if a calculation says otherwise, something has gone wrong."
+          }
+        },
+        {
+          "id": "physics-mistake-waves-carry-matter",
+          "label": "Mistake: thinking a wave carries matter, or mishandling frequency and wavelength",
+          "content": {
+            "format": "text",
+            "value": "A wave transfers energy while the medium oscillates in place — a duck on a lake bobs up and down as waves pass rather than being carried to shore. Answer choices describing water or air travelling with the wave are testing this. The second error concerns the relationship between frequency, wavelength and speed: for a wave in a given medium the speed is essentially fixed, so raising the frequency shortens the wavelength. Candidates sometimes reason that a higher frequency makes the wave faster, which reverses the relationship. And amplitude is independent of both — it sets loudness or brightness, not pitch or colour."
+          }
+        }
+      ]
+    }
+  ]
+}
