@@ -1423,3 +1423,50 @@ and §1a's encrypted-PDF claim is corrected per N-11. The general lesson is that
 procedure document describing a *checkable* contract should be checked against the checker
 — this one was written from the bank files' authority model rather than from the
 validator's, and the two had diverged.
+
+
+### N-13: Branch protection enabled on `main` — Gate 4's merge-on-green is live for the first time
+
+**Context.** The dev-workflow skill's Gate 4 tiers the merge pause: interactive sessions
+making non-deep changes "merge on green," while deep, dependency, and schema/progress-data
+changes still wait for the session owner. That tiering carried a mechanical precondition —
+merge-on-green applies *only once branch protection actually enforces the verification
+gate on `main`* — and protection had never been enabled, so the whole tier had been inert
+since it was written. Tracked as issue #107.
+
+**Enabled 2026-09-10** by the session owner. The configuration, and why each part is what
+it is:
+
+- **`verify` is the only required status check.** `main` also reports `build`, `deploy`
+  and `report-build-status`, but those are GitHub Pages' own deployment workflow and run
+  on *push only, never on a pull request*. Requiring any of them would leave every PR
+  permanently stuck on "Expected — waiting for status to be reported." Confirmed against
+  PR #114, where `verify` was the only check that ran. The requirement is pinned to app
+  id 15368 (GitHub Actions), so an unrelated status named `verify` cannot satisfy it.
+- **A pull request is required, with `required_approving_review_count: 0`.** GitHub does
+  not permit approving one's own pull request, so on an effectively single-maintainer
+  repository *any* non-zero approval requirement would block every merge outright — the
+  exact opposite of the intent. Zero approvals still blocks direct pushes to `main`, which
+  is the actual goal.
+- **`enforce_admins: true` — session owner's call.** The administrator is the only
+  committer here, so excluding administrators would have left the gate advisory for the
+  one person it governs, and Gate 4's precondition ("*actually* enforces") would still not
+  have been met. The escape hatch, should CI ever break in a way that blocks its own fix,
+  is toggling protection off in Settings and back on — seconds, and fully reversible.
+- Force pushes and branch deletion blocked; conversation resolution required, so inline
+  review comments (which `/code-review --comment` posts) cannot be merged past unresolved.
+
+**Consequence.** Merge-on-green is now active for the first time: an interactive session
+making a non-deep change merges once CI is green and says so, without a separate go-ahead.
+The pause is unchanged for deep changes, dependency changes, and anything touching the
+question-bank schema or the shape of saved progress data. Gate 4's audit loop — reviewing
+`git log --oneline` on `main` at each live-test session — is what replaces the dropped
+pause.
+
+**A verification note worth keeping.** A `git push --dry-run` was used to probe the new
+rule and reported that the push *would* succeed. That is **not** evidence protection is
+absent: GitHub does not run a branch's pre-receive protection hook for a dry run, so a
+"success" there carries no information while a rejection would have. It is an asymmetric
+test, and only its negative result means anything. What actually confirmed the rule was
+reading the protection state back from the API — GitHub reporting its own enforcement
+configuration — plus this PR, which is the first to pass through the rule end to end.
