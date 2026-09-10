@@ -1851,3 +1851,44 @@ is a partial one — it catches wrong facts and internal contradictions, not a w
 that the drafting pass and the checking pass would share. A later session reading these
 chapters cold is still worth more, and 02b/02c's chapters should get their verification
 pass in a *different* session rather than at the end of the authoring one.
+
+### N-18: Teaching and reference content is plain text — markdown emphasis renders as literal asterisks, and 37 shipped that way
+
+**Found while live-verifying 02b's chapters.** `js/reference-panel.js`'s `renderContent`
+dispatches on three `format` values — `text`, `mathml`, `code` — and `text` sets
+`textContent`. There is no markdown layer anywhere in the render path. So `*direction*`
+and `**ten percent**` in a `format: "text"` value reach the reader as asterisks around the
+word, not as emphasis.
+
+`data/teaching/5436.json` carried **37 emphasis spans, 80 asterisk characters** — 18 spans
+from 02a (merged and deployed in #125) and 19 written in 02b before this was caught. A
+single III-B chapter page rendered 38 literal asterisks with zero `<em>`/`<strong>`
+elements. The other four teaching files were checked and are clean: every asterisk in
+`5101.json` and `5652.json` is a multiplication operator inside a spreadsheet formula or a
+pseudocode block, which is correct as plain text.
+
+**Why it survived 02a's review.** Nothing rejects it. `verify.mjs` validates structure and
+does not read prose. A JSON diff shows `*direction*` looking exactly like the emphasis it
+was intended to be, and it reads as emphasis in every tool that touches the authoring path
+— editor, diff, PR view, terminal. The one place it does not is the rendered page, which
+is the only place that matters and the only one nobody looked at, because the *content* was
+what was under review and the *page* was assumed to be a solved problem from Phase 6.9.
+
+**Fixed here** for all 37: markers stripped, and the ten spans where the emphasis was
+carrying real meaning rewritten to carry it in the wording instead — `the coefficients
+*are* the ratio` became `the coefficients themselves are the ratio`, `two *white* parents`
+became `two white parents instead`, and so on. Emphasis that survives only as italics is
+emphasis a plain-text renderer will drop; better to write the sentence so it does not need
+the marker.
+
+**Standing rule.** Teaching and reference-panel prose is plain text. No markdown — no
+`*emphasis*`, no `**bold**`, no backticks, no `#` headings, no `-` bullet syntax. Structure
+comes from the section/entry shape (SCHEMA.md §2.11), and emphasis comes from sentence
+construction. Asterisks are legitimate only as a multiplication operator inside content
+that is genuinely about formulas or code.
+
+**Cheapest check, and the reason it is worth running.** One line against a rendered page —
+`(document.body.innerText.match(/\*/g) || []).length` — settles it in seconds. The general
+lesson is the one N-17 reached from a different direction: **the authoring path and the
+reading path disagree, and only the reading path is real.** Load a chapter in a browser
+before merging it, rather than reviewing it as JSON alone.
