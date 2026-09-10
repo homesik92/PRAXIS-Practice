@@ -1470,3 +1470,68 @@ absent: GitHub does not run a branch's pre-receive protection hook for a dry run
 test, and only its negative result means anything. What actually confirmed the rule was
 reading the protection state back from the API — GitHub reporting its own enforcement
 configuration — plus this PR, which is the first to pass through the rule end to end.
+
+
+### D-40: Legal posture for App Store release — no attorney consult, and PRAXIS confirmed as ETS's live registered mark
+
+**Context.** `LEGAL.md` carries its own revisit trigger — *"first App Store submission,
+any paid/monetized version, any public announcement or marketing beyond personal use"* —
+and the plan under D-38 (one app, four subjects sold by in-app purchase) trips all three.
+Tracked as [PRAXIS-iOS-Math#20](https://github.com/homesik92/PRAXIS-iOS-Math/issues/20).
+
+**Decision 1 — session owner's call, 2026-09-10: the attorney consult is deliberately not
+being pursued.** The concern was raised at the plan gate and the decision made with it in
+view. Recorded here so it reads as an informed choice rather than an oversight, and so a
+later session neither blocks on it nor "helpfully" reopens it. The practical consequence
+is that `LEGAL.md`'s written guidance is no longer a floor beneath a professional opinion
+— it is the *only* guidance, and so is followed rather than treated as advisory.
+
+**Decision 2 — the trademark question, settled by verification rather than inference.**
+The session owner researched whether PRAXIS is protected and found a lapsed mark once held
+by a law firm, which suggested the term might be free. It is not. Pulled from USPTO TSDR
+(`https://tsdr.uspto.gov/statusview/sn85340767`) on 2026-09-10:
+
+> **PRAXIS** — Reg. No. **4,479,538**, Serial 85340767. Owner: **Educational Testing
+> Service**. Status: **LIVE / REGISTERED, renewed 21 May 2024**. International classes
+> **9, 16, 35, 41, 42**. Class 9 covers *"online downloadable electronic publications…
+> practice tests, study guides, workbooks, books, test forms and answer sheets."* First
+> use in commerce 31 May 1992.
+
+**Why the original research pointed the wrong way** — three distinctions worth keeping,
+because the same reasoning error is easy to repeat:
+
+1. **Copyright is the wrong regime entirely.** Names, titles and short phrases cannot be
+   copyrighted under any circumstances. "PRAXIS isn't copyrighted" is true and carries no
+   information; trademark is the only regime in play.
+2. **Trademarks are registered per class of goods and services.** Identical words coexist
+   across classes as a matter of routine (Delta Airlines and Delta Faucets both hold
+   "DELTA"). A lapsed mark owned by a law firm in a legal-services class is not evidence
+   about ETS's live registration in testing. What matters is whether anything live exists
+   in *our* classes — and **Class 9 is downloadable practice tests and study guides**,
+   which is precisely this project's category rather than an adjacent one.
+3. **Registration is not the only source of rights.** Continuous use since 1992 generates
+   common-law rights independently, so even a lapse would not open the field.
+
+The ® ETS displays is therefore accurate, not decorative.
+
+**What follows, and what does not.** This changes nothing about `LEGAL.md`'s guidance,
+because that guidance never rested on uncertainty about registration — it rests on the
+distinction between using a mark **descriptively** (nominative fair use) and using it as a
+**brand**. That line is unaffected, and now has a citation behind it instead of an
+inference from a symbol:
+
+- **Permitted and intended:** naming the exam descriptively in the app's subtitle and
+  description, and in the site's own copy, alongside the disclaimer this project already
+  carries. This is the pattern Mometrix, 240 Tutoring and Study.com use.
+- **Excluded:** PRAXIS as the product name or any part of it — no "Praxis Prep", no
+  "Praxis Practice".
+
+**The permanent consequence.** `com.homesik92.PraxisMath` (iOS D-6) is unsuitable as the
+final bundle identifier on two independent grounds: it encodes the superseded
+Mathematics-only structure, and it builds the mark into an identifier that **locks
+permanently at the first App Store Connect registration**. The product name, and a bundle
+id derived from it, are settled in `session-11` before any such record is created.
+
+*This project's own content rule is unchanged and is the one that would be genuinely
+expensive to get wrong: every question is written from the underlying skill, never adapted
+from ETS's study companions. No tool can check it.*
