@@ -1800,3 +1800,54 @@ avoids a second schema-touching change later for a value that was already forese
 
 **Amends** D-41. D-42's pricing model applies unchanged to a Core app: free to download
 with a single non-consumable unlock.
+
+### N-17: Teaching prose needs the same independent verification pass as an answer key — the first one found four defects
+
+**Context.** `CLAUDE.md` names the project's real correctness surface: "wrong answer keys
+and misleading explanations, which no test suite, linter, or code review will catch." The
+answer-key half of that has an established discipline — Gate 3 verifies the key
+independently of the drafting pass. The *explanations* half had no equivalent. Teaching
+chapters (D-28/D-29) were written and checked inside a single pass, which is exactly the
+arrangement the answer-key rule exists to forbid.
+
+The 5436 chapters (PR #125 — 15 sections, 80 entries, 77 KB) were the first body of
+teaching prose large enough to make that gap worth testing. A verification pass over the
+five drafted categories checked 83 numeric, absolute and superlative claims.
+
+**Result: I-A and I-B came through clean; the physical-science half carried four defects.**
+
+1. *II-A* — alpha and beta decay described as "the one genuinely elemental change in all of
+   chemistry and physics," two sentences before the same entry describes fission and fusion,
+   which also change elements. False as written, and self-contradicting.
+2. *II-A* — "the spark cannot warm the tub." The II-A common-mistakes entry states the
+   correct rule ("heat will still flow from the cup to the tub"). The overview was teaching
+   the misconception that the mistakes entry exists to correct.
+3. *II-B* — the dilution sanity check claimed that diluting to a thousand times the volume
+   "must still eventually produce the same mass of precipitate." Below silver chloride's
+   solubility product nothing precipitates at all. The defect is worse than the fact: it
+   taught extreme-case extrapolation as a *method*, at the one point where the method breaks.
+4. *II-C* — electric motors listed as an application of electromagnetic induction. Motors
+   run on the force a magnetic field exerts on a current; generators and transformers are
+   the induction half.
+
+**Why these four and not others.** Every one sits in a *connecting* clause — the "which is
+why," the sanity check, the summarizing aside — never in the primary definition. The
+definitions were drafted deliberately and are correct throughout. The errors are in the
+prose that earns a chapter its readability, written at speed on the assumption that a
+sentence explaining a settled fact cannot itself be wrong. Three of the four are detectable
+without any outside source, by reading the chapter against itself.
+
+**Consequence.** Teaching prose gets a verification pass separate from the drafting pass,
+the same as an answer key, before it ships. The pass that found these worked by extracting
+claims mechanically — every number, every "always/never/only/cannot" — and checking each in
+isolation rather than re-reading the prose, which is what kept the drafting pass's own
+reasoning from being re-run and re-confirmed. Two cheap checks earn their place explicitly:
+**read every chapter against its own common-mistakes entries** (defect 2 was a direct
+contradiction), and **distrust the connecting clause**, since that is where all four lived.
+
+**Honest limit on this pass.** It was run in the same session, by the same author, as the
+drafting. Mechanical claim extraction was the substitute for genuine independence, and it
+is a partial one — it catches wrong facts and internal contradictions, not a wrong framing
+that the drafting pass and the checking pass would share. A later session reading these
+chapters cold is still worth more, and 02b/02c's chapters should get their verification
+pass in a *different* session rather than at the end of the authoring one.
