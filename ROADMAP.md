@@ -1086,9 +1086,22 @@ categories I–IV with zero shortfalls, and `enabled: true` in the manifest.
   list, a "Practice a topic" run through new I-B content (correct/incorrect scoring
   and explanations rendering correctly), and the full 135-question form assembly
   all confirmed with no console errors.
-- ☐ Consider whether 5436 needs its own "Study a topic" teaching chapters (Phase
-  6.10's scope covers 5485/5101, not 5436) — **left open, deliberately not decided
-  in this session**, a separate scope question from finishing the question bank.
+- ◐ **5436 "Study a topic" teaching chapters — decided yes, 11 of 15 chapters written.**
+  (Phase 6.10's scope covered 5485/5101, not 5436; the question was left open there and
+  answered in the 2026-09-10 sessions.) Delivered so far, in the standard *Concept
+  overview / Worked example / Common mistakes* triple per category:
+  **02a** (#125) I-A Nature of Science, I-B STSE, II-A Matter and Energy, II-B Chemistry,
+  II-C Physics — 15 sections, 80 entries.
+  **02b** (this session) III-A Cells and Processes Including Genetics, III-B Evolution,
+  Diversity of Life and Ecology — 6 sections, 32 entries, written from scratch with no
+  5485 source to draw on.
+  **Still open — 02c:** IV-A Astronomy and IV-B Earth Science, 6 sections. `teach.html`
+  degrades per category (live-confirmed: `?category=IV-A` shows "No lesson has been
+  written for 'Astronomy' yet."), so shipping the rest later is safe.
+  Two methodology findings came out of this work and now govern it: **N-17** (teaching
+  prose gets a claim-extraction verification pass separate from the drafting pass — the
+  first one found four factual defects in 02a) and **N-18** (this content is plain text;
+  markdown emphasis renders as literal asterisks, and 37 spans had shipped that way).
 
 **Landmine, hit twice in the Life/Earth half of this phase:** a subagent's Write
 tool refuses a file that reads as a "report" — `findings-<leaf>.md` was blocked for

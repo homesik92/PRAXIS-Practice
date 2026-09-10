@@ -177,7 +177,7 @@
           "label": "Cost-benefit and risk-benefit analysis are different tools",
           "content": {
             "format": "text",
-            "value": "Cost-benefit analysis compares the resources a choice consumes against the value it returns, ideally across the full lifecycle rather than at purchase — installation, operation, maintenance, and disposal or cleanup. A choice with a low sticker price and high running costs can lose to a costlier one that runs cheaply for decades. Risk-benefit analysis compares the probability and severity of possible harm against the expected benefit, and it deals in uncertainty rather than accounting: a low-probability, high-consequence risk is judged differently from a frequent minor one. The two answer different questions and should not be substituted for one another. Both are also distinct from how risk is *perceived*: people systematically judge unfamiliar, involuntary, catastrophic, or dreaded risks as larger than statistically comparable familiar and voluntary ones. Perceived risk is a real factor in whether a technically sound proposal is adopted, and treating public concern as simple ignorance is both inaccurate and ineffective."
+            "value": "Cost-benefit analysis compares the resources a choice consumes against the value it returns, ideally across the full lifecycle rather than at purchase — installation, operation, maintenance, and disposal or cleanup. A choice with a low sticker price and high running costs can lose to a costlier one that runs cheaply for decades. Risk-benefit analysis compares the probability and severity of possible harm against the expected benefit, and it deals in uncertainty rather than accounting: a low-probability, high-consequence risk is judged differently from a frequent minor one. The two answer different questions and should not be substituted for one another. Both are also distinct from how risk is perceived: people systematically judge unfamiliar, involuntary, catastrophic, or dreaded risks as larger than statistically comparable familiar and voluntary ones. Perceived risk is a real factor in whether a technically sound proposal is adopted, and treating public concern as simple ignorance is both inaccurate and ineffective."
           }
         },
         {
@@ -271,7 +271,7 @@
           "label": "Mistake: treating engineering design as though it shared science's goal",
           "content": {
             "format": "text",
-            "value": "A frequent error is describing an engineering test as though it were testing a hypothesis about nature, or assuming the design process aims at truth. Engineering testing asks whether a design meets its requirements and where it fails, so that it can be improved; the useful outcome of a prototype test is often the discovery of a weakness. A related error is expecting an engineering problem to have one correct solution. Several designs may satisfy every constraint while trading off criteria differently, and selecting among them involves value judgments about which criteria matter most — which is why items in this area usually ask for the *best supported* choice given stated priorities, not the objectively right one."
+            "value": "A frequent error is describing an engineering test as though it were testing a hypothesis about nature, or assuming the design process aims at truth. Engineering testing asks whether a design meets its requirements and where it fails, so that it can be improved; the useful outcome of a prototype test is often the discovery of a weakness. A related error is expecting an engineering problem to have one correct solution. Several designs may satisfy every constraint while trading off criteria differently, and selecting among them involves value judgments about which criteria matter most — which is why items in this area usually ask for the \"best supported\" choice given stated priorities, not the objectively right one."
           }
         },
         {
@@ -436,7 +436,7 @@
           "label": "Mistake: losing track of what each decay type changes",
           "content": {
             "format": "text",
-            "value": "Alpha decay drops mass number by 4 and atomic number by 2; beta decay leaves mass number unchanged and raises atomic number by 1; gamma emission changes neither. The frequent slip is conserving one number while forgetting the other, which produces an impossible product. The reliable check is that mass number and charge must each balance across the equation. Also worth fixing firmly: alpha and beta decay change the proton count and therefore produce a *different element*, while gamma emission does not — an answer choice claiming gamma emission transmutes an element is always wrong."
+            "value": "Alpha decay drops mass number by 4 and atomic number by 2; beta decay leaves mass number unchanged and raises atomic number by 1; gamma emission changes neither. The frequent slip is conserving one number while forgetting the other, which produces an impossible product. The reliable check is that mass number and charge must each balance across the equation. Also worth fixing firmly: alpha and beta decay change the proton count and therefore produce a different element, while gamma emission does not — an answer choice claiming gamma emission transmutes an element is always wrong."
           }
         },
         {
@@ -483,7 +483,7 @@
           "label": "The mole and what a balanced equation lets you predict",
           "content": {
             "format": "text",
-            "value": "A mole is a counting unit — Avogadro's number of particles — that bridges the atomic scale to the laboratory scale. Molar mass, the mass of one mole in grams, is read off the periodic table and summed across a formula, and it converts between grams and moles in both directions. The reason this matters is that a balanced equation states ratios in *moles*, not grams: coefficients tell you how many moles of each substance participate. So a quantitative prediction follows a fixed path — convert the given mass to moles, apply the mole ratio from the balanced equation, convert back to whatever unit the question wants. When two reactant quantities are given, one usually runs out first; that one is the limiting reagent, it determines how much product forms, and it must be identified by comparing moles available against the ratio required, never by comparing masses."
+            "value": "A mole is a counting unit — Avogadro's number of particles — that bridges the atomic scale to the laboratory scale. Molar mass, the mass of one mole in grams, is read off the periodic table and summed across a formula, and it converts between grams and moles in both directions. The reason this matters is that a balanced equation states ratios in moles, not grams: coefficients tell you how many moles of each substance participate. So a quantitative prediction follows a fixed path — convert the given mass to moles, apply the mole ratio from the balanced equation, convert back to whatever unit the question wants. When two reactant quantities are given, one usually runs out first; that one is the limiting reagent, it determines how much product forms, and it must be identified by comparing moles available against the ratio required, never by comparing masses."
           }
         },
         {
@@ -491,7 +491,7 @@
           "label": "Solutions, concentration, and the pH scale",
           "content": {
             "format": "text",
-            "value": "A solution is a solute dissolved uniformly in a solvent. Concentration is most often expressed as molarity — moles of solute per liter of solution — and diluting a solution adds solvent without changing the amount of solute, which is why the moles before equal the moles after and the familiar dilution relationship works. Solubility generally rises with temperature for solids in water but *falls* for gases, which is why a warm carbonated drink goes flat and why warm river water holds less dissolved oxygen for fish. Acids release hydrogen ions in solution and bases release hydroxide ions or accept hydrogen ions; the pH scale runs from strongly acidic near 0 through neutral at 7 to strongly basic near 14. Critically, the scale is logarithmic: each whole step is a tenfold change in hydrogen-ion concentration, so pH 3 is ten times more acidic than pH 4 and a hundred times more than pH 5. Strength and concentration are separate ideas — strength is how completely a substance ionizes, concentration is how much of it is present, and a dilute strong acid can have a higher pH than a concentrated weak one."
+            "value": "A solution is a solute dissolved uniformly in a solvent. Concentration is most often expressed as molarity — moles of solute per liter of solution — and diluting a solution adds solvent without changing the amount of solute, which is why the moles before equal the moles after and the familiar dilution relationship works. Solubility generally rises with temperature for solids in water but falls for gases, which is why a warm carbonated drink goes flat and why warm river water holds less dissolved oxygen for fish. Acids release hydrogen ions in solution and bases release hydroxide ions or accept hydrogen ions; the pH scale runs from strongly acidic near 0 through neutral at 7 to strongly basic near 14. Critically, the scale is logarithmic: each whole step is a tenfold change in hydrogen-ion concentration, so pH 3 is ten times more acidic than pH 4 and a hundred times more than pH 5. Strength and concentration are separate ideas — strength is how completely a substance ionizes, concentration is how much of it is present, and a dilute strong acid can have a higher pH than a concentrated weak one."
           }
         }
       ]
@@ -538,7 +538,7 @@
           "label": "Step 4 — Reason about dilution",
           "content": {
             "format": "text",
-            "value": "Diluting the silver nitrate before mixing adds water but does not remove any silver ions, so the *number of moles* of silver is unchanged. Since the amount of precipitate is set by how many moles of silver and chloride can pair up — and by whichever runs out first — the mass of silver chloride formed is the same. What changes is concentration, so the precipitate forms more slowly and in a larger volume of liquid, and the mixture may look less dramatically cloudy at first. Separating \"how much\" from \"how concentrated\" is the point of the step, and it is the distinction that dilution questions almost always hinge on."
+            "value": "Diluting the silver nitrate before mixing adds water but does not remove any silver ions, so the number of moles of silver is unchanged. Since the amount of precipitate is set by how many moles of silver and chloride can pair up — and by whichever runs out first — the mass of silver chloride formed is the same. What changes is concentration, so the precipitate forms more slowly and in a larger volume of liquid, and the mixture may look less dramatically cloudy at first. Separating \"how much\" from \"how concentrated\" is the point of the step, and it is the distinction that dilution questions almost always hinge on."
           }
         },
         {
@@ -569,7 +569,7 @@
           "label": "Mistake: balancing an equation by changing subscripts",
           "content": {
             "format": "text",
-            "value": "Balancing adjusts coefficients in front of formulas, never the subscripts inside them. Changing a subscript changes the identity of the substance — turning water into hydrogen peroxide, for instance — so an equation \"balanced\" that way describes a different reaction from the one asked about. A second, related error is doing mole-ratio arithmetic before the equation is balanced: the coefficients *are* the ratio, so any quantitative prediction made from an unbalanced equation is built on the wrong numbers no matter how carefully the rest is executed. Balance first, always."
+            "value": "Balancing adjusts coefficients in front of formulas, never the subscripts inside them. Changing a subscript changes the identity of the substance — turning water into hydrogen peroxide, for instance — so an equation \"balanced\" that way describes a different reaction from the one asked about. A second, related error is doing mole-ratio arithmetic before the equation is balanced: the coefficients themselves are the ratio, so any quantitative prediction made from an unbalanced equation is built on the wrong numbers no matter how carefully the rest is executed. Balance first, always."
           }
         },
         {
@@ -577,7 +577,7 @@
           "label": "Mistake: comparing grams when the question is about moles",
           "content": {
             "format": "text",
-            "value": "A balanced equation states ratios in moles, so quantities must be converted to moles before the ratio is applied. The most common version of this error is picking the limiting reagent by seeing which reactant has the smaller mass. Mass says nothing directly about particle count — a gram of hydrogen contains vastly more molecules than a gram of bromine — so the reactant present in smaller mass is frequently *not* the limiting one. Convert to moles, divide by the coefficients, and compare; the smaller result identifies the limiting reagent."
+            "value": "A balanced equation states ratios in moles, so quantities must be converted to moles before the ratio is applied. The most common version of this error is picking the limiting reagent by seeing which reactant has the smaller mass. Mass says nothing directly about particle count — a gram of hydrogen contains vastly more molecules than a gram of bromine — so the reactant present in smaller mass is frequently not the limiting one at all. Convert to moles, divide by the coefficients, and compare; the smaller result identifies the limiting reagent."
           }
         },
         {
@@ -593,7 +593,7 @@
           "label": "Mistake: thinking mass is lost when a gas escapes",
           "content": {
             "format": "text",
-            "value": "When a reaction in an open container produces a gas, the measured mass drops, and candidates sometimes conclude that mass was destroyed or that conservation applies only to closed systems. Conservation always holds; the gas simply left the container and took its mass with it. Repeat the reaction sealed and the mass is unchanged. The mirror error appears with reactions that *gain* apparent mass, such as a metal rusting in air, which is often read as mass being created when it is oxygen from the atmosphere joining the solid. Whenever an item reports a mass change, the first question is whether anything entered or left the system."
+            "value": "When a reaction in an open container produces a gas, the measured mass drops, and candidates sometimes conclude that mass was destroyed or that conservation applies only to closed systems. Conservation always holds; the gas simply left the container and took its mass with it. Repeat the reaction sealed and the mass is unchanged. The mirror error appears with reactions that appear to gain mass, such as a metal rusting in air, which is often read as mass being created when it is oxygen from the atmosphere joining the solid. Whenever an item reports a mass change, the first question is whether anything entered or left the system."
           }
         }
       ]
@@ -608,7 +608,7 @@
           "label": "Describing motion: distance, displacement, speed, velocity, acceleration",
           "content": {
             "format": "text",
-            "value": "Distance is total path length travelled; displacement is the straight-line change in position, with direction. A runner completing one lap covers a substantial distance but has zero displacement. Speed is distance over time; velocity is displacement over time and therefore has direction too. Acceleration is the rate at which velocity changes, and the key point candidates most often miss is that it includes any change in *direction*, not only in speed. A car rounding a curve at a steady speedometer reading is accelerating, because its velocity is changing direction. Reading graphs matters as much as the definitions: on a position-time graph the slope is velocity, and a horizontal line means at rest; on a velocity-time graph the slope is acceleration, a horizontal line means constant velocity, and the area under the curve gives displacement. Many items are answered by reading a graph correctly rather than by computing anything."
+            "value": "Distance is total path length travelled; displacement is the straight-line change in position, with direction. A runner completing one lap covers a substantial distance but has zero displacement. Speed is distance over time; velocity is displacement over time and therefore has direction too. Acceleration is the rate at which velocity changes, and the key point candidates most often miss is that it includes any change in direction, not only in speed. A car rounding a curve at a steady speedometer reading is accelerating, because its velocity is changing direction. Reading graphs matters as much as the definitions: on a position-time graph the slope is velocity, and a horizontal line means at rest; on a velocity-time graph the slope is acceleration, a horizontal line means constant velocity, and the area under the curve gives displacement. Many items are answered by reading a graph correctly rather than by computing anything."
           }
         },
         {
@@ -616,7 +616,7 @@
           "label": "Newton's three laws and how forces combine",
           "content": {
             "format": "text",
-            "value": "Newton's first law says an object keeps doing what it is doing — at rest, or moving in a straight line at constant speed — unless a net force acts. This is the law that contradicts everyday intuition, because on Earth friction is nearly always acting, which makes it look as though motion requires continuous force. The second law says net force equals mass times acceleration: a larger net force produces more acceleration, and the same force produces less acceleration on a larger mass. The third law says forces come in pairs, equal in size and opposite in direction, acting on *different* objects — which is why they never cancel each other out. The word that carries most of the weight is net: forces add as vectors, so an object with several forces acting can have zero net force and no acceleration. Balanced forces mean constant velocity, which includes but is not limited to being at rest."
+            "value": "Newton's first law says an object keeps doing what it is doing — at rest, or moving in a straight line at constant speed — unless a net force acts. This is the law that contradicts everyday intuition, because on Earth friction is nearly always acting, which makes it look as though motion requires continuous force. The second law says net force equals mass times acceleration: a larger net force produces more acceleration, and the same force produces less acceleration on a larger mass. The third law says forces come in pairs, equal in size and opposite in direction, acting on two different objects — which is why they never cancel each other out. The word that carries most of the weight is net: forces add as vectors, so an object with several forces acting can have zero net force and no acceleration. Balanced forces mean constant velocity, which includes but is not limited to being at rest."
           }
         },
         {
@@ -632,7 +632,7 @@
           "label": "Current, voltage, resistance, and circuits",
           "content": {
             "format": "text",
-            "value": "Current is the rate of charge flow, voltage is the electrical push driving it, and resistance opposes it; Ohm's law ties them together, so for a fixed voltage more resistance means less current. In a series circuit there is a single path, so the same current passes through every component and the voltage divides among them; adding components increases total resistance, and a break anywhere stops everything — the reason old-style holiday lights all failed together. In a parallel circuit each component sits on its own branch across the same voltage, so every branch receives the full voltage while the current divides; adding branches *decreases* total resistance because there are more routes for charge, and a break in one branch leaves the others working, which is why household wiring is parallel. Deciding series versus parallel first, then asking which quantity stays constant, resolves most circuit questions before any arithmetic."
+            "value": "Current is the rate of charge flow, voltage is the electrical push driving it, and resistance opposes it; Ohm's law ties them together, so for a fixed voltage more resistance means less current. In a series circuit there is a single path, so the same current passes through every component and the voltage divides among them; adding components increases total resistance, and a break anywhere stops everything — the reason old-style holiday lights all failed together. In a parallel circuit each component sits on its own branch across the same voltage, so every branch receives the full voltage while the current divides; adding branches decreases total resistance because there are more routes for charge, and a break in one branch leaves the others working, which is why household wiring is parallel. Deciding series versus parallel first, then asking which quantity stays constant, resolves most circuit questions before any arithmetic."
           }
         },
         {
@@ -640,7 +640,7 @@
           "label": "Waves, sound, light, and magnetism",
           "content": {
             "format": "text",
-            "value": "A wave transfers energy without transporting matter — the medium oscillates in place while the disturbance moves through it, which is why a floating object bobs rather than travelling with a water wave. Transverse waves oscillate perpendicular to their direction of travel, like light and waves on a string; longitudinal waves oscillate along it, like sound. Wavelength, frequency and wave speed are linked: for a given medium, higher frequency means shorter wavelength. Frequency determines pitch for sound and colour for visible light, while amplitude determines loudness and brightness. The electromagnetic spectrum runs from radio waves through visible light to gamma rays in order of increasing frequency and decreasing wavelength, and electromagnetic waves need no medium — which is why light crosses space and sound cannot. Magnetism and electricity are two aspects of one phenomenon, and it runs in both directions. A moving charge creates a magnetic field, and a magnetic field in turn pushes on a current-carrying wire — that force is what spins an electric motor. Read the other way, a *changing* magnetic field induces a current, which is the principle behind generators and transformers. A motor and a generator are the same relationship worked in opposite directions."
+            "value": "A wave transfers energy without transporting matter — the medium oscillates in place while the disturbance moves through it, which is why a floating object bobs rather than travelling with a water wave. Transverse waves oscillate perpendicular to their direction of travel, like light and waves on a string; longitudinal waves oscillate along it, like sound. Wavelength, frequency and wave speed are linked: for a given medium, higher frequency means shorter wavelength. Frequency determines pitch for sound and colour for visible light, while amplitude determines loudness and brightness. The electromagnetic spectrum runs from radio waves through visible light to gamma rays in order of increasing frequency and decreasing wavelength, and electromagnetic waves need no medium — which is why light crosses space and sound cannot. Magnetism and electricity are two aspects of one phenomenon, and it runs in both directions. A moving charge creates a magnetic field, and a magnetic field in turn pushes on a current-carrying wire — that force is what spins an electric motor. Read the other way, a magnetic field that is changing induces a current, which is the principle behind generators and transformers. A motor and a generator are the same relationship worked in opposite directions."
           }
         }
       ]
@@ -663,7 +663,7 @@
           "label": "Step 1 — Identify the forces and find the net force on the slope",
           "content": {
             "format": "text",
-            "value": "Three forces act on the slope: gravity pulling straight down, the normal force from the snow pushing perpendicular to the surface, and friction acting along the surface opposing the motion. On a slope, part of gravity acts along the surface, downhill, and that component is what drives the sled. Since the downhill component of gravity exceeds friction on smooth snow, the net force points downhill, and by Newton's second law the sled accelerates in that direction. Note what the question does *not* require: no force is needed to keep the sled moving, only to change its motion. That distinction is the first law, and it is the single most tested idea in mechanics."
+            "value": "Three forces act on the slope: gravity pulling straight down, the normal force from the snow pushing perpendicular to the surface, and friction acting along the surface opposing the motion. On a slope, part of gravity acts along the surface, downhill, and that component is what drives the sled. Since the downhill component of gravity exceeds friction on smooth snow, the net force points downhill, and by Newton's second law the sled accelerates in that direction. Note what the question does not require: no force is needed to keep the sled moving, only to change its motion. That distinction is the first law, and it is the single most tested idea in mechanics."
           }
         },
         {
@@ -695,7 +695,7 @@
           "label": "Step 5 — Reason about doubling the starting speed",
           "content": {
             "format": "text",
-            "value": "Kinetic energy depends on the *square* of speed, so doubling the speed at the bottom gives four times the kinetic energy. Friction removes energy at a steady rate per metre travelled, so stopping requires four times the distance, not twice. This is the same relationship behind car stopping distances and why speed limits matter more than they intuitively seem to. The reasoning is qualitative and needs no numbers — identifying that the quantity depends on speed squared settles the answer, which is how most items of this kind are designed to be solved."
+            "value": "Kinetic energy depends on the square of speed, so doubling the speed at the bottom gives four times the kinetic energy. Friction removes energy at a steady rate per metre travelled, so stopping requires four times the distance, not twice. This is the same relationship behind car stopping distances and why speed limits matter more than they intuitively seem to. The reasoning is qualitative and needs no numbers — identifying that the quantity depends on speed squared settles the answer, which is how most items of this kind are designed to be solved."
           }
         },
         {
@@ -718,7 +718,7 @@
           "label": "Mistake: assuming a force is needed to keep something moving",
           "content": {
             "format": "text",
-            "value": "Everyday experience suggests motion requires continuous push, because friction is nearly always present to remove energy. Newton's first law says otherwise: with zero net force an object continues at constant velocity indefinitely. Items test this with objects coasting, sliding, or moving through space, and the distractor is almost always the choice invoking a forward force that has stopped acting. A closely related error is assuming that constant velocity means no forces at all — it means the forces are *balanced*, which is a different claim, and a sky-diver at terminal velocity is the standard example of substantial forces summing to zero."
+            "value": "Everyday experience suggests motion requires continuous push, because friction is nearly always present to remove energy. Newton's first law says otherwise: with zero net force an object continues at constant velocity indefinitely. Items test this with objects coasting, sliding, or moving through space, and the distractor is almost always the choice invoking a forward force that has stopped acting. A closely related error is assuming that constant velocity means no forces at all — it means the forces are balanced, which is a different claim, and a sky-diver at terminal velocity is the standard example of substantial forces summing to zero."
           }
         },
         {
@@ -726,7 +726,7 @@
           "label": "Mistake: confusing mass with weight, and third-law pairs with balanced forces",
           "content": {
             "format": "text",
-            "value": "Mass is the amount of matter and does not change with location; weight is the gravitational force on that mass and does change — an astronaut's mass is identical on the Moon while their weight is about a sixth. Separately, Newton's third-law pairs act on *different objects* and therefore can never cancel: the Earth pulls on a book and the book pulls on the Earth, but the forces balancing on the book are gravity and the table's normal force, which are not a third-law pair. Items asking which forces are an action-reaction pair are usually testing exactly this, and the tell is whether the two forces act on the same object."
+            "value": "Mass is the amount of matter and does not change with location; weight is the gravitational force on that mass and does change — an astronaut's mass is identical on the Moon while their weight is about a sixth. Separately, Newton's third-law pairs act on two different objects and therefore can never cancel: the Earth pulls on a book and the book pulls on the Earth, but the forces balancing on the book are gravity and the table's normal force, which are not a third-law pair. Items asking which forces are an action-reaction pair are usually testing exactly this, and the tell is whether the two forces act on the same object."
           }
         },
         {
@@ -734,7 +734,7 @@
           "label": "Mistake: swapping what stays constant in series and parallel circuits",
           "content": {
             "format": "text",
-            "value": "In series the current is the same everywhere and the voltage divides; in parallel the voltage is the same across every branch and the current divides. Reversing these produces confident wrong answers throughout a circuit question. The other frequent slip is direction of total resistance: adding components in series increases total resistance, but adding branches in parallel *decreases* it, because charge gains additional routes. A quick sanity check is that total resistance in a parallel circuit is always smaller than the smallest individual branch — if a calculation says otherwise, something has gone wrong."
+            "value": "In series the current is the same everywhere and the voltage divides; in parallel the voltage is the same across every branch and the current divides. Reversing these produces confident wrong answers throughout a circuit question. The other frequent slip is direction of total resistance: adding components in series increases total resistance, but adding branches in parallel decreases it, because charge gains additional routes. A quick sanity check is that total resistance in a parallel circuit is always smaller than the smallest individual branch — if a calculation says otherwise, something has gone wrong."
           }
         },
         {
@@ -743,6 +743,304 @@
           "content": {
             "format": "text",
             "value": "A wave transfers energy while the medium oscillates in place — a duck on a lake bobs up and down as waves pass rather than being carried to shore. Answer choices describing water or air travelling with the wave are testing this. The second error concerns the relationship between frequency, wavelength and speed: for a wave in a given medium the speed is essentially fixed, so raising the frequency shortens the wavelength. Candidates sometimes reason that a higher frequency makes the wave faster, which reverses the relationship. And amplitude is independent of both — it sets loudness or brightness, not pitch or colour."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cells-concept-overview",
+      "categoryId": "III-A",
+      "heading": "Concept overview",
+      "entries": [
+        {
+          "id": "cells-concept-overview-1",
+          "label": "Cell theory, and the two great classes of cell",
+          "content": {
+            "format": "text",
+            "value": "Cell theory holds three claims: every living thing is made of one or more cells, the cell is the basic unit of structure and function in life, and all cells arise from pre-existing cells. That third claim is the historically hard-won one — it is what replaced spontaneous generation, and it is why every cell in your body traces back through an unbroken line of divisions. Cells sort into two classes. Prokaryotic cells — bacteria and archaea — keep their DNA loose in the cytoplasm with no nucleus and no membrane-bound organelles, and are typically much smaller. Eukaryotic cells — protists, fungi, plants, animals — enclose their DNA in a nucleus and partition their chemistry into membrane-bound compartments. The compartments are the point: separating incompatible reactions into different rooms is what lets a eukaryotic cell run a far more complicated set of processes at once. Note what both share, because items test it: every cell has a cell membrane, cytoplasm, ribosomes, and DNA. Prokaryotic does not mean primitive or simple in function — bacteria run biochemistry no eukaryote can match."
+          }
+        },
+        {
+          "id": "cells-concept-overview-2",
+          "label": "Organelles, and how plant and animal cells differ",
+          "content": {
+            "format": "text",
+            "value": "Each organelle is best remembered by its job rather than its shape. The nucleus stores DNA and directs the cell. Ribosomes build proteins. The endoplasmic reticulum is the manufacturing and transport network — rough ER, studded with ribosomes, handles proteins; smooth ER handles lipids and detoxification. The Golgi apparatus modifies, packages and ships what the ER makes. Mitochondria release energy from food into ATP. Lysosomes digest waste and worn-out parts. Vacuoles store materials. The cell membrane controls what enters and leaves. Three structures appear in plant cells and not in animal cells, and this is the comparison items ask for most often: a rigid cell wall outside the membrane, chloroplasts that capture light, and a single large central vacuole that holds water and presses outward to keep the plant firm. Both cell types have mitochondria — a plant cell has chloroplasts in addition to mitochondria, not instead of them, which is the point the next section turns on."
+          }
+        },
+        {
+          "id": "cells-concept-overview-3",
+          "label": "The cell membrane: diffusion, osmosis, and active transport",
+          "content": {
+            "format": "text",
+            "value": "The membrane is selectively permeable — some substances cross freely, others only with help, and others not at all. Passive transport needs no energy from the cell because it runs down a concentration gradient, from where a substance is more concentrated toward where it is less. Simple diffusion is that movement directly through the membrane; facilitated diffusion is the same downhill movement through a protein channel, still passive because the gradient does the work. Osmosis is the diffusion of water specifically, and it is worth stating in the form that avoids the usual confusion: water moves toward the side with more dissolved solute, because that is the side with proportionally less water. Active transport is the opposite case — moving a substance against its gradient, which requires the cell to spend ATP, and which is how a cell maintains concentrations that differ from its surroundings. The vocabulary of solutions follows from this: a cell in a hypertonic solution (more solute outside) loses water and shrinks, a cell in a hypotonic solution gains water and swells, and in an isotonic solution water moves both ways at equal rates with no net change."
+          }
+        },
+        {
+          "id": "cells-concept-overview-4",
+          "label": "Photosynthesis and cellular respiration as one linked pair",
+          "content": {
+            "format": "text",
+            "value": "These two processes are best learned together, because each one's products are the other's raw materials. Photosynthesis happens in chloroplasts: carbon dioxide and water, driven by light energy captured by chlorophyll, become glucose and oxygen. It converts light energy into chemical energy stored in a sugar, and it is the entry point for essentially all the energy in the living world. Cellular respiration happens largely in mitochondria: glucose and oxygen become carbon dioxide and water, releasing the stored energy as ATP, the form a cell can actually spend. The reactants of one are the products of the other, which makes them look like exact opposites — a useful memory hook and a slightly misleading one, since they run through entirely different pathways rather than one being the other in reverse. The single most important consequence: plants perform cellular respiration too, all the time, day and night. They photosynthesize in light and respire constantly; a plant in daylight simply photosynthesizes faster than it respires, which is why it releases oxygen on balance."
+          }
+        },
+        {
+          "id": "cells-concept-overview-5",
+          "label": "DNA, genes, proteins, and the two kinds of cell division",
+          "content": {
+            "format": "text",
+            "value": "DNA is a double helix whose two strands pair complementarily — adenine with thymine, cytosine with guanine — which is what lets it be copied faithfully. A gene is a stretch of DNA carrying the instructions for building a protein, and proteins do nearly all the work that produces a visible trait, which is why the path from gene to trait runs through a protein rather than directly. The instructions are read out in two steps: transcription copies a gene into RNA, and translation builds a protein from that RNA at a ribosome. Cells divide two different ways for two different purposes. Mitosis is one division producing two daughter cells genetically identical to the parent and to each other, with the full chromosome number preserved; it serves growth, repair, and asexual reproduction. Meiosis is two divisions producing four cells, each genetically distinct and each carrying half the chromosome number; it makes gametes. Halving is what keeps the chromosome number constant across generations — two half-sets combine at fertilization to restore a full one. Humans have 46 chromosomes in body cells and 23 in eggs and sperm."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cells-worked-example",
+      "categoryId": "III-A",
+      "heading": "Worked example",
+      "entries": [
+        {
+          "id": "cells-worked-example-scenario",
+          "label": "Scenario",
+          "content": {
+            "format": "text",
+            "value": "In guinea pigs, black coat colour is dominant to white. A breeder mates two black guinea pigs several times. Most of the offspring are black, but one litter contains a white pup. The breeder is confident there has been a mix-up, since neither parent is white. The questions are: what the parents' genotypes must be, what ratio of coat colours to expect, what the chance is that the next pup is white, and whether the white pup is evidence of a mistake."
+          }
+        },
+        {
+          "id": "cells-worked-example-step-1",
+          "label": "Step 1 — Read the white pup backwards to fix the genotypes",
+          "content": {
+            "format": "text",
+            "value": "Start with the offspring, not the parents, because the recessive phenotype is the only one that pins a genotype exactly. White is recessive, so a white guinea pig must carry two recessive alleles — it cannot hide one, since a single dominant allele would have made it black. Write the alleles B for black and b for white: the white pup is bb. Every individual receives one allele of a pair from each parent, so one b came from the mother and one b came from the father. Both parents therefore carry a b. But both parents are black, so each must also carry a B. Both parents are Bb — heterozygous, black in appearance, each carrying a hidden recessive allele. Notice that no experiment was needed; a single recessive offspring was enough to determine both parents' genotypes, and that inference is the move these items are built around."
+          }
+        },
+        {
+          "id": "cells-worked-example-step-2",
+          "label": "Step 2 — Build the Punnett square and read both ratios",
+          "content": {
+            "format": "text",
+            "value": "A Punnett square lists one parent's possible gametes along the top and the other's down the side, then fills each box with the combination. Each Bb parent can contribute either B or b, so the four boxes are BB, Bb, Bb, and bb. Two ratios come out of that grid and they are not the same number, which is exactly where candidates lose the point. The genotypic ratio is 1 BB : 2 Bb : 1 bb. The phenotypic ratio — what you would actually see — is 3 black : 1 white, because BB and Bb both appear black and are indistinguishable by eye. Whenever a question asks what fraction of offspring will actually be white, it is asking about phenotype; when it asks how many will be carriers, it is asking about genotype, and the carriers are the Bb boxes, which are half of all offspring and two-thirds of the black ones."
+          }
+        },
+        {
+          "id": "cells-worked-example-step-3",
+          "label": "Step 3 — Answer the probability question correctly",
+          "content": {
+            "format": "text",
+            "value": "The chance that the next pup is white is one in four. The reason to state it carefully is that the square gives a probability per offspring, not a quota per litter. Each fertilization is an independent event: which allele a particular sperm carries is unaffected by what the previous pups received. So three black pups in a row do not make the fourth more likely to be white — the chance is one in four every single time, and a litter of four blacks is entirely ordinary. This is the same reasoning that governs coin flips, and items test it by describing a family or litter that has already produced several offspring and asking about the next one. The already-born offspring are irrelevant to that question, however strongly intuition insists otherwise."
+          }
+        },
+        {
+          "id": "cells-worked-example-step-4",
+          "label": "Step 4 — Answer the breeder's actual worry",
+          "content": {
+            "format": "text",
+            "value": "The white pup is not evidence of a mix-up; it is the expected result of this cross. Two black parents can produce a white offspring precisely because a heterozygote's appearance does not reveal its second allele — the recessive allele is carried and passed on while remaining invisible. This is the difference between genotype and phenotype stated in a form that matters: genotype is the pair of alleles present, phenotype is what is expressed, and a dominant phenotype is consistent with two different genotypes. Turn it around and the diagnostic value is clear: two white parents instead could not produce a black pup, because neither would have a B allele to pass on. A recessive trait appearing from parents who lack it is normal; a dominant trait appearing from parents who both lack it needs an explanation."
+          }
+        },
+        {
+          "id": "cells-worked-example-step-5",
+          "label": "Step 5 — Check the reasoning, and note what it does not cover",
+          "content": {
+            "format": "text",
+            "value": "Two checks. First, run the logic in reverse: if both parents had been BB, no offspring could be bb, and a white pup would genuinely signal an error — so the inference is doing real work rather than accommodating whatever was observed. Second, check the ratio against the report: 'most offspring black, occasionally white' across several litters matches 3:1 comfortably, while the same claim about a single litter of four would not, since small samples deviate from expected ratios routinely. And state the limit: this analysis assumes one gene with two alleles and simple dominance. Many real traits involve several genes, alleles that blend, or environmental influence, and coat colour in mammals is in fact more complicated than this. On this test the simple model is the one intended unless an item explicitly describes otherwise."
+          }
+        },
+        {
+          "id": "cells-worked-example-conclusion",
+          "label": "Conclusion",
+          "content": {
+            "format": "text",
+            "value": "Both parents are Bb; the expected phenotypic ratio is 3 black to 1 white and the genotypic ratio 1:2:1; the next pup has a one-in-four chance of being white regardless of the litters before it; and the white pup is ordinary rather than suspicious. The transferable method is to start from the recessive individual, because it is the only phenotype that fixes a genotype; then build the square and decide whether the question is asking about genotype or phenotype; then treat each offspring as independent. Nearly every single-gene inheritance item on this test yields to those three moves in that order."
+          }
+        }
+      ]
+    },
+    {
+      "id": "cells-common-mistakes",
+      "categoryId": "III-A",
+      "heading": "Common mistakes",
+      "entries": [
+        {
+          "id": "cells-common-mistakes-1",
+          "label": "Mistake: thinking a dominant allele is stronger, better, or more common",
+          "content": {
+            "format": "text",
+            "value": "Dominant describes only what happens when the two alleles differ: the dominant one determines appearance and the recessive one is masked. It says nothing about how widespread the allele is in a population, how advantageous it is, or how well it works. Plenty of recessive alleles are far more common than their dominant counterparts, and some harmful conditions are dominantly inherited. The companion error is collapsing genotype into phenotype — treating every individual showing the dominant trait as though it carried two dominant alleles. A dominant phenotype is consistent with two genotypes, homozygous and heterozygous, and a great many items turn on exactly that ambiguity: you can identify a recessive individual's genotype on sight, and you cannot identify a dominant individual's."
+          }
+        },
+        {
+          "id": "cells-common-mistakes-2",
+          "label": "Mistake: blurring mitosis and meiosis",
+          "content": {
+            "format": "text",
+            "value": "The two divisions differ in four ways worth holding separately: mitosis is one division, meiosis is two; mitosis yields two cells, meiosis four; mitosis keeps the chromosome number, meiosis halves it; mitosis produces genetically identical cells, meiosis produces genetically distinct ones. Purpose is the reliable anchor — growth and repair versus making gametes — and the rest follows from it, since a repaired tissue needs exact copies while sexual reproduction needs halved, varied ones. The frequent slip is asserting that meiosis creates variation without being able to say how: it comes from crossing over between paired chromosomes and from the independent assortment of which chromosome of each pair goes to which cell, and then from which two gametes happen to meet. A related error is thinking meiosis is how organisms grow. It is not; it produces gametes only, and everything else about growth is mitosis."
+          }
+        },
+        {
+          "id": "cells-common-mistakes-3",
+          "label": "Mistake: believing plants photosynthesize instead of respiring",
+          "content": {
+            "format": "text",
+            "value": "This is the most persistent misconception in cell biology and it is worth stating flatly: plants carry out cellular respiration continuously, day and night, in mitochondria they possess just as animals do. Photosynthesis stores energy in glucose; respiration releases it in a usable form, and a plant needs the released form to do anything at all. In daylight a healthy plant photosynthesizes faster than it respires, so the net exchange is oxygen out and carbon dioxide in — but that is a net figure covering both processes, not evidence that only one is running. In darkness only respiration continues, so the net exchange reverses. Items probe this by asking what a plant does at night, or which organelles a plant cell contains, and the answer choice claiming plants lack mitochondria or stop respiring is always wrong."
+          }
+        },
+        {
+          "id": "cells-common-mistakes-4",
+          "label": "Mistake: reversing osmosis, or calling every transport process active",
+          "content": {
+            "format": "text",
+            "value": "Water moves toward the more concentrated solution — toward the side with more dissolved solute, which is the side with proportionally less water. Reasoning in terms of the solute alone reverses it, since the solute is what appears in the description while the water is what actually moves. The reliable phrasing is that water follows solute. Predicting a cell's fate then becomes mechanical: place it in salty water and it loses water and shrivels; place it in pure water and it takes water in and swells. Separately, transport is only active when it works against a concentration gradient and spends ATP. Diffusion and osmosis are passive, and so is facilitated diffusion, even though a protein is involved — the protein provides a route, not a push. An answer choice describing a downhill movement as requiring energy is testing that distinction."
+          }
+        }
+      ]
+    },
+    {
+      "id": "evolution-concept-overview",
+      "categoryId": "III-B",
+      "heading": "Concept overview",
+      "entries": [
+        {
+          "id": "evolution-concept-overview-1",
+          "label": "Natural selection: the mechanism, stated as conditions",
+          "content": {
+            "format": "text",
+            "value": "Natural selection is not a vague notion of the fittest winning; it is a specific mechanism that follows necessarily whenever four conditions hold. First, individuals in a population vary. Second, some of that variation is heritable — passed to offspring. Third, more offspring are produced than the environment can support, so not all survive to reproduce. Fourth, survival and reproduction are not random with respect to the variation: some heritable traits make an individual likelier to reproduce in that environment. Given those four, the favoured trait tends to rise in frequency generation after generation — not as a rule about any single generation, where chance still intervenes, but as the direction the population is pushed for as long as the conditions hold. Two consequences of that framing are heavily tested. Selection acts on individuals, whose traits determine whether they reproduce, but the thing that evolves is the population, whose allele frequencies shift across generations — an individual organism never evolves. And fitness in this context means reproductive success in a particular environment, not strength, size, or health. A trait that is advantageous in one environment can be a liability in another, so there is no such thing as a universally superior organism."
+          }
+        },
+        {
+          "id": "evolution-concept-overview-2",
+          "label": "Where variation comes from, and how species form",
+          "content": {
+            "format": "text",
+            "value": "Selection can only work on variation that already exists, so its source matters. Mutations are the ultimate origin of new alleles — random changes in DNA, occurring regardless of whether they would be useful, and most are neutral or harmful rather than beneficial. Sexual reproduction then shuffles existing alleles into new combinations through crossing over, independent assortment, and the random pairing of gametes. Neither source is directed toward need. Speciation — the formation of a new species — generally requires populations to stop interbreeding. The common route is geographic separation: a mountain range rises, a river shifts, a few individuals colonize an island, and the separated groups accumulate different mutations under different selective pressures and different chance events. Given enough divergence they can no longer produce fertile offspring together even if reunited, and at that point they are separate species. Evolution also proceeds without selection: genetic drift is random change in allele frequencies, and it is powerful in small populations, where chance alone can eliminate a perfectly good allele."
+          }
+        },
+        {
+          "id": "evolution-concept-overview-3",
+          "label": "The evidence, and how organisms are classified",
+          "content": {
+            "format": "text",
+            "value": "Several independent lines of evidence converge on common ancestry, and their independence is the argument. The fossil record shows sequences of change over time and transitional forms. Comparative anatomy shows homologous structures — the same bone arrangement in a human arm, a whale flipper, and a bat wing, used for entirely different purposes, which is what inheritance from a shared ancestor predicts and what independent design would not. Vestigial structures are reduced remnants of features that were functional in ancestors. Embryology shows shared developmental patterns among related groups. Molecular biology is the most quantitative line: essentially all life uses the same genetic code, and the degree of DNA similarity between two species tracks how recently they shared an ancestor. Classification now aims to reflect that ancestry. The three domains are Bacteria, Archaea, and Eukarya, and the traditional hierarchy runs domain, kingdom, phylum, class, order, family, genus, species — each level more inclusive than the one below. Two organisms in the same genus are more closely related than two merely in the same order."
+          }
+        },
+        {
+          "id": "evolution-concept-overview-4",
+          "label": "Energy flow through an ecosystem",
+          "content": {
+            "format": "text",
+            "value": "Producers — mostly plants and algae — capture light energy and make their own food; that is what autotroph means, and it is the base of nearly every food chain. Consumers eat other organisms: herbivores eat producers, carnivores eat other consumers, omnivores do both. Decomposers, mainly bacteria and fungi, break down dead material and return its nutrients to the soil and water. A food chain is one path through this; a food web is the realistic picture, since most organisms eat and are eaten by several others. The quantitative rule is the one items lean on: only about ten percent of the energy at one trophic level is available to the next, with the rest spent on the organism's own living or lost as heat. That is why food chains are short — rarely more than four or five links — and why an energy pyramid narrows sharply upward. The deepest point here is a contrast: energy flows one way through an ecosystem and leaves it as heat, while matter cycles. Carbon, nitrogen, and water are used repeatedly and returned; the energy that moved them is not recovered, which is why sunlight must keep arriving."
+          }
+        },
+        {
+          "id": "evolution-concept-overview-5",
+          "label": "Populations, limiting factors, cycles, and succession",
+          "content": {
+            "format": "text",
+            "value": "A population grows rapidly when resources are abundant, then slows as it approaches the carrying capacity — the number the environment can sustain indefinitely. What holds it there are limiting factors, which come in two kinds. Density-dependent factors bite harder as the population grows: competition for food, disease transmission, predation. Density-independent factors strike regardless of numbers: a drought, a hard freeze, a fire. Species interactions are worth naming precisely — competition harms both, predation benefits one at the other's expense, and symbiosis covers mutualism (both benefit), commensalism (one benefits, the other is unaffected), and parasitism (one benefits at the other's expense). Matter moves through biogeochemical cycles: the water cycle through evaporation, condensation and precipitation; the carbon cycle through photosynthesis, respiration, decomposition and combustion; the nitrogen cycle depending on bacteria to convert atmospheric nitrogen into usable forms. Ecosystems also change over time through succession — primary succession beginning on bare rock with pioneer species such as lichens that build the first soil, and secondary succession following a disturbance like a fire, which is faster because soil already exists."
+          }
+        }
+      ]
+    },
+    {
+      "id": "evolution-worked-example",
+      "categoryId": "III-B",
+      "heading": "Worked example",
+      "entries": [
+        {
+          "id": "evolution-worked-example-scenario",
+          "label": "Scenario",
+          "content": {
+            "format": "text",
+            "value": "A farmer begins spraying a new insecticide on a beetle that damages his crop. The first season it kills almost every beetle. Each season he sprays the same chemical at the same dose, and each season it works a little less well; by the sixth season it barely helps, and the beetle population is as large as ever. A neighbour concludes that the beetles 'got used to' the spray and built up resistance the way a person builds tolerance to a drug. The questions are: what actually happened across those six seasons, why the neighbour's explanation is wrong, and what the farmer should do differently."
+          }
+        },
+        {
+          "id": "evolution-worked-example-step-1",
+          "label": "Step 1 — Establish the starting condition before the first spray",
+          "content": {
+            "format": "text",
+            "value": "The whole explanation depends on a fact about season one, before any chemical was applied: the beetle population already varied. Among millions of beetles, a small number happened to carry an allele — perhaps for an enzyme that breaks the chemical down, or a slightly different nerve receptor the chemical binds poorly — that made them harder to kill. Those alleles arose from random mutation, at whatever rate mutations occur, long before this insecticide existed and without reference to it. In season one they conferred no particular benefit and may have carried a small cost. This step is the one candidates skip, and skipping it makes every later step impossible to get right: the variation was there first, and the spray did not create it."
+          }
+        },
+        {
+          "id": "evolution-worked-example-step-2",
+          "label": "Step 2 — Identify what the spray actually does",
+          "content": {
+            "format": "text",
+            "value": "The insecticide is a selective pressure. It does not modify beetles; it sorts them. Susceptible beetles die and leave no offspring, while the few resistant ones survive and reproduce. Notice that this satisfies natural selection's four conditions exactly: there is variation, the variation is heritable, far more beetles are produced than survive, and survival is decidedly not random with respect to the trait. Note too what the 'almost every beetle' of season one really means — not that the spray was fully effective, but that a small surviving remnant was left, and that remnant was not a random sample of the original population. It was enriched in exactly the allele that mattered."
+          }
+        },
+        {
+          "id": "evolution-worked-example-step-3",
+          "label": "Step 3 — Follow the change across generations",
+          "content": {
+            "format": "text",
+            "value": "Because the survivors are the parents of the next generation, resistance alleles make up a larger share of season two's population than season one's. Spraying again applies the same filter to that already-shifted population, and the share rises again. Beetles reproduce quickly and in large numbers, so six seasons is many generations, and the compounding is fast — this is why resistance problems appear in insects and bacteria in years while comparable change in large slow-breeding animals takes far longer. State the outcome in the correct units: what changed is the frequency of an allele in the population. No individual beetle became more resistant during its life, and the beetles alive in season six are not tougher versions of the season-one beetles — they are the descendants of a different subset of them."
+          }
+        },
+        {
+          "id": "evolution-worked-example-step-4",
+          "label": "Step 4 — Name precisely what the neighbour got wrong",
+          "content": {
+            "format": "text",
+            "value": "The neighbour's explanation reverses cause and effect: it has the environment producing the trait in response to need, rather than selecting among traits that already varied. Three specific claims are wrong. Exposure did not cause the mutations — mutations are random with respect to what would be useful. Individual beetles did not adapt during their lifetimes — an individual's genes do not change because of what it experiences, and populations evolve while individuals do not. And beetles did not become resistant by 'trying' or by need — natural selection has no goal and supplies nothing on demand. The drug-tolerance analogy is the source of the error: tolerance in a person is a physiological change within one individual, which is a genuinely different process from a change in the composition of a population, and borrowing the word 'resistance' across the two hides the difference."
+          }
+        },
+        {
+          "id": "evolution-worked-example-step-5",
+          "label": "Step 5 — Draw the management implication, and check for side effects",
+          "content": {
+            "format": "text",
+            "value": "If the mechanism is selection, the remedy follows from it: stop applying the same relentless filter. Rotating among chemicals with different modes of action means no single resistance allele is favoured season after season. Leaving part of the crop unsprayed as a refuge keeps susceptible beetles in the population to breed with resistant ones, diluting the allele instead of concentrating it. Combining chemical control with crop rotation, resistant plant varieties and natural predators — integrated pest management — reduces how much selective pressure any one method applies. And there is an ecological side effect worth anticipating: a broad-spectrum insecticide also kills the predators and parasitoids that were quietly suppressing pests other than the target, so a previously harmless insect can surge into a new problem. Judging an intervention by its intended target alone misses the food web it was sprayed into."
+          }
+        },
+        {
+          "id": "evolution-worked-example-conclusion",
+          "label": "Conclusion",
+          "content": {
+            "format": "text",
+            "value": "Rare resistance alleles already present in the population were selected for by repeated spraying, rising in frequency generation after generation until most beetles carried them. The neighbour's account fails because it has individuals changing in response to need rather than a population's composition shifting through differential survival. The transferable method is to ask, in this order: what variation existed before the pressure arrived, what the pressure selects for, and which unit is actually changing — individual or population. That last question resolves the majority of evolution items on this test, because the wrong answer choices are almost always written in the language of individuals adapting."
+          }
+        }
+      ]
+    },
+    {
+      "id": "evolution-common-mistakes",
+      "categoryId": "III-B",
+      "heading": "Common mistakes",
+      "entries": [
+        {
+          "id": "evolution-common-mistakes-1",
+          "label": "Mistake: describing individuals as adapting to what they need",
+          "content": {
+            "format": "text",
+            "value": "The single most common error in this area is saying an organism developed a trait because it needed one — giraffes stretching for high leaves and passing on longer necks, a moth darkening itself to match soot. Individuals do not evolve; populations do, across generations, through changes in the frequency of alleles that already varied. The environment selects among existing variation, it does not generate the variation it would find useful. Watch for the vocabulary that smuggles this in: organisms 'trying to', species 'developing' a trait 'in order to', mutations occurring 'in response to' a pressure. Those phrasings mark the distractor almost every time. When an item asks for an explanation of how a population came to have a trait, the correct choice begins with variation already present and proceeds through differential survival and reproduction."
+          }
+        },
+        {
+          "id": "evolution-common-mistakes-2",
+          "label": "Mistake: treating evolution as progress toward something better",
+          "content": {
+            "format": "text",
+            "value": "Evolution has no goal, no ladder, and no direction toward complexity or perfection. Traits are advantageous only relative to a particular environment at a particular time, so a change in the environment can turn an advantage into a liability without anything about the organism changing. There is no such thing as a more evolved species: every lineage alive today has been evolving for exactly the same length of time, and a bacterium is not an early draft of anything. Two related slips follow from this. 'Survival of the fittest' does not mean the strongest or healthiest survive — fitness is reproductive success, and an organism that lives long without reproducing has a fitness of zero. And extinction is not a failure of effort; it is what happens when an environment changes faster than a population's existing variation can accommodate."
+          }
+        },
+        {
+          "id": "evolution-common-mistakes-3",
+          "label": "Mistake: thinking energy cycles through an ecosystem the way matter does",
+          "content": {
+            "format": "text",
+            "value": "Matter cycles and energy does not. Carbon, nitrogen and water atoms are used, released, and used again indefinitely, which is why a closed system can keep recycling them. Energy enters as sunlight, moves up the trophic levels, and leaves as heat that no organism can recapture — which is why an ecosystem needs a continuous supply and cannot run on what it already has. The arithmetic follows: roughly ten percent of the energy at one level reaches the next, so a producer level supporting a large biomass supports a much smaller one above it, and food chains run out after four or five links. Two conclusions items ask for directly: an energy pyramid is always widest at the producers, and a given area of land can feed far more people growing crops than raising livestock on them, because the livestock adds a trophic level and discards about ninety percent of the energy in doing so."
+          }
+        },
+        {
+          "id": "evolution-common-mistakes-4",
+          "label": "Mistake: expecting a change in an ecosystem to have only its direct effect",
+          "content": {
+            "format": "text",
+            "value": "Removing a predator does not simply mean more prey. The prey population can overshoot its carrying capacity, strip the vegetation it depends on, and then crash further than it would have under predation — while the plants it overgrazed, and everything depending on those plants, change too. Food webs transmit effects along paths that are not obvious from the organism named in the question, and items in this area usually reward the answer that traces two steps rather than one. Two related errors travel with this. Carrying capacity is not a hard ceiling a population politely stops at; populations routinely overshoot it and are then cut back, sometimes severely. And an introduced species is disruptive not because it is foreign but because it may arrive without the predators, parasites, and competitors that limited it at home — which is a statement about the web it entered, not about the organism itself."
           }
         }
       ]
