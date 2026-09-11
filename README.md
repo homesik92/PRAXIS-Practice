@@ -44,6 +44,11 @@ Development happens the same way as the sibling projects — a public GitHub rep
 `homesik92`, branch → PR → merge. The session owner's NAS is the **production
 deployment target for the final version only**.
 
+The same site is also bundled into a native iOS app, built from [`ios/`](ios/) in this
+repository. It is not on the App Store yet; release work is tracked in
+[APP-STORE-ROADMAP.md](APP-STORE-ROADMAP.md).
+
 ## Development
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) and [CLAUDE.md](CLAUDE.md).
+See [CONTRIBUTING.md](CONTRIBUTING.md) and [CLAUDE.md](CLAUDE.md). For the iOS app, see
+[ios/CLAUDE.md](ios/CLAUDE.md).

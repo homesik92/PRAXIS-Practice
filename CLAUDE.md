@@ -46,30 +46,30 @@ surface of the old one.
 The PDFs are gitignored and stay that way — this matters more, not less, on a public
 repo. The full rule is in `.claude/skills/dev-workflow/SKILL.md`.
 
-## Downstream native apps
+## The iOS app (`ios/`)
 
-This repo is the multi-subject master — it's the source of truth for every Praxis
-exam's content and shared engine code. Subjects ship inside native iOS apps built from
-one downstream repo (`PRAXIS-iOS-Math` today, to be renamed `PRAXIS-iOS`) — see
-D-30 → D-37 → D-38 → **D-41**, which splits the wrapper into **three** apps by subject
-area (STEM, Humanities, Administrative) rather than one holding everything. The STEM app
-ships and must be *approved* before the second is submitted. Release work itself is
-tracked in [APP-STORE-ROADMAP.md](APP-STORE-ROADMAP.md), not in `ROADMAP.md`. That app bundles a manual copy of every file this repo
-owns: `test.html`, `results.html`, `run.html`, `teach.html`, `index.html`,
-`css/base.css`, `js/*`, and the whole `data/` payload including `manifest.json`
-unmodified. Nothing propagates a change here to that repo automatically.
+This repository holds the website **and** the native iOS app built from it (**D-44**). The
+app is a SwiftUI shell around the same web files, which its Xcode project bundles straight
+from the repository root at build time — there is no copy and nothing to sync.
+**Read [`ios/CLAUDE.md`](ios/CLAUDE.md) before touching anything under `ios/`.**
 
-Most subjects are **paid**, so a content gap there is something a person bought, not
-just a rough edge on a free site.
+- Subjects ship in apps split by track — STEM, Humanities, Administrative, and a parked
+  Core (D-41, D-43). The STEM app ships first and must be *approved* before the next is
+  submitted. Release work is tracked in [APP-STORE-ROADMAP.md](APP-STORE-ROADMAP.md), not in
+  `ROADMAP.md`.
+- **A change to a web file is a change to the app.** CI builds the app on every pull
+  request, so a broken bundle fails the PR — but a build proves nothing about rendering.
+  When a change could look or behave differently inside the app (layout, safe areas,
+  navigation, external links), check it in the Simulator.
+- **An app-only need is a data-driven mode in the web layer**, never a Swift-side rewrite of
+  a page — there is one copy of each file, serving both surfaces.
+- ⚠ **The list of published site files is written in three places** — `ios/project.yml`,
+  the `deploy-site` job in `.github/workflows/verify.yml`, and the NAS deploy command. A new
+  *top-level* site file goes into all three, or it silently goes missing from the app, from
+  GitHub Pages, or from the NAS.
 
-Worth knowing when a change here looks like it needs a downstream tweak: the
-downstream repo's own rule is that it never edits the contents of a file this repo
-owns. So if a wrapper app needs a *presentation* difference — single-subject
-layout, say — the change belongs **here**, as a data-driven mode, not as a local
-edit that forks the file forever. **Flag it in the PR description** whenever a PR
-touches any of those files, so a downstream sync isn't missed — this has already
-happened for real once (issue #66's fix sat unsynced in PRAXIS-iOS-Math for a full
-session before being noticed).
+Most subjects sit behind a paid unlock (D-42), so a content gap is something a person
+bought, not just a rough edge on a free site.
 
 ## Verification
 
@@ -96,6 +96,11 @@ than a CI cycle — but the PR run is what decides. The workflow installs nothin
 this project has no `package.json` and no build step (D-3), so the gate is just Node
 running these same commands, plus `tools/pdf-text.py`'s own self-test (python3 is
 preinstalled on the runner, so nothing is installed there either).
+
+The same workflow runs two more jobs. **`ios-build`** builds the iOS app on every pull
+request (see `ios/CLAUDE.md`). **`deploy-site`** publishes the site to GitHub Pages after
+`verify` passes on `main` — only the site files, never the docs, `tools/` or `ios/`. The NAS
+is still deployed by hand.
 
 ## Reading the study companions
 

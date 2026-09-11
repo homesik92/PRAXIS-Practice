@@ -1,0 +1,111 @@
+name: PraxisMath
+options:
+  bundleIdPrefix: com.homesik92
+configs:
+  Debug: debug
+  Release: release
+targets:
+  PraxisMath:
+    type: application
+    platform: iOS
+    deploymentTarget: "16.4"
+    sources:
+      - path: Sources/App
+      # The web app is bundled straight from the repository root (D-44) -- there is no
+      # copy in this folder to drift. Each item lands under WebContent/ inside the app
+      # bundle, which is where LocalContentSchemeHandler and CategoryPicker look, so no
+      # Swift changes were needed. Keep this list identical to the site's publish list
+      # in .github/workflows/verify.yml and the NAS deploy command.
+      - path: ../index.html
+        group: WebContent
+        buildPhase:
+          copyFiles:
+            destination: resources
+            subpath: WebContent
+      - path: ../results.html
+        group: WebContent
+        buildPhase:
+          copyFiles:
+            destination: resources
+            subpath: WebContent
+      - path: ../run.html
+        group: WebContent
+        buildPhase:
+          copyFiles:
+            destination: resources
+            subpath: WebContent
+      - path: ../teach.html
+        group: WebContent
+        buildPhase:
+          copyFiles:
+            destination: resources
+            subpath: WebContent
+      - path: ../test.html
+        group: WebContent
+        buildPhase:
+          copyFiles:
+            destination: resources
+            subpath: WebContent
+      - path: ../css
+        type: folder
+        group: WebContent
+        buildPhase:
+          copyFiles:
+            destination: resources
+            subpath: WebContent
+      - path: ../js
+        type: folder
+        group: WebContent
+        buildPhase:
+          copyFiles:
+            destination: resources
+            subpath: WebContent
+      - path: ../data
+        type: folder
+        group: WebContent
+        buildPhase:
+          copyFiles:
+            destination: resources
+            subpath: WebContent
+    info:
+      path: Sources/App/Info.plist
+      properties:
+        CFBundleDisplayName: Praxis Math
+        UIApplicationSceneManifest:
+          UIApplicationSupportsMultipleScenes: true
+          UISceneConfigurations: {}
+        UILaunchScreen: {}
+        UISupportedInterfaceOrientations~iphone:
+          - UIInterfaceOrientationPortrait
+        UISupportedInterfaceOrientations~ipad:
+          - UIInterfaceOrientationPortrait
+          - UIInterfaceOrientationPortraitUpsideDown
+          - UIInterfaceOrientationLandscapeLeft
+          - UIInterfaceOrientationLandscapeRight
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.homesik92.PraxisMath
+        PRODUCT_NAME: Praxis Math
+        SWIFT_VERSION: "5.0"
+        TARGETED_DEVICE_FAMILY: "1,2"
+        CURRENT_PROJECT_VERSION: "1"
+        MARKETING_VERSION: "1.0"
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        CODE_SIGN_STYLE: Automatic
+        DEVELOPMENT_TEAM: NP2F4WUWJG
+  PraxisMathUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    deploymentTarget: "16.4"
+    sources:
+      - path: Sources/UITests
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.homesik92.PraxisMathUITests
+        SWIFT_VERSION: "5.0"
+        CODE_SIGN_STYLE: Automatic
+        CODE_SIGNING_REQUIRED: NO
+        CODE_SIGNING_ALLOWED: NO
+        TEST_TARGET_NAME: PraxisMath
+    dependencies:
+      - target: PraxisMath

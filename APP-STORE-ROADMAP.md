@@ -191,5 +191,5 @@ and **2.1 completeness**.
 
 Everything up to "the software works": phases, features, question authoring, the
 verification gate, and the native shell's own defects all stay in
-[ROADMAP.md](ROADMAP.md) and the two issue trackers. The boundary is that **this file
+[ROADMAP.md](ROADMAP.md) and the issue tracker. The boundary is that **this file
 starts where working software already exists.**
