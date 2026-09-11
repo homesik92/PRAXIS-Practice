@@ -1,4 +1,5 @@
-# The project's verification gate, run on every PR and every push to main.
+# The project's verification gate, run on every PR and every push to main -- plus,
+# since D-44, a build of the iOS app on every PR and the GitHub Pages deploy.
 #
 # Deliberately dependency-free: this project has no package.json, no lockfile and
 # no build step (D-3), so there is nothing to install and no cache to warm. The
@@ -12,6 +13,9 @@ on:
   pull_request:
   push:
     branches: [main]
+  # Lets the site be redeployed by hand -- needed once, right after the Pages source is
+  # switched to GitHub Actions in repository settings.
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -60,3 +64,58 @@ jobs:
       # on ubuntu-latest, so the gate stays dependency-free per D-3.
       - name: Self-test -- pdf-text
         run: python3 tools/pdf-text.py --self-test
+
+  # The iOS app bundles the web files straight from the repository root (D-44), so any
+  # change to them can break the app. This builds it on EVERY pull request, deliberately
+  # with no path filter: a required check that only runs on some PRs leaves the rest
+  # stuck on "Expected -- waiting for status to be reported" forever (N-13). Target-based
+  # build rather than scheme-based, because the committed project has no shared scheme
+  # and a clean checkout has no Xcode-autocreated one. No signing needed for a simulator
+  # build. macos-26's default Xcode (26.6, 17F113) matches the version the project is
+  # developed with.
+  ios-build:
+    runs-on: macos-26
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Xcode version
+        run: xcodebuild -version
+
+      - name: Build the iOS app for the simulator
+        run: >
+          xcodebuild -project ios/PraxisMath.xcodeproj -target PraxisMath
+          -sdk iphonesimulator -configuration Debug CODE_SIGNING_ALLOWED=NO build
+
+  # Publishes ONLY the files the site actually serves. The legacy branch build this
+  # replaces published the entire repository root, so ROADMAP.md, DECISIONS.md and
+  # tools/ were all publicly served as static files -- and ios/ would have been too.
+  # Keep this list identical to ios/project.yml's bundled files and the NAS deploy
+  # command. Runs only after verify passes, and only for main.
+  deploy-site:
+    if: github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+    needs: verify
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment: github-pages
+    concurrency:
+      group: pages
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Stage exactly the files the site serves
+        run: |
+          mkdir _site
+          cp -R index.html results.html run.html teach.html test.html css js data _site/
+          touch _site/.nojekyll
+
+      - uses: actions/configure-pages@v5
+
+      - uses: actions/upload-pages-artifact@v4
+        with:
+          path: _site
+
+      - uses: actions/deploy-pages@v4

@@ -402,30 +402,32 @@ Two landmines from doing this once:
 
 ## 9. Integrating into the iOS app
 
-Since [PRAXIS-iOS-Math D-19](https://github.com/homesik92/PRAXIS-iOS-Math/blob/main/DECISIONS.md),
-**one** app holds every subject — Mathematics free, others unlocked by in-app purchase.
-There is no per-subject app, target, repo, or icon.
+The iOS app lives in this repository at `ios/` and bundles the root web files at build time
+(**D-44**). There is nothing to copy and nothing to sync.
 
-1. **Sync the data.** Copy the new bank (and teaching/reference files) plus any changed
-   engine files into `Sources/WebContent/`. The app bundles this repo's `manifest.json`
-   **verbatim** — no trimming, no app-side edits.
-   Automation is tracked as
-   [PRAXIS-iOS-Math#21](https://github.com/homesik92/PRAXIS-iOS-Math/issues/21).
-2. **The subject picker.** It renders from the manifest, so a newly registered subject
-   appears without a code change.
-3. **If the subject is paid:** register a non-consumable in-app purchase product for it
-   in App Store Connect and add its product id to the entitlement map. Free subjects
-   need nothing.
-4. **Rebuild and verify on a simulator**, then a real device.
+1. **The files need nothing.** A bank, teaching or reference file added under `data/` is in
+   the next app build automatically, and so is its manifest entry — the app ships
+   `manifest.json` exactly as the site does. CI's `ios-build` job builds the app on the same
+   pull request that adds the subject.
+2. **Assign the subject to an app.** Subjects ship in apps split by track — STEM,
+   Humanities, Administrative, Core (D-41, D-43). The manifest's `track` field is what will
+   assign it; it is specified in #121 but **not implemented yet**. Until it is, state the
+   intended track in the PR description and add the subject to APP-STORE-ROADMAP.md's
+   per-app table.
+3. **No purchase product per subject.** Under D-42 each app has **one** non-consumable
+   unlock covering every subject in it, so a new subject needs nothing in App Store Connect.
+   What the free tier includes *within* a subject is still open in #131.
+4. **Reachability in the app.** Today the app opens 5165 directly; until the native subject
+   picker is built, a new subject is bundled but not reachable inside the app. Once it is,
+   check the subject in the Simulator per `ios/CLAUDE.md`'s "Build and verify".
 
-**The line that must not be crossed:** the iOS repo chooses *which* files it bundles and
-what native chrome wraps them — it never edits the contents of a file this repo owns. A
-presentation difference that seems to need a web-file change belongs **here**, as a
-data-driven mode, not as a downstream edit that forks a shared file forever.
+**The line that must not be crossed:** web files serve both the site and the app. A
+presentation difference the app seems to need belongs in the web layer as a data-driven
+mode the site understands too — never as a Swift-side rewrite of a page.
 
-⚠ Any PR here touching `test.html`, `results.html`, `run.html`, `teach.html`,
-`index.html`, `css/base.css`, or `js/*` must say so in its description (D-30) — nothing
-propagates downstream automatically, and it has silently drifted for real more than once.
+⚠ A subject that adds only files *inside* `data/` changes no publish list. One that adds a
+new **top-level** site file must add it to all three: `ios/project.yml`, the `deploy-site`
+job in `.github/workflows/verify.yml`, and the NAS deploy command.
 
 ---
 
@@ -447,5 +449,6 @@ propagates downstream automatically, and it has silently drifted for real more t
 - [ ] `node tools/verify.mjs` and `node tools/test-verify.mjs` clean
 - [ ] Live-tested in a browser: a full attempt, a topic drill, the teaching page
 - [ ] Decision-log entry if anything non-obvious was decided; ROADMAP updated
-- [ ] PR description flags downstream sync if shared engine files changed
-- [ ] iOS app: data synced, rebuilt, verified; IAP product registered if paid
+- [ ] Intended app track stated (the `track` field once #121 lands) and added to
+      APP-STORE-ROADMAP.md's per-app table
+- [ ] CI's `ios-build` job green; any new top-level site file added to all three publish lists

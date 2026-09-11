@@ -23,3 +23,12 @@ __pycache__/
 
 # Blind-verification payloads and findings (derived; regenerate any time)
 .verification/
+
+# iOS app (ios/, D-44) -- Xcode build output and per-user state. The generated
+# ios/PraxisMath.xcodeproj/project.pbxproj IS committed; only derived data is ignored.
+ios/build/
+DerivedData/
+xcuserdata/
+*.xcuserstate
+*.xcscmblueprint
+*.xccheckout

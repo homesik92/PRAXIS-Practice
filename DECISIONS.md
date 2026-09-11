@@ -821,6 +821,10 @@ subject app now lives in one repo as an Xcode target rather than in its own
 `PRAXIS-iOS-<subject>` repo. The flagging obligation this entry establishes is
 unchanged; only the number of destinations changed, from many repos to one.*
 
+*Retired by: **D-44** (2026-09-11). The iOS app now lives in this repository and bundles the
+root web files at build time, so there is no downstream copy to drift and no sync to flag.
+CI's `ios-build` job builds the app on every pull request instead.*
+
 **Attribution:** Session owner's call, made explicit when asked directly how the
 projects should relate going forward, after PRAXIS-iOS-Math D-12 settled the
 separate-repo structure from the wrapper-app side.
@@ -1309,6 +1313,10 @@ multi-subject hub, and four of its five subjects are paid. Content quality and
 completeness gaps are no longer only a site-quality question — an uneven subject is
 something a person paid for. `data/teaching/5436.json` not existing (issue #106) is
 the live example.
+
+*Later updated by: **D-41** (three apps by subject area, not one) and **D-44** (2026-09-11 —
+the wrapper moved into this repository and bundles the root files directly, so the "copied
+verbatim downstream" arrangement and its flagging obligation are both gone).*
 
 
 ### D-39: Adding 5581 Social Studies — the structure lands and is reviewed before the questions are written
@@ -1892,3 +1900,76 @@ that is genuinely about formulas or code.
 lesson is the one N-17 reached from a different direction: **the authoring path and the
 reading path disagree, and only the reading path is real.** Load a chapter in a browser
 before merging it, rather than reviewing it as JSON alone.
+
+### D-44: The iOS app moves into this repository, and the site deploy publishes only the site
+
+**Context.** The iOS app had lived in its own repository (`PRAXIS-iOS-Math`) since
+2026-08-20 — private, and bundling a hand-made copy of this repo's web files. Both reasons
+for that arrangement had lapsed, and the planning had already left it:
+
+- **Private (iOS D-4)** protected a name that wasn't settled. D-40 settled it: PRAXIS is
+  ETS's live registered mark and will not be the app's name. A pre-publication scan of the
+  app repository's tree and history found no credentials and one personal detail, which was
+  removed on import.
+- **Manual copy (iOS D-3)** was the simplest thing that worked for one subject. It drifted
+  for real — #66's fix sat unsynced for a full session, and the trimmed manifest's
+  `bankSize` sat stale for longer — and by 2026-09-11 the app had not been synced in weeks,
+  because fixes were landing here too often to be worth copying one at a time. A sync step
+  that is *rationally* skipped is not a sync step.
+- **The planning had moved already.** The release schedule (`APP-STORE-ROADMAP.md`), the app
+  structure (D-41, D-43) and pricing (D-42) were all decided here. The app repository held
+  the Swift, a stale copy, and a second issue tracker.
+
+**Decision — session owner's call, 2026-09-11.**
+
+- **The app lives at `ios/`.** Imported as current files only, without its git history. The
+  old repository is archived read-only, so that history stays readable where it was.
+- **No copy.** The Xcode project copies `index.html results.html run.html teach.html
+  test.html css/ js/ data/` from the repository root into the app bundle under
+  `WebContent/` at build time — the path the Swift code already read, so no Swift changed.
+  The app always ships the web files of the commit it was built from.
+- **The app's decision log is frozen** at `ios/DECISIONS.md` and cited as "iOS D-n", not
+  renumbered; new decisions about the app are logged here. `ios/DESIGN.md`, `ROADMAP.md`
+  and `DECISIONS-INDEX.md` are frozen under a header, `ios/CLAUDE.md` is rewritten as live
+  instructions, and the two copies of the dev-workflow skill are merged into the root one.
+- **Open iOS issues move to this tracker.** Those about the copy step or the old
+  repository's shape (sync automation, a repository rename) close as moot; those for CI and
+  for bundling all five subjects close as done by this change.
+
+**What replaces D-30's flagging rule.** D-30 asked every PR touching a shared web file to
+flag the downstream sync in its description. There is no downstream any more, so the flag
+is retired. In its place a new **`ios-build` CI job builds the app on every pull request** —
+deliberately with no path filter, because a required check that skips some PRs leaves them
+waiting on "Expected" forever (N-13). A build catches a broken bundle or a Swift error. It
+does **not** catch a rendering difference inside the app; that is still a Simulator check
+(`ios/CLAUDE.md`).
+
+**What does not change.** The rule behind D-30's note survives in a new form: web files
+serve both surfaces, and an app-only need is a data-driven mode in the web layer, never a
+Swift-side rewrite of a page. The bundle id and display name are still the placeholders
+D-40 rules out. The in-app free-tier question D-42 raised is still open (#131).
+
+**GitHub Pages, fixed in the same change.** The legacy branch build published the entire
+repository root as static files — `ROADMAP.md`, `DECISIONS.md`, `SEED.md` and `tools/` were
+all publicly served, and `ios/` would have been too. A new `deploy-site` job publishes only
+the site files, after `verify` passes on `main`.
+
+⚠ **The list of site files is now written in three places** — `ios/project.yml`, the
+`deploy-site` job, and the NAS deploy command (kept outside this repository, since it carries
+NAS access details) — and they must stay identical. A new
+top-level site file missing from one of them fails quietly: it simply isn't in the app, on
+Pages, or on the NAS.
+
+**Two settings changes belong to the session owner, not to this PR:** Settings → Pages →
+Source switched to **GitHub Actions** (until then the old branch build keeps publishing
+everything), and, optionally, `ios-build` added as a required check.
+
+**Why not a submodule or a subtree.** A submodule pins a commit, which reintroduces exactly
+the manual update step that drifted. A subtree import would carry the app's history, but
+that history stays readable in the archived repository, and the import is simpler without it.
+
+**Supersedes** iOS D-3 (manual content copy) and iOS D-4 (private repository). **Retires**
+D-30's PR-description flag, closing the chain D-30 → D-37 → D-38 → D-44.
+
+**Attribution:** Session owner's call, asked directly whether the iOS project should stay
+separate once the planning had moved here.

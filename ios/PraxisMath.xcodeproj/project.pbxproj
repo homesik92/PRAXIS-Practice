@@ -1,0 +1,501 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		00BFB65FFD8DA3CF67972C83 /* Phase4Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0D2C6C0335DB051B46BFDC6 /* Phase4Tests.swift */; };
+		0B1210155C2633BF2BAB2796 /* test.html in CopyFiles */ = {isa = PBXBuildFile; fileRef = E09F9F2A195B030AD277CDF6 /* test.html */; };
+		1D96D6D0DF7B6D13926A4252 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 739386FFB6FAC8D91010F59B /* Assets.xcassets */; };
+		20CFBBA65F90B3CEBB599308 /* StudyPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5675987FFE5B3B6D1B53712 /* StudyPickerView.swift */; };
+		23DFD99BF1497BA6B8C173D8 /* results.html in CopyFiles */ = {isa = PBXBuildFile; fileRef = FD4691ED2F4BCADEE20246FF /* results.html */; };
+		24996E77971E42C3ED19AAF5 /* PraxisMathApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0786BFCE0D7EA1E920B2FD8 /* PraxisMathApp.swift */; };
+		428E60357164E48337B43899 /* data in CopyFiles */ = {isa = PBXBuildFile; fileRef = 45646114D3691634A394BC4C /* data */; };
+		56A0C0A2A221F860572A784F /* CategoryPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 999E84C23376BB625C692F9B /* CategoryPicker.swift */; };
+		5B599CC9E55F16B2BD03B42B /* index.html in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9676FF3AC5DF2F4E3C8348F3 /* index.html */; };
+		65A799B5C42D1238B0C912B1 /* teach.html in CopyFiles */ = {isa = PBXBuildFile; fileRef = 596F04E1ABBB7635C6B3645F /* teach.html */; };
+		66B37CF0CE036F6CCAFEE45F /* LocalContentSchemeHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 233E5B2DA2DDFB4809BB3B62 /* LocalContentSchemeHandler.swift */; };
+		820206A3E81ED74FB8FD0633 /* run.html in CopyFiles */ = {isa = PBXBuildFile; fileRef = 10CA756E160231F35D504557 /* run.html */; };
+		DEF4CCC4332E7F8698900ACC /* WebViewContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02FB14DA8AF6CADE6F9BE375 /* WebViewContainer.swift */; };
+		E14ABA5AD07E406279AC5325 /* css in CopyFiles */ = {isa = PBXBuildFile; fileRef = 08643309458ECF31360CE0BC /* css */; };
+		E1F9BAD0CCA5AB143251A84C /* js in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2FCEBA5DEBEA927926F1D29E /* js */; };
+		E69B1B8AB6978B79F14FA7E7 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F4D35F69179D65DD51C4784F /* ContentView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		EC069544E32756CD47506C36 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A1C036AB2176C8B90198EFE8 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DE0C05F060DE0C92CAC3AED1;
+			remoteInfo = PraxisMath;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		6616ABBEF31F9BB68C2F14A3 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = WebContent;
+			dstSubfolderSpec = 7;
+			files = (
+				E14ABA5AD07E406279AC5325 /* css in CopyFiles */,
+				428E60357164E48337B43899 /* data in CopyFiles */,
+				5B599CC9E55F16B2BD03B42B /* index.html in CopyFiles */,
+				E1F9BAD0CCA5AB143251A84C /* js in CopyFiles */,
+				23DFD99BF1497BA6B8C173D8 /* results.html in CopyFiles */,
+				820206A3E81ED74FB8FD0633 /* run.html in CopyFiles */,
+				65A799B5C42D1238B0C912B1 /* teach.html in CopyFiles */,
+				0B1210155C2633BF2BAB2796 /* test.html in CopyFiles */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		02FB14DA8AF6CADE6F9BE375 /* WebViewContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewContainer.swift; sourceTree = "<group>"; };
+		08643309458ECF31360CE0BC /* css */ = {isa = PBXFileReference; lastKnownFileType = folder; name = css; path = ../css; sourceTree = SOURCE_ROOT; };
+		10CA756E160231F35D504557 /* run.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = run.html; path = ../run.html; sourceTree = "<group>"; };
+		233E5B2DA2DDFB4809BB3B62 /* LocalContentSchemeHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalContentSchemeHandler.swift; sourceTree = "<group>"; };
+		2FCEBA5DEBEA927926F1D29E /* js */ = {isa = PBXFileReference; lastKnownFileType = folder; name = js; path = ../js; sourceTree = SOURCE_ROOT; };
+		45646114D3691634A394BC4C /* data */ = {isa = PBXFileReference; lastKnownFileType = folder; name = data; path = ../data; sourceTree = SOURCE_ROOT; };
+		585C48D1B3B48720A7EA1A84 /* PraxisMathUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = PraxisMathUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		596F04E1ABBB7635C6B3645F /* teach.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = teach.html; path = ../teach.html; sourceTree = "<group>"; };
+		6A53A8213E32009E898E794A /* PraxisMath.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = PraxisMath.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		739386FFB6FAC8D91010F59B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		9676FF3AC5DF2F4E3C8348F3 /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = index.html; path = ../index.html; sourceTree = "<group>"; };
+		999E84C23376BB625C692F9B /* CategoryPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryPicker.swift; sourceTree = "<group>"; };
+		A0D2C6C0335DB051B46BFDC6 /* Phase4Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Phase4Tests.swift; sourceTree = "<group>"; };
+		B0786BFCE0D7EA1E920B2FD8 /* PraxisMathApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PraxisMathApp.swift; sourceTree = "<group>"; };
+		C2E28A70D68ABC43BD3F5510 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		E09F9F2A195B030AD277CDF6 /* test.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = test.html; path = ../test.html; sourceTree = "<group>"; };
+		F4D35F69179D65DD51C4784F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		F5675987FFE5B3B6D1B53712 /* StudyPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyPickerView.swift; sourceTree = "<group>"; };
+		FD4691ED2F4BCADEE20246FF /* results.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = results.html; path = ../results.html; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		77AF3D45BEA58F68D259795C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6A53A8213E32009E898E794A /* PraxisMath.app */,
+				585C48D1B3B48720A7EA1A84 /* PraxisMathUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		BC2DE216CAB0A7827FCD59C9 = {
+			isa = PBXGroup;
+			children = (
+				F9456E91B1442EB23C4391E0 /* App */,
+				CC5C81E05635C78589E020EE /* UITests */,
+				DD6DD27F7CC67DC986D0E5CE /* WebContent */,
+				77AF3D45BEA58F68D259795C /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		CC5C81E05635C78589E020EE /* UITests */ = {
+			isa = PBXGroup;
+			children = (
+				A0D2C6C0335DB051B46BFDC6 /* Phase4Tests.swift */,
+			);
+			name = UITests;
+			path = Sources/UITests;
+			sourceTree = "<group>";
+		};
+		DD6DD27F7CC67DC986D0E5CE /* WebContent */ = {
+			isa = PBXGroup;
+			children = (
+				08643309458ECF31360CE0BC /* css */,
+				45646114D3691634A394BC4C /* data */,
+				9676FF3AC5DF2F4E3C8348F3 /* index.html */,
+				2FCEBA5DEBEA927926F1D29E /* js */,
+				FD4691ED2F4BCADEE20246FF /* results.html */,
+				10CA756E160231F35D504557 /* run.html */,
+				596F04E1ABBB7635C6B3645F /* teach.html */,
+				E09F9F2A195B030AD277CDF6 /* test.html */,
+			);
+			name = WebContent;
+			sourceTree = "<group>";
+		};
+		F9456E91B1442EB23C4391E0 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				739386FFB6FAC8D91010F59B /* Assets.xcassets */,
+				999E84C23376BB625C692F9B /* CategoryPicker.swift */,
+				F4D35F69179D65DD51C4784F /* ContentView.swift */,
+				C2E28A70D68ABC43BD3F5510 /* Info.plist */,
+				233E5B2DA2DDFB4809BB3B62 /* LocalContentSchemeHandler.swift */,
+				B0786BFCE0D7EA1E920B2FD8 /* PraxisMathApp.swift */,
+				F5675987FFE5B3B6D1B53712 /* StudyPickerView.swift */,
+				02FB14DA8AF6CADE6F9BE375 /* WebViewContainer.swift */,
+			);
+			name = App;
+			path = Sources/App;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		9DC494BD5A0EBBF61A66390B /* PraxisMathUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 157D58E9C6EAB18BF2D18A21 /* Build configuration list for PBXNativeTarget "PraxisMathUITests" */;
+			buildPhases = (
+				82AE0CFC2207280061FA7804 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				4CD4EB1987198C56E5D0573F /* PBXTargetDependency */,
+			);
+			name = PraxisMathUITests;
+			packageProductDependencies = (
+			);
+			productName = PraxisMathUITests;
+			productReference = 585C48D1B3B48720A7EA1A84 /* PraxisMathUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		DE0C05F060DE0C92CAC3AED1 /* PraxisMath */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 126E78CC1C0C7C90B798C7CC /* Build configuration list for PBXNativeTarget "PraxisMath" */;
+			buildPhases = (
+				9797986B919E27A9CE381AA9 /* Sources */,
+				BDE0221846ADA699F8051271 /* Resources */,
+				6616ABBEF31F9BB68C2F14A3 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PraxisMath;
+			packageProductDependencies = (
+			);
+			productName = PraxisMath;
+			productReference = 6A53A8213E32009E898E794A /* PraxisMath.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		A1C036AB2176C8B90198EFE8 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					9DC494BD5A0EBBF61A66390B = {
+						ProvisioningStyle = Automatic;
+						TestTargetID = DE0C05F060DE0C92CAC3AED1;
+					};
+					DE0C05F060DE0C92CAC3AED1 = {
+						DevelopmentTeam = NP2F4WUWJG;
+						ProvisioningStyle = Automatic;
+					};
+				};
+			};
+			buildConfigurationList = 95897F734FF4C3FE33625026 /* Build configuration list for PBXProject "PraxisMath" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = BC2DE216CAB0A7827FCD59C9;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 77AF3D45BEA58F68D259795C /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				DE0C05F060DE0C92CAC3AED1 /* PraxisMath */,
+				9DC494BD5A0EBBF61A66390B /* PraxisMathUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		BDE0221846ADA699F8051271 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1D96D6D0DF7B6D13926A4252 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		82AE0CFC2207280061FA7804 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				00BFB65FFD8DA3CF67972C83 /* Phase4Tests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9797986B919E27A9CE381AA9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				56A0C0A2A221F860572A784F /* CategoryPicker.swift in Sources */,
+				E69B1B8AB6978B79F14FA7E7 /* ContentView.swift in Sources */,
+				66B37CF0CE036F6CCAFEE45F /* LocalContentSchemeHandler.swift in Sources */,
+				24996E77971E42C3ED19AAF5 /* PraxisMathApp.swift in Sources */,
+				20CFBBA65F90B3CEBB599308 /* StudyPickerView.swift in Sources */,
+				DEF4CCC4332E7F8698900ACC /* WebViewContainer.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		4CD4EB1987198C56E5D0573F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DE0C05F060DE0C92CAC3AED1 /* PraxisMath */;
+			targetProxy = EC069544E32756CD47506C36 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		259480B5EE28825896B43A5E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = NP2F4WUWJG;
+				INFOPLIST_FILE = Sources/App/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.homesik92.PraxisMath;
+				PRODUCT_NAME = "Praxis Math";
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		28293B7C350C674C25D30822 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		9361F7DBBD5EB8A824F9AAB0 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = NP2F4WUWJG;
+				INFOPLIST_FILE = Sources/App/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.homesik92.PraxisMath;
+				PRODUCT_NAME = "Praxis Math";
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		B346181DFA87CB634FA282A9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		EF8A29021D0E139A8A2031DD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGNING_ALLOWED = NO;
+				CODE_SIGNING_REQUIRED = NO;
+				CODE_SIGN_STYLE = Automatic;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.homesik92.PraxisMathUITests;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = PraxisMath;
+			};
+			name = Release;
+		};
+		F768B5FC0303173EC0B9AEDD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGNING_ALLOWED = NO;
+				CODE_SIGNING_REQUIRED = NO;
+				CODE_SIGN_STYLE = Automatic;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.homesik92.PraxisMathUITests;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = PraxisMath;
+			};
+			name = Debug;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		126E78CC1C0C7C90B798C7CC /* Build configuration list for PBXNativeTarget "PraxisMath" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				259480B5EE28825896B43A5E /* Debug */,
+				9361F7DBBD5EB8A824F9AAB0 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		157D58E9C6EAB18BF2D18A21 /* Build configuration list for PBXNativeTarget "PraxisMathUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F768B5FC0303173EC0B9AEDD /* Debug */,
+				EF8A29021D0E139A8A2031DD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		95897F734FF4C3FE33625026 /* Build configuration list for PBXProject "PraxisMath" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				B346181DFA87CB634FA282A9 /* Debug */,
+				28293B7C350C674C25D30822 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = A1C036AB2176C8B90198EFE8 /* Project object */;
+}
