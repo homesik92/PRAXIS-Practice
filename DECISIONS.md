@@ -2007,3 +2007,48 @@ untouched.
 **Verified:** iPad simulator (portrait, the practice-question screen) and a 1194×834
 viewport for landscape; phone widths re-checked unchanged; `verify.mjs` and all 7 suites
 green.
+
+### D-45: External links leave for Safari; the app never navigates away from its own content
+
+**Context.** Issue #134: tapping "Beat Army!" in the iOS app did nothing at all, while the
+same link worked on the website. Three verified causes, not one: the link was cleartext
+`http://` (blocked by App Transport Security), the app declared no ATS exception, and
+`WebViewContainer` set no navigation delegate, so nothing routed external URLs anywhere.
+
+**The trap in the obvious fix.** Changing the link to `https://` alone makes the navigation
+*succeed* — which is worse. The external site then loads **in place**, replacing the app's
+entire UI inside a `WKWebView` that has no back button, no reload and no way home short of
+force-quitting. A dead link is a small defect; a one-way door out of the app is a bigger
+one.
+
+**Decision.** `WebViewContainer` installs a `Coordinator` as both `WKNavigationDelegate`
+and `WKUIDelegate`:
+
+- `praxisapp://` (the bundled-content scheme, D-7) and `about:` navigations are allowed,
+  and stay in the web view.
+- `http`/`https` are **cancelled**, then handed to `UIApplication.shared.open` — they open
+  in Safari, which keeps its own "back to Praxis Math" affordance, and the app is still
+  where the reader left it.
+- Any other scheme is ignored. That allowlist is a boundary rather than a formality:
+  without it, page content could dispatch `tel:`, `mailto:`, or another app's custom scheme
+  straight out of the web view. The bundled content is this project's own today, and that
+  should not be load-bearing.
+- The UI-delegate half is required, not belt-and-braces: a `target="_blank"` link asks for a
+  *new window*, which never reaches the navigation delegate's allow path. Without it such a
+  link is silently dead — the same class of defect as #134 itself.
+
+**Why the web half changed too.** `index.html`'s link is now `https://` (confirmed serving
+200). That removes the ATS leg entirely, so **no `NSAppTransportSecurity` exception was
+added** — an exception weakens the app's posture and is something Apple asks about at
+review. Both halves were needed: the delegate alone would open an ATS-blocked URL, and the
+scheme change alone would strand the reader.
+
+**The general rule this sets.** Any external link the web layer adds later — the site and
+the app share these files (D-44) — behaves correctly with no further app change.
+
+**Verified.** The dead tap was reproduced on the simulator *before* the fix. Afterwards:
+Safari opens `usna.com`, the app stays on its own page, and the signatures were checked
+against the installed SDK headers rather than written from memory (Apple's documentation
+page for `WKNavigationDelegate` returns no usable content, as #136 also recorded).
+
+**Closes** #134.
