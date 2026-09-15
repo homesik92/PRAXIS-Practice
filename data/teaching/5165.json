@@ -349,7 +349,7 @@
           "label": "Why the trick works",
           "content": {
             "format": "text",
-            "value": "Swapping x and y before solving is exactly what \"undoing\" a function means: the original rule maps an input y-value to an output x-value, so relabeling and re-solving finds the rule that maps that output back to its input — which is the definition of an inverse. Graphically, swapping x and y is the same as reflecting the graph over the line y = x. The domain restriction carries over in a mirrored way too: f's domain excludes x = 3 because that made the original denominator zero, and f^-1's domain excludes x = 2 because that's the value that was in f's denominator after the swap — in general, the domain of f^-1 equals the range of f, and the range of f^-1 equals the domain of f."
+            "value": "Swapping x and y before solving is exactly what \"undoing\" a function means: the original rule maps an input y-value to an output x-value, so relabeling and re-solving finds the rule that maps that output back to its input — which is the definition of an inverse. Graphically, swapping x and y is the same as reflecting the graph over the line y = x. The domain restriction carries over in a mirrored way too: f's domain excludes x = 3 because that made the original denominator zero, and f^-1's domain excludes x = 2 because 2 is the one output f can never produce — as x grows without bound, (2x + 1)/(x - 3) approaches 2 but never reaches it, so y = 2 is a horizontal asymptote and 2 is missing from f's range. That is the general rule at work: the domain of f^-1 equals the range of f, and the range of f^-1 equals the domain of f."
           }
         }
       ]
@@ -497,7 +497,7 @@
           "label": "Mistake: treating average rate of change as instantaneous rate of change",
           "content": {
             "format": "text",
-            "value": "A student asked for the rate of change \"at x = a\" sometimes instead computes (f(b) − f(a)) / (b − a) using some nearby second point b — that formula gives the average rate of change over an interval (the secant line's slope), not the instantaneous rate of change at a single point (the tangent line's slope, f'(a)). The two values are generally different and only coincide when the function is linear over that interval. On the exam, watch the wording closely: \"at a point\" or \"at x = a\" signals the derivative; \"average rate of change\" or \"between x = a and x = b\" signals the secant-slope formula, with no differentiation needed at all."
+            "value": "A student asked for the rate of change \"at x = a\" sometimes instead computes (f(b) − f(a)) / (b − a) using some nearby second point b — that formula gives the average rate of change over an interval (the secant line's slope), not the instantaneous rate of change at a single point (the tangent line's slope, f'(a)). The two values are generally different. They agree for every interval only when the function is linear; on a curved graph they can happen to match for a particular interval — the average rate of x^3 from -1 to 2 is 3, and f'(-1) is also 3 — but that is a coincidence of the numbers chosen, not something to rely on. On the exam, watch the wording closely: \"at a point\" or \"at x = a\" signals the derivative; \"average rate of change\" or \"between x = a and x = b\" signals the secant-slope formula, with no differentiation needed at all."
           }
         },
         {
