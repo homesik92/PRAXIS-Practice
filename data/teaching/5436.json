@@ -1044,6 +1044,304 @@
           }
         }
       ]
+    },
+    {
+      "id": "astronomy-concept-overview",
+      "categoryId": "IV-A",
+      "heading": "Concept overview",
+      "entries": [
+        {
+          "id": "astronomy-concept-overview-1",
+          "label": "Rotation gives day and night; revolution gives the year",
+          "content": {
+            "format": "text",
+            "value": "Earth turns once on its axis roughly every 24 hours, and that single motion produces day and night, the apparent rise and set of the Sun, Moon and stars, and the slow westward drift of everything across the sky. Earth also travels once around the Sun in about 365 and a quarter days, and that separate motion produces the year and the slow change in which constellations are visible at a given hour. The two are easy to confuse because both make the sky appear to move. A useful test question is how long the effect takes: anything that repeats in a day comes from rotation, while anything that repeats over months comes from revolution. The quarter day left over each year is why a leap day exists at all."
+          }
+        },
+        {
+          "id": "astronomy-concept-overview-2",
+          "label": "Seasons come from axial tilt, not from distance to the Sun",
+          "content": {
+            "format": "text",
+            "value": "Earth's axis is tilted about 23.5 degrees from the perpendicular of its orbit, and that tilt stays pointed in nearly the same direction in space all year. When a hemisphere leans toward the Sun, sunlight strikes it closer to straight on and the Sun stays above the horizon longer, so that hemisphere receives more energy per unit of ground per day and warms. Half a year later the same hemisphere leans away, sunlight arrives at a shallower angle, daylight is shorter, and it cools. The angle of the light matters as much as the length of the day, because a beam arriving at a slant spreads its energy over more ground. This also explains why the two hemispheres have opposite seasons at the same moment, which no explanation based on distance can account for."
+          }
+        },
+        {
+          "id": "astronomy-concept-overview-3",
+          "label": "Moon phases are a matter of viewing angle",
+          "content": {
+            "format": "text",
+            "value": "Half of the Moon is lit by the Sun at all times, just as half of Earth is. What changes over a month is how much of that lit half faces us. When the Moon is roughly between Earth and the Sun, its lit side faces away and we see a new moon. When Earth is between, we see the lit face fully and call it a full moon. The in-between positions give crescents, quarters and gibbous shapes. One cycle of phases takes about 29.5 days, slightly longer than the 27.3 days the Moon takes to complete an orbit, because Earth has moved along its own orbit in the meantime and the Moon must travel a little farther to return to the same alignment. The Moon also keeps one face toward Earth throughout, because it rotates once per orbit."
+          }
+        },
+        {
+          "id": "astronomy-concept-overview-4",
+          "label": "A star's color reports its temperature; its brightness depends on distance too",
+          "content": {
+            "format": "text",
+            "value": "Stars differ in temperature, and temperature shows in color: the coolest stars glow red at a few thousand degrees, the Sun is yellow-white at about 5,800 kelvin, and the hottest shine blue-white at tens of thousands of degrees. Brightness is a different matter, because how bright a star looks from Earth depends on both how much light it actually emits and how far away it sits. A modest nearby star can outshine an enormously luminous distant one. Mass is the property that decides a star's life story: low-mass stars burn slowly for many billions of years and end as dense white dwarfs, while stars well above the Sun's mass burn through their fuel quickly and end explosively as supernovae, leaving neutron stars or black holes behind."
+          }
+        },
+        {
+          "id": "astronomy-concept-overview-5",
+          "label": "Distance in space is also distance in time",
+          "content": {
+            "format": "text",
+            "value": "Light travels fast but not instantly, so looking outward is looking backward. Sunlight reaching your eye left the Sun about eight minutes earlier, and light from the nearest star beyond the Sun has been traveling for roughly four years. The measurements behind these numbers come from a small set of techniques worth recognizing. Parallax uses the tiny shift in a nearby star's apparent position as Earth moves from one side of its orbit to the other, and the amount of shift gives the distance directly. Spectra, the light of a star spread out by wavelength, carry dark lines that identify which elements are present and reveal motion toward or away from us. Neither method requires going anywhere, which is the point."
+          }
+        }
+      ]
+    },
+    {
+      "id": "astronomy-worked-example",
+      "categoryId": "IV-A",
+      "heading": "Worked example",
+      "entries": [
+        {
+          "id": "astronomy-worked-example-scenario",
+          "label": "The question",
+          "content": {
+            "format": "text",
+            "value": "A student notices that a new moon comes around every month and asks a reasonable question: if a new moon means the Moon is between Earth and the Sun, why is there not a solar eclipse every month? Work through it in steps rather than guessing, because the answer explains the pattern of eclipses for any year."
+          }
+        },
+        {
+          "id": "astronomy-worked-example-step-1",
+          "label": "Step 1: state what an eclipse requires",
+          "content": {
+            "format": "text",
+            "value": "A solar eclipse happens when the Moon blocks our view of the Sun, which requires the Sun, Moon and Earth to lie on very nearly the same straight line, with the Moon in the middle. A lunar eclipse requires the same straight line with Earth in the middle, so Earth's shadow falls on the Moon. The key phrase is nearly the same straight line, and everything below turns on how nearly."
+          }
+        },
+        {
+          "id": "astronomy-worked-example-step-2",
+          "label": "Step 2: check how often the alignment is close",
+          "content": {
+            "format": "text",
+            "value": "The Moon reaches new phase about every 29.5 days, and full phase once in the same cycle. So the rough alignment, meaning the Moon is on the Sun's side of Earth or the opposite side, does occur every month. If alignment in that loose sense were enough, eclipses would be monthly."
+          }
+        },
+        {
+          "id": "astronomy-worked-example-step-3",
+          "label": "Step 3: add the missing dimension",
+          "content": {
+            "format": "text",
+            "value": "The Moon's orbit is not in the same plane as Earth's orbit around the Sun. It is tilted by about 5 degrees. Five degrees sounds small, but the Sun and Moon each cover only about half a degree of sky, so a five degree miss is roughly ten times the size of the target. In most months the Moon passes above or below the Sun from our viewpoint, and its shadow misses Earth entirely."
+          }
+        },
+        {
+          "id": "astronomy-worked-example-step-4",
+          "label": "Step 4: find when the tilt does not save us",
+          "content": {
+            "format": "text",
+            "value": "Two tilted circles cross at two points, called nodes. The Moon is exactly in Earth's orbital plane only when it is passing through a node. An eclipse therefore needs two conditions at once: the right phase, and a position near a node. Those two cycles have different lengths, so they coincide only during limited stretches of the year, usually twice a year, which is why eclipses arrive in seasons rather than monthly."
+          }
+        },
+        {
+          "id": "astronomy-worked-example-step-5",
+          "label": "Step 5: predict what a year contains",
+          "content": {
+            "format": "text",
+            "value": "Following that reasoning, a typical year holds a handful of eclipses of each kind rather than twelve. Solar eclipses are seen from a narrow track on Earth's surface, because the Moon's dark shadow is small where it lands, which is why any one location waits a long time between total solar eclipses. Lunar eclipses are visible from the entire night side of Earth at once, because Earth's shadow is large and the Moon simply moves into it, which is why most people have seen more lunar eclipses than solar ones."
+          }
+        },
+        {
+          "id": "astronomy-worked-example-conclusion",
+          "label": "What the example generalizes to",
+          "content": {
+            "format": "text",
+            "value": "The pattern here is worth reusing: when a monthly event does not produce a monthly consequence, look for a second condition that cycles on a different schedule. The reasoning also shows why sky geometry is three dimensional. Diagrams in books are drawn flat because a page is flat, and that flatness is the source of the original confusion."
+          }
+        }
+      ]
+    },
+    {
+      "id": "astronomy-common-mistakes",
+      "categoryId": "IV-A",
+      "heading": "Common mistakes",
+      "entries": [
+        {
+          "id": "astronomy-common-mistakes-1",
+          "label": "Thinking seasons come from Earth being nearer or farther from the Sun",
+          "content": {
+            "format": "text",
+            "value": "Earth's orbit is very slightly oval, and Earth actually reaches its closest point to the Sun in early January, during northern winter. If distance drove the seasons, January would be the warmest month everywhere and both hemispheres would have summer at the same time. They do not, because the cause is the tilt of the axis, which changes the angle of sunlight and the length of the day."
+          }
+        },
+        {
+          "id": "astronomy-common-mistakes-2",
+          "label": "Explaining moon phases with Earth's shadow",
+          "content": {
+            "format": "text",
+            "value": "Earth's shadow does fall on the Moon, but that event is a lunar eclipse, it happens only occasionally, and it is over in hours. Phases are a monthly cycle caused by how much of the Moon's sunlit half is turned toward us. A quick way to separate them: during a first quarter moon the Sun, Earth and Moon form a right angle, so Earth's shadow points nowhere near the Moon."
+          }
+        },
+        {
+          "id": "astronomy-common-mistakes-3",
+          "label": "Calling the far side of the Moon the dark side",
+          "content": {
+            "format": "text",
+            "value": "The Moon keeps one face toward Earth, so there is a side we never see from here. That far side receives just as much sunlight as the near side over a month, and it is fully lit at new moon, which is precisely when the side facing us is dark. Far side describes our viewpoint; dark side describes illumination, and the two do not coincide."
+          }
+        },
+        {
+          "id": "astronomy-common-mistakes-4",
+          "label": "Assuming the brightest stars are the closest ones",
+          "content": {
+            "format": "text",
+            "value": "How bright a star appears combines how much light it emits with how far away it is, so apparent brightness alone ranks nothing. Some of the most prominent stars in the night sky are distant and extremely luminous, while many of the nearest stars are too faint to see without a telescope. Polaris is a related trap: it matters because it sits nearly above Earth's north pole, not because it is especially bright."
+          }
+        }
+      ]
+    },
+    {
+      "id": "earth-concept-overview",
+      "categoryId": "IV-B",
+      "heading": "Concept overview",
+      "entries": [
+        {
+          "id": "earth-concept-overview-1",
+          "label": "Earth's interior layers, and how they were discovered",
+          "content": {
+            "format": "text",
+            "value": "Earth is layered: a thin rocky crust, a thick rocky mantle, and a metallic core with a liquid outer part and a solid inner part. Nobody has drilled past the crust, so the evidence is indirect and comes mainly from earthquakes. Seismic waves change speed and direction when they cross a boundary between materials, and one type, the shear wave, cannot travel through liquid at all. The shadow those waves leave on the far side of the planet is what established that the outer core is molten. A second division matters for tectonics and cuts across the first: the rigid lithosphere, meaning the crust plus the uppermost mantle, sits on the asthenosphere, a deeper mantle layer that is still solid rock but weak enough to deform slowly."
+          }
+        },
+        {
+          "id": "earth-concept-overview-2",
+          "label": "Plate tectonics explains where earthquakes, volcanoes and mountains are",
+          "content": {
+            "format": "text",
+            "value": "The lithosphere is broken into plates that move a few centimeters a year, driven largely by heat escaping from the interior, with the weight of a cold sinking slab pulling the rest of its plate along. Most dramatic geology happens where plates meet, and the boundary type predicts the features. Where plates separate, magma rises to fill the gap and builds mid-ocean ridges or splits a continent into a rift valley. Where they collide, the denser oceanic plate sinks in a process called subduction, producing deep trenches, volcanic arcs and powerful earthquakes, and where two continental plates meet instead, neither sinks readily and the crust crumples into mountain ranges. Where plates slide past one another, the result is faults and frequent earthquakes without volcanoes."
+          }
+        },
+        {
+          "id": "earth-concept-overview-3",
+          "label": "The rock cycle classifies rocks by how they formed",
+          "content": {
+            "format": "text",
+            "value": "Igneous rock forms when molten material cools and crystallizes, either slowly underground into coarse grains or quickly at the surface into fine ones. Sedimentary rock forms when fragments, dissolved minerals or the remains of organisms accumulate in layers and are compacted and cemented. Metamorphic rock forms when an existing rock is changed in the solid state by heat and pressure, developing new textures or minerals without melting. The cycle part is the important idea: any rock can become any other kind given the right conditions, and the path can run in any direction. Classification therefore depends on the process that produced the rock, not on its color or hardness, which is why two rocks that look similar may belong to different families."
+          }
+        },
+        {
+          "id": "earth-concept-overview-4",
+          "label": "The water cycle moves water, and most liquid fresh water is underground",
+          "content": {
+            "format": "text",
+            "value": "Water evaporates from oceans and lakes and is released from plants by transpiration, rises, cools, condenses into clouds, and returns as precipitation. What happens next at the surface splits the cycle: water that soaks into the ground infiltrates and may travel slowly through pore spaces to become groundwater, while water that cannot soak in fast enough runs off into streams. The level below which the ground is saturated is the water table, and a body of rock or sediment that holds and transmits usable groundwater is an aquifer. Ice caps and glaciers hold most of Earth's fresh water overall, but of the fresh water that is liquid, far more sits underground than in all rivers and lakes combined."
+          }
+        },
+        {
+          "id": "earth-concept-overview-5",
+          "label": "Weather is driven by uneven heating; climate is the long-run pattern",
+          "content": {
+            "format": "text",
+            "value": "The Sun heats the tropics more strongly than the poles, and that imbalance drives the circulation of both atmosphere and ocean. Warm air rises, cooler air sinks, and the resulting motion, bent by Earth's rotation, produces the prevailing winds. A large body of air that has taken on the temperature and moisture of the region where it sat is an air mass, and a front is the boundary where two of them meet. A cold front pushes under warmer air steeply and can produce brief, intense storms; a warm front slides gently over cooler air and tends to bring longer, lighter precipitation. Weather is the state of the atmosphere now, while climate is the statistical pattern of weather at a place across decades."
+          }
+        }
+      ]
+    },
+    {
+      "id": "earth-worked-example",
+      "categoryId": "IV-B",
+      "heading": "Worked example",
+      "entries": [
+        {
+          "id": "earth-worked-example-scenario",
+          "label": "The question",
+          "content": {
+            "format": "text",
+            "value": "A cross-section of a road cut shows four sedimentary layers, numbered 1 at the bottom through 4 at the top. A fault cuts through layers 1, 2 and 3 but stops below layer 4. A body of igneous rock intrudes layers 1 and 2 and contains broken pieces of layer 1. Between layers 3 and 4 there is an uneven, eroded surface. Put the events in order from oldest to youngest, using nothing but the geometry."
+          }
+        },
+        {
+          "id": "earth-worked-example-step-1",
+          "label": "Step 1: apply superposition to the layers",
+          "content": {
+            "format": "text",
+            "value": "In an undisturbed sequence, each sedimentary layer is younger than the one beneath it, because the lower material had to be there first to be buried. That gives an initial order of 1, then 2, then 3, then 4. Sedimentary layers also start out roughly horizontal, so any tilting seen today happened after those layers were deposited."
+          }
+        },
+        {
+          "id": "earth-worked-example-step-2",
+          "label": "Step 2: date the fault by what it cuts",
+          "content": {
+            "format": "text",
+            "value": "A feature that cuts across another must be younger than what it cuts, since the older thing had to exist before it could be broken. The fault cuts layers 1 through 3, so it is younger than all three. It stops below layer 4, so layer 4 was deposited after the faulting ended. The fault is therefore younger than layer 3 and older than layer 4."
+          }
+        },
+        {
+          "id": "earth-worked-example-step-3",
+          "label": "Step 3: use the inclusions to place the intrusion",
+          "content": {
+            "format": "text",
+            "value": "The igneous body cuts layers 1 and 2, so it is younger than both. It also contains fragments of layer 1, which confirms the same conclusion from the other direction: a rock cannot enclose pieces of something that did not yet exist, so layer 1 came first. Fragments inside a rock are always older than the rock that holds them."
+          }
+        },
+        {
+          "id": "earth-worked-example-step-4",
+          "label": "Step 4: read the eroded surface as missing time",
+          "content": {
+            "format": "text",
+            "value": "An uneven, eroded boundary between layer 3 and layer 4 is an unconformity: a gap in the record where deposition stopped and erosion removed material before deposition resumed. It means the sequence is incomplete, and that the interval it represents may be far longer than the layers around it suggest. Rock records deposition; unconformities record what was taken away."
+          }
+        },
+        {
+          "id": "earth-worked-example-step-5",
+          "label": "Step 5: assemble the sequence",
+          "content": {
+            "format": "text",
+            "value": "Reading the constraints together: layer 1, then layer 2, then the intrusion, which cuts and encloses them, then layer 3, then the faulting that cuts layers 1 through 3, then the erosion that produced the unconformity, then layer 4 on top. The intrusion sits after layer 2 and before layer 3 because it cuts the first two and not the third, which is the kind of constraint that pins an event between two others."
+          }
+        },
+        {
+          "id": "earth-worked-example-conclusion",
+          "label": "What this can and cannot tell you",
+          "content": {
+            "format": "text",
+            "value": "Every conclusion above is relative: it establishes order, never age in years. Numerical ages come from radiometric dating, which measures the decay of unstable isotopes in a sample and is most directly applied to igneous rock such as the intrusion here. Combining the two is standard practice: relative principles arrange the events, and a datable layer or intrusion anchors the sequence to a number."
+          }
+        }
+      ]
+    },
+    {
+      "id": "earth-common-mistakes",
+      "categoryId": "IV-B",
+      "heading": "Common mistakes",
+      "entries": [
+        {
+          "id": "earth-common-mistakes-1",
+          "label": "Treating a cold spell as evidence about climate",
+          "content": {
+            "format": "text",
+            "value": "Weather is what the atmosphere does over hours and days, while climate is the pattern of weather over decades. A record cold week, or a hot one, is a single data point in a noisy record and settles nothing about the long-run trend, in either direction. Climate claims rest on averages across many years and wide areas, which is why the two words are not interchangeable even though both describe the same air."
+          }
+        },
+        {
+          "id": "earth-common-mistakes-2",
+          "label": "Picturing plates floating on a molten mantle",
+          "content": {
+            "format": "text",
+            "value": "The asthenosphere is solid rock. It is hot enough and under enough pressure to deform slowly, the way ice in a glacier flows while remaining solid, but it is not a magma ocean, and the evidence is direct: shear waves from earthquakes travel through the mantle, and those waves cannot pass through liquid. Magma exists in pockets where specific conditions cause melting, mainly near plate boundaries, not as a global layer that plates drift across."
+          }
+        },
+        {
+          "id": "earth-common-mistakes-3",
+          "label": "Blending ozone depletion with the greenhouse effect",
+          "content": {
+            "format": "text",
+            "value": "These are two separate problems with separate chemistry. Ozone depletion happens high in the stratosphere, was driven largely by chlorofluorocarbons, and matters because ozone absorbs ultraviolet radiation that damages living tissue. The greenhouse effect involves gases such as carbon dioxide and methane lower down, which absorb and re-emit infrared energy and so warm the surface. A thinner ozone layer is not what warms the planet, and greenhouse gases are not what thinned the ozone layer."
+          }
+        },
+        {
+          "id": "earth-common-mistakes-4",
+          "label": "Expecting fossils and rock layers to give ages in years",
+          "content": {
+            "format": "text",
+            "value": "Relative dating methods, including superposition, cross-cutting relationships and the use of index fossils, establish sequence and correlate layers between locations. They do not produce numbers of years. An index fossil says a layer formed during the interval when that organism lived, which may span millions of years. Ages in years come from radiometric dating, and a question that asks which event came first is asking for relative reasoning, not for a calculation."
+          }
+        }
+      ]
     }
   ]
 }
