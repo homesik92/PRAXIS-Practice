@@ -1973,3 +1973,37 @@ D-30's PR-description flag, closing the chain D-30 → D-37 → D-38 → D-44.
 
 **Attribution:** Session owner's call, asked directly whether the iOS project should stay
 separate once the planning had moved here.
+
+### N-19: The site had no type scale above phone width — one root-size step fixes every screen
+
+**Context.** Session owner, live-testing the app on an iPad: the questions look right on
+the iPhone but are tiny on a large screen.
+
+**Diagnosis — not an iPad problem.** Every size in `css/base.css` is in `rem`, and `main`
+is a `max-width: 40rem` column, but nothing ever raised the root font size: it stayed at
+the browser's default 16px from a 320px phone to a 1440px desktop. On a phone that 640px
+column fills the screen and the proportions read correctly. On an iPad in landscape the
+same column occupies 54% of a 1194pt display with 16px text — and a desktop browser had
+been showing exactly the same thing all along. The iPad is simply where it was noticed.
+
+**Fix.** Two breakpoints raising `:root`: 112.5% (18px) at ≥48rem, 125% (20px) at ≥64rem.
+Because every rule is rem-based, that one knob scales text, spacing **and** the reading
+column together, with no per-rule tuning: at iPad-landscape width the column goes
+640px → 800px (54% → 67% of the screen) and body text 16px → 20px. Phones are deliberately
+untouched.
+
+**Two things that make this correct rather than merely effective:**
+
+- **Percentages, not pixels.** `:root { font-size: 20px }` would silently override a reader
+  who has raised their browser's default text size. A percentage multiplies their setting
+  instead. That is an accessibility requirement, not a stylistic preference.
+- **Media-query `rem` resolves against the browser default**, never against the value set
+  inside the query, so `min-width: 48rem` stays 768px whatever `:root` becomes. No feedback
+  loop, and no need to write the breakpoints in px.
+
+**Where it lands.** The website and the iOS app at once — the app bundles these same files
+(D-44), so there is no app-side change and nothing to keep in sync.
+
+**Verified:** iPad simulator (portrait, the practice-question screen) and a 1194×834
+viewport for landscape; phone widths re-checked unchanged; `verify.mjs` and all 7 suites
+green.

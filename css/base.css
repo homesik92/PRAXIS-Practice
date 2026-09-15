@@ -75,6 +75,30 @@ body {
   line-height: 1.5;
 }
 
+/* Type scale for tablets and desktops (N-19). Every size in this sheet is in `rem`
+   and `main` is a 40rem column, so raising the root size scales the whole layout --
+   text, spacing, and the reading column -- from one knob, with no per-rule tuning.
+   Phones are deliberately untouched: at 16px the column already fills the screen.
+
+   Percentages rather than px, so a reader who has raised their browser's default
+   text size keeps that increase on top of these steps -- setting px here would
+   silently override that accessibility preference.
+
+   The breakpoints are in rem, which a media query always resolves against the
+   browser's default font size, never against the value set inside the query. No
+   feedback loop: 48rem/64rem mean 768px/1024px whatever :root says below. */
+@media (min-width: 48rem) {
+  :root {
+    font-size: 112.5%; /* 18px from a 16px default -- iPad portrait */
+  }
+}
+
+@media (min-width: 64rem) {
+  :root {
+    font-size: 125%; /* 20px -- iPad landscape, desktop browsers */
+  }
+}
+
 main {
   max-width: 40rem;
   margin: 0 auto;
