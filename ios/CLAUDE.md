@@ -67,7 +67,7 @@ correctness surface. This file only adds what is specific to the app.
 - **The bundle id `com.homesik92.PraxisMath` and the display name "Praxis Math" are
   placeholders.** D-40 rules both out for release (PRAXIS is ETS's live registered mark).
   Never register either in App Store Connect — bundle ids are permanent once registered.
-  Choosing the real ones is APP-STORE-ROADMAP.md Phases A and D.
+  Choosing the real ones is APP-STORE-ROADMAP.md Phases 12 and 15.
 - **Signing material never enters the repository.** `DEVELOPMENT_TEAM` in `project.yml`
   is a public identifier and fine; certificates, provisioning profiles, and Apple ID or App
   Store Connect credentials are not, anywhere — tree, commit message, PR or issue text.
@@ -90,7 +90,7 @@ xcodebuild -project ios/PraxisMath.xcodeproj -target PraxisMath -sdk iphonesimul
 - **UI tests** (`Sources/UITests/`) run from Xcode with ⌘U. The committed project has no
   shared scheme, so `xcodebuild test` from a clean checkout has nothing to name.
 - A real device is the check that matters before any TestFlight or App Store build —
-  see APP-STORE-ROADMAP.md Phase G.
+  see APP-STORE-ROADMAP.md Phase 18.
 
 ## Environment notes
 

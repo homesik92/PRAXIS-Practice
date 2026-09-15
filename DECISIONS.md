@@ -2052,3 +2052,43 @@ against the installed SDK headers rather than written from memory (Apple's docum
 page for `WKNavigationDelegate` returns no usable content, as #136 also recorded).
 
 **Closes** #134.
+
+### N-20: One continuous phase sequence — Phase 11 for the apps, and the App Store phases renumbered 12–22
+
+**Context.** Session owner, asking where the roadmap should end: *"should the roadmap show
+up to 10 to complete the engine and web app, and then 11 would start the steps to build the
+iOS apps up to listing them on the app store?"*
+
+Two gaps made that question necessary. `ROADMAP.md`'s phase table stopped at **10** and
+covered the web app only — every remaining native task lived in issues and session labels,
+so nothing answered "what is left" in one place. And `APP-STORE-ROADMAP.md` ran on its own
+**A–K** lettering, which read as a separate track rather than the end of this one. Both were
+correct when the app lived in its own repository; **D-44** folded it in, and the documents
+had not caught up.
+
+**Change — session owner's call, 2026-09-15.**
+
+- **Phase 11 — iOS apps to production-ready** is now a real phase with checkboxes: native
+  shell completeness (#133), the subject picker and entitlement boundary (#136, blocked on
+  #131), multi-app structure (#139), and a real-device QA pass. It ends exactly where the
+  App Store sequence begins.
+- **`APP-STORE-ROADMAP.md`'s phases are renumbered 12–22**, and `ROADMAP.md`'s overview
+  table lists them, so the project reads as one sequence from 0 to 22.
+- **The old letters still resolve.** The log is append-only, so entries written before today
+  keep their citations — D-41's "phase K.4", D-40's "phase A", N-14's "phase E" — and
+  `APP-STORE-ROADMAP.md` carries a letter→number mapping table at the top. K.4 is **22.4**,
+  A is **12**, E is **16**.
+
+**What numbering does *not* change.** That document is a **per-app template**, and D-41 has
+four tracks shipping in sequence: 12–13 are one-time identity work, 14 is once per Apple
+account, and **15–22 run once per app**. Absolute numbers could imply a single pass, so both
+documents now state the repetition explicitly rather than leaving it implied by the letters.
+
+**Two stale lines fixed in passing.** Phase 10 said it "closes the project" — true when the
+app was a separate repository, wrong since D-44; it closes the **web app**, and Phase 11
+follows. And the release-sequencing prose still listed "the bundled payload" as native work,
+which D-44 deleted: the app builds from this repository's own files, so there is nothing to
+bundle.
+
+**Not changed:** the boundary itself. `APP-STORE-ROADMAP.md` still starts where working
+software exists, and development work stays in `ROADMAP.md`.

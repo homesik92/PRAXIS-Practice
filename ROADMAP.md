@@ -69,6 +69,24 @@ site with no server.
 | 8 | Launch (NAS) — v1, Mathematics only | ◐ |
 | 9 | Multi-subject entry (S1 redesign) | ☑ |
 | 10 | Final testing & acceptance (all five subjects) | ☐ |
+| 11 | iOS apps to production-ready | ☐ |
+| 12 | Identity: name, mark, domains | ☐ |
+| 13 | Legal and content posture | ☐ |
+| 14 | Apple account setup | ☐ |
+| 15 | App Store Connect record ⚠ irreversible | ☐ |
+| 16 | Metadata and assets | ☐ |
+| 17 | Build, sign, upload | ☐ |
+| 18 | TestFlight | ☐ |
+| 19 | Submit for review | ☐ |
+| 20 | Review and rejection handling | ☐ |
+| 21 | Release | ☐ |
+| 22 | Post-launch | ☐ |
+
+Phases **12–22** are the App Store sequence and live in
+[APP-STORE-ROADMAP.md](APP-STORE-ROADMAP.md), which holds their checklists — they are
+numbered here so the project reads as one sequence. They **repeat per app** (D-41): 12–13
+are one-time identity work, 14 is once per Apple account, and 15–22 run once for each app
+shipped. They were lettered A–K before 2026-09-15 (N-20).
 
 ## Phases (post-design)
 
@@ -1854,7 +1872,9 @@ Mathematics-only foundation. Likely mockup-first, same precedent as 6.6/6.8.
 > criteria below say *five*. References to "four subjects" in earlier,
 > completed phases are historical and left as written.
 
-Closes the project. Gated on Phase 7's resumed authoring (5101/5485/5652
+Closes the **web app**. (It closed the whole project when the iOS app lived in a
+separate repository; since **D-44** the app is part of this project, and Phase 11 below
+follows.) Gated on Phase 7's resumed authoring (5101/5485/5652
 reaching the same 3×-depth, answer-key-verified standard as 5165), Phase 9, and
 **Phase 6.10** (the same three subjects' teaching chapters — D-32; 10.2 must not
 sign off a build where three of four subjects dead-end on a visible Start-menu
@@ -1875,46 +1895,67 @@ Mathematics-only build, and Mathematics' chapters have been complete since 6.9.2
   *Accepts:* session owner explicitly confirms the complete five-subject app
   is accepted as production-ready.
 
-### After Phase 10: the native app and the App Store
+### Phase 11 — iOS apps to production-ready
 
-**The App Store release process now lives in its own document:
-[APP-STORE-ROADMAP.md](APP-STORE-ROADMAP.md).** It was split out on 2026-09-10 so
-release work can be tracked separately from development, and so the sequence can be
-reused for each of the three apps rather than rewritten (**D-41**). Everything from
-"the software works" to "approved and on the store" is there — identity and trademark,
-Apple account setup, the App Store Connect record and its permanent bundle id, metadata,
-TestFlight, submission, rejection handling, release.
+Everything the native side needs before any release work starts. The app is a SwiftUI
+shell around this repository's own web files, which it bundles at build time (**D-44**) —
+so there is no second engine, no copy to sync, and **finishing the web app is most of
+finishing the apps**. What remains here is native-shell work, plus the purchase flow.
 
-This section keeps only what belongs to *this* project: what has to be true here before
-any of that starts.
+**Ordering.** Phase 10 first: a defect in the shared web layer is a defect in every app.
+Phase 11 is *not* gated on the remaining content authoring — the shell can be finished
+against the subjects that exist.
 
-**Four tracks** (**D-41**, amended by **D-43**): STEM (5165, 5436, 5485, 5652),
-Humanities (5581 and future English/history), Administrative (5101 and future
-admin/librarian subjects), and Core (5713/5723/5733 — **parked**, see N-16). The STEM app ships first and must be **approved** before the
-second is submitted. Note that 5101 Business Education moves out of the current build
-when the Administrative app exists.
+- ☐ **11.1 Native shell completeness.** The backup/restore export button is still a
+  silent no-op in the app ([#133](https://github.com/homesik92/PRAXIS-Practice/issues/133)):
+  the web layer uses a Blob download, which needs a `WKDownloadDelegate` to reach iOS's
+  share sheet. Its sibling — external links — was fixed in **D-45**, and that delegate
+  wiring sits in the same file. **Check restore as well as export:** an export that works
+  and an import that doesn't is worse than neither, because it invites trust in a backup
+  that cannot be restored (restore replaces the whole store, D-26).
+  *Accepts:* a backup taken in the app can be saved out, and restored back into it.
+- ☐ **11.2 Subject picker and the entitlement boundary.**
+  ([#136](https://github.com/homesik92/PRAXIS-Practice/issues/136)) A native picker in
+  front of the web view, filtered by the manifest's `track` field
+  ([#121](https://github.com/homesik92/PRAXIS-Practice/issues/121)), replacing
+  `ContentView`'s hardcoded single subject. **Blocked on
+  [#131](https://github.com/homesik92/PRAXIS-Practice/issues/131)**: D-42 gates features
+  *within* a subject, which a picker that unlocks whole subjects cannot express, so the
+  design question must be settled before the code is written. StoreKit 2 itself is
+  testable locally against an Xcode `.storekit` configuration file, with no App Store
+  Connect record — that is architecture work, not release work.
+  *Accepts:* purchase, restore, refund and revocation all behave correctly against a local
+  StoreKit configuration.
+- ☐ **11.3 Multi-app structure.**
+  ([#139](https://github.com/homesik92/PRAXIS-Practice/issues/139)) How the four tracks are
+  produced from `ios/` — separate targets, or one target with per-app settings — is
+  deliberately undecided. **Not before the STEM app is approved** (Phase 22.4): a second
+  app built early spends a permanent bundle id before Apple has answered the 4.3(a)
+  question D-41 flags.
+  *Accepts:* decided and logged, with `ios/project.yml` generating each track's app.
+- ☐ **11.4 Real-device QA pass.** Simulator work does not close this. Both form factors,
+  a full timed attempt, a teaching page, the calculator, and the review pass — on hardware.
+  Known open: the "Not started" label overlaps inside the empty score ring in WebKit, which
+  #66's fix did not cover.
+  *Accepts:* the session owner completes a full attempt on a real device and accepts the
+  build.
 
-**Release sequencing:**
+**Then the App Store**, Phases 12–22 in
+[APP-STORE-ROADMAP.md](APP-STORE-ROADMAP.md) — identity and trademark, Apple account setup,
+the permanent bundle id, metadata, TestFlight, submission, release. Four tracks ship in
+sequence (**D-41**, **D-43**): STEM (5165, 5436, 5485, 5652) first and **approved** before
+the second is submitted; then Humanities (5581 and future English/history); then
+Administrative (5101 and future admin/librarian subjects — 5101 leaves the STEM build when
+that app exists); Core is parked (N-16).
 
-1. **This project to production-ready.** Phase 10, plus the content-quality work that
-   paid subjects make non-optional: 5165's answer-key distribution (#93) and 5436's
-   missing teaching chapters (#106). Branch protection (#107) is **done** — enabled
-   2026-09-10, see N-13. Tracked as sessions 01–04 of the schedule triaged 2026-09-10.
-2. **The iOS app to production-ready.** The shared native shell, the bundled payload,
-   then StoreKit and the native subject picker. The purchase code is *architecture*, not
-   App Store work — the whole purchase/restore flow is testable locally against an Xcode
-   StoreKit configuration file with no App Store Connect record.
-3. **App Store work last**, per [APP-STORE-ROADMAP.md](APP-STORE-ROADMAP.md) — with the
-   exception it calls out: the paid-apps agreement, banking and tax verification take
-   days and are worth starting well before submission day.
-
-Authoring the remaining subjects does not by itself trigger any iOS work — both halves
-still need to be independently done first.
+⚠ **Start Phase 14 early.** The paid-apps agreement plus banking and tax verification take
+days and are the classic submission-day stall — they need nothing else to be finished first.
 
 ## Session log
 
 | Date | Session | Outcome |
 | --- | --- | --- |
+| 2026-09-15 | One continuous phase sequence — Phase 11 added, App Store phases renumbered 12–22 (N-20) | Session owner's question — should the roadmap run to 10 for the engine, then 11 for the apps through to App Store listing? — surfaced two documents that had not caught up with **D-44**. The phase table stopped at 10 and covered the web app only, leaving every native task in issues and labels with nothing answering "what is left" in one place, and `APP-STORE-ROADMAP.md` ran on its own A–K lettering, reading as a parallel track rather than the end of this one. **Phase 11 — iOS apps to production-ready** is now a real phase with accepts criteria (#133 shell completeness including *restore* as well as export, #136 picker/entitlement blocked on #131, #139 multi-app structure held until the STEM app is approved, and a real-device QA pass), and the App Store phases are **12–22**, listed in the overview table. The append-only log is untouched: older entries keep their letters and resolve through a new mapping table (K.4 = 22.4, A = 12, E = 16). Both documents now state explicitly that 15–22 repeat per app, which the letters had only implied. Two stale lines fixed in passing: Phase 10 "closes the project" (true only while the app was a separate repo) became "closes the web app", and the sequencing prose still listed "the bundled payload" as native work D-44 had deleted. Docs only — no code, no behaviour change. |
 | 2026-09-15 | #134 — external links leave for Safari (D-45) | The "Beat Army!" link did nothing in the app. Three verified legs, and the cheap fix makes it worse: switching the href to `https://` alone would load usna.com **in place**, replacing the app's UI in a chrome-less `WKWebView` with no back button and no way home. Fixed both halves — the site's link is now `https://` (confirmed 200, which removes the App Transport Security leg, so **no ATS exception was added**), and `WebViewContainer` gained a `Coordinator` acting as `WKNavigationDelegate` *and* `WKUIDelegate`: bundled `praxisapp://` and `about:` stay in the web view, `http`/`https` are cancelled and handed to Safari, and every other scheme is ignored so page content cannot dispatch `tel:`/`mailto:`/custom schemes out of the app. The UI-delegate half is load-bearing, not belt-and-braces: a `target="_blank"` link asks for a new window and never reaches the navigation delegate's allow path, so it would be silently dead in exactly the way #134 was. Delegate signatures verified against the installed iPhoneOS 26.5 SDK headers rather than memory — Apple's own documentation page returns no usable content — and a near-miss signature on an optional Obj-C protocol method fails silently rather than at compile time, so the simulator test is what actually proves it. Dead tap reproduced before the fix; afterwards Safari opens with a return chip and the app stays put. Sets the general rule for any external link the shared web files add later (D-44). |
 | 2026-09-15 | Type scale for tablets and desktops (N-19) | Session owner's finding while live-testing the app on an iPad: questions fine on the iPhone, tiny on the iPad. **Not an iPad bug** — the sheet is entirely rem-based with a `max-width: 40rem` column, but nothing ever raised the root size above the browser's 16px default, so every screen wider than a phone had been under-scaled, desktop browsers included. Fixed with two breakpoints on `:root` — 112.5% (18px) at ≥48rem, 125% (20px) at ≥64rem — which scales text, spacing and the reading column together from one knob, no per-rule tuning. At iPad-landscape width the column goes 640px → 800px (54% → 67% of the screen) and body text 16px → 20px; phones untouched. Percentages rather than px so a reader who raised their browser's default text size keeps that increase (`:root { font-size: 20px }` would have overridden it), and rem breakpoints resolve against the browser default so there is no feedback loop with the value they set. Verified on the iPad simulator through the practice-question screen and at a 1194×834 viewport for landscape; `verify.mjs` clean, all 7 suites green (324 tests). Ships to the site and the app together (D-44). |
 | 2026-09-11 | D-44 — the iOS app moves into this repository; Pages publishes only the site | Session owner's call. The app repository's two reasons for existing had lapsed: it was private to protect an unsettled name (D-40 settled it), and its hand-made copy of the web files hadn't been synced in weeks. **Imported to `ios/` as current files only**; the old repository is to be archived read-only. **No copy any more** — the Xcode project copies `index.html results.html run.html teach.html test.html css js data` from the root into the bundle's `WebContent/`, the path the Swift already read, so no Swift changed. Verified by a clean build with every bundled file byte-identical to the root and a Simulator run (Practice test page and Study topic list both load from the bundle). One real snag, caught before commit: xcodegen named the parent group after the checkout folder, so the committed project differed depending on where it was generated — pinned with an explicit `group`. **CI:** new `ios-build` job (macos-26, every PR, no path filter) replaces D-30's PR-description sync flag. **Pages:** new `deploy-site` job publishes only the site files — the legacy branch build was serving `ROADMAP.md`, `DECISIONS.md`, `SEED.md` and `tools/` publicly. Needs the session owner to switch Settings → Pages → Source to GitHub Actions. App decision log frozen at `ios/DECISIONS.md` (cited "iOS D-n"); DESIGN/ROADMAP/DECISIONS-INDEX frozen under a header; `ios/CLAUDE.md` rewritten as live guidance; the two dev-workflow skill copies merged; ADDING-A-SUBJECT.md §9 rewritten; one personal detail removed from the imported roadmap before it became public. |
