@@ -133,6 +133,26 @@ test("manifest with duplicate test codes is rejected", () => {
   assert.ok(errors.some((e) => e.includes("duplicate test code")));
 });
 
+test("manifest entry missing track warns rather than errors (D-41/D-43, #121: additive, not required yet)", () => {
+  const manifest = { schemaVersion: 1, tests: [{ code: "5165", file: "tests/5165.json", enabled: true }] };
+  const { errors, warnings } = validateManifest(manifest, null);
+  assert.ok(!errors.some((e) => e.includes("track")));
+  assert.ok(warnings.some((w) => w.includes("track is not set")));
+});
+
+test("manifest entry with an invalid track value is rejected", () => {
+  const manifest = { schemaVersion: 1, tests: [{ code: "5165", file: "tests/5165.json", enabled: true, track: "math" }] };
+  const { errors } = validateManifest(manifest, null);
+  assert.ok(errors.some((e) => e.includes("track must be one of")));
+});
+
+test("manifest entry with a valid track value is accepted without warning", () => {
+  const manifest = { schemaVersion: 1, tests: [{ code: "5165", file: "tests/5165.json", enabled: true, track: "stem" }] };
+  const { errors, warnings } = validateManifest(manifest, null);
+  assert.ok(!errors.some((e) => e.includes("track")));
+  assert.ok(!warnings.some((w) => w.includes("track")));
+});
+
 test("validateManifestAgreement accepts an entry that matches its bank", () => {
   const bank = { code: "5485", name: "Physical Science", timeLimitMinutes: 150, formLength: 125, questions: new Array(375) };
   const entry = { code: "5485", name: "Physical Science", timeLimitMinutes: 150, formLength: 125, bankSize: 375 };

@@ -185,13 +185,31 @@ code — enforced by keeping the four known codes out of the source entirely.
 {
   "schemaVersion": 1,
   "tests": [
-    { "code": "5165", "file": "tests/5165.json", "enabled": true }
+    {
+      "code": "5165",
+      "file": "tests/5165.json",
+      "enabled": true,
+      "track": "stem",
+      "name": "Mathematics",
+      "timeLimitMinutes": 180,
+      "formLength": 66,
+      "bankSize": 253
+    }
   ]
 }
 ```
 
-Deliberately minimal — display names and timings live in the bank file so there is one
-authority for them, not two that can disagree.
+`name`/`timeLimitMinutes`/`formLength`/`bankSize` are duplicated from the bank file, not
+authoritative — `tools/verify.mjs`'s `validateManifestAgreement` cross-checks each against
+the bank it points at, so the copy can't silently drift. They're duplicated (rather than
+read from the bank at request time) so S1's picker renders from the manifest alone, without
+fetching every bank file just to read four scalars.
+
+`track` (D-41/D-43) is one of `"stem"`, `"humanities"`, `"admin"`, `"core"` — which native
+app's subject picker this test belongs to (#121). Not cross-checked against anything in the
+bank; `tools/verify.mjs` validates it against that fixed list on its own. Optional: a new
+subject can land with no `track` yet (a warning, not an error) if its app assignment isn't
+decided when it's added.
 
 ## 2.3 Bank file
 

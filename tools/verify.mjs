@@ -549,6 +549,10 @@ export function validateReferencePanelContent(panel, { code } = {}) {
   return actualShape === "sections" ? validateReferencePanel(panel, { code }) : validateElementsAndConstants(panel, { code });
 }
 
+// D-41/D-43: the native apps a subject can belong to. "core" has no subject
+// assigned yet (Core is parked, N-16) but is a valid value the moment one is.
+const VALID_TRACKS = ["stem", "humanities", "admin", "core"];
+
 export function validateManifest(manifest, dataDir) {
   const errors = [];
   const warnings = [];
@@ -576,6 +580,15 @@ export function validateManifest(manifest, dataDir) {
     }
     if (typeof entry.enabled !== "boolean") {
       errors.push(`${label}: enabled must be a boolean`);
+    }
+    // D-41/D-43: which native app's picker a subject belongs to. Warns rather than
+    // errors when absent -- a new subject can land before its track is decided
+    // (#121) -- but errors on a present-but-wrong value, since that's a typo, not
+    // an open question.
+    if (entry.track === undefined) {
+      warnings.push(`${label}: track is not set (D-41/D-43) -- it won't appear in any native app's picker until it is`);
+    } else if (!VALID_TRACKS.includes(entry.track)) {
+      errors.push(`${label}: track must be one of ${VALID_TRACKS.join(", ")}, got ${JSON.stringify(entry.track)}`);
     }
     // Display metadata duplicated from the bank so S1 can render the picker from
     // the manifest alone, without fetching every bank file just to read four
