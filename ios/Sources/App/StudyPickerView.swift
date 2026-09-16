@@ -19,7 +19,9 @@ struct StudyPickerView: View {
                     // issue as the Practice tab's WebViewContainer (Phase 4
                     // finding, ContentView.swift).
                     WebViewContainer(
-                        resourcePath: "teach.html?code=5165&category=\(category.id)",
+                        // unlocked=1: see ContentView.swift -- marks the app context so
+                        // teach.html's back link carries it to test.html.
+                        resourcePath: "teach.html?code=5165&category=\(category.id)&unlocked=1",
                         resourceDirectory: "WebContent"
                     )
                     .navigationTitle(category.label)

@@ -34,6 +34,7 @@
     // per-section categoryId), so there is no new render code in this page at all.
     import { loadManifest, loadBank, loadTeachingContent, flattenCategoryTree, categoryAndDescendantIds } from "./js/schema.js";
     import { renderReferencePanel } from "./js/reference-panel.js";
+    import { withEntitlementParam } from "./js/entitlement.js";
 
     const params = new URLSearchParams(location.search);
     const code = params.get("code");
@@ -46,7 +47,8 @@
     const chapterContentEl = document.getElementById("chapter-content");
 
     if (code) {
-      const href = `test.html?code=${encodeURIComponent(code)}`;
+      // Carries the app's lock signal back to the menu (D-19/D-46) -- a no-op on the site.
+      const href = withEntitlementParam(`test.html?code=${encodeURIComponent(code)}`, params);
       backLink.href = href;
       backLinkBottom.href = href;
     }

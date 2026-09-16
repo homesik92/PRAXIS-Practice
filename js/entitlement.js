@@ -69,3 +69,45 @@ export function lockedControls(store, testCode, params, selectedCategoryTestTopi
     : true;
   return { fullTest: true, practiceTopic: true, reviewTopic: true, categoryTest };
 }
+
+/**
+ * Carries this page's `unlocked` param forward onto an in-app link. The signal lives
+ * only on the page's own URL, so a link built without it lands on a page that
+ * believes it's the public site -- where nothing is locked. Every link from one site
+ * page to another goes through this. A no-op on the public site. Assumes `href` has
+ * no `#fragment` (none of this site's internal links do).
+ *
+ * @param {string} href
+ * @param {URLSearchParams} params
+ * @returns {string}
+ */
+export function withEntitlementParam(href, params) {
+  if (!isNativeContext(params)) return href;
+  const separator = href.includes("?") ? "&" : "?";
+  return `${href}${separator}unlocked=${encodeURIComponent(params.get("unlocked"))}`;
+}
+
+/**
+ * Whether run.html should refuse to start the run its own URL describes. This is the
+ * destination-side gate: test.html's controls lock themselves, but run.html is also
+ * reached from test.html's dashboard shortcuts, its own "Try again" link, and
+ * results.html's weak-spot links, so the decision is made again here rather than
+ * trusted to every link site. Maps each mode onto the test.html control it belongs to:
+ * `test` is Full test, `study` (including due review) is Review a topic, `drill` is
+ * Practice a topic, and `drill` with `timed=1` is Category test. An unknown or missing
+ * mode returns false -- run.html reports those itself.
+ *
+ * @param {object} store
+ * @param {string} testCode
+ * @param {URLSearchParams} params - run.html's own query params
+ * @returns {boolean}
+ */
+export function isRunLocked(store, testCode, params) {
+  const mode = params.get("mode");
+  const timed = params.get("timed") === "1";
+  const locked = lockedControls(store, testCode, params, mode === "drill" && timed ? params.get("category") : null);
+  if (mode === "test") return locked.fullTest;
+  if (mode === "study") return locked.reviewTopic;
+  if (mode === "drill") return timed ? locked.categoryTest : locked.practiceTopic;
+  return false;
+}
