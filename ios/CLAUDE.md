@@ -33,8 +33,13 @@ correctness surface. This file only adds what is specific to the app.
 - The files are served over a custom URL scheme by `LocalContentSchemeHandler`
   (iOS D-7), not `file://` — `fetch()` of `data/*.json` does not work under `file://`.
 - The Swift side finds them by `resourceDirectory: "WebContent"` (`ContentView.swift`,
-  `StudyPickerView.swift`, `CategoryPicker.swift`). Renaming the bundle subpath means
-  changing all three.
+  `SubjectPickerView.swift`, `CategoryListView.swift`, and the loaders in
+  `ManifestLoader.swift` and `CategoryPicker.swift` that it is passed to). Renaming the
+  bundle subpath means changing every one of them.
+- **The subject list is the manifest.** Both tabs open on `SubjectPickerView`, which lists
+  every enabled subject in `data/manifest.json` whose `track` matches
+  `ManifestLoader.appTrack` (`"stem"` today). Enabling or adding a STEM subject there
+  needs no Swift change.
 - ⚠ **The list of published site files is written in three places — keep them
   identical:** `ios/project.yml`, the `deploy-site` job in
   `.github/workflows/verify.yml`, and the NAS deploy command (the session owner's, kept
@@ -51,12 +56,13 @@ correctness surface. This file only adds what is specific to the app.
   page is a data-driven mode in the web layer that the site understands too — never a
   Swift-side script that rewrites the page at runtime. There is only one copy of each
   file now, so there is nowhere to fork it to.
-- **Purchase state and the web layer:** the original design kept entitlement entirely
-  native — a SwiftUI picker in front of the `WKWebView` that only ever opens an unlocked
-  subject. D-42's free tier gates features *within* a subject, which that boundary cannot
-  enforce. How "locked" reaches the web layer is open as
-  [#131](https://github.com/homesik92/PRAXIS-Practice/issues/131) — settle it there before
-  building any purchase flow.
+- **Purchase state and the web layer (D-46, N-21):** the app tells a page one thing — an
+  `unlocked=0|1` query parameter on the page's own URL — and never anything about products
+  or prices. The web layer turns that into locked controls (`js/entitlement.js`), carries it
+  on every link between pages, and `run.html` re-checks it on arrival. Every page the app
+  opens must carry `unlocked`: a page without it takes itself to be the public site, where
+  nothing is locked. The app passes `unlocked=1` until 11.2's purchase flow supplies the
+  real value.
 - **Never `.ignoresSafeArea()` a `WebViewContainer`** — not under the native tab bar
   (iOS D-9) and not at the top either (iOS D-17). Both shipped real, hard-to-spot layout
   bugs.
@@ -85,10 +91,14 @@ xcodebuild -project ios/PraxisMath.xcodeproj -target PraxisMath -sdk iphonesimul
   anything renders correctly.
 - **Run it in the Simulator** whenever a change could look or behave differently in the
   app than on the site — Swift, safe-area or layout work, navigation, anything touching
-  how the web view is loaded. At minimum check: the Practice tab's test page, the Study
-  tab's category picker opening a teaching page, and the calculator.
+  how the web view is loaded. At minimum check: the Practice tab's subject list opening a
+  test page, the Study tab's subject list → topic list → teaching page, and the
+  calculator.
 - **UI tests** (`Sources/UITests/`) run from Xcode with ⌘U. The committed project has no
-  shared scheme, so `xcodebuild test` from a clean checkout has nothing to name.
+  shared scheme, so `xcodebuild test` from a clean checkout has nothing to name — but once
+  Xcode has opened the project it creates a local `PraxisMath` scheme, after which
+  `xcodebuild test -project ios/PraxisMath.xcodeproj -scheme PraxisMath -destination
+  'platform=iOS Simulator,name=iPhone 17'` runs them from the command line.
 - A real device is the check that matters before any TestFlight or App Store build —
   see APP-STORE-ROADMAP.md Phase 18.
 
