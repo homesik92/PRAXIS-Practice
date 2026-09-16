@@ -203,13 +203,13 @@
       handleStorageEvent,
       recordCategoryTrialUsed,
     } from "./js/store.js";
-    import { isRunLocked, withEntitlementParam } from "./js/entitlement.js";
+    import { isRunLocked, withEntitlementParam, isNativeContext } from "./js/entitlement.js";
 
     const params = new URLSearchParams(location.search);
     const code = params.get("code");
     const mode = params.get("mode");
     // Every link from this page to another site page goes through linkTo, so the
-    // app's lock signal survives the navigation (D-19/D-46) -- a no-op on the site.
+    // app's lock signal survives the navigation (D-46) -- a no-op on the site.
     const linkTo = (href) => withEntitlementParam(href, params);
 
     const backLink = document.getElementById("back-link");
@@ -268,6 +268,10 @@
       backLink.href = href;
       backLinkBottom.href = href;
       backLinkBottomDrill.href = href;
+    } else if (isNativeContext(params)) {
+      // In the app the site hub is blocked (N-21), so a Back link still pointing
+      // there would do nothing -- hide it rather than leave a dead link.
+      for (const link of [backLink, backLinkBottom, backLinkBottomDrill]) link.parentElement.hidden = true;
     }
 
     function showStatus(message) {
@@ -894,9 +898,9 @@
       return loadResult.ok ? loadResult.store : defaultStore();
     }
 
-    // In-app only -- isRunLocked is never true on the public site. The link is a
-    // route the app intercepts to show its purchase sheet (D-19: no purchase detail
-    // on this page).
+    // In-app only -- isRunLocked is never true on the public site. The link is the
+    // route the app will intercept to show its purchase sheet (11.2 Phase E; D-46:
+    // no purchase detail on this page).
     function showLocked(bank) {
       heading.textContent = bank.name;
       showStatus("This is part of the full subject. Unlock it to continue.");

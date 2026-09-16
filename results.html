@@ -54,13 +54,13 @@
       categoriesNeedingPractice,
     } from "./js/results.js";
     import { loadStore, findAttempt } from "./js/store.js";
-    import { withEntitlementParam } from "./js/entitlement.js";
+    import { withEntitlementParam, isNativeContext } from "./js/entitlement.js";
     import { renderReviewRow } from "./js/review-row.js";
 
     const params = new URLSearchParams(location.search);
     const attemptId = params.get("attempt");
     // Every link from this page to another site page goes through linkTo, so the
-    // app's lock signal survives the navigation (D-19/D-46) -- a no-op on the site.
+    // app's lock signal survives the navigation (D-46) -- a no-op on the site.
     const linkTo = (href) => withEntitlementParam(href, params);
 
     const statusNote = document.getElementById("status-note");
@@ -202,6 +202,14 @@
           }
         }
       }
+    }
+
+    // In the app the site hub is blocked (N-21), so on the paths above that never
+    // learned which subject this was, a Back link still pointing there would do
+    // nothing -- hide it rather than leave a dead link.
+    if (isNativeContext(params) && backLink.getAttribute("href") === "index.html") {
+      backLink.parentElement.hidden = true;
+      backLinkBottom.parentElement.hidden = true;
     }
   </script>
 </body>

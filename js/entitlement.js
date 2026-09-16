@@ -1,6 +1,7 @@
-// D-46/D-19: whether test.html's paid controls render locked, inside the iOS app.
+// D-46/N-21: what's locked inside the iOS app -- test.html's paid controls, run.html's
+// own gate on arrival, and the link helper that carries the signal between pages.
 //
-// Purchase state never enters the web layer (D-19) -- the app passes exactly one
+// Purchase state never enters the web layer (iOS D-19, as narrowed by D-46) -- the app passes exactly one
 // signal, an `unlocked` query param on the page's own URL, and this module is the
 // one place that turns that signal (plus the store's own free-trial record) into a
 // per-control lock decision. No price, no product id, no StoreKit concept lives here

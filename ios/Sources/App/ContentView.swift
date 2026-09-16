@@ -18,7 +18,7 @@ struct ContentView: View {
             // the page, quitting the app to the home screen. Same class of bug
             // as D-9 (WebView content reaching into OS-reserved screen space),
             // just the opposite edge and a worse failure mode.
-            // `unlocked=1` tells the web layer it's inside the app (D-19/D-46) while
+            // `unlocked=1` tells the web layer it's inside the app (D-46, N-21) while
             // keeping everything open -- nothing is for sale until 11.2's purchase
             // flow lands, which replaces this constant with the real entitlement.
             WebViewContainer(resourcePath: "test.html?code=5165&unlocked=1", resourceDirectory: "WebContent")

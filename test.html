@@ -203,7 +203,7 @@
     const params = new URLSearchParams(location.search);
     const code = params.get("code");
     // Every link from this page to another site page goes through linkTo, so the
-    // app's lock signal survives the navigation (D-19/D-46) -- a no-op on the site.
+    // app's lock signal survives the navigation (D-46) -- a no-op on the site.
     const linkTo = (href) => withEntitlementParam(href, params);
     const heading = document.getElementById("test-name");
 
@@ -625,7 +625,7 @@
         wireCategoryPicker(studyTopicSelect, studyTopicStartLink, studyHref);
 
         const loadResult = loadStore();
-        // D-46/D-19: falls back to an empty store rather than blocking the Start
+        // D-46: falls back to an empty store rather than blocking the Start
         // section on a storage problem -- same "the draw working at all matters
         // more than it being history-biased" stance run.html's drill mode already
         // takes on a failed load. An empty store means nothing has used its free
@@ -659,7 +659,11 @@
           setLocked(categoryTestStartLink, locked.categoryTest);
         }
         applyLockState();
+        // Both pickers rewrite their link's href on change (wireCategoryPicker, whose
+        // listeners run first), so both must re-apply the lock afterwards -- otherwise
+        // a locked "Practice a topic" button would point at the run again.
         categoryTestSelect.addEventListener("change", applyLockState);
+        practiceTopicSelect.addEventListener("change", applyLockState);
 
         if (!loadResult.ok) {
           progressStatusNote.textContent =

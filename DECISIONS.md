@@ -2174,8 +2174,8 @@ don't exist yet; when those apps are built, whether either ever grows a second s
 
 ### N-21: The app's lock signal has to ride every in-app link, and run.html checks it again on arrival
 
-**Context.** 11.2 Phase A put the lock signal on the page's own URL (`unlocked=0|1`, D-19's
-one channel between the app and the web layer) and taught `test.html` to lock its paid
+**Context.** 11.2 Phase A put the lock signal on the page's own URL (`unlocked=0|1`, the one
+channel between the app and the web layer that D-46 opened in iOS D-19's boundary) and taught `test.html` to lock its paid
 controls from it. Preparing Phase C showed the signal did not survive navigation: every page
 built its links to the others without it, and a page loaded without it takes itself to be
 the public site, where nothing is locked. Three concrete ways past the paywall followed —
@@ -2196,7 +2196,10 @@ no one was affected.
   trial) and shows an "Unlock to access" screen instead of the run. Link sites are no longer
   trusted to have locked themselves.
 - Inside the app, `test.html` hides its hub link — the native subject list replaces it — and
-  `WebViewContainer` refuses any navigation to `index.html` as a safety net.
+  `WebViewContainer` refuses any navigation to `index.html` as a safety net. The Back links
+  on `run.html`/`teach.html`/`results.html` start out pointing at the hub and are only
+  re-pointed once a subject is known; on the paths where that never happens (an error
+  page), the app hides them rather than leave a link that does nothing.
 - The app now always passes `unlocked`, as `1` until the purchase flow lands, so the web
   layer knows it is inside the app even while everything is open.
 
