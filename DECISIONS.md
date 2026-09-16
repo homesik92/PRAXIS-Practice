@@ -2138,3 +2138,36 @@ scale, not a security boundary.
 **Unblocks 11.2.** [#136](https://github.com/homesik92/PRAXIS-Practice/issues/136) (the
 native subject picker and StoreKit 2 integration) was waiting on this; #131 is resolved and
 closed by this entry.
+
+### D-47: Amends D-42 (a second time) — pricing is per-subject, with an all-subjects bundle where more than one subject exists
+
+**Context.** D-42 priced each app as a single $9.99–$14.99 unlock, deliberately choosing
+*"a single product id, `Transaction.currentEntitlements`, one Buy button and one Restore
+button"* over *"four products plus an entitlement matrix plus per-subject gating"* — simpler
+to build, and defensible while every app's subjects were assumed to be bought together.
+Planning **11.2**'s implementation reopened the question: a candidate preparing for one
+Praxis test inside the STEM app (Math, General Science, Physical Science, Computer Science)
+has no reason to pay for three subjects they'll never sit, and D-42's own reasoning for
+Phase 11 gives no argument against selling them separately beyond build simplicity.
+
+**Decision — session owner's call, 2026-09-16.** Each subject is purchasable on its own for
+**$5.99**. Where an app holds more than one subject (today, only STEM), a second product
+unlocks every subject in that app at once for **$9.99**. A subject is unlocked if the user
+owns *either* its own product *or* the app's all-subjects bundle. Apps with exactly one
+subject (Humanities: 5581; Administrative: 5101, once built) have nothing to bundle against,
+so their one subject sells at the single-subject price, $5.99 — there is no $9.99 tier for a
+one-subject app. Core, still parked (N-16), is unaddressed.
+
+**Cost accepted knowingly.** This gives up D-42's one-product simplicity: the STEM app needs
+five non-consumable products (four subjects plus the bundle) instead of one, and entitlement
+is checked per subject, not per app — `EntitlementStore.isUnlocked(subjectCode)` owns-this-
+product-or-owns-the-bundle, rather than one boolean for the whole app. D-46's free tier
+(Study a topic unlimited, one free Category test per topic) is unaffected — it was already
+scoped per subject, not per app, so nothing there needed to change.
+
+**Not addressed here.** Real product identifiers are still blocked on
+[#135](https://github.com/homesik92/PRAXIS-Practice/issues/135) (bundle id and product ids
+decided together, registered once, permanent) — this decision fixes prices and the
+subject-vs-bundle structure, not identifiers. Humanities' and Administrative's own pickers
+don't exist yet; when those apps are built, whether either ever grows a second subject
+(and therefore a bundle tier of its own) is a question for that session, not this one.
