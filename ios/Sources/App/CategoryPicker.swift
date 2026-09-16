@@ -1,9 +1,9 @@
 import Foundation
 
-/// Mirrors just the fields needed from data/tests/5165.json's `categories`
-/// tree (SCHEMA.md's category shape in PRAXIS-Practice) -- read directly
-/// from the bundled JSON, not hardcoded, so this never drifts from the real
-/// data if 5165's categories ever change.
+/// Mirrors just the fields needed from a question bank's `categories` tree
+/// (SCHEMA.md's category shape) -- read directly from the bundled JSON, not
+/// hardcoded, so this never drifts from the real data if a subject's
+/// categories ever change.
 struct BankCategory: Codable, Identifiable {
     let id: String
     let label: String
@@ -18,12 +18,18 @@ enum CategoryLoader {
     /// Leaf categories only, matching PRAXIS-Practice's own convention
     /// (`leafCategoryIds` in tools/verify.mjs, teach.html's own filter) --
     /// teaching content is only ever authored against a leaf categoryId.
-    static func loadLeafCategories(bankFileName: String, resourceDirectory: String) -> [BankCategory] {
+    ///
+    /// `bankFile` is the manifest's own `file` value (e.g. `tests/5165.json`),
+    /// relative to `data/`, so the bank is found the same way the website finds it.
+    static func loadLeafCategories(bankFile: String, resourceDirectory: String) -> [BankCategory] {
+        let relativePath = bankFile as NSString
+        let folder = relativePath.deletingLastPathComponent
+        let fileName = relativePath.lastPathComponent as NSString
         guard
             let fileURL = Bundle.main.url(
-                forResource: (bankFileName as NSString).deletingPathExtension,
-                withExtension: (bankFileName as NSString).pathExtension,
-                subdirectory: "\(resourceDirectory)/data/tests"
+                forResource: fileName.deletingPathExtension,
+                withExtension: fileName.pathExtension,
+                subdirectory: folder.isEmpty ? "\(resourceDirectory)/data" : "\(resourceDirectory)/data/\(folder)"
             ),
             let data = try? Data(contentsOf: fileURL),
             let bank = try? JSONDecoder().decode(BankFile.self, from: data)

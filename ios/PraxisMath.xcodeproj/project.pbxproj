@@ -10,15 +10,17 @@
 		00BFB65FFD8DA3CF67972C83 /* Phase4Tests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0D2C6C0335DB051B46BFDC6 /* Phase4Tests.swift */; };
 		0B1210155C2633BF2BAB2796 /* test.html in CopyFiles */ = {isa = PBXBuildFile; fileRef = E09F9F2A195B030AD277CDF6 /* test.html */; };
 		1D96D6D0DF7B6D13926A4252 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 739386FFB6FAC8D91010F59B /* Assets.xcassets */; };
-		20CFBBA65F90B3CEBB599308 /* StudyPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F5675987FFE5B3B6D1B53712 /* StudyPickerView.swift */; };
+		1F8A61E687CF8E1ADB08BB8E /* SubjectPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7591C919A3E4D540BCE8453C /* SubjectPickerView.swift */; };
 		23DFD99BF1497BA6B8C173D8 /* results.html in CopyFiles */ = {isa = PBXBuildFile; fileRef = FD4691ED2F4BCADEE20246FF /* results.html */; };
 		24996E77971E42C3ED19AAF5 /* PraxisMathApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0786BFCE0D7EA1E920B2FD8 /* PraxisMathApp.swift */; };
 		428E60357164E48337B43899 /* data in CopyFiles */ = {isa = PBXBuildFile; fileRef = 45646114D3691634A394BC4C /* data */; };
+		53D18B3489E10E78A9CBE31C /* CategoryListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFD29AC91B6E28E42C3DCBF3 /* CategoryListView.swift */; };
 		56A0C0A2A221F860572A784F /* CategoryPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 999E84C23376BB625C692F9B /* CategoryPicker.swift */; };
 		5B599CC9E55F16B2BD03B42B /* index.html in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9676FF3AC5DF2F4E3C8348F3 /* index.html */; };
 		65A799B5C42D1238B0C912B1 /* teach.html in CopyFiles */ = {isa = PBXBuildFile; fileRef = 596F04E1ABBB7635C6B3645F /* teach.html */; };
 		66B37CF0CE036F6CCAFEE45F /* LocalContentSchemeHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 233E5B2DA2DDFB4809BB3B62 /* LocalContentSchemeHandler.swift */; };
 		820206A3E81ED74FB8FD0633 /* run.html in CopyFiles */ = {isa = PBXBuildFile; fileRef = 10CA756E160231F35D504557 /* run.html */; };
+		8B1CBBFD01FA152A16B3D675 /* ManifestLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F981A46B2780D53E19048642 /* ManifestLoader.swift */; };
 		DEF4CCC4332E7F8698900ACC /* WebViewContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02FB14DA8AF6CADE6F9BE375 /* WebViewContainer.swift */; };
 		E14ABA5AD07E406279AC5325 /* css in CopyFiles */ = {isa = PBXBuildFile; fileRef = 08643309458ECF31360CE0BC /* css */; };
 		E1F9BAD0CCA5AB143251A84C /* js in CopyFiles */ = {isa = PBXBuildFile; fileRef = 2FCEBA5DEBEA927926F1D29E /* js */; };
@@ -66,14 +68,16 @@
 		596F04E1ABBB7635C6B3645F /* teach.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = teach.html; path = ../teach.html; sourceTree = "<group>"; };
 		6A53A8213E32009E898E794A /* PraxisMath.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = PraxisMath.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		739386FFB6FAC8D91010F59B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		7591C919A3E4D540BCE8453C /* SubjectPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubjectPickerView.swift; sourceTree = "<group>"; };
 		9676FF3AC5DF2F4E3C8348F3 /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = index.html; path = ../index.html; sourceTree = "<group>"; };
 		999E84C23376BB625C692F9B /* CategoryPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryPicker.swift; sourceTree = "<group>"; };
 		A0D2C6C0335DB051B46BFDC6 /* Phase4Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Phase4Tests.swift; sourceTree = "<group>"; };
 		B0786BFCE0D7EA1E920B2FD8 /* PraxisMathApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PraxisMathApp.swift; sourceTree = "<group>"; };
+		BFD29AC91B6E28E42C3DCBF3 /* CategoryListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryListView.swift; sourceTree = "<group>"; };
 		C2E28A70D68ABC43BD3F5510 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		E09F9F2A195B030AD277CDF6 /* test.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = test.html; path = ../test.html; sourceTree = "<group>"; };
 		F4D35F69179D65DD51C4784F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		F5675987FFE5B3B6D1B53712 /* StudyPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StudyPickerView.swift; sourceTree = "<group>"; };
+		F981A46B2780D53E19048642 /* ManifestLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManifestLoader.swift; sourceTree = "<group>"; };
 		FD4691ED2F4BCADEE20246FF /* results.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = results.html; path = ../results.html; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -125,12 +129,14 @@
 			isa = PBXGroup;
 			children = (
 				739386FFB6FAC8D91010F59B /* Assets.xcassets */,
+				BFD29AC91B6E28E42C3DCBF3 /* CategoryListView.swift */,
 				999E84C23376BB625C692F9B /* CategoryPicker.swift */,
 				F4D35F69179D65DD51C4784F /* ContentView.swift */,
 				C2E28A70D68ABC43BD3F5510 /* Info.plist */,
 				233E5B2DA2DDFB4809BB3B62 /* LocalContentSchemeHandler.swift */,
+				F981A46B2780D53E19048642 /* ManifestLoader.swift */,
 				B0786BFCE0D7EA1E920B2FD8 /* PraxisMathApp.swift */,
-				F5675987FFE5B3B6D1B53712 /* StudyPickerView.swift */,
+				7591C919A3E4D540BCE8453C /* SubjectPickerView.swift */,
 				02FB14DA8AF6CADE6F9BE375 /* WebViewContainer.swift */,
 			);
 			name = App;
@@ -240,11 +246,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				53D18B3489E10E78A9CBE31C /* CategoryListView.swift in Sources */,
 				56A0C0A2A221F860572A784F /* CategoryPicker.swift in Sources */,
 				E69B1B8AB6978B79F14FA7E7 /* ContentView.swift in Sources */,
 				66B37CF0CE036F6CCAFEE45F /* LocalContentSchemeHandler.swift in Sources */,
+				8B1CBBFD01FA152A16B3D675 /* ManifestLoader.swift in Sources */,
 				24996E77971E42C3ED19AAF5 /* PraxisMathApp.swift in Sources */,
-				20CFBBA65F90B3CEBB599308 /* StudyPickerView.swift in Sources */,
+				1F8A61E687CF8E1ADB08BB8E /* SubjectPickerView.swift in Sources */,
 				DEF4CCC4332E7F8698900ACC /* WebViewContainer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

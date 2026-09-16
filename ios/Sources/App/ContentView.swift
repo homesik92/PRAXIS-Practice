@@ -1,35 +1,45 @@
 import SwiftUI
 
-/// Phase 3: native TabView shell (D-2 -- always code=5165, no test picker
-/// needed). "Practice" hosts the Start hub as-is; "Study" is a native
-/// picker (StudyPickerView) in front of teach.html, since that page has no
-/// in-page category picker of its own.
+/// Native TabView shell. Both tabs open on the app's subject list (11.2,
+/// `SubjectPickerView`): "Practice" then pushes that subject's test menu
+/// (test.html); "Study" pushes its topic list (`CategoryListView`) in front of
+/// teach.html, since that page has no in-page category picker of its own.
 struct ContentView: View {
     var body: some View {
         TabView {
-            // Neither edge is ignored now (D-17). The bottom edge has been off
-            // since D-9 (Phase 4): ignoring it let the WebView extend under the
-            // tab bar, silently swallowing taps on content scrolled into that
-            // ~83pt strip. The top edge was ignored until the session owner's
-            // real-device iPad testing found a second, more severe problem
-            // with the same root shape: extending touchable WebView content
-            // into the status-bar strip let a touch near the very top edge be
-            // captured by iPadOS's own system-gesture recognizers instead of
-            // the page, quitting the app to the home screen. Same class of bug
-            // as D-9 (WebView content reaching into OS-reserved screen space),
-            // just the opposite edge and a worse failure mode.
-            // `unlocked=1` tells the web layer it's inside the app (D-46, N-21) while
-            // keeping everything open -- nothing is for sale until 11.2's purchase
-            // flow lands, which replaces this constant with the real entitlement.
-            WebViewContainer(resourcePath: "test.html?code=5165&unlocked=1", resourceDirectory: "WebContent")
-                .tabItem {
-                    Label("Practice", systemImage: "list.bullet.clipboard")
-                }
+            SubjectPickerView(title: "Practice", identifierPrefix: "practice") { subject in
+                // Neither edge is ignored now (D-17). The bottom edge has been off
+                // since D-9 (Phase 4): ignoring it let the WebView extend under the
+                // tab bar, silently swallowing taps on content scrolled into that
+                // ~83pt strip. The top edge was ignored until the session owner's
+                // real-device iPad testing found a second, more severe problem
+                // with the same root shape: extending touchable WebView content
+                // into the status-bar strip let a touch near the very top edge be
+                // captured by iPadOS's own system-gesture recognizers instead of
+                // the page, quitting the app to the home screen. Same class of bug
+                // as D-9 (WebView content reaching into OS-reserved screen space),
+                // just the opposite edge and a worse failure mode.
+                //
+                // `unlocked=1` tells the web layer it's inside the app (D-46, N-21) while
+                // keeping everything open -- nothing is for sale until 11.2's purchase
+                // flow lands, which replaces this constant with the real entitlement.
+                WebViewContainer(
+                    resourcePath: "test.html?code=\(subject.code)&unlocked=1",
+                    resourceDirectory: "WebContent"
+                )
+                .navigationTitle(subject.name)
+                .navigationBarTitleDisplayMode(.inline)
+            }
+            .tabItem {
+                Label("Practice", systemImage: "list.bullet.clipboard")
+            }
 
-            StudyPickerView()
-                .tabItem {
-                    Label("Study", systemImage: "book")
-                }
+            SubjectPickerView(title: "Study a Topic", identifierPrefix: "study") { subject in
+                CategoryListView(subject: subject)
+            }
+            .tabItem {
+                Label("Study", systemImage: "book")
+            }
         }
     }
 }

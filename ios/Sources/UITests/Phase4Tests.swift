@@ -20,14 +20,52 @@ final class Phase4Tests: XCTestCase {
     }
 
     private func firstUnselectedRadio(_ app: XCUIApplication) -> XCUIElement {
-        app.otherElements.matching(NSPredicate(format: "value == '0'")).element(boundBy: 0)
+        app.otherElements.matching(NSPredicate(format: "value == '0' AND label != ''")).element(boundBy: 0)
+    }
+
+    /// WebKit reports a radio option's frame as starting at the top of the question
+    /// stem above it (seen in a hierarchy dump, 2026-09-16), so the frame's centre --
+    /// where a plain `tap()` aims -- lands on the stem and XCUITest refuses the tap as
+    /// "not hittable". The radio itself sits at the bottom-left of that frame, so aim
+    /// there instead.
+    private func tapRadio(_ radio: XCUIElement) {
+        radio.coordinate(withNormalizedOffset: CGVector(dx: 0, dy: 1))
+            .withOffset(CGVector(dx: 16, dy: -12))
+            .tap()
+    }
+
+    /// run.html shows a Start screen before a new run, but goes straight to the
+    /// question when it's resuming an unfinished attempt (e.g. one a previous test run
+    /// left behind) -- tap Start only if it's there.
+    private func tapStartIfShown(_ app: XCUIApplication) {
+        if app.buttons["Start"].waitForExistence(timeout: 5) {
+            app.buttons["Start"].tap()
+        }
+    }
+
+    /// The backup/restore disclosure (`<summary>` inside `<details>`) is exposed as a
+    /// Button, with a second, nested Button carrying the same label -- take the first.
+    private func openBackupSection(_ app: XCUIApplication) {
+        let summary = app.buttons["Back up or restore progress"].firstMatch
+        XCTAssertTrue(summary.waitForExistence(timeout: 10))
+        summary.tap()
+    }
+
+    /// Every tab now opens on the subject list (11.2) -- tap a subject's row to reach
+    /// its test menu (Practice) or topic list (Study). Rows are found by the
+    /// accessibility identifier `SubjectPickerView` gives them, not by label, since
+    /// both tabs list the same subject names.
+    private func openSubject(_ app: XCUIApplication, tab: String = "practice", code: String = "5165") {
+        let row = app.buttons["\(tab)-subject-\(code)"]
+        XCTAssertTrue(row.waitForExistence(timeout: 10), "subject row \(tab)-subject-\(code) not found")
+        row.tap()
     }
 
     private func answerUntilNoneLeft(_ app: XCUIApplication, max: Int) {
         for _ in 0..<max {
             let radio = firstUnselectedRadio(app)
             guard radio.waitForExistence(timeout: 5) else { return }
-            radio.tap()
+            tapRadio(radio)
         }
     }
 
@@ -37,16 +75,18 @@ final class Phase4Tests: XCTestCase {
     func testFullTestCompletionAndPersistence() throws {
         let app = XCUIApplication()
         app.launch()
+        openSubject(app)
 
         XCTAssertTrue(app.links["Start full test →"].waitForExistence(timeout: 10))
         app.links["Start full test →"].tap()
-        XCTAssertTrue(app.buttons["Start"].waitForExistence(timeout: 10))
-        app.buttons["Start"].tap()
+        tapStartIfShown(app)
 
         answerUntilNoneLeft(app, max: 70)
 
-        XCTAssertTrue(app.buttons["Submit test"].waitForExistence(timeout: 10))
-        app.buttons["Submit test"].tap()
+        // The confirm dialog's own "Submit test" button is in the tree even while the
+        // dialog is closed -- the review screen's comes first in document order.
+        XCTAssertTrue(app.buttons["Submit test"].firstMatch.waitForExistence(timeout: 10))
+        app.buttons["Submit test"].firstMatch.tap()
 
         // Two "Submit test" buttons share a label once the confirm dialog is
         // open (review-screen's own, and the dialog's confirm button) --
@@ -63,8 +103,11 @@ final class Phase4Tests: XCTestCase {
         // Phase 1.4's isolated localStorage check.
         app.terminate()
         app.launch()
-        XCTAssertTrue(app.staticTexts["Mathematics"].waitForExistence(timeout: 10))
-        XCTAssertFalse(app.staticTexts["Not started"].exists, "attempt should have persisted across a force-quit, but the score ring still reads 'Not started'")
+        openSubject(app)
+        // "Review test" is rendered only for a completed attempt (test.html's score
+        // comparison). The score ring's "Not started" text can't be asserted on: it's
+        // drawn inside an SVG exposed only as an image labelled "Best score".
+        XCTAssertTrue(app.links["Review test"].firstMatch.waitForExistence(timeout: 10), "a completed attempt should have persisted across a force-quit")
     }
 
     // MARK: - 4.1 Practice a topic (untimed drill, 10 questions)
@@ -72,17 +115,19 @@ final class Phase4Tests: XCTestCase {
     func testPracticeATopic() throws {
         let app = XCUIApplication()
         app.launch()
+        openSubject(app)
 
         let startLinks = app.links.matching(NSPredicate(format: "label == 'Start →'"))
         XCTAssertTrue(startLinks.element(boundBy: 0).waitForExistence(timeout: 10))
         startLinks.element(boundBy: 0).tap() // practice-topic-start-link is first in document order
-        XCTAssertTrue(app.buttons["Start"].waitForExistence(timeout: 10))
-        app.buttons["Start"].tap()
+        tapStartIfShown(app)
 
         answerUntilNoneLeft(app, max: 15)
 
-        XCTAssertTrue(app.buttons["Submit test"].waitForExistence(timeout: 10))
-        app.buttons["Submit test"].tap()
+        // The confirm dialog's own "Submit test" button is in the tree even while the
+        // dialog is closed -- the review screen's comes first in document order.
+        XCTAssertTrue(app.buttons["Submit test"].firstMatch.waitForExistence(timeout: 10))
+        app.buttons["Submit test"].firstMatch.tap()
         XCTAssertTrue(app.staticTexts["Submit test?"].waitForExistence(timeout: 10))
         let confirmButtons = app.buttons.matching(NSPredicate(format: "label == 'Submit test'"))
         confirmButtons.element(boundBy: confirmButtons.count - 1).tap()
@@ -95,17 +140,19 @@ final class Phase4Tests: XCTestCase {
     func testCategoryTest() throws {
         let app = XCUIApplication()
         app.launch()
+        openSubject(app)
 
         let startLinks = app.links.matching(NSPredicate(format: "label == 'Start →'"))
         XCTAssertTrue(startLinks.element(boundBy: 1).waitForExistence(timeout: 10))
         startLinks.element(boundBy: 1).tap() // category-test-start-link is second
-        XCTAssertTrue(app.buttons["Start"].waitForExistence(timeout: 10))
-        app.buttons["Start"].tap()
+        tapStartIfShown(app)
 
         answerUntilNoneLeft(app, max: 15)
 
-        XCTAssertTrue(app.buttons["Submit test"].waitForExistence(timeout: 10))
-        app.buttons["Submit test"].tap()
+        // The confirm dialog's own "Submit test" button is in the tree even while the
+        // dialog is closed -- the review screen's comes first in document order.
+        XCTAssertTrue(app.buttons["Submit test"].firstMatch.waitForExistence(timeout: 10))
+        app.buttons["Submit test"].firstMatch.tap()
         XCTAssertTrue(app.staticTexts["Submit test?"].waitForExistence(timeout: 10))
         let confirmButtons = app.buttons.matching(NSPredicate(format: "label == 'Submit test'"))
         confirmButtons.element(boundBy: confirmButtons.count - 1).tap()
@@ -118,6 +165,7 @@ final class Phase4Tests: XCTestCase {
     func testReviewATopic() throws {
         let app = XCUIApplication()
         app.launch()
+        openSubject(app)
 
         XCTAssertTrue(app.links["Choose a topic →"].waitForExistence(timeout: 10))
         app.links["Choose a topic →"].tap()
@@ -136,7 +184,7 @@ final class Phase4Tests: XCTestCase {
             if app.staticTexts["Drill complete"].exists { break }
             let radio = firstUnselectedRadio(app)
             if radio.waitForExistence(timeout: 5) {
-                radio.tap()
+                tapRadio(radio)
             }
             XCTAssertTrue(app.buttons["Next question"].waitForExistence(timeout: 10))
             app.buttons["Next question"].tap()
@@ -145,7 +193,7 @@ final class Phase4Tests: XCTestCase {
         XCTAssertTrue(app.staticTexts["Drill complete"].waitForExistence(timeout: 10))
     }
 
-    // MARK: - 4.1 Study a topic (native picker, Phase 3's D-8)
+    // MARK: - 4.1 Study a topic (native subject list, then topic list)
 
     func testStudyATopic() throws {
         let app = XCUIApplication()
@@ -153,14 +201,14 @@ final class Phase4Tests: XCTestCase {
 
         XCTAssertTrue(app.tabBars.buttons["Study"].waitForExistence(timeout: 10))
         app.tabBars.buttons["Study"].tap()
+        openSubject(app, tab: "study")
 
         XCTAssertTrue(app.staticTexts["Algebra"].waitForExistence(timeout: 10))
         app.staticTexts["Algebra"].tap()
 
-        // teach.html renders the category label as its own heading -- two
-        // matches expected once loaded (the native nav-bar title and the
-        // in-page <h1>), so just confirm at least one shows up.
-        XCTAssertTrue(app.staticTexts["Algebra"].waitForExistence(timeout: 10))
+        // The tapped row and the new navigation title both read "Algebra" before the
+        // page loads, so wait for something only teach.html itself shows.
+        XCTAssertTrue(app.links["← Back"].waitForExistence(timeout: 10), "teach.html didn't load")
     }
 
     // MARK: - 4.3 Backup/restore -- observe, don't assume
@@ -182,12 +230,9 @@ final class Phase4Tests: XCTestCase {
     func testBackupExportTap() throws {
         let app = XCUIApplication()
         app.launch()
+        openSubject(app)
 
-        // <summary> inside <details> -- WebKit's accessibility bridge exposes
-        // this as a generic `Other` element, not a Button (same category of
-        // surprise as the radio-button locators above).
-        XCTAssertTrue(app.otherElements["Back up or restore progress"].waitForExistence(timeout: 10))
-        app.otherElements["Back up or restore progress"].tap()
+        openBackupSection(app)
         XCTAssertTrue(app.buttons["Download progress"].waitForExistence(timeout: 10))
         app.buttons["Download progress"].tap()
         sleep(2)
@@ -206,9 +251,9 @@ final class Phase4Tests: XCTestCase {
     func testBackupRestoreButtonReachable() throws {
         let app = XCUIApplication()
         app.launch()
+        openSubject(app)
 
-        XCTAssertTrue(app.otherElements["Back up or restore progress"].waitForExistence(timeout: 10))
-        app.otherElements["Back up or restore progress"].tap()
+        openBackupSection(app)
         // test.html wraps the file input in a <label>, not a <button> -- matched by
         // .any rather than guessing which XCUIElementType WebKit's accessibility
         // bridge assigns it (this file's own header comment already documents one
