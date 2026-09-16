@@ -167,9 +167,18 @@ final class Phase4Tests: XCTestCase {
 
     /// PRAXIS-Practice's export uses a Blob URL + `<a download>` + `.click()`
     /// (test.html's exportButton listener) -- a real browser download
-    /// mechanism. `WebViewContainer` has no `WKDownloadDelegate`, so this
-    /// documents what actually happens in that gap rather than assuming it
-    /// either works or fails silently.
+    /// mechanism. `WebViewContainer`'s `Coordinator` now implements
+    /// `WKDownloadDelegate` (#133): `shouldPerformDownload` routes the
+    /// navigation to a `WKDownload`, which is written to a temp file and
+    /// handed to a `UIActivityViewController` share sheet.
+    ///
+    /// Kept observational rather than a hard assertion on the share sheet's
+    /// exact chrome. Live-verified 2026-09-16: tapping "Download progress"
+    /// produces a real `UIActivityViewController` share sheet with the
+    /// exported JSON and Copy/Save to Files/More options, confirming this
+    /// path actually works end-to-end -- still not asserted on the exact
+    /// chrome (e.g. a `Cancel` button), since that's simulator/OS-version
+    /// presentation detail rather than something this app controls.
     func testBackupExportTap() throws {
         let app = XCUIApplication()
         app.launch()
@@ -182,10 +191,28 @@ final class Phase4Tests: XCTestCase {
         XCTAssertTrue(app.buttons["Download progress"].waitForExistence(timeout: 10))
         app.buttons["Download progress"].tap()
         sleep(2)
-        // No assertion: ROADMAP.md 4.3 only asks to observe whether this
-        // degrades gracefully or needs a native Share-Sheet hook sooner than
-        // planned -- the print below is read from the test log by hand.
         print("=== AFTER TAPPING DOWNLOAD PROGRESS ===")
         print(app.debugDescription)
+    }
+
+    /// Restore's `<input type="file">` (test.html) works as expected -- iOS
+    /// `WKWebView` has presented the native document/photo picker for a file
+    /// input without any delegate code since iOS 9, unlike Android's WebView.
+    /// Live-verified 2026-09-16: tapping "Upload progress" opens the native
+    /// iOS document picker (Recents/Shared/Browse tabs). This test itself
+    /// only confirms the button that triggers the input is reachable; it
+    /// does not open or drive the native picker, which XCUITest interacts
+    /// with as a separate system process outside this app's element tree.
+    func testBackupRestoreButtonReachable() throws {
+        let app = XCUIApplication()
+        app.launch()
+
+        XCTAssertTrue(app.otherElements["Back up or restore progress"].waitForExistence(timeout: 10))
+        app.otherElements["Back up or restore progress"].tap()
+        // test.html wraps the file input in a <label>, not a <button> -- matched by
+        // .any rather than guessing which XCUIElementType WebKit's accessibility
+        // bridge assigns it (this file's own header comment already documents one
+        // such surprise for radio buttons).
+        XCTAssertTrue(app.descendants(matching: .any)["Upload progress"].waitForExistence(timeout: 10))
     }
 }
