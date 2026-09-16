@@ -190,6 +190,7 @@
       findInProgressAttempt,
       findAttempt,
       handleStorageEvent,
+      recordCategoryTrialUsed,
     } from "./js/store.js";
 
     const params = new URLSearchParams(location.search);
@@ -1915,6 +1916,18 @@
           // Category Test's clock can expire mid-review). Close it explicitly, or
           // it's left stacked on top of the completion screen underneath.
           if (confirmSubmitDialog.open) confirmSubmitDialog.close();
+          // D-46: a completed Category test (never a Practice-a-topic run -- only
+          // the timed variant counts) uses up this topic's one free trial. Best
+          // effort, like the rest of this file's write-then-continue writes --
+          // never blocks showing the completion screen on a storage problem. A
+          // fresh load, not the drill-start snapshot in `history` above: this can
+          // run minutes after that snapshot was taken.
+          if (timed) {
+            const freshLoadResult = loadStore();
+            if (freshLoadResult.ok) {
+              saveStore(recordCategoryTrialUsed(freshLoadResult.store, bank.code, categoryId));
+            }
+          }
           const score = scoreAttempt(bank, answers);
           showDrillComplete(score);
         }

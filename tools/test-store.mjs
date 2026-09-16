@@ -24,6 +24,8 @@ import {
   findFirstAndLatestAttempts,
   clearTestData,
   handleStorageEvent,
+  recordCategoryTrialUsed,
+  hasUsedCategoryTrial,
   _internal,
 } from "../js/store.js";
 
@@ -581,6 +583,51 @@ test("clearTestData does not mutate the store it's given", () => {
 test("clearTestData leaves an empty store unchanged (no matching data to clear)", () => {
   const result = clearTestData(defaultStore(), "5165", ["5165-0001"]);
   assert.deepEqual(result, defaultStore());
+});
+
+test("clearTestData drops the given test code's category trials without touching another test's", () => {
+  let s = defaultStore();
+  s = recordCategoryTrialUsed(s, "5165", "I");
+  s = recordCategoryTrialUsed(s, "5101", "A");
+  const result = clearTestData(s, "5165", []);
+  assert.deepEqual(result.categoryTrialsUsed, { "5101": ["A"] });
+});
+
+// --- recordCategoryTrialUsed / hasUsedCategoryTrial (D-46's free-trial gate) ---
+
+test("hasUsedCategoryTrial is false for a fresh default store", () => {
+  assert.equal(hasUsedCategoryTrial(defaultStore(), "5165", "I"), false);
+});
+
+test("recordCategoryTrialUsed marks a topic used, scoped to its own test code", () => {
+  const s = recordCategoryTrialUsed(defaultStore(), "5165", "I");
+  assert.equal(hasUsedCategoryTrial(s, "5165", "I"), true);
+  assert.equal(hasUsedCategoryTrial(s, "5165", "II"), false);
+  assert.equal(hasUsedCategoryTrial(s, "5101", "I"), false);
+});
+
+test("recordCategoryTrialUsed is idempotent -- recording the same topic twice doesn't duplicate it", () => {
+  let s = recordCategoryTrialUsed(defaultStore(), "5165", "I");
+  s = recordCategoryTrialUsed(s, "5165", "I");
+  assert.deepEqual(s.categoryTrialsUsed, { "5165": ["I"] });
+});
+
+test("recordCategoryTrialUsed accumulates distinct topics for the same test code", () => {
+  let s = recordCategoryTrialUsed(defaultStore(), "5165", "I");
+  s = recordCategoryTrialUsed(s, "5165", "II");
+  assert.deepEqual(s.categoryTrialsUsed, { "5165": ["I", "II"] });
+});
+
+test("recordCategoryTrialUsed does not mutate the store it's given", () => {
+  const s = defaultStore();
+  const before = JSON.stringify(s);
+  recordCategoryTrialUsed(s, "5165", "I");
+  assert.equal(JSON.stringify(s), before);
+});
+
+test("hasUsedCategoryTrial tolerates a store written before categoryTrialsUsed existed, rather than throwing", () => {
+  const s = { storeVersion: CURRENT_VERSION, attempts: [], questionHistory: {} };
+  assert.equal(hasUsedCategoryTrial(s, "5165", "I"), false);
 });
 
 // --- importStoreFromJson (Phase 6.7, the restore half of finding #9) ---

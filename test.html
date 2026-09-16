@@ -178,6 +178,7 @@
     } from "./js/schema.js";
     import {
       STORAGE_KEY,
+      defaultStore,
       loadStore,
       saveStore,
       findInProgressAttempt,
@@ -189,6 +190,7 @@
     } from "./js/store.js";
     import { scoreAttempt } from "./js/runner.js";
     import { summarizeAttempt, percentOf, flattenCategoryLabels } from "./js/results.js";
+    import { lockedControls } from "./js/entitlement.js";
 
     const params = new URLSearchParams(location.search);
     const code = params.get("code");
@@ -608,6 +610,42 @@
         wireCategoryPicker(studyTopicSelect, studyTopicStartLink, studyHref);
 
         const loadResult = loadStore();
+        // D-46/D-19: falls back to an empty store rather than blocking the Start
+        // section on a storage problem -- same "the draw working at all matters
+        // more than it being history-biased" stance run.html's drill mode already
+        // takes on a failed load. An empty store means nothing has used its free
+        // trial yet, the permissive direction to fail in.
+        const entitlementStore = loadResult.ok ? loadResult.store : defaultStore();
+
+        // "Study a topic" is never locked (D-46) -- entitlementLabel is only ever
+        // read for the other four controls. Re-applied on every Category-test
+        // topic change: unlike the other three, its lock state depends on which
+        // topic is currently selected (D-46's free tier is one trial per topic).
+        const entitlementLabel = new WeakMap();
+        function setLocked(link, isLocked) {
+          if (!entitlementLabel.has(link)) entitlementLabel.set(link, link.textContent);
+          if (isLocked) {
+            link.href = `praxisapp://local/unlock?code=${encodeURIComponent(code)}`;
+            link.setAttribute("aria-disabled", "true");
+            link.textContent = "Unlock to access";
+          } else {
+            link.removeAttribute("aria-disabled");
+            link.textContent = entitlementLabel.get(link);
+            // href is left alone here -- wireCategoryPicker's own listener (or the
+            // static assignment above, for takeTestLink/reviewTopicLink) already
+            // set it correctly before this function ever runs.
+          }
+        }
+        function applyLockState() {
+          const locked = lockedControls(entitlementStore, code, params, categoryTestSelect.value || null);
+          setLocked(takeTestLink, locked.fullTest);
+          setLocked(practiceTopicStartLink, locked.practiceTopic);
+          setLocked(reviewTopicLink, locked.reviewTopic);
+          setLocked(categoryTestStartLink, locked.categoryTest);
+        }
+        applyLockState();
+        categoryTestSelect.addEventListener("change", applyLockState);
+
         if (!loadResult.ok) {
           progressStatusNote.textContent =
             "Your saved progress could not be loaded, so your history can't be shown right now.";
