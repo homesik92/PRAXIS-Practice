@@ -173,14 +173,12 @@ final class Phase4Tests: XCTestCase {
     /// handed to a `UIActivityViewController` share sheet.
     ///
     /// Kept observational rather than a hard assertion on the share sheet's
-    /// exact chrome (e.g. a `Cancel` button) -- that has **not been run against
-    /// a live simulator in the session that wrote it** (this project's control
-    /// tooling had an unresponsive input pipeline that session; unrelated to
-    /// `osascript`/System Events, per this file's top-level doc comment).
-    /// Landing an unverified hard assertion risks a false-red failure on the
-    /// very next run if the real chrome differs from the guess (code review
-    /// finding) -- tighten this into a real assertion in a follow-up once
-    /// someone has actually seen it pass.
+    /// exact chrome. Live-verified 2026-09-16: tapping "Download progress"
+    /// produces a real `UIActivityViewController` share sheet with the
+    /// exported JSON and Copy/Save to Files/More options, confirming this
+    /// path actually works end-to-end -- still not asserted on the exact
+    /// chrome (e.g. a `Cancel` button), since that's simulator/OS-version
+    /// presentation detail rather than something this app controls.
     func testBackupExportTap() throws {
         let app = XCUIApplication()
         app.launch()
@@ -197,15 +195,14 @@ final class Phase4Tests: XCTestCase {
         print(app.debugDescription)
     }
 
-    /// Restore's `<input type="file">` (test.html) is expected to already work --
-    /// iOS `WKWebView` has presented the native document/photo picker for a
-    /// file input without any delegate code since iOS 9, unlike Android's
-    /// WebView. That is platform knowledge, not something exercised by this
-    /// test session (same Simulator-unresponsive caveat as
-    /// `testBackupExportTap` above) -- this test only confirms the button
-    /// that triggers the input is reachable; it does not open or drive the
-    /// native picker, which XCUITest interacts with as a separate system
-    /// process outside this app's element tree.
+    /// Restore's `<input type="file">` (test.html) works as expected -- iOS
+    /// `WKWebView` has presented the native document/photo picker for a file
+    /// input without any delegate code since iOS 9, unlike Android's WebView.
+    /// Live-verified 2026-09-16: tapping "Upload progress" opens the native
+    /// iOS document picker (Recents/Shared/Browse tabs). This test itself
+    /// only confirms the button that triggers the input is reachable; it
+    /// does not open or drive the native picker, which XCUITest interacts
+    /// with as a separate system process outside this app's element tree.
     func testBackupRestoreButtonReachable() throws {
         let app = XCUIApplication()
         app.launch()
