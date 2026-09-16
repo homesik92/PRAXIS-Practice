@@ -54,10 +54,14 @@
       categoriesNeedingPractice,
     } from "./js/results.js";
     import { loadStore, findAttempt } from "./js/store.js";
+    import { withEntitlementParam, isNativeContext } from "./js/entitlement.js";
     import { renderReviewRow } from "./js/review-row.js";
 
     const params = new URLSearchParams(location.search);
     const attemptId = params.get("attempt");
+    // Every link from this page to another site page goes through linkTo, so the
+    // app's lock signal survives the navigation (D-46) -- a no-op on the site.
+    const linkTo = (href) => withEntitlementParam(href, params);
 
     const statusNote = document.getElementById("status-note");
     const resultEl = document.getElementById("result");
@@ -97,17 +101,17 @@
           // hasn't finished yet -- without this check, scoreAttempt would happily
           // score whatever's been answered so far and present a partial result
           // indistinguishably from a real final one (code review finding).
-          const href = `test.html?code=${encodeURIComponent(attempt.testCode)}`;
+          const href = linkTo(`test.html?code=${encodeURIComponent(attempt.testCode)}`);
           backLink.href = href;
           backLinkBottom.href = href;
           showStatus("This attempt hasn't finished yet, so there's no result to show.");
         } else if (attempt.status === "abandoned") {
-          const href = `test.html?code=${encodeURIComponent(attempt.testCode)}`;
+          const href = linkTo(`test.html?code=${encodeURIComponent(attempt.testCode)}`);
           backLink.href = href;
           backLinkBottom.href = href;
           showStatus("This attempt was abandoned before it finished, so there's no result to show.");
         } else {
-          const href = `test.html?code=${encodeURIComponent(attempt.testCode)}`;
+          const href = linkTo(`test.html?code=${encodeURIComponent(attempt.testCode)}`);
           backLink.href = href;
           backLinkBottom.href = href;
 
@@ -158,9 +162,10 @@
               for (const category of practiceCategories) {
                 const li = document.createElement("li");
                 const a = document.createElement("a");
-                a.href =
+                a.href = linkTo(
                   `run.html?code=${encodeURIComponent(attempt.testCode)}` +
-                  `&mode=study&category=${encodeURIComponent(category.id)}`;
+                  `&mode=study&category=${encodeURIComponent(category.id)}`
+                );
                 a.textContent = `${category.label} (missed ${category.missed})`;
                 li.appendChild(a);
                 practiceListEl.appendChild(li);
@@ -197,6 +202,14 @@
           }
         }
       }
+    }
+
+    // In the app the site hub is blocked (N-21), so on the paths above that never
+    // learned which subject this was, a Back link still pointing there would do
+    // nothing -- hide it rather than leave a dead link.
+    if (isNativeContext(params) && backLink.getAttribute("href") === "index.html") {
+      backLink.parentElement.hidden = true;
+      backLinkBottom.parentElement.hidden = true;
     }
   </script>
 </body>

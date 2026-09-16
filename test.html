@@ -16,7 +16,7 @@
 </head>
 <body>
   <main>
-    <p><a href="index.html">&larr; Choose a different test</a></p>
+    <p id="hub-link-row"><a href="index.html">&larr; Choose a different test</a></p>
     <h1 id="test-name">Test menu</h1>
     <p id="status-note" class="status-note">Loading&hellip;</p>
     <div id="hub" hidden>
@@ -198,11 +198,18 @@
     } from "./js/store.js";
     import { scoreAttempt } from "./js/runner.js";
     import { summarizeAttempt, percentOf, flattenCategoryLabels } from "./js/results.js";
-    import { lockedControls } from "./js/entitlement.js";
+    import { lockedControls, isNativeContext, withEntitlementParam } from "./js/entitlement.js";
 
     const params = new URLSearchParams(location.search);
     const code = params.get("code");
+    // Every link from this page to another site page goes through linkTo, so the
+    // app's lock signal survives the navigation (D-46) -- a no-op on the site.
+    const linkTo = (href) => withEntitlementParam(href, params);
     const heading = document.getElementById("test-name");
+
+    // Inside the app, the native subject list is the way to switch subjects -- the
+    // site's own hub lists every subject, including ones this app doesn't sell.
+    if (isNativeContext(params)) document.getElementById("hub-link-row").hidden = true;
     const statusNote = document.getElementById("status-note");
     const hub = document.getElementById("hub");
 
@@ -365,7 +372,7 @@
       if (attemptId) {
         const reviewLink = document.createElement("a");
         reviewLink.className = "btn btn-secondary";
-        reviewLink.href = `results.html?attempt=${encodeURIComponent(attemptId)}`;
+        reviewLink.href = linkTo(`results.html?attempt=${encodeURIComponent(attemptId)}`);
         reviewLink.textContent = "Review test";
         wrap.appendChild(reviewLink);
       }
@@ -530,7 +537,7 @@
       item.appendChild(text);
       const link = document.createElement("a");
       link.className = "btn btn-primary";
-      link.href = href;
+      link.href = linkTo(href);
       link.textContent = linkText;
       item.appendChild(link);
       return item;
@@ -562,8 +569,8 @@
         const categoryTestMinutes = Math.max(1, Math.round((bank.timeLimitMinutes * 10) / bank.formLength));
         categoryTestTitle.textContent = `${categoryTestTitle.textContent} (${categoryTestMinutes} Minutes)`;
 
-        takeTestLink.href = `run.html?code=${encodeURIComponent(code)}&mode=test`;
-        reviewTopicLink.href = `run.html?code=${encodeURIComponent(code)}&mode=study`;
+        takeTestLink.href = linkTo(`run.html?code=${encodeURIComponent(code)}&mode=test`);
+        reviewTopicLink.href = linkTo(`run.html?code=${encodeURIComponent(code)}&mode=study`);
 
         // Practice-a-topic / category-test / study-a-topic category pickers
         // (Phase 6.8.2 PR B, extended in 6.9.3) -- populated with real
@@ -593,14 +600,14 @@
         }
 
         function drillHref(categoryId, timed) {
-          return (
+          return linkTo(
             `run.html?code=${encodeURIComponent(code)}&mode=drill&category=${encodeURIComponent(categoryId)}` +
             (timed ? "&timed=1" : "")
           );
         }
 
         function studyHref(categoryId) {
-          return `teach.html?code=${encodeURIComponent(code)}&category=${encodeURIComponent(categoryId)}`;
+          return linkTo(`teach.html?code=${encodeURIComponent(code)}&category=${encodeURIComponent(categoryId)}`);
         }
 
         // Shared by all three category pickers above (6.9.3 generalized this
@@ -618,7 +625,7 @@
         wireCategoryPicker(studyTopicSelect, studyTopicStartLink, studyHref);
 
         const loadResult = loadStore();
-        // D-46/D-19: falls back to an empty store rather than blocking the Start
+        // D-46: falls back to an empty store rather than blocking the Start
         // section on a storage problem -- same "the draw working at all matters
         // more than it being history-biased" stance run.html's drill mode already
         // takes on a failed load. An empty store means nothing has used its free
@@ -652,7 +659,11 @@
           setLocked(categoryTestStartLink, locked.categoryTest);
         }
         applyLockState();
+        // Both pickers rewrite their link's href on change (wireCategoryPicker, whose
+        // listeners run first), so both must re-apply the lock afterwards -- otherwise
+        // a locked "Practice a topic" button would point at the run again.
         categoryTestSelect.addEventListener("change", applyLockState);
+        practiceTopicSelect.addEventListener("change", applyLockState);
 
         if (!loadResult.ok) {
           progressStatusNote.textContent =

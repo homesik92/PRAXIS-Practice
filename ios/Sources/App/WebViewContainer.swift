@@ -78,6 +78,19 @@ struct WebViewContainer: UIViewRepresentable {
                 return
             }
 
+            // The site's own hub (index.html) lists every subject, including ones this
+            // app doesn't sell, and opens them without the app's `unlocked` signal --
+            // which the web layer reads as "public site, nothing locked" (D-46, N-21).
+            // Inside the app the web pages hide their hub links (test.html's always,
+            // the Back links of run/teach/results.html whenever they couldn't be
+            // pointed at a subject); this is the safety net for any that still point
+            // there.
+            if url.scheme == WebViewContainer.scheme, url.host == "local",
+               url.path == "/" || url.path == "/index.html" || url.path.isEmpty {
+                decisionHandler(.cancel)
+                return
+            }
+
             // Bundled content, and the about: URLs WebKit uses internally (about:blank
             // for an empty frame), stay in the web view.
             if url.scheme == WebViewContainer.scheme || url.scheme == "about" {

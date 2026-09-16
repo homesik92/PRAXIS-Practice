@@ -19,6 +19,8 @@
     <p><a id="back-link" href="index.html">&larr; Back</a></p>
     <h1 id="test-heading">Test runner</h1>
     <p id="status-note" class="status-note" role="alert" tabindex="-1" hidden></p>
+    <!-- In-app only (D-46): shown instead of a run this subject's purchase covers. -->
+    <p id="unlock-row" hidden><a id="unlock-link" class="btn btn-primary" href="#">Unlock to access</a></p>
 
     <!-- Static and never rebuilt (like index.html's #test-list), so it stays the same
          live region across every render instead of being torn down mid-announcement
@@ -190,6 +192,7 @@
     import {
       loadStore,
       saveStore,
+      defaultStore,
       startAttempt,
       recordAnswer,
       updateAnswer,
@@ -200,16 +203,22 @@
       handleStorageEvent,
       recordCategoryTrialUsed,
     } from "./js/store.js";
+    import { isRunLocked, withEntitlementParam, isNativeContext } from "./js/entitlement.js";
 
     const params = new URLSearchParams(location.search);
     const code = params.get("code");
     const mode = params.get("mode");
+    // Every link from this page to another site page goes through linkTo, so the
+    // app's lock signal survives the navigation (D-46) -- a no-op on the site.
+    const linkTo = (href) => withEntitlementParam(href, params);
 
     const backLink = document.getElementById("back-link");
     const backLinkBottom = document.getElementById("back-link-bottom");
     const backLinkBottomDrill = document.getElementById("back-link-bottom-drill");
     const heading = document.getElementById("test-heading");
     const statusNote = document.getElementById("status-note");
+    const unlockRow = document.getElementById("unlock-row");
+    const unlockLink = document.getElementById("unlock-link");
     const startScreen = document.getElementById("start-screen");
     const startSummary = document.getElementById("start-summary");
     const startButton = document.getElementById("start-button");
@@ -255,10 +264,14 @@
     const drillFullReviewList = document.getElementById("drill-full-review-list");
 
     if (code) {
-      const href = `test.html?code=${encodeURIComponent(code)}`;
+      const href = linkTo(`test.html?code=${encodeURIComponent(code)}`);
       backLink.href = href;
       backLinkBottom.href = href;
       backLinkBottomDrill.href = href;
+    } else if (isNativeContext(params)) {
+      // In the app the site hub is blocked (N-21), so a Back link still pointing
+      // there would do nothing -- hide it rather than leave a dead link.
+      for (const link of [backLink, backLinkBottom, backLinkBottomDrill]) link.parentElement.hidden = true;
     }
 
     function showStatus(message) {
@@ -864,6 +877,8 @@
         const result = await loadBank(entry.file);
         if (!result.ok) {
           showStatus("This test's questions could not be loaded. Try again later.");
+        } else if (isRunLocked(loadStoreOrDefault(), code, params)) {
+          showLocked(result.bank);
         } else if (mode === "test") {
           runTest(result.bank);
         } else if (mode === "drill") {
@@ -872,6 +887,25 @@
           runStudy(result.bank);
         }
       }
+    }
+
+    // D-46: the entitlement gate reads only the free-trial record, so a storage
+    // problem falls back to an empty store -- nothing tried yet, the permissive
+    // direction, matching test.html's own fallback. Each run mode still does its
+    // own loadStore() and reports a failure its own way.
+    function loadStoreOrDefault() {
+      const loadResult = loadStore();
+      return loadResult.ok ? loadResult.store : defaultStore();
+    }
+
+    // In-app only -- isRunLocked is never true on the public site. The link is the
+    // route the app will intercept to show its purchase sheet (11.2 Phase E; D-46:
+    // no purchase detail on this page).
+    function showLocked(bank) {
+      heading.textContent = bank.name;
+      showStatus("This is part of the full subject. Unlock it to continue.");
+      unlockLink.href = `praxisapp://local/unlock?code=${encodeURIComponent(bank.code)}`;
+      unlockRow.hidden = false;
     }
 
     function showUnresumableStatus() {
@@ -889,7 +923,7 @@
         // data loss (see finish()'s original comment, now shared here).
         saveStore(completeResult.store);
       }
-      location.href = `results.html?attempt=${encodeURIComponent(attemptId)}`;
+      location.href = linkTo(`results.html?attempt=${encodeURIComponent(attemptId)}`);
     }
 
     function showExpiredScreen(store, attempt) {
@@ -1554,7 +1588,7 @@
           return;
         }
         runDrill(drill, {
-          againHref: `run.html?code=${encodeURIComponent(bank.code)}&mode=study&due=1`,
+          againHref: linkTo(`run.html?code=${encodeURIComponent(bank.code)}&mode=study&due=1`),
         });
         return;
       }
@@ -1575,7 +1609,7 @@
         return;
       }
       runDrill(drill, {
-        againHref: `run.html?code=${encodeURIComponent(bank.code)}&mode=study&category=${encodeURIComponent(categoryId)}`,
+        againHref: linkTo(`run.html?code=${encodeURIComponent(bank.code)}&mode=study&category=${encodeURIComponent(categoryId)}`),
       });
 
       function showCategoryPicker() {
@@ -1585,7 +1619,7 @@
           const li = document.createElement("li");
           li.style.paddingLeft = `${depth * 1.25}rem`;
           const a = document.createElement("a");
-          a.href = `run.html?code=${encodeURIComponent(bank.code)}&mode=study&category=${encodeURIComponent(id)}`;
+          a.href = linkTo(`run.html?code=${encodeURIComponent(bank.code)}&mode=study&category=${encodeURIComponent(id)}`);
           a.textContent = label;
           li.appendChild(a);
           categoryList.appendChild(li);
@@ -1952,9 +1986,10 @@
             `You got ${score.correct} of ${score.total} correct in this ${timed ? "category test" : "practice round"}. ` +
             "This wasn't recorded -- it doesn't create an attempt or change your stats.";
           studyAgainLink.textContent = "Try again";
-          studyAgainLink.href =
+          studyAgainLink.href = linkTo(
             `run.html?code=${encodeURIComponent(bank.code)}&mode=drill&category=${encodeURIComponent(categoryId)}` +
-            (timed ? "&timed=1" : "");
+            (timed ? "&timed=1" : "")
+          );
 
           // Same full review results.html's S4 shows for a real attempt (session
           // owner feedback, Phase 6.9.4) -- built directly from drill.questions

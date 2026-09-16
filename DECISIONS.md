@@ -2171,3 +2171,41 @@ decided together, registered once, permanent) — this decision fixes prices and
 subject-vs-bundle structure, not identifiers. Humanities' and Administrative's own pickers
 don't exist yet; when those apps are built, whether either ever grows a second subject
 (and therefore a bundle tier of its own) is a question for that session, not this one.
+
+### N-21: The app's lock signal has to ride every in-app link, and run.html checks it again on arrival
+
+**Context.** 11.2 Phase A put the lock signal on the page's own URL (`unlocked=0|1`, the one
+channel between the app and the web layer that D-46 opened in iOS D-19's boundary) and taught `test.html` to lock its paid
+controls from it. Preparing Phase C showed the signal did not survive navigation: every page
+built its links to the others without it, and a page loaded without it takes itself to be
+the public site, where nothing is locked. Three concrete ways past the paywall followed —
+any "← Back" link from `run.html`/`teach.html`/`results.html` returned to a fully open
+`test.html`; `run.html`'s own "Try again" and review links (and `results.html`'s weak-spot
+links) went straight into paid modes without passing `test.html`'s check at all; and
+`test.html`'s "← Choose a different test" opened the site's hub inside the app, listing
+subjects the app doesn't sell and opening them with no signal. Nothing was for sale yet, so
+no one was affected.
+
+**Decision — session owner's call, 2026-09-16** (fixed in its own PR before Phase C).
+- `js/entitlement.js` gains `withEntitlementParam(href, params)`; every link from one site
+  page to another is built through it. A no-op when the param is absent, so the public
+  site's links are byte-for-byte what they were.
+- `run.html` gates at the destination: `isRunLocked(store, code, params)` maps each mode to
+  the `test.html` control it belongs to (`test` → Full test, `study` including due review →
+  Review a topic, `drill` → Practice a topic, timed `drill` → that topic's Category test
+  trial) and shows an "Unlock to access" screen instead of the run. Link sites are no longer
+  trusted to have locked themselves.
+- Inside the app, `test.html` hides its hub link — the native subject list replaces it — and
+  `WebViewContainer` refuses any navigation to `index.html` as a safety net. The Back links
+  on `run.html`/`teach.html`/`results.html` start out pointing at the hub and are only
+  re-pointed once a subject is known; on the paths where that never happens (an error
+  page), the app hides them rather than leave a link that does nothing.
+- The app now always passes `unlocked`, as `1` until the purchase flow lands, so the web
+  layer knows it is inside the app even while everything is open.
+
+**Why a web-side fix and not native URL rewriting.** The native side could re-attach the
+param to every in-bundle navigation, but the Category test trial lives in the web view's
+storage, which only the web layer can read, so `run.html` needs its own gate regardless;
+keeping propagation in the web layer too keeps the whole rule in one module
+(`js/entitlement.js`) with unit tests. The hub block is the one native piece, because it is
+about what the app shows, not about entitlement.
