@@ -2092,3 +2092,49 @@ bundle.
 
 **Not changed:** the boundary itself. `APP-STORE-ROADMAP.md` still starts where working
 software exists, and development work stays in `ROADMAP.md`.
+
+### D-46: Amends D-42 — the free tier is one Category test per topic, teaching stays free, everything else is paid
+
+**Context.** [#131](https://github.com/homesik92/PRAXIS-Practice/issues/131) found D-42's
+free tier unbuildable as written: "teaching chapters and a short diagnostic free" named a
+diagnostic the engine has never had (only `test`, `drill`, and `study` modes exist), and
+"the complete question bank behind the unlock" left the boundary itself undefined — no
+spec for which questions a free drill would draw from, or whether that subset stayed
+stable across sessions so a free user's history stayed meaningful after buying. Worse, the
+picker-based boundary every native design since D-19 assumed (purchase state never enters
+the web layer; a native picker hands the WebView only an already-unlocked subject's `code`)
+can only lock or unlock a *whole subject* — D-42 gates *features inside* every subject, which
+that boundary cannot express at all.
+
+**Decision — session owner's call, 2026-09-16.**
+
+- **Study a topic (teaching) stays free**, unlimited, every subject — unchanged from D-42.
+- **Category test is free once per topic** — the same grouped bucket the picker's own
+  "Category test" dropdown already shows (e.g. "Number & Quantity and Algebra"), not the
+  finer leaf-category tree. This replaces D-42's undefined "short diagnostic" outright: a
+  real, already-shipped feature stands in for a diagnostic that was never built, exercised
+  once per topic so a free user samples a subject's full breadth before buying, not one
+  narrow slice.
+- **Everything else requires the subject's one-time unlock:** the full timed test,
+  "Practice a topic" (the untimed drill — a separate control from Category test, and
+  deliberately *not* included in the free tier), "Review a topic," and any Category test
+  attempt beyond a topic's first free one.
+- Once a subject is purchased, the free-trial count stops mattering —
+  `Transaction.currentEntitlements` overrides it; everything is open regardless of prior
+  free-trial use.
+
+**Resolves #131's design conflict without reopening its architectural answer.** #131's
+Option A — a data-driven "locked" signal reaching the web layer, so the web layer learns
+*that* something is locked but never *how* purchasing works, and StoreKit never crosses
+into shared files — still holds. What changes is *what gets checked*: not a static
+per-subject flag, but a per-topic usage count against Category test attempts, which the
+store's own attempt history (D-26) can likely already answer without new persisted state.
+
+**Known, accepted gap.** Free-trial state lives in the WKWebView's local storage — it
+survives app updates but not a reinstall (`ios/CLAUDE.md`), so deleting and reinstalling
+resets every topic's free try. Not engineered around: a routine freemium tradeoff at this
+scale, not a security boundary.
+
+**Unblocks 11.2.** [#136](https://github.com/homesik92/PRAXIS-Practice/issues/136) (the
+native subject picker and StoreKit 2 integration) was waiting on this; #131 is resolved and
+closed by this entry.
