@@ -14,7 +14,7 @@ export const STORAGE_KEY = "praxis-practice";
 export const CURRENT_VERSION = 1;
 
 export function defaultStore() {
-  return { storeVersion: CURRENT_VERSION, attempts: [], questionHistory: {} };
+  return { storeVersion: CURRENT_VERSION, attempts: [], questionHistory: {}, categoryTrialsUsed: {} };
 }
 
 // Migrations keyed by the version they migrate *to*. migrations[2] takes a v1 store
@@ -538,7 +538,54 @@ export function clearTestData(store, testCode, questionIds) {
   const questionHistory = Object.fromEntries(
     Object.entries(store.questionHistory).filter(([id]) => !idsToClear.has(id)),
   );
-  return { ...store, attempts, questionHistory };
+  // D-46: a cleared test's free Category-test trials reset too, or "start fresh"
+  // would leave every topic silently locked to whatever it was before the clear.
+  const categoryTrialsUsed = { ...(store.categoryTrialsUsed ?? {}) };
+  delete categoryTrialsUsed[testCode];
+  return { ...store, attempts, questionHistory, categoryTrialsUsed };
+}
+
+// -- Free-trial tracking (D-46) ------------------------------------------------------
+//
+// D-46: "Category test" is free once per top-level topic, per subject. A Category-test
+// run is deliberately NOT folded into `attempts` above -- it isn't a recorded attempt
+// (test.html's own "This wasn't recorded" copy for drill mode), and `attempts` feeds
+// the stats dashboard (S6); reusing it here would make a free trial run silently start
+// counting toward a person's recorded history. This is separate, minimal state instead.
+
+/**
+ * Marks a topic's free Category test trial as used. Pure, returns a new store -- same
+ * "load/mutate/save are separate steps" contract as every other write here. Idempotent:
+ * re-recording an already-used topic is a no-op in effect (the Set dedupes).
+ *
+ * @param {object} store
+ * @param {string} testCode
+ * @param {string} categoryId
+ * @returns {object} a new store
+ */
+export function recordCategoryTrialUsed(store, testCode, categoryId) {
+  const usedForTest = store.categoryTrialsUsed?.[testCode] ?? [];
+  return {
+    ...store,
+    categoryTrialsUsed: {
+      ...(store.categoryTrialsUsed ?? {}),
+      [testCode]: [...new Set([...usedForTest, categoryId])],
+    },
+  };
+}
+
+/**
+ * Whether a topic's free Category test trial has already been used. Defaults to
+ * `false` for a store written before this field existed -- matches
+ * `recordQuestionHistory`'s existing defensive stance on optional fields.
+ *
+ * @param {object} store
+ * @param {string} testCode
+ * @param {string} categoryId
+ * @returns {boolean}
+ */
+export function hasUsedCategoryTrial(store, testCode, categoryId) {
+  return (store.categoryTrialsUsed?.[testCode] ?? []).includes(categoryId);
 }
 
 // -- Cross-tab reconciliation (SCHEMA.md §2.8 finding #2) ---------------------------
