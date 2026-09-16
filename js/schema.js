@@ -62,6 +62,11 @@ export async function loadManifest(fetchImpl = globalThis.fetch, manifestUrl = "
       for (const field of DISPLAY_FIELDS) {
         if (t[field] !== undefined) entry[field] = t[field];
       }
+      // D-41/D-43: which native app's picker this subject belongs to. Kept out of
+      // DISPLAY_FIELDS above -- unlike those, it isn't cross-checked against the
+      // bank file (tools/verify.mjs validates it on its own, against a fixed enum),
+      // so it isn't "display metadata duplicated from the bank" in that same sense.
+      if (t.track !== undefined) entry.track = t.track;
       return entry;
     }),
   };

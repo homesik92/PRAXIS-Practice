@@ -49,6 +49,8 @@ jobs:
         run: node tools/test-calculator.mjs
       - name: Unit tests -- verify
         run: node tools/test-verify.mjs
+      - name: Unit tests -- entitlement
+        run: node tools/test-entitlement.mjs
 
       # verify.mjs's validateDerivedQuestions catches a derived copy that was EDITED
       # away from its source, and one whose source was deleted -- but not one that was

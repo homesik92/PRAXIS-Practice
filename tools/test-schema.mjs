@@ -109,6 +109,28 @@ test("loadManifest omits display-metadata keys entirely when the entry lacks the
   assert.deepEqual(Object.keys(result.tests[0]).sort(), ["code", "enabled", "file"]);
 });
 
+test("loadManifest carries track through when present (D-41/D-43, #121)", async () => {
+  const fetchImpl = mockFetch({
+    "data/manifest.json": jsonResponse({
+      schemaVersion: 1,
+      tests: [{ code: "5165", file: "tests/5165.json", enabled: true, track: "stem" }],
+    }),
+  });
+  const result = await loadManifest(fetchImpl, "data/manifest.json");
+  assert.equal(result.tests[0].track, "stem");
+});
+
+test("loadManifest omits track when the entry lacks it, same as any other optional field", async () => {
+  const fetchImpl = mockFetch({
+    "data/manifest.json": jsonResponse({
+      schemaVersion: 1,
+      tests: [{ code: "5165", file: "tests/5165.json", enabled: true }],
+    }),
+  });
+  const result = await loadManifest(fetchImpl, "data/manifest.json");
+  assert.ok(!("track" in result.tests[0]));
+});
+
 test("loadManifest returns only enabled entries", async () => {
   const fetchImpl = mockFetch({
     "data/manifest.json": jsonResponse({
