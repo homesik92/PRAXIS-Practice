@@ -29,14 +29,19 @@ struct SubjectPickerView<Destination: View>: View {
                         .foregroundStyle(.secondary)
                 } else {
                     List(subjects) { subject in
-                        NavigationLink(subject.name) {
-                            destination(subject)
-                        }
-                        .accessibilityIdentifier("\(identifierPrefix)-subject-\(subject.code)")
+                        NavigationLink(subject.name, value: subject)
+                            .accessibilityIdentifier("\(identifierPrefix)-subject-\(subject.code)")
                     }
                 }
             }
             .navigationTitle(title)
+            // Value-based, so a subject's screen is built only when its row is tapped.
+            // A destination-closure NavigationLink builds every row's destination as
+            // soon as the list draws -- for the Study tab that meant parsing every
+            // subject's whole question bank up front (code review finding).
+            .navigationDestination(for: Subject.self) { subject in
+                destination(subject)
+            }
         }
     }
 }

@@ -61,17 +61,6 @@ final class Phase4Tests: XCTestCase {
         row.tap()
     }
 
-    /// The test menu's own <h1> is "Test menu" until its script loads the subject,
-    /// then becomes the subject's name -- alongside the native navigation title, which
-    /// already reads the same. Two matches means the page has actually loaded.
-    private func waitForTestMenu(_ app: XCUIApplication, named name: String = "Mathematics") {
-        let loaded = NSPredicate { _, _ in
-            app.staticTexts.matching(NSPredicate(format: "label == %@", name)).count >= 2
-        }
-        expectation(for: loaded, evaluatedWith: nil)
-        waitForExpectations(timeout: 10)
-    }
-
     private func answerUntilNoneLeft(_ app: XCUIApplication, max: Int) {
         for _ in 0..<max {
             let radio = firstUnselectedRadio(app)
@@ -115,8 +104,10 @@ final class Phase4Tests: XCTestCase {
         app.terminate()
         app.launch()
         openSubject(app)
-        waitForTestMenu(app)
-        XCTAssertFalse(app.staticTexts["Not started"].exists, "attempt should have persisted across a force-quit, but the score ring still reads 'Not started'")
+        // "Review test" is rendered only for a completed attempt (test.html's score
+        // comparison). The score ring's "Not started" text can't be asserted on: it's
+        // drawn inside an SVG exposed only as an image labelled "Best score".
+        XCTAssertTrue(app.links["Review test"].firstMatch.waitForExistence(timeout: 10), "a completed attempt should have persisted across a force-quit")
     }
 
     // MARK: - 4.1 Practice a topic (untimed drill, 10 questions)
@@ -215,10 +206,9 @@ final class Phase4Tests: XCTestCase {
         XCTAssertTrue(app.staticTexts["Algebra"].waitForExistence(timeout: 10))
         app.staticTexts["Algebra"].tap()
 
-        // teach.html renders the category label as its own heading -- two
-        // matches expected once loaded (the native nav-bar title and the
-        // in-page <h1>), so just confirm at least one shows up.
-        XCTAssertTrue(app.staticTexts["Algebra"].waitForExistence(timeout: 10))
+        // The tapped row and the new navigation title both read "Algebra" before the
+        // page loads, so wait for something only teach.html itself shows.
+        XCTAssertTrue(app.links["← Back"].waitForExistence(timeout: 10), "teach.html didn't load")
     }
 
     // MARK: - 4.3 Backup/restore -- observe, don't assume

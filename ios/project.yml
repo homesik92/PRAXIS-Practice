@@ -13,8 +13,8 @@ targets:
       - path: Sources/App
       # The web app is bundled straight from the repository root (D-44) -- there is no
       # copy in this folder to drift. Each item lands under WebContent/ inside the app
-      # bundle, which is where LocalContentSchemeHandler and CategoryPicker look, so no
-      # Swift changes were needed. Keep this list identical to the site's publish list
+      # bundle, which is where LocalContentSchemeHandler and the manifest/bank loaders
+      # (ManifestLoader, CategoryPicker) look. Keep this list identical to the site's publish list
       # in .github/workflows/verify.yml and the NAS deploy command.
       - path: ../index.html
         group: WebContent
