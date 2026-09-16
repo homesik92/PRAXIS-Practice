@@ -69,7 +69,7 @@ site with no server.
 | 8 | Launch (NAS) — v1, Mathematics only | ◐ |
 | 9 | Multi-subject entry (S1 redesign) | ☑ |
 | 10 | Final testing & acceptance (all five subjects) | ☑ |
-| 11 | iOS apps to production-ready | ☐ |
+| 11 | iOS apps to production-ready | ◐ |
 | 12 | Identity: name, mark, domains | ☐ |
 | 13 | Legal and content posture | ☐ |
 | 14 | Apple account setup | ☐ |
@@ -1936,12 +1936,16 @@ against the subjects that exist.
   app built early spends a permanent bundle id before Apple has answered the 4.3(a)
   question D-41 flags.
   *Accepts:* decided and logged, with `ios/project.yml` generating each track's app.
-- ☐ **11.4 Real-device QA pass.** Simulator work does not close this. Both form factors,
+- ☑ **11.4 Real-device QA pass.** Simulator work does not close this. Both form factors,
   a full timed attempt, a teaching page, the calculator, and the review pass — on hardware.
   Known open: the "Not started" label overlaps inside the empty score ring in WebKit, which
   #66's fix did not cover.
   *Accepts:* the session owner completes a full attempt on a real device and accepts the
-  build.
+  build. **Confirmed 2026-09-16** — session owner tested both form factors (iPhone and
+  iPad); passed, and this pass confirms **D-45** (external links to Safari) and **N-19**
+  (tablet/desktop type scale) hold up on real hardware, not just in the simulator. The
+  #66/WebKit score-ring overlap noted above wasn't reported as recurring, but its status
+  wasn't explicitly re-checked either — left open rather than assumed fixed.
 
 **Then the App Store**, Phases 12–22 in
 [APP-STORE-ROADMAP.md](APP-STORE-ROADMAP.md) — identity and trademark, Apple account setup,
@@ -1958,6 +1962,7 @@ days and are the classic submission-day stall — they need nothing else to be f
 
 | Date | Session | Outcome |
 | --- | --- | --- |
+| 2026-09-16 | Phase 11.4 — real-device QA pass | Session owner tested both form factors (iPhone and iPad) directly on hardware and confirmed the build — passed, nothing new to fix. This is a confirmation pass, not a bugfix session: it verifies that two web-layer fixes already merged and NAS-deployed this week (**D-45**'s external-link handoff to Safari, and **N-19**'s tablet/desktop type scale) actually hold up on real devices, not just in the Simulator. Docs only: `ROADMAP.md`'s 11.4 checkbox and the Phase 11 overview row (◐ — 11.1/11.2/11.3 remain open). The pre-existing #66/WebKit score-ring label overlap wasn't reported as recurring but wasn't explicitly re-checked either, so it's left open rather than assumed fixed. |
 | 2026-09-16 | Phase 10.2 — final live acceptance; **Phase 10 complete, web app closed** | Session owner's own full pass across all five subjects (5165, 5436, 5485, 5101, 5652) on the live NAS deployment, per 10.2's acceptance criteria — tested and passed, nothing found to fix. Docs only: `ROADMAP.md`'s 10.2 checkbox and the Phase 10 overview row. **This closes the web app** (10.2 was the last open item in Phase 10, which itself was gated on Phase 7's resumed authoring, Phase 9, and Phase 6.10 — all three already complete). What's left project-wide is Phase 11 (iOS apps to production-ready, D-44) and then the App Store sequence (Phases 12–22). |
 | 2026-09-15 | Phase 10.1 — multi-subject export/restore regression pass | `js/store.js`'s `exportStoreAsJson`/`importStoreFromJson` verified against a real store spanning all five subjects, not synthesized JSON — built by calling the actual `startAttempt`/`recordAnswer`/`recordQuestionHistory`/`completeAttempt` lifecycle functions in a live browser tab, with `assembleForm` drawing real questions and real `categoryTargets`/`shortfalls` shapes from each of the five banks (5165, 5436, 5485, 5101, 5652): four completed attempts and one left in-progress (5652), 25 `questionHistory` entries total. Exported, wiped `localStorage` clean (simulating a new device), re-imported, and `saveStore`'d — the restored store was **byte-identical** to the original (`attempts` and `questionHistory` both deep-equal) and `summarizeStore` matched (5 attempts, 25 questions with history) both times. Confirmed live in the UI, not just at the data layer: the S1 landing page showed all five subjects with correct best-score/attempt counts and the "pick up where you left off" résumé banner for the in-progress 5652 attempt; S4's results page rendered a full by-category breakdown for a restored completed attempt with zero console errors. One false alarm during the pass, not a real defect: an early synthetic attempt hand-built with `categoryTargets: {}` (wrong shape — real attempts always carry the `{categoryId, target}[]` array `assembleForm` produces) crashed results.html's rendering; re-seeding through `assembleForm` instead, as any real attempt is created, rendered clean — recorded here so a future session doesn't mistake a self-inflicted test-data shape for an app bug. **No code changes** — matches the roadmap's own expectation that the store's already-global shape (D-6/§2.8) needed confirmation, not a fix. Phase 10.1 done; 10.2 (session owner's own live multi-subject acceptance pass on the NAS) is the one remaining Phase 10 item. |
 | 2026-09-15 | N-17 pass over 5101's teaching chapters (#128 complete — all four files) | `data/teaching/5101.json` (Business Education), 24 sections / 123 entries across all eight categories, verified independently. Every computation re-derived: the Ridgeline Bike Repair month (cash $3,950, supplies used $150, one month of straight-line depreciation $100, net income $2,500, balance sheet closing at $10,800 on both sides, current ratio 16.3, margin 78.125%); the strawberry supply shock ($4/300 → $5/200, revenue $1,200 → $1,000, with the elastic-demand inference correct since quantity fell ~33% against a 25% price rise); and the inventory cost-benefit case (reorder point 260 lb, $540/month → $6,480/year of stockouts, $4,860 saved, $3,192 net in year one and $3,792 after). **All arithmetic was correct.** **Two defects**, both again in prose: the career-planning cycle enumerated its four stages as self-assessment, exploration, goal-setting, preparation and then called preparation "only the third of four" — it is the last, which is the entry's own point; and the export worked example applied the common-law mirror-image rule to a reply proposing new payment terms ("leaving no contract") two sentences after stating that UCC Article 2 governs the sale and *relaxes* common-law formation rules — under 2-207 a contract does form, though a materially altering term does not join it, so the entry now gives both rules and keeps the practical lesson. One copy fix alongside them (a subject-verb slip, "does the numbers support"), counted separately since it is not a factual defect. **#128 is now complete: all four pre-N-17 teaching files have had an independent pass — 5165, 5485, 5652, 5101, 478 entries, 12 defects, none in a definition and none in a computation.** |
