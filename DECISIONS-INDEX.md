@@ -30,7 +30,7 @@ read the full log only when a topic isn't indexed yet.
 | Notation & code rendering | SCHEMA.md §2.6 — recommendation → **D-21** (MathML support verified, closes issue #2; `format` dispatch implemented for the reference panel only, question rendering retrofit deferred to a new issue) |
 | Test blueprints (weightings, timings) | BLUEPRINT.md (not a decision — extracted fact) |
 | 5165 calculator scope (built, scientific, not graphing) | **D-14** |
-| Coding plan structure (file layout, phasing, parallel content track) | **D-15** → ROADMAP.md → **D-27** (v1→multi-subject completion path formalized as Phases 6.8–10) |
+| Coding plan structure (file layout, phasing, parallel content track) | **D-15** → ROADMAP.md → **D-27** (v1→multi-subject completion path formalized as Phases 6.8–10) → **Phase 10 complete** (2026-09-16): session owner accepted all five subjects live on the NAS, closing the web app (D-44) — Phase 11 (iOS) is what remains |
 | Local verification gate | ROADMAP.md Phase 0.1 → CLAUDE.md "Verification" |
 | `file://` support (data-loading format) | **D-17** — not required; `.json` + `fetch()` stands |
 | Weakest-category practice suggestion (S2) | **D-18** |
