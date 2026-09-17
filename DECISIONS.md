@@ -2232,10 +2232,11 @@ that cannot be undone later.
   commerce detail D-46's boundary keeps out of it. The bundle product id is derived from the
   subject count, so a single-subject app has no bundle tier and every "or the bundle" check
   simply finds nothing.
-- **No price is ever written in Swift.** Prices come from StoreKit's own `displayPrice` — the
-  local `Configuration.storekit` today, App Store Connect later — so what the app shows and what
-  the buyer is charged have one source. D-47's numbers live in the StoreKit configuration, not
-  in code.
+- **No price is ever written in Swift.** Any price the app shows is read from StoreKit's own
+  `displayPrice` — the local `Configuration.storekit` today, App Store Connect later — so what
+  the app shows and what the buyer is charged have one source. D-47's numbers live in the
+  StoreKit configuration, not in code. Phase D shows no price at all; this is the rule the
+  purchase sheet is built against.
 - **Product ids are placeholders** (`unlock.<subjectCode>`, `unlock.stem.all`). They only have
   to be self-consistent while purchases are tested against a local configuration; #135 replaces
   them before anything is registered.
@@ -2243,6 +2244,10 @@ that cannot be undone later.
   recalled (#136 asked for this explicitly, having found Apple's public docs page unusable).
   All of them are iOS 15+, under the app's 16.4 floor. `Transaction.currentEntitlement(for:)` is
   deprecated as of iOS 18.4, so the `currentEntitlements` sequence is used instead.
+- **The bundle product id is a build-time constant**, not derived from how many subjects the
+  manifest currently enables. Deriving it at runtime would strip a paying buyer's bundle
+  entitlement the moment a track dropped to one enabled subject (code review finding). A
+  single-subject app sets it to nil when it is built.
 - **A shared scheme is now committed** (`schemes:` in `project.yml`), which attaches
   `Configuration.storekit` to the Run action and gives `xcodebuild test` a scheme to name from a
   fresh clone. The configuration file is a development file: `buildPhase: none` keeps it out of
@@ -2253,4 +2258,4 @@ every page, so every subject opens fully unlocked. Lock badges, the purchase she
 `praxisapp://local/unlock` route are Phase E — session owner's call, to avoid shipping an
 interval where the app shows locked content with no way to buy it. Xcode's Test action does not
 take the StoreKit configuration from `project.yml` (xcodegen writes it to the Run action only),
-so automated purchase tests would need that wired up first.
+so automated purchase tests would need that wired up first ([#162](https://github.com/homesik92/PRAXIS-Practice/issues/162)).

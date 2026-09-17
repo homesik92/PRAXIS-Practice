@@ -17,24 +17,23 @@ enum ProductCatalog {
         "unlock.\(subjectCode)"
     }
 
-    /// The all-subjects product for this app: $9.99 (D-47). Only exists where the app
-    /// has more than one subject to bundle -- a single-subject app (Humanities,
-    /// Administrative) sells its one subject at $5.99 with no bundle tier, so this
-    /// returns nil there and every "or the bundle" check below simply finds nothing.
-    static func bundleProductID(forSubjectCount subjectCount: Int, track: String = ManifestLoader.appTrack) -> String? {
-        subjectCount > 1 ? "unlock.\(track).all" : nil
-    }
+    /// The all-subjects product for this app: $9.99 (D-47). A **build-time** property of
+    /// the app, not something derived from how many subjects happen to be enabled right
+    /// now: a bundle, once bought, must keep unlocking everything even if the manifest
+    /// later enables fewer subjects (deriving it at runtime would silently strip a
+    /// paying buyer's access the moment a track dropped to one enabled subject -- code
+    /// review finding). A single-subject app (Humanities, Administrative) sells its one
+    /// subject at $5.99 with no bundle tier, and sets this to nil when it is built.
+    static let bundleProductID: String? = "unlock.\(ManifestLoader.appTrack).all"
 
     /// Every product id whose ownership unlocks this subject: its own, plus the app's
     /// bundle if the app has one. Entitlement is per subject, not per app (D-47).
-    static func entitlingProductIDs(forSubjectCode subjectCode: String, subjectCount: Int) -> [String] {
-        [productID(forSubjectCode: subjectCode), bundleProductID(forSubjectCount: subjectCount)]
-            .compactMap { $0 }
+    static func entitlingProductIDs(forSubjectCode subjectCode: String) -> [String] {
+        [productID(forSubjectCode: subjectCode), bundleProductID].compactMap { $0 }
     }
 
     /// Every product this app offers, for a single `Product.products(for:)` fetch.
     static func allProductIDs(forSubjectCodes subjectCodes: [String]) -> [String] {
-        subjectCodes.map(productID(forSubjectCode:))
-            + [bundleProductID(forSubjectCount: subjectCodes.count)].compactMap { $0 }
+        subjectCodes.map(productID(forSubjectCode:)) + [bundleProductID].compactMap { $0 }
     }
 }

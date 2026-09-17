@@ -25,8 +25,9 @@ final class EntitlementStore: ObservableObject {
     /// `displayPrice` included, which is why no price is hardcoded anywhere in the app.
     @Published private(set) var products: [Product] = []
 
-    /// Set when a product fetch fails (offline, or an id StoreKit doesn't know).
-    /// Surfaced by the purchase sheet in Phase E; nothing reads it yet.
+    /// Set when the product fetch didn't return every product this app expects --
+    /// offline, or an id StoreKit doesn't know (the likely case while #135 swaps the
+    /// placeholder ids). Surfaced by the purchase sheet in Phase E; nothing reads it yet.
     @Published private(set) var productLoadFailed = false
 
     private var subjectCodes: [String] = []
@@ -57,7 +58,7 @@ final class EntitlementStore: ObservableObject {
     /// all-subjects bundle (D-47)?
     func isUnlocked(_ subjectCode: String) -> Bool {
         ProductCatalog
-            .entitlingProductIDs(forSubjectCode: subjectCode, subjectCount: subjectCodes.count)
+            .entitlingProductIDs(forSubjectCode: subjectCode)
             .contains { ownedProductIDs.contains($0) }
     }
 
@@ -66,7 +67,7 @@ final class EntitlementStore: ObservableObject {
     }
 
     var bundleProduct: Product? {
-        guard let id = ProductCatalog.bundleProductID(forSubjectCount: subjectCodes.count) else { return nil }
+        guard let id = ProductCatalog.bundleProductID else { return nil }
         return product(id: id)
     }
 
@@ -131,7 +132,9 @@ final class EntitlementStore: ObservableObject {
             // Keep the app's own order (subjects as the manifest lists them, bundle
             // last) rather than StoreKit's, which is unspecified.
             products = ids.compactMap { id in fetched.first { $0.id == id } }
-            productLoadFailed = products.isEmpty && !ids.isEmpty
+            // Any missing product is a failure, not just all of them: one unknown id
+            // would otherwise leave a subject silently unbuyable (code review finding).
+            productLoadFailed = products.count != ids.count
         } catch {
             products = []
             productLoadFailed = true

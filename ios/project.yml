@@ -6,8 +6,10 @@ configs:
   Release: release
 # A committed shared scheme, so `xcodebuild test` works from a fresh clone (it had
 # nothing to name before, and Xcode's own local scheme isn't in the repository) and so
-# the local StoreKit products are selected for both Run and Test without anyone setting
-# it by hand in Xcode's scheme editor (11.2 Phase D).
+# the local StoreKit products are selected for Run without anyone setting it by hand in
+# Xcode's scheme editor (11.2 Phase D). xcodegen writes StoreKitConfigurationFileReference
+# into the Run action only -- the Test action can't be given it from here, which is why
+# purchases can't be exercised by an automated test yet (#162).
 schemes:
   PraxisMath:
     build:
@@ -21,7 +23,6 @@ schemes:
       config: Debug
       targets:
         - PraxisMathUITests
-      storeKitConfiguration: Configuration.storekit
 targets:
   PraxisMath:
     type: application

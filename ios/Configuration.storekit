@@ -8,7 +8,7 @@
       "internalID": "1149864771",
       "localizations": [
         {
-          "description": "Unlock every practice test, topic drill and review for Mathematics (Praxis 5165).",
+          "description": "Unlock every practice test, topic drill and review for Mathematics (test 5165).",
           "displayName": "Mathematics — full access",
           "locale": "en_US"
         }
@@ -23,7 +23,7 @@
       "internalID": "3870052089",
       "localizations": [
         {
-          "description": "Unlock every practice test, topic drill and review for General Science (Praxis 5436).",
+          "description": "Unlock every practice test, topic drill and review for General Science (test 5436).",
           "displayName": "General Science — full access",
           "locale": "en_US"
         }
@@ -38,7 +38,7 @@
       "internalID": "2122134332",
       "localizations": [
         {
-          "description": "Unlock every practice test, topic drill and review for Physical Science (Praxis 5485).",
+          "description": "Unlock every practice test, topic drill and review for Physical Science (test 5485).",
           "displayName": "Physical Science — full access",
           "locale": "en_US"
         }
@@ -53,7 +53,7 @@
       "internalID": "2061347582",
       "localizations": [
         {
-          "description": "Unlock every practice test, topic drill and review for Computer Science (Praxis 5652).",
+          "description": "Unlock every practice test, topic drill and review for Computer Science (test 5652).",
           "displayName": "Computer Science — full access",
           "locale": "en_US"
         }
