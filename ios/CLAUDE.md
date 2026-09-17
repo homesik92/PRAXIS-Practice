@@ -16,6 +16,17 @@ correctness surface. This file only adds what is specific to the app.
   `PraxisMath.xcodeproj` is committed so CI and a fresh clone build without xcodegen. Edit
   `project.yml`, run `xcodegen generate` from `ios/`, commit both — never hand-edit
   `project.pbxproj`, because the next regeneration silently discards the edit.
+  - ⚠ **The same applies to the shared scheme** (`xcshareddata/xcschemes/PraxisMath.xcscheme`).
+    Changing anything in Xcode's scheme editor writes that file, and the next
+    `xcodegen generate` reverts it — so a scheme change belongs in `project.yml`'s `schemes:`
+    block. Two known differences Xcode reintroduces every time it saves the scheme:
+    `BuildableName` (xcodegen writes `PraxisMath.app`, the real product is `Praxis Math.app`;
+    Xcode's version is the accurate one, and Xcode resolves the target by id either way —
+    [#164](https://github.com/homesik92/PRAXIS-Practice/issues/164)) and the scheme's own
+    `version` attribute.
+  - Regenerating while Xcode has the project open leaves Xcode showing stale scheme
+    settings — the StoreKit configuration reads "None" until the project is reopened, even
+    though the committed scheme has it. Reopen before concluding anything is wrong.
 - **Decisions:** the root [DECISIONS.md](../DECISIONS.md) and
   [DECISIONS-INDEX.md](../DECISIONS-INDEX.md). The app's own log from before D-44 is frozen at
   `ios/DECISIONS.md`: cite its entries as **"iOS D-n"** and never append to it.
@@ -32,10 +43,11 @@ correctness surface. This file only adds what is specific to the app.
   was built from.
 - The files are served over a custom URL scheme by `LocalContentSchemeHandler`
   (iOS D-7), not `file://` — `fetch()` of `data/*.json` does not work under `file://`.
-- The Swift side finds them by `resourceDirectory: "WebContent"` (`ContentView.swift`,
-  `SubjectPickerView.swift`, `CategoryListView.swift`, and the loaders in
-  `ManifestLoader.swift` and `CategoryPicker.swift` that it is passed to). Renaming the
-  bundle subpath means changing every one of them.
+- The Swift side finds them by `resourceDirectory: "WebContent"` — `ContentView.swift`,
+  `SubjectPickerView.swift`, `CategoryListView.swift`, `PraxisMathApp.swift`, and the
+  loaders in `ManifestLoader.swift` and `CategoryPicker.swift` that it is passed to.
+  Renaming the bundle subpath means changing every one of them, so grep for the string
+  rather than trusting this list to be current.
 - **The subject list is the manifest.** Both tabs open on `SubjectPickerView`, which lists
   every enabled subject in `data/manifest.json` whose `track` matches
   `ManifestLoader.appTrack` (`"stem"` today). Enabling or adding a STEM subject there
@@ -78,6 +90,40 @@ correctness surface. This file only adds what is specific to the app.
   is a public identifier and fine; certificates, provisioning profiles, and Apple ID or App
   Store Connect credentials are not, anywhere — tree, commit message, PR or issue text.
 
+## Purchases (11.2 Phase D, N-22)
+
+- **`EntitlementStore` is the only type that touches StoreKit.** Everything else asks it
+  `isUnlocked(subjectCode)`. Don't call StoreKit from a view.
+- **`ProductCatalog` holds the subject ↔ product-id mapping**, natively and nowhere else —
+  never in `data/manifest.json`, which the web layer reads (D-46).
+- **Never write a price in Swift.** Read a `Product`'s own `displayPrice` wherever a price is
+  shown, so the app can't disagree with what the buyer is charged. D-47's $5.99/$9.99 live in
+  the StoreKit configuration and later in App Store Connect. (Nothing shows a price yet — the
+  purchase sheet is Phase E.)
+- **The bundle product id is a build-time constant**, never derived from how many subjects are
+  enabled: a bought bundle must keep unlocking everything even if the manifest later enables
+  fewer subjects. A single-subject app sets it to nil.
+- **Product ids are placeholders until
+  [#135](https://github.com/homesik92/PRAXIS-Practice/issues/135)** — a registered product id is
+  permanent. The configuration's display names and descriptions are placeholders too; the real
+  in-app-purchase copy is written for App Store Connect under D-40/`LEGAL.md`'s trademark rules.
+- **Testing purchases:** `ios/Configuration.storekit` defines the five STEM products locally,
+  no App Store Connect record needed — verified 2026-09-17 to load in Xcode's StoreKit editor
+  with all five products and their prices. The committed `PraxisMath` scheme references it from
+  the Run action; confirm it actually took (Product > Scheme > Edit Scheme > Run > Options >
+  StoreKit Configuration) before trusting a purchase test, since a path that doesn't resolve
+  leaves Xcode running with no configuration and reports nothing. Xcode's Transaction Manager
+  (Debug > StoreKit) is where a refund or revocation is simulated. `buildPhase: none` in
+  `project.yml` keeps the file out of the shipped bundle — check that it stays out if that entry
+  is ever touched. ⚠ Editing the file in Xcode's own editor can write a `_developerTeamID` into
+  it; this repository is public, so read the diff before committing it.
+- **Automated purchase tests aren't possible yet** ([#162](https://github.com/homesik92/PRAXIS-Practice/issues/162)):
+  xcodegen can only attach the configuration to the Run action, so `xcodebuild test`/⌘U run
+  without it.
+- **Verify every StoreKit API against the SDK, not memory** (#136): the interface file at
+  `$(xcrun --sdk iphonesimulator --show-sdk-path)/System/Library/Frameworks/StoreKit.framework/Modules/StoreKit.swiftmodule/arm64-apple-ios-simulator.swiftinterface`
+  is the authoritative list, including each symbol's availability and deprecations.
+
 ## Build and verify
 
 From the repository root:
@@ -94,11 +140,14 @@ xcodebuild -project ios/PraxisMath.xcodeproj -target PraxisMath -sdk iphonesimul
   how the web view is loaded. At minimum check: the Practice tab's subject list opening a
   test page, the Study tab's subject list → topic list → teaching page, and the
   calculator.
-- **UI tests** (`Sources/UITests/`) run from Xcode with ⌘U. The committed project has no
-  shared scheme, so `xcodebuild test` from a clean checkout has nothing to name — but once
-  Xcode has opened the project it creates a local `PraxisMath` scheme, after which
-  `xcodebuild test -project ios/PraxisMath.xcodeproj -scheme PraxisMath -destination
-  'platform=iOS Simulator,name=iPhone 17'` runs them from the command line.
+- **UI tests** (`Sources/UITests/`) run from Xcode with ⌘U, or from the command line against
+  the committed shared scheme (added in 11.2 Phase D — there was none before, so this had
+  nothing to name):
+  ```
+  xcodebuild test -project ios/PraxisMath.xcodeproj -scheme PraxisMath -destination 'platform=iOS Simulator,name=iPhone 17'
+  ```
+  **Run them.** They had been failing 6 of 7 on `main` unnoticed until 11.2 Phase C, because CI
+  only builds.
 - A real device is the check that matters before any TestFlight or App Store build —
   see APP-STORE-ROADMAP.md Phase 18.
 
