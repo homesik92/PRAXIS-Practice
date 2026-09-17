@@ -143,6 +143,34 @@ test("isRunLocked: an unknown or missing mode isn't this gate's call -- run.html
   assert.equal(isRunLocked(defaultStore(), "5165", params("unlocked=0")), false);
 });
 
+test("isRunLocked: a timed drill on a non-top-level category is not a free trial -- locked", () => {
+  // D-46's "topic" is the grouped bucket test.html offers, so only those ids can carry a
+  // free trial; a leaf id would otherwise mint one trial per leaf.
+  const store = defaultStore();
+  assert.equal(
+    isRunLocked(store, "5165", params("mode=drill&category=I-A&timed=1&unlocked=0"), ["I", "II"]),
+    true
+  );
+});
+
+test("isRunLocked: a timed drill on a top-level topic is still the free trial", () => {
+  assert.equal(
+    isRunLocked(defaultStore(), "5165", params("mode=drill&category=I&timed=1&unlocked=0"), ["I", "II"]),
+    false
+  );
+});
+
+test("isRunLocked: the top-level list doesn't affect an unlocked subject or the public site", () => {
+  assert.equal(
+    isRunLocked(defaultStore(), "5165", params("mode=drill&category=I-A&timed=1&unlocked=1"), ["I"]),
+    false
+  );
+  assert.equal(
+    isRunLocked(defaultStore(), "5165", params("mode=drill&category=I-A&timed=1"), ["I"]),
+    false
+  );
+});
+
 let failed = 0;
 for (const { name, fn } of tests) {
   try {

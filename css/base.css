@@ -687,6 +687,14 @@ details.backup summary svg {
   cursor: not-allowed;
 }
 
+/* A paid control inside the iOS app (D-46). Dimmed like a disabled button, but
+   deliberately NOT aria-disabled and not `not-allowed`: since 11.2 Phase E this link is
+   the way to buy the subject, so announcing it as unavailable would hide the only
+   purchase entry point from a screen-reader user (code review finding). */
+.btn-locked {
+  opacity: 0.65;
+}
+
 @media (max-width: 26rem) {
   .start-test-option {
     flex-direction: column;

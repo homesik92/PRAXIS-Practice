@@ -1,5 +1,6 @@
 import SwiftUI
 import StoreKit
+import UIKit
 
 /// The only place in the app that talks about money (11.2 Phase E). Offers this subject
 /// on its own and, where the app has more than one subject, everything at once (D-47).
@@ -20,30 +21,42 @@ struct PurchaseSheet: View {
                     Text("Study a topic is always free, and you get one free Category test for each topic. Unlocking adds the full practice test, topic practice, topic review and repeat Category tests.")
                         .font(.footnote)
                         .foregroundStyle(.secondary)
+                    NavigationLink("What's free without buying") {
+                        FreeTierDetails()
+                    }
+                    .font(.footnote)
                 }
 
                 Section("Unlock") {
                     if let product = entitlements.product(forSubjectCode: subject.code) {
                         purchaseRow(
                             title: subject.name,
-                            subtitle: "This subject only",
+                            subtitle: subject.bankSize.map { "\($0.formatted()) questions" } ?? "This subject only",
                             product: product
                         )
                     }
                     if let bundle = entitlements.bundleProduct {
                         purchaseRow(
                             title: "Every subject",
-                            subtitle: "All subjects in this app",
+                            subtitle: FreeTier.questionPoolSummary.isEmpty
+                                ? "All subjects in this app"
+                                : FreeTier.questionPoolSummary,
                             product: bundle
                         )
                     }
-                    if entitlements.products.isEmpty {
+                    if entitlements.productLoadFailed {
                         // Offline at launch, or an id StoreKit doesn't know yet (#135).
+                        // Keyed on productLoadFailed, not on an empty list: a *partial*
+                        // load would otherwise leave this subject quietly unbuyable, with
+                        // no reason given and nothing to retry (code review finding).
                         VStack(alignment: .leading, spacing: 8) {
-                            Text("Prices couldn't be loaded.")
+                            Text(entitlements.products.isEmpty
+                                 ? "Prices couldn't be loaded."
+                                 : "Some options couldn't be loaded.")
                             Button("Try again") {
                                 run { await entitlements.retryLoadingProducts() }
                             }
+                            .disabled(busy)
                         }
                     }
                 }
@@ -53,7 +66,12 @@ struct PurchaseSheet: View {
                         run {
                             switch await entitlements.restore() {
                             case .purchased:
-                                dismissIfUnlocked()
+                                // Restoring something that doesn't cover this subject
+                                // must not answer with "try Restore purchases" -- they
+                                // just did (code review finding).
+                                dismissIfUnlocked(
+                                    otherwise: "Your purchases were restored, but they don't include \(subject.name)."
+                                )
                             case .nothingToRestore:
                                 message = "There were no purchases to restore on this Apple Account."
                             case .failed(let reason):
@@ -82,7 +100,24 @@ struct PurchaseSheet: View {
                 }
             }
             .overlay {
-                if busy { ProgressView().controlSize(.large) }
+                if busy {
+                    // Blocks interaction as well as showing progress, and is spoken:
+                    // a bare ProgressView left VoiceOver users with no signal that
+                    // anything was happening (code review finding).
+                    Color(uiColor: .systemBackground).opacity(0.6)
+                        .ignoresSafeArea()
+                        .overlay { ProgressView().controlSize(.large) }
+                        .accessibilityElement()
+                        .accessibilityLabel("Working")
+                        .accessibilityAddTraits(.updatesFrequently)
+                }
+            }
+            .onChange(of: message) { newValue in
+                // The message Section is the only feedback for a pending, failed or
+                // nothing-to-restore outcome, and it appears at the bottom without
+                // moving focus -- announce it instead of letting it pass silently.
+                guard let newValue, !newValue.isEmpty else { return }
+                UIAccessibility.post(notification: .announcement, argument: newValue)
             }
         }
     }
@@ -118,15 +153,21 @@ struct PurchaseSheet: View {
 
     /// Only closes once the subject the sheet was opened for is actually unlocked --
     /// buying a different subject's bundle counts, buying nothing does not.
-    private func dismissIfUnlocked() {
+    private func dismissIfUnlocked(
+        otherwise fallback: String = "That purchase went through, but this subject is still locked. Try Restore purchases."
+    ) {
         if entitlements.isUnlocked(subject.code) {
             dismiss()
         } else {
-            message = "That purchase went through, but this subject is still locked. Try Restore purchases."
+            message = fallback
         }
     }
 
+    /// One action at a time. `AppStore.sync()` shows no system UI of its own, so without
+    /// this the sheet stays fully interactive during a restore and two tasks race on
+    /// `busy` and `message` (code review finding).
     private func run(_ work: @escaping () async -> Void) {
+        guard !busy else { return }
         message = nil
         busy = true
         Task {

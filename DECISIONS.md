@@ -2277,10 +2277,12 @@ in a web page reaches a native purchase sheet without purchase state entering th
 - **The `code` on that link personalizes the sheet, never entitlement.** It is matched against
   the app's own subject list rather than trusted, so a page cannot name a subject the app
   doesn't sell.
-- **`updateUIView` stops being a no-op, but only just:** it reloads the page when the
-  entitlement it was loaded with actually changed. That is what makes a purchase visible
-  without leaving the tab — the locked page becomes the unlocked page in place. Any other
-  SwiftUI re-render still reloads nothing.
+- **`updateUIView` stops being a no-op, but only just:** it reloads when the entitlement it
+  was loaded with actually changed, and it reloads **the page the buyer is on** — read from
+  the web view's own URL with the flag rewritten, not the page this container opened with.
+  Reloading the entry page instead would drop someone back to the test menu mid-drill and
+  lose their answers, since a drill keeps its state in memory by design (code review
+  finding). Any other SwiftUI re-render still reloads nothing.
 - **One container owns the `unlocked` parameter.** Callers pass a path without it and
   `WebViewContainer` appends it, so there is a single place that decides what the web layer is
   told. Both tabs go through `SubjectWebView`, so a locked control reached from a teaching page
@@ -2296,6 +2298,25 @@ in a web page reaches a native purchase sheet without purchase state entering th
   the alternative was deleting that coverage. `#if DEBUG` is what keeps the switch out of any
   build that could ship. One test deliberately runs without it, covering what an unpurchased
   subject offers.
+
+- **The opening screen explains the free tier before it shows a lock.** A card above the
+  subject list, and a "What's free" screen behind it (also linked from the sheet), say what
+  costs nothing and what unlocking adds — session owner's call, and the right one: four
+  padlocks with no explanation reads as "everything costs money" when every lesson is free.
+  **No price appears in that copy**, only in the sheet, so it stays true in every currency and
+  can't drift from what StoreKit charges (N-22).
+- **The free trial counts only top-level topics.** `isRunLocked` takes the subject's depth-0
+  category ids and treats a timed drill on anything else as paid, so a hand-built URL naming a
+  leaf category can't mint a fresh free trial per leaf. Not reachable by tapping — no link
+  builds one — but the gate shouldn't depend on that (code review finding).
+- **A locked control is styled dim but never `aria-disabled`.** It is the only way to buy the
+  subject, so announcing it as unavailable would hide the purchase entry point from a
+  screen-reader user (code review finding).
+- **The one duplicated asset.** The card reuses `index.html`'s classroom illustration (D-34),
+  extracted into the asset catalog with its CSS variables resolved to literal colors, because
+  an asset catalog has no stylesheet and SwiftUI cannot render the inline SVG. It is the only
+  image the site and the app both carry, and the copy can drift — deliberate, and small enough
+  to accept.
 
 **Not addressed here.** Real product ids (#135) and a purchase against a real sandbox account
 remain open; so does the timing of the free-trial record (#158). Purchase, restore and refund

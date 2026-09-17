@@ -27,7 +27,8 @@ final class EntitlementStore: ObservableObject {
 
     /// Set when the product fetch didn't return every product this app expects --
     /// offline, or an id StoreKit doesn't know (the likely case while #135 swaps the
-    /// placeholder ids). Surfaced by the purchase sheet in Phase E; nothing reads it yet.
+    /// placeholder ids). `PurchaseSheet` shows the retry from this, rather than from an
+    /// empty product list, so a *partial* failure isn't a silent dead end.
     @Published private(set) var productLoadFailed = false
 
     private var subjectCodes: [String] = []

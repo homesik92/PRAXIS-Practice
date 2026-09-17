@@ -2,10 +2,10 @@ import SwiftUI
 
 @main
 struct PraxisMathApp: App {
-    /// One store for the app's lifetime (11.2 Phase D). Nothing reads it yet -- the
-    /// subject list's lock badges and the purchase sheet are Phase E -- but the
-    /// transaction listener it starts has to be running from launch, so a purchase,
-    /// refund or Ask-to-Buy approval that lands while the app is open is seen.
+    /// One store for the app's lifetime. The subject list's lock badges, every page's
+    /// `unlocked` flag and the purchase sheet all read it, and the transaction listener
+    /// it starts runs from launch, so a purchase, refund or Ask-to-Buy approval that
+    /// lands while the app is open is seen without a relaunch.
     @StateObject private var entitlements = EntitlementStore()
 
     var body: some Scene {

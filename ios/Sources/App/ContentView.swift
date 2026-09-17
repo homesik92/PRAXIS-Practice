@@ -12,7 +12,8 @@ struct ContentView: View {
             SubjectPickerView(
                 title: "Practice",
                 identifierPrefix: "practice",
-                isLocked: { !entitlements.isUnlocked($0.code) }
+                isLocked: { !entitlements.isUnlocked($0.code) },
+                showsFreeTierCard: true
             ) { subject in
                 // The web view never ignores a safe-area edge (D-9 for the tab bar,
                 // D-17 for the status bar -- both shipped real layout bugs), which is

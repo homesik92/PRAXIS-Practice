@@ -44,7 +44,6 @@ struct WebViewContainer: UIViewRepresentable {
         webView.navigationDelegate = context.coordinator
         webView.uiDelegate = context.coordinator
         context.coordinator.loadedUnlocked = unlocked
-        context.coordinator.loadedPath = resolvedPath
         if let url = URL(string: "\(Self.scheme)://local/\(resolvedPath)") {
             webView.load(URLRequest(url: url))
         }
@@ -59,10 +58,29 @@ struct WebViewContainer: UIViewRepresentable {
         context.coordinator.onUnlockRequested = onUnlockRequested
         guard context.coordinator.loadedUnlocked != unlocked else { return }
         context.coordinator.loadedUnlocked = unlocked
-        context.coordinator.loadedPath = resolvedPath
-        if let url = URL(string: "\(Self.scheme)://local/\(resolvedPath)") {
+        // The page the buyer is *on*, not the one this container opened with: they may
+        // have navigated to run.html or results.html since, and reloading the entry page
+        // would throw away an answer in progress (code review finding).
+        if let url = Self.reloadURL(for: webView, unlocked: unlocked, fallbackPath: resolvedPath) {
             webView.load(URLRequest(url: url))
         }
+    }
+
+    /// The current page with `unlocked` rewritten, falling back to this container's own
+    /// path when the web view hasn't loaded one of our pages (or hasn't loaded yet).
+    static func reloadURL(for webView: WKWebView, unlocked: Bool, fallbackPath: String) -> URL? {
+        let value = unlocked ? "1" : "0"
+        guard
+            let current = webView.url,
+            current.scheme == scheme,
+            var components = URLComponents(url: current, resolvingAgainstBaseURL: false)
+        else {
+            return URL(string: "\(scheme)://local/\(fallbackPath)")
+        }
+        var items = (components.queryItems ?? []).filter { $0.name != "unlocked" }
+        items.append(URLQueryItem(name: "unlocked", value: value))
+        components.queryItems = items
+        return components.url ?? URL(string: "\(scheme)://local/\(fallbackPath)")
     }
 
     /// Keeps the app inside its own bundled content and hands every external link to
@@ -86,10 +104,9 @@ struct WebViewContainer: UIViewRepresentable {
         /// Set by `updateUIView` so a re-render with a new closure doesn't keep calling
         /// the stale one.
         var onUnlockRequested: (String) -> Void
-        /// The entitlement and path the web view was last loaded with, so
-        /// `updateUIView` can tell a real change from an ordinary re-render.
+        /// The entitlement the web view was last loaded with, so `updateUIView` can tell
+        /// a real entitlement change from an ordinary SwiftUI re-render.
         var loadedUnlocked: Bool = true
-        var loadedPath: String = ""
 
         init(onUnlockRequested: @escaping (String) -> Void) {
             self.onUnlockRequested = onUnlockRequested

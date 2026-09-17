@@ -641,10 +641,13 @@
           if (!entitlementLabel.has(link)) entitlementLabel.set(link, link.textContent);
           if (isLocked) {
             link.href = `praxisapp://local/unlock?code=${encodeURIComponent(code)}`;
-            link.setAttribute("aria-disabled", "true");
+            // Styled as locked, but never aria-disabled: this link is what opens the
+            // app's purchase sheet, so it must stay an available control for assistive
+            // technology (code review finding).
+            link.classList.add("btn-locked");
             link.textContent = "Unlock to access";
           } else {
-            link.removeAttribute("aria-disabled");
+            link.classList.remove("btn-locked");
             link.textContent = entitlementLabel.get(link);
             // href is left alone here -- wireCategoryPicker's own listener (or the
             // static assignment above, for takeTestLink/reviewTopicLink) already

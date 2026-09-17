@@ -877,7 +877,14 @@
         const result = await loadBank(entry.file);
         if (!result.ok) {
           showStatus("This test's questions could not be loaded. Try again later.");
-        } else if (isRunLocked(loadStoreOrDefault(), code, params)) {
+        } else if (
+          isRunLocked(
+            loadStoreOrDefault(),
+            code,
+            params,
+            result.bank.categories.map((c) => c.id),
+          )
+        ) {
           showLocked(result.bank);
         } else if (mode === "test") {
           runTest(result.bank);

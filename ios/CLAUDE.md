@@ -43,11 +43,11 @@ correctness surface. This file only adds what is specific to the app.
   was built from.
 - The files are served over a custom URL scheme by `LocalContentSchemeHandler`
   (iOS D-7), not `file://` — `fetch()` of `data/*.json` does not work under `file://`.
-- The Swift side finds them by `resourceDirectory: "WebContent"` — `ContentView.swift`,
-  `SubjectPickerView.swift`, `CategoryListView.swift`, `PraxisMathApp.swift`, and the
-  loaders in `ManifestLoader.swift` and `CategoryPicker.swift` that it is passed to.
-  Renaming the bundle subpath means changing every one of them, so grep for the string
-  rather than trusting this list to be current.
+- The Swift side finds them by `resourceDirectory: "WebContent"`, in several files —
+  `SubjectWebView.swift`, `SubjectPickerView.swift`, `FreeTierViews.swift`,
+  `PraxisMathApp.swift`, and the loaders in `ManifestLoader.swift` and
+  `CategoryPicker.swift` that it is passed to. **Grep for the string** rather than trusting
+  this list: it has gone stale twice already.
 - **The subject list is the manifest.** Both tabs open on `SubjectPickerView`, which lists
   every enabled subject in `data/manifest.json` whose `track` matches
   `ManifestLoader.appTrack` (`"stem"` today). Enabling or adding a STEM subject there
@@ -68,13 +68,14 @@ correctness surface. This file only adds what is specific to the app.
   page is a data-driven mode in the web layer that the site understands too — never a
   Swift-side script that rewrites the page at runtime. There is only one copy of each
   file now, so there is nowhere to fork it to.
-- **Purchase state and the web layer (D-46, N-21):** the app tells a page one thing — an
+- **Purchase state and the web layer (D-46, N-21, N-23):** the app tells a page one thing — an
   `unlocked=0|1` query parameter on the page's own URL — and never anything about products
   or prices. The web layer turns that into locked controls (`js/entitlement.js`), carries it
   on every link between pages, and `run.html` re-checks it on arrival. Every page the app
   opens must carry `unlocked`: a page without it takes itself to be the public site, where
-  nothing is locked. The app passes `unlocked=1` until 11.2's purchase flow supplies the
-  real value.
+  nothing is locked. `WebViewContainer` appends the value itself from `EntitlementStore`, so
+  no caller decides it; when entitlement changes it reloads **the page the user is on**, with
+  the flag rewritten.
 - **Never `.ignoresSafeArea()` a `WebViewContainer`** — not under the native tab bar
   (iOS D-9) and not at the top either (iOS D-17). Both shipped real, hard-to-spot layout
   bugs.
@@ -98,8 +99,8 @@ correctness surface. This file only adds what is specific to the app.
   never in `data/manifest.json`, which the web layer reads (D-46).
 - **Never write a price in Swift.** Read a `Product`'s own `displayPrice` wherever a price is
   shown, so the app can't disagree with what the buyer is charged. D-47's $5.99/$9.99 live in
-  the StoreKit configuration and later in App Store Connect. (Nothing shows a price yet — the
-  purchase sheet is Phase E.)
+  the StoreKit configuration and later in App Store Connect. `PurchaseSheet` is the only view
+  that shows one.
 - **The bundle product id is a build-time constant**, never derived from how many subjects are
   enabled: a bought bundle must keep unlocking everything even if the manifest later enables
   fewer subjects. A single-subject app sets it to nil.
@@ -117,6 +118,13 @@ correctness surface. This file only adds what is specific to the app.
   `project.yml` keeps the file out of the shipped bundle — check that it stays out if that entry
   is ever touched. ⚠ Editing the file in Xcode's own editor can write a `_developerTeamID` into
   it; this repository is public, so read the diff before committing it.
+- **The free tier is explained on the opening screen** (`FreeTierViews.swift`): a card above the
+  subject list and a "What's free" screen behind it, also linked from the sheet. Keep prices out
+  of that copy — it must stay true in any currency, and only StoreKit knows what a product costs.
+- ⚠ **`ClassroomHero` is the one image duplicated between the site and the app.** It is
+  `index.html`'s hero illustration (D-34) with the CSS variables resolved to literal colors,
+  because an asset catalog has no stylesheet. Changing the site's illustration does **not**
+  change the app's copy — update `ios/Sources/App/Assets.xcassets/ClassroomHero.imageset/` too.
 - **Automated purchase tests aren't possible yet** ([#162](https://github.com/homesik92/PRAXIS-Practice/issues/162)):
   xcodegen can only attach the configuration to the Run action, so `xcodebuild test`/⌘U run
   without it.

@@ -11,6 +11,7 @@ struct SubjectPickerView<Destination: View>: View {
     private let title: String
     private let identifierPrefix: String
     private let isLocked: (Subject) -> Bool
+    private let showsFreeTierCard: Bool
     private let destination: (Subject) -> Destination
     private let subjects: [Subject]
 
@@ -20,11 +21,13 @@ struct SubjectPickerView<Destination: View>: View {
         title: String,
         identifierPrefix: String,
         isLocked: @escaping (Subject) -> Bool = { _ in false },
+        showsFreeTierCard: Bool = false,
         @ViewBuilder destination: @escaping (Subject) -> Destination
     ) {
         self.title = title
         self.identifierPrefix = identifierPrefix
         self.isLocked = isLocked
+        self.showsFreeTierCard = showsFreeTierCard
         self.destination = destination
         subjects = ManifestLoader.loadSubjects(resourceDirectory: "WebContent")
     }
@@ -36,7 +39,34 @@ struct SubjectPickerView<Destination: View>: View {
                     Text("No subjects are available.")
                         .foregroundStyle(.secondary)
                 } else {
-                    List(subjects) { subject in
+                    List {
+                        // Practice only: the Study tab has nothing locked to explain.
+                        if showsFreeTierCard {
+                            Section { FreeTierCard() }
+                        }
+                        Section {
+                            subjectRows
+                        }
+                    }
+                }
+            }
+            .navigationTitle(title)
+            // Value-based, so a subject's screen is built only when its row is tapped.
+            // A destination-closure NavigationLink builds every row's destination as
+            // soon as the list draws -- for the Study tab that meant parsing every
+            // subject's whole question bank up front (code review finding).
+            .navigationDestination(for: Subject.self) { subject in
+                destination(subject)
+            }
+            .navigationDestination(for: FreeTierDestination.self) { _ in
+                FreeTierDetails()
+            }
+        }
+    }
+
+    @ViewBuilder
+    private var subjectRows: some View {
+        ForEach(subjects) { subject in
                         NavigationLink(value: subject) {
                             HStack {
                                 Text(subject.name)
@@ -51,18 +81,7 @@ struct SubjectPickerView<Destination: View>: View {
                                 }
                             }
                         }
-                        .accessibilityIdentifier("\(identifierPrefix)-subject-\(subject.code)")
-                    }
-                }
-            }
-            .navigationTitle(title)
-            // Value-based, so a subject's screen is built only when its row is tapped.
-            // A destination-closure NavigationLink builds every row's destination as
-            // soon as the list draws -- for the Study tab that meant parsing every
-            // subject's whole question bank up front (code review finding).
-            .navigationDestination(for: Subject.self) { subject in
-                destination(subject)
-            }
+            .accessibilityIdentifier("\(identifierPrefix)-subject-\(subject.code)")
         }
     }
 }

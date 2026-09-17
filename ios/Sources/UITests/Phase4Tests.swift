@@ -265,6 +265,29 @@ final class Phase4Tests: XCTestCase {
         app.buttons["Close"].tap()
     }
 
+    // MARK: - 11.2 Phase E: the free-tier explainer on the opening screen
+
+    /// The first screen has to say what's free before it shows four padlocks, or the
+    /// app reads as "everything costs money" when every lesson is free (D-46).
+    func testFreeTierExplainerIsOnTheOpeningScreen() throws {
+        let app = XCUIApplication()
+        app.launch()
+
+        let card = app.buttons["free-tier-card"]
+        XCTAssertTrue(card.waitForExistence(timeout: 10), "the free-tier card should be above the subject list")
+        card.tap()
+
+        // Both halves of the explanation, and no price anywhere on it: prices belong to
+        // StoreKit and appear only in the purchase sheet (N-22).
+        XCTAssertTrue(app.staticTexts["Free, with nothing to buy"].waitForExistence(timeout: 10))
+        XCTAssertTrue(app.staticTexts["Study a topic"].exists)
+        XCTAssertTrue(app.staticTexts["What unlocking a subject adds"].exists)
+        XCTAssertFalse(
+            app.staticTexts.containing(NSPredicate(format: "label CONTAINS '$'")).element.exists,
+            "no price should be written into the explainer"
+        )
+    }
+
     // MARK: - 4.3 Backup/restore -- observe, don't assume
 
     /// PRAXIS-Practice's export uses a Blob URL + `<a download>` + `.click()`
