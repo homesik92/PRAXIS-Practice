@@ -5,35 +5,26 @@ import SwiftUI
 /// (test.html); "Study" pushes its topic list (`CategoryListView`) in front of
 /// teach.html, since that page has no in-page category picker of its own.
 struct ContentView: View {
+    @EnvironmentObject private var entitlements: EntitlementStore
+
     var body: some View {
         TabView {
-            SubjectPickerView(title: "Practice", identifierPrefix: "practice") { subject in
-                // Neither edge is ignored now (D-17). The bottom edge has been off
-                // since D-9 (Phase 4): ignoring it let the WebView extend under the
-                // tab bar, silently swallowing taps on content scrolled into that
-                // ~83pt strip. The top edge was ignored until the session owner's
-                // real-device iPad testing found a second, more severe problem
-                // with the same root shape: extending touchable WebView content
-                // into the status-bar strip let a touch near the very top edge be
-                // captured by iPadOS's own system-gesture recognizers instead of
-                // the page, quitting the app to the home screen. Same class of bug
-                // as D-9 (WebView content reaching into OS-reserved screen space),
-                // just the opposite edge and a worse failure mode.
-                //
-                // `unlocked=1` tells the web layer it's inside the app (D-46, N-21) while
-                // keeping everything open -- nothing is for sale until 11.2's purchase
-                // flow lands, which replaces this constant with the real entitlement.
-                WebViewContainer(
-                    resourcePath: "test.html?code=\(subject.code)&unlocked=1",
-                    resourceDirectory: "WebContent"
-                )
-                .navigationTitle(subject.name)
-                .navigationBarTitleDisplayMode(.inline)
+            SubjectPickerView(
+                title: "Practice",
+                identifierPrefix: "practice",
+                isLocked: { !entitlements.isUnlocked($0.code) }
+            ) { subject in
+                // The web view never ignores a safe-area edge (D-9 for the tab bar,
+                // D-17 for the status bar -- both shipped real layout bugs), which is
+                // why SubjectWebView adds no .ignoresSafeArea.
+                SubjectWebView(subject: subject, resourcePath: "test.html?code=\(subject.code)")
             }
             .tabItem {
                 Label("Practice", systemImage: "list.bullet.clipboard")
             }
 
+            // No lock badge on the Study tab: teaching content is free for every
+            // subject (D-46), so nothing behind this list is ever locked.
             SubjectPickerView(title: "Study a Topic", identifierPrefix: "study") { subject in
                 CategoryListView(subject: subject)
             }

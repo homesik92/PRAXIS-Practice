@@ -2259,3 +2259,44 @@ every page, so every subject opens fully unlocked. Lock badges, the purchase she
 interval where the app shows locked content with no way to buy it. Xcode's Test action does not
 take the StoreKit configuration from `project.yml` (xcodegen writes it to the Run action only),
 so automated purchase tests would need that wired up first ([#162](https://github.com/homesik92/PRAXIS-Practice/issues/162)).
+
+### N-23: The purchase sheet is native, reached by a link the web layer can't distinguish from any other
+
+**Context.** 11.2's last phase had to join three things already built: `test.html`/`run.html`
+rendering locked controls from an `unlocked` flag (Phase A, N-21), the native subject list
+(Phase C), and `EntitlementStore` (Phase D, N-22). The open question was how a locked control
+in a web page reaches a native purchase sheet without purchase state entering the web layer
+(D-46's boundary).
+
+**Decision, 2026-09-17.**
+- **A locked control is an ordinary link.** It points at `praxisapp://local/unlock?code=<code>`,
+  which `WebViewContainer.Coordinator` cancels and turns into a callback — reusing the custom
+  scheme already there for in-bundle routing (iOS D-7), external links (D-45) and downloads
+  (#133). No `WKScriptMessageHandler`, no JavaScript bridge, and nothing to guard if the same
+  page is ever opened in a browser, where the link is simply inert.
+- **The `code` on that link personalizes the sheet, never entitlement.** It is matched against
+  the app's own subject list rather than trusted, so a page cannot name a subject the app
+  doesn't sell.
+- **`updateUIView` stops being a no-op, but only just:** it reloads the page when the
+  entitlement it was loaded with actually changed. That is what makes a purchase visible
+  without leaving the tab — the locked page becomes the unlocked page in place. Any other
+  SwiftUI re-render still reloads nothing.
+- **One container owns the `unlocked` parameter.** Callers pass a path without it and
+  `WebViewContainer` appends it, so there is a single place that decides what the web layer is
+  told. Both tabs go through `SubjectWebView`, so a locked control reached from a teaching page
+  opens the sheet exactly as it does from the test menu.
+- **The sheet is the only place in the app that mentions money** (`PurchaseSheet`): this
+  subject, the all-subjects bundle where one exists, and Restore purchases — every price read
+  from StoreKit's `displayPrice`. It closes only once the subject it was opened for is actually
+  unlocked, so buying something that doesn't cover it says so instead of silently dismissing.
+- **A locked subject is badged, not blocked.** D-46's free tier lives *inside* a subject, so a
+  locked subject still opens: teaching content and an untried topic's Category test are free.
+- **UI tests launch with a DEBUG-only `-uiTestForceUnlocked` argument.** The paid flows can't be
+  bought in a test — Xcode's Test action can't be given the local StoreKit products (#162) — and
+  the alternative was deleting that coverage. `#if DEBUG` is what keeps the switch out of any
+  build that could ship. One test deliberately runs without it, covering what an unpurchased
+  subject offers.
+
+**Not addressed here.** Real product ids (#135) and a purchase against a real sandbox account
+remain open; so does the timing of the free-trial record (#158). Purchase, restore and refund
+have not been exercised end to end — they need Xcode's Run action, which is the Gate 5 live test.

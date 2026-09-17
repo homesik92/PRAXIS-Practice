@@ -9,6 +9,12 @@ import XCTest
 /// so they can't leak to another app the way a raw screen-coordinate click
 /// can).
 ///
+/// Every test launches with `-uiTestForceUnlocked` (see `EntitlementStore`, DEBUG-only):
+/// the paid flows below are behind the paywall from 11.2 Phase E onward, and Xcode's
+/// Test action can't be given the local StoreKit products (#162), so a test has no way
+/// to buy anything. `testFreeTierIsUsableWhileLocked` deliberately launches *without*
+/// it, to cover what an unpurchased subject actually offers.
+///
 /// Radio-button options in `run.html`/`teach.html` render as generic
 /// `Other` elements with `value: "0"`/`"1"` (WebKit's accessibility bridge
 /// doesn't expose `<input type=radio>` as a distinct button/radio type
@@ -17,6 +23,14 @@ import XCTest
 final class Phase4Tests: XCTestCase {
     override func setUpWithError() throws {
         continueAfterFailure = false
+    }
+
+    /// The app as an owner sees it -- see this file's header for why.
+    private func launchUnlocked() -> XCUIApplication {
+        let app = XCUIApplication()
+        app.launchArguments += ["-uiTestForceUnlocked"]
+        app.launch()
+        return app
     }
 
     private func firstUnselectedRadio(_ app: XCUIApplication) -> XCUIElement {
@@ -73,8 +87,7 @@ final class Phase4Tests: XCTestCase {
     // need to run the 66-question flow twice)
 
     func testFullTestCompletionAndPersistence() throws {
-        let app = XCUIApplication()
-        app.launch()
+        let app = launchUnlocked()
         openSubject(app)
 
         XCTAssertTrue(app.links["Start full test →"].waitForExistence(timeout: 10))
@@ -102,7 +115,7 @@ final class Phase4Tests: XCTestCase {
         // confirm the completed attempt survived -- the real-world version of
         // Phase 1.4's isolated localStorage check.
         app.terminate()
-        app.launch()
+        app.launch() // launchArguments persist across launch() on the same instance
         openSubject(app)
         // "Review test" is rendered only for a completed attempt (test.html's score
         // comparison). The score ring's "Not started" text can't be asserted on: it's
@@ -113,8 +126,7 @@ final class Phase4Tests: XCTestCase {
     // MARK: - 4.1 Practice a topic (untimed drill, 10 questions)
 
     func testPracticeATopic() throws {
-        let app = XCUIApplication()
-        app.launch()
+        let app = launchUnlocked()
         openSubject(app)
 
         let startLinks = app.links.matching(NSPredicate(format: "label == 'Start →'"))
@@ -138,8 +150,7 @@ final class Phase4Tests: XCTestCase {
     // MARK: - 4.1 Category test (timed drill, 10 questions)
 
     func testCategoryTest() throws {
-        let app = XCUIApplication()
-        app.launch()
+        let app = launchUnlocked()
         openSubject(app)
 
         let startLinks = app.links.matching(NSPredicate(format: "label == 'Start →'"))
@@ -163,8 +174,7 @@ final class Phase4Tests: XCTestCase {
     // MARK: - 4.1 Review a topic (untimed, immediate feedback per question)
 
     func testReviewATopic() throws {
-        let app = XCUIApplication()
-        app.launch()
+        let app = launchUnlocked()
         openSubject(app)
 
         XCTAssertTrue(app.links["Choose a topic →"].waitForExistence(timeout: 10))
@@ -196,8 +206,7 @@ final class Phase4Tests: XCTestCase {
     // MARK: - 4.1 Study a topic (native subject list, then topic list)
 
     func testStudyATopic() throws {
-        let app = XCUIApplication()
-        app.launch()
+        let app = launchUnlocked()
 
         XCTAssertTrue(app.tabBars.buttons["Study"].waitForExistence(timeout: 10))
         app.tabBars.buttons["Study"].tap()
@@ -209,6 +218,51 @@ final class Phase4Tests: XCTestCase {
         // The tapped row and the new navigation title both read "Algebra" before the
         // page loads, so wait for something only teach.html itself shows.
         XCTAssertTrue(app.links["← Back"].waitForExistence(timeout: 10), "teach.html didn't load")
+    }
+
+    // MARK: - 11.2 Phase E: what a locked subject offers (D-46's free tier)
+
+    /// Launches *without* the force-unlocked flag, so the app reports every subject as
+    /// unpurchased -- which is what a new install of the real app looks like. Covers the
+    /// three things D-46 promises are free, and that the paid ones are visibly locked.
+    func testFreeTierIsUsableWhileLocked() throws {
+        let app = XCUIApplication()
+        app.launch()
+
+        // The subject list badges a locked subject rather than blocking it.
+        XCTAssertTrue(app.buttons["practice-subject-5165"].waitForExistence(timeout: 10))
+        XCTAssertTrue(
+            app.images["Not unlocked"].firstMatch.exists,
+            "a locked subject should be badged in the subject list"
+        )
+        openSubject(app)
+
+        // Paid controls render as "Unlock to access" (test.html's setLocked).
+        let unlockLinks = app.links.matching(NSPredicate(format: "label == 'Unlock to access'"))
+        XCTAssertTrue(unlockLinks.element(boundBy: 0).waitForExistence(timeout: 10))
+        // Full test, Practice a topic and Review a topic are always locked here. Category
+        // test is the fourth only once that topic's free trial has been used, and earlier
+        // tests in this suite may have used it on this simulator, so this asserts the
+        // floor rather than an exact count -- whether a *specific* topic's trial is spent
+        // is covered deterministically by tools/test-entitlement.mjs, not from here.
+        XCTAssertGreaterThanOrEqual(
+            unlockLinks.count, 3,
+            "Full test, Practice a topic and Review a topic should all be locked"
+        )
+
+        // Study a topic is free and unlimited (D-46) -- its link is untouched.
+        XCTAssertTrue(app.links["Open →"].exists, "Study a topic must stay open on a locked subject")
+
+        // Tapping a locked control opens the purchase sheet (the praxisapp://local/unlock
+        // route, handled by WebViewContainer) -- before Phase E this link went nowhere.
+        unlockLinks.element(boundBy: 0).tap()
+        XCTAssertTrue(
+            app.buttons["Restore purchases"].waitForExistence(timeout: 10),
+            "the purchase sheet should open, and offer Restore purchases"
+        )
+        // No price is asserted: the sheet reads prices from StoreKit, and the Test action
+        // has no StoreKit configuration (#162), so there are none to show here.
+        app.buttons["Close"].tap()
     }
 
     // MARK: - 4.3 Backup/restore -- observe, don't assume
@@ -228,8 +282,7 @@ final class Phase4Tests: XCTestCase {
     /// chrome (e.g. a `Cancel` button), since that's simulator/OS-version
     /// presentation detail rather than something this app controls.
     func testBackupExportTap() throws {
-        let app = XCUIApplication()
-        app.launch()
+        let app = launchUnlocked()
         openSubject(app)
 
         openBackupSection(app)
@@ -249,8 +302,7 @@ final class Phase4Tests: XCTestCase {
     /// does not open or drive the native picker, which XCUITest interacts
     /// with as a separate system process outside this app's element tree.
     func testBackupRestoreButtonReachable() throws {
-        let app = XCUIApplication()
-        app.launch()
+        let app = launchUnlocked()
         openSubject(app)
 
         openBackupSection(app)

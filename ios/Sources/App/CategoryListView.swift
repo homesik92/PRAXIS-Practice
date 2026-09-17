@@ -16,18 +16,15 @@ struct CategoryListView: View {
     var body: some View {
         List(categories) { category in
             NavigationLink(category.label) {
-                // Bottom edge not ignored -- same tab-bar tap-swallowing
-                // issue as the Practice tab's WebViewContainer (Phase 4
-                // finding, ContentView.swift).
-                //
-                // unlocked=1: see ContentView.swift -- marks the app context so
-                // teach.html's back link carries it to test.html.
-                WebViewContainer(
-                    resourcePath: "teach.html?code=\(subject.code)&category=\(category.id)&unlocked=1",
-                    resourceDirectory: "WebContent"
+                // Teaching is free, but this still goes through SubjectWebView: the page
+                // carries the app's `unlocked` signal (so its Back link into test.html
+                // keeps it), and a locked control reached from there can open the
+                // purchase sheet like anywhere else.
+                SubjectWebView(
+                    subject: subject,
+                    resourcePath: "teach.html?code=\(subject.code)&category=\(category.id)",
+                    title: category.label
                 )
-                .navigationTitle(category.label)
-                .navigationBarTitleDisplayMode(.inline)
             }
         }
         .navigationTitle(subject.name)
