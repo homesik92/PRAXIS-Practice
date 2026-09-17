@@ -78,6 +78,25 @@ correctness surface. This file only adds what is specific to the app.
   is a public identifier and fine; certificates, provisioning profiles, and Apple ID or App
   Store Connect credentials are not, anywhere — tree, commit message, PR or issue text.
 
+## Purchases (11.2 Phase D, N-22)
+
+- **`EntitlementStore` is the only type that touches StoreKit.** Everything else asks it
+  `isUnlocked(subjectCode)`. Don't call StoreKit from a view.
+- **`ProductCatalog` holds the subject ↔ product-id mapping**, natively and nowhere else —
+  never in `data/manifest.json`, which the web layer reads (D-46).
+- **Never write a price in Swift.** Use a `Product`'s own `displayPrice`, so the app can't
+  disagree with what the buyer is charged. D-47's $5.99/$9.99 live in the StoreKit
+  configuration and later in App Store Connect.
+- **Product ids are placeholders until [#135]** — a registered product id is permanent.
+- **Testing purchases:** `ios/Configuration.storekit` defines the five STEM products locally,
+  no App Store Connect record needed. The committed `PraxisMath` scheme attaches it to the Run
+  action, so running from Xcode uses it; Xcode's Transaction Manager (Debug > StoreKit) is
+  where a refund or a revocation is simulated. `buildPhase: none` in `project.yml` keeps the
+  file out of the shipped bundle — check that it stays out if that entry is ever touched.
+- **Verify every StoreKit API against the SDK, not memory** (#136): the interface file at
+  `$(xcrun --sdk iphonesimulator --show-sdk-path)/System/Library/Frameworks/StoreKit.framework/Modules/StoreKit.swiftmodule/arm64-apple-ios-simulator.swiftinterface`
+  is the authoritative list, including each symbol's availability and deprecations.
+
 ## Build and verify
 
 From the repository root:
@@ -94,11 +113,14 @@ xcodebuild -project ios/PraxisMath.xcodeproj -target PraxisMath -sdk iphonesimul
   how the web view is loaded. At minimum check: the Practice tab's subject list opening a
   test page, the Study tab's subject list → topic list → teaching page, and the
   calculator.
-- **UI tests** (`Sources/UITests/`) run from Xcode with ⌘U. The committed project has no
-  shared scheme, so `xcodebuild test` from a clean checkout has nothing to name — but once
-  Xcode has opened the project it creates a local `PraxisMath` scheme, after which
-  `xcodebuild test -project ios/PraxisMath.xcodeproj -scheme PraxisMath -destination
-  'platform=iOS Simulator,name=iPhone 17'` runs them from the command line.
+- **UI tests** (`Sources/UITests/`) run from Xcode with ⌘U, or from the command line against
+  the committed shared scheme (added in 11.2 Phase D — there was none before, so this had
+  nothing to name):
+  ```
+  xcodebuild test -project ios/PraxisMath.xcodeproj -scheme PraxisMath -destination 'platform=iOS Simulator,name=iPhone 17'
+  ```
+  **Run them.** They had been failing 6 of 7 on `main` unnoticed until 11.2 Phase C, because CI
+  only builds.
 - A real device is the check that matters before any TestFlight or App Store build —
   see APP-STORE-ROADMAP.md Phase 18.
 

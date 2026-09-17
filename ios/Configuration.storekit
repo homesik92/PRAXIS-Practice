@@ -1,0 +1,95 @@
+{
+  "identifier": "3EA943FA",
+  "nonRenewingSubscriptions": [],
+  "products": [
+    {
+      "displayPrice": "5.99",
+      "familyShareable": false,
+      "internalID": "1149864771",
+      "localizations": [
+        {
+          "description": "Unlock every practice test, topic drill and review for Mathematics (Praxis 5165).",
+          "displayName": "Mathematics — full access",
+          "locale": "en_US"
+        }
+      ],
+      "productID": "unlock.5165",
+      "referenceName": "Mathematics subject unlock",
+      "type": "NonConsumable"
+    },
+    {
+      "displayPrice": "5.99",
+      "familyShareable": false,
+      "internalID": "3870052089",
+      "localizations": [
+        {
+          "description": "Unlock every practice test, topic drill and review for General Science (Praxis 5436).",
+          "displayName": "General Science — full access",
+          "locale": "en_US"
+        }
+      ],
+      "productID": "unlock.5436",
+      "referenceName": "General Science subject unlock",
+      "type": "NonConsumable"
+    },
+    {
+      "displayPrice": "5.99",
+      "familyShareable": false,
+      "internalID": "2122134332",
+      "localizations": [
+        {
+          "description": "Unlock every practice test, topic drill and review for Physical Science (Praxis 5485).",
+          "displayName": "Physical Science — full access",
+          "locale": "en_US"
+        }
+      ],
+      "productID": "unlock.5485",
+      "referenceName": "Physical Science subject unlock",
+      "type": "NonConsumable"
+    },
+    {
+      "displayPrice": "5.99",
+      "familyShareable": false,
+      "internalID": "2061347582",
+      "localizations": [
+        {
+          "description": "Unlock every practice test, topic drill and review for Computer Science (Praxis 5652).",
+          "displayName": "Computer Science — full access",
+          "locale": "en_US"
+        }
+      ],
+      "productID": "unlock.5652",
+      "referenceName": "Computer Science subject unlock",
+      "type": "NonConsumable"
+    },
+    {
+      "displayPrice": "9.99",
+      "familyShareable": false,
+      "internalID": "887075049",
+      "localizations": [
+        {
+          "description": "Unlock every subject in this app: Mathematics, General Science, Physical Science and Computer Science.",
+          "displayName": "All subjects — full access",
+          "locale": "en_US"
+        }
+      ],
+      "productID": "unlock.stem.all",
+      "referenceName": "All STEM subjects unlock",
+      "type": "NonConsumable"
+    }
+  ],
+  "settings": {
+    "_applicationInternalID": "",
+    "_developerTeamID": "",
+    "_failTransactionsEnabled": false,
+    "_lastSynchronizedDate": 0,
+    "_locale": "en_US",
+    "_storefront": "USA",
+    "_storeKitErrors": []
+  },
+  "subscriptionGroups": [],
+  "version": {
+    "major": 4,
+    "minor": 0
+  }
+}

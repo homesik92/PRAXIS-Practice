@@ -4,6 +4,24 @@ options:
 configs:
   Debug: debug
   Release: release
+# A committed shared scheme, so `xcodebuild test` works from a fresh clone (it had
+# nothing to name before, and Xcode's own local scheme isn't in the repository) and so
+# the local StoreKit products are selected for both Run and Test without anyone setting
+# it by hand in Xcode's scheme editor (11.2 Phase D).
+schemes:
+  PraxisMath:
+    build:
+      targets:
+        PraxisMath: all
+        PraxisMathUITests: [test]
+    run:
+      config: Debug
+      storeKitConfiguration: Configuration.storekit
+    test:
+      config: Debug
+      targets:
+        - PraxisMathUITests
+      storeKitConfiguration: Configuration.storekit
 targets:
   PraxisMath:
     type: application
@@ -11,6 +29,12 @@ targets:
     deploymentTarget: "16.4"
     sources:
       - path: Sources/App
+      # Local StoreKit products for testing purchases without App Store Connect (11.2
+      # Phase D). buildPhase: none -- it must be a file in the project so Xcode's
+      # scheme editor can offer it (Run > Options > StoreKit Configuration), but it is
+      # a development file and must never be copied into the shipped app bundle.
+      - path: Configuration.storekit
+        buildPhase: none
       # The web app is bundled straight from the repository root (D-44) -- there is no
       # copy in this folder to drift. Each item lands under WebContent/ inside the app
       # bundle, which is where LocalContentSchemeHandler and the manifest/bank loaders

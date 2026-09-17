@@ -2209,3 +2209,48 @@ storage, which only the web layer can read, so `run.html` needs its own gate reg
 keeping propagation in the web layer too keeps the whole rule in one module
 (`js/entitlement.js`) with unit tests. The hub block is the one native piece, because it is
 about what the app shows, not about entitlement.
+
+### N-22: StoreKit 2 lives behind one `EntitlementStore`; prices come from StoreKit, product ids are placeholders
+
+**Context.** D-47 priced the app per subject ($5.99) with an all-subjects bundle ($9.99)
+where an app holds more than one subject. 11.2 Phase D builds the purchase layer for that,
+while the real product identifiers are still blocked on
+[#135](https://github.com/homesik92/PRAXIS-Practice/issues/135) — a product id and bundle id
+are permanent once registered in App Store Connect, so guessing them now is the one mistake
+that cannot be undone later.
+
+**Decision, 2026-09-17.**
+- **One type touches StoreKit:** `EntitlementStore` (`@MainActor`, `ObservableObject`). It
+  publishes `ownedProductIDs` and the fetched `Product` list, starts a `Transaction.updates`
+  listener at launch and keeps it for the app's lifetime, reads `Transaction.currentEntitlements`
+  at launch and after every change, and exposes `isUnlocked(subjectCode)` — owns that subject's
+  product **or** the app's bundle (D-47). An **unverified** transaction is never treated as
+  ownership. `AppStore.sync()` runs only from an explicit Restore button, never on launch,
+  because it can prompt for an App Store sign-in.
+- **The subject ↔ product mapping is native-only** (`ProductCatalog`), never in
+  `data/manifest.json`: that file is shared with the web layer, and product ids are exactly the
+  commerce detail D-46's boundary keeps out of it. The bundle product id is derived from the
+  subject count, so a single-subject app has no bundle tier and every "or the bundle" check
+  simply finds nothing.
+- **No price is ever written in Swift.** Prices come from StoreKit's own `displayPrice` — the
+  local `Configuration.storekit` today, App Store Connect later — so what the app shows and what
+  the buyer is charged have one source. D-47's numbers live in the StoreKit configuration, not
+  in code.
+- **Product ids are placeholders** (`unlock.<subjectCode>`, `unlock.stem.all`). They only have
+  to be self-consistent while purchases are tested against a local configuration; #135 replaces
+  them before anything is registered.
+- **Every StoreKit API was checked against this machine's iOS SDK interface file** rather than
+  recalled (#136 asked for this explicitly, having found Apple's public docs page unusable).
+  All of them are iOS 15+, under the app's 16.4 floor. `Transaction.currentEntitlement(for:)` is
+  deprecated as of iOS 18.4, so the `currentEntitlements` sequence is used instead.
+- **A shared scheme is now committed** (`schemes:` in `project.yml`), which attaches
+  `Configuration.storekit` to the Run action and gives `xcodebuild test` a scheme to name from a
+  fresh clone. The configuration file is a development file: `buildPhase: none` keeps it out of
+  the shipped bundle (verified — it is absent from the built app).
+
+**Not addressed here.** Nothing reads entitlement yet: the app still passes `unlocked=1` to
+every page, so every subject opens fully unlocked. Lock badges, the purchase sheet and the
+`praxisapp://local/unlock` route are Phase E — session owner's call, to avoid shipping an
+interval where the app shows locked content with no way to buy it. Xcode's Test action does not
+take the StoreKit configuration from `project.yml` (xcodegen writes it to the Run action only),
+so automated purchase tests would need that wired up first.
