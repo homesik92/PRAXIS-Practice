@@ -32,9 +32,16 @@ final class EntitlementStore: ObservableObject {
 
     private var subjectCodes: [String] = []
     private var updatesTask: Task<Void, Never>?
+    /// The in-flight entitlement read, so reads run one after another (see
+    /// `refreshEntitlements`).
+    private var refreshTask: Task<Void, Never>?
 
     enum PurchaseOutcome: Equatable {
         case purchased
+        /// `restore()` completed but the buyer owns nothing -- distinct from success,
+        /// because telling someone "restored" while everything stays locked is both
+        /// confusing and a routine App Store review rejection (code review finding).
+        case nothingToRestore
         case cancelled
         /// Ask to Buy, or a payment awaiting approval -- the entitlement arrives later
         /// through `Transaction.updates`, not from the purchase call.
@@ -106,23 +113,48 @@ final class EntitlementStore: ObservableObject {
     /// Only ever from an explicit "Restore purchases" button -- never on launch.
     /// `AppStore.sync()` can prompt for an App Store sign-in, which is hostile
     /// unprompted, and `currentEntitlements` already covers the ordinary reinstall case.
+    ///
+    /// A successful `sync()` only means "synced", not "you own something" -- someone
+    /// signed into the wrong Apple ID, or who never bought anything, must not be told
+    /// their purchases were restored.
     func restore() async -> PurchaseOutcome {
         do {
             try await AppStore.sync()
             await refreshEntitlements()
-            return .purchased
+            return ownedProductIDs.isEmpty ? .nothingToRestore : .purchased
         } catch {
             return .failed(error.localizedDescription)
         }
     }
 
+    /// Retry after a failed product fetch (offline at launch). `start()` runs once, so
+    /// without this the purchase sheet would stay empty for the whole app run even
+    /// after the network came back (code review finding).
+    func retryLoadingProducts() async {
+        await loadProducts()
+    }
+
+    /// Reads are serialized through `refreshTask`: two overlapping reads each build
+    /// their own snapshot, and the slower one finishing last would overwrite the newer
+    /// set -- dropping a just-arrived entitlement until the next launch (code review
+    /// finding). The launch read and the `Transaction.updates` listener genuinely do
+    /// overlap, so this is not theoretical.
     private func refreshEntitlements() async {
-        var owned: Set<String> = []
-        for await result in Transaction.currentEntitlements {
-            guard case .verified(let transaction) = result else { continue }
-            owned.insert(transaction.productID)
+        let previous = refreshTask
+        let task = Task { @MainActor in
+            await previous?.value
+            var owned: Set<String> = []
+            for await result in Transaction.currentEntitlements {
+                guard case .verified(let transaction) = result else { continue }
+                owned.insert(transaction.productID)
+            }
+            // A cancelled read holds a partial set -- publishing it would look like
+            // ownership had been lost.
+            guard !Task.isCancelled else { return }
+            ownedProductIDs = owned
         }
-        ownedProductIDs = owned
+        refreshTask = task
+        await task.value
     }
 
     private func loadProducts() async {
@@ -133,8 +165,10 @@ final class EntitlementStore: ObservableObject {
             // last) rather than StoreKit's, which is unspecified.
             products = ids.compactMap { id in fetched.first { $0.id == id } }
             // Any missing product is a failure, not just all of them: one unknown id
-            // would otherwise leave a subject silently unbuyable (code review finding).
-            productLoadFailed = products.count != ids.count
+            // would otherwise leave a subject silently unbuyable. An empty subject list
+            // counts too -- the manifest failing to load would otherwise look healthy
+            // here, since the bundle product alone would match (code review findings).
+            productLoadFailed = subjectCodes.isEmpty || products.count != ids.count
         } catch {
             products = []
             productLoadFailed = true

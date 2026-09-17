@@ -8,8 +8,8 @@
       "internalID": "1149864771",
       "localizations": [
         {
-          "description": "Unlock every practice test, topic drill and review for Mathematics (test 5165).",
-          "displayName": "Mathematics — full access",
+          "description": "Every test, drill and review for 5165.",
+          "displayName": "Mathematics: full access",
           "locale": "en_US"
         }
       ],
@@ -23,8 +23,8 @@
       "internalID": "3870052089",
       "localizations": [
         {
-          "description": "Unlock every practice test, topic drill and review for General Science (test 5436).",
-          "displayName": "General Science — full access",
+          "description": "Every test, drill and review for 5436.",
+          "displayName": "General Science: full access",
           "locale": "en_US"
         }
       ],
@@ -38,8 +38,8 @@
       "internalID": "2122134332",
       "localizations": [
         {
-          "description": "Unlock every practice test, topic drill and review for Physical Science (test 5485).",
-          "displayName": "Physical Science — full access",
+          "description": "Every test, drill and review for 5485.",
+          "displayName": "Physical Science: full access",
           "locale": "en_US"
         }
       ],
@@ -53,8 +53,8 @@
       "internalID": "2061347582",
       "localizations": [
         {
-          "description": "Unlock every practice test, topic drill and review for Computer Science (test 5652).",
-          "displayName": "Computer Science — full access",
+          "description": "Every test, drill and review for 5652.",
+          "displayName": "Computer Science: full access",
           "locale": "en_US"
         }
       ],
@@ -68,8 +68,8 @@
       "internalID": "887075049",
       "localizations": [
         {
-          "description": "Unlock every subject in this app: Mathematics, General Science, Physical Science and Computer Science.",
-          "displayName": "All subjects — full access",
+          "description": "Unlocks all four subjects in this app.",
+          "displayName": "All subjects: full access",
           "locale": "en_US"
         }
       ],

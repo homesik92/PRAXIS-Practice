@@ -16,6 +16,17 @@ correctness surface. This file only adds what is specific to the app.
   `PraxisMath.xcodeproj` is committed so CI and a fresh clone build without xcodegen. Edit
   `project.yml`, run `xcodegen generate` from `ios/`, commit both — never hand-edit
   `project.pbxproj`, because the next regeneration silently discards the edit.
+  - ⚠ **The same applies to the shared scheme** (`xcshareddata/xcschemes/PraxisMath.xcscheme`).
+    Changing anything in Xcode's scheme editor writes that file, and the next
+    `xcodegen generate` reverts it — so a scheme change belongs in `project.yml`'s `schemes:`
+    block. Two known differences Xcode reintroduces every time it saves the scheme:
+    `BuildableName` (xcodegen writes `PraxisMath.app`, the real product is `Praxis Math.app`;
+    Xcode's version is the accurate one, and Xcode resolves the target by id either way —
+    [#164](https://github.com/homesik92/PRAXIS-Practice/issues/164)) and the scheme's own
+    `version` attribute.
+  - Regenerating while Xcode has the project open leaves Xcode showing stale scheme
+    settings — the StoreKit configuration reads "None" until the project is reopened, even
+    though the committed scheme has it. Reopen before concluding anything is wrong.
 - **Decisions:** the root [DECISIONS.md](../DECISIONS.md) and
   [DECISIONS-INDEX.md](../DECISIONS-INDEX.md). The app's own log from before D-44 is frozen at
   `ios/DECISIONS.md`: cite its entries as **"iOS D-n"** and never append to it.

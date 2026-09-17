@@ -71,9 +71,10 @@ jobs:
   # change to them can break the app. This builds it on EVERY pull request, deliberately
   # with no path filter: a required check that only runs on some PRs leaves the rest
   # stuck on "Expected -- waiting for status to be reported" forever (N-13). Target-based
-  # build rather than scheme-based, because the committed project has no shared scheme
-  # and a clean checkout has no Xcode-autocreated one. No signing needed for a simulator
-  # build. macos-26's default Xcode (26.6, 17F113) matches the version the project is
+  # build rather than scheme-based: a shared scheme is committed since 11.2 Phase D, so
+  # this job *could* name one, and running the UI tests here is the open question in
+  # #162 -- the reason it still only builds is runtime, not the missing scheme. No
+  # signing needed for a simulator build. macos-26's default Xcode (26.6, 17F113) matches the version the project is
   # developed with.
   ios-build:
     runs-on: macos-26
