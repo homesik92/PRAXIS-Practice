@@ -538,11 +538,13 @@ export function clearTestData(store, testCode, questionIds) {
   const questionHistory = Object.fromEntries(
     Object.entries(store.questionHistory).filter(([id]) => !idsToClear.has(id)),
   );
-  // D-46: a cleared test's free Category-test trials reset too, or "start fresh"
-  // would leave every topic silently locked to whatever it was before the clear.
-  const categoryTrialsUsed = { ...(store.categoryTrialsUsed ?? {}) };
-  delete categoryTrialsUsed[testCode];
-  return { ...store, attempts, questionHistory, categoryTrialsUsed };
+  // The free Category-test record deliberately SURVIVES a clear (session owner's call,
+  // 2026-09-17). Clearing erases what this button promises -- attempts and study history
+  // -- but resetting the trials too made the free tier farmable in two taps: use every
+  // topic's free test, clear, repeat. Deleting and reinstalling the app still resets
+  // them, which no client-side store can prevent, but that is a deliberate choice rather
+  // than a button in the UI.
+  return { ...store, attempts, questionHistory };
 }
 
 // -- Free-trial tracking (D-46) ------------------------------------------------------
@@ -584,6 +586,26 @@ export function recordCategoryTrialUsed(store, testCode, categoryId) {
  * @param {string} categoryId
  * @returns {boolean}
  */
+/**
+ * Carries the device's own free-trial record into a store being restored from a
+ * backup file. A restore otherwise replaces everything (session owner's call,
+ * 2026-08-18), and an old backup would hand back every free Category test it predates
+ * -- the same two-tap reset the 2026-09-17 decision closed on "Clear performance data".
+ * Takes the union: a trial used on either side stays used. Everything else in
+ * `imported` is left exactly as the file had it. Pure, returns a new store.
+ *
+ * @param {object} imported - the store parsed from the backup file
+ * @param {object | null} current - the store on this device, or null if none loaded
+ * @returns {object} a new store
+ */
+export function keepUsedCategoryTrials(imported, current) {
+  const merged = { ...(imported.categoryTrialsUsed ?? {}) };
+  for (const [testCode, used] of Object.entries(current?.categoryTrialsUsed ?? {})) {
+    merged[testCode] = [...new Set([...(merged[testCode] ?? []), ...used])];
+  }
+  return { ...imported, categoryTrialsUsed: merged };
+}
+
 export function hasUsedCategoryTrial(store, testCode, categoryId) {
   return (store.categoryTrialsUsed?.[testCode] ?? []).includes(categoryId);
 }

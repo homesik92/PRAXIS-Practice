@@ -2309,6 +2309,14 @@ in a web page reaches a native purchase sheet without purchase state entering th
   category ids and treats a timed drill on anything else as paid, so a hand-built URL naming a
   leaf category can't mint a fresh free trial per leaf. Not reachable by tapping — no link
   builds one — but the gate shouldn't depend on that (code review finding).
+- **Clearing data or restoring a backup no longer hands back free trials** — session owner's
+  call, reversing Phase A's choice. "Clear performance data" used to reset which topics had
+  used their free Category test, so the free tier could be farmed in two taps (use every
+  topic's test, clear, repeat); a restore from an old backup did the same. Now the clear
+  erases only what its button promises (attempts and study history), and a restore keeps
+  the union of the device's and the file's trial records (`keepUsedCategoryTrials`).
+  Deleting and reinstalling the app still resets them — no client-side record can prevent
+  that — but it is a deliberate act, not a button.
 - **A locked control is styled dim but never `aria-disabled`.** It is the only way to buy the
   subject, so announcing it as unavailable would hide the purchase entry point from a
   screen-reader user (code review finding).

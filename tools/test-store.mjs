@@ -23,6 +23,7 @@ import {
   findAttempt,
   findFirstAndLatestAttempts,
   clearTestData,
+  keepUsedCategoryTrials,
   handleStorageEvent,
   recordCategoryTrialUsed,
   hasUsedCategoryTrial,
@@ -585,12 +586,49 @@ test("clearTestData leaves an empty store unchanged (no matching data to clear)"
   assert.deepEqual(result, defaultStore());
 });
 
-test("clearTestData drops the given test code's category trials without touching another test's", () => {
+test("clearTestData KEEPS the free Category-test record -- clearing must not hand back free trials", () => {
+  // Session owner's call, 2026-09-17: resetting trials here made the free tier farmable
+  // in two taps (use every topic's free test, clear, repeat). Clearing still erases what
+  // the button promises: attempts and study history.
   let s = defaultStore();
   s = recordCategoryTrialUsed(s, "5165", "I");
   s = recordCategoryTrialUsed(s, "5101", "A");
   const result = clearTestData(s, "5165", []);
-  assert.deepEqual(result.categoryTrialsUsed, { "5101": ["A"] });
+  assert.deepEqual(result.categoryTrialsUsed, { "5165": ["I"], "5101": ["A"] });
+});
+
+// --- keepUsedCategoryTrials (restoring a backup must not hand back free trials) ---
+
+test("keepUsedCategoryTrials keeps a trial the device used even if the backup predates it", () => {
+  const imported = defaultStore();
+  const current = recordCategoryTrialUsed(defaultStore(), "5165", "I");
+  const result = keepUsedCategoryTrials(imported, current);
+  assert.equal(hasUsedCategoryTrial(result, "5165", "I"), true);
+});
+
+test("keepUsedCategoryTrials takes the union, and leaves the rest of the backup untouched", () => {
+  let imported = recordCategoryTrialUsed(defaultStore(), "5165", "II");
+  imported = { ...imported, attempts: [{ id: "a1", testCode: "5165" }] };
+  let current = recordCategoryTrialUsed(defaultStore(), "5165", "I");
+  current = recordCategoryTrialUsed(current, "5436", "A");
+  const result = keepUsedCategoryTrials(imported, current);
+  assert.deepEqual(result.categoryTrialsUsed, { "5165": ["II", "I"], "5436": ["A"] });
+  assert.deepEqual(result.attempts, imported.attempts);
+});
+
+test("keepUsedCategoryTrials with no current store returns the backup's own record", () => {
+  const imported = recordCategoryTrialUsed(defaultStore(), "5165", "I");
+  assert.deepEqual(keepUsedCategoryTrials(imported, null).categoryTrialsUsed, { "5165": ["I"] });
+});
+
+test("keepUsedCategoryTrials does not mutate either store", () => {
+  const imported = defaultStore();
+  const current = recordCategoryTrialUsed(defaultStore(), "5165", "I");
+  const importedBefore = JSON.stringify(imported);
+  const currentBefore = JSON.stringify(current);
+  keepUsedCategoryTrials(imported, current);
+  assert.equal(JSON.stringify(imported), importedBefore);
+  assert.equal(JSON.stringify(current), currentBefore);
 });
 
 // --- recordCategoryTrialUsed / hasUsedCategoryTrial (D-46's free-trial gate) ---

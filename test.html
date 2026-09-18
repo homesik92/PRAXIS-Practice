@@ -195,6 +195,7 @@
       importStoreFromJson,
       summarizeStore,
       clearTestData,
+      keepUsedCategoryTrials,
     } from "./js/store.js";
     import { scoreAttempt } from "./js/runner.js";
     import { summarizeAttempt, percentOf, flattenCategoryLabels } from "./js/results.js";
@@ -860,7 +861,12 @@
             importMessage.textContent = describeReplacement(pendingImportStore);
             return;
           }
-          const saveResult = saveStore(pendingImportStore);
+          // A restore replaces everything except which free Category tests this device
+          // has already used -- otherwise an old backup hands them back (D-46).
+          const currentLoad = loadStore();
+          const saveResult = saveStore(
+            keepUsedCategoryTrials(pendingImportStore, currentLoad.ok ? currentLoad.store : null),
+          );
           importDialog.close();
           if (!saveResult.ok) {
             importStatus.textContent = "Your progress could not be saved, so the restore didn't complete.";
