@@ -27,7 +27,8 @@ final class EntitlementStore: ObservableObject {
 
     /// Set when the product fetch didn't return every product this app expects --
     /// offline, or an id StoreKit doesn't know (the likely case while #135 swaps the
-    /// placeholder ids). Surfaced by the purchase sheet in Phase E; nothing reads it yet.
+    /// placeholder ids). `PurchaseSheet` shows the retry from this, rather than from an
+    /// empty product list, so a *partial* failure isn't a silent dead end.
     @Published private(set) var productLoadFailed = false
 
     private var subjectCodes: [String] = []
@@ -61,10 +62,23 @@ final class EntitlementStore: ObservableObject {
         await loadProducts()
     }
 
+#if DEBUG
+    /// UI tests drive the paid flows (full test, topic practice, topic review), and the
+    /// Test action can't be given the local StoreKit products (#162), so there is no way
+    /// for a test to buy anything. This launch argument makes those tests run as an
+    /// owner would. `#if DEBUG` is what keeps it out of any build that could ship --
+    /// a release build has no such switch to find.
+    private static let forceUnlockedForUITests =
+        ProcessInfo.processInfo.arguments.contains("-uiTestForceUnlocked")
+#endif
+
     /// Does the buyer own this subject -- either its own product or the app's
     /// all-subjects bundle (D-47)?
     func isUnlocked(_ subjectCode: String) -> Bool {
-        ProductCatalog
+#if DEBUG
+        if Self.forceUnlockedForUITests { return true }
+#endif
+        return ProductCatalog
             .entitlingProductIDs(forSubjectCode: subjectCode)
             .contains { ownedProductIDs.contains($0) }
     }

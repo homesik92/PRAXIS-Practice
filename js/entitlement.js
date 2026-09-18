@@ -98,15 +98,28 @@ export function withEntitlementParam(href, params) {
  * Practice a topic, and `drill` with `timed=1` is Category test. An unknown or missing
  * mode returns false -- run.html reports those itself.
  *
+ * `topLevelTopicIds` is what makes the free trial countable: D-46's "topic" is the
+ * grouped bucket test.html's Category-test picker offers (a depth-0 category), so a
+ * timed drill on any *other* category id is not a free trial and is locked outright.
+ * Without that, a hand-built URL naming a leaf category would mint a fresh free trial
+ * for every leaf in the tree (code review finding). Omitting the argument keeps the old
+ * behaviour of trusting whatever id is passed.
+ *
  * @param {object} store
  * @param {string} testCode
  * @param {URLSearchParams} params - run.html's own query params
+ * @param {string[]} [topLevelTopicIds]
  * @returns {boolean}
  */
-export function isRunLocked(store, testCode, params) {
+export function isRunLocked(store, testCode, params, topLevelTopicIds) {
   const mode = params.get("mode");
   const timed = params.get("timed") === "1";
-  const locked = lockedControls(store, testCode, params, mode === "drill" && timed ? params.get("category") : null);
+  const category = params.get("category");
+  const trialTopic =
+    mode === "drill" && timed && (!topLevelTopicIds || topLevelTopicIds.includes(category))
+      ? category
+      : null;
+  const locked = lockedControls(store, testCode, params, trialTopic);
   if (mode === "test") return locked.fullTest;
   if (mode === "study") return locked.reviewTopic;
   if (mode === "drill") return timed ? locked.categoryTest : locked.practiceTopic;

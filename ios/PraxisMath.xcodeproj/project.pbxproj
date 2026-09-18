@@ -20,8 +20,11 @@
 		5B599CC9E55F16B2BD03B42B /* index.html in CopyFiles */ = {isa = PBXBuildFile; fileRef = 9676FF3AC5DF2F4E3C8348F3 /* index.html */; };
 		65A799B5C42D1238B0C912B1 /* teach.html in CopyFiles */ = {isa = PBXBuildFile; fileRef = 596F04E1ABBB7635C6B3645F /* teach.html */; };
 		66B37CF0CE036F6CCAFEE45F /* LocalContentSchemeHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 233E5B2DA2DDFB4809BB3B62 /* LocalContentSchemeHandler.swift */; };
+		7C961BBAEEF385298B893C49 /* PurchaseSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = CD15DAD63EDC3F06F7B9448B /* PurchaseSheet.swift */; };
 		820206A3E81ED74FB8FD0633 /* run.html in CopyFiles */ = {isa = PBXBuildFile; fileRef = 10CA756E160231F35D504557 /* run.html */; };
 		8B1CBBFD01FA152A16B3D675 /* ManifestLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = F981A46B2780D53E19048642 /* ManifestLoader.swift */; };
+		ABFDD72754AB614092865872 /* SubjectWebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF8DD2ED54E7A5C051E81585 /* SubjectWebView.swift */; };
+		AE306EAB00D62E7478A73532 /* FreeTierViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 609EA3CFB52D3C239490A49E /* FreeTierViews.swift */; };
 		C0D29EBCFD15E074DD4AC5FC /* ProductCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 275518F4C7CD72C09DD10438 /* ProductCatalog.swift */; };
 		DEF4CCC4332E7F8698900ACC /* WebViewContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02FB14DA8AF6CADE6F9BE375 /* WebViewContainer.swift */; };
 		E14ABA5AD07E406279AC5325 /* css in CopyFiles */ = {isa = PBXBuildFile; fileRef = 08643309458ECF31360CE0BC /* css */; };
@@ -69,16 +72,19 @@
 		45646114D3691634A394BC4C /* data */ = {isa = PBXFileReference; lastKnownFileType = folder; name = data; path = ../data; sourceTree = SOURCE_ROOT; };
 		585C48D1B3B48720A7EA1A84 /* PraxisMathUITests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = PraxisMathUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		596F04E1ABBB7635C6B3645F /* teach.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = teach.html; path = ../teach.html; sourceTree = "<group>"; };
+		609EA3CFB52D3C239490A49E /* FreeTierViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FreeTierViews.swift; sourceTree = "<group>"; };
 		6A53A8213E32009E898E794A /* PraxisMath.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = PraxisMath.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		739386FFB6FAC8D91010F59B /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7591C919A3E4D540BCE8453C /* SubjectPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubjectPickerView.swift; sourceTree = "<group>"; };
 		9676FF3AC5DF2F4E3C8348F3 /* index.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = index.html; path = ../index.html; sourceTree = "<group>"; };
 		999E84C23376BB625C692F9B /* CategoryPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryPicker.swift; sourceTree = "<group>"; };
 		A0D2C6C0335DB051B46BFDC6 /* Phase4Tests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Phase4Tests.swift; sourceTree = "<group>"; };
+		AF8DD2ED54E7A5C051E81585 /* SubjectWebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubjectWebView.swift; sourceTree = "<group>"; };
 		B0786BFCE0D7EA1E920B2FD8 /* PraxisMathApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PraxisMathApp.swift; sourceTree = "<group>"; };
 		BFD29AC91B6E28E42C3DCBF3 /* CategoryListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryListView.swift; sourceTree = "<group>"; };
 		C2E28A70D68ABC43BD3F5510 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		C8C8503B15AAD3ACF0270917 /* EntitlementStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntitlementStore.swift; sourceTree = "<group>"; };
+		CD15DAD63EDC3F06F7B9448B /* PurchaseSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PurchaseSheet.swift; sourceTree = "<group>"; };
 		E09F9F2A195B030AD277CDF6 /* test.html */ = {isa = PBXFileReference; lastKnownFileType = text.html; name = test.html; path = ../test.html; sourceTree = "<group>"; };
 		F0A970EB6ACAF82905F24D38 /* Configuration.storekit */ = {isa = PBXFileReference; path = Configuration.storekit; sourceTree = "<group>"; };
 		F4D35F69179D65DD51C4784F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -139,12 +145,15 @@
 				999E84C23376BB625C692F9B /* CategoryPicker.swift */,
 				F4D35F69179D65DD51C4784F /* ContentView.swift */,
 				C8C8503B15AAD3ACF0270917 /* EntitlementStore.swift */,
+				609EA3CFB52D3C239490A49E /* FreeTierViews.swift */,
 				C2E28A70D68ABC43BD3F5510 /* Info.plist */,
 				233E5B2DA2DDFB4809BB3B62 /* LocalContentSchemeHandler.swift */,
 				F981A46B2780D53E19048642 /* ManifestLoader.swift */,
 				B0786BFCE0D7EA1E920B2FD8 /* PraxisMathApp.swift */,
 				275518F4C7CD72C09DD10438 /* ProductCatalog.swift */,
+				CD15DAD63EDC3F06F7B9448B /* PurchaseSheet.swift */,
 				7591C919A3E4D540BCE8453C /* SubjectPickerView.swift */,
+				AF8DD2ED54E7A5C051E81585 /* SubjectWebView.swift */,
 				02FB14DA8AF6CADE6F9BE375 /* WebViewContainer.swift */,
 			);
 			name = App;
@@ -258,11 +267,14 @@
 				56A0C0A2A221F860572A784F /* CategoryPicker.swift in Sources */,
 				E69B1B8AB6978B79F14FA7E7 /* ContentView.swift in Sources */,
 				3C1C9E7886A4FD5C21A97BF8 /* EntitlementStore.swift in Sources */,
+				AE306EAB00D62E7478A73532 /* FreeTierViews.swift in Sources */,
 				66B37CF0CE036F6CCAFEE45F /* LocalContentSchemeHandler.swift in Sources */,
 				8B1CBBFD01FA152A16B3D675 /* ManifestLoader.swift in Sources */,
 				24996E77971E42C3ED19AAF5 /* PraxisMathApp.swift in Sources */,
 				C0D29EBCFD15E074DD4AC5FC /* ProductCatalog.swift in Sources */,
+				7C961BBAEEF385298B893C49 /* PurchaseSheet.swift in Sources */,
 				1F8A61E687CF8E1ADB08BB8E /* SubjectPickerView.swift in Sources */,
+				ABFDD72754AB614092865872 /* SubjectWebView.swift in Sources */,
 				DEF4CCC4332E7F8698900ACC /* WebViewContainer.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

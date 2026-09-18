@@ -195,6 +195,7 @@
       importStoreFromJson,
       summarizeStore,
       clearTestData,
+      keepUsedCategoryTrials,
     } from "./js/store.js";
     import { scoreAttempt } from "./js/runner.js";
     import { summarizeAttempt, percentOf, flattenCategoryLabels } from "./js/results.js";
@@ -641,10 +642,13 @@
           if (!entitlementLabel.has(link)) entitlementLabel.set(link, link.textContent);
           if (isLocked) {
             link.href = `praxisapp://local/unlock?code=${encodeURIComponent(code)}`;
-            link.setAttribute("aria-disabled", "true");
+            // Styled as locked, but never aria-disabled: this link is what opens the
+            // app's purchase sheet, so it must stay an available control for assistive
+            // technology (code review finding).
+            link.classList.add("btn-locked");
             link.textContent = "Unlock to access";
           } else {
-            link.removeAttribute("aria-disabled");
+            link.classList.remove("btn-locked");
             link.textContent = entitlementLabel.get(link);
             // href is left alone here -- wireCategoryPicker's own listener (or the
             // static assignment above, for takeTestLink/reviewTopicLink) already
@@ -857,7 +861,12 @@
             importMessage.textContent = describeReplacement(pendingImportStore);
             return;
           }
-          const saveResult = saveStore(pendingImportStore);
+          // A restore replaces everything except which free Category tests this device
+          // has already used -- otherwise an old backup hands them back (D-46).
+          const currentLoad = loadStore();
+          const saveResult = saveStore(
+            keepUsedCategoryTrials(pendingImportStore, currentLoad.ok ? currentLoad.store : null),
+          );
           importDialog.close();
           if (!saveResult.ok) {
             importStatus.textContent = "Your progress could not be saved, so the restore didn't complete.";

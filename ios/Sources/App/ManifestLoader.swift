@@ -13,6 +13,9 @@ struct Subject: Codable, Identifiable, Hashable {
     let file: String
     let enabled: Bool
     let track: String?
+    /// How many questions this subject's bank holds. `tools/verify.mjs` cross-checks it
+    /// against the bank file on every CI run, so it is safe to show a buyer.
+    let bankSize: Int?
 
     var id: String { code }
 }
@@ -27,10 +30,16 @@ enum ManifestLoader {
     /// STEM is approved, so this stays a single constant rather than a build setting.
     static let appTrack = "stem"
 
+    /// Parsed once: the bundled manifest cannot change while the app runs, and this is
+    /// read on every entitlement publish and every unlock tap (code review finding).
+    private static var cache: [String: [Subject]] = [:]
+
     /// Enabled subjects on `appTrack`, in manifest order. Returns an empty list if the
     /// manifest is missing or malformed -- the picker then shows its empty state rather
     /// than crashing.
     static func loadSubjects(resourceDirectory: String, track: String = appTrack) -> [Subject] {
+        let cacheKey = "\(resourceDirectory)|\(track)"
+        if let cached = cache[cacheKey] { return cached }
         guard
             let fileURL = Bundle.main.url(
                 forResource: "manifest",
@@ -42,6 +51,15 @@ enum ManifestLoader {
         else {
             return []
         }
-        return manifest.tests.filter { $0.enabled && $0.track == track }
+        let subjects = manifest.tests.filter { $0.enabled && $0.track == track }
+        cache[cacheKey] = subjects
+        return subjects
+    }
+
+    /// Every question in the subjects this app sells -- the number a buyer is actually
+    /// being offered.
+    static func totalQuestions(resourceDirectory: String, track: String = appTrack) -> Int {
+        loadSubjects(resourceDirectory: resourceDirectory, track: track)
+            .reduce(0) { $0 + ($1.bankSize ?? 0) }
     }
 }

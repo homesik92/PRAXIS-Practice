@@ -7,13 +7,28 @@ import WebKit
 /// `file://` — see that file's doc comment and DECISIONS.md D-7 for why
 /// `loadFileURL` alone (DESIGN.md's original plan) doesn't work.
 struct WebViewContainer: UIViewRepresentable {
+    /// The page to load, **without** an `unlocked` parameter -- this container appends
+    /// it from `unlocked` below, so there is one place that decides what the web layer
+    /// is told (D-46, N-21).
     let resourcePath: String
     let resourceDirectory: String
+    /// Whether the subject this page belongs to is purchased. Passed to the page as
+    /// `unlocked=1|0`; changing it reloads the page (see `updateUIView`).
+    var unlocked: Bool = true
+    /// Called with a subject code when the page asks for the purchase sheet by
+    /// navigating to `praxisapp://local/unlock?code=<code>` (11.2 Phase E).
+    var onUnlockRequested: (String) -> Void = { _ in }
 
     static let scheme = "praxisapp"
 
     func makeCoordinator() -> Coordinator {
-        Coordinator()
+        Coordinator(onUnlockRequested: onUnlockRequested)
+    }
+
+    /// `resourcePath` plus the one signal the app gives the web layer.
+    private var resolvedPath: String {
+        let separator = resourcePath.contains("?") ? "&" : "?"
+        return "\(resourcePath)\(separator)unlocked=\(unlocked ? "1" : "0")"
     }
 
     func makeUIView(context: Context) -> WKWebView {
@@ -28,17 +43,44 @@ struct WebViewContainer: UIViewRepresentable {
         // reach the navigation delegate's allow path at all.
         webView.navigationDelegate = context.coordinator
         webView.uiDelegate = context.coordinator
-        if let url = URL(string: "\(Self.scheme)://local/\(resourcePath)") {
+        context.coordinator.loadedUnlocked = unlocked
+        if let url = URL(string: "\(Self.scheme)://local/\(resolvedPath)") {
             webView.load(URLRequest(url: url))
         }
         return webView
     }
 
     func updateUIView(_ webView: WKWebView, context: Context) {
-        // Intentionally no-op: makeUIView's initial load is sufficient for this
-        // container's lifetime. If resourcePath ever needs to change after
-        // creation, add a guarded reload here rather than reloading on every
-        // SwiftUI re-render.
+        // Guarded reload, not a reload on every SwiftUI re-render: only when the
+        // entitlement actually changed. This is what makes a purchase visible without
+        // leaving the tab -- the page is showing locked controls, the sheet completes,
+        // and the same page reloads with unlocked=1 (11.2 Phase E).
+        context.coordinator.onUnlockRequested = onUnlockRequested
+        guard context.coordinator.loadedUnlocked != unlocked else { return }
+        context.coordinator.loadedUnlocked = unlocked
+        // The page the buyer is *on*, not the one this container opened with: they may
+        // have navigated to run.html or results.html since, and reloading the entry page
+        // would throw away an answer in progress (code review finding).
+        if let url = Self.reloadURL(for: webView, unlocked: unlocked, fallbackPath: resolvedPath) {
+            webView.load(URLRequest(url: url))
+        }
+    }
+
+    /// The current page with `unlocked` rewritten, falling back to this container's own
+    /// path when the web view hasn't loaded one of our pages (or hasn't loaded yet).
+    static func reloadURL(for webView: WKWebView, unlocked: Bool, fallbackPath: String) -> URL? {
+        let value = unlocked ? "1" : "0"
+        guard
+            let current = webView.url,
+            current.scheme == scheme,
+            var components = URLComponents(url: current, resolvingAgainstBaseURL: false)
+        else {
+            return URL(string: "\(scheme)://local/\(fallbackPath)")
+        }
+        var items = (components.queryItems ?? []).filter { $0.name != "unlocked" }
+        items.append(URLQueryItem(name: "unlocked", value: value))
+        components.queryItems = items
+        return components.url ?? URL(string: "\(scheme)://local/\(fallbackPath)")
     }
 
     /// Keeps the app inside its own bundled content and hands every external link to
@@ -59,6 +101,18 @@ struct WebViewContainer: UIViewRepresentable {
         /// destination (code review finding).
         private var pendingDownloads: [ObjectIdentifier: URL] = [:]
 
+        /// Set by `updateUIView` so a re-render with a new closure doesn't keep calling
+        /// the stale one.
+        var onUnlockRequested: (String) -> Void
+        /// The entitlement the web view was last loaded with, so `updateUIView` can tell
+        /// a real entitlement change from an ordinary SwiftUI re-render.
+        var loadedUnlocked: Bool = true
+
+        init(onUnlockRequested: @escaping (String) -> Void) {
+            self.onUnlockRequested = onUnlockRequested
+            super.init()
+        }
+
         func webView(
             _ webView: WKWebView,
             decidePolicyFor navigationAction: WKNavigationAction,
@@ -75,6 +129,21 @@ struct WebViewContainer: UIViewRepresentable {
             // below so it doesn't fall into the "leaves the app" branch.
             if navigationAction.shouldPerformDownload {
                 decisionHandler(.download)
+                return
+            }
+
+            // A locked control in the page links here (test.html's setLocked, run.html's
+            // locked screen). Checked before the generic scheme-allow below, which would
+            // otherwise hand it to LocalContentSchemeHandler as a file that doesn't
+            // exist. `code` only personalizes the sheet -- entitlement itself is never
+            // read from the page (D-46).
+            if url.scheme == WebViewContainer.scheme, url.host == "local", url.path == "/unlock" {
+                let code = URLComponents(url: url, resolvingAgainstBaseURL: false)?
+                    .queryItems?.first(where: { $0.name == "code" })?.value
+                decisionHandler(.cancel)
+                if let code, !code.isEmpty {
+                    onUnlockRequested(code)
+                }
                 return
             }
 
