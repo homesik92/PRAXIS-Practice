@@ -65,6 +65,13 @@
 
 html {
   color-scheme: light;
+  /* Stop iOS's text autosizing. When a block of text is laid out wider than the screen,
+     WebKit on iPhone decides the page wasn't built for phones and inflates that block's
+     font size -- so one overflowing card rendered its description at nearly twice the
+     size of the card beside it (seen in the iOS app, 2026-09-18). This only switches off
+     that guesswork: a reader's own text-size setting still applies (N-19). */
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 body {
@@ -705,6 +712,18 @@ details.backup summary svg {
        stacked card packs from the top and lets `gap` do the spacing. */
     justify-content: flex-start;
   }
+  /* In this stacked layout the card is a vertical flex column, and iOS Safari/WebKit lets
+     a stretched item grow to its content's width anyway -- so one long <select> option
+     widened the whole card's inner row, and the text and button went off the right edge.
+     Desktop engines don't, which is why this only showed on iPhone (2026-09-18). Capping
+     every child at the card's width, and letting it shrink, keeps them inside it. */
+  .start-test-option > * {
+    min-width: 0;
+    max-width: 100%;
+  }
+  .category-test-controls {
+    width: 100%;
+  }
   .start-test-text {
     /* `flex: 1 1 14rem` on the base rule is a *width* basis for the row layout.
        flex-basis follows the main axis, so in this column layout that same 14rem
@@ -715,7 +734,15 @@ details.backup summary svg {
   }
   .category-test-controls select {
     max-width: none;
-    flex: 1;
+    /* A <select> is as wide as its longest option, and Practice a topic and Study a
+       topic list indented sub-topics with long labels (Category test lists only top-level
+       topics, which is why it alone looked right). A zero basis and width make it claim
+       no width of its own and simply fill what the row has left beside the button; a
+       long option shows truncated in the closed control and in full when the picker
+       opens. The card-level rule above is the other half of the fix. */
+    flex: 1 1 0;
+    width: 0;
+    min-width: 0;
   }
 }
 
